@@ -403,776 +403,15 @@
 !
 ! NOTE THAT SINCE THAT PAPER WAS WRITTEN, TOLCON WAS DELETED FROM THE
 ! ARGUMENT LIST OF CONMAX.
-!
-!
-! A SAMPLE DRIVER PROGRAM AND SUBROUTINE FNSET ARE INCLUDED IN THIS
-! PACKAGE, AND WE NOW DISCUSS THE EXAMPLE USED THEREIN;  FOR MORE
-! INFORMATION, SEE THE COMMENTS IN THESE TWO ROUTINES.
-!
-! THE EXAMPLE IS TO CHOOSE (DOUBLE PRECISION) PARAMETERS A, B, C, AND D
-! TO MINIMIZE
-!
-! MAX{ MAX (|F(X,Y) - (AX+BY+C)/(DX+1)|, |(AX+BY+C)/(DX+1)|) :
-! (X,Y) IN Z}
-!
-! SUBJECT TO THE CONSTRAINTS
-!
-! DX+1 .GE. EPS FOR (X,Y) IN Z,
-!
-! AND THE FIRST PARTIAL DERIVATIVE OF (AX+BY+C)/(DX+1) WITH RESPECT TO
-! X IS .LE. 0.0 AT (X,Y) = (0.0,0.0).
-!
-! HERE WE ARE TAKING Z = {(0.0,0.0), (0.0,1.0), (-2.0/3.0,1.0/3.0),
-! (1.0,1.0), (1.0,2.0)}, EPS = .0001, F(0.0,0.0) = .5, F(0.0,1.0) = 1.0,
-! F(-2.0/3.0,1.0/3.0) = -1.0, F(1.0,1.0) =1.5, F(1.0,2.0) =-1.0,
-! AND TAKING THE INITIAL GUESSES FOR THE PARAMETERS TO BE
-! A = B = C = D = 0.0
-!
-! TO USE CONMAX, WE WRITE THIS PROBLEM AS THE OPTIMIZATION PROBLEM
-!
-! MINIMIZE W, SUBJECT TO
-!
-! |F(X,Y) - (AX+BY+C)/(DX+1)| .LE. W, (X,Y) IN Z,    (TYPE 2)
-!
-!            (AX+BY+C)/(DX+1) .LE. W, (X,Y) IN Z,    (TYPE 1)
-!
-!           -(AX+BY+C)/(DX+1) .LE. W, (X,Y) IN Z,    (TYPE 1)
-!
-!               -DX - 1 + EPS .LE. 0, (X,Y) IN Z,    (TYPE -1)
-!
-!                      A - CD .LE. 0.                (TYPE -2)
-!
-! ONE CAN PROVE THAT THE UNIQUE BEST VALUES ARE A = -B = C = D = 1.0,
-! WITH W (= ENORM = ERROR(NUMGR+1)) = 1.0.  ONE CAN ALSO PROVE THAT
-! THERE ARE LOCAL SOLUTIONS WHICH ARE NOT GLOBAL SOLUTIONS, THAT IS,
-! SOLUTIONS FOR WHICH W CANNOT BE REDUCED BY SMALL CHANGES IN A, B, C,
-! AND D, BUT FOR WHICH A, B, C, D CAN BE FOUND SATISFYING THE CONSTRAINTS
-! AND GIVING SMALLER W.  SOME SUCH SOLUTIONS ARE GIVEN BY A = B = D = 0.0,
-! C = 0.25, WITH W = 1.25, AND OTHER CHOICES WHERE THE RATIONAL FUNCTION
-! REDUCES TO THE CONSTANT 0.25 AND THE COEFFICIENTS SATISFY THE CONSTRAINTS.
-! WHEN THE PROGRAM IS RUN, ANY OF THESE SOLUTIONS MAY BE FOUND (UP TO A
-! SMALL DISCREPANCY DUE IN PART TO ROUNDOFF), DEPENDING ON THE ACCURACY OF
-! THE COMPUTER BEING USED.
-!
-! THE OUTPUT FOR THE SAMPLE DRIVER AND FNSET FOLLOWS.  THIS WAS RUN ON
-! A MAC SE (WITH ONE MEGABYTE OF RAM) WITH D1MACH(3) SET TO 16.0D0**(-14)
-! USING THE ABSOFT MACFORTRAN COMPILER (VERSION 2.4);  RUNS WITH A
-! DIFFERENT MACHINE AND/OR A DIFFERENT D1MACH(3) AND/OR A DIFFERENT
-! COMPILER COULD PRODUCE DIFFERENT RESULTS, ESPECIALLY CONSIDERING THE
-! POSSIBILITY OF LOCAL SOLUTIONS WHICH ARE NOT GLOBALY BEST.
-!
-! IOPTN IS    0  NPARM IS   4  NUMGR IS  21
-!
-! ITLIM IS  100  IFUN IS  5  IPTB IS  6  INDM IS  2
-!
-! THE FUNCTION VALUES ARE
-!    0.50000E+00    0.10000E+01   -0.10000E+01    0.15000E+01
-!   -0.10000E+01
-!
-! THE POINTS ARE
-!    0.00000E+00    0.00000E+00
-!    0.00000E+00    0.10000E+01
-!   -0.66667E+00    0.33333E+00
-!    0.10000E+01    0.10000E+01
-!    0.10000E+01    0.20000E+01
-!
-! EPS IS    0.10000E-03
-!
-! THE INITIAL PARAMETERS ARE
-!
-!   0.00000000000000E+00   0.00000000000000E+00   0.00000000000000E+00
-!
-!   0.00000000000000E+00
-!
-! *****AFTER CONMAX ITER IS  13  LIWRK IS  178  LWRK IS   720
-!
-! THE FINAL PARAMETERS ARE
-!
-!  -0.90123453614326E-02  -0.12378422071992E-12   0.25000000000006E+00
-!
-!  -0.36049381446237E-01
-!
-! THE ERROR NORMS ARE
-!
-!    0.1250000000000E+01   -0.9638506185538E+00    0.1288396472843E-12
-!
-! THE ERRORS ARE
-!
-!   0.24999999999994E+00   0.75000000000006E+00  -0.12499999999999E+01
-!   0.12499999999999E+01  -0.12499999999999E+01   0.25000000000006E+00
-!  -0.25000000000006E+00   0.24999999999994E+00  -0.24999999999994E+00
-!   0.24999999999994E+00  -0.24999999999994E+00   0.25000000000006E+00
-!  -0.25000000000006E+00   0.24999999999994E+00  -0.24999999999994E+00
-!  -0.99990000000000E+00  -0.99990000000000E+00  -0.10239329209642E+01
-!  -0.96385061855376E+00  -0.96385061855376E+00   0.12883964728427E-12
-!
-!
-! WE NOW DESCRIBE FOUR SUBUNITS OF CONMAX WHICH THE USER CAN CALL
-! DIRECTLY IF IT IS DESIRED TO ACOMPLISH CERTAIN TASKS MORE SIMPLY
-! AND QUICKLY THAN SETTING UP THE PROBLEMS FOR CONMAX.  IN EACH CASE A
-! DRIVER PROGRAM (AND A SUBROUTINE FNSET IF NECESSARY) IS SUPPLIED,
-! WHICH CAN BE USED BY REPLACING THE C IN COLUMN 1 OF EACH LINE BY A
-! BLANK (EXCEPT CC IS REPLACED BY C) AND APPROPRIATELY MODIFYING THOSE
-! STATEMENTS WHICH ARE INDICATED TO BE USER SETTABLE.  THE OPEN STATEMENT
-! MAY ALSO NEED TO BE CHANGED, DEPENDING ON THE MACHINE.  OUTPUT PRODUCED
-! BY THE SAMPLE DRIVER ON THE MAC SE IS ALSO PROVIDED.  ALTHOUGH CERTAIN
-! ADVANTAGES (SUCH AS REDUCED STORAGE) COULD BE GAINED BY REWRITING SOME
-! OF THE SUBPROGRAMS IN THE CONMAX PACKAGE, FOR SIMPLICITY THE DRIVER
-! PROGRAMS ARE SET UP SO THAT THE SUBPROGRAMS IN THIS PACKAGE CAN BE USED
-! AS IS, WITH NO CHANGES OTHER THAN IN THE DRIVER PROGRAMS AND (IN CASES
-! (A) AND (B) BELOW) THE SUBROUTINES FNSET.  THUS IF DESIRED ONE COULD
-! COMPILE AND LOAD THE ENTIRE CONMAX PACKAGE (EXCEPT FOR DRIVERS AND
-! SUBROUTINES FNSET) AND USE IT AS A LIBRARY.  FOR SIMPLICITY WE ALSO DO
-! NOT DESCRIBE HERE CERTAIN ADDITIONAL OPTIONS, SUCH AS A HOT START
-! OPTION IN (C) AND (D), BUT MORE INFORMATION CAN BE OBTAINED FROM THE
-! COMMENTS IN THE SUBPROGRAMS INVOLVED IF DESIRED.
-!
-!
-! (A) MULLERS METHOD DERIVATIVE FREE REAL ROOT FINDING
-!
-! (SUBPROGRAMS INVOLVED:  MULLER, FNSET (USER SUPPLIED), ILOC, D1MACH,
-! ERCMP1)
-!
-! GIVEN A FUNCTION F OF ONE VARIABLE (WHERE F(X) IS COMPUTED IN SUBROUTINE
-! FNSET AS CONFUN(1,1), WITH X = PARAM(1)), A NONNEGATIVE TOLERANCE TOLCON,
-! TWO POINTS (P1,F1) AND (PROCOR,EMIN) WITH F1 = F(P1), EMIN = F(PROCOR),
-! P1 .LT. PROCOR, F1 .GT. TOLCON, AND EMIN .LT. -TOLCON, THE PROGRAM WILL
-! ATTEMPT TO LOCATE A NEW PROCOR WITH NEW EMIN = F(PROCOR) AND ABS(EMIN)
-! .LE. TOLCON.  IF IT FAILS TO DO THIS, THE PROGRAM WILL RETURN WITH
-! PROCOR = THE LEFTMOST ABSCISSA FOUND WITH EMIN = F(PROCOR) .LT. -TOLCON.
-! NOTE:  IF INSTEAD OF F1 .GT. TOLCON AND EMIN .LT. -TOLCON WE START WITH
-! F1 .LT. -TOLCON AND EMIN .GT. TOLCON, THIS PROGRAM CAN STILL BE USED
-! BY REPLACING F BY -F BEFORE RUNNING THE PROGRAM.
-! THE SOLUTION PROCEDURE IS A MODIFICATION OF THE FOLLOWING:  BISECT THE
-! INTERVAL [P1,PROCOR] TO GET A THIRD POINT, PASS A QUADRATIC POLYNOMIAL
-! THROUGH THE THREE POINTS AND USE ITS UNIQUE ZERO IN [P1,PROCOR] TO
-! REPLACE P1 OR PROCOR, MAINTAINING THE CONDITIONS F(LEFT ENDPOINT) .GT.
-! TOLCON AND F(RIGHT ENDPOINT) .LT. -TOLCON, AND CONTINUE UNTIL A SOLUTION
-! IS FOUND OR F HAS BEEN COMPUTED 5 TIMES OR THE INTERVAL LENGTH FALLS
-! BELOW 100.0*B**(-ITT).  THIS PROCEDURE MAY BE ESPECIALLY USEFUL IN CASES
-! WHERE F IS EXPENSIVE TO COMPUTE SINCE IT MAINTAINS A SHRINKING INTERVAL
-! ABOUT THE SOLUTION, HAS A HIGHER ORDER OF CONVERGENCE THAN THE REGULA
-! FALSI METHOD, AND REQUIRES NO DERIVATIVES.  THE FOLLOWING SAMPLE DRIVER
-! PROGRAM AND SUBROUTINE FNSET ARE SET UP TO FIND PROCOR IN [-4.0D0,2.0D0]
-! WITH ABS(F(PROCOR)) .LE. 0.001D0, WHERE F(X) = 2.0D0**(-X) - 0.5D0
-! (THE EXACT SOLUTION IS PROCOR = 1.0D0, EMIN = 0.0D0).
-!
-! SAMPLE DRIVER AND FNSET FOR (A) MULLERS METHOD
-!
-!     IMPLICIT REAL*8 (A-H,O-Z)
-!     DIMENSION DVEC(1),FUN(1),PTTBL(1,1),ZWORK(1),ERR1(4),
-!    *PARWRK(1),IWORK(17),WORK(6)
-!     OPEN(6,FILE='MULOUT')
-!     DVEC(1)=1.0D0
-!     ZWORK(1)=0.0D0
-!     IWORK(16)=-2
-!C*****BEGIN USER SETTABLE STATEMENTS 1 OF 2
-!     TOLCON=1.0D-3
-!     P1=-2.0D0
-!     F1=3.5D0
-!     PROCOR=2.0D0
-!     EMIN=-0.25D0
-!C*****END USER SETTABLE STATEMENTS 1 OF 2
-!     WRITE(6,100)TOLCON,P1,F1,PROCOR,EMIN
-! 100 FORMAT(/10H TOLCON IS,E22.13//16H INITIALLY P1 IS,E22.13,
-!    *7H  F1 IS,E22.13//10H PROCOR IS,E22.13,9H  EMIN IS,E22.13)
-!     CALL MULLER(0,1,1,DVEC,FUN,1,PTTBL,1,1,ZWORK,TOLCON,0,
-!    *IWORK,17,WORK,6,PARWRK,ERR1,P1,F1,PROCOR,EMIN)
-!     WRITE(6,200)PROCOR,EMIN
-! 200 FORMAT(/23H AFTER MULLER PROCOR IS,E22.13//8H EMIN IS,
-!    *E22.13)
-!     STOP
-!     END
-!     SUBROUTINE FNSET(NPARM,NUMGR,PTTBL,IPTB,INDM,PARAM,IPT,
-!    *INDFN,ICNTYP,CONFUN)
-!     IMPLICIT REAL*8 (A-H,O-Z)
-!     DIMENSION PTTBL(IPTB,INDM),PARAM(NPARM),ICNTYP(NUMGR),
-!    *CONFUN(NUMGR,NPARM+1)
-!C*****BEGIN USER SETTABLE STATEMENTS 2 OF 2
-!     CONFUN(1,1)=2.0D0**(-PARAM(1))-0.5D0
-!C*****END USER SETTABLE STATEMENTS 2 OF 2
-!     RETURN
-!     END
-!
-! OUTPUT FOR (A) MULLERS METHOD
-!
-! TOLCON IS   0.1000000000000E-02
-!
-! INITIALLY P1 IS  -0.2000000000000E+01  F1 IS   0.3500000000000E+01
-!
-! PROCOR IS   0.2000000000000E+01  EMIN IS  -0.2500000000000E+00
-!
-! AFTER MULLER PROCOR IS   0.9993746852789E+00
-!
-! EMIN IS   0.2167645412207E-03
-!
-!
-! (B) ONE-DIMENSIONAL DERIVATIVE-FREE QUADRATIC SEARCH FOR A POSITIVE
-!     LOCAL MINIMUM
-!
-! (SUBPROGRAMS INVOLVED:  SEARSL, FNSET (USER SUPPLIED), ILOC, D1MACH,
-! ERCMP1, RCHMOD, CORRCT, SEARCR, MULLER, WOLFE, CONENR, HOUSE,
-! DOTPRD, REFWL;  ONLY THE FIRST FIVE OF THESE ARE ACTUALLY USED)
-!
-! GIVEN A FUNCTION F OF ONE VARIABLE (WHERE F(X) IS COMPUTED IN SUBROUTINE
-! FNSET AS CONFUN(1,1), WITH X = PARAM(1)) AND A POSITIVE NUMBER PROJCT,
-! THE PROGRAM WILL ATTEMPT TO LOCATE A NEW PROJCT WITH EMIN = F(PROJCT),
-! WITH THE NEW PROJCT APPROXIMATELY GIVING A LOCAL MINIMUM OF F IN
-! [(OLD PROJCT)/1024, 1024*(OLD PROJCT)].  IF IT FAILS TO DO THIS, THE
-! PROGRAM WILL RETURN WITH PROJCT = THE ABSCISSA FOUND WITH SMALLEST
-! EMIN = F(PROJCT).  ON OUTPUT, NSRCH WILL BE THE NUMBER OF EVALUATIONS
-! OF F THAT WERE DONE.  THE SOLUTION PROCEDURE IS A MODIFICATION OF THE
-! FOLLOWING:  COMPUTE F(PROJCT/2), F(PROJCT), AND F(2*PROJCT), IF THE
-! CONDITIONS F(MIDDLE POINT) .LE. F(LEFT POINT) AND F(MIDDLE POINT) .LE.
-! F(RIGHT POINT) ARE NOT BOTH SATISFIED THEN TRY TO GET THIS BY COMPUTING
-! F AT SMALLER (OR LARGER) POINTS AT MOST 3 MORE TIMES;  ONCE THE
-! CONDITIONS ARE SATISFIED, ASSUMING THE POINTS ARE NOT TOO CLOSE TO BEING
-! COLLINEAR, PASS A QUADRATIC POLYNOMIAL THROUGH THE THREE POINTS AND USE
-! ITS UNIQUE MINIMUM IN THE INTERVAL TO REPLACE ONE OF THE ENDPOINTS WHILE
-! MAINTAINING THE TWO CONDITIONS, CONTINUING UNTIL F HAS BEEN COMPUTED 4
-! MORE TIMES OR THE INTERVAL LENGTH FALLS BELOW 100.0*B**(-ITT) OR THE
-! POINTS BECOME NEARLY COLLINEAR.  THE FOLLOWING SAMPLE DRIVER AND
-! SUBROUTINE FNSET ARE SET UP TO APPROXIMATE A SOLUTION OF THE LINE SEARCH
-! PROBLEM OF MINIMIZING G((6.0D0,2.0D0) + PROJCT*(-2.0D0,-1.0D0)), WHERE
-! G(U,V) = 3.0D0*ABS(U) + 2.0D0*ABS(V).  WE START WITH PROJCT = 1.0D0,
-! THEN RUN THE PROGRAM AGAIN STARTING WITH THE RESULT OF THE FIRST RUN.
-! (THE EXACT SOLUTION IS PROJCT = 3.0D0, EMIN = 2.0D0;  CONVERGENCE IS
-! RATHER SLOW, MAINLY BECAUSE F IS NOT DIFFERENTIABLE AT THE MINIMUM.)
-!
-! SAMPLE DRIVER AND FNSET FOR (B) ONE-DIMENSIONAL SEARCH
-!
-!     IMPLICIT REAL*8 (A-H,O-Z)
-!     DIMENSION X(2),FUN(1),PTTBL(1,1),PARAM(1),ERROR(4),IACT(1),
-!    *IWORK(17),WORK(42),ERR1(4),PARPRJ(1),PARSER(1)
-!     OPEN(6,FILE='SEROUT')
-!     SPCMN=D1MACH(3)
-!     TOL1=100.0D0*SPCMN
-!     TOLCON=SQRT(SPCMN)
-!     IACT(1)=1
-!     IWORK(7)=1
-!     PRJLIM=1.0D0/SPCMN
-!     PARAM(1)=0.0D0
-!     X(1)=1.0D0
-!C*****BEGIN USER SETTABLE STATEMENTS 1 OF 2
-!     PROJCT=1.0D0
-!C*****END USER SETTABLE STATEMENTS 1 OF 2
-!     WRITE(6,100)PROJCT
-! 100 FORMAT(/20H INITIALLY PROJCT IS,E22.13)
-!     CALL SEARSL(0,1,1,PRJLIM,TOL1,X,FUN,1,PTTBL,1,1,PARAM,ERROR,
-!    *2.0D0,1,IACT,0,1.0D0,TOLCON,2.0D0,0,0,IWORK,17,WORK,42,
-!    *ERR1,PARPRJ,PROJCT,EMIN,EMIN1,PARSER,NSRCH)
-!     WRITE(6,200)PROJCT,EMIN,NSRCH
-! 200 FORMAT(/23H AFTER SEARSL PROJCT IS,E22.13//8H EMIN IS,
-!    *E22.13,10H  NSRCH IS,I4)
-!     STOP
-!     END
-!     SUBROUTINE FNSET(NPARM,NUMGR,PTTBL,IPTB,INDM,PARAM,IPT,
-!    *INDFN,ICNTYP,CONFUN)
-!     IMPLICIT REAL*8 (A-H,O-Z)
-!     DIMENSION PTTBL(IPTB,INDM),PARAM(NPARM),ICNTYP(NUMGR),
-!    *CONFUN(NUMGR,NPARM+1)
-!C*****BEGIN USER SETTABLE STATEMENTS 2 OF 2
-!     U=6.0D0+PARAM(1)*(-2.0D0)
-!     V=2.0D0+PARAM(1)*(-1.0D0)
-!     CONFUN(1,1)=3.0D0*ABS(U)+2.0D0*ABS(V)
-!C*****END USER SETTABLE STATEMENTS 2 OF 2
-!     RETURN
-!     END
-!
-! OUTPUT 1 FOR (B) ONE-DIMENSIONAL SEARCH
-!
-! INITIALLY PROJCT IS   0.1000000000000E+01
-!
-! AFTER SEARSL PROJCT IS   0.2956250000000E+01
-!
-! EMIN IS   0.2175000000000E+01  NSRCH IS   8
-!
-! OUTPUT 2 FOR (B) ONE-DIMENSIONAL SEARCH
-!
-! INITIALLY PROJCT IS   0.2956250000000E+01
-!
-! AFTER SEARSL PROJCT IS   0.3010732751581E+01
-!
-! EMIN IS   0.2085862012645E+01  NSRCH IS   7
-!
-!
-! (C) FREE-VARIABLE INEQUALITY-CONSTRAINED LINEAR PROGRAMMING
-!
-! (SUBPROGRAMS INVOLVED:  SLNPRO, D1MACH, SJELIM)
-!
-! GIVEN POSITIVE INTEGERS M AND N WITH M .GE. N, AND A MATRIX V, THIS
-! PROGRAM WILL ATTEMPT TO SOLVE THE LINEAR PROGRAMMING PROBLEM
-! MAXIMIZE  -V(M+1,1)*X(1)-...-V(M+1,N)*X(N)
-! SUBJECT TO  V(I,1)*X(1)+...+V(I,N)*X(N) .LE. V(I,N+1) FOR I=1,...,M.
-! ON OUTPUT, INDIC WILL BE AN ERROR FLAG WHOSE VALUE WILL BE 0 FOR A
-! NORMAL SOLUTION, NEGATIVE FOR A POSSIBLY INACCURATE SOLUTION, AND
-! POSITIVE FOR A PROBABLE FAILURE.  THE METHOD IS AN ENHANCED VERSION OF
-! THAT IN
-! AVDEYEVA, L. I. AND ZUKHOVITSKIY, S. I., LINEAR AND CONVEX PROGRAMMING,
-! SAUNDERS, PHILADELPHIA, 1966.
-! THE FOLLOWING SAMPLE DRIVER IS SET UP TO MAXIMIZE -Y, SUBJECT TO
-! X + Y .GE. 2.0D0 (I.E. -X - Y .LE. -2.0D0) AND X - Y .LE. 4.0DO.
-! (THE EXACT SOLUTION IS X = 3.0D0, Y = -1.0D0, WITH MAXIMUM OBJECTIVE
-! FUNCTION VALUE 1.0D0.)
-!
-! SAMPLE DRIVER FOR (C) LINEAR PROGRAMMING
-!
-!     IMPLICIT REAL*8 (A-H,O-Z)
-!C THE MINIMUM DIMENSIONS ARE V(NUMGR+2*NPARM+1,NPARM+2), X(NPARM+1),
-!C IYCCT(NPARM+1), Y(NUMGR+2*NPARM), IXRCT(NUMGR+2*NPARM),
-!C IYRCT(NUMGR+2*NPARM), WHERE NPARM .GE. N AND NUMGR .GE. M. THE FIRST
-!C DIMENSION OF V MUST BE EXACTLY NUMGR+2*NPARM+1.
-!C*****BEGIN USER SETTABLE STATEMENTS 1 OF 1
-!     DIMENSION V(7,4),X(3),IYCCT(3),Y(6),IXRCT(6),IYRCT(6)
-!     N=2
-!     M=2
-!     V(1,1)=-1.0D0
-!     V(1,2)=-1.0D0
-!     V(1,3)=-2.0D0
-!     V(2,1)=1.0D0
-!     V(2,2)=-1.0D0
-!     V(2,3)=4.0D0
-!     V(3,1)=0.0D0
-!     V(3,2)=1.0D0
-!     NPARM=N
-!     NUMGR=M
-!C*****END USER SETTABLE STATEMENTS 1 OF 1
-!     MP1=M+1
-!     NP1=N+1
-!     V(MP1,NP1)=0.0D0
-!     IYRCT(1)=-1
-!     OPEN(6,FILE='LPOUT')
-!     WRITE(6,100)M,N
-! 100 FORMAT(/10H THERE ARE,I5,17H  CONSTRAINTS AND,I5,
-!    *11H  VARIABLES//32H THE CONSTRAINT COEFFICIENTS AND,
-!    *16H RIGHT SIDES ARE)
-!     DO 300 I=1,M
-!       WRITE(6,200)(V(I,J),J=1,NP1)
-! 200   FORMAT(/(3E22.13))
-! 300   CONTINUE
-!     WRITE(6,400)(V(MP1,J),J=1,N)
-! 400 FORMAT(/40H THE NEGATIVES OF THE OBJECTIVE FUNCTION,
-!    *17H COEFFICIENTS ARE//(3E22.13))
-!     CALL SLNPRO(V,M,N,IYRCT,Y,IXRCT,IYCCT,NPARM,NUMGR,X,INDIC)
-!     WRITE(6,500)INDIC,(X(I),I=1,N)
-! 500 FORMAT(/31H AFTER SLNPRO THE ERROR FLAG IS,I4,
-!    *19H  THE VARIABLES ARE//(3E22.13))
-!     WRITE(6,600)V(MP1,NP1)
-! 600 FORMAT(/32H THE OBJECTIVE FUNCTION VALUE IS,E22.13)
-!     STOP
-!     END
-!
-! OUTPUT FOR (C) LINEAR PROGRAMMING
-!
-! THERE ARE    2  CONSTRAINTS AND    2  VARIABLES
-!
-! THE CONSTRAINT COEFFICIENTS AND RIGHT SIDES ARE
-!
-!  -0.1000000000000E+01  -0.1000000000000E+01  -0.2000000000000E+01
-!
-!   0.1000000000000E+01  -0.1000000000000E+01   0.4000000000000E+01
-!
-! THE NEGATIVES OF THE OBJECTIVE FUNCTION COEFFICIENTS ARE
-!
-!   0.0000000000000E+00   0.1000000000000E+01
-!
-! AFTER SLNPRO THE ERROR FLAG IS   0  THE VARIABLES ARE
-!
-!   0.3000000000000E+01  -0.1000000000000E+01
-!
-! THE OBJECTIVE FUNCTION VALUE IS   0.1000000000000E+01
-!
-!
-! (D) LEAST-DISTANCE QUADRATIC PROGRAMMING
-!
-! (SUBPROGRAMS INVOLVED:  WOLFE, D1MACH, ILOC, CONENR, HOUSE, DOTPRD,
-! REFWL)
-!
-! GIVEN POSITIVE INTEGERS M AND N, AND A MATRIX PMAT, THIS PROGRAM WILL
-! ATTEMPT TO LOCATE AN N-DIMENSIONAL POINT WPT IN THE POLYHEDRON
-! DETERMINED BY THE INEQUALITIES
-! PMAT(1,J)*WPT(1)+...+PMAT(N,J)*WPT(N)+PMAT(N+1,J) .LE. 0.0 FOR J=1,...,M
-! WHOSE DISTANCE WDIST FROM THE ORIGIN IS MINIMIZED.  ON OUTPUT, JFLAG
-! WILL BE AN ERROR FLAG WHOSE VALUE WILL BE 0 FOR A NORMAL SOLUTION AND
-! POSITIVE FOR A LIKELY FAILURE.  THE METHOD IS AN ENHANCED VERSION OF
-! THAT IN
-! WOLFE, PHILIP, FINDING THE NEAREST POINT IN A POLYTOPE, MATHEMATICAL
-! PROGRAMMING 11 (1976), 128-149.
-! THE FOLLOWING SAMPLE DRIVER IS SET UP TO FIND THE NEAREST POINT TO
-! THE ORIGIN IN THE POLYHEDRON DEFINED BY X + Y + Z .GE. 2.0D0 (I.E.
-! -X - Y - Z + 2.0D0 .LE. 0.0D0) AND Z .GE. 1.0D0 (I.E. -Z + 1.0D0 .LE.
-! 0.0D0).  (THE EXACT SOLUTION IS (X,Y,Z) = (0.5D0,0.5D0,1.0D0) WITH
-! DISTANCE SQRT(1.5D0) FROM THE ORIGIN.)
-!
-! SAMPLE DRIVER FOR (D) LEAST-DISTANCE QUADRATIC PROGRAMMING
-!
-!     IMPLICIT REAL*8 (A-H,O-Z)
-!C THE MINIMUM DIMENSIONS ARE PMAT(NPARM+1,NUMGR), PMAT1(NPARM+1,NUMGR),
-!C WPT(NPARM), ICOR(NPARM+1), R(NPARM+1), PTNR(NPARM+1), COEF(NUMGR),
-!C WCOEF(NUMGR), IWORK(4*NUMGR+5*NPARM+3), WORK(2*NPARM**2+4*NUMGR*NPARM
-!C +9*NUMGR+22*NPARM+10), WHERE NPARM .GE. N AND NUMGR .GE. M.  THE FIRST
-!C DIMENSIONS OF PMAT AND PMAT1 MUST BE EXACTLY NPARM+1.
-!C*****BEGIN USER SETTABLE STATEMENTS 1 OF 1
-!     DIMENSION PMAT(4,2),PMAT1(4,2),WPT(3),ICOR(4),R(4),PTNR(4),
-!    *COEF(2),WCOEF(2),IWORK(26),WORK(136)
-!     N=3
-!     M=2
-!     PMAT(1,1)=-1.0D0
-!     PMAT(2,1)=-1.0D0
-!     PMAT(3,1)=-1.0D0
-!     PMAT(4,1)=2.0D0
-!     PMAT(1,2)=0.0D0
-!     PMAT(2,2)=0.0D0
-!     PMAT(3,2)=-1.0D0
-!     PMAT(4,2)=1.0D0
-!     NPARM=N
-!     NUMGR=M
-!C*****END USER SETTABLE STATEMENTS 1 OF 1
-!     LIWRK=4*NUMGR+5*NPARM+3
-!     LWRK=2*NPARM**2+4*NUMGR*NPARM+9*NUMGR+22*NPARM+10
-!     MP1=M+1
-!     NP1=N+1
-!     OPEN(6,FILE='QPOUT')
-!     WRITE(6,100)M,N
-! 100 FORMAT(/10H THERE ARE,I5,16H  BOUNDARIES AND,I5,
-!    *12H  DIMENSIONS//30H THE BOUNDARY COEFFICIENTS ARE)
-!     DO 300 J=1,M
-!       WRITE(6,200)(PMAT(I,J),I=1,NP1)
-! 200   FORMAT(/(3E22.13))
-! 300   CONTINUE
-!     CALL WOLFE(N,M,PMAT,0,S,NCOR,ICOR,IWORK,LIWRK,WORK,LWRK,
-!    *R,COEF,PTNR,PMAT1,NPARM,NUMGR,WCOEF,WPT,WDIST,NMAJ,NMIN,
-!    *JFLAG)
-!     WRITE(6,400)JFLAG,WDIST,(WPT(I),I=1,N)
-! 400 FORMAT(/30H AFTER WOLFE THE ERROR FLAG IS,I4//
-!    *32H THE DISTANCE FROM THE ORIGIN IS,E22.13//
-!    *26H THE POINT HAS COORDINATES//(3E22.13))
-!     STOP
-!     END
-!
-! OUTPUT FOR (D) LEAST-DISTANCE QUADRATIC PROGRAMMING
-!
-! THERE ARE    2  BOUNDARIES AND    3  DIMENSIONS
-!
-! THE BOUNDARY COEFFICIENTS ARE
-!
-!  -0.1000000000000E+01  -0.1000000000000E+01  -0.1000000000000E+01
-!   0.2000000000000E+01
-!
-!   0.0000000000000E+00   0.0000000000000E+00  -0.1000000000000E+01
-!   0.1000000000000E+01
-!
-! AFTER WOLFE THE ERROR FLAG IS   0
-!
-! THE DISTANCE FROM THE ORIGIN IS   0.1224744871392E+01
-!
-! THE POINT HAS COORDINATES
-!
-!   0.5000000000000E+00   0.5000000000000E+00   0.1000000000000E+01
-!
-!
-!**********END OF USERS MANUAL FOR CONMAX.
-!
-!
-! THIS IS A TEST DRIVER PROGRAM FOR CONMAX.  FOR A DESCRIPTION OF
-! CONMAX, PLEASE SEE THE CONMAX USERS GUIDE, WHICH APPEARS AT THE
-! BEGINNING OF THIS PACKAGE.  FOR MORE INFORMATION ABOUT THE
-! EXAMPLE WHICH IS SET UP IN THIS DRIVER PROGRAM AND IN SUBROUTINE
-! FNSET, PLEASE SEE THE COMMENTS IN THESE TWO ROUTINES AS WELL AS
-! THE COMMENTS IN THE AFOREMENTIONED USERS GUIDE.
-!
-! THIS TEST DRIVER PROGRAM AND FNSET ARE SET UP TO CHOOSE REAL (DOUBLE
-! PRECISION) PARAMETERS A, B, C, AND D TO MINIMIZE
-!
-! MAX{ MAX (|F(X,Y) - (AX+BY+C)/(DX+1)|, |(AX+BY+C)/(DX+1)|) :
-! (X,Y) IN Z}
-!
-! SUBJECT TO THE CONSTRAINTS
-!
-! DX+1 .GE. EPS FOR (X,Y) IN Z,
-!
-! AND THE FIRST PARTIAL DERIVATIVE OF (AX+BY+C)/(DX+1) WITH RESPECT TO
-! X IS .LE. 0.0 AT (X,Y) = (0.0,0.0).
-!
-! HERE WE ARE TAKING Z = {(0.0,0.0), (0.0,1.0), (-2.0/3.0,1.0/3.0),
-! (1.0,1.0), (1.0,2.0)}, EPS = .0001, F(0.0,0.0) = .5, F(0.0,1.0) = 1.0,
-! F(-2.0/3.0,1.0/3.0) = -1.0, F(1.0,1.0) =1.5, F(1.0,2.0) =-ONE,
-! AND TAKING THE INITIAL GUESSES FOR THE PARAMETERS TO BE
-! A = B = C = D = 0.0
-!
-      implicit none
-
-!*** Start of declarations inserted by SPAG
-      real*8 eps , error , fun , one , param , pttbl , three , two ,    &
-           & work , zero
-      integer i , i1mach , ifun , indm , ioptn , iptb , iter , itlim ,  &
-            & iwork , j , liwrk , lwrk , nparm , nread , numgr , nwrit
-!*** End of declarations inserted by SPAG
-!
-      dimension fun(5) , pttbl(6,2) , iwork(178) , work(720) , param(4) &
-              & , error(24)
-!
-!*****MAC INSERT
-!     OPEN(6,FILE='TSTOT')
-!*****END MAC INSERT
-!
-! SET MACHINE AND PRECISION DEPENDENT CONSTANTS.
-      one = 1.0d0
-      zero = one - one
-      two = one + one
-      three = one + two
-      nread = i1mach(1)
-      nwrit = i1mach(2)
-!
-! SET PARAMETERS FOR CONMAX.
-!
-! SET IOPTN=0 SINCE NO EXTRA OPTIONS ARE TO BE USED.
-      ioptn = 0
-!
-! SET NPARM=4 SINCE THERE ARE 4 PARAMETERS (VARIABLES) A, B, C, AND D.
-      nparm = 4
-!
-! SET NUMGR=21 SINCE THERE ARE 21 CONSTRAINTS (5 OF TYPE 2, 10 OF TYPE 1,
-! 5 OF TYPE -1, AND ONE OF TYPE -2).
-      numgr = 21
-!
-! SET ITLIM=100, OR WHATEVER LIMIT IS DESIRED ON THE NUMBER OF ITERATIONS.
-      itlim = 100
-!
-! SET IFUN=5 (OR GREATER) SINCE THERE ARE 5 TYPE 2 CONSTRAINTS, AND USE
-! THIS NUMBER AS THE DIMENSION OF FUN ABOVE.
-      ifun = 5
-!
-! SET IPTB=6 (OR GREATER) AND SET INDM=2 (OR GREATER), SINCE THE GREATEST
-! FIRST SUBSCRIPT WE WILL USE IN PTTBL IS 6, AND THE GREATEST SECOND
-! SUBSCRIPT WE WILL USE IN PTTBL IS 2.  WE USE THESE NUMBERS TO DIMENSION
-! PTTBL ABOVE.  NOTE THAT IT IS ESSENTIAL THAT THE FIRST DIMENSION OF
-! PTTBL BE EXACTLY IPTB.
-      iptb = 6
-      indm = 2
-!
-! SET LIWRK=178 (OR GREATER), AND USE THIS NUMBER TO DIMENSION LIWRK
-! ABOVE, BECAUSE OF THE COMPUTATION 7*21 + 7*4 + 3 = 178 (SEE CONMAX
-! USERS GUIDE FOR AN EXPLANATION OF THIS AND OF LWRK BELOW).
-      liwrk = 178
-!
-! SET LWRK=720 (OR GREATER), AND USE THIS NUMBER TO DIMENSION LWRK ABOVE,
-! BECAUSE OF THE COMPUTATION 2*4**2 + 4*21*4 + 11*21 + 27*4 + 13 = 720.
-      lwrk = 720
-!
-! THE DIMENSION OF PARAM ABOVE MUST BE NPARM (I.E. 4) OR GREATER, AND THE
-! DIMENSION OF ERROR ABOVE MUST BE NUMGR+3 (I.E. 24) OR GREATER.
-!
-! SET THE VALUES OF THE FUNCTION F.
-      fun(1) = one/two
-      fun(2) = one
-      fun(3) = -one
-      fun(4) = three/two
-      fun(5) = -one
-!
-! SET THE COORDINATES OF THE FIVE POINTS.
-      pttbl(1,1) = zero
-      pttbl(1,2) = zero
-      pttbl(2,1) = zero
-      pttbl(2,2) = one
-      pttbl(3,1) = -two/three
-      pttbl(3,2) = one/three
-      pttbl(4,1) = one
-      pttbl(4,2) = one
-      pttbl(5,1) = one
-      pttbl(5,2) = two
-!
-! PUT EPS IN PTTBL(6,1) FOR TRANSMITTAL TO FNSET.  THIS IS WHY WE NEEDED
-! IPTB TO BE AT LEAST 6.
-      eps = (5*two)**(-4)
-      pttbl(6,1) = eps
-!
-! SET THE INITIAL GUESSES FOR THE PARAMETERS.
-      param(1) = zero
-      param(2) = zero
-      param(3) = zero
-      param(4) = zero
-!
-! WRITE THE INITIAL DATA.
-      write (nwrit,99001) ioptn , nparm , numgr , itlim , ifun , iptb , &
-                        & indm
-99001 format (/' IOPTN IS',i5,'  NPARM IS',i4,'  NUMGR IS',             &
-             &i4//' ITLIM IS',i5,'  IFUN IS',i3,'  IPTB IS',i3,         &
-             &'  INDM IS',i3)
-      write (nwrit,99002) (fun(i),i=1,5)
-99002 format (/' THE FUNCTION VALUES ARE'/(4e15.5))
-      write (nwrit,99003)
-99003 format (/' THE POINTS ARE')
-      do i = 1 , 5
-         write (nwrit,99004) (pttbl(i,j),j=1,indm)
-99004    format (2e15.5)
-      enddo
-      write (nwrit,99005) eps
-99005 format (/' EPS IS',e15.5)
-      write (nwrit,99006) (param(j),j=1,nparm)
-99006 format (/' THE INITIAL PARAMETERS ARE'/(/3e23.14))
-!
-! NOW CALL CONMAX.
-      call conmax(ioptn,nparm,numgr,itlim,fun,ifun,pttbl,iptb,indm,     &
-                & iwork,liwrk,work,lwrk,iter,param,error)
-!
-! WRITE THE OUTPUT.
-! NOTE THAT WE HAVE DEFERRED WRITING LIWRK AND LWRK UNTIL AFTER CALLING
-! CONMAX SINCE CONMAX WILL CHANGE THEM TO THE NEGATIVE OF THE SMALLEST
-! ALLOWABLE VALUES AND RETURN IF THEY WERE TOO SMALL.
-      write (nwrit,99007) iter , liwrk , lwrk
-99007 format (/' *****AFTER CONMAX ITER IS',i4,'  LIWRK IS',i5,         &
-             &'  LWRK IS',i6)
-      write (nwrit,99008) (param(j),j=1,nparm)
-99008 format (/' THE FINAL PARAMETERS ARE'/(/3e23.14))
-      write (nwrit,99009) error(numgr+1) , error(numgr+2) ,             &
-                        & error(numgr+3) , (error(i),i=1,numgr)
-99009 format (/' THE ERROR NORMS ARE'//3e23.13//' THE ERRORS ARE'//     &
-            & (3e23.14))
-      end
-
-!********************************************************************************
-      subroutine fnset(Nparm,Numgr,Pttbl,Iptb,Indm,Param,Ipt,Indfn,     &
-                     & Icntyp,Confun)
-!
-      implicit none
-
-!*** Start of declarations inserted by SPAG
-      real*8 a , b , c , Confun , d , eps , one , p , Param , Pttbl ,   &
-           & q , x , y , zero
-      integer Icntyp , ii , Indfn , Indm , Ipt , Iptb , irem , Nparm ,  &
-            & Numgr
-!*** End of declarations inserted by SPAG
-!
-      dimension Pttbl(Iptb,Indm) , Param(Nparm) , Icntyp(Numgr) ,       &
-              & Confun(Numgr,Nparm+1)
-!
-! THIS IS THE SUBROUTINE FNSET FOR THE EXAMPLE DISCUSSED IN THE CONMAX
-! USERS GUIDE.
-!
-! SET PRECISION DEPENDENT CONSTANTS.
-      one = 1.0d0
-      zero = one - one
-!
-! WE BREAK FNSET INTO SECTIONS BASED ON THE VALUE OF IPT, THAT IS, ON
-! WHICH CONSTRAINT IS BEING SET.
-      if ( Ipt<=5 ) then
-!
-! HERE IPT .LE. 5 AND WE SET A CONSTRAINT OF THE FORM
-! ABS(F(X,Y) - (AX+BY+C)/(DX+1)) .LE. W.
-! NOTE THAT SINCE THIS IS A TYPE 2 CONSTRAINT WE DO NOT NEED TO DEAL
-! WITH THE ABSOLUTE VALUE OR THE F(X,Y) HERE.
-         Icntyp(Ipt) = 2
-         a = Param(1)
-         b = Param(2)
-         c = Param(3)
-         d = Param(4)
-         x = Pttbl(Ipt,1)
-         y = Pttbl(Ipt,2)
-         p = a*x + b*y + c
-         q = d*x + one
-         Confun(Ipt,1) = p/q
-         if ( Indfn>0 ) then
-!
-! HERE IPT .LE. 5 AND INDFN=1, AND WE SET THE PARTIAL DERIVATIVES.
-            Confun(Ipt,2) = x/q
-            Confun(Ipt,3) = y/q
-            Confun(Ipt,4) = one/q
-            Confun(Ipt,5) = -p*x/(q*q)
-            return
-         endif
-      elseif ( Ipt<=15 ) then
-!
-! HERE 6 .LE. IPT .LE. 15 AND IF IPT IS EVEN WE SET THE CONSTRAINT
-! (AX+BY+C)/(DX+1) .LE. W, WHICH IS HALF OF THE CONSTRAINT
-! ABS((AX+BY+C)/(DX+1)) .LE. W, WHILE IF IPT IS ODD WE SET THE CONSTRAINT
-! -(AX+BY+C)/(DX+1) .LE. W, WHICH IS THE OTHER HALF OF THE CONSTRAINT
-! ABS((AX+BY+C)/(DX+1)) .LE. W.
-         Icntyp(Ipt) = 1
-         ii = (Ipt-4)/2
-         a = Param(1)
-         b = Param(2)
-         c = Param(3)
-         d = Param(4)
-         x = Pttbl(ii,1)
-         y = Pttbl(ii,2)
-         p = a*x + b*y + c
-         q = d*x + one
-         irem = Ipt - 4 - 2*ii
-         if ( irem<=0 ) then
-!
-! HERE 6 .LE. IPT .LE. 15 AND IPT IS EVEN.
-            Confun(Ipt,1) = p/q
-            if ( Indfn>0 ) then
-               Confun(Ipt,2) = x/q
-               Confun(Ipt,3) = y/q
-               Confun(Ipt,4) = one/q
-               Confun(Ipt,5) = -p*x/(q*q)
-               return
-            endif
-         else
-!
-! HERE 6 .LE. IPT .LE. 15 AND IPT IS ODD.
-            Confun(Ipt,1) = -p/q
-            if ( Indfn>0 ) then
-               Confun(Ipt,2) = -x/q
-               Confun(Ipt,3) = -y/q
-               Confun(Ipt,4) = -one/q
-               Confun(Ipt,5) = p*x/(q*q)
-               return
-            endif
-         endif
-      elseif ( Ipt<=20 ) then
-!
-! HERE 16 .LE. IPT .LE. 20 AND WE SET A CONSTRAINT OF THE FORM
-! -DX - 1.0 + EPS .LE. 0.0
-         Icntyp(Ipt) = -1
-         d = Param(4)
-         eps = Pttbl(6,1)
-         ii = Ipt - 15
-         x = Pttbl(ii,1)
-         Confun(Ipt,1) = -d*x - one + eps
-         if ( Indfn>0 ) then
-            Confun(Ipt,2) = zero
-            Confun(Ipt,3) = zero
-            Confun(Ipt,4) = zero
-            Confun(Ipt,5) = -x
-            return
-         endif
-      else
-!
-! HERE IPT=21 AND WE SET THE CONSTRAINT
-! (PARTIAL DERIVATIVE OF (AX+BY+C)/(DX+1) WITH RESPECT TO X AT
-! (X,Y) = (0.0,0.0)) .LE. 0.0,
-! I.E. A - CD .LE. 0.0
-         Icntyp(Ipt) = -2
-         a = Param(1)
-         c = Param(3)
-         d = Param(4)
-         Confun(Ipt,1) = a - c*d
-         if ( Indfn>0 ) then
-            Confun(Ipt,2) = one
-            Confun(Ipt,3) = zero
-            Confun(Ipt,4) = -d
-            Confun(Ipt,5) = -c
-            goto 99999
-         endif
-      endif
-!
-      return
-99999 end
-
 
 
 !********************************************************************************
 !
       subroutine conmax(Ioptn,Nparm,Numgr,Itlim,Fun,Ifun,Pttbl,Iptb,    &
                       & Indm,Iwork,Liwrk,Work,Lwrk,Iter,Param,Error)
-!
-!
+
       implicit none
 
-!*** Start of declarations inserted by SPAG
       real*8 d1mach , enc1 , enchg , encsm , enor2 , enor3 , enorm ,    &
            & Error , four , Fun , one , Param , prjslp , projct ,       &
            & Pttbl , rchdnk , rchdwn , rchin , s , spcmn
@@ -1189,29 +428,9 @@
       integer jwrk , kntsm , l , l1 , l2 , limsm , Liwrk , Lwrk , m ,   &
             & mact1 , ncor , nmaj , nmin , npar1 , Nparm , nstep ,      &
             & Numgr , numlim
-!*** End of declarations inserted by SPAG
 !
       dimension Fun(Ifun) , Pttbl(Iptb,Indm) , Error(Numgr+3) ,         &
               & Param(Nparm) , Iwork(Liwrk) , Work(Lwrk)
-!
-!
-!********** COPYRIGHT 1996 EDWIN H. KAUFMAN JR., DAVID J. LEEMING,
-!********** GERALD D. TAYLOR
-!********** THE AUTHORS GRATEFULLY ACKNOWLEDGE THE ASSISTANCE OF
-!********** CENTRAL MICHIGAN UNIVERSITY, THE UNIVERSITY OF VICTORIA
-!********** (CANADA), AND COLORADO STATE UNIVERSITY.
-!********** PERMISSION TO USE, COPY, MODIFY, AND DISTRIBUTE THIS
-!********** SOFTWARE FOR ANY PURPOSE WITHOUT FEE IS HEREBY GRANTED,
-!********** PROVIDED THAT THIS ENTIRE NOTICE IS INCLUDED IN ANY
-!********** SOFTWARE WHICH IS OR INCLUDES A COPY OR MODIFICATION OF
-!********** THIS SOFTWARE AND IN ALL COPIES OF THE SUPPORTING
-!********** DOCUMENTATION FOR SUCH SOFTWARE.
-!********** THIS SOFTWARE IS PROVIDED "AS IS", WITHOUT EXPRESS OR
-!********** IMPLIED WARRANTY.  IN PARTICULAR, NEITHER THE AUTHORS NOR
-!********** THEIR UNIVERSITIES MAKE ANY REPRESENTATION OR WARRANTY OF
-!********** ANY KIND CONCERNING THE MERCHANTIBILITY OF THIS SOFTWARE
-!********** OR ITS FITNESS FOR ANY PARTICULAR PURPOSE.
-!
 !
 ! PLEASE SEE THE USERS GUIDE FOR CONMAX AT THE BEGINNING OF THIS
 ! PACKAGE FOR MORE INFORMATION ABOUT THE USE OF THESE SUBPROGRAMS.
@@ -1799,9 +1018,7 @@
       function iloc(Iarr,Nparm,Numgr)
       implicit none
 
-!*** Start of declarations inserted by SPAG
       integer Iarr , iloc , Nparm , Numgr
-!*** End of declarations inserted by SPAG
 !
 ! THIS FUNCTION SUBPROGRAM RETURNS THE SUBSCRIPT OF THE FIRST ELEMENT OF
 ! ARRAY IARR RELATIVE TO IWORK (IF THE ARRAY IS INTEGER, I.E. 13 .LE.
@@ -2060,12 +1277,10 @@
 !
       implicit none
 
-!*** Start of declarations inserted by SPAG
       real*8 Confun , d1mach , delt , delt2 , Param , Param1 , Pttbl ,  &
            & spcmn , up , v
       integer Indm , iopone , Ioptn , ioptth , Ipt , Iptb , iptkp , j , &
             & k , Kcntyp , l , npar1 , Nparm , Numgr
-!*** End of declarations inserted by SPAG
 !
       dimension Pttbl(Iptb,Indm) , Param(Nparm) , Param1(Nparm) ,       &
               & v(Numgr+2*Nparm+1,Nparm+2) , Kcntyp(Numgr) ,            &
@@ -2231,7 +1446,6 @@
 !
       implicit none
 
-!*** Start of declarations inserted by SPAG
       real*8 big , bndlgt , d1mach , emin , emin1 , Enchg , enorm ,     &
            & Error , four , Fun , Funtbl , one , Param , Parser ,       &
            & prjlim , Prjslp , Pttbl , quots , Rchdwn , Rchin
@@ -2244,7 +1458,6 @@
             & Itypm2 , Iwork , Iyrct , j , Jcntyp , Liwrk , Lwrk , m ,  &
             & Mact1 , ng3 , npar1 , Nparm , nsrch
       integer Numgr , numin , Numlim
-!*** End of declarations inserted by SPAG
 !
       dimension Fun(Ifun) , Pttbl(Iptb,Indm) , Icntyp(Numgr) ,          &
               & Funtbl(Numgr,Nparm+1) , Iyrct(Numgr+2*Nparm) ,          &
@@ -2402,13 +1615,11 @@
 !
       implicit none
 
-!*** Start of declarations inserted by SPAG
       real*8 bnd , Bndkp , bsave , chlm1 , chlm2 , Cofbnd , d1mach ,    &
            & epsil , epsil1 , fact1 , fact2 , fact3 , fact3a , fact3b , &
            & fact4 , four , one , Prjslp , spcmn , ten
       real*8 tstprj , two , x , Xkeep
       integer Itersl , itight , j , Nparm , Numin
-!*** End of declarations inserted by SPAG
 !
       dimension x(Nparm+1) , Cofbnd(Nparm) , Xkeep(Nparm+1) ,           &
               & Bndkp(Nparm)
@@ -2571,7 +1782,6 @@
 !
       implicit none
 
-!*** Start of declarations inserted by SPAG
       real*8 actlim , bndfud , Bndlgt , Cofbnd , Confun , enorm ,       &
            & Error , four , Fun , Funtbl , grdlgt , one , Param ,       &
            & Pttbl , Rchdwn , Rchin , rchind , rt , stfudg , sum
@@ -2581,7 +1791,6 @@
             & Iwork , Iyrct , j , jj , k
       integer kk , l , Liwrk , Lwrk , m , mact , Mact1 , mm1 , mp1 ,    &
             & npar1 , npar2 , Nparm , Numgr , Numin
-!*** End of declarations inserted by SPAG
 !
       dimension Pttbl(Iptb,Indm) , Fun(Ifun) , Funtbl(Numgr,Nparm+1) ,  &
               & Cofbnd(Nparm) , Param(Nparm) , Error(Numgr+3) ,         &
@@ -2891,7 +2100,6 @@
 !
       implicit none
 
-!*** Start of declarations inserted by SPAG
       real*8 absv , amax , amin , ampr2 , amprv , bmpr2 , bmprv ,       &
            & d1mach , dist , dist1 , four , one , rea , rea1 , rea2 ,   &
            & rea3 , reakp , rowq , rtcol , spcmn
@@ -2903,7 +2111,6 @@
             & kpmp2 , ktjor , l , limjor , ll , lrknt , m , mp1 ,       &
             & mxrkn , n , np1
       integer Nparm , Numgr
-!*** End of declarations inserted by SPAG
 !
       dimension v(Numgr+2*Nparm+1,Nparm+2) , Iyrct(Numgr+2*Nparm) ,     &
               & x(Nparm+1) , y(Numgr+2*Nparm) , Ixrct(Numgr+2*Nparm) ,  &
@@ -3648,10 +2855,8 @@
 !
       implicit none
 
-!*** Start of declarations inserted by SPAG
       real*8 fact , one , resol , v
       integer i , Ir , Is , j , k , l , Ll , Nparm , Numgr
-!*** End of declarations inserted by SPAG
 !
       dimension v(Numgr+2*Nparm+1,Nparm+2)
 !
@@ -3693,7 +2898,6 @@
 !
       implicit none
 
-!*** Start of declarations inserted by SPAG
       real*8 baladj , balfct , big , d1mach , Emin , Emin1 , Err1 ,     &
            & Error , f1 , f2 , f3 , f4 , four , Fun , fval , fvlkp ,    &
            & one , p1 , p2 , p3
@@ -3706,7 +2910,6 @@
             & Ioptn , Iphse , ipmax , Iptb , irt , isave
       integer ismax , Itypm1 , Itypm2 , iupbar , Iwork , j , lims1 ,    &
             & Liwrk , lll , Lwrk , Mact , nadd , Nparm , Nsrch , Numgr
-!*** End of declarations inserted by SPAG
 !
       dimension Fun(Ifun) , Pttbl(Iptb,Indm) , Param(Nparm) ,           &
               & Err1(Numgr+3) , Parprj(Nparm) , x(Nparm+1) ,            &
@@ -4175,14 +3378,12 @@
 !
       implicit none
 
-!*** Start of declarations inserted by SPAG
       real*8 Confun , ei , enor2 , enor3 , enorm , Error , Fun , one ,  &
            & Param , Pttbl , zero
       integer i , Icntyp , Icnuse , Ifun , ilc22 , iloc , im1 , im2 ,   &
             & Indm , Ioptn , ioptth , Iphse , Ipmax , ipt , Iptb ,      &
             & Ismax , Iwork , l , Liwrk , Nparm
       integer Numgr
-!*** End of declarations inserted by SPAG
 !
       dimension Fun(Ifun) , Pttbl(Iptb,Indm) , Param(Nparm) ,           &
               & Icntyp(Numgr) , Error(Numgr+3) , Confun(Numgr,Nparm+1) ,&
@@ -4376,7 +3577,6 @@
 !
       implicit none
 
-!*** Start of declarations inserted by SPAG
       real*8 Actdif , Confun , conup , d1mach , emin , emin1 , Enc1 ,   &
            & Enchg , enorm , Err1 , Error , four , Fun , Funtbl , one , &
            & Param , Parprj , Parser , pe , Pmat
@@ -4393,7 +3593,6 @@
       integer Iwork , j , jflag , l , limfl , Liwrk , Lwrk , mactrk ,   &
             & ncor , nfail , nmaj , nmin , npar1 , Nparm , nsrch ,      &
             & Nstep , Numgr
-!*** End of declarations inserted by SPAG
 !
       dimension Fun(Ifun) , Pttbl(Iptb,Indm) , Icntyp(Numgr) ,          &
               & Param(Nparm) , Error(Numgr+3) , Pmat(Nparm+1,Numgr) ,   &
@@ -4732,11 +3931,9 @@
 !
       implicit none
 
-!*** Start of declarations inserted by SPAG
       real*8 Actdif , Conup , elow , enorm , Error , one , Projct ,     &
            & Rchdwn , Rchin , rchind , two
       integer i , Iact , Icntyp , Ioptn , l , Mactrk , Numgr
-!*** End of declarations inserted by SPAG
 !
       dimension Error(Numgr+3) , Iact(Numgr) , Actdif(Numgr) ,          &
               & Icntyp(Numgr)
@@ -4815,14 +4012,12 @@
 !
       implicit none
 
-!*** Start of declarations inserted by SPAG
       real*8 Actdif , Confun , four , one , Param , Pmat , Pttbl , ten ,&
            & two , Work , zero
       integer i , Iact , Icntyp , ii , ilc22 , ilc24 , ilc35 , iloc ,   &
             & Indm , Ioptn , ioptth , Iphse , ipt , Iptb , Iwork , j ,  &
             & l , Liwrk , Lwrk , Mactrk
       integer npar1 , Nparm , Numgr
-!*** End of declarations inserted by SPAG
 !
       dimension Param(Nparm) , Iact(Numgr) , Pttbl(Iptb,Indm) ,         &
               & Icntyp(Numgr) , Confun(Numgr,Nparm+1) , Actdif(Numgr) , &
@@ -4922,7 +4117,6 @@
 !
       implicit none
 
-!*** Start of declarations inserted by SPAG
       real*8 Actdif , Confun , Error , Fun , one , p6 , Param , Parprj ,&
            & Pmat , proj1 , Projct , Pttbl , Rchin , s , Tolcon , two , &
            & Unit , Vder , Vdern , Vders
@@ -4933,7 +4127,6 @@
       integer Iptb , Itypm1 , Itypm2 , Iwork , j , jflag , Liwrk ,      &
             & Lwrk , Mactrk , Ncor , nmaj , nmin , npar1 , Nparm ,      &
             & nstcnt , Nstep , Numgr
-!*** End of declarations inserted by SPAG
 !
       dimension Param(Nparm) , Fun(Ifun) , Pttbl(Iptb,Indm) ,           &
               & Vder(Nparm) , Parprj(Nparm) , Vders(Nparm) , Wvec(Nparm)&
@@ -5098,7 +4291,6 @@
 !
       implicit none
 
-!*** Start of declarations inserted by SPAG
       real*8 Confun , Dvec , emin , eold , Err1 , Error , f1 , four ,   &
            & Fun , gain , one , p1 , Parprj , Parwrk , Pmat , procor ,  &
            & Projct , Pttbl , rchdwn , Rchin
@@ -5110,7 +4302,6 @@
             & k , l , Liwrk , Lwrk , Mact , ncor , newtit , newtlm ,    &
             & nmaj , nmin , npar1 , Nparm
       integer Numgr
-!*** End of declarations inserted by SPAG
 !
       dimension Fun(Ifun) , Pttbl(Iptb,Indm) , Icntyp(Numgr) ,          &
               & Parprj(Nparm) , Parwrk(Nparm) , Err1(Numgr+3) ,         &
@@ -5341,7 +4532,6 @@
 !
       implicit none
 
-!*** Start of declarations inserted by SPAG
       real*8 baladj , balfct , d1mach , Dvec , Emin , Err1 , f1 , f1kp ,&
            & f2 , f3 , f4 , four , Fun , fval , one , p1 , p2 , p3 ,    &
            & p4 , Parwrk
@@ -5352,7 +4542,6 @@
             & Ioptn , Iphse , ipmax , Iptb , irt , ismax , Isrcr ,      &
             & Iwork , j , limscr , Liwrk , lll
       integer Lwrk , Nparm , nsrch , Numgr
-!*** End of declarations inserted by SPAG
 !
       dimension Fun(Ifun) , Pttbl(Iptb,Indm) , Parwrk(Nparm) ,          &
               & Err1(Numgr+3) , Zwork(Nparm) , Dvec(Nparm) ,            &
@@ -5700,7 +4889,6 @@
 !
       implicit none
 
-!*** Start of declarations inserted by SPAG
       real*8 acof , bcof , ccof , d1mach , den , discr , Dvec , Emin ,  &
            & Err1 , f1 , f2 , f3 , f4 , four , Fun , fval , one , p1 ,  &
            & p2 , p3
@@ -5709,7 +4897,6 @@
       integer Ifun , ilc08 , ilc21 , iloc , imain , Indm , Ioptn ,      &
             & Iphse , ipmax , Iptb , ismax , Iwork , j , limmul ,       &
             & Liwrk , lll , Lwrk , Nparm , nsrch , Numgr
-!*** End of declarations inserted by SPAG
 !
       dimension Dvec(Nparm) , Fun(Ifun) , Pttbl(Iptb,Indm) ,            &
               & Zwork(Nparm) , Err1(Numgr+3) , Parwrk(Nparm) ,          &
@@ -5997,13 +5184,11 @@
 !
       implicit none
 
-!*** Start of declarations inserted by SPAG
       real*8 d1mach , ei , eipmax , enorm , epact , Err1 , Error ,      &
            & four , fudge , one , rch1 , rchd1 , Rchdwn , Rchin ,       &
            & rchtop , spcmn , ten , two , Unit
       integer i , Iact , Icntyp , ipact , Ipmax , Irch , Ismax , l ,    &
             & Mact , Numgr
-!*** End of declarations inserted by SPAG
 !
       dimension Error(Numgr+3) , Err1(Numgr+3) , Icntyp(Numgr) ,        &
               & Iact(Numgr)
@@ -6141,7 +5326,6 @@
 !
       implicit none
 
-!*** Start of declarations inserted by SPAG
       real*8 ab , bk , Coef , d1mach , dist , dotprd , fackp , facsc ,  &
            & fact , four , one , Pmat , Pmat1 , Ptnr , quot , r , s ,   &
            & s1 , s1hi , s1low
@@ -6153,7 +5337,6 @@
             & Jflag , jmax , k , l
       integer Liwrk , lmcon , Lwrk , m , n , Ncor , Ndm , Nmaj , Nmin , &
             & Nparm , Numgr
-!*** End of declarations inserted by SPAG
 !
       dimension Pmat(Nparm+1,Numgr) , Icor(Nparm+1) , Wcoef(Numgr) ,    &
               & Wpt(Nparm) , r(Nparm+1) , Coef(Numgr) , Ptnr(Nparm+1) , &
@@ -6607,7 +5790,6 @@
 !
       implicit none
 
-!*** Start of declarations inserted by SPAG
       real*8 amax , amin , cjj , Coef , d1mach , diff , Dist , dmax ,   &
            & dotprd , dp , dsq , four , omt , one , pdotj , Picor ,     &
            & Pmat1 , Ptnr , Ptnrr , quot
@@ -6618,7 +5800,6 @@
             & j , Jflag , jj , jmax , jmin
       integer kntsl , l , limsl , Liwrk , ll , Lwrk , m , mincf , mp1 , &
             & n , Ncor , ncoro , ndm , Nmaj , Nmin , Nparm , Numgr
-!*** End of declarations inserted by SPAG
 !
       dimension Pmat1(Nparm+1,Numgr) , r(Nparm+1) , Icor(Nparm+1) ,     &
               & Coef(Numgr) , Ptnr(Nparm+1) , Vec(Nparm+1) ,            &
@@ -6985,7 +6166,6 @@
 !
       implicit none
 
-!*** Start of declarations inserted by SPAG
       real*8 Aa , aakk , amax , b , Beta , d , d1mach , four , one ,    &
            & Picor , r , Save , spcmn , sqdk , store , sum , summ ,     &
            & ten , test , testt
@@ -6993,7 +6173,6 @@
       integer i , ia , icount , Ihouse , ii , j , jj , k , kchnge , kk ,&
             & kp , Kpivot , krank , kt , n , Ncor , nmref1 , nmref2 ,   &
             & Nparm , numref
-!*** End of declarations inserted by SPAG
 !
       dimension Vec(Nparm+1) , Aa(Nparm+1,Nparm+1) , Beta(Nparm+1) ,    &
               & d(Nparm+1) , Kpivot(Nparm+1) , Save(Nparm+1) ,          &
@@ -7280,10 +6459,8 @@
 !
       implicit none
 
-!*** Start of declarations inserted by SPAG
       real*8 dd , dotprd , Vec1 , Vec2
       integer j , Lgth , Nparm
-!*** End of declarations inserted by SPAG
 !
       dimension Vec1(Nparm+1) , Vec2(Nparm+1)
 !
@@ -7307,14 +6484,12 @@
 !
       implicit none
 
-!*** Start of declarations inserted by SPAG
       real*8 aa , amax , d1mach , fact , Pmat , Pmat1 , Save , spcmn ,  &
            & tole , Wpt , wrst , wrsto
       integer i , Icor , imax , itrct , itrlm , Ixrct , j , jmax ,      &
             & jstrt , k , kcol , kk , kp1 , l , maxrs , n , Ncor , Ndm ,&
             & Nparm , nresl
       integer Numgr
-!*** End of declarations inserted by SPAG
 !
       dimension Icor(Nparm+1) , Pmat(Nparm+1,Numgr) ,                   &
               & Pmat1(Nparm+1,Numgr) , Wpt(Nparm+1) , Ixrct(2*Nparm) ,  &

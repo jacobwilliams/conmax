@@ -33,3 +33,6 @@
 
 # misc
 .DS_Store
+
+/bin/
+/archive/

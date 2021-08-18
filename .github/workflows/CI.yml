@@ -48,10 +48,22 @@ jobs:
     - name: Compile
       run: |
         mkdir ./bin
-        gfortran ./src/*.f90 -o ./bin/conmax
+        gfortran ./src/conmax.f90 ./src/i1mach.f90 ./src/d1mach.f90 ./tests/tstot.f90 ./tests/fnset.f90 -o ./bin/tstot
+        gfortran ./src/conmax.f90 ./src/i1mach.f90 ./src/d1mach.f90 ./tests/lp.f90    ./tests/fnset.f90 -o ./bin/lp
+        gfortran ./src/conmax.f90 ./src/i1mach.f90 ./src/d1mach.f90 ./tests/qp.f90    ./tests/fnset.f90 -o ./bin/qp
+        gfortran ./src/conmax.f90 ./src/i1mach.f90 ./src/d1mach.f90 ./tests/mul.f90                     -o ./bin/mul
+        gfortran ./src/conmax.f90 ./src/i1mach.f90 ./src/d1mach.f90 ./tests/ser.f90                     -o ./bin/ser
 
-    - name: test
-      run: ./bin/conmax
+    - name: tstot
+      run: ./bin/tstot
+    - name: lp
+      run: ./bin/lp
+    - name: qp
+      run: ./bin/qp
+    - name: mul
+      run: ./bin/mul
+    - name: ser
+      run: ./bin/ser
 
     # - name: Build documentation
     #   run: ford ./conmax.md
