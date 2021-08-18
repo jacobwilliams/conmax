@@ -1,4 +1,3 @@
-# conmax
 
 Unofficial mirror of CONMAX: http://www.netlib.org/opt/conmax.f
 
@@ -27,3 +26,8 @@ The latest API documentation can be found [here](http://jacobwilliams.github.io/
 ### License
 
 The conmax source code and related files and documentation are distributed under a permissive free software [license](https://github.com/jacobwilliams/conmax/blob/master/LICENSE) (BSD-style).
+
+### References
+
+ * E. H. Kaufman Jr., D. J. Leeming & G. D. Taylor, "An ODE-based approach to nonlinearly constrained minimax problems", Numerical Algorithms, Volume 9, pages 25-37 (1995)
+ * Original CONMAX sourcecode: http://www.netlib.org/opt/conmax.f
