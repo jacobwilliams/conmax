@@ -75,11 +75,11 @@
 !***ROUTINES CALLED  (NONE)
 !***REVISION HISTORY  (YYMMDD)
 !   750101  DATE WRITTEN
-!   960411  Modified for Fortran 90 (BE after suggestions by EHG).   
-!   980727  Modified value of I1MACH(6) (BE after suggestion by EHG).   
+!   960411  Modified for Fortran 90 (BE after suggestions by EHG).
+!   980727  Modified value of I1MACH(6) (BE after suggestion by EHG).
 !***END PROLOGUE  I1MACH
 !
-      X  = 1.0      
+      X  = 1.0
       XX = 1.0D0
 
       SELECT CASE (I)
@@ -95,7 +95,7 @@
           I1MACH = BIT_SIZE(I)
         CASE (6)
           I1MACH = 4            ! Characters per integer is hopefully no
-                                ! longer used. 
+                                ! longer used.
                                 ! If it is used it has to be set manually.
                                 ! The value 4 is correct on IEEE-machines.
         CASE (7)
@@ -117,7 +117,7 @@
         CASE (15)
           I1MACH = MINEXPONENT(XX)
         CASE (16)
-          I1MACH = MAXEXPONENT(XX) 
+          I1MACH = MAXEXPONENT(XX)
         CASE DEFAULT
           WRITE (*, FMT = 9000)
  9000     FORMAT ('1ERROR    1 IN I1MACH - I OUT OF BOUNDS')

@@ -52,9 +52,9 @@
 !***ROUTINES CALLED  XERMSG
 !***REVISION HISTORY  (YYMMDD)
 !   790101  DATE WRITTEN
-!   960329  Modified for Fortran 90 (BE after suggestions by EHG)      
+!   960329  Modified for Fortran 90 (BE after suggestions by EHG)
 !***END PROLOGUE  D1MACH
-!      
+!
       X = 1.0D0
       B = RADIX(X)
       SELECT CASE (I)
