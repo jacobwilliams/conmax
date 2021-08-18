@@ -14,7 +14,7 @@ display: public
          private
 source: true
 graph: true
-exclude_dir: ./tests
+exclude_dir: ./src/tests
 extra_mods: iso_c_binding:https://gcc.gnu.org/onlinedocs/gfortran/ISO_005fC_005fBINDING.html
             iso_fortran_env:https://gcc.gnu.org/onlinedocs/gfortran/ISO_005fFORTRAN_005fENV.html
 
