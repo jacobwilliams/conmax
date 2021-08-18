@@ -1,7 +1,4 @@
 
-Unofficial mirror of CONMAX: http://www.netlib.org/opt/conmax.f
-
-
 ### Status
 
 ![Build Status](https://github.com/jacobwilliams/conmax/actions/workflows/CI.yml/badge.svg)
