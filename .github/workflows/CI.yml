@@ -48,7 +48,7 @@ jobs:
     - name: Compile
       run: |
         mkdir ./bin
-        gfortran ./src/*.f ./src/*.f90 -o ./bin/conmax
+        gfortran ./src/*.f90 -o ./bin/conmax
 
     - name: test
       run: ./bin/conmax
