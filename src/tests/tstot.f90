@@ -155,7 +155,7 @@
       !OPEN(6,FILE='TSTOT')
 
       ! SET MACHINE AND PRECISION DEPENDENT CONSTANTS.
-      one = 1.0d0
+      one = 1.0_wp
       zero = one - one
       two = one + one
       three = one + two
