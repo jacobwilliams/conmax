@@ -125,7 +125,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title="100.0% of total for modules and submodules.">3137 statements</a>
+    title="100.0% of total for modules and submodules.">3157 statements</a>
      </li> 
      
      
@@ -7716,10 +7716,32 @@ public subroutine <a href='../proc/wolfe.html'>wolfe</a>(Ndm, m, Pmat, Istrt, s,
 
 
 
-<p>THIS PROGRAM WAS DEVELOPED BY ED KAUFMAN, DAVID LEEMING, AND JERRY
- TAYLOR.  THE METHOD USED IS AN ENHANCED VERSION OF THE METHOD DESCRIBED
- IN (WOLFE, PHILIP, FINDING THE NEAREST POINT IN A POLYTOPE, MATHEMATICAL
- PROGRAMMING 11 (1976), 128-149).</p><a href="../proc/wolfe.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+<p>given m inequalities of the form a(k).x + b(k) &lt;= 0.0 for k=1,
+  ...,m, where a(k) and x are ndm dimensional vectors and b(k)
+  are numbers, this subroutine returns the nearest point to the
+  origin in the polytope defined by these inequalities (unless
+  jflag &gt; 0, which indicates failure).  the user should put
+  the mdm+1 dimensional vectors (a(k),b(k)) in the columns of pmat.
+  the solution point will be returned in wpt, and will also be a
+  linear combination of the a(k) vectors with (nonpositive)
+  coefficients in the m dimensional vector wcoef.  wcoef may not be
+  accurate if refwl was used to refine wpt, which rarely happens. the
+  number of vectors in the final corral will be returned in ncor with
+  their indices in icor, and all entries of wcoef not corresponding to
+  indices in icor will be zero.  the distance will be returned in
+  wdist, and the numbers of major and minor cycles in the cone
+  subproblem will be returned in nmaj and nmin respectively.
+  if the user sets istrt=0 the program will start from scratch, but
+  the user can set istrt=1 (hot start) and specify ncor, icor, wcoef,
+  and the factor s.  (see later comments; set s=1.0 if no better value is
+  available.  set wcoef(j)=0.0 if icor(i) /= j for i=1,...,ncor.)  (if
+  inaccurate wcoef or s is used in a hot start attempt little will be
+  lost, since ncor and icor are more important for a successful hot start
+  than wcoef and s.)  we must always have ncor &lt;= ndm+1 in theory since
+  the ncor ndm+1 dimensional vectors in a corral should be linearly
+  independent, and in practice we will always require ncor &lt;= ndm+1.
+  if the user sets istrt=1 but the program fails, it will
+  automatically try from scratch before giving up.</p><a href="../proc/wolfe.html" class="pull-right"><emph>Read more&hellip;</emph></a>
     
     <h4>Arguments</h4>
     
@@ -7740,12 +7762,119 @@ public subroutine <a href='../proc/wolfe.html'>wolfe</a>(Ndm, m, Pmat, Istrt, s,
   
 <tr>
   
-  <td><span class="anchor" ></span>integer</td>
-  <td></td>
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Ndm</strong></td><td></td>
+  <td><strong>Ndm</strong></td><td><p>The number of variables. it must be less than or equal to <code>nparm</code>.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>m</strong></td><td><p>The number of inequalities defining the polytope.  it
+ must be less than or equal to <code>numgr</code>.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=wp),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>Pmat</strong>(Nparm+1,Numgr)</td><td><p>This is an array whose kth column contains the vector
+  (a(k),b(k)) for k=1,...,m, where the m inequalities a(k).x + b(k)
+  &lt;= 0.0 define the polytope whose nearest point to the origin we
+  seek.  the first dimension of pmat in the driver program must be
+  exactly nparm+1, while the second dimension of pmat in the driver
+  program must be at least numgr.
+  if we actually want the nearest point in the polytope to some point
+  y other than the origin, we translate y to the origin before calling
+  wolfe, that is, call wolfe to find the nearest point z to the origin
+  in the polytope defined by a(k).z + (b(k) + a(k).y) &lt;= 0.0, then
+  compute x = y + z.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>Istrt</strong></td><td><p>Set this equal to zero unless a hot start is desired--
+ see next paragraph of comments for more details.  if istrt is set
+ equal to 1, then s, wcoef, ncor, and icor must also be assigned
+ values initially.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=wp),</td>
+  <td>intent(out)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>s</strong></td><td><p>You may ignore this scale factor unless you want to use the hot start option.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(out)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>Ncor</strong></td><td><p>This is the number of vectors (i.e. colunns of pmat) in
+ the final corral.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(out)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>Icor</strong>(Nparm+1)</td><td><p>This array contains the ncor indices of the vectors in
+ the final corral.  its dimension in the driver program must be at
+ least nparm+1.</p></td>
   
 </tr>
 
@@ -7760,7 +7889,22 @@ public subroutine <a href='../proc/wolfe.html'>wolfe</a>(Ndm, m, Pmat, Istrt, s,
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>m</strong></td><td></td>
+  <td><strong>Iwork</strong>(Liwrk)</td><td><p>Work array</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>Liwrk</strong></td><td><p>This is the dimension of <code>iwork</code>.  It must be at least 7<em>nparm + 7</em>numgr + 3.</p></td>
   
 </tr>
 
@@ -7775,7 +7919,7 @@ public subroutine <a href='../proc/wolfe.html'>wolfe</a>(Ndm, m, Pmat, Istrt, s,
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Pmat</strong></td><td></td>
+  <td><strong>Work</strong>(Lwrk)</td><td><p>Work array</p></td>
   
 </tr>
 
@@ -7785,87 +7929,18 @@ public subroutine <a href='../proc/wolfe.html'>wolfe</a>(Ndm, m, Pmat, Istrt, s,
   
 <tr>
   
-  <td><span class="anchor" ></span>integer</td>
-  <td></td>
-  <td></td>
-  
-  <td></td><td>::</td>
-  <td><strong>Istrt</strong></td><td></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>real(kind=wp)</td>
-  <td></td>
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>s</strong></td><td></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>integer</td>
-  <td></td>
-  <td></td>
-  
-  <td></td><td>::</td>
-  <td><strong>Ncor</strong></td><td></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>integer</td>
-  <td></td>
-  <td></td>
-  
-  <td></td><td>::</td>
-  <td><strong>Icor</strong></td><td></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>integer</td>
-  <td></td>
-  <td></td>
-  
-  <td></td><td>::</td>
-  <td><strong>Iwork</strong></td><td></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>integer</td>
-  <td></td>
-  <td></td>
-  
-  <td></td><td>::</td>
-  <td><strong>Liwrk</strong></td><td></td>
+  <td><strong>Lwrk</strong></td><td><p>This is the dimension of <code>work</code>.  it must be at least
+ 2<em>nparm</em><em>2 + 4</em>numgr<em>nparm + 11</em>numgr + 27*nparm + 13.
+ note that some storage could be saved by rewriting function
+ subprogram iloc to take out all but the arrays needed (namely 1, 3,
+ 4, 9, 28, 32, 34, 39 for work, 18, 23 for iwork) and scrunching
+ work and iwork in iloc so the remaining arrays follow one after
+ another.</p></td>
   
 </tr>
 
@@ -7880,22 +7955,7 @@ public subroutine <a href='../proc/wolfe.html'>wolfe</a>(Ndm, m, Pmat, Istrt, s,
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Work</strong></td><td></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>integer</td>
-  <td></td>
-  <td></td>
-  
-  <td></td><td>::</td>
-  <td><strong>Lwrk</strong></td><td></td>
+  <td><strong>r</strong>(Nparm+1)</td><td><p>Work array</p></td>
   
 </tr>
 
@@ -7910,7 +7970,7 @@ public subroutine <a href='../proc/wolfe.html'>wolfe</a>(Ndm, m, Pmat, Istrt, s,
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>r</strong></td><td></td>
+  <td><strong>Coef</strong>(Numgr)</td><td><p>Work array</p></td>
   
 </tr>
 
@@ -7925,7 +7985,7 @@ public subroutine <a href='../proc/wolfe.html'>wolfe</a>(Ndm, m, Pmat, Istrt, s,
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Coef</strong></td><td></td>
+  <td><strong>Ptnr</strong>(Nparm+1)</td><td><p>Work array</p></td>
   
 </tr>
 
@@ -7940,7 +8000,7 @@ public subroutine <a href='../proc/wolfe.html'>wolfe</a>(Ndm, m, Pmat, Istrt, s,
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Ptnr</strong></td><td></td>
+  <td><strong>Pmat1</strong>(Nparm+1,Numgr)</td><td><p>Work array</p></td>
   
 </tr>
 
@@ -7950,12 +8010,13 @@ public subroutine <a href='../proc/wolfe.html'>wolfe</a>(Ndm, m, Pmat, Istrt, s,
   
 <tr>
   
-  <td><span class="anchor" ></span>real(kind=wp)</td>
-  <td></td>
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Pmat1</strong></td><td></td>
+  <td><strong>Nparm</strong></td><td><p>This is basically a dimension parameter here.  it must
+ be greater than or equal to <code>ndm</code>.</p></td>
   
 </tr>
 
@@ -7965,12 +8026,13 @@ public subroutine <a href='../proc/wolfe.html'>wolfe</a>(Ndm, m, Pmat, Istrt, s,
   
 <tr>
   
-  <td><span class="anchor" ></span>integer</td>
-  <td></td>
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Nparm</strong></td><td></td>
+  <td><strong>Numgr</strong></td><td><p>This is basically a dimension parameter here.  it must
+ be greater than or equal to <code>m</code>.</p></td>
   
 </tr>
 
@@ -7980,12 +8042,16 @@ public subroutine <a href='../proc/wolfe.html'>wolfe</a>(Ndm, m, Pmat, Istrt, s,
   
 <tr>
   
-  <td><span class="anchor" ></span>integer</td>
-  <td></td>
+  <td><span class="anchor" ></span>real(kind=wp),</td>
+  <td>intent(out)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Numgr</strong></td><td></td>
+  <td><strong>Wcoef</strong>(Numgr)</td><td><p>This will give the coefficients of the vectors a(k)
+ needed to form a linear combination equal to the solution in wpt.
+ its dimension in the driver program must be at least numgr.
+ wcoef may not be accurate if it was necessary to call refwl to
+ refine wpt, which rarely happens.</p></td>
   
 </tr>
 
@@ -7995,12 +8061,14 @@ public subroutine <a href='../proc/wolfe.html'>wolfe</a>(Ndm, m, Pmat, Istrt, s,
   
 <tr>
   
-  <td><span class="anchor" ></span>real(kind=wp)</td>
-  <td></td>
+  <td><span class="anchor" ></span>real(kind=wp),</td>
+  <td>intent(out)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Wcoef</strong></td><td></td>
+  <td><strong>Wpt</strong>(Nparm)</td><td><p>This will give the coordinates of the point we are seeking,
+ namely the nearest point in the polytope to the origin.  its dimension
+ in the driver program must be at least nparm.</p></td>
   
 </tr>
 
@@ -8010,12 +8078,12 @@ public subroutine <a href='../proc/wolfe.html'>wolfe</a>(Ndm, m, Pmat, Istrt, s,
   
 <tr>
   
-  <td><span class="anchor" ></span>real(kind=wp)</td>
-  <td></td>
+  <td><span class="anchor" ></span>real(kind=wp),</td>
+  <td>intent(out)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Wpt</strong></td><td></td>
+  <td><strong>Wdist</strong></td><td><p>This will be the (minimized) euclidean distance of <code>wpt</code> from the origin.</p></td>
   
 </tr>
 
@@ -8025,12 +8093,12 @@ public subroutine <a href='../proc/wolfe.html'>wolfe</a>(Ndm, m, Pmat, Istrt, s,
   
 <tr>
   
-  <td><span class="anchor" ></span>real(kind=wp)</td>
-  <td></td>
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(out)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Wdist</strong></td><td></td>
+  <td><strong>Nmaj</strong></td><td><p>This will be the number of major cycles used in <code>wolfe</code>.</p></td>
   
 </tr>
 
@@ -8040,12 +8108,12 @@ public subroutine <a href='../proc/wolfe.html'>wolfe</a>(Ndm, m, Pmat, Istrt, s,
   
 <tr>
   
-  <td><span class="anchor" ></span>integer</td>
-  <td></td>
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(out)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Nmaj</strong></td><td></td>
+  <td><strong>Nmin</strong></td><td><p>This will be the number of major cycles used in <code>wolfe</code>.</p></td>
   
 </tr>
 
@@ -8055,27 +8123,14 @@ public subroutine <a href='../proc/wolfe.html'>wolfe</a>(Ndm, m, Pmat, Istrt, s,
   
 <tr>
   
-  <td><span class="anchor" ></span>integer</td>
-  <td></td>
-  <td></td>
-  
-  <td></td><td>::</td>
-  <td><strong>Nmin</strong></td><td></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>integer</td>
-  <td></td>
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(out)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Jflag</strong></td><td></td>
+  <td><strong>Jflag</strong></td><td><p>This is a flag variable which is 0 in case of a normal
+ solution and is positive otherwise (in which case the returned
+ solution may be no good).</p></td>
   
 </tr>
 

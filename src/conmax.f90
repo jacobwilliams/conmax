@@ -5113,455 +5113,410 @@
 
 !********************************************************************************
 !>
-! THIS PROGRAM WAS DEVELOPED BY ED KAUFMAN, DAVID LEEMING, AND JERRY
-! TAYLOR.  THE METHOD USED IS AN ENHANCED VERSION OF THE METHOD DESCRIBED
-! IN (WOLFE, PHILIP, FINDING THE NEAREST POINT IN A POLYTOPE, MATHEMATICAL
-! PROGRAMMING 11 (1976), 128-149).
+!  given m inequalities of the form a(k).x + b(k) <= 0.0 for k=1,
+!  ...,m, where a(k) and x are ndm dimensional vectors and b(k)
+!  are numbers, this subroutine returns the nearest point to the
+!  origin in the polytope defined by these inequalities (unless
+!  jflag > 0, which indicates failure).  the user should put
+!  the mdm+1 dimensional vectors (a(k),b(k)) in the columns of pmat.
+!  the solution point will be returned in wpt, and will also be a
+!  linear combination of the a(k) vectors with (nonpositive)
+!  coefficients in the m dimensional vector wcoef.  wcoef may not be
+!  accurate if refwl was used to refine wpt, which rarely happens. the
+!  number of vectors in the final corral will be returned in ncor with
+!  their indices in icor, and all entries of wcoef not corresponding to
+!  indices in icor will be zero.  the distance will be returned in
+!  wdist, and the numbers of major and minor cycles in the cone
+!  subproblem will be returned in nmaj and nmin respectively.
+!  if the user sets istrt=0 the program will start from scratch, but
+!  the user can set istrt=1 (hot start) and specify ncor, icor, wcoef,
+!  and the factor s.  (see later comments; set s=1.0 if no better value is
+!  available.  set wcoef(j)=0.0 if icor(i) /= j for i=1,...,ncor.)  (if
+!  inaccurate wcoef or s is used in a hot start attempt little will be
+!  lost, since ncor and icor are more important for a successful hot start
+!  than wcoef and s.)  we must always have ncor <= ndm+1 in theory since
+!  the ncor ndm+1 dimensional vectors in a corral should be linearly
+!  independent, and in practice we will always require ncor <= ndm+1.
+!  if the user sets istrt=1 but the program fails, it will
+!  automatically try from scratch before giving up.
 !
-!***THE NEXT GROUP OF COMMENTS IS FOR THE CASE WHERE THE USER WISHES TO
-! RUN WOLFE BY ITSELF RATHER THAN AS A PART OF CONMAX.
+!### Running by itself rather than as a part of conmax
+!  To run the program, write a driver
+!  program which dimensions the arrays in the calling sequence for wolfe
+!  and sets the input variables as specified in the list below, then call
+!  subroutine wolfe.
 !
-! TO RUN THE PROGRAM, WRITE A DRIVER
-! PROGRAM WHICH DIMENSIONS THE ARRAYS IN THE CALLING SEQUENCE FOR WOLFE
-! AND SETS THE INPUT VARIABLES AS SPECIFIED IN THE LIST BELOW, THEN CALL
-! SUBROUTINE WOLFE.
-!
-! THE VARIABLES, IN THE ORDER OF THEIR APPEARANCE IN THE ARGUMENT LIST OF
-! SUBROUTINE WOLFE, ARE AS FOLLOWS.
-!
-! NDM  (INPUT)  THIS IS THE NUMBER OF VARIABLES.  IT MUST BE LESS THAN OR
-!    EQUAL TO NPARM.
-!
-! M  (INPUT)  THIS IS THE NUMBER OF INEQUALITIES DEFINING THE POLYTOPE.  IT
-!    MUST BE LESS THAN OR EQUAL TO NUMGR.
-!
-! PMAT  (INPUT)  THIS IS AN ARRAY WHOSE KTH COLUMN CONTAINS THE VECTOR
-!    (A(K),B(K)) FOR K=1,...,M, WHERE THE M INEQUALITIES A(K).X + B(K)
-!    <= 0.0 DEFINE THE POLYTOPE WHOSE NEAREST POINT TO THE ORIGIN WE
-!    SEEK.  THE FIRST DIMENSION OF PMAT IN THE DRIVER PROGRAM MUST BE
-!    EXACTLY NPARM+1, WHILE THE SECOND DIMENSION OF PMAT IN THE DRIVER
-!    PROGRAM MUST BE AT LEAST NUMGR.
-!    IF WE ACTUALLY WANT THE NEAREST POINT IN THE POLYTOPE TO SOME POINT
-!    Y OTHER THAN THE ORIGIN, WE TRANSLATE Y TO THE ORIGIN BEFORE CALLING
-!    WOLFE, THAT IS, CALL WOLFE TO FIND THE NEAREST POINT Z TO THE ORIGIN
-!    IN THE POLYTOPE DEFINED BY A(K).Z + (B(K) + A(K).Y) <= 0.0, THEN
-!    COMPUTE X = Y + Z.
-!
-! ISTRT  (INPUT)  SET THIS EQUAL TO ZERO UNLESS A HOT START IS DESIRED--
-!    SEE NEXT PARAGRAPH OF COMMENTS FOR MORE DETAILS.  IF ISTRT IS SET
-!    EQUAL TO 1, THEN S, WCOEF, NCOR, AND ICOR MUST ALSO BE ASSIGNED
-!    VALUES INITIALLY.
-!
-! S  (OUTPUT)  YOU MAY IGNORE THIS SCALE FACTOR UNLESS YOU WANT TO USE
-!    THE HOT START OPTION.
-!
-! NCOR  (OUTPUT)  THIS IS THE NUMBER OF VECTORS (I.E. COLUNNS OF PMAT) IN
-!    THE FINAL CORRAL.
-!
-! ICOR  (OUTPUT)  THIS ARRAY CONTAINS THE NCOR INDICES OF THE VECTORS IN
-!    THE FINAL CORRAL.  ITS DIMENSION IN THE DRIVER PROGRAM MUST BE AT
-!    LEAST NPARM+1.
-!
-! IWORK  (WORK ARRAY)  ITS DIMENSION IN THE DRIVER PROGRAM MUST BE LIWRK.
-!
-! LIWRK  (INPUT)  THIS IS THE DIMENSION OF IWORK.  IT MUST BE AT LEAST
-!    7*NPARM + 7*NUMGR + 3.
-!
-! WORK  (WORK ARRAY)  ITS DIMENSION IN THE DRIVER PROGRAM MUST BE LWRK.
-!
-! LWRK  (INPUT)  THIS IS THE DIMENSION OF WORK.  IT MUST BE AT LEAST
-!    2*NPARM**2 + 4*NUMGR*NPARM + 11*NUMGR + 27*NPARM + 13.
-!    NOTE THAT SOME STORAGE COULD BE SAVED BY REWRITING FUNCTION
-!    SUBPROGRAM ILOC TO TAKE OUT ALL BUT THE ARRAYS NEEDED (NAMELY 1, 3,
-!    4, 9, 28, 32, 34, 39 FOR WORK, 18, 23 FOR IWORK) AND SCRUNCHING
-!    WORK AND IWORK IN ILOC SO THE REMAINING ARRAYS FOLLOW ONE AFTER
-!    ANOTHER.
-!
-! R  (WORK ARRAY)  ITS DIMENSION IN THE DRIVER PROGRAM MUST BE AT LEAST
-!    NPARM+1.
-!
-! COEF  (WORK ARRAY)  ITS DIMENSION IN THE DRIVER PROGRAM MUST BE AT LEAST
-!    NUMGR.
-!
-! PTNR  (WORK ARRAY)  ITS DIMENSION IN THE DRIVER PROGRAM MUST BE AT LEAST
-!    NPARM+1.
-!
-! PMAT1  (WORK ARRAY)  ITS DIMENSION IN THE DRIVER PROGRAM SHOULD BE THE
-!    SAME AS THE DIMENSION OF PMAT.
-!
-! NPARM  (INPUT)  THIS IS BASICALLY A DIMENSION PARAMETER HERE.  IT MUST
-!    BE GREATER THAN OR EQUAL TO NDM.
-!
-! NUMGR  (INPUT)  THIS IS BASICALLY A DIMENSION PARAMETER HERE.  IT MUST
-!    BE GREATER THAN OR EQUAL TO M.
-!
-! WCOEF  (OUTPUT)  THIS WILL GIVE THE COEFFICIENTS OF THE VECTORS A(K)
-!    NEEDED TO FORM A LINEAR COMBINATION EQUAL TO THE SOLUTION IN WPT.
-!    ITS DIMENSION IN THE DRIVER PROGRAM MUST BE AT LEAST NUMGR.
-!    WCOEF MAY NOT BE ACCURATE IF IT WAS NECESSARY TO CALL REFWL TO
-!    REFINE WPT, WHICH RARELY HAPPENS.
-!
-! WPT  (OUTPUT)  THIS WILL GIVE THE COORDINATES OF THE POINT WE ARE SEEKING,
-!    NAMELY THE NEAREST POINT IN THE POLYTOPE TO THE ORIGIN.  ITS DIMENSION
-!    IN THE DRIVER PROGRAM MUST BE AT LEAST NPARM.
-!
-! WDIST  (OUTPUT)  THIS WILL BE THE (MINIMIZED) EUCLIDEAN DISTANCE OF WPT
-!    FROM THE ORIGIN.
-!
-! NMAJ  (OUTPUT)  THIS WILL BE THE NUMBER OF MAJOR CYCLES USED IN WOLFE.
-!
-! NMIN  (OUTPUT)  THIS WILL BE THE NUMBER OF MINOR CYCLES USED IN WOLFE.
-!
-! JFLAG  (OUTPUT)  THIS IS A FLAG VARIABLE WHICH IS 0 IN CASE OF A NORMAL
-!    SOLUTION AND IS POSITIVE OTHERWISE (IN WHICH CASE THE RETURNED
-!    SOLUTION MAY BE NO GOOD).
-!
-!***END OF COMMENTS FOR RUNNING WOLFE BY ITSELF RATHER THAN AS A PART OF
-! CONMAX.
-!
-! GIVEN M INEQUALITIES OF THE FORM A(K).X + B(K) <= 0.0 FOR K=1,
-! ...,M, WHERE A(K) AND X ARE NDM DIMENSIONAL VECTORS AND B(K)
-! ARE NUMBERS, THIS SUBROUTINE RETURNS THE NEAREST POINT TO THE
-! ORIGIN IN THE POLYTOPE DEFINED BY THESE INEQUALITIES (UNLESS
-! JFLAG > 0, WHICH INDICATES FAILURE).  THE USER SHOULD PUT
-! THE MDM+1 DIMENSIONAL VECTORS (A(K),B(K)) IN THE COLUMNS OF PMAT.
-! THE SOLUTION POINT WILL BE RETURNED IN WPT, AND WILL ALSO BE A
-! LINEAR COMBINATION OF THE A(K) VECTORS WITH (NONPOSITIVE)
-! COEFFICIENTS IN THE M DIMENSIONAL VECTOR WCOEF.  WCOEF MAY NOT BE
-! ACCURATE IF REFWL WAS USED TO REFINE WPT, WHICH RARELY HAPPENS. THE
-! NUMBER OF VECTORS IN THE FINAL CORRAL WILL BE RETURNED IN NCOR WITH
-! THEIR INDICES IN ICOR, AND ALL ENTRIES OF WCOEF NOT CORRESPONDING TO
-! INDICES IN ICOR WILL BE ZERO.  THE DISTANCE WILL BE RETURNED IN
-! WDIST, AND THE NUMBERS OF MAJOR AND MINOR CYCLES IN THE CONE
-! SUBPROBLEM WILL BE RETURNED IN NMAJ AND NMIN RESPECTIVELY.
-! IF THE USER SETS ISTRT=0 THE PROGRAM WILL START FROM SCRATCH, BUT
-! THE USER CAN SET ISTRT=1 (HOT START) AND SPECIFY NCOR, ICOR, WCOEF,
-! AND THE FACTOR S.  (SEE LATER COMMENTS; SET S=1.0 IF NO BETTER VALUE IS
-! AVAILABLE.  SET WCOEF(J)=0.0 IF ICOR(I) /= J FOR I=1,...,NCOR.)  (IF
-! INACCURATE WCOEF OR S IS USED IN A HOT START ATTEMPT LITTLE WILL BE
-! LOST, SINCE NCOR AND ICOR ARE MORE IMPORTANT FOR A SUCCESSFUL HOT START
-! THAN WCOEF AND S.)  WE MUST ALWAYS HAVE NCOR <= NDM+1 IN THEORY SINCE
-! THE NCOR NDM+1 DIMENSIONAL VECTORS IN A CORRAL SHOULD BE LINEARLY
-! INDEPENDENT, AND IN PRACTICE WE WILL ALWAYS REQUIRE NCOR <= NDM+1.
-! IF THE USER SETS ISTRT=1 BUT THE PROGRAM FAILS, IT WILL
-! AUTOMATICALLY TRY FROM SCRATCH BEFORE GIVING UP.
+!### Reference
+!  This program was developed by ed kaufman, david leeming, and jerry
+!  taylor.  the method used is an enhanced version of the method described
+!  in (wolfe, philip, finding the nearest point in a polytope, mathematical
+!  programming 11 (1976), 128-149).
 
-      subroutine wolfe(Ndm,m,Pmat,Istrt,s,Ncor,Icor,Iwork,Liwrk,Work,   &
-                       Lwrk,r,Coef,Ptnr,Pmat1,Nparm,Numgr,Wcoef,Wpt,    &
-                       Wdist,Nmaj,Nmin,Jflag)
+    subroutine wolfe(Ndm,m,Pmat,Istrt,s,Ncor,Icor,Iwork,Liwrk,Work, &
+                     Lwrk,r,Coef,Ptnr,Pmat1,Nparm,Numgr,Wcoef,Wpt, &
+                     Wdist,Nmaj,Nmin,Jflag)
 
-      implicit none
+    implicit none
 
-      real(wp) ab , bk , Coef , dist , fackp , facsc ,  &
-             fact , Pmat , Pmat1 , Ptnr , quot , r , s ,   &
-             s1 , s1hi , s1low
-      real(wp) scl , scl1 , scl1a , tol , tol1 ,    &
-             tols , v1 , violm , vmax , Wcoef , Wdist , Work ,    &
-             Wpt
-      integer i , Icor , ilc18 , ilc28 , ilc32 , ilc34 , ilc39 , &
-              ind , iref , Istrt , istrt1 , itcon , iup , Iwork , j ,   &
-              Jflag , jmax , k , l
-      integer Liwrk , lmcon , Lwrk , m , n , Ncor , Ndm , Nmaj , Nmin , &
-              Nparm , Numgr
-!
-      dimension Pmat(Nparm+1,Numgr) , Icor(Nparm+1) , Wcoef(Numgr) ,    &
-                Wpt(Nparm) , r(Nparm+1) , Coef(Numgr) , Ptnr(Nparm+1) , &
-                Pmat1(Nparm+1,Numgr) , Iwork(Liwrk) , Work(Lwrk)
+    integer,intent(in) :: Ndm  !! The number of variables. it must be less than or equal to `nparm`.
+    integer,intent(in) :: m  !! The number of inequalities defining the polytope.  it
+                            !! must be less than or equal to `numgr`.
+    integer,intent(in) :: Istrt   !! Set this equal to zero unless a hot start is desired--
+                                !! see next paragraph of comments for more details.  if istrt is set
+                                !! equal to 1, then s, wcoef, ncor, and icor must also be assigned
+                                !! values initially.
+    integer,intent(out) :: Ncor  !! This is the number of vectors (i.e. colunns of pmat) in
+                                !! the final corral.
+    integer,intent(in) :: Liwrk   !! This is the dimension of `iwork`.  It must be at least 7*nparm + 7*numgr + 3.
+    integer,intent(in) :: Lwrk    !! This is the dimension of `work`.  it must be at least
+                                !! 2*nparm**2 + 4*numgr*nparm + 11*numgr + 27*nparm + 13.
+                                !! note that some storage could be saved by rewriting function
+                                !! subprogram iloc to take out all but the arrays needed (namely 1, 3,
+                                !! 4, 9, 28, 32, 34, 39 for work, 18, 23 for iwork) and scrunching
+                                !! work and iwork in iloc so the remaining arrays follow one after
+                                !! another.
+    integer,intent(in)  :: Nparm  !! This is basically a dimension parameter here.  it must
+                                !! be greater than or equal to `ndm`.
+    integer,intent(in)  :: Numgr  !! This is basically a dimension parameter here.  it must
+                                !! be greater than or equal to `m`.
+    integer,intent(out)  :: Nmaj !! This will be the number of major cycles used in `wolfe`.
+    integer,intent(out)  :: Nmin !! This will be the number of major cycles used in `wolfe`.
+    integer,intent(out)  :: Jflag !! This is a flag variable which is 0 in case of a normal
+                                !! solution and is positive otherwise (in which case the returned
+                                !! solution may be no good).
+    real(wp),intent(out) :: s !! You may ignore this scale factor unless you want to use the hot start option.
+    real(wp),intent(out) :: Wdist !! This will be the (minimized) euclidean distance of `wpt` from the origin.
+    integer,intent(out) :: Icor(Nparm+1)  !! This array contains the ncor indices of the vectors in
+                                        !! the final corral.  its dimension in the driver program must be at
+                                        !! least nparm+1.
+    real(wp),intent(in) :: Pmat(Nparm+1,Numgr)  !!  This is an array whose kth column contains the vector
+                                                !!  (a(k),b(k)) for k=1,...,m, where the m inequalities a(k).x + b(k)
+                                                !!  <= 0.0 define the polytope whose nearest point to the origin we
+                                                !!  seek.  the first dimension of pmat in the driver program must be
+                                                !!  exactly nparm+1, while the second dimension of pmat in the driver
+                                                !!  program must be at least numgr.
+                                                !!  if we actually want the nearest point in the polytope to some point
+                                                !!  y other than the origin, we translate y to the origin before calling
+                                                !!  wolfe, that is, call wolfe to find the nearest point z to the origin
+                                                !!  in the polytope defined by a(k).z + (b(k) + a(k).y) <= 0.0, then
+                                                !!  compute x = y + z.
+    integer  :: Iwork(Liwrk) !! Work array
+    real(wp) :: Work(Lwrk) !! Work array
+    real(wp) :: r(Nparm+1) !! Work array
+    real(wp) :: Coef(Numgr) !! Work array
+    real(wp) :: Ptnr(Nparm+1) !! Work array
+    real(wp) :: Pmat1(Nparm+1,Numgr) !! Work array
+    real(wp),intent(out) :: Wcoef(Numgr)  !! This will give the coefficients of the vectors a(k)
+                                        !! needed to form a linear combination equal to the solution in wpt.
+                                        !! its dimension in the driver program must be at least numgr.
+                                        !! wcoef may not be accurate if it was necessary to call refwl to
+                                        !! refine wpt, which rarely happens.
+    real(wp),intent(out) :: Wpt(Nparm)    !! This will give the coordinates of the point we are seeking,
+                                        !! namely the nearest point in the polytope to the origin.  its dimension
+                                        !! in the driver program must be at least nparm.
 
-! SET MACHINE AND PRECISION DEPENDENT CONSTANTS FOR WOLFE.
-      tol = ten*ten*spcmn
-      tol1 = (ten**4)*spcmn
-      tols = sqrt(spcmn)
-      iref = 0
-      violm = one/two
-      lmcon = 3
-      itcon = 0
-      iup = 0
-      s1low = ten*ten*ten*spcmn
-      s1hi = one - s1low
-! MAKE SURE S1LOW <= ONE THIRD AND S1HI >= TWO THIRDS TO AVOID
-! SQUEEZING THE ALLOWABLE REGION FOR S1 TOO TIGHTLY (OR EVEN MAKING IT
-! EMPTY).
-      if ( s1low>one/three ) s1low = one/three
-      if ( s1hi<two/three ) s1hi = two/three
-      facsc = ten*ten*ten*ten
-      fackp = facsc
-! END OF SETTING MACHINE AND PRECISION DEPENDENT CONSTANTS FOR WOLFE.
-      ilc18 = iloc(18,Nparm,Numgr)
-      ilc28 = iloc(28,Nparm,Numgr)
-      ilc32 = iloc(32,Nparm,Numgr)
-      ilc34 = iloc(34,Nparm,Numgr)
-      ilc39 = iloc(39,Nparm,Numgr)
-      n = Ndm + 1
-      istrt1 = Istrt
-      do i = 1 , Ndm
-         r(i) = zero
-      enddo
-      r(n) = one
-!
-! NOW COMPUTE THE SCALE FACTOR SCL, WHOSE MAIN PURPOSE IS TO AVOID
-! HAVING ALL VECTORS IN PMAT WITH POSITIVE LAST COMPONENT FORM AN ANGLE
-! CLOSE TO 90 DEGREES WITH R = (0...0 1), WHICH CAN CAUSE NUMERICAL
-! PROBLEMS.  WE WILL COMPUTE SCL = MIN(MAX(ABS(A(I,K)): 1 <= I <=
-! NDM)/B(K), B(K) >= TOLS, 1 <= K <= M) UNLESS NO B(K) IS >=
-! TOLS, IN WHICH CASE WE SET SCL=1.0, OR SOME B(K) IS >= TOLS BUT
-! SCL WOULD BE < TOL, IN WHICH CASE WE SET SCL = TOL.
- 100  scl = one
-      ind = 0
-      do k = 1 , m
-         bk = Pmat(n,k)
-         if ( bk>=tols ) then
+    real(wp) :: ab , bk , dist , fackp , facsc , &
+                fact , quot , s1 , s1hi , s1low , &
+                scl , scl1 , scl1a , tol , tol1 , &
+                tols , v1 , violm , vmax
+    integer :: i , ilc18 , ilc28 , ilc32 , ilc34 , ilc39 , &
+                ind , iref , istrt1 , itcon , iup , j , &
+                jmax , k , l, lmcon , n
+
+    ! set machine and precision dependent constants for wolfe.
+    tol = ten*ten*spcmn
+    tol1 = (ten**4)*spcmn
+    tols = sqrt(spcmn)
+    iref = 0
+    violm = one/two
+    lmcon = 3
+    itcon = 0
+    iup = 0
+    s1low = ten*ten*ten*spcmn
+    s1hi = one - s1low
+
+    ! make sure s1low <= one third and s1hi >= two thirds to avoid
+    ! squeezing the allowable region for s1 too tightly (or even making it
+    ! empty).
+    if ( s1low>one/three ) s1low = one/three
+    if ( s1hi<two/three ) s1hi = two/three
+    facsc = ten*ten*ten*ten
+    fackp = facsc
+
+    ilc18 = iloc(18,nparm,numgr)
+    ilc28 = iloc(28,nparm,numgr)
+    ilc32 = iloc(32,nparm,numgr)
+    ilc34 = iloc(34,nparm,numgr)
+    ilc39 = iloc(39,nparm,numgr)
+    n = ndm + 1
+    istrt1 = istrt
+    do i = 1 , ndm
+        r(i) = zero
+    enddo
+    r(n) = one
+
+    ! now compute the scale factor scl, whose main purpose is to avoid
+    ! having all vectors in pmat with positive last component form an angle
+    ! close to 90 degrees with r = (0...0 1), which can cause numerical
+    ! problems.  we will compute scl = min(max(abs(a(i,k)): 1 <= i <=
+    ! ndm)/b(k), b(k) >= tols, 1 <= k <= m) unless no b(k) is >=
+    ! tols, in which case we set scl=1.0, or some b(k) is >= tols but
+    ! scl would be < tol, in which case we set scl = tol.
+100 scl = one
+    ind = 0
+    do k = 1 , m
+        bk = pmat(n,k)
+        if ( bk>=tols ) then
             quot = zero
-            do i = 1 , Ndm
-               ab = abs(Pmat(i,k))
-               if ( ab>quot ) quot = ab
+            do i = 1 , ndm
+                ab = abs(pmat(i,k))
+                if ( ab>quot ) quot = ab
             enddo
             quot = quot/bk
             if ( ind>0 ) then
-               if ( quot>=scl ) goto 200
+                if ( quot>=scl ) cycle
             endif
             ind = 1
             scl = quot
-         endif
- 200  enddo
- 300  if ( scl<tol ) scl = tol
-! PUT SCALED PMAT INTO PMAT1 FOR USE IN CONENR.  PMAT ITSELF WILL REMAIN
-! UNCHANGED.
- 400  do j = 1 , m
-         do i = 1 , Ndm
-            Pmat1(i,j) = Pmat(i,j)/scl
-         enddo
-         Pmat1(n,j) = Pmat(n,j)
-      enddo
-! NOW DO A NORMAL SCALING ON EACH COLUMN OF PMAT1 WHICH HAS AN ELEMENT
-! WITH ABSOLUTE VALUE >= TOL1.
-      do j = 1 , m
-         scl1 = zero
-         do i = 1 , n
-            ab = abs(Pmat1(i,j))
+        endif
+    enddo
+300 if ( scl<tol ) scl = tol
+    ! put scaled pmat into pmat1 for use in conenr.  pmat itself will remain
+    ! unchanged.
+400 do j = 1 , m
+        do i = 1 , ndm
+            pmat1(i,j) = pmat(i,j)/scl
+        enddo
+        pmat1(n,j) = pmat(n,j)
+    enddo
+    ! now do a normal scaling on each column of pmat1 which has an element
+    ! with absolute value >= tol1.
+    do j = 1 , m
+        scl1 = zero
+        do i = 1 , n
+            ab = abs(pmat1(i,j))
             if ( ab>scl1 ) scl1 = ab
-         enddo
-         if ( scl1>=tol1 ) then
+        enddo
+        if ( scl1>=tol1 ) then
             do i = 1 , n
-               Pmat1(i,j) = Pmat1(i,j)/scl1
+                pmat1(i,j) = pmat1(i,j)/scl1
             enddo
-            if ( istrt1>0 ) Coef(j) = Wcoef(j)*scl1
-! ALSO PUT A SCALED VERSION OF WCOEF INTO COEF IF ISTRT1=1.
-         elseif ( istrt1>0 ) then
-            Coef(j) = Wcoef(j)
-         endif
-      enddo
-!
-! IF ISTRT1=1, FOR USE IN CONENR SET COEF = (-S1*SCL**2)*COEF, WHERE
-! S1 = S/(S + (1.0-S)*SCL**2) IS THE S VALUE IN THE SCALED SITUATION.
-! NOTE THAT A PARTLY SCALED VERSION OF WCOEF (SEE LOOP ENDING WITH THE
-! STATEMENT NUMBERED 190 ABOVE) IS ALREADY IN COEF IF ISTRT1=1.
-      if ( istrt1>0 ) then
-! IF WE HAD NCOR > N, RESET NCOR TO N.
-         if ( Ncor>n ) Ncor = n
-         fact = -(s/(s+(one-s)*scl**2))*scl**2
-         do j = 1 , m
-            Coef(j) = fact*Coef(j)
-         enddo
-      endif
-!
-! CALL CONENR TO COMPUTE THE NEAREST POINT TO R IN THE CONE OF
-! NONNEGATIVE LINEAR COMBINATIONS OF COLUMNS OF PMAT1.
-      call conenr(n,m,Pmat1,r,istrt1,Ncor,Icor,tol,Iwork,Liwrk,Work,    &
-                  Lwrk,Work(ilc39),Work(ilc32),Work(ilc28),Nparm,Numgr, &
-                  Coef,Ptnr,dist,Nmaj,Nmin,Jflag)
-!
-! IF JFLAG=3 THEN CONENR HAS FAILED, POSSIBLY BECAUSE SCL WAS TOO LARGE.
-      if ( Jflag/=3 ) then
-! HERE JFLAG /= 3 AND WE COMPUTE S1 = 1.0 - PTNR(N).
-         s1 = one - Ptnr(n)
-         if ( s1>=s1low ) then
-!
-! HERE JFLAG /= 3 AND S1 >= S1LOW, SO IF ALSO S1 <= S1HI WE ACCEPT
-! THE RESULT FROM CONENR AND MOVE ON.
+            if ( istrt1>0 ) coef(j) = wcoef(j)*scl1
+            ! also put a scaled version of wcoef into coef if istrt1=1.
+        elseif ( istrt1>0 ) then
+            coef(j) = wcoef(j)
+        endif
+    enddo
+
+    ! if istrt1=1, for use in conenr set coef = (-s1*scl**2)*coef, where
+    ! s1 = s/(s + (1.0-s)*scl**2) is the s value in the scaled situation.
+    ! note that a partly scaled version of wcoef (see loop ending with the
+    ! statement numbered 190 above) is already in coef if istrt1=1.
+    if ( istrt1>0 ) then
+        ! if we had ncor > n, reset ncor to n.
+        if ( ncor>n ) ncor = n
+        fact = -(s/(s+(one-s)*scl**2))*scl**2
+        do j = 1 , m
+            coef(j) = fact*coef(j)
+        enddo
+    endif
+
+    ! call conenr to compute the nearest point to r in the cone of
+    ! nonnegative linear combinations of columns of pmat1.
+    call conenr(n,m,pmat1,r,istrt1,ncor,icor,tol,iwork,liwrk,work,    &
+                lwrk,work(ilc39),work(ilc32),work(ilc28),nparm,numgr, &
+                coef,ptnr,dist,nmaj,nmin,jflag)
+
+    ! if jflag=3 then conenr has failed, possibly because scl was too large.
+    if ( jflag/=3 ) then
+        ! here jflag /= 3 and we compute s1 = 1.0 - ptnr(n).
+        s1 = one - ptnr(n)
+        if ( s1>=s1low ) then
+
+            ! here jflag /= 3 and s1 >= s1low, so if also s1 <= s1hi we accept
+            ! the result from conenr and move on.
             if ( s1<=s1hi ) goto 700
-!
-! HERE JFLAG /= 3 AND S1 > S1HI, SO IF ITCON < LMCON WE TRY
-! AGAIN WITH LARGER SCL.
-! IF HERE JFLAG=0 AND NCOR=0 THE NEAREST POINT TO THE ORIGIN IN THE
-! POLYTOPE APPEARS TO BE THE ORIGIN SO WE FOREGO ADJUSTING SCL.
-            if ( Jflag/=0 ) goto 600
-            if ( Ncor>0 ) goto 600
+
+            ! here jflag /= 3 and s1 > s1hi, so if itcon < lmcon we try
+            ! again with larger scl.
+            ! if here jflag=0 and ncor=0 the nearest point to the origin in the
+            ! polytope appears to be the origin so we forego adjusting scl.
+            if ( jflag/=0 ) goto 600
+            if ( ncor>0 ) goto 600
             goto 700
-         endif
-      endif
-! HERE JFLAG=3 OR S1 < S1LOW, SO IF ITCON < LMCON WE TRY AGAIN WITH
-! SMALLER SCL.
-      if ( itcon<lmcon ) then
-!
-! HERE WE INCREMENT ITCON AND IF SCL WAS NOT ALREADY VERY SMALL WE
-! DECREASE IT AND TRY CONENR AGAIN.
-         itcon = itcon + 1
-         if ( iup<0 ) then
-         elseif ( iup==0 ) then
-!
-! HERE IUP=0 SO EITHER WE ARE JUST STARTING (IN WHICH CASE WE SET IUP=-1
-! TO INDICATE WE ARE IN A PHASE OF DECREASING SCL) OR WE ARE OSCILLATING.
+        endif
+    endif
+    ! here jflag=3 or s1 < s1low, so if itcon < lmcon we try again with
+    ! smaller scl.
+    if ( itcon<lmcon ) then
+
+        ! here we increment itcon and if scl was not already very small we
+        ! decrease it and try conenr again.
+        itcon = itcon + 1
+        if ( iup<0 ) then
+
+        elseif ( iup==0 ) then
+            ! here iup=0 so either we are just starting (in which case we set iup=-1
+            ! to indicate we are in a phase of decreasing scl) or we are oscillating.
             if ( itcon<=1 ) then
-               iup = -1
+                iup = -1
             else
-               facsc = sqrt(facsc)
+                facsc = sqrt(facsc)
             endif
-         else
-! HERE IUP=1 AND WE HAVE OSCILLATION IN THE SEARCH FOR A USABLE SCL SO
-! WE REPLACE THE CORRECTION FACTOR BY ITS SQUARE ROOT AND RESET IUP TO
-! 0 TO INDICATE OSCILLATION.
+        else
+            ! here iup=1 and we have oscillation in the search for a usable scl so
+            ! we replace the correction factor by its square root and reset iup to
+            ! 0 to indicate oscillation.
             iup = 0
             facsc = sqrt(facsc)
-         endif
-! HERE WE DECREASE SCL IF IT WAS NOT ALREADY VERY SMALL.
-         if ( scl>=(one+one/ten)*tol ) then
+        endif
+        ! here we decrease scl if it was not already very small.
+        if ( scl>=(one+one/ten)*tol ) then
             scl = scl/facsc
             goto 300
-         endif
-      endif
-!
-! HERE WE WERE UNABLE TO GET AN ACCEPTABLE S1 FROM CONENR SO WE SET
-! JFLAG=4 AS A WARNING AND RETURN.  FIRST TRY AGAIN FROM SCRATCH IF THIS
-! HAS NOT BEEN DONE.
- 500  if ( istrt1<=0 ) then
-!
-         Jflag = 4
-         return
-      else
-         istrt1 = 0
-         itcon = 0
-         iref = 0
-         iup = 0
-         facsc = fackp
-         goto 100
-      endif
- 600  if ( itcon>=lmcon ) goto 500
-      itcon = itcon + 1
-      if ( iup<0 ) then
-! HERE IUP=-1 AND WE HAVE OSCILLATION IN THE SEARCH FOR A USABLE SCL SO
-! WE REPLACE THE CORRECTION FACTOR BY ITS SQUARE ROOT AND SET IUP=0
-! TO INDICATE OSCILLATION.
-         iup = 0
-         facsc = sqrt(facsc)
-         scl = scl*facsc
-      elseif ( iup==0 ) then
-! HERE IUP=0 SO EITHER WE ARE JUST STARTING (IN WHICH CASE WE SET IUP=1
-! TO INDICATE WE ARE IN A PHASE OF INCREASING SCL) OR WE ARE OSCILLATING.
-         if ( itcon<=1 ) then
+        endif
+    endif
+
+    ! here we were unable to get an acceptable s1 from conenr so we set
+    ! jflag=4 as a warning and return.  first try again from scratch if this
+    ! has not been done.
+500 if ( istrt1<=0 ) then
+        jflag = 4
+        return
+    else
+        istrt1 = 0
+        itcon = 0
+        iref = 0
+        iup = 0
+        facsc = fackp
+        goto 100
+    endif
+600 if ( itcon>=lmcon ) goto 500
+    itcon = itcon + 1
+    if ( iup<0 ) then
+        ! here iup=-1 and we have oscillation in the search for a usable scl so
+        ! we replace the correction factor by its square root and set iup=0
+        ! to indicate oscillation.
+        iup = 0
+        facsc = sqrt(facsc)
+        scl = scl*facsc
+    elseif ( iup==0 ) then
+        ! here iup=0 so either we are just starting (in which case we set iup=1
+        ! to indicate we are in a phase of increasing scl) or we are oscillating.
+        if ( itcon<=1 ) then
             iup = 1
             scl = scl*facsc
-         else
+        else
             facsc = sqrt(facsc)
             scl = scl*facsc
-         endif
-      else
-         scl = scl*facsc
-      endif
-      goto 400
-!
-! HERE CONENR MAY HAVE SUCCEEDED AND WE COMPUTE THE NEAREST POINT
-! (WPT,S1)=R-PTNR TO R FROM THE DUAL OF THE CONE DESCRIBED EARLIER.
-! THIS NEW CONE IS THE SET OF (X,T) SUCH THAT (A(K)/SCL,B(K)).(X,T) <=
-! 0.0 FOR K=1,...,M.
- 700  do i = 1 , Ndm
-         Wpt(i) = -Ptnr(i)
-      enddo
-! DIVIDE WPT BY S1*SCL.
-      do i = 1 , Ndm
-         Wpt(i) = Wpt(i)/(s1*scl)
-      enddo
-! COMPUTE THE MAXIMUM WOLFE CONSTRAINT VIOLATION AS A CHECK.
- 800  do j = 1 , m
-         v1 = Pmat(n,j)
-         do i = 1 , Ndm
-            v1 = v1 + Pmat(i,j)*Wpt(i)
-         enddo
-         if ( j>1 ) then
+        endif
+    else
+        scl = scl*facsc
+    endif
+    goto 400
+
+    ! here conenr may have succeeded and we compute the nearest point
+    ! (wpt,s1)=r-ptnr to r from the dual of the cone described earlier.
+    ! this new cone is the set of (x,t) such that (a(k)/scl,b(k)).(x,t) <=
+    ! 0.0 for k=1,...,m.
+700 do i = 1 , ndm
+        wpt(i) = -ptnr(i)
+    enddo
+    ! divide wpt by s1*scl.
+    do i = 1 , ndm
+        wpt(i) = wpt(i)/(s1*scl)
+    enddo
+    ! compute the maximum wolfe constraint violation as a check.
+800 do j = 1 , m
+        v1 = pmat(n,j)
+        do i = 1 , ndm
+            v1 = v1 + pmat(i,j)*wpt(i)
+        enddo
+        if ( j>1 ) then
             if ( v1<=vmax ) goto 900
-         endif
-         jmax = j
-         vmax = v1
- 900  enddo
-! IF VMAX <= VIOLM WE RESET JFLAG TO 0 AND ACCEPT THE RESULT.
-      if ( vmax<=violm ) then
-         Jflag = 0
-!
-! DIVIDE THE COEFFICIENTS BY -S1*SCL**2.
-         do j = 1 , m
-            Wcoef(j) = -Coef(j)/(s1*scl**2)
-         enddo
-!
-! WE NOW RECONSTRUCT THE NORMAL SCALING FACTORS COMPUTED IN THE LOOP
-! ENDING WITH THE STATEMENT LABELLED 190 IN THIS SUBROUTINE.  IN A LATER
-! VERSION OF THIS SUBROUTINE AN ARRAY MAY BE CREATED TO STORE THESE IN
-! THAT LOOP, BUT FOR NOW WE AVOID THE EXTRA STORAGE AND PROGRAMMING WORK
-! OF FIDDLING WITH THE VARIABLE DIMENSIONING.  TO RECREATE THE FACTOR
-! SCL1 CORRESPONDING TO COLUMN J, WE COMPUTE THE MAXIMUM ABSOLUTE VALUE
-! OF THE FIRST NDM ELEMENTS OF PMAT IN THIS COLUMN, DIVIDE IT BY SCL, TAKE
-! THE MAXIMUM OF THIS AND ABS(PMAT(NDM+1,J)), AND TAKE SCL1 TO BE THIS
-! VALUE UNLESS IT IS LESS THAN TOL1, IN WHICH WE (IN EFFECT) TAKE SCL1=1.0.
-! FINALLY, SINCE WCOEF(J) WAS COMPUTED WITH THE JTH COLUMN OF PMAT DIVIDED
-! BY SCL1 IT CONTAINS A HIDDEN FACTOR OF SCL1, WHICH WE DIVIDE OUT.
-         do j = 1 , m
+        endif
+        jmax = j
+        vmax = v1
+900 enddo
+    ! if vmax <= violm we reset jflag to 0 and accept the result.
+    if ( vmax<=violm ) then
+        jflag = 0
+
+        ! divide the coefficients by -s1*scl**2.
+        do j = 1 , m
+            wcoef(j) = -coef(j)/(s1*scl**2)
+        enddo
+
+        ! we now reconstruct the normal scaling factors computed in the loop
+        ! ending with the statement labelled 190 in this subroutine.  in a later
+        ! version of this subroutine an array may be created to store these in
+        ! that loop, but for now we avoid the extra storage and programming work
+        ! of fiddling with the variable dimensioning.  to recreate the factor
+        ! scl1 corresponding to column j, we compute the maximum absolute value
+        ! of the first ndm elements of pmat in this column, divide it by scl, take
+        ! the maximum of this and abs(pmat(ndm+1,j)), and take scl1 to be this
+        ! value unless it is less than tol1, in which we (in effect) take scl1=1.0.
+        ! finally, since wcoef(j) was computed with the jth column of pmat divided
+        ! by scl1 it contains a hidden factor of scl1, which we divide out.
+        do j = 1 , m
             scl1a = zero
-            do i = 1 , Ndm
-               ab = abs(Pmat(i,j))
-               if ( ab>scl1a ) scl1a = ab
+            do i = 1 , ndm
+                ab = abs(pmat(i,j))
+                if ( ab>scl1a ) scl1a = ab
             enddo
             scl1 = scl1a/scl
-            ab = abs(Pmat(Ndm+1,j))
+            ab = abs(pmat(ndm+1,j))
             if ( ab>scl1 ) scl1 = ab
-            if ( scl1>=tol1 ) Wcoef(j) = Wcoef(j)/scl1
-         enddo
-!
-! COMPUTE THE S VALUE FOR THE UNSCALED SITUATION.
-         s = s1/(s1+(one-s1)/scl**2)
-! COPY WPT INTO PTNR TO GET THE RIGHT DIMENSION FOR DOTPRD AND COMPUTE
-! THE DISTANCE.
-         do i = 1 , Ndm
-            Ptnr(i) = Wpt(i)
-         enddo
-         Ptnr(n) = zero
-         Wdist = sqrt(dotprd(Ndm,Ptnr,Ptnr,Nparm))
-         return
-      else
-!
-! HERE VMAX IS TOO LARGE.
-         if ( iref>0 ) then
-! HERE WE HAVE UNSUCCESSFULLY TRIED TO REFINE WPT WITH REFWL AT LEAST
-! ONCE.  IF NCOR < NDM AND THE WORST VIOLATION OCCURRED OUTSIDE
-! ICOR WE WILL PUT IT IN ICOR AND TRY REFWL AGAIN, OTHERWISE WE WILL
-! SET JFLAG=7 AND RETURN (FIRST TRYING FROOM SCRATCH IF THIS HAS NOT
-! BEEN DONE).
-            if ( Ncor>=Ndm ) goto 1000
-            if ( Ncor>0 ) then
-               do l = 1 , Ncor
-                  if ( jmax==Icor(l) ) goto 1000
-               enddo
+            if ( scl1>=tol1 ) wcoef(j) = wcoef(j)/scl1
+        enddo
+
+        ! compute the s value for the unscaled situation.
+        s = s1/(s1+(one-s1)/scl**2)
+        ! copy wpt into ptnr to get the right dimension for dotprd and compute
+        ! the distance.
+        do i = 1 , ndm
+            ptnr(i) = wpt(i)
+        enddo
+        ptnr(n) = zero
+        wdist = sqrt(dotprd(ndm,ptnr,ptnr,nparm))
+        return
+    else
+
+        ! here vmax is too large.
+        if ( iref>0 ) then
+            ! here we have unsuccessfully tried to refine wpt with refwl at least
+            ! once.  if ncor < ndm and the worst violation occurred outside
+            ! icor we will put it in icor and try refwl again, otherwise we will
+            ! set jflag=7 and return (first trying from scratch if this has not
+            ! been done).
+            if ( ncor>=ndm ) goto 1000
+            if ( ncor>0 ) then
+                do l = 1 , ncor
+                    if ( jmax==icor(l) ) goto 1000
+                enddo
             endif
-            Ncor = Ncor + 1
-            Icor(Ncor) = jmax
-         endif
-!
-! INCREMENT IREF AND CALL REFWL TO ATTEMPT TO REFINE WPT, THEN GO BACK
-! AND RECHECK THE MAXIMUM CONSTRAINT VIOLATION.
-         iref = iref + 1
-         call refwl(Ndm,Ncor,Icor,Pmat,Pmat1,Nparm,Numgr,Iwork(ilc18),  &
-                    Work(ilc34),Wpt)
-         goto 800
-      endif
-!
- 1000 if ( istrt1>0 ) then
-         istrt1 = 0
-         itcon = 0
-         iref = 0
-         iup = 0
-         facsc = fackp
-         goto 100
-      endif
-!
-      Jflag = 7
+            ncor = ncor + 1
+            icor(ncor) = jmax
+        endif
+
+        ! increment iref and call refwl to attempt to refine wpt, then go back
+        ! and recheck the maximum constraint violation.
+        iref = iref + 1
+        call refwl(ndm,ncor,icor,pmat,pmat1,nparm,numgr,iwork(ilc18),  &
+        work(ilc34),wpt)
+        goto 800
+    endif
+
+1000 if ( istrt1>0 ) then
+        istrt1 = 0
+        itcon = 0
+        iref = 0
+        iup = 0
+        facsc = fackp
+        goto 100
+    endif
+
+    jflag = 7
 
     end subroutine wolfe
 !********************************************************************************

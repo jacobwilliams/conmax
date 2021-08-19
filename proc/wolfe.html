@@ -125,7 +125,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 6.5% of total for procedures.">201 statements</a>
+    title=" 7.1% of total for procedures.">221 statements</a>
      </li> 
      
      
@@ -208,110 +208,42 @@ public subroutine wolfe(Ndm, m, Pmat, Istrt, s, Ncor, Icor, Iwork, Liwrk, Work, 
 
 
     
-    <p>THIS PROGRAM WAS DEVELOPED BY ED KAUFMAN, DAVID LEEMING, AND JERRY
- TAYLOR.  THE METHOD USED IS AN ENHANCED VERSION OF THE METHOD DESCRIBED
- IN (WOLFE, PHILIP, FINDING THE NEAREST POINT IN A POLYTOPE, MATHEMATICAL
- PROGRAMMING 11 (1976), 128-149).</p>
-<p>***THE NEXT GROUP OF COMMENTS IS FOR THE CASE WHERE THE USER WISHES TO
- RUN WOLFE BY ITSELF RATHER THAN AS A PART OF CONMAX.</p>
-<p>TO RUN THE PROGRAM, WRITE A DRIVER
- PROGRAM WHICH DIMENSIONS THE ARRAYS IN THE CALLING SEQUENCE FOR WOLFE
- AND SETS THE INPUT VARIABLES AS SPECIFIED IN THE LIST BELOW, THEN CALL
- SUBROUTINE WOLFE.</p>
-<p>THE VARIABLES, IN THE ORDER OF THEIR APPEARANCE IN THE ARGUMENT LIST OF
- SUBROUTINE WOLFE, ARE AS FOLLOWS.</p>
-<p>NDM  (INPUT)  THIS IS THE NUMBER OF VARIABLES.  IT MUST BE LESS THAN OR
-    EQUAL TO NPARM.</p>
-<p>M  (INPUT)  THIS IS THE NUMBER OF INEQUALITIES DEFINING THE POLYTOPE.  IT
-    MUST BE LESS THAN OR EQUAL TO NUMGR.</p>
-<p>PMAT  (INPUT)  THIS IS AN ARRAY WHOSE KTH COLUMN CONTAINS THE VECTOR
-    (A(K),B(K)) FOR K=1,...,M, WHERE THE M INEQUALITIES A(K).X + B(K)
-    &lt;= 0.0 DEFINE THE POLYTOPE WHOSE NEAREST POINT TO THE ORIGIN WE
-    SEEK.  THE FIRST DIMENSION OF PMAT IN THE DRIVER PROGRAM MUST BE
-    EXACTLY NPARM+1, WHILE THE SECOND DIMENSION OF PMAT IN THE DRIVER
-    PROGRAM MUST BE AT LEAST NUMGR.
-    IF WE ACTUALLY WANT THE NEAREST POINT IN THE POLYTOPE TO SOME POINT
-    Y OTHER THAN THE ORIGIN, WE TRANSLATE Y TO THE ORIGIN BEFORE CALLING
-    WOLFE, THAT IS, CALL WOLFE TO FIND THE NEAREST POINT Z TO THE ORIGIN
-    IN THE POLYTOPE DEFINED BY A(K).Z + (B(K) + A(K).Y) &lt;= 0.0, THEN
-    COMPUTE X = Y + Z.</p>
-<p>ISTRT  (INPUT)  SET THIS EQUAL TO ZERO UNLESS A HOT START IS DESIRED--
-    SEE NEXT PARAGRAPH OF COMMENTS FOR MORE DETAILS.  IF ISTRT IS SET
-    EQUAL TO 1, THEN S, WCOEF, NCOR, AND ICOR MUST ALSO BE ASSIGNED
-    VALUES INITIALLY.</p>
-<p>S  (OUTPUT)  YOU MAY IGNORE THIS SCALE FACTOR UNLESS YOU WANT TO USE
-    THE HOT START OPTION.</p>
-<p>NCOR  (OUTPUT)  THIS IS THE NUMBER OF VECTORS (I.E. COLUNNS OF PMAT) IN
-    THE FINAL CORRAL.</p>
-<p>ICOR  (OUTPUT)  THIS ARRAY CONTAINS THE NCOR INDICES OF THE VECTORS IN
-    THE FINAL CORRAL.  ITS DIMENSION IN THE DRIVER PROGRAM MUST BE AT
-    LEAST NPARM+1.</p>
-<p>IWORK  (WORK ARRAY)  ITS DIMENSION IN THE DRIVER PROGRAM MUST BE LIWRK.</p>
-<p>LIWRK  (INPUT)  THIS IS THE DIMENSION OF IWORK.  IT MUST BE AT LEAST
-    7<em>NPARM + 7</em>NUMGR + 3.</p>
-<p>WORK  (WORK ARRAY)  ITS DIMENSION IN THE DRIVER PROGRAM MUST BE LWRK.</p>
-<p>LWRK  (INPUT)  THIS IS THE DIMENSION OF WORK.  IT MUST BE AT LEAST
-    2<em>NPARM</em><em>2 + 4</em>NUMGR<em>NPARM + 11</em>NUMGR + 27*NPARM + 13.
-    NOTE THAT SOME STORAGE COULD BE SAVED BY REWRITING FUNCTION
-    SUBPROGRAM ILOC TO TAKE OUT ALL BUT THE ARRAYS NEEDED (NAMELY 1, 3,
-    4, 9, 28, 32, 34, 39 FOR WORK, 18, 23 FOR IWORK) AND SCRUNCHING
-    WORK AND IWORK IN ILOC SO THE REMAINING ARRAYS FOLLOW ONE AFTER
-    ANOTHER.</p>
-<p>R  (WORK ARRAY)  ITS DIMENSION IN THE DRIVER PROGRAM MUST BE AT LEAST
-    NPARM+1.</p>
-<p>COEF  (WORK ARRAY)  ITS DIMENSION IN THE DRIVER PROGRAM MUST BE AT LEAST
-    NUMGR.</p>
-<p>PTNR  (WORK ARRAY)  ITS DIMENSION IN THE DRIVER PROGRAM MUST BE AT LEAST
-    NPARM+1.</p>
-<p>PMAT1  (WORK ARRAY)  ITS DIMENSION IN THE DRIVER PROGRAM SHOULD BE THE
-    SAME AS THE DIMENSION OF PMAT.</p>
-<p>NPARM  (INPUT)  THIS IS BASICALLY A DIMENSION PARAMETER HERE.  IT MUST
-    BE GREATER THAN OR EQUAL TO NDM.</p>
-<p>NUMGR  (INPUT)  THIS IS BASICALLY A DIMENSION PARAMETER HERE.  IT MUST
-    BE GREATER THAN OR EQUAL TO M.</p>
-<p>WCOEF  (OUTPUT)  THIS WILL GIVE THE COEFFICIENTS OF THE VECTORS A(K)
-    NEEDED TO FORM A LINEAR COMBINATION EQUAL TO THE SOLUTION IN WPT.
-    ITS DIMENSION IN THE DRIVER PROGRAM MUST BE AT LEAST NUMGR.
-    WCOEF MAY NOT BE ACCURATE IF IT WAS NECESSARY TO CALL REFWL TO
-    REFINE WPT, WHICH RARELY HAPPENS.</p>
-<p>WPT  (OUTPUT)  THIS WILL GIVE THE COORDINATES OF THE POINT WE ARE SEEKING,
-    NAMELY THE NEAREST POINT IN THE POLYTOPE TO THE ORIGIN.  ITS DIMENSION
-    IN THE DRIVER PROGRAM MUST BE AT LEAST NPARM.</p>
-<p>WDIST  (OUTPUT)  THIS WILL BE THE (MINIMIZED) EUCLIDEAN DISTANCE OF WPT
-    FROM THE ORIGIN.</p>
-<p>NMAJ  (OUTPUT)  THIS WILL BE THE NUMBER OF MAJOR CYCLES USED IN WOLFE.</p>
-<p>NMIN  (OUTPUT)  THIS WILL BE THE NUMBER OF MINOR CYCLES USED IN WOLFE.</p>
-<p>JFLAG  (OUTPUT)  THIS IS A FLAG VARIABLE WHICH IS 0 IN CASE OF A NORMAL
-    SOLUTION AND IS POSITIVE OTHERWISE (IN WHICH CASE THE RETURNED
-    SOLUTION MAY BE NO GOOD).</p>
-<p>***END OF COMMENTS FOR RUNNING WOLFE BY ITSELF RATHER THAN AS A PART OF
- CONMAX.</p>
-<p>GIVEN M INEQUALITIES OF THE FORM A(K).X + B(K) &lt;= 0.0 FOR K=1,
- ...,M, WHERE A(K) AND X ARE NDM DIMENSIONAL VECTORS AND B(K)
- ARE NUMBERS, THIS SUBROUTINE RETURNS THE NEAREST POINT TO THE
- ORIGIN IN THE POLYTOPE DEFINED BY THESE INEQUALITIES (UNLESS
- JFLAG &gt; 0, WHICH INDICATES FAILURE).  THE USER SHOULD PUT
- THE MDM+1 DIMENSIONAL VECTORS (A(K),B(K)) IN THE COLUMNS OF PMAT.
- THE SOLUTION POINT WILL BE RETURNED IN WPT, AND WILL ALSO BE A
- LINEAR COMBINATION OF THE A(K) VECTORS WITH (NONPOSITIVE)
- COEFFICIENTS IN THE M DIMENSIONAL VECTOR WCOEF.  WCOEF MAY NOT BE
- ACCURATE IF REFWL WAS USED TO REFINE WPT, WHICH RARELY HAPPENS. THE
- NUMBER OF VECTORS IN THE FINAL CORRAL WILL BE RETURNED IN NCOR WITH
- THEIR INDICES IN ICOR, AND ALL ENTRIES OF WCOEF NOT CORRESPONDING TO
- INDICES IN ICOR WILL BE ZERO.  THE DISTANCE WILL BE RETURNED IN
- WDIST, AND THE NUMBERS OF MAJOR AND MINOR CYCLES IN THE CONE
- SUBPROBLEM WILL BE RETURNED IN NMAJ AND NMIN RESPECTIVELY.
- IF THE USER SETS ISTRT=0 THE PROGRAM WILL START FROM SCRATCH, BUT
- THE USER CAN SET ISTRT=1 (HOT START) AND SPECIFY NCOR, ICOR, WCOEF,
- AND THE FACTOR S.  (SEE LATER COMMENTS; SET S=1.0 IF NO BETTER VALUE IS
- AVAILABLE.  SET WCOEF(J)=0.0 IF ICOR(I) /= J FOR I=1,...,NCOR.)  (IF
- INACCURATE WCOEF OR S IS USED IN A HOT START ATTEMPT LITTLE WILL BE
- LOST, SINCE NCOR AND ICOR ARE MORE IMPORTANT FOR A SUCCESSFUL HOT START
- THAN WCOEF AND S.)  WE MUST ALWAYS HAVE NCOR &lt;= NDM+1 IN THEORY SINCE
- THE NCOR NDM+1 DIMENSIONAL VECTORS IN A CORRAL SHOULD BE LINEARLY
- INDEPENDENT, AND IN PRACTICE WE WILL ALWAYS REQUIRE NCOR &lt;= NDM+1.
- IF THE USER SETS ISTRT=1 BUT THE PROGRAM FAILS, IT WILL
- AUTOMATICALLY TRY FROM SCRATCH BEFORE GIVING UP.</p>
+    <p>given m inequalities of the form a(k).x + b(k) &lt;= 0.0 for k=1,
+  ...,m, where a(k) and x are ndm dimensional vectors and b(k)
+  are numbers, this subroutine returns the nearest point to the
+  origin in the polytope defined by these inequalities (unless
+  jflag &gt; 0, which indicates failure).  the user should put
+  the mdm+1 dimensional vectors (a(k),b(k)) in the columns of pmat.
+  the solution point will be returned in wpt, and will also be a
+  linear combination of the a(k) vectors with (nonpositive)
+  coefficients in the m dimensional vector wcoef.  wcoef may not be
+  accurate if refwl was used to refine wpt, which rarely happens. the
+  number of vectors in the final corral will be returned in ncor with
+  their indices in icor, and all entries of wcoef not corresponding to
+  indices in icor will be zero.  the distance will be returned in
+  wdist, and the numbers of major and minor cycles in the cone
+  subproblem will be returned in nmaj and nmin respectively.
+  if the user sets istrt=0 the program will start from scratch, but
+  the user can set istrt=1 (hot start) and specify ncor, icor, wcoef,
+  and the factor s.  (see later comments; set s=1.0 if no better value is
+  available.  set wcoef(j)=0.0 if icor(i) /= j for i=1,...,ncor.)  (if
+  inaccurate wcoef or s is used in a hot start attempt little will be
+  lost, since ncor and icor are more important for a successful hot start
+  than wcoef and s.)  we must always have ncor &lt;= ndm+1 in theory since
+  the ncor ndm+1 dimensional vectors in a corral should be linearly
+  independent, and in practice we will always require ncor &lt;= ndm+1.
+  if the user sets istrt=1 but the program fails, it will
+  automatically try from scratch before giving up.</p>
+<h3>Running by itself rather than as a part of conmax</h3>
+<p>To run the program, write a driver
+  program which dimensions the arrays in the calling sequence for wolfe
+  and sets the input variables as specified in the list below, then call
+  subroutine wolfe.</p>
+<h3>Reference</h3>
+<p>This program was developed by ed kaufman, david leeming, and jerry
+  taylor.  the method used is an enhanced version of the method described
+  in (wolfe, philip, finding the nearest point in a polytope, mathematical
+  programming 11 (1976), 128-149).</p>
     
 
     <h3>Arguments</h3>
@@ -332,12 +264,12 @@ public subroutine wolfe(Ndm, m, Pmat, Istrt, s, Ncor, Icor, Iwork, Liwrk, Work, 
   
 <tr>
   
-  <td><span class="anchor" id="variable-ndm"></span>integer</td>
-  <td></td>
+  <td><span class="anchor" id="variable-ndm"></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Ndm</strong></td><td></td>
+  <td><strong>Ndm</strong></td><td><p>The number of variables. it must be less than or equal to <code>nparm</code>.</p></td>
   
 </tr>
 
@@ -347,12 +279,13 @@ public subroutine wolfe(Ndm, m, Pmat, Istrt, s, Ncor, Icor, Iwork, Liwrk, Work, 
   
 <tr>
   
-  <td><span class="anchor" id="variable-m~3"></span>integer</td>
-  <td></td>
+  <td><span class="anchor" id="variable-m~3"></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>m</strong></td><td></td>
+  <td><strong>m</strong></td><td><p>The number of inequalities defining the polytope.  it
+ must be less than or equal to <code>numgr</code>.</p></td>
   
 </tr>
 
@@ -362,12 +295,22 @@ public subroutine wolfe(Ndm, m, Pmat, Istrt, s, Ncor, Icor, Iwork, Liwrk, Work, 
   
 <tr>
   
-  <td><span class="anchor" id="variable-pmat~5"></span>real(kind=wp)</td>
-  <td></td>
+  <td><span class="anchor" id="variable-pmat~5"></span>real(kind=wp),</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Pmat</strong></td><td></td>
+  <td><strong>Pmat</strong>(Nparm+1,Numgr)</td><td><p>This is an array whose kth column contains the vector
+  (a(k),b(k)) for k=1,...,m, where the m inequalities a(k).x + b(k)
+  &lt;= 0.0 define the polytope whose nearest point to the origin we
+  seek.  the first dimension of pmat in the driver program must be
+  exactly nparm+1, while the second dimension of pmat in the driver
+  program must be at least numgr.
+  if we actually want the nearest point in the polytope to some point
+  y other than the origin, we translate y to the origin before calling
+  wolfe, that is, call wolfe to find the nearest point z to the origin
+  in the polytope defined by a(k).z + (b(k) + a(k).y) &lt;= 0.0, then
+  compute x = y + z.</p></td>
   
 </tr>
 
@@ -377,12 +320,15 @@ public subroutine wolfe(Ndm, m, Pmat, Istrt, s, Ncor, Icor, Iwork, Liwrk, Work, 
   
 <tr>
   
-  <td><span class="anchor" id="variable-istrt"></span>integer</td>
-  <td></td>
+  <td><span class="anchor" id="variable-istrt"></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Istrt</strong></td><td></td>
+  <td><strong>Istrt</strong></td><td><p>Set this equal to zero unless a hot start is desired--
+ see next paragraph of comments for more details.  if istrt is set
+ equal to 1, then s, wcoef, ncor, and icor must also be assigned
+ values initially.</p></td>
   
 </tr>
 
@@ -392,12 +338,12 @@ public subroutine wolfe(Ndm, m, Pmat, Istrt, s, Ncor, Icor, Iwork, Liwrk, Work, 
   
 <tr>
   
-  <td><span class="anchor" id="variable-s~2"></span>real(kind=wp)</td>
-  <td></td>
+  <td><span class="anchor" id="variable-s~2"></span>real(kind=wp),</td>
+  <td>intent(out)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>s</strong></td><td></td>
+  <td><strong>s</strong></td><td><p>You may ignore this scale factor unless you want to use the hot start option.</p></td>
   
 </tr>
 
@@ -407,12 +353,13 @@ public subroutine wolfe(Ndm, m, Pmat, Istrt, s, Ncor, Icor, Iwork, Liwrk, Work, 
   
 <tr>
   
-  <td><span class="anchor" id="variable-ncor~2"></span>integer</td>
-  <td></td>
+  <td><span class="anchor" id="variable-ncor~2"></span>integer,</td>
+  <td>intent(out)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Ncor</strong></td><td></td>
+  <td><strong>Ncor</strong></td><td><p>This is the number of vectors (i.e. colunns of pmat) in
+ the final corral.</p></td>
   
 </tr>
 
@@ -422,12 +369,14 @@ public subroutine wolfe(Ndm, m, Pmat, Istrt, s, Ncor, Icor, Iwork, Liwrk, Work, 
   
 <tr>
   
-  <td><span class="anchor" id="variable-icor"></span>integer</td>
-  <td></td>
+  <td><span class="anchor" id="variable-icor"></span>integer,</td>
+  <td>intent(out)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Icor</strong></td><td></td>
+  <td><strong>Icor</strong>(Nparm+1)</td><td><p>This array contains the ncor indices of the vectors in
+ the final corral.  its dimension in the driver program must be at
+ least nparm+1.</p></td>
   
 </tr>
 
@@ -442,7 +391,7 @@ public subroutine wolfe(Ndm, m, Pmat, Istrt, s, Ncor, Icor, Iwork, Liwrk, Work, 
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Iwork</strong></td><td></td>
+  <td><strong>Iwork</strong>(Liwrk)</td><td><p>Work array</p></td>
   
 </tr>
 
@@ -452,12 +401,12 @@ public subroutine wolfe(Ndm, m, Pmat, Istrt, s, Ncor, Icor, Iwork, Liwrk, Work, 
   
 <tr>
   
-  <td><span class="anchor" id="variable-liwrk~12"></span>integer</td>
-  <td></td>
+  <td><span class="anchor" id="variable-liwrk~12"></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Liwrk</strong></td><td></td>
+  <td><strong>Liwrk</strong></td><td><p>This is the dimension of <code>iwork</code>.  It must be at least 7<em>nparm + 7</em>numgr + 3.</p></td>
   
 </tr>
 
@@ -472,7 +421,7 @@ public subroutine wolfe(Ndm, m, Pmat, Istrt, s, Ncor, Icor, Iwork, Liwrk, Work, 
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Work</strong></td><td></td>
+  <td><strong>Work</strong>(Lwrk)</td><td><p>Work array</p></td>
   
 </tr>
 
@@ -482,12 +431,18 @@ public subroutine wolfe(Ndm, m, Pmat, Istrt, s, Ncor, Icor, Iwork, Liwrk, Work, 
   
 <tr>
   
-  <td><span class="anchor" id="variable-lwrk~11"></span>integer</td>
-  <td></td>
+  <td><span class="anchor" id="variable-lwrk~11"></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Lwrk</strong></td><td></td>
+  <td><strong>Lwrk</strong></td><td><p>This is the dimension of <code>work</code>.  it must be at least
+ 2<em>nparm</em><em>2 + 4</em>numgr<em>nparm + 11</em>numgr + 27*nparm + 13.
+ note that some storage could be saved by rewriting function
+ subprogram iloc to take out all but the arrays needed (namely 1, 3,
+ 4, 9, 28, 32, 34, 39 for work, 18, 23 for iwork) and scrunching
+ work and iwork in iloc so the remaining arrays follow one after
+ another.</p></td>
   
 </tr>
 
@@ -502,7 +457,7 @@ public subroutine wolfe(Ndm, m, Pmat, Istrt, s, Ncor, Icor, Iwork, Liwrk, Work, 
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>r</strong></td><td></td>
+  <td><strong>r</strong>(Nparm+1)</td><td><p>Work array</p></td>
   
 </tr>
 
@@ -517,7 +472,7 @@ public subroutine wolfe(Ndm, m, Pmat, Istrt, s, Ncor, Icor, Iwork, Liwrk, Work, 
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Coef</strong></td><td></td>
+  <td><strong>Coef</strong>(Numgr)</td><td><p>Work array</p></td>
   
 </tr>
 
@@ -532,7 +487,7 @@ public subroutine wolfe(Ndm, m, Pmat, Istrt, s, Ncor, Icor, Iwork, Liwrk, Work, 
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Ptnr</strong></td><td></td>
+  <td><strong>Ptnr</strong>(Nparm+1)</td><td><p>Work array</p></td>
   
 </tr>
 
@@ -547,7 +502,7 @@ public subroutine wolfe(Ndm, m, Pmat, Istrt, s, Ncor, Icor, Iwork, Liwrk, Work, 
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Pmat1</strong></td><td></td>
+  <td><strong>Pmat1</strong>(Nparm+1,Numgr)</td><td><p>Work array</p></td>
   
 </tr>
 
@@ -557,12 +512,13 @@ public subroutine wolfe(Ndm, m, Pmat, Istrt, s, Ncor, Icor, Iwork, Liwrk, Work, 
   
 <tr>
   
-  <td><span class="anchor" id="variable-nparm~19"></span>integer</td>
-  <td></td>
+  <td><span class="anchor" id="variable-nparm~19"></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Nparm</strong></td><td></td>
+  <td><strong>Nparm</strong></td><td><p>This is basically a dimension parameter here.  it must
+ be greater than or equal to <code>ndm</code>.</p></td>
   
 </tr>
 
@@ -572,12 +528,13 @@ public subroutine wolfe(Ndm, m, Pmat, Istrt, s, Ncor, Icor, Iwork, Liwrk, Work, 
   
 <tr>
   
-  <td><span class="anchor" id="variable-numgr~19"></span>integer</td>
-  <td></td>
+  <td><span class="anchor" id="variable-numgr~19"></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Numgr</strong></td><td></td>
+  <td><strong>Numgr</strong></td><td><p>This is basically a dimension parameter here.  it must
+ be greater than or equal to <code>m</code>.</p></td>
   
 </tr>
 
@@ -587,12 +544,16 @@ public subroutine wolfe(Ndm, m, Pmat, Istrt, s, Ncor, Icor, Iwork, Liwrk, Work, 
   
 <tr>
   
-  <td><span class="anchor" id="variable-wcoef"></span>real(kind=wp)</td>
-  <td></td>
+  <td><span class="anchor" id="variable-wcoef"></span>real(kind=wp),</td>
+  <td>intent(out)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Wcoef</strong></td><td></td>
+  <td><strong>Wcoef</strong>(Numgr)</td><td><p>This will give the coefficients of the vectors a(k)
+ needed to form a linear combination equal to the solution in wpt.
+ its dimension in the driver program must be at least numgr.
+ wcoef may not be accurate if it was necessary to call refwl to
+ refine wpt, which rarely happens.</p></td>
   
 </tr>
 
@@ -602,12 +563,14 @@ public subroutine wolfe(Ndm, m, Pmat, Istrt, s, Ncor, Icor, Iwork, Liwrk, Work, 
   
 <tr>
   
-  <td><span class="anchor" id="variable-wpt"></span>real(kind=wp)</td>
-  <td></td>
+  <td><span class="anchor" id="variable-wpt"></span>real(kind=wp),</td>
+  <td>intent(out)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Wpt</strong></td><td></td>
+  <td><strong>Wpt</strong>(Nparm)</td><td><p>This will give the coordinates of the point we are seeking,
+ namely the nearest point in the polytope to the origin.  its dimension
+ in the driver program must be at least nparm.</p></td>
   
 </tr>
 
@@ -617,12 +580,12 @@ public subroutine wolfe(Ndm, m, Pmat, Istrt, s, Ncor, Icor, Iwork, Liwrk, Work, 
   
 <tr>
   
-  <td><span class="anchor" id="variable-wdist"></span>real(kind=wp)</td>
-  <td></td>
+  <td><span class="anchor" id="variable-wdist"></span>real(kind=wp),</td>
+  <td>intent(out)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Wdist</strong></td><td></td>
+  <td><strong>Wdist</strong></td><td><p>This will be the (minimized) euclidean distance of <code>wpt</code> from the origin.</p></td>
   
 </tr>
 
@@ -632,12 +595,12 @@ public subroutine wolfe(Ndm, m, Pmat, Istrt, s, Ncor, Icor, Iwork, Liwrk, Work, 
   
 <tr>
   
-  <td><span class="anchor" id="variable-nmaj"></span>integer</td>
-  <td></td>
+  <td><span class="anchor" id="variable-nmaj"></span>integer,</td>
+  <td>intent(out)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Nmaj</strong></td><td></td>
+  <td><strong>Nmaj</strong></td><td><p>This will be the number of major cycles used in <code>wolfe</code>.</p></td>
   
 </tr>
 
@@ -647,12 +610,12 @@ public subroutine wolfe(Ndm, m, Pmat, Istrt, s, Ncor, Icor, Iwork, Liwrk, Work, 
   
 <tr>
   
-  <td><span class="anchor" id="variable-nmin"></span>integer</td>
-  <td></td>
+  <td><span class="anchor" id="variable-nmin"></span>integer,</td>
+  <td>intent(out)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Nmin</strong></td><td></td>
+  <td><strong>Nmin</strong></td><td><p>This will be the number of major cycles used in <code>wolfe</code>.</p></td>
   
 </tr>
 
@@ -662,12 +625,14 @@ public subroutine wolfe(Ndm, m, Pmat, Istrt, s, Ncor, Icor, Iwork, Liwrk, Work, 
   
 <tr>
   
-  <td><span class="anchor" id="variable-jflag"></span>integer</td>
-  <td></td>
+  <td><span class="anchor" id="variable-jflag"></span>integer,</td>
+  <td>intent(out)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Jflag</strong></td><td></td>
+  <td><strong>Jflag</strong></td><td><p>This is a flag variable which is 0 in case of a normal
+ solution and is positive otherwise (in which case the returned
+ solution may be no good).</p></td>
   
 </tr>
 
@@ -699,95 +664,95 @@ public subroutine wolfe(Ndm, m, Pmat, Istrt, s, Ncor, Icor, Iwork, Liwrk, Work, 
 <!-- proc~wolfe -->
 <g id="proc~~wolfe~~CallsGraph_node1" class="node">
 <title>proc~wolfe</title>
-<polygon fill="none" stroke="black" points="54,-86 0,-86 0,-62 54,-62 54,-86"/>
-<text text-anchor="middle" x="27" y="-71.6" font-family="Helvetica,sans-Serif" font-size="10.50">wolfe</text>
-</g>
-<!-- proc~refwl -->
-<g id="proc~~wolfe~~CallsGraph_node2" class="node">
-<title>proc~refwl</title>
-<g id="a_proc~~wolfe~~CallsGraph_node2"><a xlink:href=".././proc/refwl.html" xlink:title="refwl">
-<polygon fill="#d9534f" stroke="#d9534f" points="144,-146 90,-146 90,-122 144,-122 144,-146"/>
-<text text-anchor="middle" x="117" y="-131.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">refwl</text>
-</a>
-</g>
-</g>
-<!-- proc~wolfe&#45;&gt;proc~refwl -->
-<g id="proc~~wolfe~~CallsGraph_edge4" class="edge">
-<title>proc~wolfe&#45;&gt;proc~refwl</title>
-<path fill="none" stroke="#000000" d="M45.81,-86.14C58.45,-94.76 75.63,-106.48 89.83,-116.16"/>
-<polygon fill="#000000" stroke="#000000" points="87.98,-119.13 98.22,-121.88 91.93,-113.35 87.98,-119.13"/>
-</g>
-<!-- proc~conenr -->
-<g id="proc~~wolfe~~CallsGraph_node3" class="node">
-<title>proc~conenr</title>
-<g id="a_proc~~wolfe~~CallsGraph_node3"><a xlink:href=".././proc/conenr.html" xlink:title="conenr">
-<polygon fill="#d9534f" stroke="#d9534f" points="144,-66 90,-66 90,-42 144,-42 144,-66"/>
-<text text-anchor="middle" x="117" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">conenr</text>
-</a>
-</g>
-</g>
-<!-- proc~wolfe&#45;&gt;proc~conenr -->
-<g id="proc~~wolfe~~CallsGraph_edge1" class="edge">
-<title>proc~wolfe&#45;&gt;proc~conenr</title>
-<path fill="none" stroke="#000000" d="M54.4,-68C62.48,-66.16 71.51,-64.11 80.1,-62.16"/>
-<polygon fill="#000000" stroke="#000000" points="80.94,-65.56 89.92,-59.93 79.39,-58.73 80.94,-65.56"/>
+<polygon fill="none" stroke="black" points="54,-84 0,-84 0,-60 54,-60 54,-84"/>
+<text text-anchor="middle" x="27" y="-69.6" font-family="Helvetica,sans-Serif" font-size="10.50">wolfe</text>
 </g>
 <!-- proc~dotprd -->
-<g id="proc~~wolfe~~CallsGraph_node4" class="node">
+<g id="proc~~wolfe~~CallsGraph_node2" class="node">
 <title>proc~dotprd</title>
-<g id="a_proc~~wolfe~~CallsGraph_node4"><a xlink:href=".././proc/dotprd.html" xlink:title="dotprd">
-<polygon fill="#d94e8f" stroke="#d94e8f" points="234,-108 180,-108 180,-84 234,-84 234,-108"/>
-<text text-anchor="middle" x="207" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dotprd</text>
+<g id="a_proc~~wolfe~~CallsGraph_node2"><a xlink:href=".././proc/dotprd.html" xlink:title="dotprd">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="234,-146 180,-146 180,-122 234,-122 234,-146"/>
+<text text-anchor="middle" x="207" y="-131.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dotprd</text>
 </a>
 </g>
 </g>
 <!-- proc~wolfe&#45;&gt;proc~dotprd -->
-<g id="proc~~wolfe~~CallsGraph_edge3" class="edge">
+<g id="proc~~wolfe~~CallsGraph_edge1" class="edge">
 <title>proc~wolfe&#45;&gt;proc~dotprd</title>
-<path fill="none" stroke="#000000" d="M54.26,-77.25C84.85,-81.03 135.55,-87.29 169.84,-91.53"/>
-<polygon fill="#000000" stroke="#000000" points="169.56,-95.02 179.92,-92.78 170.42,-88.08 169.56,-95.02"/>
+<path fill="none" stroke="#000000" d="M42.82,-84.32C54.81,-93.63 72.52,-105.98 90,-113 115.53,-123.25 146.23,-128.52 169.63,-131.22"/>
+<polygon fill="#000000" stroke="#000000" points="169.52,-134.73 179.83,-132.29 170.25,-127.77 169.52,-134.73"/>
 </g>
 <!-- proc~iloc -->
-<g id="proc~~wolfe~~CallsGraph_node5" class="node">
+<g id="proc~~wolfe~~CallsGraph_node3" class="node">
 <title>proc~iloc</title>
-<g id="a_proc~~wolfe~~CallsGraph_node5"><a xlink:href=".././proc/iloc.html" xlink:title="iloc">
-<polygon fill="#d94e8f" stroke="#d94e8f" points="234,-24 180,-24 180,0 234,0 234,-24"/>
-<text text-anchor="middle" x="207" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">iloc</text>
+<g id="a_proc~~wolfe~~CallsGraph_node3"><a xlink:href=".././proc/iloc.html" xlink:title="iloc">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="234,-62 180,-62 180,-38 234,-38 234,-62"/>
+<text text-anchor="middle" x="207" y="-47.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">iloc</text>
 </a>
 </g>
 </g>
 <!-- proc~wolfe&#45;&gt;proc~iloc -->
 <g id="proc~~wolfe~~CallsGraph_edge2" class="edge">
 <title>proc~wolfe&#45;&gt;proc~iloc</title>
-<path fill="none" stroke="#000000" d="M42.82,-61.68C54.81,-52.37 72.52,-40.02 90,-33 115.53,-22.75 146.23,-17.48 169.63,-14.78"/>
-<polygon fill="#000000" stroke="#000000" points="170.25,-18.23 179.83,-13.71 169.52,-11.27 170.25,-18.23"/>
+<path fill="none" stroke="#000000" d="M54.26,-68.75C84.85,-64.97 135.55,-58.71 169.84,-54.47"/>
+<polygon fill="#000000" stroke="#000000" points="170.42,-57.92 179.92,-53.22 169.56,-50.98 170.42,-57.92"/>
+</g>
+<!-- proc~conenr -->
+<g id="proc~~wolfe~~CallsGraph_node4" class="node">
+<title>proc~conenr</title>
+<g id="a_proc~~wolfe~~CallsGraph_node4"><a xlink:href=".././proc/conenr.html" xlink:title="conenr">
+<polygon fill="#d9534f" stroke="#d9534f" points="144,-104 90,-104 90,-80 144,-80 144,-104"/>
+<text text-anchor="middle" x="117" y="-89.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">conenr</text>
+</a>
+</g>
+</g>
+<!-- proc~wolfe&#45;&gt;proc~conenr -->
+<g id="proc~~wolfe~~CallsGraph_edge3" class="edge">
+<title>proc~wolfe&#45;&gt;proc~conenr</title>
+<path fill="none" stroke="#000000" d="M54.4,-78C62.48,-79.84 71.51,-81.89 80.1,-83.84"/>
+<polygon fill="#000000" stroke="#000000" points="79.39,-87.27 89.92,-86.07 80.94,-80.44 79.39,-87.27"/>
+</g>
+<!-- proc~refwl -->
+<g id="proc~~wolfe~~CallsGraph_node5" class="node">
+<title>proc~refwl</title>
+<g id="a_proc~~wolfe~~CallsGraph_node5"><a xlink:href=".././proc/refwl.html" xlink:title="refwl">
+<polygon fill="#d9534f" stroke="#d9534f" points="144,-24 90,-24 90,0 144,0 144,-24"/>
+<text text-anchor="middle" x="117" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">refwl</text>
+</a>
+</g>
+</g>
+<!-- proc~wolfe&#45;&gt;proc~refwl -->
+<g id="proc~~wolfe~~CallsGraph_edge4" class="edge">
+<title>proc~wolfe&#45;&gt;proc~refwl</title>
+<path fill="none" stroke="#000000" d="M45.81,-59.86C58.45,-51.24 75.63,-39.52 89.83,-29.84"/>
+<polygon fill="#000000" stroke="#000000" points="91.93,-32.65 98.22,-24.12 87.98,-26.87 91.93,-32.65"/>
 </g>
 <!-- proc~conenr&#45;&gt;proc~dotprd -->
-<g id="proc~~wolfe~~CallsGraph_edge6" class="edge">
+<g id="proc~~wolfe~~CallsGraph_edge5" class="edge">
 <title>proc~conenr&#45;&gt;proc~dotprd</title>
-<path fill="none" stroke="#000000" d="M143.45,-66.15C152.21,-70.33 162.17,-75.08 171.52,-79.54"/>
-<polygon fill="#000000" stroke="#000000" points="170.07,-82.73 180.6,-83.88 173.09,-76.41 170.07,-82.73"/>
+<path fill="none" stroke="#000000" d="M143.45,-104.15C152.21,-108.33 162.17,-113.08 171.52,-117.54"/>
+<polygon fill="#000000" stroke="#000000" points="170.07,-120.73 180.6,-121.88 173.09,-114.41 170.07,-120.73"/>
 </g>
 <!-- proc~conenr&#45;&gt;proc~iloc -->
-<g id="proc~~wolfe~~CallsGraph_edge5" class="edge">
+<g id="proc~~wolfe~~CallsGraph_edge6" class="edge">
 <title>proc~conenr&#45;&gt;proc~iloc</title>
-<path fill="none" stroke="#000000" d="M143.45,-41.85C152.21,-37.67 162.17,-32.92 171.52,-28.46"/>
-<polygon fill="#000000" stroke="#000000" points="173.09,-31.59 180.6,-24.12 170.07,-25.27 173.09,-31.59"/>
+<path fill="none" stroke="#000000" d="M143.45,-79.85C152.21,-75.67 162.17,-70.92 171.52,-66.46"/>
+<polygon fill="#000000" stroke="#000000" points="173.09,-69.59 180.6,-62.12 170.07,-63.27 173.09,-69.59"/>
 </g>
 <!-- proc~house -->
 <g id="proc~~wolfe~~CallsGraph_node6" class="node">
 <title>proc~house</title>
 <g id="a_proc~~wolfe~~CallsGraph_node6"><a xlink:href=".././proc/house.html" xlink:title="house">
-<polygon fill="#d9534f" stroke="#d9534f" points="234,-66 180,-66 180,-42 234,-42 234,-66"/>
-<text text-anchor="middle" x="207" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">house</text>
+<polygon fill="#d9534f" stroke="#d9534f" points="234,-104 180,-104 180,-80 234,-80 234,-104"/>
+<text text-anchor="middle" x="207" y="-89.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">house</text>
 </a>
 </g>
 </g>
 <!-- proc~conenr&#45;&gt;proc~house -->
 <g id="proc~~wolfe~~CallsGraph_edge7" class="edge">
 <title>proc~conenr&#45;&gt;proc~house</title>
-<path fill="none" stroke="#000000" d="M144.4,-54C152.39,-54 161.31,-54 169.82,-54"/>
-<polygon fill="#000000" stroke="#000000" points="169.92,-57.5 179.92,-54 169.92,-50.5 169.92,-57.5"/>
+<path fill="none" stroke="#000000" d="M144.4,-92C152.39,-92 161.31,-92 169.82,-92"/>
+<polygon fill="#000000" stroke="#000000" points="169.92,-95.5 179.92,-92 169.92,-88.5 169.92,-95.5"/>
 </g>
 </g>
 </svg>
@@ -886,23 +851,23 @@ public subroutine wolfe(Ndm, m, Pmat, Istrt, s, Ncor, Icor, Iwork, Liwrk, Work, 
 </g>
 </g>
 <!-- proc~conmax&#45;&gt;proc~wolfe -->
-<g id="proc~~wolfe~~CalledByGraph_edge1" class="edge">
+<g id="proc~~wolfe~~CalledByGraph_edge3" class="edge">
 <title>proc~conmax&#45;&gt;proc~wolfe</title>
 <path fill="none" stroke="#000000" d="M45.56,-125.85C58.66,-116.53 76.95,-103.51 91.75,-92.98"/>
 <polygon fill="#000000" stroke="#000000" points="93.87,-95.76 99.99,-87.11 89.81,-90.06 93.87,-95.76"/>
 </g>
-<!-- proc~corrct -->
+<!-- proc~rkcon -->
 <g id="proc~~wolfe~~CalledByGraph_node3" class="node">
-<title>proc~corrct</title>
-<g id="a_proc~~wolfe~~CalledByGraph_node3"><a xlink:href=".././proc/corrct.html" xlink:title="corrct">
+<title>proc~rkcon</title>
+<g id="a_proc~~wolfe~~CalledByGraph_node3"><a xlink:href=".././proc/rkcon.html" xlink:title="rkcon">
 <polygon fill="#d9534f" stroke="#d9534f" points="54.5,-108 0.5,-108 0.5,-84 54.5,-84 54.5,-108"/>
-<text text-anchor="middle" x="27.5" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">corrct</text>
+<text text-anchor="middle" x="27.5" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">rkcon</text>
 </a>
 </g>
 </g>
-<!-- proc~corrct&#45;&gt;proc~wolfe -->
-<g id="proc~~wolfe~~CalledByGraph_edge2" class="edge">
-<title>proc~corrct&#45;&gt;proc~wolfe</title>
+<!-- proc~rkcon&#45;&gt;proc~wolfe -->
+<g id="proc~~wolfe~~CalledByGraph_edge1" class="edge">
+<title>proc~rkcon&#45;&gt;proc~wolfe</title>
 <path fill="none" stroke="#000000" d="M54.57,-89.81C62.87,-87.84 72.2,-85.63 81.07,-83.53"/>
 <polygon fill="#000000" stroke="#000000" points="81.88,-86.93 90.81,-81.22 80.27,-80.12 81.88,-86.93"/>
 </g>
@@ -916,23 +881,23 @@ public subroutine wolfe(Ndm, m, Pmat, Istrt, s, Ncor, Icor, Iwork, Liwrk, Work, 
 </g>
 </g>
 <!-- proc~rkpar&#45;&gt;proc~wolfe -->
-<g id="proc~~wolfe~~CalledByGraph_edge3" class="edge">
+<g id="proc~~wolfe~~CalledByGraph_edge2" class="edge">
 <title>proc~rkpar&#45;&gt;proc~wolfe</title>
 <path fill="none" stroke="#000000" d="M54.57,-60.19C62.87,-62.16 72.2,-64.37 81.07,-66.47"/>
 <polygon fill="#000000" stroke="#000000" points="80.27,-69.88 90.81,-68.78 81.88,-63.07 80.27,-69.88"/>
 </g>
-<!-- proc~rkcon -->
+<!-- proc~corrct -->
 <g id="proc~~wolfe~~CalledByGraph_node5" class="node">
-<title>proc~rkcon</title>
-<g id="a_proc~~wolfe~~CalledByGraph_node5"><a xlink:href=".././proc/rkcon.html" xlink:title="rkcon">
+<title>proc~corrct</title>
+<g id="a_proc~~wolfe~~CalledByGraph_node5"><a xlink:href=".././proc/corrct.html" xlink:title="corrct">
 <polygon fill="#d9534f" stroke="#d9534f" points="54.5,-24 0.5,-24 0.5,0 54.5,0 54.5,-24"/>
-<text text-anchor="middle" x="27.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">rkcon</text>
+<text text-anchor="middle" x="27.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">corrct</text>
 </a>
 </g>
 </g>
-<!-- proc~rkcon&#45;&gt;proc~wolfe -->
+<!-- proc~corrct&#45;&gt;proc~wolfe -->
 <g id="proc~~wolfe~~CalledByGraph_edge4" class="edge">
-<title>proc~rkcon&#45;&gt;proc~wolfe</title>
+<title>proc~corrct&#45;&gt;proc~wolfe</title>
 <path fill="none" stroke="#000000" d="M45.56,-24.15C58.66,-33.47 76.95,-46.49 91.75,-57.02"/>
 <polygon fill="#000000" stroke="#000000" points="89.81,-59.94 99.99,-62.89 93.87,-54.24 89.81,-59.94"/>
 </g>
@@ -1059,322 +1024,371 @@ public subroutine wolfe(Ndm, m, Pmat, Istrt, s, Ncor, Icor, Iwork, Liwrk, Work, 
     
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="highlight"><pre><span></span>      <span class="k">subroutine </span><span class="n">wolfe</span><span class="p">(</span><span class="n">Ndm</span><span class="p">,</span><span class="n">m</span><span class="p">,</span><span class="n">Pmat</span><span class="p">,</span><span class="n">Istrt</span><span class="p">,</span><span class="n">s</span><span class="p">,</span><span class="n">Ncor</span><span class="p">,</span><span class="n">Icor</span><span class="p">,</span><span class="n">Iwork</span><span class="p">,</span><span class="n">Liwrk</span><span class="p">,</span><span class="n">Work</span><span class="p">,</span>   <span class="p">&amp;</span>
-                       <span class="n">Lwrk</span><span class="p">,</span><span class="n">r</span><span class="p">,</span><span class="n">Coef</span><span class="p">,</span><span class="n">Ptnr</span><span class="p">,</span><span class="n">Pmat1</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">,</span><span class="n">Wcoef</span><span class="p">,</span><span class="n">Wpt</span><span class="p">,</span>    <span class="p">&amp;</span>
-                       <span class="n">Wdist</span><span class="p">,</span><span class="n">Nmaj</span><span class="p">,</span><span class="n">Nmin</span><span class="p">,</span><span class="n">Jflag</span><span class="p">)</span>
+    <div class="highlight"><pre><span></span>    <span class="k">subroutine </span><span class="n">wolfe</span><span class="p">(</span><span class="n">Ndm</span><span class="p">,</span><span class="n">m</span><span class="p">,</span><span class="n">Pmat</span><span class="p">,</span><span class="n">Istrt</span><span class="p">,</span><span class="n">s</span><span class="p">,</span><span class="n">Ncor</span><span class="p">,</span><span class="n">Icor</span><span class="p">,</span><span class="n">Iwork</span><span class="p">,</span><span class="n">Liwrk</span><span class="p">,</span><span class="n">Work</span><span class="p">,</span> <span class="p">&amp;</span>
+                     <span class="n">Lwrk</span><span class="p">,</span><span class="n">r</span><span class="p">,</span><span class="n">Coef</span><span class="p">,</span><span class="n">Ptnr</span><span class="p">,</span><span class="n">Pmat1</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">,</span><span class="n">Wcoef</span><span class="p">,</span><span class="n">Wpt</span><span class="p">,</span> <span class="p">&amp;</span>
+                     <span class="n">Wdist</span><span class="p">,</span><span class="n">Nmaj</span><span class="p">,</span><span class="n">Nmin</span><span class="p">,</span><span class="n">Jflag</span><span class="p">)</span>
 
-      <span class="k">implicit none</span>
+    <span class="k">implicit none</span>
 
-<span class="k">      </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="n">ab</span> <span class="p">,</span> <span class="n">bk</span> <span class="p">,</span> <span class="n">Coef</span> <span class="p">,</span> <span class="n">dist</span> <span class="p">,</span> <span class="n">fackp</span> <span class="p">,</span> <span class="n">facsc</span> <span class="p">,</span>  <span class="p">&amp;</span>
-             <span class="n">fact</span> <span class="p">,</span> <span class="n">Pmat</span> <span class="p">,</span> <span class="n">Pmat1</span> <span class="p">,</span> <span class="n">Ptnr</span> <span class="p">,</span> <span class="n">quot</span> <span class="p">,</span> <span class="n">r</span> <span class="p">,</span> <span class="n">s</span> <span class="p">,</span>   <span class="p">&amp;</span>
-             <span class="n">s1</span> <span class="p">,</span> <span class="n">s1hi</span> <span class="p">,</span> <span class="n">s1low</span>
-      <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="n">scl</span> <span class="p">,</span> <span class="n">scl1</span> <span class="p">,</span> <span class="n">scl1a</span> <span class="p">,</span> <span class="n">tol</span> <span class="p">,</span> <span class="n">tol1</span> <span class="p">,</span>    <span class="p">&amp;</span>
-             <span class="n">tols</span> <span class="p">,</span> <span class="n">v1</span> <span class="p">,</span> <span class="n">violm</span> <span class="p">,</span> <span class="n">vmax</span> <span class="p">,</span> <span class="n">Wcoef</span> <span class="p">,</span> <span class="n">Wdist</span> <span class="p">,</span> <span class="n">Work</span> <span class="p">,</span>    <span class="p">&amp;</span>
-             <span class="n">Wpt</span>
-      <span class="kt">integer </span><span class="n">i</span> <span class="p">,</span> <span class="n">Icor</span> <span class="p">,</span> <span class="n">ilc18</span> <span class="p">,</span> <span class="n">ilc28</span> <span class="p">,</span> <span class="n">ilc32</span> <span class="p">,</span> <span class="n">ilc34</span> <span class="p">,</span> <span class="n">ilc39</span> <span class="p">,</span> <span class="p">&amp;</span>
-              <span class="n">ind</span> <span class="p">,</span> <span class="n">iref</span> <span class="p">,</span> <span class="n">Istrt</span> <span class="p">,</span> <span class="n">istrt1</span> <span class="p">,</span> <span class="n">itcon</span> <span class="p">,</span> <span class="n">iup</span> <span class="p">,</span> <span class="n">Iwork</span> <span class="p">,</span> <span class="n">j</span> <span class="p">,</span>   <span class="p">&amp;</span>
-              <span class="n">Jflag</span> <span class="p">,</span> <span class="n">jmax</span> <span class="p">,</span> <span class="n">k</span> <span class="p">,</span> <span class="n">l</span>
-      <span class="kt">integer </span><span class="n">Liwrk</span> <span class="p">,</span> <span class="n">lmcon</span> <span class="p">,</span> <span class="n">Lwrk</span> <span class="p">,</span> <span class="n">m</span> <span class="p">,</span> <span class="n">n</span> <span class="p">,</span> <span class="n">Ncor</span> <span class="p">,</span> <span class="n">Ndm</span> <span class="p">,</span> <span class="n">Nmaj</span> <span class="p">,</span> <span class="n">Nmin</span> <span class="p">,</span> <span class="p">&amp;</span>
-              <span class="n">Nparm</span> <span class="p">,</span> <span class="n">Numgr</span>
-<span class="c">!</span>
-      <span class="k">dimension </span><span class="n">Pmat</span><span class="p">(</span><span class="n">Nparm</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span> <span class="p">,</span> <span class="n">Icor</span><span class="p">(</span><span class="n">Nparm</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="p">,</span> <span class="n">Wcoef</span><span class="p">(</span><span class="n">Numgr</span><span class="p">)</span> <span class="p">,</span>    <span class="p">&amp;</span>
-                <span class="n">Wpt</span><span class="p">(</span><span class="n">Nparm</span><span class="p">)</span> <span class="p">,</span> <span class="n">r</span><span class="p">(</span><span class="n">Nparm</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="p">,</span> <span class="n">Coef</span><span class="p">(</span><span class="n">Numgr</span><span class="p">)</span> <span class="p">,</span> <span class="n">Ptnr</span><span class="p">(</span><span class="n">Nparm</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="p">,</span> <span class="p">&amp;</span>
-                <span class="n">Pmat1</span><span class="p">(</span><span class="n">Nparm</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span> <span class="p">,</span> <span class="n">Iwork</span><span class="p">(</span><span class="n">Liwrk</span><span class="p">)</span> <span class="p">,</span> <span class="n">Work</span><span class="p">(</span><span class="n">Lwrk</span><span class="p">)</span>
+<span class="k">    </span><span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Ndm</span>  <span class="c">!! The number of variables. it must be less than or equal to `nparm`.</span>
+    <span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">m</span>  <span class="c">!! The number of inequalities defining the polytope.  it</span>
+                            <span class="c">!! must be less than or equal to `numgr`.</span>
+    <span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Istrt</span>   <span class="c">!! Set this equal to zero unless a hot start is desired--</span>
+                                <span class="c">!! see next paragraph of comments for more details.  if istrt is set</span>
+                                <span class="c">!! equal to 1, then s, wcoef, ncor, and icor must also be assigned</span>
+                                <span class="c">!! values initially.</span>
+    <span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Ncor</span>  <span class="c">!! This is the number of vectors (i.e. colunns of pmat) in</span>
+                                <span class="c">!! the final corral.</span>
+    <span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Liwrk</span>   <span class="c">!! This is the dimension of `iwork`.  It must be at least 7*nparm + 7*numgr + 3.</span>
+    <span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Lwrk</span>    <span class="c">!! This is the dimension of `work`.  it must be at least</span>
+                                <span class="c">!! 2*nparm**2 + 4*numgr*nparm + 11*numgr + 27*nparm + 13.</span>
+                                <span class="c">!! note that some storage could be saved by rewriting function</span>
+                                <span class="c">!! subprogram iloc to take out all but the arrays needed (namely 1, 3,</span>
+                                <span class="c">!! 4, 9, 28, 32, 34, 39 for work, 18, 23 for iwork) and scrunching</span>
+                                <span class="c">!! work and iwork in iloc so the remaining arrays follow one after</span>
+                                <span class="c">!! another.</span>
+    <span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>  <span class="kd">::</span> <span class="n">Nparm</span>  <span class="c">!! This is basically a dimension parameter here.  it must</span>
+                                <span class="c">!! be greater than or equal to `ndm`.</span>
+    <span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>  <span class="kd">::</span> <span class="n">Numgr</span>  <span class="c">!! This is basically a dimension parameter here.  it must</span>
+                                <span class="c">!! be greater than or equal to `m`.</span>
+    <span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>  <span class="kd">::</span> <span class="n">Nmaj</span> <span class="c">!! This will be the number of major cycles used in `wolfe`.</span>
+    <span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>  <span class="kd">::</span> <span class="n">Nmin</span> <span class="c">!! This will be the number of major cycles used in `wolfe`.</span>
+    <span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>  <span class="kd">::</span> <span class="n">Jflag</span> <span class="c">!! This is a flag variable which is 0 in case of a normal</span>
+                                <span class="c">!! solution and is positive otherwise (in which case the returned</span>
+                                <span class="c">!! solution may be no good).</span>
+    <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span> <span class="kd">::</span> <span class="n">s</span> <span class="c">!! You may ignore this scale factor unless you want to use the hot start option.</span>
+    <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Wdist</span> <span class="c">!! This will be the (minimized) euclidean distance of `wpt` from the origin.</span>
+    <span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Icor</span><span class="p">(</span><span class="n">Nparm</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>  <span class="c">!! This array contains the ncor indices of the vectors in</span>
+                                        <span class="c">!! the final corral.  its dimension in the driver program must be at</span>
+                                        <span class="c">!! least nparm+1.</span>
+    <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Pmat</span><span class="p">(</span><span class="n">Nparm</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>  <span class="c">!!  This is an array whose kth column contains the vector</span>
+                                                <span class="c">!!  (a(k),b(k)) for k=1,...,m, where the m inequalities a(k).x + b(k)</span>
+                                                <span class="c">!!  &lt;= 0.0 define the polytope whose nearest point to the origin we</span>
+                                                <span class="c">!!  seek.  the first dimension of pmat in the driver program must be</span>
+                                                <span class="c">!!  exactly nparm+1, while the second dimension of pmat in the driver</span>
+                                                <span class="c">!!  program must be at least numgr.</span>
+                                                <span class="c">!!  if we actually want the nearest point in the polytope to some point</span>
+                                                <span class="c">!!  y other than the origin, we translate y to the origin before calling</span>
+                                                <span class="c">!!  wolfe, that is, call wolfe to find the nearest point z to the origin</span>
+                                                <span class="c">!!  in the polytope defined by a(k).z + (b(k) + a(k).y) &lt;= 0.0, then</span>
+                                                <span class="c">!!  compute x = y + z.</span>
+    <span class="kt">integer</span>  <span class="kd">::</span> <span class="n">Iwork</span><span class="p">(</span><span class="n">Liwrk</span><span class="p">)</span> <span class="c">!! Work array</span>
+    <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Work</span><span class="p">(</span><span class="n">Lwrk</span><span class="p">)</span> <span class="c">!! Work array</span>
+    <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">r</span><span class="p">(</span><span class="n">Nparm</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="c">!! Work array</span>
+    <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Coef</span><span class="p">(</span><span class="n">Numgr</span><span class="p">)</span> <span class="c">!! Work array</span>
+    <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Ptnr</span><span class="p">(</span><span class="n">Nparm</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="c">!! Work array</span>
+    <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Pmat1</span><span class="p">(</span><span class="n">Nparm</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span> <span class="c">!! Work array</span>
+    <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Wcoef</span><span class="p">(</span><span class="n">Numgr</span><span class="p">)</span>  <span class="c">!! This will give the coefficients of the vectors a(k)</span>
+                                        <span class="c">!! needed to form a linear combination equal to the solution in wpt.</span>
+                                        <span class="c">!! its dimension in the driver program must be at least numgr.</span>
+                                        <span class="c">!! wcoef may not be accurate if it was necessary to call refwl to</span>
+                                        <span class="c">!! refine wpt, which rarely happens.</span>
+    <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Wpt</span><span class="p">(</span><span class="n">Nparm</span><span class="p">)</span>    <span class="c">!! This will give the coordinates of the point we are seeking,</span>
+                                        <span class="c">!! namely the nearest point in the polytope to the origin.  its dimension</span>
+                                        <span class="c">!! in the driver program must be at least nparm.</span>
 
-<span class="c">! SET MACHINE AND PRECISION DEPENDENT CONSTANTS FOR WOLFE.</span>
-      <span class="n">tol</span> <span class="o">=</span> <span class="n">ten</span><span class="o">*</span><span class="n">ten</span><span class="o">*</span><span class="n">spcmn</span>
-      <span class="n">tol1</span> <span class="o">=</span> <span class="p">(</span><span class="n">ten</span><span class="o">**</span><span class="mi">4</span><span class="p">)</span><span class="o">*</span><span class="n">spcmn</span>
-      <span class="n">tols</span> <span class="o">=</span> <span class="nb">sqrt</span><span class="p">(</span><span class="n">spcmn</span><span class="p">)</span>
-      <span class="n">iref</span> <span class="o">=</span> <span class="mi">0</span>
-      <span class="n">violm</span> <span class="o">=</span> <span class="n">one</span><span class="o">/</span><span class="n">two</span>
-      <span class="n">lmcon</span> <span class="o">=</span> <span class="mi">3</span>
-      <span class="n">itcon</span> <span class="o">=</span> <span class="mi">0</span>
-      <span class="n">iup</span> <span class="o">=</span> <span class="mi">0</span>
-      <span class="n">s1low</span> <span class="o">=</span> <span class="n">ten</span><span class="o">*</span><span class="n">ten</span><span class="o">*</span><span class="n">ten</span><span class="o">*</span><span class="n">spcmn</span>
-      <span class="n">s1hi</span> <span class="o">=</span> <span class="n">one</span> <span class="o">-</span> <span class="n">s1low</span>
-<span class="c">! MAKE SURE S1LOW &lt;= ONE THIRD AND S1HI &gt;= TWO THIRDS TO AVOID</span>
-<span class="c">! SQUEEZING THE ALLOWABLE REGION FOR S1 TOO TIGHTLY (OR EVEN MAKING IT</span>
-<span class="c">! EMPTY).</span>
-      <span class="k">if</span> <span class="p">(</span> <span class="n">s1low</span><span class="o">&gt;</span><span class="n">one</span><span class="o">/</span><span class="n">three</span> <span class="p">)</span> <span class="n">s1low</span> <span class="o">=</span> <span class="n">one</span><span class="o">/</span><span class="n">three</span>
-      <span class="k">if</span> <span class="p">(</span> <span class="n">s1hi</span><span class="o">&lt;</span><span class="n">two</span><span class="o">/</span><span class="n">three</span> <span class="p">)</span> <span class="n">s1hi</span> <span class="o">=</span> <span class="n">two</span><span class="o">/</span><span class="n">three</span>
-      <span class="n">facsc</span> <span class="o">=</span> <span class="n">ten</span><span class="o">*</span><span class="n">ten</span><span class="o">*</span><span class="n">ten</span><span class="o">*</span><span class="n">ten</span>
-      <span class="n">fackp</span> <span class="o">=</span> <span class="n">facsc</span>
-<span class="c">! END OF SETTING MACHINE AND PRECISION DEPENDENT CONSTANTS FOR WOLFE.</span>
-      <span class="n">ilc18</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">18</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
-      <span class="n">ilc28</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">28</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
-      <span class="n">ilc32</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
-      <span class="n">ilc34</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">34</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
-      <span class="n">ilc39</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">39</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
-      <span class="n">n</span> <span class="o">=</span> <span class="n">Ndm</span> <span class="o">+</span> <span class="mi">1</span>
-      <span class="n">istrt1</span> <span class="o">=</span> <span class="n">Istrt</span>
-      <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Ndm</span>
-         <span class="n">r</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="n">zero</span>
-      <span class="k">enddo</span>
-<span class="k">      </span><span class="n">r</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">=</span> <span class="n">one</span>
-<span class="c">!</span>
-<span class="c">! NOW COMPUTE THE SCALE FACTOR SCL, WHOSE MAIN PURPOSE IS TO AVOID</span>
-<span class="c">! HAVING ALL VECTORS IN PMAT WITH POSITIVE LAST COMPONENT FORM AN ANGLE</span>
-<span class="c">! CLOSE TO 90 DEGREES WITH R = (0...0 1), WHICH CAN CAUSE NUMERICAL</span>
-<span class="c">! PROBLEMS.  WE WILL COMPUTE SCL = MIN(MAX(ABS(A(I,K)): 1 &lt;= I &lt;=</span>
-<span class="c">! NDM)/B(K), B(K) &gt;= TOLS, 1 &lt;= K &lt;= M) UNLESS NO B(K) IS &gt;=</span>
-<span class="c">! TOLS, IN WHICH CASE WE SET SCL=1.0, OR SOME B(K) IS &gt;= TOLS BUT</span>
-<span class="c">! SCL WOULD BE &lt; TOL, IN WHICH CASE WE SET SCL = TOL.</span>
- <span class="mi">100</span>  <span class="n">scl</span> <span class="o">=</span> <span class="n">one</span>
-      <span class="n">ind</span> <span class="o">=</span> <span class="mi">0</span>
-      <span class="k">do </span><span class="n">k</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">m</span>
-         <span class="n">bk</span> <span class="o">=</span> <span class="n">Pmat</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">k</span><span class="p">)</span>
-         <span class="k">if</span> <span class="p">(</span> <span class="n">bk</span><span class="o">&gt;=</span><span class="n">tols</span> <span class="p">)</span> <span class="k">then</span>
+    <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">ab</span> <span class="p">,</span> <span class="n">bk</span> <span class="p">,</span> <span class="n">dist</span> <span class="p">,</span> <span class="n">fackp</span> <span class="p">,</span> <span class="n">facsc</span> <span class="p">,</span> <span class="p">&amp;</span>
+                <span class="n">fact</span> <span class="p">,</span> <span class="n">quot</span> <span class="p">,</span> <span class="n">s1</span> <span class="p">,</span> <span class="n">s1hi</span> <span class="p">,</span> <span class="n">s1low</span> <span class="p">,</span> <span class="p">&amp;</span>
+                <span class="n">scl</span> <span class="p">,</span> <span class="n">scl1</span> <span class="p">,</span> <span class="n">scl1a</span> <span class="p">,</span> <span class="n">tol</span> <span class="p">,</span> <span class="n">tol1</span> <span class="p">,</span> <span class="p">&amp;</span>
+                <span class="n">tols</span> <span class="p">,</span> <span class="n">v1</span> <span class="p">,</span> <span class="n">violm</span> <span class="p">,</span> <span class="n">vmax</span>
+    <span class="kt">integer</span> <span class="kd">::</span> <span class="n">i</span> <span class="p">,</span> <span class="n">ilc18</span> <span class="p">,</span> <span class="n">ilc28</span> <span class="p">,</span> <span class="n">ilc32</span> <span class="p">,</span> <span class="n">ilc34</span> <span class="p">,</span> <span class="n">ilc39</span> <span class="p">,</span> <span class="p">&amp;</span>
+                <span class="n">ind</span> <span class="p">,</span> <span class="n">iref</span> <span class="p">,</span> <span class="n">istrt1</span> <span class="p">,</span> <span class="n">itcon</span> <span class="p">,</span> <span class="n">iup</span> <span class="p">,</span> <span class="n">j</span> <span class="p">,</span> <span class="p">&amp;</span>
+                <span class="n">jmax</span> <span class="p">,</span> <span class="n">k</span> <span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">lmcon</span> <span class="p">,</span> <span class="n">n</span>
+
+    <span class="c">! set machine and precision dependent constants for wolfe.</span>
+    <span class="n">tol</span> <span class="o">=</span> <span class="n">ten</span><span class="o">*</span><span class="n">ten</span><span class="o">*</span><span class="n">spcmn</span>
+    <span class="n">tol1</span> <span class="o">=</span> <span class="p">(</span><span class="n">ten</span><span class="o">**</span><span class="mi">4</span><span class="p">)</span><span class="o">*</span><span class="n">spcmn</span>
+    <span class="n">tols</span> <span class="o">=</span> <span class="nb">sqrt</span><span class="p">(</span><span class="n">spcmn</span><span class="p">)</span>
+    <span class="n">iref</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">violm</span> <span class="o">=</span> <span class="n">one</span><span class="o">/</span><span class="n">two</span>
+    <span class="n">lmcon</span> <span class="o">=</span> <span class="mi">3</span>
+    <span class="n">itcon</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">iup</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">s1low</span> <span class="o">=</span> <span class="n">ten</span><span class="o">*</span><span class="n">ten</span><span class="o">*</span><span class="n">ten</span><span class="o">*</span><span class="n">spcmn</span>
+    <span class="n">s1hi</span> <span class="o">=</span> <span class="n">one</span> <span class="o">-</span> <span class="n">s1low</span>
+
+    <span class="c">! make sure s1low &lt;= one third and s1hi &gt;= two thirds to avoid</span>
+    <span class="c">! squeezing the allowable region for s1 too tightly (or even making it</span>
+    <span class="c">! empty).</span>
+    <span class="k">if</span> <span class="p">(</span> <span class="n">s1low</span><span class="o">&gt;</span><span class="n">one</span><span class="o">/</span><span class="n">three</span> <span class="p">)</span> <span class="n">s1low</span> <span class="o">=</span> <span class="n">one</span><span class="o">/</span><span class="n">three</span>
+    <span class="k">if</span> <span class="p">(</span> <span class="n">s1hi</span><span class="o">&lt;</span><span class="n">two</span><span class="o">/</span><span class="n">three</span> <span class="p">)</span> <span class="n">s1hi</span> <span class="o">=</span> <span class="n">two</span><span class="o">/</span><span class="n">three</span>
+    <span class="n">facsc</span> <span class="o">=</span> <span class="n">ten</span><span class="o">*</span><span class="n">ten</span><span class="o">*</span><span class="n">ten</span><span class="o">*</span><span class="n">ten</span>
+    <span class="n">fackp</span> <span class="o">=</span> <span class="n">facsc</span>
+
+    <span class="n">ilc18</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">18</span><span class="p">,</span><span class="n">nparm</span><span class="p">,</span><span class="n">numgr</span><span class="p">)</span>
+    <span class="n">ilc28</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">28</span><span class="p">,</span><span class="n">nparm</span><span class="p">,</span><span class="n">numgr</span><span class="p">)</span>
+    <span class="n">ilc32</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span><span class="n">nparm</span><span class="p">,</span><span class="n">numgr</span><span class="p">)</span>
+    <span class="n">ilc34</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">34</span><span class="p">,</span><span class="n">nparm</span><span class="p">,</span><span class="n">numgr</span><span class="p">)</span>
+    <span class="n">ilc39</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">39</span><span class="p">,</span><span class="n">nparm</span><span class="p">,</span><span class="n">numgr</span><span class="p">)</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">ndm</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="n">istrt1</span> <span class="o">=</span> <span class="n">istrt</span>
+    <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">ndm</span>
+        <span class="n">r</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="n">zero</span>
+    <span class="k">enddo</span>
+<span class="k">    </span><span class="n">r</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">=</span> <span class="n">one</span>
+
+    <span class="c">! now compute the scale factor scl, whose main purpose is to avoid</span>
+    <span class="c">! having all vectors in pmat with positive last component form an angle</span>
+    <span class="c">! close to 90 degrees with r = (0...0 1), which can cause numerical</span>
+    <span class="c">! problems.  we will compute scl = min(max(abs(a(i,k)): 1 &lt;= i &lt;=</span>
+    <span class="c">! ndm)/b(k), b(k) &gt;= tols, 1 &lt;= k &lt;= m) unless no b(k) is &gt;=</span>
+    <span class="c">! tols, in which case we set scl=1.0, or some b(k) is &gt;= tols but</span>
+    <span class="c">! scl would be &lt; tol, in which case we set scl = tol.</span>
+<span class="mi">100</span> <span class="n">scl</span> <span class="o">=</span> <span class="n">one</span>
+    <span class="n">ind</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">do </span><span class="n">k</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">m</span>
+        <span class="n">bk</span> <span class="o">=</span> <span class="n">pmat</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">k</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span> <span class="n">bk</span><span class="o">&gt;=</span><span class="n">tols</span> <span class="p">)</span> <span class="k">then</span>
 <span class="k">            </span><span class="n">quot</span> <span class="o">=</span> <span class="n">zero</span>
-            <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Ndm</span>
-               <span class="n">ab</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">Pmat</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">k</span><span class="p">))</span>
-               <span class="k">if</span> <span class="p">(</span> <span class="n">ab</span><span class="o">&gt;</span><span class="n">quot</span> <span class="p">)</span> <span class="n">quot</span> <span class="o">=</span> <span class="n">ab</span>
+            <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">ndm</span>
+                <span class="n">ab</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">pmat</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">k</span><span class="p">))</span>
+                <span class="k">if</span> <span class="p">(</span> <span class="n">ab</span><span class="o">&gt;</span><span class="n">quot</span> <span class="p">)</span> <span class="n">quot</span> <span class="o">=</span> <span class="n">ab</span>
             <span class="k">enddo</span>
 <span class="k">            </span><span class="n">quot</span> <span class="o">=</span> <span class="n">quot</span><span class="o">/</span><span class="n">bk</span>
             <span class="k">if</span> <span class="p">(</span> <span class="n">ind</span><span class="o">&gt;</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
-<span class="k">               if</span> <span class="p">(</span> <span class="n">quot</span><span class="o">&gt;=</span><span class="n">scl</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">200</span>
-            <span class="k">endif</span>
+<span class="k">                if</span> <span class="p">(</span> <span class="n">quot</span><span class="o">&gt;=</span><span class="n">scl</span> <span class="p">)</span> <span class="k">cycle</span>
+<span class="k">            endif</span>
 <span class="k">            </span><span class="n">ind</span> <span class="o">=</span> <span class="mi">1</span>
             <span class="n">scl</span> <span class="o">=</span> <span class="n">quot</span>
-         <span class="k">endif</span>
-<span class="k"> </span><span class="mi">200</span>  <span class="k">enddo</span>
-<span class="k"> </span><span class="mi">300</span>  <span class="k">if</span> <span class="p">(</span> <span class="n">scl</span><span class="o">&lt;</span><span class="n">tol</span> <span class="p">)</span> <span class="n">scl</span> <span class="o">=</span> <span class="n">tol</span>
-<span class="c">! PUT SCALED PMAT INTO PMAT1 FOR USE IN CONENR.  PMAT ITSELF WILL REMAIN</span>
-<span class="c">! UNCHANGED.</span>
- <span class="mi">400</span>  <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">m</span>
-         <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Ndm</span>
-            <span class="n">Pmat1</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">Pmat</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span><span class="o">/</span><span class="n">scl</span>
-         <span class="k">enddo</span>
-<span class="k">         </span><span class="n">Pmat1</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">Pmat</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">j</span><span class="p">)</span>
-      <span class="k">enddo</span>
-<span class="c">! NOW DO A NORMAL SCALING ON EACH COLUMN OF PMAT1 WHICH HAS AN ELEMENT</span>
-<span class="c">! WITH ABSOLUTE VALUE &gt;= TOL1.</span>
-      <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">m</span>
-         <span class="n">scl1</span> <span class="o">=</span> <span class="n">zero</span>
-         <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">n</span>
-            <span class="n">ab</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">Pmat1</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">))</span>
+        <span class="k">endif</span>
+<span class="k">    enddo</span>
+<span class="mi">300</span> <span class="k">if</span> <span class="p">(</span> <span class="n">scl</span><span class="o">&lt;</span><span class="n">tol</span> <span class="p">)</span> <span class="n">scl</span> <span class="o">=</span> <span class="n">tol</span>
+    <span class="c">! put scaled pmat into pmat1 for use in conenr.  pmat itself will remain</span>
+    <span class="c">! unchanged.</span>
+<span class="mi">400</span> <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">m</span>
+        <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">ndm</span>
+            <span class="n">pmat1</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">pmat</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span><span class="o">/</span><span class="n">scl</span>
+        <span class="k">enddo</span>
+<span class="k">        </span><span class="n">pmat1</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">pmat</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">j</span><span class="p">)</span>
+    <span class="k">enddo</span>
+    <span class="c">! now do a normal scaling on each column of pmat1 which has an element</span>
+    <span class="c">! with absolute value &gt;= tol1.</span>
+    <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">m</span>
+        <span class="n">scl1</span> <span class="o">=</span> <span class="n">zero</span>
+        <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">n</span>
+            <span class="n">ab</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">pmat1</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">))</span>
             <span class="k">if</span> <span class="p">(</span> <span class="n">ab</span><span class="o">&gt;</span><span class="n">scl1</span> <span class="p">)</span> <span class="n">scl1</span> <span class="o">=</span> <span class="n">ab</span>
-         <span class="k">enddo</span>
-<span class="k">         if</span> <span class="p">(</span> <span class="n">scl1</span><span class="o">&gt;=</span><span class="n">tol1</span> <span class="p">)</span> <span class="k">then</span>
+        <span class="k">enddo</span>
+<span class="k">        if</span> <span class="p">(</span> <span class="n">scl1</span><span class="o">&gt;=</span><span class="n">tol1</span> <span class="p">)</span> <span class="k">then</span>
 <span class="k">            do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">n</span>
-               <span class="n">Pmat1</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">Pmat1</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span><span class="o">/</span><span class="n">scl1</span>
+                <span class="n">pmat1</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">pmat1</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span><span class="o">/</span><span class="n">scl1</span>
             <span class="k">enddo</span>
-<span class="k">            if</span> <span class="p">(</span> <span class="n">istrt1</span><span class="o">&gt;</span><span class="mi">0</span> <span class="p">)</span> <span class="n">Coef</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">Wcoef</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="o">*</span><span class="n">scl1</span>
-<span class="c">! ALSO PUT A SCALED VERSION OF WCOEF INTO COEF IF ISTRT1=1.</span>
-         <span class="n">elseif</span> <span class="p">(</span> <span class="n">istrt1</span><span class="o">&gt;</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
-<span class="k">            </span><span class="n">Coef</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">Wcoef</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
-         <span class="k">endif</span>
-<span class="k">      enddo</span>
-<span class="c">!</span>
-<span class="c">! IF ISTRT1=1, FOR USE IN CONENR SET COEF = (-S1*SCL**2)*COEF, WHERE</span>
-<span class="c">! S1 = S/(S + (1.0-S)*SCL**2) IS THE S VALUE IN THE SCALED SITUATION.</span>
-<span class="c">! NOTE THAT A PARTLY SCALED VERSION OF WCOEF (SEE LOOP ENDING WITH THE</span>
-<span class="c">! STATEMENT NUMBERED 190 ABOVE) IS ALREADY IN COEF IF ISTRT1=1.</span>
-      <span class="k">if</span> <span class="p">(</span> <span class="n">istrt1</span><span class="o">&gt;</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
-<span class="c">! IF WE HAD NCOR &gt; N, RESET NCOR TO N.</span>
-         <span class="k">if</span> <span class="p">(</span> <span class="n">Ncor</span><span class="o">&gt;</span><span class="n">n</span> <span class="p">)</span> <span class="n">Ncor</span> <span class="o">=</span> <span class="n">n</span>
-         <span class="n">fact</span> <span class="o">=</span> <span class="o">-</span><span class="p">(</span><span class="n">s</span><span class="o">/</span><span class="p">(</span><span class="n">s</span><span class="o">+</span><span class="p">(</span><span class="n">one</span><span class="o">-</span><span class="n">s</span><span class="p">)</span><span class="o">*</span><span class="n">scl</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span><span class="o">*</span><span class="n">scl</span><span class="o">**</span><span class="mi">2</span>
-         <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">m</span>
-            <span class="n">Coef</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">fact</span><span class="o">*</span><span class="n">Coef</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
-         <span class="k">enddo</span>
-<span class="k">      endif</span>
-<span class="c">!</span>
-<span class="c">! CALL CONENR TO COMPUTE THE NEAREST POINT TO R IN THE CONE OF</span>
-<span class="c">! NONNEGATIVE LINEAR COMBINATIONS OF COLUMNS OF PMAT1.</span>
-      <span class="k">call </span><span class="n">conenr</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">m</span><span class="p">,</span><span class="n">Pmat1</span><span class="p">,</span><span class="n">r</span><span class="p">,</span><span class="n">istrt1</span><span class="p">,</span><span class="n">Ncor</span><span class="p">,</span><span class="n">Icor</span><span class="p">,</span><span class="n">tol</span><span class="p">,</span><span class="n">Iwork</span><span class="p">,</span><span class="n">Liwrk</span><span class="p">,</span><span class="n">Work</span><span class="p">,</span>    <span class="p">&amp;</span>
-                  <span class="n">Lwrk</span><span class="p">,</span><span class="n">Work</span><span class="p">(</span><span class="n">ilc39</span><span class="p">),</span><span class="n">Work</span><span class="p">(</span><span class="n">ilc32</span><span class="p">),</span><span class="n">Work</span><span class="p">(</span><span class="n">ilc28</span><span class="p">),</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">,</span> <span class="p">&amp;</span>
-                  <span class="n">Coef</span><span class="p">,</span><span class="n">Ptnr</span><span class="p">,</span><span class="n">dist</span><span class="p">,</span><span class="n">Nmaj</span><span class="p">,</span><span class="n">Nmin</span><span class="p">,</span><span class="n">Jflag</span><span class="p">)</span>
-<span class="c">!</span>
-<span class="c">! IF JFLAG=3 THEN CONENR HAS FAILED, POSSIBLY BECAUSE SCL WAS TOO LARGE.</span>
-      <span class="k">if</span> <span class="p">(</span> <span class="n">Jflag</span><span class="o">/=</span><span class="mi">3</span> <span class="p">)</span> <span class="k">then</span>
-<span class="c">! HERE JFLAG /= 3 AND WE COMPUTE S1 = 1.0 - PTNR(N).</span>
-         <span class="n">s1</span> <span class="o">=</span> <span class="n">one</span> <span class="o">-</span> <span class="n">Ptnr</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
-         <span class="k">if</span> <span class="p">(</span> <span class="n">s1</span><span class="o">&gt;=</span><span class="n">s1low</span> <span class="p">)</span> <span class="k">then</span>
-<span class="c">!</span>
-<span class="c">! HERE JFLAG /= 3 AND S1 &gt;= S1LOW, SO IF ALSO S1 &lt;= S1HI WE ACCEPT</span>
-<span class="c">! THE RESULT FROM CONENR AND MOVE ON.</span>
+<span class="k">            if</span> <span class="p">(</span> <span class="n">istrt1</span><span class="o">&gt;</span><span class="mi">0</span> <span class="p">)</span> <span class="n">coef</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">wcoef</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="o">*</span><span class="n">scl1</span>
+            <span class="c">! also put a scaled version of wcoef into coef if istrt1=1.</span>
+        <span class="n">elseif</span> <span class="p">(</span> <span class="n">istrt1</span><span class="o">&gt;</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
+<span class="k">            </span><span class="n">coef</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">wcoef</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+        <span class="k">endif</span>
+<span class="k">    enddo</span>
+
+    <span class="c">! if istrt1=1, for use in conenr set coef = (-s1*scl**2)*coef, where</span>
+    <span class="c">! s1 = s/(s + (1.0-s)*scl**2) is the s value in the scaled situation.</span>
+    <span class="c">! note that a partly scaled version of wcoef (see loop ending with the</span>
+    <span class="c">! statement numbered 190 above) is already in coef if istrt1=1.</span>
+    <span class="k">if</span> <span class="p">(</span> <span class="n">istrt1</span><span class="o">&gt;</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
+        <span class="c">! if we had ncor &gt; n, reset ncor to n.</span>
+        <span class="k">if</span> <span class="p">(</span> <span class="n">ncor</span><span class="o">&gt;</span><span class="n">n</span> <span class="p">)</span> <span class="n">ncor</span> <span class="o">=</span> <span class="n">n</span>
+        <span class="n">fact</span> <span class="o">=</span> <span class="o">-</span><span class="p">(</span><span class="n">s</span><span class="o">/</span><span class="p">(</span><span class="n">s</span><span class="o">+</span><span class="p">(</span><span class="n">one</span><span class="o">-</span><span class="n">s</span><span class="p">)</span><span class="o">*</span><span class="n">scl</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span><span class="o">*</span><span class="n">scl</span><span class="o">**</span><span class="mi">2</span>
+        <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">m</span>
+            <span class="n">coef</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">fact</span><span class="o">*</span><span class="n">coef</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+        <span class="k">enddo</span>
+<span class="k">    endif</span>
+
+    <span class="c">! call conenr to compute the nearest point to r in the cone of</span>
+    <span class="c">! nonnegative linear combinations of columns of pmat1.</span>
+    <span class="k">call </span><span class="n">conenr</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">m</span><span class="p">,</span><span class="n">pmat1</span><span class="p">,</span><span class="n">r</span><span class="p">,</span><span class="n">istrt1</span><span class="p">,</span><span class="n">ncor</span><span class="p">,</span><span class="n">icor</span><span class="p">,</span><span class="n">tol</span><span class="p">,</span><span class="n">iwork</span><span class="p">,</span><span class="n">liwrk</span><span class="p">,</span><span class="n">work</span><span class="p">,</span>    <span class="p">&amp;</span>
+                <span class="n">lwrk</span><span class="p">,</span><span class="n">work</span><span class="p">(</span><span class="n">ilc39</span><span class="p">),</span><span class="n">work</span><span class="p">(</span><span class="n">ilc32</span><span class="p">),</span><span class="n">work</span><span class="p">(</span><span class="n">ilc28</span><span class="p">),</span><span class="n">nparm</span><span class="p">,</span><span class="n">numgr</span><span class="p">,</span> <span class="p">&amp;</span>
+                <span class="n">coef</span><span class="p">,</span><span class="n">ptnr</span><span class="p">,</span><span class="n">dist</span><span class="p">,</span><span class="n">nmaj</span><span class="p">,</span><span class="n">nmin</span><span class="p">,</span><span class="n">jflag</span><span class="p">)</span>
+
+    <span class="c">! if jflag=3 then conenr has failed, possibly because scl was too large.</span>
+    <span class="k">if</span> <span class="p">(</span> <span class="n">jflag</span><span class="o">/=</span><span class="mi">3</span> <span class="p">)</span> <span class="k">then</span>
+        <span class="c">! here jflag /= 3 and we compute s1 = 1.0 - ptnr(n).</span>
+        <span class="n">s1</span> <span class="o">=</span> <span class="n">one</span> <span class="o">-</span> <span class="n">ptnr</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span> <span class="n">s1</span><span class="o">&gt;=</span><span class="n">s1low</span> <span class="p">)</span> <span class="k">then</span>
+
+            <span class="c">! here jflag /= 3 and s1 &gt;= s1low, so if also s1 &lt;= s1hi we accept</span>
+            <span class="c">! the result from conenr and move on.</span>
             <span class="k">if</span> <span class="p">(</span> <span class="n">s1</span><span class="o">&lt;=</span><span class="n">s1hi</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">700</span>
-<span class="c">!</span>
-<span class="c">! HERE JFLAG /= 3 AND S1 &gt; S1HI, SO IF ITCON &lt; LMCON WE TRY</span>
-<span class="c">! AGAIN WITH LARGER SCL.</span>
-<span class="c">! IF HERE JFLAG=0 AND NCOR=0 THE NEAREST POINT TO THE ORIGIN IN THE</span>
-<span class="c">! POLYTOPE APPEARS TO BE THE ORIGIN SO WE FOREGO ADJUSTING SCL.</span>
-            <span class="k">if</span> <span class="p">(</span> <span class="n">Jflag</span><span class="o">/=</span><span class="mi">0</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">600</span>
-            <span class="k">if</span> <span class="p">(</span> <span class="n">Ncor</span><span class="o">&gt;</span><span class="mi">0</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">600</span>
+
+            <span class="c">! here jflag /= 3 and s1 &gt; s1hi, so if itcon &lt; lmcon we try</span>
+            <span class="c">! again with larger scl.</span>
+            <span class="c">! if here jflag=0 and ncor=0 the nearest point to the origin in the</span>
+            <span class="c">! polytope appears to be the origin so we forego adjusting scl.</span>
+            <span class="k">if</span> <span class="p">(</span> <span class="n">jflag</span><span class="o">/=</span><span class="mi">0</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">600</span>
+            <span class="k">if</span> <span class="p">(</span> <span class="n">ncor</span><span class="o">&gt;</span><span class="mi">0</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">600</span>
             <span class="k">goto </span><span class="mi">700</span>
-         <span class="k">endif</span>
-<span class="k">      endif</span>
-<span class="c">! HERE JFLAG=3 OR S1 &lt; S1LOW, SO IF ITCON &lt; LMCON WE TRY AGAIN WITH</span>
-<span class="c">! SMALLER SCL.</span>
-      <span class="k">if</span> <span class="p">(</span> <span class="n">itcon</span><span class="o">&lt;</span><span class="n">lmcon</span> <span class="p">)</span> <span class="k">then</span>
-<span class="c">!</span>
-<span class="c">! HERE WE INCREMENT ITCON AND IF SCL WAS NOT ALREADY VERY SMALL WE</span>
-<span class="c">! DECREASE IT AND TRY CONENR AGAIN.</span>
-         <span class="n">itcon</span> <span class="o">=</span> <span class="n">itcon</span> <span class="o">+</span> <span class="mi">1</span>
-         <span class="k">if</span> <span class="p">(</span> <span class="n">iup</span><span class="o">&lt;</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
-<span class="k">         </span><span class="n">elseif</span> <span class="p">(</span> <span class="n">iup</span><span class="o">==</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
-<span class="c">!</span>
-<span class="c">! HERE IUP=0 SO EITHER WE ARE JUST STARTING (IN WHICH CASE WE SET IUP=-1</span>
-<span class="c">! TO INDICATE WE ARE IN A PHASE OF DECREASING SCL) OR WE ARE OSCILLATING.</span>
+        <span class="k">endif</span>
+<span class="k">    endif</span>
+    <span class="c">! here jflag=3 or s1 &lt; s1low, so if itcon &lt; lmcon we try again with</span>
+    <span class="c">! smaller scl.</span>
+    <span class="k">if</span> <span class="p">(</span> <span class="n">itcon</span><span class="o">&lt;</span><span class="n">lmcon</span> <span class="p">)</span> <span class="k">then</span>
+
+        <span class="c">! here we increment itcon and if scl was not already very small we</span>
+        <span class="c">! decrease it and try conenr again.</span>
+        <span class="n">itcon</span> <span class="o">=</span> <span class="n">itcon</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="k">if</span> <span class="p">(</span> <span class="n">iup</span><span class="o">&lt;</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
+
+<span class="k">        </span><span class="n">elseif</span> <span class="p">(</span> <span class="n">iup</span><span class="o">==</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
+            <span class="c">! here iup=0 so either we are just starting (in which case we set iup=-1</span>
+            <span class="c">! to indicate we are in a phase of decreasing scl) or we are oscillating.</span>
             <span class="k">if</span> <span class="p">(</span> <span class="n">itcon</span><span class="o">&lt;=</span><span class="mi">1</span> <span class="p">)</span> <span class="k">then</span>
-<span class="k">               </span><span class="n">iup</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+<span class="k">                </span><span class="n">iup</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
             <span class="k">else</span>
-<span class="k">               </span><span class="n">facsc</span> <span class="o">=</span> <span class="nb">sqrt</span><span class="p">(</span><span class="n">facsc</span><span class="p">)</span>
+<span class="k">                </span><span class="n">facsc</span> <span class="o">=</span> <span class="nb">sqrt</span><span class="p">(</span><span class="n">facsc</span><span class="p">)</span>
             <span class="k">endif</span>
-<span class="k">         else</span>
-<span class="c">! HERE IUP=1 AND WE HAVE OSCILLATION IN THE SEARCH FOR A USABLE SCL SO</span>
-<span class="c">! WE REPLACE THE CORRECTION FACTOR BY ITS SQUARE ROOT AND RESET IUP TO</span>
-<span class="c">! 0 TO INDICATE OSCILLATION.</span>
+<span class="k">        else</span>
+            <span class="c">! here iup=1 and we have oscillation in the search for a usable scl so</span>
+            <span class="c">! we replace the correction factor by its square root and reset iup to</span>
+            <span class="c">! 0 to indicate oscillation.</span>
             <span class="n">iup</span> <span class="o">=</span> <span class="mi">0</span>
             <span class="n">facsc</span> <span class="o">=</span> <span class="nb">sqrt</span><span class="p">(</span><span class="n">facsc</span><span class="p">)</span>
-         <span class="k">endif</span>
-<span class="c">! HERE WE DECREASE SCL IF IT WAS NOT ALREADY VERY SMALL.</span>
-         <span class="k">if</span> <span class="p">(</span> <span class="n">scl</span><span class="o">&gt;=</span><span class="p">(</span><span class="n">one</span><span class="o">+</span><span class="n">one</span><span class="o">/</span><span class="n">ten</span><span class="p">)</span><span class="o">*</span><span class="n">tol</span> <span class="p">)</span> <span class="k">then</span>
+        <span class="k">endif</span>
+        <span class="c">! here we decrease scl if it was not already very small.</span>
+        <span class="k">if</span> <span class="p">(</span> <span class="n">scl</span><span class="o">&gt;=</span><span class="p">(</span><span class="n">one</span><span class="o">+</span><span class="n">one</span><span class="o">/</span><span class="n">ten</span><span class="p">)</span><span class="o">*</span><span class="n">tol</span> <span class="p">)</span> <span class="k">then</span>
 <span class="k">            </span><span class="n">scl</span> <span class="o">=</span> <span class="n">scl</span><span class="o">/</span><span class="n">facsc</span>
             <span class="k">goto </span><span class="mi">300</span>
-         <span class="k">endif</span>
-<span class="k">      endif</span>
-<span class="c">!</span>
-<span class="c">! HERE WE WERE UNABLE TO GET AN ACCEPTABLE S1 FROM CONENR SO WE SET</span>
-<span class="c">! JFLAG=4 AS A WARNING AND RETURN.  FIRST TRY AGAIN FROM SCRATCH IF THIS</span>
-<span class="c">! HAS NOT BEEN DONE.</span>
- <span class="mi">500</span>  <span class="k">if</span> <span class="p">(</span> <span class="n">istrt1</span><span class="o">&lt;=</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
-<span class="c">!</span>
-         <span class="n">Jflag</span> <span class="o">=</span> <span class="mi">4</span>
-         <span class="k">return</span>
-<span class="k">      else</span>
-<span class="k">         </span><span class="n">istrt1</span> <span class="o">=</span> <span class="mi">0</span>
-         <span class="n">itcon</span> <span class="o">=</span> <span class="mi">0</span>
-         <span class="n">iref</span> <span class="o">=</span> <span class="mi">0</span>
-         <span class="n">iup</span> <span class="o">=</span> <span class="mi">0</span>
-         <span class="n">facsc</span> <span class="o">=</span> <span class="n">fackp</span>
-         <span class="k">goto </span><span class="mi">100</span>
-      <span class="k">endif</span>
-<span class="k"> </span><span class="mi">600</span>  <span class="k">if</span> <span class="p">(</span> <span class="n">itcon</span><span class="o">&gt;=</span><span class="n">lmcon</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">500</span>
-      <span class="n">itcon</span> <span class="o">=</span> <span class="n">itcon</span> <span class="o">+</span> <span class="mi">1</span>
-      <span class="k">if</span> <span class="p">(</span> <span class="n">iup</span><span class="o">&lt;</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
-<span class="c">! HERE IUP=-1 AND WE HAVE OSCILLATION IN THE SEARCH FOR A USABLE SCL SO</span>
-<span class="c">! WE REPLACE THE CORRECTION FACTOR BY ITS SQUARE ROOT AND SET IUP=0</span>
-<span class="c">! TO INDICATE OSCILLATION.</span>
-         <span class="n">iup</span> <span class="o">=</span> <span class="mi">0</span>
-         <span class="n">facsc</span> <span class="o">=</span> <span class="nb">sqrt</span><span class="p">(</span><span class="n">facsc</span><span class="p">)</span>
-         <span class="n">scl</span> <span class="o">=</span> <span class="n">scl</span><span class="o">*</span><span class="n">facsc</span>
-      <span class="n">elseif</span> <span class="p">(</span> <span class="n">iup</span><span class="o">==</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
-<span class="c">! HERE IUP=0 SO EITHER WE ARE JUST STARTING (IN WHICH CASE WE SET IUP=1</span>
-<span class="c">! TO INDICATE WE ARE IN A PHASE OF INCREASING SCL) OR WE ARE OSCILLATING.</span>
-         <span class="k">if</span> <span class="p">(</span> <span class="n">itcon</span><span class="o">&lt;=</span><span class="mi">1</span> <span class="p">)</span> <span class="k">then</span>
+        <span class="k">endif</span>
+<span class="k">    endif</span>
+
+    <span class="c">! here we were unable to get an acceptable s1 from conenr so we set</span>
+    <span class="c">! jflag=4 as a warning and return.  first try again from scratch if this</span>
+    <span class="c">! has not been done.</span>
+<span class="mi">500</span> <span class="k">if</span> <span class="p">(</span> <span class="n">istrt1</span><span class="o">&lt;=</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
+<span class="k">        </span><span class="n">jflag</span> <span class="o">=</span> <span class="mi">4</span>
+        <span class="k">return</span>
+<span class="k">    else</span>
+<span class="k">        </span><span class="n">istrt1</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">itcon</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">iref</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">iup</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">facsc</span> <span class="o">=</span> <span class="n">fackp</span>
+        <span class="k">goto </span><span class="mi">100</span>
+    <span class="k">endif</span>
+<span class="mi">600</span> <span class="k">if</span> <span class="p">(</span> <span class="n">itcon</span><span class="o">&gt;=</span><span class="n">lmcon</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">500</span>
+    <span class="n">itcon</span> <span class="o">=</span> <span class="n">itcon</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="k">if</span> <span class="p">(</span> <span class="n">iup</span><span class="o">&lt;</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
+        <span class="c">! here iup=-1 and we have oscillation in the search for a usable scl so</span>
+        <span class="c">! we replace the correction factor by its square root and set iup=0</span>
+        <span class="c">! to indicate oscillation.</span>
+        <span class="n">iup</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">facsc</span> <span class="o">=</span> <span class="nb">sqrt</span><span class="p">(</span><span class="n">facsc</span><span class="p">)</span>
+        <span class="n">scl</span> <span class="o">=</span> <span class="n">scl</span><span class="o">*</span><span class="n">facsc</span>
+    <span class="n">elseif</span> <span class="p">(</span> <span class="n">iup</span><span class="o">==</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
+        <span class="c">! here iup=0 so either we are just starting (in which case we set iup=1</span>
+        <span class="c">! to indicate we are in a phase of increasing scl) or we are oscillating.</span>
+        <span class="k">if</span> <span class="p">(</span> <span class="n">itcon</span><span class="o">&lt;=</span><span class="mi">1</span> <span class="p">)</span> <span class="k">then</span>
 <span class="k">            </span><span class="n">iup</span> <span class="o">=</span> <span class="mi">1</span>
             <span class="n">scl</span> <span class="o">=</span> <span class="n">scl</span><span class="o">*</span><span class="n">facsc</span>
-         <span class="k">else</span>
+        <span class="k">else</span>
 <span class="k">            </span><span class="n">facsc</span> <span class="o">=</span> <span class="nb">sqrt</span><span class="p">(</span><span class="n">facsc</span><span class="p">)</span>
             <span class="n">scl</span> <span class="o">=</span> <span class="n">scl</span><span class="o">*</span><span class="n">facsc</span>
-         <span class="k">endif</span>
-<span class="k">      else</span>
-<span class="k">         </span><span class="n">scl</span> <span class="o">=</span> <span class="n">scl</span><span class="o">*</span><span class="n">facsc</span>
-      <span class="k">endif</span>
-<span class="k">      goto </span><span class="mi">400</span>
-<span class="c">!</span>
-<span class="c">! HERE CONENR MAY HAVE SUCCEEDED AND WE COMPUTE THE NEAREST POINT</span>
-<span class="c">! (WPT,S1)=R-PTNR TO R FROM THE DUAL OF THE CONE DESCRIBED EARLIER.</span>
-<span class="c">! THIS NEW CONE IS THE SET OF (X,T) SUCH THAT (A(K)/SCL,B(K)).(X,T) &lt;=</span>
-<span class="c">! 0.0 FOR K=1,...,M.</span>
- <span class="mi">700</span>  <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Ndm</span>
-         <span class="n">Wpt</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="o">-</span><span class="n">Ptnr</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-      <span class="k">enddo</span>
-<span class="c">! DIVIDE WPT BY S1*SCL.</span>
-      <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Ndm</span>
-         <span class="n">Wpt</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="n">Wpt</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">s1</span><span class="o">*</span><span class="n">scl</span><span class="p">)</span>
-      <span class="k">enddo</span>
-<span class="c">! COMPUTE THE MAXIMUM WOLFE CONSTRAINT VIOLATION AS A CHECK.</span>
- <span class="mi">800</span>  <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">m</span>
-         <span class="n">v1</span> <span class="o">=</span> <span class="n">Pmat</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">j</span><span class="p">)</span>
-         <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Ndm</span>
-            <span class="n">v1</span> <span class="o">=</span> <span class="n">v1</span> <span class="o">+</span> <span class="n">Pmat</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span><span class="o">*</span><span class="n">Wpt</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-         <span class="k">enddo</span>
-<span class="k">         if</span> <span class="p">(</span> <span class="n">j</span><span class="o">&gt;</span><span class="mi">1</span> <span class="p">)</span> <span class="k">then</span>
+        <span class="k">endif</span>
+<span class="k">    else</span>
+<span class="k">        </span><span class="n">scl</span> <span class="o">=</span> <span class="n">scl</span><span class="o">*</span><span class="n">facsc</span>
+    <span class="k">endif</span>
+<span class="k">    goto </span><span class="mi">400</span>
+
+    <span class="c">! here conenr may have succeeded and we compute the nearest point</span>
+    <span class="c">! (wpt,s1)=r-ptnr to r from the dual of the cone described earlier.</span>
+    <span class="c">! this new cone is the set of (x,t) such that (a(k)/scl,b(k)).(x,t) &lt;=</span>
+    <span class="c">! 0.0 for k=1,...,m.</span>
+<span class="mi">700</span> <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">ndm</span>
+        <span class="n">wpt</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="o">-</span><span class="n">ptnr</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+    <span class="k">enddo</span>
+    <span class="c">! divide wpt by s1*scl.</span>
+    <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">ndm</span>
+        <span class="n">wpt</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="n">wpt</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">s1</span><span class="o">*</span><span class="n">scl</span><span class="p">)</span>
+    <span class="k">enddo</span>
+    <span class="c">! compute the maximum wolfe constraint violation as a check.</span>
+<span class="mi">800</span> <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">m</span>
+        <span class="n">v1</span> <span class="o">=</span> <span class="n">pmat</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">j</span><span class="p">)</span>
+        <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">ndm</span>
+            <span class="n">v1</span> <span class="o">=</span> <span class="n">v1</span> <span class="o">+</span> <span class="n">pmat</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span><span class="o">*</span><span class="n">wpt</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+        <span class="k">enddo</span>
+<span class="k">        if</span> <span class="p">(</span> <span class="n">j</span><span class="o">&gt;</span><span class="mi">1</span> <span class="p">)</span> <span class="k">then</span>
 <span class="k">            if</span> <span class="p">(</span> <span class="n">v1</span><span class="o">&lt;=</span><span class="n">vmax</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">900</span>
-         <span class="k">endif</span>
-<span class="k">         </span><span class="n">jmax</span> <span class="o">=</span> <span class="n">j</span>
-         <span class="n">vmax</span> <span class="o">=</span> <span class="n">v1</span>
- <span class="mi">900</span>  <span class="k">enddo</span>
-<span class="c">! IF VMAX &lt;= VIOLM WE RESET JFLAG TO 0 AND ACCEPT THE RESULT.</span>
-      <span class="k">if</span> <span class="p">(</span> <span class="n">vmax</span><span class="o">&lt;=</span><span class="n">violm</span> <span class="p">)</span> <span class="k">then</span>
-<span class="k">         </span><span class="n">Jflag</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="c">!</span>
-<span class="c">! DIVIDE THE COEFFICIENTS BY -S1*SCL**2.</span>
-         <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">m</span>
-            <span class="n">Wcoef</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="o">-</span><span class="n">Coef</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">s1</span><span class="o">*</span><span class="n">scl</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
-         <span class="k">enddo</span>
-<span class="c">!</span>
-<span class="c">! WE NOW RECONSTRUCT THE NORMAL SCALING FACTORS COMPUTED IN THE LOOP</span>
-<span class="c">! ENDING WITH THE STATEMENT LABELLED 190 IN THIS SUBROUTINE.  IN A LATER</span>
-<span class="c">! VERSION OF THIS SUBROUTINE AN ARRAY MAY BE CREATED TO STORE THESE IN</span>
-<span class="c">! THAT LOOP, BUT FOR NOW WE AVOID THE EXTRA STORAGE AND PROGRAMMING WORK</span>
-<span class="c">! OF FIDDLING WITH THE VARIABLE DIMENSIONING.  TO RECREATE THE FACTOR</span>
-<span class="c">! SCL1 CORRESPONDING TO COLUMN J, WE COMPUTE THE MAXIMUM ABSOLUTE VALUE</span>
-<span class="c">! OF THE FIRST NDM ELEMENTS OF PMAT IN THIS COLUMN, DIVIDE IT BY SCL, TAKE</span>
-<span class="c">! THE MAXIMUM OF THIS AND ABS(PMAT(NDM+1,J)), AND TAKE SCL1 TO BE THIS</span>
-<span class="c">! VALUE UNLESS IT IS LESS THAN TOL1, IN WHICH WE (IN EFFECT) TAKE SCL1=1.0.</span>
-<span class="c">! FINALLY, SINCE WCOEF(J) WAS COMPUTED WITH THE JTH COLUMN OF PMAT DIVIDED</span>
-<span class="c">! BY SCL1 IT CONTAINS A HIDDEN FACTOR OF SCL1, WHICH WE DIVIDE OUT.</span>
-         <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">m</span>
+        <span class="k">endif</span>
+<span class="k">        </span><span class="n">jmax</span> <span class="o">=</span> <span class="n">j</span>
+        <span class="n">vmax</span> <span class="o">=</span> <span class="n">v1</span>
+<span class="mi">900</span> <span class="k">enddo</span>
+    <span class="c">! if vmax &lt;= violm we reset jflag to 0 and accept the result.</span>
+    <span class="k">if</span> <span class="p">(</span> <span class="n">vmax</span><span class="o">&lt;=</span><span class="n">violm</span> <span class="p">)</span> <span class="k">then</span>
+<span class="k">        </span><span class="n">jflag</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="c">! divide the coefficients by -s1*scl**2.</span>
+        <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">m</span>
+            <span class="n">wcoef</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="o">-</span><span class="n">coef</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">s1</span><span class="o">*</span><span class="n">scl</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+        <span class="k">enddo</span>
+
+        <span class="c">! we now reconstruct the normal scaling factors computed in the loop</span>
+        <span class="c">! ending with the statement labelled 190 in this subroutine.  in a later</span>
+        <span class="c">! version of this subroutine an array may be created to store these in</span>
+        <span class="c">! that loop, but for now we avoid the extra storage and programming work</span>
+        <span class="c">! of fiddling with the variable dimensioning.  to recreate the factor</span>
+        <span class="c">! scl1 corresponding to column j, we compute the maximum absolute value</span>
+        <span class="c">! of the first ndm elements of pmat in this column, divide it by scl, take</span>
+        <span class="c">! the maximum of this and abs(pmat(ndm+1,j)), and take scl1 to be this</span>
+        <span class="c">! value unless it is less than tol1, in which we (in effect) take scl1=1.0.</span>
+        <span class="c">! finally, since wcoef(j) was computed with the jth column of pmat divided</span>
+        <span class="c">! by scl1 it contains a hidden factor of scl1, which we divide out.</span>
+        <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">m</span>
             <span class="n">scl1a</span> <span class="o">=</span> <span class="n">zero</span>
-            <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Ndm</span>
-               <span class="n">ab</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">Pmat</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">))</span>
-               <span class="k">if</span> <span class="p">(</span> <span class="n">ab</span><span class="o">&gt;</span><span class="n">scl1a</span> <span class="p">)</span> <span class="n">scl1a</span> <span class="o">=</span> <span class="n">ab</span>
+            <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">ndm</span>
+                <span class="n">ab</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">pmat</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">))</span>
+                <span class="k">if</span> <span class="p">(</span> <span class="n">ab</span><span class="o">&gt;</span><span class="n">scl1a</span> <span class="p">)</span> <span class="n">scl1a</span> <span class="o">=</span> <span class="n">ab</span>
             <span class="k">enddo</span>
 <span class="k">            </span><span class="n">scl1</span> <span class="o">=</span> <span class="n">scl1a</span><span class="o">/</span><span class="n">scl</span>
-            <span class="n">ab</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">Pmat</span><span class="p">(</span><span class="n">Ndm</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="n">j</span><span class="p">))</span>
+            <span class="n">ab</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">pmat</span><span class="p">(</span><span class="n">ndm</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="n">j</span><span class="p">))</span>
             <span class="k">if</span> <span class="p">(</span> <span class="n">ab</span><span class="o">&gt;</span><span class="n">scl1</span> <span class="p">)</span> <span class="n">scl1</span> <span class="o">=</span> <span class="n">ab</span>
-            <span class="k">if</span> <span class="p">(</span> <span class="n">scl1</span><span class="o">&gt;=</span><span class="n">tol1</span> <span class="p">)</span> <span class="n">Wcoef</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">Wcoef</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="o">/</span><span class="n">scl1</span>
-         <span class="k">enddo</span>
-<span class="c">!</span>
-<span class="c">! COMPUTE THE S VALUE FOR THE UNSCALED SITUATION.</span>
-         <span class="n">s</span> <span class="o">=</span> <span class="n">s1</span><span class="o">/</span><span class="p">(</span><span class="n">s1</span><span class="o">+</span><span class="p">(</span><span class="n">one</span><span class="o">-</span><span class="n">s1</span><span class="p">)</span><span class="o">/</span><span class="n">scl</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
-<span class="c">! COPY WPT INTO PTNR TO GET THE RIGHT DIMENSION FOR DOTPRD AND COMPUTE</span>
-<span class="c">! THE DISTANCE.</span>
-         <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Ndm</span>
-            <span class="n">Ptnr</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="n">Wpt</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-         <span class="k">enddo</span>
-<span class="k">         </span><span class="n">Ptnr</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">=</span> <span class="n">zero</span>
-         <span class="n">Wdist</span> <span class="o">=</span> <span class="nb">sqrt</span><span class="p">(</span><span class="n">dotprd</span><span class="p">(</span><span class="n">Ndm</span><span class="p">,</span><span class="n">Ptnr</span><span class="p">,</span><span class="n">Ptnr</span><span class="p">,</span><span class="n">Nparm</span><span class="p">))</span>
-         <span class="k">return</span>
-<span class="k">      else</span>
-<span class="c">!</span>
-<span class="c">! HERE VMAX IS TOO LARGE.</span>
-         <span class="k">if</span> <span class="p">(</span> <span class="n">iref</span><span class="o">&gt;</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
-<span class="c">! HERE WE HAVE UNSUCCESSFULLY TRIED TO REFINE WPT WITH REFWL AT LEAST</span>
-<span class="c">! ONCE.  IF NCOR &lt; NDM AND THE WORST VIOLATION OCCURRED OUTSIDE</span>
-<span class="c">! ICOR WE WILL PUT IT IN ICOR AND TRY REFWL AGAIN, OTHERWISE WE WILL</span>
-<span class="c">! SET JFLAG=7 AND RETURN (FIRST TRYING FROOM SCRATCH IF THIS HAS NOT</span>
-<span class="c">! BEEN DONE).</span>
-            <span class="k">if</span> <span class="p">(</span> <span class="n">Ncor</span><span class="o">&gt;=</span><span class="n">Ndm</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">1000</span>
-            <span class="k">if</span> <span class="p">(</span> <span class="n">Ncor</span><span class="o">&gt;</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
-<span class="k">               do </span><span class="n">l</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Ncor</span>
-                  <span class="k">if</span> <span class="p">(</span> <span class="n">jmax</span><span class="o">==</span><span class="n">Icor</span><span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">1000</span>
-               <span class="k">enddo</span>
+            <span class="k">if</span> <span class="p">(</span> <span class="n">scl1</span><span class="o">&gt;=</span><span class="n">tol1</span> <span class="p">)</span> <span class="n">wcoef</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">wcoef</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="o">/</span><span class="n">scl1</span>
+        <span class="k">enddo</span>
+
+        <span class="c">! compute the s value for the unscaled situation.</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="n">s1</span><span class="o">/</span><span class="p">(</span><span class="n">s1</span><span class="o">+</span><span class="p">(</span><span class="n">one</span><span class="o">-</span><span class="n">s1</span><span class="p">)</span><span class="o">/</span><span class="n">scl</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+        <span class="c">! copy wpt into ptnr to get the right dimension for dotprd and compute</span>
+        <span class="c">! the distance.</span>
+        <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">ndm</span>
+            <span class="n">ptnr</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="n">wpt</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+        <span class="k">enddo</span>
+<span class="k">        </span><span class="n">ptnr</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">=</span> <span class="n">zero</span>
+        <span class="n">wdist</span> <span class="o">=</span> <span class="nb">sqrt</span><span class="p">(</span><span class="n">dotprd</span><span class="p">(</span><span class="n">ndm</span><span class="p">,</span><span class="n">ptnr</span><span class="p">,</span><span class="n">ptnr</span><span class="p">,</span><span class="n">nparm</span><span class="p">))</span>
+        <span class="k">return</span>
+<span class="k">    else</span>
+
+        <span class="c">! here vmax is too large.</span>
+        <span class="k">if</span> <span class="p">(</span> <span class="n">iref</span><span class="o">&gt;</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
+            <span class="c">! here we have unsuccessfully tried to refine wpt with refwl at least</span>
+            <span class="c">! once.  if ncor &lt; ndm and the worst violation occurred outside</span>
+            <span class="c">! icor we will put it in icor and try refwl again, otherwise we will</span>
+            <span class="c">! set jflag=7 and return (first trying from scratch if this has not</span>
+            <span class="c">! been done).</span>
+            <span class="k">if</span> <span class="p">(</span> <span class="n">ncor</span><span class="o">&gt;=</span><span class="n">ndm</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">1000</span>
+            <span class="k">if</span> <span class="p">(</span> <span class="n">ncor</span><span class="o">&gt;</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
+<span class="k">                do </span><span class="n">l</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">ncor</span>
+                    <span class="k">if</span> <span class="p">(</span> <span class="n">jmax</span><span class="o">==</span><span class="n">icor</span><span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">1000</span>
+                <span class="k">enddo</span>
 <span class="k">            endif</span>
-<span class="k">            </span><span class="n">Ncor</span> <span class="o">=</span> <span class="n">Ncor</span> <span class="o">+</span> <span class="mi">1</span>
-            <span class="n">Icor</span><span class="p">(</span><span class="n">Ncor</span><span class="p">)</span> <span class="o">=</span> <span class="n">jmax</span>
-         <span class="k">endif</span>
-<span class="c">!</span>
-<span class="c">! INCREMENT IREF AND CALL REFWL TO ATTEMPT TO REFINE WPT, THEN GO BACK</span>
-<span class="c">! AND RECHECK THE MAXIMUM CONSTRAINT VIOLATION.</span>
-         <span class="n">iref</span> <span class="o">=</span> <span class="n">iref</span> <span class="o">+</span> <span class="mi">1</span>
-         <span class="k">call </span><span class="n">refwl</span><span class="p">(</span><span class="n">Ndm</span><span class="p">,</span><span class="n">Ncor</span><span class="p">,</span><span class="n">Icor</span><span class="p">,</span><span class="n">Pmat</span><span class="p">,</span><span class="n">Pmat1</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">,</span><span class="n">Iwork</span><span class="p">(</span><span class="n">ilc18</span><span class="p">),</span>  <span class="p">&amp;</span>
-                    <span class="n">Work</span><span class="p">(</span><span class="n">ilc34</span><span class="p">),</span><span class="n">Wpt</span><span class="p">)</span>
-         <span class="k">goto </span><span class="mi">800</span>
-      <span class="k">endif</span>
-<span class="c">!</span>
- <span class="mi">1000</span> <span class="k">if</span> <span class="p">(</span> <span class="n">istrt1</span><span class="o">&gt;</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
-<span class="k">         </span><span class="n">istrt1</span> <span class="o">=</span> <span class="mi">0</span>
-         <span class="n">itcon</span> <span class="o">=</span> <span class="mi">0</span>
-         <span class="n">iref</span> <span class="o">=</span> <span class="mi">0</span>
-         <span class="n">iup</span> <span class="o">=</span> <span class="mi">0</span>
-         <span class="n">facsc</span> <span class="o">=</span> <span class="n">fackp</span>
-         <span class="k">goto </span><span class="mi">100</span>
-      <span class="k">endif</span>
-<span class="c">!</span>
-      <span class="n">Jflag</span> <span class="o">=</span> <span class="mi">7</span>
+<span class="k">            </span><span class="n">ncor</span> <span class="o">=</span> <span class="n">ncor</span> <span class="o">+</span> <span class="mi">1</span>
+            <span class="n">icor</span><span class="p">(</span><span class="n">ncor</span><span class="p">)</span> <span class="o">=</span> <span class="n">jmax</span>
+        <span class="k">endif</span>
+
+        <span class="c">! increment iref and call refwl to attempt to refine wpt, then go back</span>
+        <span class="c">! and recheck the maximum constraint violation.</span>
+        <span class="n">iref</span> <span class="o">=</span> <span class="n">iref</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="k">call </span><span class="n">refwl</span><span class="p">(</span><span class="n">ndm</span><span class="p">,</span><span class="n">ncor</span><span class="p">,</span><span class="n">icor</span><span class="p">,</span><span class="n">pmat</span><span class="p">,</span><span class="n">pmat1</span><span class="p">,</span><span class="n">nparm</span><span class="p">,</span><span class="n">numgr</span><span class="p">,</span><span class="n">iwork</span><span class="p">(</span><span class="n">ilc18</span><span class="p">),</span>  <span class="p">&amp;</span>
+        <span class="n">work</span><span class="p">(</span><span class="n">ilc34</span><span class="p">),</span><span class="n">wpt</span><span class="p">)</span>
+        <span class="k">goto </span><span class="mi">800</span>
+    <span class="k">endif</span>
+
+<span class="mi">1000</span> <span class="k">if</span> <span class="p">(</span> <span class="n">istrt1</span><span class="o">&gt;</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
+<span class="k">        </span><span class="n">istrt1</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">itcon</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">iref</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">iup</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">facsc</span> <span class="o">=</span> <span class="n">fackp</span>
+        <span class="k">goto </span><span class="mi">100</span>
+    <span class="k">endif</span>
+
+<span class="k">    </span><span class="n">jflag</span> <span class="o">=</span> <span class="mi">7</span>
 
     <span class="k">end subroutine </span><span class="n">wolfe</span>
 </pre></div>
