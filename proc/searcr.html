@@ -125,7 +125,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 5.9% of total for procedures.">187 statements</a>
+    title=" 5.9% of total for procedures.">181 statements</a>
      </li> 
      
      
@@ -211,17 +211,17 @@ private subroutine searcr(me, Ioptn, Nparm, Numgr, Dvec, Fun, Ifun, Pttbl, Iptb,
     <p>THIS SUBROUTINE USES A MODIFIED QUADRATIC FITTING PROCESS TO SEARCH
   FOR A PROJECTION FACTOR PROCOR FOR WHICH THE MAXIMUM OF THE LEFT
   SIDES OF THE TYPE -2 AND -1 CONSTRAINTS EVALUATED AT ZWORK + PROCOR*DVEC
-  IS .LE. TOLCON.  NOTE THAT WHEN CORRCT CALLS THIS SUBROUTINE IT WILL
+  IS &lt;= TOLCON.  NOTE THAT WHEN CORRCT CALLS THIS SUBROUTINE IT WILL
   HAVE LUMPED THE TYPE -1 CONSTRAINTS IN WITH THE TYPE -2 CONSTRAINTS
   USING JCNTYP, WHICH IS CARRIED THROUGH THIS SUBROUTINE INTO SUBROUTINE
-  ERCMP1 IN IWORK.  IF SEARCR IS ABLE TO FORCE THIS MAXIMUM .LE. TOLCON
+  ERCMP1 IN IWORK.  IF SEARCR IS ABLE TO FORCE THIS MAXIMUM &lt;= TOLCON
   IT WILL RETURN WITH ISRCR=0, WITH THE MINIMUM VALUE FOUND FOR THE
   MAXIMUM IN EMIN, WITH THE CORRESPONDING PROJECTION FACTOR IN PROCOR,
   WITH THE NUMBER OF TIMES THE MAXIMUM WAS COMPUTED IN NSRCH, AND WITH THE
-  CLOSEST POINT FOUND TO THE LEFT WITH THE MAXIMUM .GT. TOLCON IN (P1,F1).
+  CLOSEST POINT FOUND TO THE LEFT WITH THE MAXIMUM &gt; TOLCON IN (P1,F1).
   THE SUBROUTINE WILL BEGIN BY COMPUTING THE MAXIMA FOR PROCOR = 1.0,
-  0.5, AND 2.0, AND IF NONE OF THESE MAXIMA IS .LE. TOLCON AND IT IS
-  NOT THE CASE THAT THE MAXIMUM AT 1.0 IS .LE. THE OTHER TWO MAXIMA
+  0.5, AND 2.0, AND IF NONE OF THESE MAXIMA IS &lt;= TOLCON AND IT IS
+  NOT THE CASE THAT THE MAXIMUM AT 1.0 IS &lt;= THE OTHER TWO MAXIMA
   THE SUBROUTINE WILL RETURN WITH THE WARNING ISRCR=1. THE SUBROUTINE
   WILL ALSO RETURN WITH ISRCR=1 IF IT WOULD NEED TO COMPUTE F MORE THAN
   LIMSCR TIMES, OR THE SEARCH INTERVAL LENGTH DROPS BELOW TOL1, OR THE
@@ -772,35 +772,28 @@ private subroutine searcr(me, Ioptn, Nparm, Numgr, Dvec, Fun, Ifun, Pttbl, Iptb,
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
     <div class="highlight"><pre><span></span>      <span class="k">subroutine </span><span class="n">searcr</span><span class="p">(</span><span class="n">me</span><span class="p">,</span><span class="n">Ioptn</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">,</span><span class="n">Dvec</span><span class="p">,</span><span class="n">Fun</span><span class="p">,</span><span class="n">Ifun</span><span class="p">,</span><span class="n">Pttbl</span><span class="p">,</span><span class="n">Iptb</span><span class="p">,</span><span class="n">Indm</span><span class="p">,&amp;</span>
-                      <span class="p">&amp;</span> <span class="n">Zwork</span><span class="p">,</span><span class="n">Tolcon</span><span class="p">,</span><span class="n">Iphse</span><span class="p">,</span><span class="n">Iwork</span><span class="p">,</span><span class="n">Liwrk</span><span class="p">,</span><span class="n">Work</span><span class="p">,</span><span class="n">Lwrk</span><span class="p">,</span><span class="n">Parwrk</span><span class="p">,&amp;</span>
-                      <span class="p">&amp;</span> <span class="n">Err1</span><span class="p">,</span><span class="n">p1</span><span class="p">,</span><span class="n">f1</span><span class="p">,</span><span class="n">Procor</span><span class="p">,</span><span class="n">Emin</span><span class="p">,</span><span class="n">Isrcr</span><span class="p">)</span>
+                        <span class="n">Zwork</span><span class="p">,</span><span class="n">Tolcon</span><span class="p">,</span><span class="n">Iphse</span><span class="p">,</span><span class="n">Iwork</span><span class="p">,</span><span class="n">Liwrk</span><span class="p">,</span><span class="n">Work</span><span class="p">,</span><span class="n">Lwrk</span><span class="p">,</span><span class="n">Parwrk</span><span class="p">,&amp;</span>
+                        <span class="n">Err1</span><span class="p">,</span><span class="n">p1</span><span class="p">,</span><span class="n">f1</span><span class="p">,</span><span class="n">Procor</span><span class="p">,</span><span class="n">Emin</span><span class="p">,</span><span class="n">Isrcr</span><span class="p">)</span>
 
       <span class="k">implicit none</span>
 
 <span class="k">      class</span><span class="p">(</span><span class="n">conmax_solver</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span> <span class="kd">::</span> <span class="n">me</span>
       <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">baladj</span> <span class="p">,</span> <span class="n">balfct</span> <span class="p">,</span> <span class="n">Dvec</span> <span class="p">,</span> <span class="n">Emin</span> <span class="p">,</span> <span class="n">Err1</span> <span class="p">,</span> <span class="n">f1</span> <span class="p">,</span> <span class="n">f1kp</span> <span class="p">,&amp;</span>
-                  <span class="n">f2</span> <span class="p">,</span> <span class="n">f3</span> <span class="p">,</span> <span class="n">f4</span> <span class="p">,</span> <span class="n">four</span> <span class="p">,</span> <span class="n">Fun</span> <span class="p">,</span> <span class="n">fval</span> <span class="p">,</span> <span class="n">one</span> <span class="p">,</span> <span class="n">p1</span> <span class="p">,</span> <span class="n">p2</span> <span class="p">,</span> <span class="n">p3</span> <span class="p">,</span> <span class="p">&amp;</span>
+                  <span class="n">f2</span> <span class="p">,</span> <span class="n">f3</span> <span class="p">,</span> <span class="n">f4</span> <span class="p">,</span> <span class="n">Fun</span> <span class="p">,</span> <span class="n">fval</span> <span class="p">,</span> <span class="n">p1</span> <span class="p">,</span> <span class="n">p2</span> <span class="p">,</span> <span class="n">p3</span> <span class="p">,</span> <span class="p">&amp;</span>
                   <span class="n">p4</span> <span class="p">,</span> <span class="n">Parwrk</span>
       <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Procor</span> <span class="p">,</span> <span class="n">progr</span> <span class="p">,</span> <span class="n">Pttbl</span> <span class="p">,</span> <span class="n">pval</span> <span class="p">,</span> <span class="n">rlf</span> <span class="p">,</span> <span class="n">rrt</span> <span class="p">,</span> <span class="n">s1</span> <span class="p">,</span> <span class="n">s2</span> <span class="p">,</span>      <span class="p">&amp;</span>
-                  <span class="n">spcmn</span> <span class="p">,</span> <span class="n">ten</span> <span class="p">,</span> <span class="n">tol1</span> <span class="p">,</span> <span class="n">tol4</span> <span class="p">,</span> <span class="n">Tolcon</span> <span class="p">,</span> <span class="n">tolden</span> <span class="p">,</span> <span class="n">two</span> <span class="p">,</span> <span class="n">Work</span> <span class="p">,</span> <span class="p">&amp;</span>
-                  <span class="n">zero</span> <span class="p">,</span> <span class="n">Zwork</span>
+                  <span class="n">tol1</span> <span class="p">,</span> <span class="n">tol4</span> <span class="p">,</span> <span class="n">Tolcon</span> <span class="p">,</span> <span class="n">tolden</span> <span class="p">,</span> <span class="n">Work</span> <span class="p">,</span> <span class="p">&amp;</span>
+                  <span class="n">Zwork</span>
       <span class="kt">integer</span> <span class="kd">::</span> <span class="n">iaddl</span> <span class="p">,</span> <span class="n">iext</span> <span class="p">,</span> <span class="n">Ifun</span> <span class="p">,</span> <span class="n">ilc08</span> <span class="p">,</span> <span class="n">ilc21</span> <span class="p">,</span> <span class="n">ilf</span> <span class="p">,</span> <span class="n">Indm</span> <span class="p">,</span> <span class="p">&amp;</span>
                  <span class="n">Ioptn</span> <span class="p">,</span> <span class="n">Iphse</span> <span class="p">,</span> <span class="n">ipmax</span> <span class="p">,</span> <span class="n">Iptb</span> <span class="p">,</span> <span class="n">irt</span> <span class="p">,</span> <span class="n">ismax</span> <span class="p">,</span> <span class="n">Isrcr</span> <span class="p">,</span> <span class="p">&amp;</span>
                  <span class="n">Iwork</span> <span class="p">,</span> <span class="n">j</span> <span class="p">,</span> <span class="n">limscr</span> <span class="p">,</span> <span class="n">Liwrk</span> <span class="p">,</span> <span class="n">lll</span>
       <span class="kt">integer</span> <span class="kd">::</span> <span class="n">Lwrk</span> <span class="p">,</span> <span class="n">Nparm</span> <span class="p">,</span> <span class="n">nsrch</span> <span class="p">,</span> <span class="n">Numgr</span>
 <span class="c">!</span>
       <span class="k">dimension </span><span class="n">Fun</span><span class="p">(</span><span class="n">Ifun</span><span class="p">)</span> <span class="p">,</span> <span class="n">Pttbl</span><span class="p">(</span><span class="n">Iptb</span><span class="p">,</span><span class="n">Indm</span><span class="p">)</span> <span class="p">,</span> <span class="n">Parwrk</span><span class="p">(</span><span class="n">Nparm</span><span class="p">)</span> <span class="p">,</span> <span class="p">&amp;</span>
-              <span class="p">&amp;</span> <span class="n">Err1</span><span class="p">(</span><span class="n">Numgr</span><span class="o">+</span><span class="mi">3</span><span class="p">)</span> <span class="p">,</span> <span class="n">Zwork</span><span class="p">(</span><span class="n">Nparm</span><span class="p">)</span> <span class="p">,</span> <span class="n">Dvec</span><span class="p">(</span><span class="n">Nparm</span><span class="p">)</span> <span class="p">,</span> <span class="p">&amp;</span>
-              <span class="p">&amp;</span> <span class="n">Iwork</span><span class="p">(</span><span class="n">Liwrk</span><span class="p">)</span> <span class="p">,</span> <span class="n">Work</span><span class="p">(</span><span class="n">Lwrk</span><span class="p">)</span>
+                <span class="n">Err1</span><span class="p">(</span><span class="n">Numgr</span><span class="o">+</span><span class="mi">3</span><span class="p">)</span> <span class="p">,</span> <span class="n">Zwork</span><span class="p">(</span><span class="n">Nparm</span><span class="p">)</span> <span class="p">,</span> <span class="n">Dvec</span><span class="p">(</span><span class="n">Nparm</span><span class="p">)</span> <span class="p">,</span> <span class="p">&amp;</span>
+                <span class="n">Iwork</span><span class="p">(</span><span class="n">Liwrk</span><span class="p">)</span> <span class="p">,</span> <span class="n">Work</span><span class="p">(</span><span class="n">Lwrk</span><span class="p">)</span>
 
 <span class="c">! SET MACHINE AND PRECISION DEPENDENT CONSTANTS.</span>
-<span class="c">!     NWRIT=output_unit</span>
-      <span class="n">one</span> <span class="o">=</span> <span class="mf">1.0d0</span>
-      <span class="n">zero</span> <span class="o">=</span> <span class="n">one</span> <span class="o">-</span> <span class="n">one</span>
-      <span class="n">two</span> <span class="o">=</span> <span class="n">one</span> <span class="o">+</span> <span class="n">one</span>
-      <span class="n">four</span> <span class="o">=</span> <span class="n">two</span> <span class="o">+</span> <span class="n">two</span>
-      <span class="n">ten</span> <span class="o">=</span> <span class="n">four</span> <span class="o">+</span> <span class="n">four</span> <span class="o">+</span> <span class="n">two</span>
-      <span class="n">spcmn</span> <span class="o">=</span> <span class="n">d1mach3</span>
       <span class="n">tolden</span> <span class="o">=</span> <span class="n">ten</span><span class="o">*</span><span class="n">spcmn</span>
       <span class="n">tol1</span> <span class="o">=</span> <span class="n">ten</span><span class="o">*</span><span class="n">ten</span><span class="o">*</span><span class="n">spcmn</span>
       <span class="n">tol4</span> <span class="o">=</span> <span class="n">tol1</span><span class="o">/</span><span class="n">four</span>
@@ -817,8 +810,8 @@ private subroutine searcr(me, Ioptn, Nparm, Numgr, Dvec, Fun, Ifun, Pttbl, Iptb,
       <span class="n">nsrch</span> <span class="o">=</span> <span class="mi">0</span>
       <span class="n">ilf</span> <span class="o">=</span> <span class="mi">0</span>
       <span class="n">irt</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="c">! IF AFTER LIMSCR ITERATIONS HAVE BEEN DONE (WHERE LIMSCR .GE. 4) THE</span>
-<span class="c">! BEST VALUE FOUND IS .LE. PROGR WE WILL (ONCE ONLY) BUMP LIMSCR UP BY</span>
+<span class="c">! IF AFTER LIMSCR ITERATIONS HAVE BEEN DONE (WHERE LIMSCR &gt;= 4) THE</span>
+<span class="c">! BEST VALUE FOUND IS &lt;= PROGR WE WILL (ONCE ONLY) BUMP LIMSCR UP BY</span>
 <span class="c">! IADDL, SINCE THERE WOULD SEEM TO BE A GOOD CHANCE THAT THIS WILL</span>
 <span class="c">! PRODUCE SUCCESS.</span>
 <span class="c">! SETTING IEXT=1 HERE WILL DISABLE THE BUMPING PROCEDURE.</span>
@@ -859,14 +852,14 @@ private subroutine searcr(me, Ioptn, Nparm, Numgr, Dvec, Fun, Ifun, Pttbl, Iptb,
 <span class="c">! OF P1 AND P3, IT WILL BE AT LEAST AS CLOSE TO P2 AS TO THE</span>
 <span class="c">! ENDPOINT ON THE SAME SIDE.</span>
             <span class="k">if</span> <span class="p">(</span> <span class="n">ilf</span><span class="o">&gt;</span><span class="mi">1</span> <span class="p">)</span> <span class="k">then</span>
-<span class="c">! HERE THE LEFT ENDPOINT WAS DROPPED AT THE LAST ILF .GT. 1</span>
+<span class="c">! HERE THE LEFT ENDPOINT WAS DROPPED AT THE LAST ILF &gt; 1</span>
 <span class="c">! ITERATIONS, SO TO PREVENT A LONG STRING OF SUCH OCCURRENCES</span>
 <span class="c">! WITH LITTLE REDUCTION OF P3-P1 WE WILL SHIFT THE NEW POINT</span>
 <span class="c">! TO THE RIGHT BY DECREASING RLF RELATIVE TO RRT.</span>
                <span class="n">rlf</span> <span class="o">=</span> <span class="n">rlf</span><span class="o">/</span><span class="n">two</span><span class="o">**</span><span class="p">(</span><span class="n">ilf</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
                <span class="n">rrt</span> <span class="o">=</span> <span class="n">one</span> <span class="o">-</span> <span class="n">rlf</span>
             <span class="n">elseif</span> <span class="p">(</span> <span class="n">irt</span><span class="o">&gt;</span><span class="mi">1</span> <span class="p">)</span> <span class="k">then</span>
-<span class="c">! HERE THE RIGHT ENDPOINT WAS DROPPED AT THE LAST IRT .GT. 1</span>
+<span class="c">! HERE THE RIGHT ENDPOINT WAS DROPPED AT THE LAST IRT &gt; 1</span>
 <span class="c">! ITERATIONS, AND WE WILL SHIFT THE NEW POINT TO THE LEFT.</span>
                <span class="n">rrt</span> <span class="o">=</span> <span class="n">rrt</span><span class="o">/</span><span class="n">two</span><span class="o">**</span><span class="p">(</span><span class="n">irt</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
                <span class="n">rlf</span> <span class="o">=</span> <span class="n">one</span> <span class="o">-</span> <span class="n">rrt</span>
@@ -893,11 +886,11 @@ private subroutine searcr(me, Ioptn, Nparm, Numgr, Dvec, Fun, Ifun, Pttbl, Iptb,
             <span class="n">p4</span> <span class="o">=</span> <span class="p">(</span><span class="n">rlf</span><span class="o">*</span><span class="n">p1</span><span class="o">+</span><span class="n">rrt</span><span class="o">*</span><span class="n">p3</span><span class="o">+</span><span class="n">p2</span><span class="p">)</span><span class="o">/</span><span class="n">two</span>
 <span class="c">!</span>
 <span class="c">! THE NEXT SECTION (FROM HERE TO STATEMENT 2800) MODIFIES P4, IF</span>
-<span class="c">! NECESSARY, TO GET P1+TOL4 .LE. P2,P4 .LE. P3-TOL4 AND ABS(P4-P2) .GE.</span>
+<span class="c">! NECESSARY, TO GET P1+TOL4 &lt;= P2,P4 &lt;= P3-TOL4 AND ABS(P4-P2) &gt;=</span>
 <span class="c">! TOL4.  THIS SECTION IS LESS COMPLICATED THAN THE CORRESPONDING SECTION</span>
 <span class="c">! IN SEARSL BECAUSE ALL PS LIE BETWEEN 0.5 AND 2.0, SO WEIRD ROUNDOFF</span>
 <span class="c">! EFFECTS ARE LESS LIKELY.</span>
-<span class="c">! IF ABS(P4-P2) .LT. TOL4 WE REDEFINE P4 BY MOVING TOL4 FROM</span>
+<span class="c">! IF ABS(P4-P2) &lt; TOL4 WE REDEFINE P4 BY MOVING TOL4 FROM</span>
 <span class="c">! P2 INTO THE LONGER SUBINTERVAL.  NOTE THAT THE LENGTH OF THIS</span>
 <span class="c">! SUBINTERVAL MUST BE AT LEAST TOL1/2.0 = 2.0*TOL4, ELSE WE</span>
 <span class="c">! WOULD HAVE TERMINATED EARLIER.</span>
@@ -911,12 +904,12 @@ private subroutine searcr(me, Ioptn, Nparm, Numgr, Dvec, Fun, Ifun, Pttbl, Iptb,
 <span class="k">                  </span><span class="n">p4</span> <span class="o">=</span> <span class="n">p2</span> <span class="o">+</span> <span class="n">tol4</span>
                   <span class="n">pval</span> <span class="o">=</span> <span class="n">p4</span>
                <span class="k">endif</span>
-<span class="c">! HERE WE HAD ABS(P4-P2) .GE. TOL4 AND WE MAKE SURE THAT P1+TOL4</span>
-<span class="c">! .LE. P4 .LE. P3-TOL4.</span>
+<span class="c">! HERE WE HAD ABS(P4-P2) &gt;= TOL4 AND WE MAKE SURE THAT P1+TOL4</span>
+<span class="c">! &lt;= P4 &lt;= P3-TOL4.</span>
             <span class="n">elseif</span> <span class="p">(</span> <span class="n">p4</span><span class="o">&lt;=</span><span class="p">(</span><span class="n">p3</span><span class="o">-</span><span class="n">tol4</span><span class="p">)</span> <span class="p">)</span> <span class="k">then</span>
 <span class="k">               if</span> <span class="p">(</span> <span class="n">p4</span><span class="o">&gt;=</span><span class="p">(</span><span class="n">p1</span><span class="o">+</span><span class="n">tol4</span><span class="p">)</span> <span class="p">)</span> <span class="k">then</span>
 <span class="k">                  </span><span class="n">pval</span> <span class="o">=</span> <span class="n">p4</span>
-<span class="c">! HERE P4 .LT. P1+TOL4 AND WE SET P4=P1+TOL4 IF P2-P1 .GE. TOL1/2.0</span>
+<span class="c">! HERE P4 &lt; P1+TOL4 AND WE SET P4=P1+TOL4 IF P2-P1 &gt;= TOL1/2.0</span>
 <span class="c">! AND OTHERWISE WE SET P4=P2+TOL4.</span>
                <span class="n">elseif</span> <span class="p">(</span> <span class="n">p2</span><span class="o">-</span><span class="n">p1</span><span class="o">&lt;</span><span class="n">tol1</span><span class="o">/</span><span class="n">two</span> <span class="p">)</span> <span class="k">then</span>
 <span class="k">                  </span><span class="n">p4</span> <span class="o">=</span> <span class="n">p2</span> <span class="o">+</span> <span class="n">tol4</span>
@@ -925,7 +918,7 @@ private subroutine searcr(me, Ioptn, Nparm, Numgr, Dvec, Fun, Ifun, Pttbl, Iptb,
 <span class="k">                  </span><span class="n">p4</span> <span class="o">=</span> <span class="n">p1</span> <span class="o">+</span> <span class="n">tol4</span>
                   <span class="n">pval</span> <span class="o">=</span> <span class="n">p4</span>
                <span class="k">endif</span>
-<span class="c">! HERE P4 .GT. P3-TOL4 AND WE SET P4=P3-TOL4 IF P3-P2 .GE. TOL1/2.0,</span>
+<span class="c">! HERE P4 &gt; P3-TOL4 AND WE SET P4=P3-TOL4 IF P3-P2 &gt;= TOL1/2.0,</span>
 <span class="c">! AND OTHERWISE WE SET P4=P2-TOL4.</span>
             <span class="n">elseif</span> <span class="p">(</span> <span class="n">p3</span><span class="o">-</span><span class="n">p2</span><span class="o">&lt;</span><span class="n">tol1</span><span class="o">/</span><span class="n">two</span> <span class="p">)</span> <span class="k">then</span>
 <span class="k">               </span><span class="n">p4</span> <span class="o">=</span> <span class="n">p2</span> <span class="o">-</span> <span class="n">tol4</span>
@@ -957,22 +950,22 @@ private subroutine searcr(me, Ioptn, Nparm, Numgr, Dvec, Fun, Ifun, Pttbl, Iptb,
 <span class="c">! ERRORS IF THE TEN THOUSANDS DIGIT OF IOPTN IS 1, THUS SAVING ERCMP1</span>
 <span class="c">! THE WORK OF SCANNING ICNTYP.</span>
       <span class="k">call </span><span class="n">me</span><span class="p">%</span><span class="n">ercmp1</span><span class="p">(</span><span class="n">Ioptn</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">,</span><span class="n">Fun</span><span class="p">,</span><span class="n">Ifun</span><span class="p">,</span><span class="n">Pttbl</span><span class="p">,</span><span class="n">Iptb</span><span class="p">,</span><span class="n">Indm</span><span class="p">,</span><span class="n">Parwrk</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span>  <span class="p">&amp;</span>
-                <span class="p">&amp;</span> <span class="o">-</span><span class="mi">3</span><span class="p">,</span><span class="n">Iwork</span><span class="p">,</span><span class="n">Liwrk</span><span class="p">,</span><span class="n">Work</span><span class="p">(</span><span class="n">ilc08</span><span class="p">),</span><span class="n">Iwork</span><span class="p">(</span><span class="n">ilc21</span><span class="p">),</span><span class="n">ipmax</span><span class="p">,</span><span class="n">ismax</span><span class="p">,</span>  <span class="p">&amp;</span>
-                <span class="p">&amp;</span> <span class="n">Err1</span><span class="p">)</span>
+                  <span class="o">-</span><span class="mi">3</span><span class="p">,</span><span class="n">Iwork</span><span class="p">,</span><span class="n">Liwrk</span><span class="p">,</span><span class="n">Work</span><span class="p">(</span><span class="n">ilc08</span><span class="p">),</span><span class="n">Iwork</span><span class="p">(</span><span class="n">ilc21</span><span class="p">),</span><span class="n">ipmax</span><span class="p">,</span><span class="n">ismax</span><span class="p">,</span>  <span class="p">&amp;</span>
+                  <span class="n">Err1</span><span class="p">)</span>
       <span class="n">fval</span> <span class="o">=</span> <span class="n">Err1</span><span class="p">(</span><span class="n">Numgr</span><span class="o">+</span><span class="mi">3</span><span class="p">)</span>
 <span class="c">!</span>
       <span class="k">if</span> <span class="p">(</span> <span class="n">fval</span><span class="o">&lt;=</span><span class="n">Tolcon</span> <span class="p">)</span> <span class="k">then</span>
 <span class="c">!</span>
-<span class="c">! HERE FVAL .LE. TOLCON AND WE RETURN AFTER SETTING PROCOR, EMIN, P1,</span>
+<span class="c">! HERE FVAL &lt;= TOLCON AND WE RETURN AFTER SETTING PROCOR, EMIN, P1,</span>
 <span class="c">! AND F1.</span>
          <span class="n">Procor</span> <span class="o">=</span> <span class="n">pval</span>
          <span class="n">Emin</span> <span class="o">=</span> <span class="n">fval</span>
 <span class="c">! IF LLL=1 TAKE P1=0.0 AND F1=F1KP, IF LLL=2 LEAVE P1 AND F1 ALONE (THEY</span>
 <span class="c">! WILL BE 0.0 AND FIKP RESPECTIVELY), IF LLL=3 TAKE P1=P2 AND F1=F2,</span>
-<span class="c">! IF LLL=4 AND P2 .LT. P4 TAKE P1=P2 AND F1=F2, AND IF LLL=4 AND</span>
-<span class="c">! P2 .GE. P4 LEAVE P1 AND F1 ALONE.  IN ALL CASES (P1,F1) WILL BE THE</span>
+<span class="c">! IF LLL=4 AND P2 &lt; P4 TAKE P1=P2 AND F1=F2, AND IF LLL=4 AND</span>
+<span class="c">! P2 &gt;= P4 LEAVE P1 AND F1 ALONE.  IN ALL CASES (P1,F1) WILL BE THE</span>
 <span class="c">! POINT WITH P1 THE NEAREST VALUE LEFT OF PROCOR CONSIDERED AND WE WILL</span>
-<span class="c">! HAVE F1 .GT. TOLCON.</span>
+<span class="c">! HAVE F1 &gt; TOLCON.</span>
          <span class="k">select case</span> <span class="p">(</span><span class="n">lll</span><span class="p">)</span>
          <span class="k">case</span> <span class="p">(</span><span class="mi">2</span><span class="p">)</span>
          <span class="k">case</span> <span class="p">(</span><span class="mi">3</span><span class="p">)</span>
@@ -986,7 +979,7 @@ private subroutine searcr(me, Ioptn, Nparm, Numgr, Dvec, Fun, Ifun, Pttbl, Iptb,
 <span class="k">         return</span>
 <span class="k">      else</span>
 <span class="c">!</span>
-<span class="c">! HERE FVAL .GT. TOLCON AND WE SEE IF LIMSCR ITERATIONS IN SEARCR HAVE</span>
+<span class="c">! HERE FVAL &gt; TOLCON AND WE SEE IF LIMSCR ITERATIONS IN SEARCR HAVE</span>
 <span class="c">! BEEN DONE.  IF SO WE SET THE FAILURE WARNING ISRCR=1 AND RETURN</span>
 <span class="c">! UNLESS WE CHOOSE TO INCREASE LIMSCR.</span>
          <span class="k">if</span> <span class="p">(</span> <span class="n">nsrch</span><span class="o">&lt;</span><span class="n">limscr</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">900</span>
@@ -1000,8 +993,8 @@ private subroutine searcr(me, Ioptn, Nparm, Numgr, Dvec, Fun, Ifun, Pttbl, Iptb,
 <span class="k"> </span><span class="mi">500</span>  <span class="n">p1</span> <span class="o">=</span> <span class="n">p2</span>
       <span class="n">f1</span> <span class="o">=</span> <span class="n">f2</span>
       <span class="k">return</span>
-<span class="c">! HERE WE HAVE NOT BUMPED LIMSCR EARLIER, LIMSCR .GE. 4, AND</span>
-<span class="c">! MIN(FVAL,F2) .LE. PROGR, SO WE BUMP LIMSCR.</span>
+<span class="c">! HERE WE HAVE NOT BUMPED LIMSCR EARLIER, LIMSCR &gt;= 4, AND</span>
+<span class="c">! MIN(FVAL,F2) &lt;= PROGR, SO WE BUMP LIMSCR.</span>
  <span class="mi">600</span>  <span class="n">iext</span> <span class="o">=</span> <span class="mi">1</span>
       <span class="n">limscr</span> <span class="o">=</span> <span class="n">limscr</span> <span class="o">+</span> <span class="n">iaddl</span>
       <span class="k">goto </span><span class="mi">900</span>
@@ -1043,16 +1036,16 @@ private subroutine searcr(me, Ioptn, Nparm, Numgr, Dvec, Fun, Ifun, Pttbl, Iptb,
          <span class="n">f3</span> <span class="o">=</span> <span class="n">fval</span>
 <span class="c">!</span>
 <span class="c">! WE NOW HAVE FOUND P1, P2, AND P3 WITH CORRESPONDING VALUES</span>
-<span class="c">! F1, F2, AND F3, AND WE CHECK WHETHER F2 .LE. MIN(F1,F3).</span>
+<span class="c">! F1, F2, AND F3, AND WE CHECK WHETHER F2 &lt;= MIN(F1,F3).</span>
          <span class="k">if</span> <span class="p">(</span> <span class="n">f2</span><span class="o">&lt;=</span><span class="n">f1</span> <span class="p">)</span> <span class="k">then</span>
 <span class="c">!</span>
-<span class="c">! HERE F2 .LE. F1.  IF F2 .LE. F3 WE ARE DONE INITIALIZING.</span>
+<span class="c">! HERE F2 &lt;= F1.  IF F2 &lt;= F3 WE ARE DONE INITIALIZING.</span>
             <span class="k">if</span> <span class="p">(</span> <span class="n">f2</span><span class="o">&gt;</span><span class="n">f3</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">100</span>
 <span class="c">! END OF INITIALIZATION.</span>
 <span class="c">!</span>
-<span class="c">! ASSUMING THAT P3-P1 .GE. TOL1, WE NOW HAVE POINTS P1, P2, P3 WITH</span>
-<span class="c">! P1 .LE. P2-TOL4, P2 .LE. P3-TOL4, F1=F(P1) .GE. F2=F(P2), AND F3=F(P3)</span>
-<span class="c">! .GE. F2.  THESE CONDITIONS WILL BE MAINTAINED THROUGHOUT THE PROGRAM.</span>
+<span class="c">! ASSUMING THAT P3-P1 &gt;= TOL1, WE NOW HAVE POINTS P1, P2, P3 WITH</span>
+<span class="c">! P1 &lt;= P2-TOL4, P2 &lt;= P3-TOL4, F1=F(P1) &gt;= F2=F(P2), AND F3=F(P3)</span>
+<span class="c">! &gt;= F2.  THESE CONDITIONS WILL BE MAINTAINED THROUGHOUT THE PROGRAM.</span>
 <span class="c">! SET LLL=4, WHERE IT WILL REMAIN FROM NOW ON.</span>
             <span class="n">lll</span> <span class="o">=</span> <span class="mi">4</span>
             <span class="k">goto </span><span class="mi">200</span>
@@ -1067,7 +1060,7 @@ private subroutine searcr(me, Ioptn, Nparm, Numgr, Dvec, Fun, Ifun, Pttbl, Iptb,
          <span class="n">f4</span> <span class="o">=</span> <span class="n">fval</span>
 <span class="c">!</span>
 <span class="c">! NOW WE DROP EITHER P1 OR P3 AND RELABEL THE REMAINING POINTS (IF</span>
-<span class="c">! NECESSARY) SO THAT F(P2) .LE. F(P1) AND F(P2) .LE. F(P3).</span>
+<span class="c">! NECESSARY) SO THAT F(P2) &lt;= F(P1) AND F(P2) &lt;= F(P3).</span>
 <span class="c">! IF NOW THE LEFTMOST OF THE TWO MIDDLE POINTS IS LOWER THAN THE</span>
 <span class="c">! RIGHTMOST OF THE TWO MIDDLE POINTS WE DROP P3, AND SET ILF=0</span>
 <span class="c">! AND INCREMENT IRT TO INDICATE THE RIGHT END POINT HAS BEEN DROPPED.</span>
@@ -1075,7 +1068,7 @@ private subroutine searcr(me, Ioptn, Nparm, Numgr, Dvec, Fun, Ifun, Pttbl, Iptb,
 <span class="c">! WE THEN RESHUFFLE THE VALUES INTO P1, P2, P3, F1, F2, F3 AND TRY</span>
 <span class="c">! TO DO ANOTHER ITERATION.</span>
          <span class="k">if</span> <span class="p">(</span> <span class="n">p4</span><span class="o">&lt;</span><span class="n">p2</span> <span class="p">)</span> <span class="k">then</span>
-<span class="c">! HERE P4 .LT. P2.</span>
+<span class="c">! HERE P4 &lt; P2.</span>
             <span class="k">if</span> <span class="p">(</span> <span class="n">f4</span><span class="o">&lt;</span><span class="n">f2</span> <span class="p">)</span> <span class="k">then</span>
 <span class="k">               </span><span class="n">p3</span> <span class="o">=</span> <span class="n">p2</span>
                <span class="n">f3</span> <span class="o">=</span> <span class="n">f2</span>
@@ -1089,7 +1082,7 @@ private subroutine searcr(me, Ioptn, Nparm, Numgr, Dvec, Fun, Ifun, Pttbl, Iptb,
                <span class="n">ilf</span> <span class="o">=</span> <span class="n">ilf</span> <span class="o">+</span> <span class="mi">1</span>
                <span class="n">irt</span> <span class="o">=</span> <span class="mi">0</span>
             <span class="k">endif</span>
-<span class="c">! HERE P4 .GT. P2.</span>
+<span class="c">! HERE P4 &gt; P2.</span>
          <span class="n">elseif</span> <span class="p">(</span> <span class="n">f2</span><span class="o">&lt;</span><span class="n">f4</span> <span class="p">)</span> <span class="k">then</span>
 <span class="k">            </span><span class="n">p3</span> <span class="o">=</span> <span class="n">p4</span>
             <span class="n">f3</span> <span class="o">=</span> <span class="n">f4</span>

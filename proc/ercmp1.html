@@ -125,7 +125,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 3.3% of total for procedures.">106 statements</a>
+    title=" 3.4% of total for procedures.">104 statements</a>
      </li> 
      
      
@@ -683,21 +683,18 @@ private subroutine ercmp1(me, Ioptn, Nparm, Numgr, Fun, Ifun, Pttbl, Iptb, Indm,
       <span class="k">implicit none</span>
 
 <span class="k">      class</span><span class="p">(</span><span class="n">conmax_solver</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span> <span class="kd">::</span> <span class="n">me</span>
-      <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Confun</span> <span class="p">,</span> <span class="n">ei</span> <span class="p">,</span> <span class="n">enor2</span> <span class="p">,</span> <span class="n">enor3</span> <span class="p">,</span> <span class="n">enorm</span> <span class="p">,</span> <span class="n">Error</span> <span class="p">,</span> <span class="n">Fun</span> <span class="p">,</span> <span class="n">one</span> <span class="p">,</span> <span class="p">&amp;</span>
-                  <span class="n">Param</span> <span class="p">,</span> <span class="n">Pttbl</span> <span class="p">,</span> <span class="n">zero</span>
+      <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Confun</span> <span class="p">,</span> <span class="n">ei</span> <span class="p">,</span> <span class="n">enor2</span> <span class="p">,</span> <span class="n">enor3</span> <span class="p">,</span> <span class="n">enorm</span> <span class="p">,</span> <span class="n">Error</span> <span class="p">,</span> <span class="n">Fun</span> <span class="p">,</span> <span class="p">&amp;</span>
+                  <span class="n">Param</span> <span class="p">,</span> <span class="n">Pttbl</span>
       <span class="kt">integer</span> <span class="kd">::</span> <span class="n">i</span> <span class="p">,</span> <span class="n">Icntyp</span> <span class="p">,</span> <span class="n">Icnuse</span> <span class="p">,</span> <span class="n">Ifun</span> <span class="p">,</span> <span class="n">ilc22</span> <span class="p">,</span> <span class="n">im1</span> <span class="p">,</span> <span class="n">im2</span> <span class="p">,</span>   <span class="p">&amp;</span>
                  <span class="n">Indm</span> <span class="p">,</span> <span class="n">Ioptn</span> <span class="p">,</span> <span class="n">ioptth</span> <span class="p">,</span> <span class="n">Iphse</span> <span class="p">,</span> <span class="n">Ipmax</span> <span class="p">,</span> <span class="n">ipt</span> <span class="p">,</span> <span class="n">Iptb</span> <span class="p">,</span> <span class="p">&amp;</span>
                  <span class="n">Ismax</span> <span class="p">,</span> <span class="n">Iwork</span> <span class="p">,</span> <span class="n">l</span> <span class="p">,</span> <span class="n">Liwrk</span> <span class="p">,</span> <span class="n">Nparm</span>
       <span class="kt">integer</span> <span class="kd">::</span> <span class="n">Numgr</span>
 
       <span class="k">dimension </span><span class="n">Fun</span><span class="p">(</span><span class="n">Ifun</span><span class="p">)</span> <span class="p">,</span> <span class="n">Pttbl</span><span class="p">(</span><span class="n">Iptb</span><span class="p">,</span><span class="n">Indm</span><span class="p">)</span> <span class="p">,</span> <span class="n">Param</span><span class="p">(</span><span class="n">Nparm</span><span class="p">)</span> <span class="p">,</span>           <span class="p">&amp;</span>
-              <span class="p">&amp;</span> <span class="n">Icntyp</span><span class="p">(</span><span class="n">Numgr</span><span class="p">)</span> <span class="p">,</span> <span class="n">Error</span><span class="p">(</span><span class="n">Numgr</span><span class="o">+</span><span class="mi">3</span><span class="p">)</span> <span class="p">,</span> <span class="n">Confun</span><span class="p">(</span><span class="n">Numgr</span><span class="p">,</span><span class="n">Nparm</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="p">,&amp;</span>
-              <span class="p">&amp;</span> <span class="n">Iwork</span><span class="p">(</span><span class="n">Liwrk</span><span class="p">)</span>
+                <span class="n">Icntyp</span><span class="p">(</span><span class="n">Numgr</span><span class="p">)</span> <span class="p">,</span> <span class="n">Error</span><span class="p">(</span><span class="n">Numgr</span><span class="o">+</span><span class="mi">3</span><span class="p">)</span> <span class="p">,</span> <span class="n">Confun</span><span class="p">(</span><span class="n">Numgr</span><span class="p">,</span><span class="n">Nparm</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="p">,&amp;</span>
+                <span class="n">Iwork</span><span class="p">(</span><span class="n">Liwrk</span><span class="p">)</span>
 <span class="c">!</span>
 <span class="c">! SET MACHINE AND PRECISION DEPENDENT CONSTANTS.</span>
-<span class="c">!     NWRIT=output_unit</span>
-      <span class="n">one</span> <span class="o">=</span> <span class="mf">1.0d0</span>
-      <span class="n">zero</span> <span class="o">=</span> <span class="n">one</span> <span class="o">-</span> <span class="n">one</span>
       <span class="n">ilc22</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">22</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
       <span class="n">ioptth</span> <span class="o">=</span> <span class="p">(</span><span class="n">Ioptn</span><span class="o">-</span><span class="p">(</span><span class="n">Ioptn</span><span class="o">/</span><span class="mi">100000</span><span class="p">)</span><span class="o">*</span><span class="mi">100000</span><span class="p">)</span><span class="o">/</span><span class="mi">10000</span>
       <span class="k">if</span> <span class="p">(</span> <span class="n">ioptth</span><span class="o">&lt;=</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
@@ -832,8 +829,8 @@ private subroutine ercmp1(me, Ioptn, Nparm, Numgr, Fun, Ifun, Pttbl, Iptb, Indm,
             <span class="k">endif</span>
 <span class="k">         </span><span class="n">elseif</span> <span class="p">(</span> <span class="n">Icntyp</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">/=</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
 <span class="c">!</span>
-<span class="c">! HERE ICNTYP(I) .GT. 0.  IF ICNTYP(I)=2 REPLACE EI BY ABS(EI).  IF THIS</span>
-<span class="c">! IS THE FIRST I FOUND WITH ICNTYP(I) .GT. 0 WE RESET IPMAX TO I AND PUT</span>
+<span class="c">! HERE ICNTYP(I) &gt; 0.  IF ICNTYP(I)=2 REPLACE EI BY ABS(EI).  IF THIS</span>
+<span class="c">! IS THE FIRST I FOUND WITH ICNTYP(I) &gt; 0 WE RESET IPMAX TO I AND PUT</span>
 <span class="c">! EI IN ENORM, AND OTHERWISE RESET IPMAX AND PUT EI IN ENORM IF AND ONLY</span>
 <span class="c">! IF EI IS BIGGER THAN THE VALUES FOUND SO FAR.</span>
             <span class="k">if</span> <span class="p">(</span> <span class="n">Icntyp</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">1</span> <span class="p">)</span> <span class="n">ei</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">ei</span><span class="p">)</span>

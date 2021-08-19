@@ -125,7 +125,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title="100.0% of total for modules and submodules.">3217 statements</a>
+    title="100.0% of total for modules and submodules.">3137 statements</a>
      </li> 
      
      
@@ -168,7 +168,23 @@
   <div id="vars-0" class="panel-collapse collapse">
     <div class="list-group">
       
-      <a class="list-group-item" href="../module/conmax_module.html#variable-d1mach3">d1mach3</a>
+      <a class="list-group-item" href="../module/conmax_module.html#variable-nwrit">nwrit</a>
+      
+      <a class="list-group-item" href="../module/conmax_module.html#variable-zero">zero</a>
+      
+      <a class="list-group-item" href="../module/conmax_module.html#variable-one">one</a>
+      
+      <a class="list-group-item" href="../module/conmax_module.html#variable-two">two</a>
+      
+      <a class="list-group-item" href="../module/conmax_module.html#variable-three">three</a>
+      
+      <a class="list-group-item" href="../module/conmax_module.html#variable-four">four</a>
+      
+      <a class="list-group-item" href="../module/conmax_module.html#variable-ten">ten</a>
+      
+      <a class="list-group-item" href="../module/conmax_module.html#variable-spcmn">spcmn</a>
+      
+      <a class="list-group-item" href="../module/conmax_module.html#variable-big">big</a>
       
     </div>
   </div>
@@ -289,31 +305,16 @@
     </div>
     
     <div class="col-md-9" id='text'>
-    <p>WELCOME TO CONMAX, VERSION 1.7</p>
-<p>THIS PACKAGE WAS LAST REVISED ON DECEMBER 4, 1996.</p>
-<p>SUCCESS STORIES AND BUG REPORTS MAY BE SENT TO EDWIN H. KAUFMAN, JR.
- BY E-MAIL AT  32ZEJ7N@CMUVM.CSV.CMICH.EDU
- ALTHOUGH WE DO NOT PROMISE TO ATTEMPT TO FIX BUGS, WE MAY LOOK AT
- THEM AS TIME PERMITS.</p>
-<p>THIS PACKAGE CONSISTS OF THREE PARTS:</p>
-<p>(I) THE USERS GUIDE YOU ARE READING,</p>
-<p>(II) A SAMPLE DRIVER PROGRAM AND SUBROUTINE FNSET, AND</p>
-<p>(III) THE CONMAX SUBPROGRAMS.</p>
-<p>THIS PACKAGE IS SELF-CONTAINED.  ONCE THE USER HAS SET (ONCE) THE
- THREE MACHINE DEPENDENT CONSTANTS AND THE PRECISION AS DESCRIBED IN (A)
- BELOW, THE PACKAGE CAN BE COMPILED AND EXECUTED TO RUN THE EXAMPLE IN
- THE SAMPLE DRIVER PROGRAM AND SUBROUTINE FNSET.  DETAILED INSTRUCTIONS
- FOR APPLYING THE PROGRAM TO OTHER PROBLEMS ARE GIVEN IN THIS USERS GUIDE.</p>
-<p>CONMAX CONSISTS OF TWO PROGRAMS FOR SOLVING THE PROBLEM</p>
-<div class="codehilite"><pre><span></span><code> <span class="nv">MINIMIZE</span> <span class="nv">W</span>
+    <p>CONMAX consists of two programs for solving the problem</p>
+<div class="codehilite"><pre><span></span><code>     <span class="nv">minimize</span> <span class="nv">w</span>
 
- <span class="nv">SUBJECT</span> <span class="nv">TO</span>
+     <span class="nv">subject</span> <span class="nv">to</span>
 
- <span class="nv">ABS</span><span class="ss">(</span><span class="nv">FUN</span><span class="ss">(</span><span class="nv">I</span><span class="ss">)</span> <span class="o">-</span> <span class="nv">CONFUN</span><span class="ss">(</span><span class="nv">I</span>,<span class="mi">1</span><span class="ss">))</span> .<span class="nv">LE</span>. <span class="nv">W</span>      <span class="k">IF</span> <span class="nv">ICNTYP</span><span class="ss">(</span><span class="nv">I</span><span class="ss">)</span><span class="o">=</span><span class="mi">2</span>,
+     <span class="nv">abs</span><span class="ss">(</span><span class="nv">fun</span><span class="ss">(</span><span class="nv">i</span><span class="ss">)</span> <span class="o">-</span> <span class="nv">confun</span><span class="ss">(</span><span class="nv">i</span>,<span class="mi">1</span><span class="ss">))</span> <span class="o">&lt;=</span> <span class="nv">w</span>      <span class="k">if</span> <span class="nv">icntyp</span><span class="ss">(</span><span class="nv">i</span><span class="ss">)</span><span class="o">=</span><span class="mi">2</span>,
 
- <span class="nv">CONFUN</span><span class="ss">(</span><span class="nv">I</span>,<span class="mi">1</span><span class="ss">)</span>               .<span class="nv">LE</span>. <span class="nv">W</span>      <span class="k">IF</span> <span class="nv">ICNTYP</span><span class="ss">(</span><span class="nv">I</span><span class="ss">)</span><span class="o">=</span><span class="mi">1</span>,
+     <span class="nv">confun</span><span class="ss">(</span><span class="nv">i</span>,<span class="mi">1</span><span class="ss">)</span>               <span class="o">&lt;=</span> <span class="nv">w</span>      <span class="k">if</span> <span class="nv">icntyp</span><span class="ss">(</span><span class="nv">i</span><span class="ss">)</span><span class="o">=</span><span class="mi">1</span>,
 
- <span class="nv">CONFUN</span><span class="ss">(</span><span class="nv">I</span>,<span class="mi">1</span><span class="ss">)</span>               .<span class="nv">LE</span>. <span class="mi">0</span>.<span class="mi">0</span>    <span class="k">IF</span> <span class="nv">ICNTYP</span><span class="ss">(</span><span class="nv">I</span><span class="ss">)</span><span class="o">=-</span><span class="mi">1</span> <span class="nv">OR</span> <span class="o">-</span><span class="mi">2</span>,
+     <span class="nv">confun</span><span class="ss">(</span><span class="nv">i</span>,<span class="mi">1</span><span class="ss">)</span>               <span class="o">&lt;=</span> <span class="mi">0</span>.<span class="mi">0</span>    <span class="k">if</span> <span class="nv">icntyp</span><span class="ss">(</span><span class="nv">i</span><span class="ss">)</span><span class="o">=-</span><span class="mi">1</span> <span class="nv">or</span> <span class="o">-</span><span class="mi">2</span>,
 </code></pre></div>
 
 <p>WHERE IF ICNTYP(I)=-1 THE CONSTRAINT IS LINEAR (I.E. THE LEFT SIDE
@@ -350,210 +351,26 @@
 <p>(2)  CREATE A SUBROUTINE FNSET (DESCRIBED LATER) FOR INPUT OF FUNCTION
  DATA AND THE VECTOR ARRAY ICNTYP, WHICH SPECIFIES THE TYPE OF THE
  CONSTRAINTS.</p>
-<p>THE VARIABLES IN THE CALLING SEQUENCE FOR CONMAX ARE THE FOLLOWING.</p>
-<p>IOPTN  (INPUT)  THIS IS THE OPTION SWITCH, WHICH SHOULD BE SET TO
-        0 UNLESS ONE OR MORE OF THE EXTRA OPTIONS DESCRIBED BELOW
-        IS USED.</p>
-<p>NPARM  (INPUT)  THIS IS THE NUMBER OF PARAMETERS IN THE PROBLEM.
-        (THEY ARE STORED IN PARAM--SEE BELOW.)</p>
-<p>NUMGR  (INPUT)  THIS IS THE TOTAL NUMBER OF CONSTRAINTS.</p>
-<p>ITLIM  (INPUT)  THIS IS THE LIMIT ON THE NUMBER OF ITERATIONS, I.E.
-        THE LIMIT ON THE NUMBER OF TIMES THE PROGRAM REDUCES W.  IF
-        ITLIM IS SET TO 0 THE PROGRAM WILL COMPUTE THE ERRORS FOR
-        THE INITIAL APPROXIMATION AND STOP WITHOUT CHECKING
-        FEASIBILITY.</p>
-<p>FUN    (OPTIONAL INPUT)  (VECTOR ARRAY OF DIMENSION IFUN)  THIS IS
-        A VECTOR ARRAY IN WHICH DATA OR FUNCTION VALUES IN TYPE 2
-        CONSTRAINTS (SEE ABOVE) CAN BE STORED.  FUN(I) NEED NOT BE
-        ASSIGNED A VALUE IF IT IS NOT GOING TO BE USED.</p>
-<p>IFUN   (INPUT)  THIS IS THE DIMENSION OF FUN IN THE DRIVER PROGRAM.
-        IT MUST BE .GE. THE LARGEST INDEX I FOR WHICH FUN(I) IS USED
-        UNLESS NO FUN(I) IS USED, IN WHICH CASE IT MUST BE .GE. 1.</p>
-<p>PTTBL  (OPTIONAL INPUT)  (MATRIX ARRAY OF DIMENSION (IPTB,INDM))
-        ROW I OF THIS ARRAY NORMALLY CONTAINS A POINT USED IN THE ITH
-        CONSTRAINT.  THE ENTRIES IN ROW I NEED NOT BE ASSIGNED VALUES IF
-        SUCH A POINT IS NOT USED IN THE ITH CONSTRAINT.
-        (EXAMPLE:  IF THE LEFT SIDE OF CONSTRAINT I IS A POLYNOMIAL IN
-        ONE INDEPENDENT VARIABLE, THEN THE VALUE OF THE INDEPENDENT
-        VARIABLE SHOULD BE IN PTTBL(I,1), AND THE COEFFICIENTS SHOULD BE
-        IN PARAM.)
-        PTTBL CAN ALSO BE USED TO PASS OTHER INFORMATION FROM THE DRIVER
-        PROGRAM TO SUBROUTINE FNSET.</p>
-<p>IPTB   (INPUT)  THIS IS THE FIRST DIMENSION OF PTTBL IN THE DRIVER
-        PROGRAM.  IT MUST BE .GE. THE LARGEST SUBSCRIPT I FOR WHICH A
-        VALUE PTTBL(I,J) IS USED, AND MUST BE .GE. 1 IF NO SUCH VALUES
-        ARE USED.</p>
-<p>INDB   (INPUT)  THIS IS THE SECOND DIMENSION OF PTTBL IN THE DRIVER
-        PROGRAM.  IT MUST BE .GE. THE LARGEST SUBSCRIPT J FOR WHICH A
-        VALUE PTTBL(I,J) IS USED, AND MUST BE .GE. 1 IF NO SUCH VALUES
-        ARE USED.</p>
-<p>IWORK  (INPUT)  (VECTOR ARRAY OF DIMENSION LIWRK)  THIS IS AN INTEGER
-        WORK ARRAY.  THE USER NEED NOT PLACE ANY VALUES IN IT, EXCEPT
-        POSSIBLY CERTAIN OPTIONAL INFORMATION AS DESCRIBED BELOW.</p>
-<p>LIWRK  (INPUT)  THIS IS THE DIMENSION OF IWORK IN THE DRIVER PROGRAM.
-        IT MUST BE AT LEAST 7<em>NUMGR + 7</em>NPARM + 3.  IF NOT, CONMAX WILL
-        RETURN WITH THIS MINIMUM VALUE MULTIPLIED BY -1 AS A WARNING.</p>
-<p>WORK   (INPUT)  (VECTOR ARRAY OF DIMENSION LWRK)  THIS IS A FLOATING
-        POINT WORK ARRAY.  THE USER NEED NOT PLACE ANY VALUES IN IT,
-        EXCEPT POSSIBLY CERTAIN OPTIONAL INFORMATION AS DESCRIBED BELOW.</p>
-<p>LWRK   (INPUT)  THIS IS THE DIMENSION OF WORK IN THE DRIVER PROGRAM.
-        IT MUST BE AT LEAST 2<em>NPARM</em><em>2 + 4</em>NUMGR<em>NPARM + 11</em>NUMGR +
-        27*NPARM + 13.  IF NOT, CONMAX WILL RETURN WITH THIS MINIMUM
-        VALUE MULTIPLIED BY -1 AS A WARNING.</p>
-<p>ITER   (OUTPUT)  THIS IS THE NUMBER OF ITERATIONS PERFORMED BY CONMAX,
-        INCLUDING THOSE USED IN ATTEMPTING TO GAIN FEASIBILITY,
-        UNTIL EITHER IT CAN NO LONGER IMPROVE THE SITUATION OR THE
-        ITERATION LIMIT  IS REACHED.  IF ITER=ITLIM IT IS POSSIBLE
-        THAT THE PROGRAM  COULD FURTHER REDUCE W IF RESTARTED
-        (POSSIBLY WITH THE NEW PARAMETERS).  ITER=-1 IS A SIGNAL
-        THAT TYPE -1 FEASIBILITY COULD NOT BE ACHIEVED, IN THIS CASE
-        ERROR WILL CONTAIN THE VALUES COMPUTED USING THE USER
-        SUPPLIED INITIAL APPROXIMATION.  ITER=-2 IS A SIGNAL THAT
-        TYPE -1 FEASIBILITY WAS ACHIEVED BUT TYPE -2 FEASIBILITY
-        COULD NOT BE ACHIEVED, IN THIS CASE VALUES IN ERROR
-        CORRESPONDING TO TYPE 1 OR TYPE 2 CONSTRAINTS WILL BE ZERO.</p>
-<p>PARAM  (INPUT AND OUTPUT)  (VECTOR ARRAY OF DIMENSION AT LEAST NPARM
-        IN THE DRIVER PROGRAM)  THE USER SHOULD PLACE AN INITIAL GUESS
-        FOR THE PARAMETERS IN PARAM, AND ON OUTPUT PARAM WILL CONTAIN
-        THE BEST PARAMETERS CONMAX HAS BEEN ABLE TO FIND.  IF THE
-        INITIAL PARAM IS NOT FEASIBLE THE PROGRAM WILL FIRST TRY TO
-        FIND A FEASIBLE PARAM.</p>
-<p>ERROR  (OUTPUT)  (VECTOR ARRAY OF DIMENSION AT LEAST NUMGR + 3 IN THE
-        DRIVER PROGRAM)  FOR I=1,...,NUMGR, CONMAX WILL PLACE IN
-        ERROR(I) THE ERROR IN CONSTRAINT I (DEFINED TO BE THE VALUE
-        OF THE LEFT SIDE OF CONSTRAINT I, EXCEPT WITHOUT THE ABSOLUTE
-        VALUE IN TYPE 2 CONSTRAINTS).  FURTHER,</p>
-<p>ERROR(NUMGR+1) WILL BE THE (PRINCIPAL) ERROR NORM, THAT IS, THE
-        MAXIMUM VALUE OF THE LEFT SIDES OF THE TYPE 2 (INCLUDING THE
-        ABSOLUTE VALUE) AND TYPE 1 CONSTRAINTS.</p>
-<p>ERROR(NUMGR+2) WILL BE THE MAXIMUM VALUE OF THE LEFT SIDES OF THE
-        TYPE -1 CONSTRAINTS, OR 0.0 IF THERE ARE NO TYPE -1
-        CONSTRAINTS.  EXCEPT FOR ROUNDOFF ERROR AND SMALL TOLERANCES
-        IN SOME SUBROUTINES THIS VALUE WILL NORMALLY BE .LE. 0.0, AND
-        IT WILL NOT BE ALLOWED TO BE .GT. TOLCON IN THE MAIN PART OF
-        THE PROGRAM.</p>
-<p>ERROR(NUMGR+3) WILL BE THE MAXIMUM VALUE OF THE LEFT SIDES OF THE
-        TYPE -2 CONSTRAINTS, OR 0.0 IF THERE ARE NO TYPE -2
-        CONSTRAINTS.  THIS VALUE SHOULD BE .LE. TOLCON, SINCE THE
-        PROGRAM WILL NOT EVEN ATTEMPT TO COMPUTE VALUES FOR THE
-        TYPE 2 AND TYPE 1 CONSTRAINTS OTHERWISE (EXCEPT FOR VALUES
-        CORRESPONDING TO THE INITIAL PARAMETERS PLACED IN PARAM BY
-        THE USER).  THE USER CAN USE THIS FEATURE TO INSERT TYPE -2
-        OR -1 CONSTRAINTS TO KEEP THE PARAMETERS AWAY FROM VALUES
-        WHERE A TYPE 2 OR TYPE 1 CONSTRAINT IS UNDEFINED.</p>
-<p>THE USER HAS SEVERAL EXTRA OPTIONS WHICH ARE ACTIVATED BY SETTING
- IOPTN TO A VALUE OTHER THAN 0; MORE THAN ONE AT A TIME CAN BE USED.
- IN PARTICULAR,</p>
-<p>IF THE ONES DIGIT OF IOPTN IS 0, THEN THE USER SHOULD GIVE FORMULAS
- IN FNSET FOR COMPUTING THE PARTIAL DERIVATIVES WHEN INDFN=1  AS DESCRIBED
- ABOVE.</p>
-<p>IF THE USER SETS THE ONES DIGIT OF IOPTN TO 1, THEN INDFN WILL ALWAYS
- BE 0 WHEN FNSET IS CALLED, AND THE PROGRAM WILL AUTOMATICALLY
- APPROXIMATE THE PARTIAL DERIVATIVES WHEN REQUIRED USING THE FOLLOWING
- CENTERED DIFFERENCE FORMULA:
- PARTIAL DERIVATIVE WITH RESPECT TO THE JTH VARIABLE (WHERE 1 .LE. J
- .LE. NPARM) OF THE FUNCTION WHOSE VALUE IS COMPUTED IN CONFUN(IPT,1)
- (WHERE 1 .LE. IPT .LE. NUMGR) IS APPROXIMATELY THE VALUE OF THIS
- FUNCTION WHEN THE JTH COMPONENT OF PARAM IS INCREASED BY DELT, MINUS
- THE VALUE OF THIS FUNCTION WHEN THE JTH COMPONENT OF PARAM IS
- DECREASED BY DELT, ALL DIVIDED BY 2.0<em>DELT, WHERE DELT = SQRT(B</em>*(-ITT)),
- WHERE B IS THE BASE FOR FOR FLOATING POINT NUMBERS AND ITT IS THE NUMBER
- OF BASE B DIGITS IN THE MANTISSA.</p>
-<p>IF THE TENS DIGIT OF IOPTN IS 0, THE PROGRAM WILL NOT GIVE UP
- UNTIL EITHER AN ITERATION FAILS TO PRODUCE A REDUCTION ABS(ENCHG) OF
- MORE THAN 100.0<em>B</em>*(-ITT) IN THE PRINCIPAL ERROR NORM, OR ITLIM
- ITERATIONS HAVE BEEN USED.</p>
-<p>IF THE TENS DIGIT OF IOPTN IS 1, THE PROGRAM WILL ALSO GIVE UP IF
- ABS(ENCHG) .LT. ENCSM FOR LIMSM CONSECUTIVE STEPS IN THE MAIN PART OF
- THE PROGRAM (I.E. AFTER TYPE -1 AND TYPE -2 FEASIBILITY HAVE BOTH BEEN
- ACHIEVED).  THIS OPTION MAY BE USEFUL IN SAVING SOME TIME BY
- FORESTALLING A LONG STRING OF ITERATIONS AT THE END OF A RUN WITH ONLY
- A TINY IMPROVEMENT IN EACH ONE.  ENCSM AND LIMSM ARE TRANSMITTED TO
- CONMAX IN WORK(1) AND IWORK(1) RESPECTIVELY.  WORK(1) AND IWORK(1) DO
- NOT NEED TO BE ASSIGNED VALUES IF THE TENS DIGIT OF IOPTN IS 0.</p>
-<p>IF THE HUNDREDS DIGIT OF IOPTN IS 0 OR 2, THEN THE INTERNAL PARAMETER
- NSTEP WILL BE GIVEN THE DEFAULT VALUE 1.  NSTEP IS THE NUMBER OF
- RUNGE-KUTTA STEPS USED IN EACH RK ITERATION.</p>
-<p>IF THE HUNDREDS DIGIT OF IOPTN IS 1 OR 3, THEN THE VALUE OF NSTEP USED
- WILL BE THE POSITIVE INTEGER VALUE PLACED IN IWORK(2) BY THE USER IN THE
- DRIVER PROGRAM.  SETTING NSTEP LARGER THAN 1 MAY ALLOW THE PROGRAM TO
- SUCCEED ON DIFFICULT PROBLEMS WHERE THE CONVERGENCE WOULD BE EXTREMELY
- SLOW WITH NSTEP=1, BUT IT WILL GENERALLY CAUSE MORE COMPUTER TIME TO BE
- USED IN EACH RK ITERATION.  IWORK(2) DOES NOT NEED TO BE ASSIGNED A
- VALUE IF THE HUNDREDS DIGIT OF IOPTN IS 0 OR 2.  (NSTEP IS SOMETIMES
- CALLED THE OVERDRIVE PARAMETER.)</p>
-<p>IF THE HUNDREDS DIGIT OF IOPTN IS 0 OR 1, THEN THE INTERNAL PARAMETER
- TOLCON WILL BE GIVEN THE DEFAULT VALUE SQRT(B**(-ITT)), WHERE B IS THE
- BASE FOR FLOATING POINT NUMBERS AND ITT IS THE NUMBER OF BASE B DIGITS
- IN THE MANTISSA.</p>
-<p>IF THE HUNDREDS DIGIT OF IOPTN IS 2 OR 3, THEN THE VALUE OF TOLCON USED
- WILL BE THE VALUE PLACED IN WORK(2) BY THE USER IN THE DRIVER PROGRAM.
- THIS VALUE SHOULD ALWAYS BE NONNEGATIVE.  IF THERE ARE NO TYPE -2 OR -1
- CONSTRAINTS THEN THE SETTING OF TOLCON WILL HAVE NO EFFECT, BUT IF
- THERE ARE TYPE -2 OR -1 CONSTRAINTS THEN IN GENERAL SMALLER VALUES OF
- TOLCON MAY GIVE MORE ACCURACY IN THE FINAL ANSWER, BUT MAY SLOW DOWN
- OR PREVENT CONVERGENCE, WHILE LARGER VALUES OF TOLCON MAY HAVE THE
- REVERSE EFFECT.  IN PARTICULAR, IF THE TYPE -2 AND -1 CONSTRAINTS
- CANNOT BE SATISFIED SUMULTANEOUSLY WITH STRICT INEQUALITY (THIS CASE
- COULD OCCUR, FOR EXAMPLE, IF AN EQUALITY CONSTRAINT G = 0.0 WAS
- ENTERED AS THE TWO INEQUALITY CONSTRAINTS G .LE. 0.0 AND
- -G .LE. 0.0), THEN SETTING TOLCON=0.0 WILL ALMOST CERTAINLY CAUSE THE
- PROGRAM TO FAIL, SINCE AT EACH ITERATION THE PROGRAM WILL NOT ACCEPT
- PROSPECTIVE NEW VALUES OF THE PARAMETERS UNLESS IT CAN CORRECT THEM
- BACK INTO THE RELAXED FEASIBLE REGION WHERE CONFUN(IPT,1) .LE. TOLCON
- FOR ALL THE TYPE -2 AND -1 CONSTRAINTS.</p>
-<p>IF THE THOUSANDS DIGIT OF IOPTN IS 0, THE PROGRAM WILL USE THE RK METHOD
- (WHICH INVOLVES APPLYING FOURTH ORDER RUNGE-KUTTA TO A SYSTEM OF
- DIFFERENTIAL EQUATIONS), THEN IF THIS FAILS IT WILL TRY TO REDUCE
- W WITH AN SLP STEP (I.E. SUCCESSIVE LINEAR PROGRAMMING WITH A TRUST
- REGION), THEN GO BACK TO RK IF THE SLP STEP REDUCES W.</p>
-<p>IF THE THOUSANDS DIGIT OF IOPTN IS 1, THE PROGRAM WILL USE SLP STEPS ONLY.
- IN GENERAL, IN SOME PROBLEMS SLP WORKS VERY WELL, AND IN THOSE
- PROBLEMS IT WILL USUALLY BE FASTER THAN RK BECAUSE IT REQUIRES FEWER
- GRADIENT EVALUATIONS THAN RK, BUT IN OTHER PROBLEMS THE CONVERGENCE
- OF SLP MAY BE EXCRUCIATINGLY SLOW, AND THE MORE POWERFUL RK METHOD
- MAY BE MUCH FASTER.</p>
-<p>IF THE THOUSANDS DIGIT OF IOPTN IS 2 THE PROGRAM WILL USE THE RK METHOD
- ONLY, QUITTING WHEN RK CAN NO LONGER PRODUCE AN IMPROVEMENT.  THIS
- MAY GIVE A LITTLE LESS ACCURACY THAN SETTING THE THOUSANDS DIGIT TO 0,
- BUT MAY SAVE SIGNIFICANT COMPUTER TIME IN SOME CASES.</p>
-<p>IF THE TEN THOUSANDS DIGIT OF IOPTN IS 0, THEN FNSET SHOULD BE WRITTEN AS
- DESCRIBED ABOVE.</p>
-<p>IF THE USER SETS THE TEN THOUSANDS DIGIT OF IOPTN TO 1, THEN FNSET SHOULD BE
- WRITTEN AS DESCRIBED ABOVE EXCEPT THAT THE COMPUTATIONS SHOULD BE DONE
- FOR ALL IPT=1,..,NUMGR INSTEAD OF FOR A SINGLE GIVEN VALUE OF IPT.
- THIS OPTION MAY SAVE COMPUTER TIME IN PROBLEMS WHERE A LARGE PART OF
- THE COMPUTATION IS THE SAME FOR DIFFERENT VALUES OF IPT, SINCE IT
- AVOIDS UNNECESSARY REPITITION OF THIS COMMON COMPUTATION BY HAVING
- THE LOOP OVER IPT IN FNSET INSTEAD OF OUTSIDE FNSET.
- IF THE TEN THOUSANDS DIGIT OF IOPTN IS 1, EVEN MORE TIME CAN OFTEN BE
- SAVED IF FNSET IS WRITTEN SO THAT ALL CONSTRAINTS ARE COMPUTED IF IPT=0,
- BUT ONLY THE STANDARD (I.E. TYPE -1 OR -2) CONSTRAINTS ARE COMPUTED IF
- IPT=-1.  NOTE THAT IF THE TEN THOUSANDS DIGIT OF IOPTN IS 0, THEN IPT
- WILL BE POSITIVE WHENEVER FNSET IS CALLED, INDICATING THAT ONLY
- CONSTRAINT IPT SHOULD BE COMPUTED.
- THE DRAWBACK OF USING THIS OPTION IS THAT IN GENERAL SOME CONSTRAINT
- VALUES AND DERIVATIVES WILL BE COMPUTED UNNECESSARILY, WHICH COULD COST
- TIME IN SOME PROBLEMS.</p>
-<p>IF THE COMPILER USED FOR THIS PROGRAM WILL NOT ACCEPT VARIABLE
- DIMENSIONING AS USED HERE, ONE CAN  (1)  CHANGE ALL THE DIMENSIONS TO
- THE APPROPRIATE INTEGER CONSTANTS, WHERE IN THE DIMENSION STATEMENTS
- NPARM AND NUMGR CAN BE CONSISTENTLY REPLACED BY FIXED INTEGERS OF
- EQUAL OR GREATER VALUE, (2)  FOR EACH SUBPROGRAM EXCEPT FNSET, DELETE
- ALL ARRAY NAMES FROM THE ARGUMENT LISTS IN THE SUBROUTINE OR FUNCTION
- STATEMENT EXCEPT FUN, PTTBL, PARAM, ERROR, IWORK, AND WORK, AND DELETE
- THE CORRESPONDING ELEMENTS IN ALL CALL STATEMENTS AND FUNCTION
- SUBPROGRAM REFERENCES, AND (3)  USE AN EQUIVALENCE STATEMENT AFTER
- THE DIMENSION STATEMENT IN EACH SUBPROGRAM WITH ARRAYS DELETED FROM
- THE ARGUMENT LIST TO ASSOCIATE THE FIRST ELEMENT OF EACH DELETED
- ARRAY WITH THE APPROPRIATE ELEMENT IN IWORK OR WORK USING THE
- INFORMATION IN FUNCTION SUBPROGRAM ILOC.</p>
 <p>FOR FURTHER INFORMATION ABOUT THE ALGORITHM AND PROGRAM, SEE THE PAPER</p>
-<p>AN ODE-BASED APPROACH TO NONLINEARLY CONSTRAINED MINIMAX PROBLEMS, BY
- E. H. KAUFMAN, JR., D. J. LEEMING, AND G. D. TAYLOR, NUMERICAL
- ALGORITHMS (1995), PP. 25-37.</p>
-<p>NOTE THAT SINCE THAT PAPER WAS WRITTEN, TOLCON WAS DELETED FROM THE
- ARGUMENT LIST OF CONMAX.</p>
+<h3>Notes</h3>
+<p>SUCCESS STORIES AND BUG REPORTS MAY BE SENT TO EDWIN H. KAUFMAN, JR.
+  BY E-MAIL AT  32ZEJ7N@CMUVM.CSV.CMICH.EDU
+  ALTHOUGH WE DO NOT PROMISE TO ATTEMPT TO FIX BUGS, WE MAY LOOK AT
+  THEM AS TIME PERMITS.</p>
+<h3>Reference</h3>
+<ul>
+<li>E. H. Kaufman Jr., D. J. Leeming &amp; G. D. Taylor,
+    "An ODE-based approach to nonlinearly constrained minimax problems",
+    Numerical Algorithms, Volume 9, pages 25-37 (1995).
+    Note that since that paper was written, <code>tolcon</code> was deleted from the
+    argument list of <a href="../proc/conmax.html">conmax</a>.</li>
+</ul>
+<h3>History</h3>
+<ul>
+<li>CONMAX, Version 1.7. This package was last revised on December 4, 1996.
+    from: http://www.netlib.org/opt/conmax.f</li>
+<li>Jacob Williams, August 2021 : Refactored into modern Fortran.</li>
+</ul>
       <br>
     
   
@@ -689,7 +506,23 @@
   <div id="vars-1" class="panel-collapse collapse">
     <div class="list-group">
       
-      <a class="list-group-item" href="../module/conmax_module.html#variable-d1mach3">d1mach3</a>
+      <a class="list-group-item" href="../module/conmax_module.html#variable-nwrit">nwrit</a>
+      
+      <a class="list-group-item" href="../module/conmax_module.html#variable-zero">zero</a>
+      
+      <a class="list-group-item" href="../module/conmax_module.html#variable-one">one</a>
+      
+      <a class="list-group-item" href="../module/conmax_module.html#variable-two">two</a>
+      
+      <a class="list-group-item" href="../module/conmax_module.html#variable-three">three</a>
+      
+      <a class="list-group-item" href="../module/conmax_module.html#variable-four">four</a>
+      
+      <a class="list-group-item" href="../module/conmax_module.html#variable-ten">ten</a>
+      
+      <a class="list-group-item" href="../module/conmax_module.html#variable-spcmn">spcmn</a>
+      
+      <a class="list-group-item" href="../module/conmax_module.html#variable-big">big</a>
       
     </div>
   </div>
@@ -829,11 +662,123 @@
   
 <tr>
   
-  <td><span class="anchor" id="variable-d1mach3"></span>real(kind=wp),</td>
+  <td><span class="anchor" id="variable-nwrit"></span>integer,</td>
   
   <td>private,</td>
   <td>parameter</td><td>::</td>
-  <td><strong>d1mach3</strong></td><td> =</td><td>real(radix(1.0_wp), wp)**(-digits(1.0_wp))</td><td><p><code>d1mach3</code>: the smallest relative spacing</p></td>
+  <td><strong>nwrit</strong></td><td> =</td><td>output_unit</td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-zero"></span>real(kind=wp),</td>
+  
+  <td>private,</td>
+  <td>parameter</td><td>::</td>
+  <td><strong>zero</strong></td><td> =</td><td>0.0_wp</td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-one"></span>real(kind=wp),</td>
+  
+  <td>private,</td>
+  <td>parameter</td><td>::</td>
+  <td><strong>one</strong></td><td> =</td><td>1.0_wp</td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-two"></span>real(kind=wp),</td>
+  
+  <td>private,</td>
+  <td>parameter</td><td>::</td>
+  <td><strong>two</strong></td><td> =</td><td>2.0_wp</td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-three"></span>real(kind=wp),</td>
+  
+  <td>private,</td>
+  <td>parameter</td><td>::</td>
+  <td><strong>three</strong></td><td> =</td><td>3.0_wp</td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-four"></span>real(kind=wp),</td>
+  
+  <td>private,</td>
+  <td>parameter</td><td>::</td>
+  <td><strong>four</strong></td><td> =</td><td>4.0_wp</td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-ten"></span>real(kind=wp),</td>
+  
+  <td>private,</td>
+  <td>parameter</td><td>::</td>
+  <td><strong>ten</strong></td><td> =</td><td>10.0_wp</td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-spcmn"></span>real(kind=wp),</td>
+  
+  <td>private,</td>
+  <td>parameter</td><td>::</td>
+  <td><strong>spcmn</strong></td><td> =</td><td>real(radix(1.0_wp), wp)**(-digits(1.0_wp))</td><td><p><code>d1mach3</code>: the smallest relative spacing</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-big"></span>real(kind=wp),</td>
+  
+  <td>private,</td>
+  <td>parameter</td><td>::</td>
+  <td><strong>big</strong></td><td> =</td><td>one/spcmn</td><td></td>
   
 </tr>
 
@@ -1164,9 +1109,9 @@ private function <a href='../proc/iloc.html'>iloc</a>(Iarr, Nparm, Numgr)
 
 
 <p>THIS FUNCTION SUBPROGRAM RETURNS THE SUBSCRIPT OF THE FIRST ELEMENT OF
- ARRAY IARR RELATIVE TO IWORK (IF THE ARRAY IS INTEGER, I.E. 13 .LE.
- IARR .LE. 23) OR RELATIVE TO WORK (IF THE ARRAY IS FLOATING POINT, I.E.
- 1 .LE. IARR .LE. 12 OR 24 .LE. IARR .LE. 48).</p>
+ ARRAY IARR RELATIVE TO IWORK (IF THE ARRAY IS INTEGER, I.E. 13 &lt;=
+ IARR &lt;= 23) OR RELATIVE TO WORK (IF THE ARRAY IS FLOATING POINT, I.E.
+ 1 &lt;= IARR &lt;= 12 OR 24 &lt;= IARR &lt;= 48).</p>
     
     <h4>Arguments</h4>
     
@@ -1390,7 +1335,7 @@ private subroutine <a href='../proc/conmax.html'>conmax</a>(me, Ioptn, Nparm, Nu
 
 
 <p>PLEASE SEE THE USERS GUIDE FOR CONMAX AT THE BEGINNING OF THIS
- PACKAGE FOR MORE INFORMATION ABOUT THE USE OF THESE SUBPROGRAMS.</p>
+ PACKAGE FOR MORE INFORMATION ABOUT THE USE OF THESE SUBPROGRAMS.</p><a href="../proc/conmax.html" class="pull-right"><emph>Read more&hellip;</emph></a>
     
     <h4>Arguments</h4>
     
@@ -3158,8 +3103,8 @@ public subroutine <a href='../proc/slnpro.html'>slnpro</a>(v, m, n, Iyrct, y, Ix
 <p>THIS SUBROUTINE SOLVES THE LINEAR PROGRAMMING PROBLEM
     MAXIMIZE Z = -V(M+1,1)<em>X(1)-...-V(M+1,N)</em>X(N)
     WHERE X(1),...,X(N) ARE FREE VARIABLES, SUBJECT TO
-    V(I,1)<em>X(1)+...+V(I,N)</em>X(N) .LE. V(I,N+1), FOR I=1,..,M,
-    WHERE M .GE. N.
+    V(I,1)<em>X(1)+...+V(I,N)</em>X(N) &lt;= V(I,N+1), FOR I=1,..,M,
+    WHERE M &gt;= N.
   (INFORMATION CONCERNING TOLERANCES AND BASIC VARIABLES
   IS ALSO TRANSMITTED USING M, N, AND IYRCT.)</p><a href="../proc/slnpro.html" class="pull-right"><emph>Read more&hellip;</emph></a>
     
@@ -5271,13 +5216,13 @@ private subroutine <a href='../proc/pmtst.html'>pmtst</a>(me, Ioptn, Numgr, Npar
 
 
 <p>THIS SUBROUTINE SETS UP THE (NPARM+1) BY MACTRK MATRIX PMAT.
- FOR 1 .LE. J .LE. MACTRK, THE TOP NPARM ELEMENTS OF COLUMN J OF PMAT
+ FOR 1 &lt;= J &lt;= MACTRK, THE TOP NPARM ELEMENTS OF COLUMN J OF PMAT
  WILL CONTAIN THE NEGATIVE OF THE GRADIENT OF ACTIVE CONSTRAINT J (IF
  CONSTRAINT J IS OF TYPE 2, I.E. OF THE FORM ABS(F(X) - F(PARWRK,X))
- .LE. W, THE LEFT SIDE WILL BE TREATED AS F(X) - F(PARWRK,X) IF THIS
+ &lt;= W, THE LEFT SIDE WILL BE TREATED AS F(X) - F(PARWRK,X) IF THIS
  QUANTITY IS NONNEGATIVE AND WILL BE TREATED AS F(PARWRK,X) - F(X)
  OTHERWISE). THE (NPARM+1)ST ROW OF PMAT WILL CONTAIN ACTDIF, THE
- RIGHT SIDE OF THE INEQUALITIES GRADIENT.VECTOR .GE. ACTDIF.</p>
+ RIGHT SIDE OF THE INEQUALITIES GRADIENT.VECTOR &gt;= ACTDIF.</p>
     
     <h4>Arguments</h4>
     
@@ -6726,17 +6671,17 @@ private subroutine <a href='../proc/searcr.html'>searcr</a>(me, Ioptn, Nparm, Nu
 <p>THIS SUBROUTINE USES A MODIFIED QUADRATIC FITTING PROCESS TO SEARCH
   FOR A PROJECTION FACTOR PROCOR FOR WHICH THE MAXIMUM OF THE LEFT
   SIDES OF THE TYPE -2 AND -1 CONSTRAINTS EVALUATED AT ZWORK + PROCOR*DVEC
-  IS .LE. TOLCON.  NOTE THAT WHEN CORRCT CALLS THIS SUBROUTINE IT WILL
+  IS &lt;= TOLCON.  NOTE THAT WHEN CORRCT CALLS THIS SUBROUTINE IT WILL
   HAVE LUMPED THE TYPE -1 CONSTRAINTS IN WITH THE TYPE -2 CONSTRAINTS
   USING JCNTYP, WHICH IS CARRIED THROUGH THIS SUBROUTINE INTO SUBROUTINE
-  ERCMP1 IN IWORK.  IF SEARCR IS ABLE TO FORCE THIS MAXIMUM .LE. TOLCON
+  ERCMP1 IN IWORK.  IF SEARCR IS ABLE TO FORCE THIS MAXIMUM &lt;= TOLCON
   IT WILL RETURN WITH ISRCR=0, WITH THE MINIMUM VALUE FOUND FOR THE
   MAXIMUM IN EMIN, WITH THE CORRESPONDING PROJECTION FACTOR IN PROCOR,
   WITH THE NUMBER OF TIMES THE MAXIMUM WAS COMPUTED IN NSRCH, AND WITH THE
-  CLOSEST POINT FOUND TO THE LEFT WITH THE MAXIMUM .GT. TOLCON IN (P1,F1).
+  CLOSEST POINT FOUND TO THE LEFT WITH THE MAXIMUM &gt; TOLCON IN (P1,F1).
   THE SUBROUTINE WILL BEGIN BY COMPUTING THE MAXIMA FOR PROCOR = 1.0,
-  0.5, AND 2.0, AND IF NONE OF THESE MAXIMA IS .LE. TOLCON AND IT IS
-  NOT THE CASE THAT THE MAXIMUM AT 1.0 IS .LE. THE OTHER TWO MAXIMA
+  0.5, AND 2.0, AND IF NONE OF THESE MAXIMA IS &lt;= TOLCON AND IT IS
+  NOT THE CASE THAT THE MAXIMUM AT 1.0 IS &lt;= THE OTHER TWO MAXIMA
   THE SUBROUTINE WILL RETURN WITH THE WARNING ISRCR=1. THE SUBROUTINE
   WILL ALSO RETURN WITH ISRCR=1 IF IT WOULD NEED TO COMPUTE F MORE THAN
   LIMSCR TIMES, OR THE SEARCH INTERVAL LENGTH DROPS BELOW TOL1, OR THE
@@ -7147,12 +7092,12 @@ private subroutine <a href='../proc/muller.html'>muller</a>(me, Ioptn, Nparm, Nu
 
 <p>IN THIS SUBROUTINE WE ARE GIVEN A BASE VECTOR ZWORK, A DIRECTION
  VECTOR DVEC, A SCALAR PROCOR WITH EMIN = F(PROCOR) = (THE MAXIMUM TYPE
- -2 AND -1 ERROR WITH PARAMETERS ZWORK + PROCOR*DVEC) .LT. -TOLCON, AND
- A SCALAR P1 WITH P1 .LT. PROCOR AND F1 = F(P1) .GT. TOLCON.  WE DO
+ -2 AND -1 ERROR WITH PARAMETERS ZWORK + PROCOR*DVEC) &lt; -TOLCON, AND
+ A SCALAR P1 WITH P1 &lt; PROCOR AND F1 = F(P1) &gt; TOLCON.  WE DO
  A REVISED MULLERS METHOD APPROACH (WITH A SOLUTION CONTAINED IN A
- SHRINKING INTERVAL) TO ATTEMPT TO ADJUST PROCOR SO THAT -TOLCON  .LE.
- F(PROCOR) .LE. TOLCON, BUT IF WE ARE NOT SUCCESSFUL WE RETURN WITH THE
- LEFTMOST PROCOR FOUND SATISFYING EMIN = F(PROCOR) .LT. -TOLCON ON THE
+ SHRINKING INTERVAL) TO ATTEMPT TO ADJUST PROCOR SO THAT -TOLCON  &lt;=
+ F(PROCOR) &lt;= TOLCON, BUT IF WE ARE NOT SUCCESSFUL WE RETURN WITH THE
+ LEFTMOST PROCOR FOUND SATISFYING EMIN = F(PROCOR) &lt; -TOLCON ON THE
  THEORY THAT OVERCORRECTION IS BETTER THAN NO CORRECTION.  NOTE THAT WHEN
  CORRCT CALLS THIS SUBROUTINE IT WILL HAVE LUMPED THE TYPE -1 CONSTRAINTS
  IN WITH THE TYPE -2 CONSTRAINTS USING JCNTYP, WHICH IS CARRIED THROUGH
@@ -8166,16 +8111,7 @@ private subroutine <a href='../proc/conenr.html'>conenr</a>(n, m, Pmat1, r, Istr
 <p>GIVEN M N-DIMENSIONAL VECTORS P(J) AS THE FIRST M COLUMNS
  OF THE MATRIX PMAT1 AND AN N-VECTOR R, THIS SUBROUTINE RETURNS IN
  PTNR THE NEAREST POINT TO R IN THE CONE OF POINTS SUMMATION(
- COEF(J)*P(J)), WHERE COEF(J) .GE. 0.0 FOR J=1,...,M (UNLESS JFLAG
- .GT. 0, WHICH INDICATES FAILURE).  THE NUMBER OF VECTORS P(J) IN
- THE FINAL CORRAL IS RETURNED IN NCOR WITH THEIR INDICES IN ICOR,
- THE DISTANCE IS RETURNED IN DIST, THE NUMBER OF MAJOR CYCLES (I.E.
- ADDING A VECTOR) IS RETURNED IN NMAJ, AND THE NUMBER OF MINOR CYCLES
- (I.E. REMOVING A VECTOR) IS RETURNED IN NMIN.  IF THE USER SETS
- ISTRT1=0 THE SUBROUTNE STARTS FROM SCRATCH, BUT THE USER CAN SET
- ISTRT1=1 AND INITIALLY SPECIFY NCOR, ICOR, AND COEF (NOTING THAT NCOR
- MUST BE .LE. N, AND IF J DOES NOT OCCUR IN ICOR, THEN COEF(J) SHOULD
- BE SET TO 0.0.)</p>
+ COEF(J)*P(J)), WHERE COEF(J) &gt;= 0.0 FOR J=1,...,M (UNLESS JFLAG</p><a href="../proc/conenr.html" class="pull-right"><emph>Read more&hellip;</emph></a>
     
     <h4>Arguments</h4>
     
@@ -8571,7 +8507,7 @@ private subroutine <a href='../proc/house.html'>house</a>(n, Ncor, Picor, r, Kpi
  IS AN NCOR DIMENSIONAL VECTOR.  IF THE RANK OF PICOR IS
  (COMPUTATIONALLY) 0, THE SUBROUTINE WILL RETURN WITH THE FAILURE
  WARNING IHOUSE=1, OTHERWISE IT WILL RETURN WITH IHOUSE=0.  IF THE
- RANK IS .GT. 0 BUT .LT. NCOR, THEN (NCOR - RANK) OF THE COMPONENTS
+ RANK IS &gt; 0 BUT &lt; NCOR, THEN (NCOR - RANK) OF THE COMPONENTS
  OF VEC WILL BE SET TO 0.0.  THE ARAYS PICOR AND R WILL NOT BE
  CHANGED BY THIS SUBROUTINE.  THE SUBROUTINE WILL ATTEMPT UP TO
  NUMREF ITERATIVE REFINEMENTS OF THE SOLUTION, WHERE THE USER CAN
@@ -8821,7 +8757,7 @@ private subroutine <a href='../proc/refwl.html'>refwl</a>(Ndm, Ncor, Icor, Pmat,
  PRODUCED BY WOLFE BY DIRECTLY SOLVING THE SYSTEM
  SUMMATION(PMAT(I,J)*WPT(I), I=1,...,NDM) = -PMAT(NDM+1,J) FOR J =
  ICOR(L), L=1,...,NCOR.
- NRESL RESOLVENTS ARE CHOSEN BY TOTAL PIVOTING.  IF NRESL .LT. NDM THEN
+ NRESL RESOLVENTS ARE CHOSEN BY TOTAL PIVOTING.  IF NRESL &lt; NDM THEN
  THE REMAINING NDM-NRESL ELEMENTS OF WPT ARE KEPT FORM THE OLD WPT.
  ITRLM STEPS OF ITERATIVE REFINEMENT ARE ATTEMPTED AT THE END.</p>
     

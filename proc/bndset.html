@@ -125,7 +125,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 2.9% of total for procedures.">92 statements</a>
+    title=" 2.8% of total for procedures.">87 statements</a>
      </li> 
      
      
@@ -416,24 +416,16 @@ private subroutine bndset(Nparm, x, Itersl, Numin, Prjslp, Cofbnd, Xkeep, Bndkp)
       <span class="k">implicit none</span>
 
 <span class="k">      </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="n">bnd</span> <span class="p">,</span> <span class="n">Bndkp</span> <span class="p">,</span> <span class="n">bsave</span> <span class="p">,</span> <span class="n">chlm1</span> <span class="p">,</span> <span class="n">chlm2</span> <span class="p">,</span> <span class="n">Cofbnd</span> <span class="p">,</span>    <span class="p">&amp;</span>
-           <span class="p">&amp;</span> <span class="n">epsil</span> <span class="p">,</span> <span class="n">epsil1</span> <span class="p">,</span> <span class="n">fact1</span> <span class="p">,</span> <span class="n">fact2</span> <span class="p">,</span> <span class="n">fact3</span> <span class="p">,</span> <span class="n">fact3a</span> <span class="p">,</span> <span class="n">fact3b</span> <span class="p">,</span> <span class="p">&amp;</span>
-           <span class="p">&amp;</span> <span class="n">fact4</span> <span class="p">,</span> <span class="n">four</span> <span class="p">,</span> <span class="n">one</span> <span class="p">,</span> <span class="n">Prjslp</span> <span class="p">,</span> <span class="n">spcmn</span> <span class="p">,</span> <span class="n">ten</span>
-      <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="n">tstprj</span> <span class="p">,</span> <span class="n">two</span> <span class="p">,</span> <span class="n">x</span> <span class="p">,</span> <span class="n">Xkeep</span>
+             <span class="n">epsil</span> <span class="p">,</span> <span class="n">epsil1</span> <span class="p">,</span> <span class="n">fact1</span> <span class="p">,</span> <span class="n">fact2</span> <span class="p">,</span> <span class="n">fact3</span> <span class="p">,</span> <span class="n">fact3a</span> <span class="p">,</span> <span class="n">fact3b</span> <span class="p">,</span> <span class="p">&amp;</span>
+             <span class="n">fact4</span> <span class="p">,</span> <span class="n">Prjslp</span>
+      <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="n">tstprj</span> <span class="p">,</span> <span class="n">x</span> <span class="p">,</span> <span class="n">Xkeep</span>
       <span class="kt">integer </span><span class="n">Itersl</span> <span class="p">,</span> <span class="n">itight</span> <span class="p">,</span> <span class="n">j</span> <span class="p">,</span> <span class="n">Nparm</span> <span class="p">,</span> <span class="n">Numin</span>
 <span class="c">!</span>
       <span class="k">dimension </span><span class="n">x</span><span class="p">(</span><span class="n">Nparm</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="p">,</span> <span class="n">Cofbnd</span><span class="p">(</span><span class="n">Nparm</span><span class="p">)</span> <span class="p">,</span> <span class="n">Xkeep</span><span class="p">(</span><span class="n">Nparm</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="p">,</span> <span class="p">&amp;</span>
-              <span class="p">&amp;</span> <span class="n">Bndkp</span><span class="p">(</span><span class="n">Nparm</span><span class="p">)</span>
-<span class="c">!</span>
-<span class="c">! SET MACHINE AND PRECISION DEPENDENT CONSTANTS FOR BNDSET.</span>
-      <span class="n">one</span> <span class="o">=</span> <span class="mf">1.0d0</span>
-      <span class="n">two</span> <span class="o">=</span> <span class="n">one</span> <span class="o">+</span> <span class="n">one</span>
-      <span class="n">four</span> <span class="o">=</span> <span class="n">two</span> <span class="o">+</span> <span class="n">two</span>
-      <span class="n">ten</span> <span class="o">=</span> <span class="n">four</span> <span class="o">+</span> <span class="n">four</span> <span class="o">+</span> <span class="n">two</span>
-<span class="c">!     NWRIT=output_unit</span>
-      <span class="n">spcmn</span> <span class="o">=</span> <span class="n">d1mach3</span>
+                <span class="n">Bndkp</span><span class="p">(</span><span class="n">Nparm</span><span class="p">)</span>
 <span class="c">!</span>
 <span class="c">! SET INITIAL PARAMETERS.  FACT1, FACT3A, FACT3B, CHLM1, AND CHLM2</span>
-<span class="c">! SHOULD BE BETWEEN 0.0 AND 1.0, WHILE FACT2 SHOULD BE .GT. 1.0.</span>
+<span class="c">! SHOULD BE BETWEEN 0.0 AND 1.0, WHILE FACT2 SHOULD BE &gt; 1.0.</span>
       <span class="n">fact1</span> <span class="o">=</span> <span class="p">(</span><span class="n">one</span><span class="o">+</span><span class="n">two</span><span class="p">)</span><span class="o">/</span><span class="n">four</span>
       <span class="n">fact2</span> <span class="o">=</span> <span class="n">two</span>
       <span class="n">fact3a</span> <span class="o">=</span> <span class="n">one</span><span class="o">/</span><span class="n">ten</span>
@@ -444,9 +436,7 @@ private subroutine bndset(Nparm, x, Itersl, Numin, Prjslp, Cofbnd, Xkeep, Bndkp)
       <span class="n">tstprj</span> <span class="o">=</span> <span class="n">one</span><span class="o">/</span><span class="n">two</span> <span class="o">-</span> <span class="n">one</span><span class="o">/</span><span class="p">(</span><span class="n">ten</span><span class="o">*</span><span class="n">ten</span><span class="o">*</span><span class="n">ten</span><span class="p">)</span>
       <span class="n">epsil</span> <span class="o">=</span> <span class="n">ten</span><span class="o">*</span><span class="n">ten</span><span class="o">*</span><span class="n">spcmn</span>
       <span class="n">epsil1</span> <span class="o">=</span> <span class="p">(</span><span class="n">one</span><span class="o">+</span><span class="n">one</span><span class="o">/</span><span class="p">(</span><span class="n">ten</span><span class="o">*</span><span class="n">ten</span><span class="o">*</span><span class="n">ten</span><span class="p">))</span><span class="o">*</span><span class="n">epsil</span>
-<span class="c">! BND IS THE INITIAL BOUND ON ALL COEFFICIENT CHANGES.</span>
-      <span class="n">bnd</span> <span class="o">=</span> <span class="n">two</span><span class="o">/</span><span class="p">(</span><span class="n">ten</span><span class="o">*</span><span class="n">ten</span><span class="p">)</span>
-<span class="c">! END OF SETTING MACHINE AND PRECISION DEPENDENT CONSTANTS FOR BNDSET.</span>
+      <span class="n">bnd</span> <span class="o">=</span> <span class="n">two</span><span class="o">/</span><span class="p">(</span><span class="n">ten</span><span class="o">*</span><span class="n">ten</span><span class="p">)</span> <span class="c">! THE INITIAL BOUND ON ALL COEFFICIENT CHANGES.</span>
 <span class="c">!</span>
       <span class="k">if</span> <span class="p">(</span> <span class="n">Numin</span><span class="o">&lt;</span><span class="mi">1</span> <span class="p">)</span> <span class="k">then</span>
 <span class="k">         if</span> <span class="p">(</span> <span class="n">Itersl</span><span class="o">&lt;</span><span class="mi">1</span> <span class="p">)</span> <span class="k">then</span>
@@ -463,7 +453,7 @@ private subroutine bndset(Nparm, x, Itersl, Numin, Prjslp, Cofbnd, Xkeep, Bndkp)
 <span class="k">            return</span>
 <span class="k">         else</span>
 <span class="c">!</span>
-<span class="c">! HERE NUMIN=0 AND ITERSL .GE. 2, SO WE HAVE HAD AT LEAST 2 SUCCESSES,</span>
+<span class="c">! HERE NUMIN=0 AND ITERSL &gt;= 2, SO WE HAVE HAD AT LEAST 2 SUCCESSES,</span>
 <span class="c">! WITH THE COEFFICIENTS AND BOUNDS FOR THE LAST ONE IN X AND</span>
 <span class="c">! COFBND RESPECTIVELY, AND THE COEFFICIENTS AND BOUNDS FOR THE</span>
 <span class="c">! PREVIOUS ONE IN XKEEP AND BNDKP RESPECTIVELY.  WE WILL FORM A</span>
@@ -472,9 +462,9 @@ private subroutine bndset(Nparm, x, Itersl, Numin, Prjslp, Cofbnd, Xkeep, Bndkp)
 <span class="c">! SAVE THE OLD COFBND(J) IN BSAVE.</span>
                <span class="n">bsave</span> <span class="o">=</span> <span class="n">Cofbnd</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
 <span class="c">! IF AT BOTH THE LAST AND PREVIOUS SUCCESSFUL ITERATION THE CHANGES</span>
-<span class="c">! IN A COEFFICIENT RELATIVE TO ITS BOUND WERE .GE. CHLM2 IN ABSOLUTE</span>
+<span class="c">! IN A COEFFICIENT RELATIVE TO ITS BOUND WERE &gt;= CHLM2 IN ABSOLUTE</span>
 <span class="c">! VALUE AND IN THE SAME DIRECTION, WE LOOSEN THE BOUND BY A FACTOR</span>
-<span class="c">! OF FACT2.  IF THE RELATIVE CHANGES WERE .GE. CHLM1 IN ABSOLUTE</span>
+<span class="c">! OF FACT2.  IF THE RELATIVE CHANGES WERE &gt;= CHLM1 IN ABSOLUTE</span>
 <span class="c">! VALUE AND IN OPPOSITE DIRECTIONS, WE TIGHTEN THE BOUND BY A FACTOR</span>
 <span class="c">! OF FACT1 BECAUSE OF SUSPECTED OSCILLATION.  WE ALSO TIGHTEN THE</span>
 <span class="c">! BOUND IF BOTH RELATIVE CHANGES WERE LESS THAN CHLM1 IN ABSOLUTE</span>
@@ -500,7 +490,7 @@ private subroutine bndset(Nparm, x, Itersl, Numin, Prjslp, Cofbnd, Xkeep, Bndkp)
                <span class="k">if</span> <span class="p">(</span> <span class="n">x</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="o">&lt;</span><span class="n">chlm1</span><span class="o">*</span><span class="n">Cofbnd</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="p">)</span> <span class="k">then</span>
 <span class="k">                  if</span> <span class="p">(</span> <span class="n">x</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="o">+</span><span class="n">chlm1</span><span class="o">*</span><span class="n">Cofbnd</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="o">&lt;=</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
 <span class="k">                     if</span> <span class="p">(</span> <span class="n">Xkeep</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="o">&lt;</span><span class="n">chlm1</span><span class="o">*</span><span class="n">Bndkp</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">10</span>
-<span class="c">! HERE WE HAVE ABS(X(J)) .LT. CHLM1*COFBND(J).</span>
+<span class="c">! HERE WE HAVE ABS(X(J)) &lt; CHLM1*COFBND(J).</span>
                   <span class="n">elseif</span> <span class="p">(</span> <span class="nb">abs</span><span class="p">(</span><span class="n">Xkeep</span><span class="p">(</span><span class="n">j</span><span class="p">))</span><span class="o">&gt;=</span><span class="n">chlm1</span><span class="o">*</span><span class="n">Bndkp</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="p">)</span> <span class="k">then</span>
 <span class="k">                     goto </span><span class="mi">10</span>
                   <span class="k">endif</span>
@@ -537,7 +527,7 @@ private subroutine bndset(Nparm, x, Itersl, Numin, Prjslp, Cofbnd, Xkeep, Bndkp)
          <span class="k">goto </span><span class="mi">300</span>
       <span class="k">else</span>
 <span class="c">!</span>
-<span class="c">! HERE NUMIN .GT. 1 SO THERE HAVE BEEN AT LEAST 2 SUCCESSIVE</span>
+<span class="c">! HERE NUMIN &gt; 1 SO THERE HAVE BEEN AT LEAST 2 SUCCESSIVE</span>
 <span class="c">! FAILURES, AND WE SET FACT3=FACT3B AND TIGHTEN THE BOUNDS.</span>
          <span class="n">fact3</span> <span class="o">=</span> <span class="n">fact3b</span>
          <span class="k">goto </span><span class="mi">300</span>

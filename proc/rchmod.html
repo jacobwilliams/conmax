@@ -125,7 +125,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 2.0% of total for procedures.">62 statements</a>
+    title=" 1.8% of total for procedures.">57 statements</a>
      </li> 
      
      
@@ -596,8 +596,8 @@ private subroutine rchmod(Numgr, Error, Err1, Icntyp, Mact, Iact, Ipmax, Ismax, 
       <span class="k">implicit none</span>
 
 <span class="k">      </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">ei</span> <span class="p">,</span> <span class="n">eipmax</span> <span class="p">,</span> <span class="n">enorm</span> <span class="p">,</span> <span class="n">epact</span> <span class="p">,</span> <span class="n">Err1</span> <span class="p">,</span> <span class="n">Error</span> <span class="p">,</span> <span class="p">&amp;</span>
-                  <span class="n">four</span> <span class="p">,</span> <span class="n">fudge</span> <span class="p">,</span> <span class="n">one</span> <span class="p">,</span> <span class="n">rch1</span> <span class="p">,</span> <span class="n">rchd1</span> <span class="p">,</span> <span class="n">Rchdwn</span> <span class="p">,</span> <span class="n">Rchin</span> <span class="p">,</span> <span class="p">&amp;</span>
-                  <span class="n">rchtop</span> <span class="p">,</span> <span class="n">spcmn</span> <span class="p">,</span> <span class="n">ten</span> <span class="p">,</span> <span class="n">two</span> <span class="p">,</span> <span class="n">Unit</span>
+                  <span class="n">fudge</span> <span class="p">,</span> <span class="n">rch1</span> <span class="p">,</span> <span class="n">rchd1</span> <span class="p">,</span> <span class="n">Rchdwn</span> <span class="p">,</span> <span class="n">Rchin</span> <span class="p">,</span> <span class="p">&amp;</span>
+                  <span class="n">rchtop</span> <span class="p">,</span> <span class="n">Unit</span>
       <span class="kt">integer</span> <span class="kd">::</span> <span class="n">i</span> <span class="p">,</span> <span class="n">Iact</span> <span class="p">,</span> <span class="n">Icntyp</span> <span class="p">,</span> <span class="n">ipact</span> <span class="p">,</span> <span class="n">Ipmax</span> <span class="p">,</span> <span class="n">Irch</span> <span class="p">,</span> <span class="n">Ismax</span> <span class="p">,</span> <span class="n">l</span> <span class="p">,</span> <span class="p">&amp;</span>
                  <span class="n">Mact</span> <span class="p">,</span> <span class="n">Numgr</span>
 
@@ -605,13 +605,7 @@ private subroutine rchmod(Numgr, Error, Err1, Icntyp, Mact, Iact, Ipmax, Ismax, 
                 <span class="n">Iact</span><span class="p">(</span><span class="n">Numgr</span><span class="p">)</span>
 
 <span class="c">! SET MACHINE AND PRECISION DEPENDENT CONSTANTS.</span>
-<span class="c">!     NWRIT=output_unit</span>
-      <span class="n">one</span> <span class="o">=</span> <span class="mf">1.0d0</span>
-      <span class="n">two</span> <span class="o">=</span> <span class="n">one</span> <span class="o">+</span> <span class="n">one</span>
-      <span class="n">four</span> <span class="o">=</span> <span class="n">two</span> <span class="o">+</span> <span class="n">two</span>
-      <span class="n">ten</span> <span class="o">=</span> <span class="n">four</span> <span class="o">+</span> <span class="n">four</span> <span class="o">+</span> <span class="n">two</span>
       <span class="n">fudge</span> <span class="o">=</span> <span class="n">one</span> <span class="o">+</span> <span class="n">one</span><span class="o">/</span><span class="n">ten</span>
-      <span class="n">spcmn</span> <span class="o">=</span> <span class="n">d1mach3</span>
       <span class="n">rchtop</span> <span class="o">=</span> <span class="n">one</span><span class="o">/</span><span class="n">spcmn</span>
       <span class="n">enorm</span> <span class="o">=</span> <span class="n">Error</span><span class="p">(</span><span class="n">Numgr</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
 <span class="c">!</span>
@@ -621,25 +615,25 @@ private subroutine rchmod(Numgr, Error, Err1, Icntyp, Mact, Iact, Ipmax, Ismax, 
 <span class="c">! HERE IRCH=-1 AND WE CONSIDER CHANGING RCHIN.</span>
 <span class="c">!</span>
 <span class="c">! SEE IF CONSTRAINT ISMAX IS IN THE ACTIVE SET, AND RETURN IF IT IS.</span>
-<span class="c">! NOTE THAT ISMAX .GT. 0 SINCE WE WOULD NOT HAVE CALLED RCHMOD WITH</span>
+<span class="c">! NOTE THAT ISMAX &gt; 0 SINCE WE WOULD NOT HAVE CALLED RCHMOD WITH</span>
 <span class="c">! IRCH=-1 IF THERE WERE NO STANDARD CONSTRAINTS.</span>
          <span class="k">do </span><span class="n">l</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Mact</span>
             <span class="n">i</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">Iact</span><span class="p">(</span><span class="n">l</span><span class="p">))</span>
             <span class="k">if</span> <span class="p">(</span> <span class="n">i</span><span class="o">==</span><span class="n">Ismax</span> <span class="p">)</span> <span class="k">return</span>
 <span class="k">         enddo</span>
 <span class="c">!</span>
-<span class="c">! RETURN IF RCHIN .GE. RCHTOP.</span>
+<span class="c">! RETURN IF RCHIN &gt;= RCHTOP.</span>
          <span class="k">if</span> <span class="p">(</span> <span class="n">Rchin</span><span class="o">&lt;</span><span class="n">rchtop</span> <span class="p">)</span> <span class="k">then</span>
 <span class="c">!</span>
 <span class="c">! SET THE PROSPECTIVE NEW RCHIN.  NOTE THAT WITHOUT THE FUDGE FACTOR,</span>
 <span class="c">! RCH1 WOULD HAVE BEEN JUST BARELY LARGE ENOUGH TO HAVE CAUSED</span>
 <span class="c">! CONSTRAINT ISMAX TO BE DECLARED ACTIVE WHEN THE OLD ACTIVE SET WAS</span>
 <span class="c">! DETERMINED.  (NOTE THAT RCHIN MAY HAVE ALREADY BEEN INCREASED SINCE</span>
-<span class="c">! THEN.  NOTE ALSO THAT ERROR(ISMAX) .LT. 0.0, ELSE CONSTRAINT ISMAX</span>
+<span class="c">! THEN.  NOTE ALSO THAT ERROR(ISMAX) &lt; 0.0, ELSE CONSTRAINT ISMAX</span>
 <span class="c">! WOULD HAVE BEEN DECLARED ACTIVE.)</span>
             <span class="n">rch1</span> <span class="o">=</span> <span class="n">fudge</span><span class="o">*</span><span class="p">(</span><span class="o">-</span><span class="n">Error</span><span class="p">(</span><span class="n">Ismax</span><span class="p">))</span><span class="o">/</span><span class="n">Unit</span>
 <span class="c">!</span>
-<span class="c">! IF RCH1 .GT. RCHIN WE REPLACE RCHIN BY MIN(RICH1,RCHTOP).</span>
+<span class="c">! IF RCH1 &gt; RCHIN WE REPLACE RCHIN BY MIN(RICH1,RCHTOP).</span>
             <span class="k">if</span> <span class="p">(</span> <span class="n">rch1</span><span class="o">&gt;</span><span class="n">Rchin</span> <span class="p">)</span> <span class="k">then</span>
 <span class="k">               </span><span class="n">Rchin</span> <span class="o">=</span> <span class="n">rch1</span>
                <span class="k">if</span> <span class="p">(</span> <span class="n">Rchin</span><span class="o">&gt;</span><span class="n">rchtop</span> <span class="p">)</span> <span class="n">Rchin</span> <span class="o">=</span> <span class="n">rchtop</span>
@@ -652,7 +646,7 @@ private subroutine rchmod(Numgr, Error, Err1, Icntyp, Mact, Iact, Ipmax, Ismax, 
 <span class="c">! HERE IRCH=1 AND WE CONSIDER CHANGING RCHDWN.</span>
 <span class="c">!</span>
 <span class="c">! SEE IF CONSTRAINT IPMAX IS IN THE ACTIVE SET, AND RETURN IF IT IS.</span>
-<span class="c">! NOTE THAT IPMAX .GT. 0 SINCE THERE WILL BE AT LEAST ONE PRIMARY</span>
+<span class="c">! NOTE THAT IPMAX &gt; 0 SINCE THERE WILL BE AT LEAST ONE PRIMARY</span>
 <span class="c">! CONSTRAINT AT THIS STAGE (EVEN IF THERE WERE NONE IN THE ORIGINAL</span>
 <span class="c">! PROBLEM).</span>
          <span class="k">do </span><span class="n">l</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Mact</span>
@@ -660,7 +654,7 @@ private subroutine rchmod(Numgr, Error, Err1, Icntyp, Mact, Iact, Ipmax, Ismax, 
             <span class="k">if</span> <span class="p">(</span> <span class="n">i</span><span class="o">==</span><span class="n">Ipmax</span> <span class="p">)</span> <span class="k">return</span>
 <span class="k">         enddo</span>
 <span class="c">!</span>
-<span class="c">! RETURN IF RCHDWN .GE. RCHTOP.</span>
+<span class="c">! RETURN IF RCHDWN &gt;= RCHTOP.</span>
          <span class="k">if</span> <span class="p">(</span> <span class="n">Rchdwn</span><span class="o">&gt;=</span><span class="n">rchtop</span> <span class="p">)</span> <span class="k">return</span>
 <span class="c">!</span>
 <span class="c">! WE WILL CONSIDER CHANGING RCHDWN IF THE NEW PRIMARY ERROR NORM WITH</span>
@@ -689,7 +683,7 @@ private subroutine rchmod(Numgr, Error, Err1, Icntyp, Mact, Iact, Ipmax, Ismax, 
                <span class="k">endif</span>
 <span class="k"> </span><span class="mi">20</span>         <span class="k">enddo</span>
 <span class="c">!</span>
-<span class="c">! WE WILL RETURN IF EPACT IS .GE. THE OLD PRIMARY ERROR NORM, WHICH</span>
+<span class="c">! WE WILL RETURN IF EPACT IS &gt;= THE OLD PRIMARY ERROR NORM, WHICH</span>
 <span class="c">! WOULD INDICATE THAT THE STEP WAS TOO INACCURATE TO BE TRUSTED TO</span>
 <span class="c">! USE IN MODIFYING RCHDWN.</span>
          <span class="k">endif</span>
@@ -712,7 +706,7 @@ private subroutine rchmod(Numgr, Error, Err1, Icntyp, Mact, Iact, Ipmax, Ismax, 
 <span class="c">! SINCE THEN.)</span>
          <span class="n">rchd1</span> <span class="o">=</span> <span class="n">fudge</span><span class="o">*</span><span class="p">(</span><span class="n">enorm</span><span class="o">-</span><span class="n">eipmax</span><span class="p">)</span><span class="o">/</span><span class="n">Unit</span>
 <span class="c">!</span>
-<span class="c">! IF RCHD1 .GT. RCHDWN WE REPLACE RCHDWN BY MIN (RCHD1, RCHTOP).</span>
+<span class="c">! IF RCHD1 &gt; RCHDWN WE REPLACE RCHDWN BY MIN (RCHD1, RCHTOP).</span>
          <span class="k">if</span> <span class="p">(</span> <span class="n">rchd1</span><span class="o">&lt;=</span><span class="n">Rchdwn</span> <span class="p">)</span> <span class="k">return</span>
 <span class="k">         </span><span class="n">Rchdwn</span> <span class="o">=</span> <span class="n">rchd1</span>
          <span class="k">if</span> <span class="p">(</span> <span class="n">Rchdwn</span><span class="o">&gt;</span><span class="n">rchtop</span> <span class="p">)</span> <span class="n">Rchdwn</span> <span class="o">=</span> <span class="n">rchtop</span>

@@ -125,7 +125,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 8.1% of total for procedures.">257 statements</a>
+    title=" 8.1% of total for procedures.">251 statements</a>
      </li> 
      
      
@@ -774,33 +774,33 @@ private subroutine searsl(me, Ioptn, Numgr, Nparm, Prjlim, Tol1, x, Fun, Ifun, P
 <polygon fill="none" stroke="black" points="54,-45 0,-45 0,-21 54,-21 54,-45"/>
 <text text-anchor="middle" x="27" y="-30.6" font-family="Helvetica,sans-Serif" font-size="10.50">searsl</text>
 </g>
-<!-- proc~rchmod -->
-<g id="proc~~searsl~~CallsGraph_node2" class="node">
-<title>proc~rchmod</title>
-<g id="a_proc~~searsl~~CallsGraph_node2"><a xlink:href=".././proc/rchmod.html" xlink:title="rchmod">
-<polygon fill="#d9534f" stroke="#d9534f" points="144,-66 90,-66 90,-42 144,-42 144,-66"/>
-<text text-anchor="middle" x="117" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">rchmod</text>
-</a>
-</g>
-</g>
-<!-- proc~searsl&#45;&gt;proc~rchmod -->
-<g id="proc~~searsl~~CallsGraph_edge1" class="edge">
-<title>proc~searsl&#45;&gt;proc~rchmod</title>
-<path fill="none" stroke="#000000" d="M54.4,-39.3C62.48,-41.23 71.51,-43.38 80.1,-45.43"/>
-<polygon fill="#000000" stroke="#000000" points="79.38,-48.86 89.92,-47.78 81,-42.05 79.38,-48.86"/>
-</g>
 <!-- proc~iloc -->
-<g id="proc~~searsl~~CallsGraph_node3" class="node">
+<g id="proc~~searsl~~CallsGraph_node2" class="node">
 <title>proc~iloc</title>
-<g id="a_proc~~searsl~~CallsGraph_node3"><a xlink:href=".././proc/iloc.html" xlink:title="iloc">
-<polygon fill="#d94e8f" stroke="#d94e8f" points="144,-24 90,-24 90,0 144,0 144,-24"/>
-<text text-anchor="middle" x="117" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">iloc</text>
+<g id="a_proc~~searsl~~CallsGraph_node2"><a xlink:href=".././proc/iloc.html" xlink:title="iloc">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="144,-66 90,-66 90,-42 144,-42 144,-66"/>
+<text text-anchor="middle" x="117" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">iloc</text>
 </a>
 </g>
 </g>
 <!-- proc~searsl&#45;&gt;proc~iloc -->
-<g id="proc~~searsl~~CallsGraph_edge2" class="edge">
+<g id="proc~~searsl~~CallsGraph_edge1" class="edge">
 <title>proc~searsl&#45;&gt;proc~iloc</title>
+<path fill="none" stroke="#000000" d="M54.4,-39.3C62.48,-41.23 71.51,-43.38 80.1,-45.43"/>
+<polygon fill="#000000" stroke="#000000" points="79.38,-48.86 89.92,-47.78 81,-42.05 79.38,-48.86"/>
+</g>
+<!-- proc~rchmod -->
+<g id="proc~~searsl~~CallsGraph_node3" class="node">
+<title>proc~rchmod</title>
+<g id="a_proc~~searsl~~CallsGraph_node3"><a xlink:href=".././proc/rchmod.html" xlink:title="rchmod">
+<polygon fill="#d9534f" stroke="#d9534f" points="144,-24 90,-24 90,0 144,0 144,-24"/>
+<text text-anchor="middle" x="117" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">rchmod</text>
+</a>
+</g>
+</g>
+<!-- proc~searsl&#45;&gt;proc~rchmod -->
+<g id="proc~~searsl~~CallsGraph_edge2" class="edge">
+<title>proc~searsl&#45;&gt;proc~rchmod</title>
 <path fill="none" stroke="#000000" d="M54.4,-26.7C62.48,-24.77 71.51,-22.62 80.1,-20.57"/>
 <polygon fill="#000000" stroke="#000000" points="81,-23.95 89.92,-18.22 79.38,-17.14 81,-23.95"/>
 </g>
@@ -937,13 +937,13 @@ private subroutine searsl(me, Ioptn, Numgr, Nparm, Prjlim, Tol1, x, Fun, Ifun, P
       <span class="k">implicit none</span>
 
 <span class="k">      class</span><span class="p">(</span><span class="n">conmax_solver</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span> <span class="kd">::</span> <span class="n">me</span>
-      <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">baladj</span> <span class="p">,</span> <span class="n">balfct</span> <span class="p">,</span> <span class="n">big</span> <span class="p">,</span> <span class="n">Emin</span> <span class="p">,</span> <span class="n">Emin1</span> <span class="p">,</span> <span class="n">Err1</span> <span class="p">,</span> <span class="p">&amp;</span>
-                  <span class="n">Error</span> <span class="p">,</span> <span class="n">f1</span> <span class="p">,</span> <span class="n">f2</span> <span class="p">,</span> <span class="n">f3</span> <span class="p">,</span> <span class="n">f4</span> <span class="p">,</span> <span class="n">four</span> <span class="p">,</span> <span class="n">Fun</span> <span class="p">,</span> <span class="n">fval</span> <span class="p">,</span> <span class="n">fvlkp</span> <span class="p">,</span> <span class="p">&amp;</span>
-                  <span class="n">one</span> <span class="p">,</span> <span class="n">p1</span> <span class="p">,</span> <span class="n">p2</span> <span class="p">,</span> <span class="n">p3</span>
+      <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">baladj</span> <span class="p">,</span> <span class="n">balfct</span> <span class="p">,</span> <span class="n">Emin</span> <span class="p">,</span> <span class="n">Emin1</span> <span class="p">,</span> <span class="n">Err1</span> <span class="p">,</span> <span class="p">&amp;</span>
+                  <span class="n">Error</span> <span class="p">,</span> <span class="n">f1</span> <span class="p">,</span> <span class="n">f2</span> <span class="p">,</span> <span class="n">f3</span> <span class="p">,</span> <span class="n">f4</span> <span class="p">,</span> <span class="n">Fun</span> <span class="p">,</span> <span class="n">fval</span> <span class="p">,</span> <span class="n">fvlkp</span> <span class="p">,</span> <span class="p">&amp;</span>
+                  <span class="n">p1</span> <span class="p">,</span> <span class="n">p2</span> <span class="p">,</span> <span class="n">p3</span>
       <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">p4</span> <span class="p">,</span> <span class="n">Param</span> <span class="p">,</span> <span class="n">Parprj</span> <span class="p">,</span> <span class="n">Parser</span> <span class="p">,</span> <span class="n">Prjlim</span> <span class="p">,</span> <span class="n">Projct</span> <span class="p">,</span> <span class="n">Pttbl</span> <span class="p">,</span>   <span class="p">&amp;</span>
-                  <span class="n">pval</span> <span class="p">,</span> <span class="n">Rchdwn</span> <span class="p">,</span> <span class="n">Rchin</span> <span class="p">,</span> <span class="n">rlf</span> <span class="p">,</span> <span class="n">rrt</span> <span class="p">,</span> <span class="n">s1</span> <span class="p">,</span> <span class="n">s2</span> <span class="p">,</span> <span class="n">spcmn</span> <span class="p">,</span> <span class="n">ten</span> <span class="p">,&amp;</span>
+                  <span class="n">pval</span> <span class="p">,</span> <span class="n">Rchdwn</span> <span class="p">,</span> <span class="n">Rchin</span> <span class="p">,</span> <span class="n">rlf</span> <span class="p">,</span> <span class="n">rrt</span> <span class="p">,</span> <span class="n">s1</span> <span class="p">,</span> <span class="n">s2</span> <span class="p">,&amp;</span>
                   <span class="n">Tol1</span> <span class="p">,</span> <span class="n">tol4</span> <span class="p">,</span> <span class="n">Tolcon</span> <span class="p">,</span> <span class="n">tolden</span>
-      <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">two</span> <span class="p">,</span> <span class="n">Unit</span> <span class="p">,</span> <span class="n">Work</span> <span class="p">,</span> <span class="n">x</span>
+      <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Unit</span> <span class="p">,</span> <span class="n">Work</span> <span class="p">,</span> <span class="n">x</span>
       <span class="kt">integer</span> <span class="kd">::</span> <span class="n">Iact</span> <span class="p">,</span> <span class="n">icorct</span> <span class="p">,</span> <span class="n">Ifun</span> <span class="p">,</span> <span class="n">ilc08</span> <span class="p">,</span> <span class="n">ilc10</span> <span class="p">,</span> <span class="n">ilc17</span> <span class="p">,</span> <span class="n">ilc21</span> <span class="p">,</span> <span class="p">&amp;</span>
                  <span class="n">ilc27</span> <span class="p">,</span> <span class="n">ilc29</span> <span class="p">,</span> <span class="n">ilc48</span> <span class="p">,</span> <span class="n">ilf</span> <span class="p">,</span> <span class="n">Indm</span> <span class="p">,</span> <span class="n">initlm</span> <span class="p">,</span> <span class="p">&amp;</span>
                  <span class="n">Ioptn</span> <span class="p">,</span> <span class="n">Iphse</span> <span class="p">,</span> <span class="n">ipmax</span> <span class="p">,</span> <span class="n">Iptb</span> <span class="p">,</span> <span class="n">irt</span> <span class="p">,</span> <span class="n">isave</span>
@@ -951,18 +951,11 @@ private subroutine searsl(me, Ioptn, Numgr, Nparm, Prjlim, Tol1, x, Fun, Ifun, P
                  <span class="n">Liwrk</span> <span class="p">,</span> <span class="n">lll</span> <span class="p">,</span> <span class="n">Lwrk</span> <span class="p">,</span> <span class="n">Mact</span> <span class="p">,</span> <span class="n">nadd</span> <span class="p">,</span> <span class="n">Nparm</span> <span class="p">,</span> <span class="n">Nsrch</span> <span class="p">,</span> <span class="n">Numgr</span>
 
       <span class="k">dimension </span><span class="n">Fun</span><span class="p">(</span><span class="n">Ifun</span><span class="p">)</span> <span class="p">,</span> <span class="n">Pttbl</span><span class="p">(</span><span class="n">Iptb</span><span class="p">,</span><span class="n">Indm</span><span class="p">)</span> <span class="p">,</span> <span class="n">Param</span><span class="p">(</span><span class="n">Nparm</span><span class="p">)</span> <span class="p">,</span>  <span class="p">&amp;</span>
-              <span class="p">&amp;</span> <span class="n">Err1</span><span class="p">(</span><span class="n">Numgr</span><span class="o">+</span><span class="mi">3</span><span class="p">)</span> <span class="p">,</span> <span class="n">Parprj</span><span class="p">(</span><span class="n">Nparm</span><span class="p">)</span> <span class="p">,</span> <span class="n">x</span><span class="p">(</span><span class="n">Nparm</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="p">,</span>   <span class="p">&amp;</span>
-              <span class="p">&amp;</span> <span class="n">Error</span><span class="p">(</span><span class="n">Numgr</span><span class="o">+</span><span class="mi">3</span><span class="p">)</span> <span class="p">,</span> <span class="n">Iact</span><span class="p">(</span><span class="n">Numgr</span><span class="p">)</span> <span class="p">,</span> <span class="n">Parser</span><span class="p">(</span><span class="n">Nparm</span><span class="p">)</span> <span class="p">,</span> <span class="p">&amp;</span>
-              <span class="p">&amp;</span> <span class="n">Iwork</span><span class="p">(</span><span class="n">Liwrk</span><span class="p">)</span> <span class="p">,</span> <span class="n">Work</span><span class="p">(</span><span class="n">Lwrk</span><span class="p">)</span>
+                <span class="n">Err1</span><span class="p">(</span><span class="n">Numgr</span><span class="o">+</span><span class="mi">3</span><span class="p">)</span> <span class="p">,</span> <span class="n">Parprj</span><span class="p">(</span><span class="n">Nparm</span><span class="p">)</span> <span class="p">,</span> <span class="n">x</span><span class="p">(</span><span class="n">Nparm</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="p">,</span>   <span class="p">&amp;</span>
+                <span class="n">Error</span><span class="p">(</span><span class="n">Numgr</span><span class="o">+</span><span class="mi">3</span><span class="p">)</span> <span class="p">,</span> <span class="n">Iact</span><span class="p">(</span><span class="n">Numgr</span><span class="p">)</span> <span class="p">,</span> <span class="n">Parser</span><span class="p">(</span><span class="n">Nparm</span><span class="p">)</span> <span class="p">,</span> <span class="p">&amp;</span>
+                <span class="n">Iwork</span><span class="p">(</span><span class="n">Liwrk</span><span class="p">)</span> <span class="p">,</span> <span class="n">Work</span><span class="p">(</span><span class="n">Lwrk</span><span class="p">)</span>
 
 <span class="c">! SET MACHINE AND PRECISION DEPENDENT CONSTANTS FOR SEARSL.</span>
-      <span class="n">one</span> <span class="o">=</span> <span class="mf">1.0d0</span>
-      <span class="n">two</span> <span class="o">=</span> <span class="n">one</span> <span class="o">+</span> <span class="n">one</span>
-      <span class="n">four</span> <span class="o">=</span> <span class="n">two</span> <span class="o">+</span> <span class="n">two</span>
-      <span class="n">ten</span> <span class="o">=</span> <span class="n">four</span> <span class="o">+</span> <span class="n">four</span> <span class="o">+</span> <span class="n">two</span>
-<span class="c">!     NWRIT=output_unit</span>
-      <span class="n">spcmn</span> <span class="o">=</span> <span class="n">d1mach3</span>
-      <span class="n">big</span> <span class="o">=</span> <span class="n">one</span><span class="o">/</span><span class="n">spcmn</span>
       <span class="n">tolden</span> <span class="o">=</span> <span class="n">ten</span><span class="o">*</span><span class="n">spcmn</span>
       <span class="n">tol4</span> <span class="o">=</span> <span class="n">Tol1</span><span class="o">/</span><span class="n">four</span>
       <span class="n">balfct</span> <span class="o">=</span> <span class="n">ten</span>
@@ -976,7 +969,7 @@ private subroutine searsl(me, Ioptn, Numgr, Nparm, Prjlim, Tol1, x, Fun, Ifun, P
       <span class="n">ilc48</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">48</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
 <span class="c">!</span>
 <span class="c">! THE INITIAL PROJCT CAN BE INCREASED (OR DECREASED) BY A FACTOR OF</span>
-<span class="c">! 2.0**((INITLM-1)*INITLM-2)/2) (ASSUMING WE TAKE INITLM .GE. 3, AS</span>
+<span class="c">! 2.0**((INITLM-1)*INITLM-2)/2) (ASSUMING WE TAKE INITLM &gt;= 3, AS</span>
 <span class="c">! WE SHOULD).  WE TAKE INITLM=6 SINCE A FACTOR OF 1024 SEEMS SUFFICIENT.</span>
       <span class="n">initlm</span> <span class="o">=</span> <span class="mi">6</span>
 <span class="c">! NADD=4 SEEMS TO BE SUFFICIENT SINCE THIS NUMBER OF ITERATIONS PAST THE</span>
@@ -1007,10 +1000,10 @@ private subroutine searsl(me, Ioptn, Numgr, Nparm, Prjlim, Tol1, x, Fun, Ifun, P
 <span class="c">!</span>
 <span class="c">! WE NOW HAVE FOUND P1, P2, AND P3 WITH CORRESPONDING VALUES</span>
 <span class="c">! F1, F2, AND F3.  WE EXPAND THE INTERVAL IF NECESSARY TO TRY</span>
-<span class="c">! TO FIND NEW VALUES WITH F2 .LE. MIN(F1,F3).</span>
+<span class="c">! TO FIND NEW VALUES WITH F2 &lt;= MIN(F1,F3).</span>
  <span class="mi">200</span>  <span class="k">if</span> <span class="p">(</span> <span class="n">f2</span><span class="o">&lt;=</span><span class="n">f1</span> <span class="p">)</span> <span class="k">then</span>
 <span class="c">!</span>
-<span class="c">! HERE F2 .LE. F1.  IF F2 .LE. F3 AND WE HAVE NOT HAD ALL FAILURES OF</span>
+<span class="c">! HERE F2 &lt;= F1.  IF F2 &lt;= F3 AND WE HAVE NOT HAD ALL FAILURES OF</span>
 <span class="c">! THE F COMPUTATION, WE ARE DONE INITIALIZING.</span>
          <span class="k">if</span> <span class="p">(</span> <span class="n">f2</span><span class="o">&gt;</span><span class="n">f3</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">500</span>
          <span class="k">goto </span><span class="mi">400</span>
@@ -1019,7 +1012,7 @@ private subroutine searsl(me, Ioptn, Numgr, Nparm, Prjlim, Tol1, x, Fun, Ifun, P
       <span class="k">endif</span>
 <span class="c">!</span>
 <span class="c">! HERE WE WILL EXPAND THE INTERVAL TO THE LEFT, PROVIDING THAT</span>
-<span class="c">! NSRCH .LT. INITLM AND P1-P1/2.0**(NSRCH-1) .GE. TOL4.</span>
+<span class="c">! NSRCH &lt; INITLM AND P1-P1/2.0**(NSRCH-1) &gt;= TOL4.</span>
  <span class="mi">300</span>  <span class="k">if</span> <span class="p">(</span> <span class="n">Nsrch</span><span class="o">&lt;</span><span class="n">initlm</span> <span class="p">)</span> <span class="k">then</span>
 <span class="k">         if</span> <span class="p">(</span> <span class="n">p1</span><span class="o">-</span><span class="n">p1</span><span class="o">/</span><span class="n">two</span><span class="o">**</span><span class="p">(</span><span class="n">Nsrch</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">&gt;=</span><span class="n">tol4</span> <span class="p">)</span> <span class="k">then</span>
 <span class="c">!</span>
@@ -1050,8 +1043,8 @@ private subroutine searsl(me, Ioptn, Numgr, Nparm, Prjlim, Tol1, x, Fun, Ifun, P
       <span class="k">if</span> <span class="p">(</span> <span class="n">f3</span><span class="o">&gt;=</span><span class="n">big</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">300</span>
       <span class="k">goto </span><span class="mi">700</span>
 <span class="c">!</span>
-<span class="c">! HERE F3 .LT. MIN(F1,F2) AND WE EXPAND THE INTERVAL TO THE RIGHT IF</span>
-<span class="c">! NSRCH .LT. INITLM AND IUPBAR=0.</span>
+<span class="c">! HERE F3 &lt; MIN(F1,F2) AND WE EXPAND THE INTERVAL TO THE RIGHT IF</span>
+<span class="c">! NSRCH &lt; INITLM AND IUPBAR=0.</span>
  <span class="mi">500</span>  <span class="k">if</span> <span class="p">(</span> <span class="n">Nsrch</span><span class="o">&lt;</span><span class="n">initlm</span> <span class="p">)</span> <span class="k">then</span>
 <span class="k">         if</span> <span class="p">(</span> <span class="n">iupbar</span><span class="o">&lt;=</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
 <span class="c">!</span>
@@ -1061,8 +1054,8 @@ private subroutine searsl(me, Ioptn, Numgr, Nparm, Prjlim, Tol1, x, Fun, Ifun, P
             <span class="n">p2</span> <span class="o">=</span> <span class="n">p3</span>
             <span class="n">f2</span> <span class="o">=</span> <span class="n">f3</span>
             <span class="n">p3</span> <span class="o">=</span> <span class="n">two</span><span class="o">**</span><span class="p">(</span><span class="n">Nsrch</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">p2</span>
-<span class="c">! IF P3 .GT. PRJLIM, SET IUPBAR=1 AS AN INDICATOR WE CANNOT LATER</span>
-<span class="c">! EXPAND THE INTERVAL TO THE RIGHT.  THEN IF PRJLIM .GE. P2+TOL4</span>
+<span class="c">! IF P3 &gt; PRJLIM, SET IUPBAR=1 AS AN INDICATOR WE CANNOT LATER</span>
+<span class="c">! EXPAND THE INTERVAL TO THE RIGHT.  THEN IF PRJLIM &gt;= P2+TOL4</span>
 <span class="c">! REPLACE P3 BY PRJLIM, AND OTHERWISE RETURN WITH THE BEST VALUES</span>
 <span class="c">! FOUND SO FAR.</span>
             <span class="k">if</span> <span class="p">(</span> <span class="n">p3</span><span class="o">&lt;=</span><span class="n">Prjlim</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">600</span>
@@ -1091,9 +1084,9 @@ private subroutine searsl(me, Ioptn, Numgr, Nparm, Prjlim, Tol1, x, Fun, Ifun, P
       <span class="k">goto </span><span class="mi">1200</span>
 <span class="c">! END OF INITIALIZATION.</span>
 <span class="c">!</span>
-<span class="c">! ASSUMING THAT P3-P1 .GE. TOL1, WE NOW HAVE POINTS P1, P2, P3 WITH</span>
-<span class="c">! P1 .LE. P2-TOL4, P2 .LE. P3-TOL4, F1=F(P1) .GE. F2=F(P2), AND F3=F(P3)</span>
-<span class="c">! .GE. F2.  THESE CONDITIONS WILL BE MAINTAINED THROUGHOUT THE PROGRAM.</span>
+<span class="c">! ASSUMING THAT P3-P1 &gt;= TOL1, WE NOW HAVE POINTS P1, P2, P3 WITH</span>
+<span class="c">! P1 &lt;= P2-TOL4, P2 &lt;= P3-TOL4, F1=F(P1) &gt;= F2=F(P2), AND F3=F(P3)</span>
+<span class="c">! &gt;= F2.  THESE CONDITIONS WILL BE MAINTAINED THROUGHOUT THE PROGRAM.</span>
 <span class="c">! SET LLL=7, WHERE IT WILL REMAIN FROM NOW ON.</span>
  <span class="mi">700</span>  <span class="n">lll</span> <span class="o">=</span> <span class="mi">7</span>
 <span class="c">!</span>
@@ -1128,7 +1121,7 @@ private subroutine searsl(me, Ioptn, Numgr, Nparm, Prjlim, Tol1, x, Fun, Ifun, P
 <span class="c">! ENDPOINT ON THE SAME SIDE.</span>
                <span class="k">if</span> <span class="p">(</span> <span class="n">ilf</span><span class="o">&gt;</span><span class="mi">1</span> <span class="p">)</span> <span class="k">then</span>
 <span class="c">!</span>
-<span class="c">! HERE THE LEFT ENDPOINT WAS DROPPED AT THE LAST ILF .GT. 1</span>
+<span class="c">! HERE THE LEFT ENDPOINT WAS DROPPED AT THE LAST ILF &gt; 1</span>
 <span class="c">! ITERATIONS, SO TO PREVENT A LONG STRING OF SUCH OCCURRENCES</span>
 <span class="c">! WITH LITTLE REDUCTION OF P3-P1 WE WILL SHIFT THE NEW POINT</span>
 <span class="c">! TO THE RIGHT BY DECREASING RLF RELATIVE TO RRT.</span>
@@ -1136,7 +1129,7 @@ private subroutine searsl(me, Ioptn, Numgr, Nparm, Prjlim, Tol1, x, Fun, Ifun, P
                   <span class="n">rrt</span> <span class="o">=</span> <span class="n">one</span> <span class="o">-</span> <span class="n">rlf</span>
                <span class="n">elseif</span> <span class="p">(</span> <span class="n">irt</span><span class="o">&gt;</span><span class="mi">1</span> <span class="p">)</span> <span class="k">then</span>
 <span class="c">!</span>
-<span class="c">! HERE THE RIGHT ENDPOINT WAS DROPPED AT THE LAST IRT .GT. 1</span>
+<span class="c">! HERE THE RIGHT ENDPOINT WAS DROPPED AT THE LAST IRT &gt; 1</span>
 <span class="c">! ITERATIONS, AND WE WILL SHIFT THE NEW POINT TO THE LEFT.</span>
                   <span class="n">rrt</span> <span class="o">=</span> <span class="n">rrt</span><span class="o">/</span><span class="n">two</span><span class="o">**</span><span class="p">(</span><span class="n">irt</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
                   <span class="n">rlf</span> <span class="o">=</span> <span class="n">one</span> <span class="o">-</span> <span class="n">rrt</span>
@@ -1166,22 +1159,22 @@ private subroutine searsl(me, Ioptn, Numgr, Nparm, Prjlim, Tol1, x, Fun, Ifun, P
                <span class="n">p4</span> <span class="o">=</span> <span class="p">(</span><span class="n">rlf</span><span class="o">*</span><span class="n">p1</span><span class="o">+</span><span class="n">rrt</span><span class="o">*</span><span class="n">p3</span><span class="o">+</span><span class="n">p2</span><span class="p">)</span><span class="o">/</span><span class="n">two</span>
 <span class="c">!</span>
 <span class="c">! THE NEXT SECTION (FROM HERE TO STATEMENT 2800) MODIFIES P4 IF NECESSARY</span>
-<span class="c">! TO GET P1+TOL4 .LE. P2,P4 .LE. P3-TOL4 AND ABS(P4-P2) .GE. TOL4.  IN</span>
+<span class="c">! TO GET P1+TOL4 &lt;= P2,P4 &lt;= P3-TOL4 AND ABS(P4-P2) &gt;= TOL4.  IN</span>
 <span class="c">! THE UNLIKELY EVENT THIS IS NOT POSSIBLE WE SET PROJCT=P2, EMIN=F2</span>
 <span class="c">! AND RETURN.</span>
 <span class="c">!</span>
-<span class="c">! IF ABS(P4-P2) .LT. TOL4 WE REDEFINE P4 BY MOVING TOL4 FROM</span>
+<span class="c">! IF ABS(P4-P2) &lt; TOL4 WE REDEFINE P4 BY MOVING TOL4 FROM</span>
 <span class="c">! P2 INTO THE LONGER SUBINTERVAL.  NOTE THAT THE LENGTH OF THIS</span>
 <span class="c">! SUBINTERVAL MUST BE AT LEAST TOL1/2.0 = 2.0*TOL4, ELSE WE</span>
 <span class="c">! WOULD HAVE TERMINATED EARLIER.</span>
                <span class="k">if</span> <span class="p">(</span> <span class="nb">abs</span><span class="p">(</span><span class="n">p4</span><span class="o">-</span><span class="n">p2</span><span class="p">)</span><span class="o">&lt;</span><span class="n">tol4</span> <span class="p">)</span> <span class="k">then</span>
 <span class="k">                  if</span> <span class="p">(</span> <span class="n">p3</span><span class="o">-</span><span class="n">p2</span><span class="o">&gt;</span><span class="p">(</span><span class="n">p2</span><span class="o">-</span><span class="n">p1</span><span class="p">)</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">1000</span>
                   <span class="k">goto </span><span class="mi">1100</span>
-<span class="c">! HERE WE HAD ABS(P4-P2) .GE. TOL4 AND WE MAKE SURE THAT P1+TOL4</span>
-<span class="c">! .LE. P4 .LE. P3-TOL4.</span>
+<span class="c">! HERE WE HAD ABS(P4-P2) &gt;= TOL4 AND WE MAKE SURE THAT P1+TOL4</span>
+<span class="c">! &lt;= P4 &lt;= P3-TOL4.</span>
                <span class="n">elseif</span> <span class="p">(</span> <span class="n">p4</span><span class="o">&lt;=</span><span class="p">(</span><span class="n">p3</span><span class="o">-</span><span class="n">tol4</span><span class="p">)</span> <span class="p">)</span> <span class="k">then</span>
 <span class="k">                  if</span> <span class="p">(</span> <span class="n">p4</span><span class="o">&lt;</span><span class="p">(</span><span class="n">p1</span><span class="o">+</span><span class="n">tol4</span><span class="p">)</span> <span class="p">)</span> <span class="k">then</span>
-<span class="c">! HERE P4 .LT. P1+TOL4 AND WE SET P4=P1+TOL4 IF P2-P1 .GE. TOL1/2.0</span>
+<span class="c">! HERE P4 &lt; P1+TOL4 AND WE SET P4=P1+TOL4 IF P2-P1 &gt;= TOL1/2.0</span>
 <span class="c">! AND OTHERWISE WE SET P4=P2+TOL4.</span>
                      <span class="k">if</span> <span class="p">(</span> <span class="n">p2</span><span class="o">-</span><span class="n">p1</span><span class="o">&lt;</span><span class="n">Tol1</span><span class="o">/</span><span class="n">two</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">1000</span>
                      <span class="n">p4</span> <span class="o">=</span> <span class="n">p1</span> <span class="o">+</span> <span class="n">tol4</span>
@@ -1194,7 +1187,7 @@ private subroutine searsl(me, Ioptn, Numgr, Nparm, Prjlim, Tol1, x, Fun, Ifun, P
                      <span class="k">goto </span><span class="mi">1200</span>
                   <span class="k">endif</span>
 <span class="k">               else</span>
-<span class="c">! HERE P4 .GT. P3-TOL4 AND WE SET P4=P3-TOL4 IF P3-P2 .GE. TOL1/2.0,</span>
+<span class="c">! HERE P4 &gt; P3-TOL4 AND WE SET P4=P3-TOL4 IF P3-P2 &gt;= TOL1/2.0,</span>
 <span class="c">! AND OTHERWISE WE SET P4=P2-TOL4.</span>
                   <span class="k">if</span> <span class="p">(</span> <span class="n">p3</span><span class="o">-</span><span class="n">p2</span><span class="o">&lt;</span><span class="n">Tol1</span><span class="o">/</span><span class="n">two</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">1100</span>
                   <span class="n">p4</span> <span class="o">=</span> <span class="n">p3</span> <span class="o">-</span> <span class="n">tol4</span>
@@ -1251,22 +1244,22 @@ private subroutine searsl(me, Ioptn, Numgr, Nparm, Prjlim, Tol1, x, Fun, Ifun, P
 <span class="c">! OR ITYPM2 IS POSITIVE.</span>
       <span class="k">if</span> <span class="p">(</span> <span class="n">Itypm1</span><span class="o">+</span><span class="n">Itypm2</span><span class="o">&gt;</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
 <span class="k">         call </span><span class="n">me</span><span class="p">%</span><span class="n">corrct</span><span class="p">(</span><span class="n">Ioptn</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">,</span><span class="n">Fun</span><span class="p">,</span><span class="n">Ifun</span><span class="p">,</span><span class="n">Pttbl</span><span class="p">,</span><span class="n">Iptb</span><span class="p">,</span><span class="n">Indm</span><span class="p">,</span>        <span class="p">&amp;</span>
-                   <span class="p">&amp;</span> <span class="n">Iwork</span><span class="p">(</span><span class="n">ilc17</span><span class="p">),</span><span class="n">Unit</span><span class="p">,</span><span class="n">Tolcon</span><span class="p">,</span><span class="n">Rchin</span><span class="p">,</span><span class="n">Error</span><span class="p">,</span><span class="n">Mact</span><span class="p">,</span><span class="n">Iact</span><span class="p">,</span>    <span class="p">&amp;</span>
-                   <span class="p">&amp;</span> <span class="n">Projct</span><span class="p">,</span><span class="n">Iphse</span><span class="p">,</span><span class="n">Iwork</span><span class="p">,</span><span class="n">Liwrk</span><span class="p">,</span><span class="n">Work</span><span class="p">,</span><span class="n">Lwrk</span><span class="p">,</span><span class="n">Work</span><span class="p">(</span><span class="n">ilc27</span><span class="p">),</span>    <span class="p">&amp;</span>
-                   <span class="p">&amp;</span> <span class="n">Err1</span><span class="p">,</span><span class="n">Work</span><span class="p">(</span><span class="n">ilc10</span><span class="p">),</span><span class="n">Work</span><span class="p">(</span><span class="n">ilc29</span><span class="p">),</span><span class="n">Work</span><span class="p">(</span><span class="n">ilc08</span><span class="p">),</span>          <span class="p">&amp;</span>
-                   <span class="p">&amp;</span> <span class="n">Work</span><span class="p">(</span><span class="n">ilc48</span><span class="p">),</span><span class="n">Iwork</span><span class="p">(</span><span class="n">ilc21</span><span class="p">),</span><span class="n">Parprj</span><span class="p">,</span><span class="n">icorct</span><span class="p">)</span>
+                     <span class="n">Iwork</span><span class="p">(</span><span class="n">ilc17</span><span class="p">),</span><span class="n">Unit</span><span class="p">,</span><span class="n">Tolcon</span><span class="p">,</span><span class="n">Rchin</span><span class="p">,</span><span class="n">Error</span><span class="p">,</span><span class="n">Mact</span><span class="p">,</span><span class="n">Iact</span><span class="p">,</span>    <span class="p">&amp;</span>
+                     <span class="n">Projct</span><span class="p">,</span><span class="n">Iphse</span><span class="p">,</span><span class="n">Iwork</span><span class="p">,</span><span class="n">Liwrk</span><span class="p">,</span><span class="n">Work</span><span class="p">,</span><span class="n">Lwrk</span><span class="p">,</span><span class="n">Work</span><span class="p">(</span><span class="n">ilc27</span><span class="p">),</span>    <span class="p">&amp;</span>
+                     <span class="n">Err1</span><span class="p">,</span><span class="n">Work</span><span class="p">(</span><span class="n">ilc10</span><span class="p">),</span><span class="n">Work</span><span class="p">(</span><span class="n">ilc29</span><span class="p">),</span><span class="n">Work</span><span class="p">(</span><span class="n">ilc08</span><span class="p">),</span>          <span class="p">&amp;</span>
+                     <span class="n">Work</span><span class="p">(</span><span class="n">ilc48</span><span class="p">),</span><span class="n">Iwork</span><span class="p">(</span><span class="n">ilc21</span><span class="p">),</span><span class="n">Parprj</span><span class="p">,</span><span class="n">icorct</span><span class="p">)</span>
          <span class="k">if</span> <span class="p">(</span> <span class="n">icorct</span><span class="o">&gt;</span><span class="mi">0</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">1300</span>
       <span class="k">endif</span>
 <span class="k">      call </span><span class="n">me</span><span class="p">%</span><span class="n">ercmp1</span><span class="p">(</span><span class="n">Ioptn</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">,</span><span class="n">Fun</span><span class="p">,</span><span class="n">Ifun</span><span class="p">,</span><span class="n">Pttbl</span><span class="p">,</span><span class="n">Iptb</span><span class="p">,</span><span class="n">Indm</span><span class="p">,</span><span class="n">Parprj</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span>  <span class="p">&amp;</span>
-                <span class="p">&amp;</span> <span class="n">Iphse</span><span class="p">,</span><span class="n">Iwork</span><span class="p">,</span><span class="n">Liwrk</span><span class="p">,</span><span class="n">Work</span><span class="p">(</span><span class="n">ilc08</span><span class="p">),</span><span class="n">Iwork</span><span class="p">(</span><span class="n">ilc17</span><span class="p">),</span><span class="n">ipmax</span><span class="p">,</span>     <span class="p">&amp;</span>
-                <span class="p">&amp;</span> <span class="n">ismax</span><span class="p">,</span><span class="n">Err1</span><span class="p">)</span>
+                  <span class="n">Iphse</span><span class="p">,</span><span class="n">Iwork</span><span class="p">,</span><span class="n">Liwrk</span><span class="p">,</span><span class="n">Work</span><span class="p">(</span><span class="n">ilc08</span><span class="p">),</span><span class="n">Iwork</span><span class="p">(</span><span class="n">ilc17</span><span class="p">),</span><span class="n">ipmax</span><span class="p">,</span>     <span class="p">&amp;</span>
+                  <span class="n">ismax</span><span class="p">,</span><span class="n">Err1</span><span class="p">)</span>
       <span class="n">fval</span> <span class="o">=</span> <span class="n">Err1</span><span class="p">(</span><span class="n">Numgr</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
 <span class="c">!</span>
 <span class="c">! IF NSRCH=1, INDICATING THAT WE ARE COMPUTING F WITH THE INITIAL PROJCT,</span>
 <span class="c">! CALL RCHMOD WITH IRCH=1 TO INCREASE RCHDWN FOR THE NEXT SETU1 OR</span>
 <span class="c">! RKSACT CALL IF NECESSARY.</span>
       <span class="k">if</span> <span class="p">(</span> <span class="n">Nsrch</span><span class="o">&lt;=</span><span class="mi">1</span> <span class="p">)</span> <span class="k">call </span><span class="n">rchmod</span><span class="p">(</span><span class="n">Numgr</span><span class="p">,</span><span class="n">Error</span><span class="p">,</span><span class="n">Err1</span><span class="p">,</span><span class="n">Iwork</span><span class="p">(</span><span class="n">ilc17</span><span class="p">),</span><span class="n">Mact</span><span class="p">,</span>   <span class="p">&amp;</span>
-                                <span class="p">&amp;</span> <span class="n">Iact</span><span class="p">,</span><span class="n">ipmax</span><span class="p">,</span><span class="n">ismax</span><span class="p">,</span><span class="n">Unit</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">Rchdwn</span><span class="p">,</span><span class="n">Rchin</span><span class="p">)</span>
+                                  <span class="n">Iact</span><span class="p">,</span><span class="n">ipmax</span><span class="p">,</span><span class="n">ismax</span><span class="p">,</span><span class="n">Unit</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">Rchdwn</span><span class="p">,</span><span class="n">Rchin</span><span class="p">)</span>
 <span class="c">! WE WILL SAVE THE BEST PARPRJ FOUND IN THIS SEARSL CALL IN PARSER.</span>
       <span class="k">if</span> <span class="p">(</span> <span class="n">isave</span><span class="o">&lt;=</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
 <span class="k">         </span><span class="n">isave</span> <span class="o">=</span> <span class="mi">1</span>
@@ -1277,7 +1270,7 @@ private subroutine searsl(me, Ioptn, Numgr, Nparm, Prjlim, Tol1, x, Fun, Ifun, P
          <span class="n">Parser</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">Parprj</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
       <span class="k">enddo</span>
 <span class="k">      </span><span class="n">fvlkp</span> <span class="o">=</span> <span class="n">fval</span>
-<span class="c">! IF IPHSE .LT. 0 AND FVAL .LE. TOLCON WE RETURN WITH THE BEST VALUES</span>
+<span class="c">! IF IPHSE &lt; 0 AND FVAL &lt;= TOLCON WE RETURN WITH THE BEST VALUES</span>
 <span class="c">! FOUND SO FAR.</span>
       <span class="k">if</span> <span class="p">(</span> <span class="n">Iphse</span><span class="o">&lt;</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
 <span class="k">         if</span> <span class="p">(</span> <span class="n">fval</span><span class="o">&lt;=</span><span class="n">Tolcon</span> <span class="p">)</span> <span class="k">then</span>
@@ -1293,8 +1286,8 @@ private subroutine searsl(me, Ioptn, Numgr, Nparm, Prjlim, Tol1, x, Fun, Ifun, P
 <span class="c">!</span>
          <span class="n">f1</span> <span class="o">=</span> <span class="n">fval</span>
          <span class="n">p3</span> <span class="o">=</span> <span class="n">two</span><span class="o">*</span><span class="n">p2</span>
-<span class="c">! IF P3 .GT. PRJLIM, SET IUPBAR=1 AS AN INDICATOR WE CANNOT LATER</span>
-<span class="c">! EXPAND THE INTERVAL TO THE RIGHT.  THEN IF PRJLIM .GE. P2+TOL4</span>
+<span class="c">! IF P3 &gt; PRJLIM, SET IUPBAR=1 AS AN INDICATOR WE CANNOT LATER</span>
+<span class="c">! EXPAND THE INTERVAL TO THE RIGHT.  THEN IF PRJLIM &gt;= P2+TOL4</span>
 <span class="c">! REPLACE P3 BY PRJLIM, AND OTHERWISE EXPAND THE INTERVAL TO THE</span>
 <span class="c">! LEFT TO GET THE DESIRED THIRD POINT.</span>
          <span class="k">if</span> <span class="p">(</span> <span class="n">p3</span><span class="o">&lt;=</span><span class="n">Prjlim</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">100</span>
@@ -1337,7 +1330,7 @@ private subroutine searsl(me, Ioptn, Numgr, Nparm, Prjlim, Tol1, x, Fun, Ifun, P
       <span class="k">case</span> <span class="p">(</span><span class="mi">5</span><span class="p">)</span>
          <span class="n">f1</span> <span class="o">=</span> <span class="n">fval</span>
 <span class="c">!</span>
-<span class="c">! HERE F2 .LE. F3 AND WE HAVE JUST EXPANDED LEFT.  IF F2 .GT. F1 WE</span>
+<span class="c">! HERE F2 &lt;= F3 AND WE HAVE JUST EXPANDED LEFT.  IF F2 &gt; F1 WE</span>
 <span class="c">! TRY TO EXPAND LEFT AGAIN, OTHERWISE WE CHECK TO SEE IF WE ARE DONE</span>
 <span class="c">! INITIALIZING.</span>
          <span class="k">if</span> <span class="p">(</span> <span class="n">f2</span><span class="o">&gt;</span><span class="n">f1</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">300</span>
@@ -1345,7 +1338,7 @@ private subroutine searsl(me, Ioptn, Numgr, Nparm, Prjlim, Tol1, x, Fun, Ifun, P
       <span class="k">case</span> <span class="p">(</span><span class="mi">6</span><span class="p">)</span>
          <span class="n">f3</span> <span class="o">=</span> <span class="n">fval</span>
 <span class="c">!</span>
-<span class="c">! HERE F2 .LT. F1 AND WE HAVE JUST EXPANDED RIGHT.  IF F2 .LE. F3</span>
+<span class="c">! HERE F2 &lt; F1 AND WE HAVE JUST EXPANDED RIGHT.  IF F2 &lt;= F3</span>
 <span class="c">! WE ARE DONE INITIALIZING, OTHERWISE WE TRY TO EXPAND RIGHT AGAIN.</span>
          <span class="k">if</span> <span class="p">(</span> <span class="n">f2</span><span class="o">&gt;</span><span class="n">f3</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">500</span>
          <span class="k">goto </span><span class="mi">700</span>
@@ -1354,7 +1347,7 @@ private subroutine searsl(me, Ioptn, Numgr, Nparm, Prjlim, Tol1, x, Fun, Ifun, P
          <span class="n">f4</span> <span class="o">=</span> <span class="n">fval</span>
 <span class="c">!</span>
 <span class="c">! NOW WE DROP EITHER P1 OR P3 AND RELABEL THE REMAINING POINTS SO</span>
-<span class="c">! THAT F(P2) .LE. F(P1) AND F(P2) .LE. F(P3).</span>
+<span class="c">! THAT F(P2) &lt;= F(P1) AND F(P2) &lt;= F(P3).</span>
 <span class="c">!</span>
 <span class="c">! IF NOW THE LEFTMOST OF THE TWO MIDDLE POINTS IS LOWER THAN THE</span>
 <span class="c">! RIGHTMOST OF THE TWO MIDDLE POINTS WE DROP P3, AND SET ILF=0</span>
@@ -1364,7 +1357,7 @@ private subroutine searsl(me, Ioptn, Numgr, Nparm, Prjlim, Tol1, x, Fun, Ifun, P
 <span class="c">! TO DO ANOTHER ITERATION.</span>
          <span class="k">if</span> <span class="p">(</span> <span class="n">p4</span><span class="o">&lt;</span><span class="n">p2</span> <span class="p">)</span> <span class="k">then</span>
 <span class="c">!</span>
-<span class="c">! HERE P4 .LT. P2.</span>
+<span class="c">! HERE P4 &lt; P2.</span>
             <span class="k">if</span> <span class="p">(</span> <span class="n">f4</span><span class="o">&lt;</span><span class="n">f2</span> <span class="p">)</span> <span class="k">then</span>
 <span class="k">               </span><span class="n">p3</span> <span class="o">=</span> <span class="n">p2</span>
                <span class="n">f3</span> <span class="o">=</span> <span class="n">f2</span>
@@ -1379,7 +1372,7 @@ private subroutine searsl(me, Ioptn, Numgr, Nparm, Prjlim, Tol1, x, Fun, Ifun, P
                <span class="n">irt</span> <span class="o">=</span> <span class="mi">0</span>
             <span class="k">endif</span>
 <span class="c">!</span>
-<span class="c">! HERE P4 .GT. P2.</span>
+<span class="c">! HERE P4 &gt; P2.</span>
          <span class="n">elseif</span> <span class="p">(</span> <span class="n">f2</span><span class="o">&lt;</span><span class="n">f4</span> <span class="p">)</span> <span class="k">then</span>
 <span class="k">            </span><span class="n">p3</span> <span class="o">=</span> <span class="n">p4</span>
             <span class="n">f3</span> <span class="o">=</span> <span class="n">f4</span>

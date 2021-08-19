@@ -125,7 +125,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 4.3% of total for procedures.">135 statements</a>
+    title=" 4.2% of total for procedures.">130 statements</a>
      </li> 
      
      
@@ -210,12 +210,12 @@ private subroutine muller(me, Ioptn, Nparm, Numgr, Dvec, Fun, Ifun, Pttbl, Iptb,
     
     <p>IN THIS SUBROUTINE WE ARE GIVEN A BASE VECTOR ZWORK, A DIRECTION
  VECTOR DVEC, A SCALAR PROCOR WITH EMIN = F(PROCOR) = (THE MAXIMUM TYPE
- -2 AND -1 ERROR WITH PARAMETERS ZWORK + PROCOR*DVEC) .LT. -TOLCON, AND
- A SCALAR P1 WITH P1 .LT. PROCOR AND F1 = F(P1) .GT. TOLCON.  WE DO
+ -2 AND -1 ERROR WITH PARAMETERS ZWORK + PROCOR*DVEC) &lt; -TOLCON, AND
+ A SCALAR P1 WITH P1 &lt; PROCOR AND F1 = F(P1) &gt; TOLCON.  WE DO
  A REVISED MULLERS METHOD APPROACH (WITH A SOLUTION CONTAINED IN A
- SHRINKING INTERVAL) TO ATTEMPT TO ADJUST PROCOR SO THAT -TOLCON  .LE.
- F(PROCOR) .LE. TOLCON, BUT IF WE ARE NOT SUCCESSFUL WE RETURN WITH THE
- LEFTMOST PROCOR FOUND SATISFYING EMIN = F(PROCOR) .LT. -TOLCON ON THE
+ SHRINKING INTERVAL) TO ATTEMPT TO ADJUST PROCOR SO THAT -TOLCON  &lt;=
+ F(PROCOR) &lt;= TOLCON, BUT IF WE ARE NOT SUCCESSFUL WE RETURN WITH THE
+ LEFTMOST PROCOR FOUND SATISFYING EMIN = F(PROCOR) &lt; -TOLCON ON THE
  THEORY THAT OVERCORRECTION IS BETTER THAN NO CORRECTION.  NOTE THAT WHEN
  CORRCT CALLS THIS SUBROUTINE IT WILL HAVE LUMPED THE TYPE -1 CONSTRAINTS
  IN WITH THE TYPE -2 CONSTRAINTS USING JCNTYP, WHICH IS CARRIED THROUGH
@@ -757,25 +757,19 @@ private subroutine muller(me, Ioptn, Nparm, Numgr, Dvec, Fun, Ifun, Pttbl, Iptb,
 
 <span class="k">      class</span><span class="p">(</span><span class="n">conmax_solver</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span> <span class="kd">::</span> <span class="n">me</span>
       <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="n">acof</span> <span class="p">,</span> <span class="n">bcof</span> <span class="p">,</span> <span class="n">ccof</span> <span class="p">,</span> <span class="n">den</span> <span class="p">,</span> <span class="n">discr</span> <span class="p">,</span> <span class="n">Dvec</span> <span class="p">,</span> <span class="n">Emin</span> <span class="p">,</span>  <span class="p">&amp;</span>
-           <span class="p">&amp;</span> <span class="n">Err1</span> <span class="p">,</span> <span class="n">f1</span> <span class="p">,</span> <span class="n">f2</span> <span class="p">,</span> <span class="n">f3</span> <span class="p">,</span> <span class="n">f4</span> <span class="p">,</span> <span class="n">four</span> <span class="p">,</span> <span class="n">Fun</span> <span class="p">,</span> <span class="n">fval</span> <span class="p">,</span> <span class="n">one</span> <span class="p">,</span> <span class="n">p1</span> <span class="p">,</span>  <span class="p">&amp;</span>
-           <span class="p">&amp;</span> <span class="n">p2</span> <span class="p">,</span> <span class="n">p3</span>
-      <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="n">p4</span> <span class="p">,</span> <span class="n">Parwrk</span> <span class="p">,</span> <span class="n">Procor</span> <span class="p">,</span> <span class="n">Pttbl</span> <span class="p">,</span> <span class="n">pval</span> <span class="p">,</span> <span class="n">spcmn</span> <span class="p">,</span> <span class="n">temp</span> <span class="p">,</span> <span class="n">ten</span> <span class="p">,</span> <span class="p">&amp;</span>
-           <span class="p">&amp;</span> <span class="n">tol1</span> <span class="p">,</span> <span class="n">tol4</span> <span class="p">,</span> <span class="n">Tolcon</span> <span class="p">,</span> <span class="n">tolden</span> <span class="p">,</span> <span class="n">two</span> <span class="p">,</span> <span class="n">Work</span> <span class="p">,</span> <span class="n">Zwork</span>
+             <span class="n">Err1</span> <span class="p">,</span> <span class="n">f1</span> <span class="p">,</span> <span class="n">f2</span> <span class="p">,</span> <span class="n">f3</span> <span class="p">,</span> <span class="n">f4</span> <span class="p">,</span> <span class="n">Fun</span> <span class="p">,</span> <span class="n">fval</span> <span class="p">,</span> <span class="n">p1</span> <span class="p">,</span>  <span class="p">&amp;</span>
+             <span class="n">p2</span> <span class="p">,</span> <span class="n">p3</span>
+      <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="n">p4</span> <span class="p">,</span> <span class="n">Parwrk</span> <span class="p">,</span> <span class="n">Procor</span> <span class="p">,</span> <span class="n">Pttbl</span> <span class="p">,</span> <span class="n">pval</span> <span class="p">,</span> <span class="n">temp</span> <span class="p">,</span> <span class="p">&amp;</span>
+             <span class="n">tol1</span> <span class="p">,</span> <span class="n">tol4</span> <span class="p">,</span> <span class="n">Tolcon</span> <span class="p">,</span> <span class="n">tolden</span> <span class="p">,</span> <span class="n">Work</span> <span class="p">,</span> <span class="n">Zwork</span>
       <span class="kt">integer </span><span class="n">Ifun</span> <span class="p">,</span> <span class="n">ilc08</span> <span class="p">,</span> <span class="n">ilc21</span> <span class="p">,</span> <span class="n">imain</span> <span class="p">,</span> <span class="n">Indm</span> <span class="p">,</span> <span class="n">Ioptn</span> <span class="p">,</span>      <span class="p">&amp;</span>
-            <span class="p">&amp;</span> <span class="n">Iphse</span> <span class="p">,</span> <span class="n">ipmax</span> <span class="p">,</span> <span class="n">Iptb</span> <span class="p">,</span> <span class="n">ismax</span> <span class="p">,</span> <span class="n">Iwork</span> <span class="p">,</span> <span class="n">j</span> <span class="p">,</span> <span class="n">limmul</span> <span class="p">,</span>       <span class="p">&amp;</span>
-            <span class="p">&amp;</span> <span class="n">Liwrk</span> <span class="p">,</span> <span class="n">lll</span> <span class="p">,</span> <span class="n">Lwrk</span> <span class="p">,</span> <span class="n">Nparm</span> <span class="p">,</span> <span class="n">nsrch</span> <span class="p">,</span> <span class="n">Numgr</span>
+              <span class="n">Iphse</span> <span class="p">,</span> <span class="n">ipmax</span> <span class="p">,</span> <span class="n">Iptb</span> <span class="p">,</span> <span class="n">ismax</span> <span class="p">,</span> <span class="n">Iwork</span> <span class="p">,</span> <span class="n">j</span> <span class="p">,</span> <span class="n">limmul</span> <span class="p">,</span>       <span class="p">&amp;</span>
+              <span class="n">Liwrk</span> <span class="p">,</span> <span class="n">lll</span> <span class="p">,</span> <span class="n">Lwrk</span> <span class="p">,</span> <span class="n">Nparm</span> <span class="p">,</span> <span class="n">nsrch</span> <span class="p">,</span> <span class="n">Numgr</span>
 <span class="c">!</span>
       <span class="k">dimension </span><span class="n">Dvec</span><span class="p">(</span><span class="n">Nparm</span><span class="p">)</span> <span class="p">,</span> <span class="n">Fun</span><span class="p">(</span><span class="n">Ifun</span><span class="p">)</span> <span class="p">,</span> <span class="n">Pttbl</span><span class="p">(</span><span class="n">Iptb</span><span class="p">,</span><span class="n">Indm</span><span class="p">)</span> <span class="p">,</span>            <span class="p">&amp;</span>
-              <span class="p">&amp;</span> <span class="n">Zwork</span><span class="p">(</span><span class="n">Nparm</span><span class="p">)</span> <span class="p">,</span> <span class="n">Err1</span><span class="p">(</span><span class="n">Numgr</span><span class="o">+</span><span class="mi">3</span><span class="p">)</span> <span class="p">,</span> <span class="n">Parwrk</span><span class="p">(</span><span class="n">Nparm</span><span class="p">)</span> <span class="p">,</span>          <span class="p">&amp;</span>
-              <span class="p">&amp;</span> <span class="n">Iwork</span><span class="p">(</span><span class="n">Liwrk</span><span class="p">)</span> <span class="p">,</span> <span class="n">Work</span><span class="p">(</span><span class="n">Lwrk</span><span class="p">)</span>
+                <span class="n">Zwork</span><span class="p">(</span><span class="n">Nparm</span><span class="p">)</span> <span class="p">,</span> <span class="n">Err1</span><span class="p">(</span><span class="n">Numgr</span><span class="o">+</span><span class="mi">3</span><span class="p">)</span> <span class="p">,</span> <span class="n">Parwrk</span><span class="p">(</span><span class="n">Nparm</span><span class="p">)</span> <span class="p">,</span>          <span class="p">&amp;</span>
+                <span class="n">Iwork</span><span class="p">(</span><span class="n">Liwrk</span><span class="p">)</span> <span class="p">,</span> <span class="n">Work</span><span class="p">(</span><span class="n">Lwrk</span><span class="p">)</span>
 <span class="c">!</span>
 <span class="c">! SET MACHINE AND PRECISION DEPENDENT CONSTANTS.</span>
-<span class="c">!     NWRIT=output_unit</span>
-      <span class="n">one</span> <span class="o">=</span> <span class="mf">1.0d0</span>
-      <span class="n">two</span> <span class="o">=</span> <span class="n">one</span> <span class="o">+</span> <span class="n">one</span>
-      <span class="n">four</span> <span class="o">=</span> <span class="n">two</span> <span class="o">+</span> <span class="n">two</span>
-      <span class="n">ten</span> <span class="o">=</span> <span class="n">four</span> <span class="o">+</span> <span class="n">four</span> <span class="o">+</span> <span class="n">two</span>
-      <span class="n">spcmn</span> <span class="o">=</span> <span class="n">d1mach3</span>
       <span class="n">tol1</span> <span class="o">=</span> <span class="n">ten</span><span class="o">*</span><span class="n">ten</span><span class="o">*</span><span class="n">spcmn</span>
       <span class="n">tol4</span> <span class="o">=</span> <span class="n">tol1</span><span class="o">/</span><span class="n">four</span>
       <span class="n">tolden</span> <span class="o">=</span> <span class="n">ten</span><span class="o">*</span><span class="n">spcmn</span>
@@ -802,7 +796,7 @@ private subroutine muller(me, Ioptn, Nparm, Numgr, Dvec, Fun, Ifun, Pttbl, Iptb,
          <span class="k">goto </span><span class="mi">1000</span>
       <span class="k">endif</span>
 <span class="c">!</span>
-<span class="c">! HERE -TOLCON .LE. F2 .LE. TOLCON AND WE RETURN WITH PROCOR=P2 AND</span>
+<span class="c">! HERE -TOLCON &lt;= F2 &lt;= TOLCON AND WE RETURN WITH PROCOR=P2 AND</span>
 <span class="c">! EMIN=F2.</span>
  <span class="mi">200</span>  <span class="n">Procor</span> <span class="o">=</span> <span class="n">p2</span>
       <span class="n">Emin</span> <span class="o">=</span> <span class="n">f2</span>
@@ -814,19 +808,19 @@ private subroutine muller(me, Ioptn, Nparm, Numgr, Dvec, Fun, Ifun, Pttbl, Iptb,
 <span class="c">!</span>
 <span class="c">! HERE WE HAVE NOT REACHED THE ITERATION LIMIT SO WE TRY AGAIN.</span>
 <span class="c">! IF IMAIN=0 HERE WE WILL HAVE NO P4 TO SHUFFLE IN, AND WE WILL HAVE</span>
-<span class="c">! ALREADY CHECKED P3-P1 .GE. TOL1, SO WE RESET IMAIN TO 1 AND DO A FIT.</span>
+<span class="c">! ALREADY CHECKED P3-P1 &gt;= TOL1, SO WE RESET IMAIN TO 1 AND DO A FIT.</span>
          <span class="k">if</span> <span class="p">(</span> <span class="n">imain</span><span class="o">&lt;=</span><span class="mi">0</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">900</span>
 <span class="c">!</span>
-<span class="c">! HERE WE HAVE POINTS P1, P2, P3, P4 WITH P1+TOL1/4.0 .LE. P2 .LE.</span>
-<span class="c">! P3-TOL1/4.0, P1+TOL1/4.0 .LE. P4 .LE. P3-TOL1/4.0, ABS(P4-P2) .GE.</span>
-<span class="c">! TOL1/4.0, F(P1) .GT. TOLCON, F(P3) .LT. -TOLCON, ABS(F(P2)) .GT.</span>
-<span class="c">! TOLCON, AND ABS(F(P4)) .GT. TOLCON.  WE WILL NOW DISCARD EITHER</span>
+<span class="c">! HERE WE HAVE POINTS P1, P2, P3, P4 WITH P1+TOL1/4.0 &lt;= P2 &lt;=</span>
+<span class="c">! P3-TOL1/4.0, P1+TOL1/4.0 &lt;= P4 &lt;= P3-TOL1/4.0, ABS(P4-P2) &gt;=</span>
+<span class="c">! TOL1/4.0, F(P1) &gt; TOLCON, F(P3) &lt; -TOLCON, ABS(F(P2)) &gt;</span>
+<span class="c">! TOLCON, AND ABS(F(P4)) &gt; TOLCON.  WE WILL NOW DISCARD EITHER</span>
 <span class="c">! P1 OR P3 AND RELABEL TO GET NEW POINTS P1, P2, P3, EXCEPT IN ONE</span>
 <span class="c">! CASE WHERE TWO POINTS WILL BE DISCARDED AND WE WILL RELABEL TO GET</span>
 <span class="c">! NEW POINTS P1, P3.</span>
-<span class="c">! IF P2 .GT. P4 HERE WE WILL, IN THE INTEREST OF A MORE READABLE</span>
+<span class="c">! IF P2 &gt; P4 HERE WE WILL, IN THE INTEREST OF A MORE READABLE</span>
 <span class="c">! PROGRAM, INTERCHANGE P2 AND P4 (AND F2 AND F4) SO WE WILL BE ABLE</span>
-<span class="c">! TO ASSUME P2 .LE. P4.</span>
+<span class="c">! TO ASSUME P2 &lt;= P4.</span>
          <span class="k">if</span> <span class="p">(</span> <span class="n">p2</span><span class="o">&gt;</span><span class="n">p4</span> <span class="p">)</span> <span class="k">then</span>
 <span class="k">            </span><span class="n">temp</span> <span class="o">=</span> <span class="n">p2</span>
             <span class="n">p2</span> <span class="o">=</span> <span class="n">p4</span>
@@ -837,10 +831,10 @@ private subroutine muller(me, Ioptn, Nparm, Numgr, Dvec, Fun, Ifun, Pttbl, Iptb,
          <span class="k">endif</span>
 <span class="k">         if</span> <span class="p">(</span> <span class="n">f2</span><span class="o">&lt;=</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
 <span class="c">!</span>
-<span class="c">! HERE F2 .LT. 0.0.</span>
+<span class="c">! HERE F2 &lt; 0.0.</span>
             <span class="k">if</span> <span class="p">(</span> <span class="n">f4</span><span class="o">&lt;=</span><span class="mi">0</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">700</span>
 <span class="c">!</span>
-<span class="c">! HERE F2 .LT. 0.0 AND F4 .GT. 0.0, AND IN THIS SAWTOOTH PATTERN WE</span>
+<span class="c">! HERE F2 &lt; 0.0 AND F4 &gt; 0.0, AND IN THIS SAWTOOTH PATTERN WE</span>
 <span class="c">! DISCARD BOTH P4 AND P3, SET IMAIN=0, AND GO BACK TO THE BEGINNING</span>
 <span class="c">! (EXCEPT NSRCH CONTINUES TO INCREASE, INSURING EVENTUAL TERMINATION).</span>
             <span class="n">imain</span> <span class="o">=</span> <span class="mi">0</span>
@@ -851,15 +845,15 @@ private subroutine muller(me, Ioptn, Nparm, Numgr, Dvec, Fun, Ifun, Pttbl, Iptb,
             <span class="k">goto </span><span class="mi">100</span>
          <span class="k">else</span>
 <span class="c">!</span>
-<span class="c">! HERE F2 .GT. 0.0.</span>
+<span class="c">! HERE F2 &gt; 0.0.</span>
             <span class="k">if</span> <span class="p">(</span> <span class="n">f4</span><span class="o">&lt;=</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
 <span class="c">!</span>
-<span class="c">! HERE F2 .GT. 0.0 AND F4 .LT. 0.0.</span>
+<span class="c">! HERE F2 &gt; 0.0 AND F4 &lt; 0.0.</span>
                <span class="k">if</span> <span class="p">(</span> <span class="n">p2</span><span class="o">-</span><span class="n">p1</span><span class="o">&lt;=</span><span class="p">(</span><span class="n">p3</span><span class="o">-</span><span class="n">p4</span><span class="p">)</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">700</span>
             <span class="k">endif</span>
 <span class="c">!</span>
-<span class="c">! HERE EITHER F2 .GT. 0.0 AND F4 .GT. 0.0, OR ELSE F2 .GT. 0.0,</span>
-<span class="c">! F4 .LT. 0.0, AND P2-P1 .GT. P3-P4.  WE DISCARD P1, SINCE IN THE</span>
+<span class="c">! HERE EITHER F2 &gt; 0.0 AND F4 &gt; 0.0, OR ELSE F2 &gt; 0.0,</span>
+<span class="c">! F4 &lt; 0.0, AND P2-P1 &gt; P3-P4.  WE DISCARD P1, SINCE IN THE</span>
 <span class="c">! FORMER CASE THE FIRST THREE F VALUES ARE ALL POSITIVE, AND IN THE</span>
 <span class="c">! LATTER CASE ONLY THE FIRST TWO F VALUES ARE POSITIVE, BUT BY DROPPING</span>
 <span class="c">! P1 WE CAN GET MAXIMUM SHRINKAGE OF P3-P1.</span>
@@ -879,12 +873,12 @@ private subroutine muller(me, Ioptn, Nparm, Numgr, Dvec, Fun, Ifun, Pttbl, Iptb,
          <span class="k">if</span> <span class="p">(</span> <span class="n">imain</span><span class="o">&lt;=</span><span class="mi">0</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">600</span>
          <span class="k">if</span> <span class="p">(</span> <span class="n">p2</span><span class="o">&lt;=</span><span class="n">p4</span> <span class="p">)</span> <span class="k">then</span>
 <span class="c">!</span>
-<span class="c">! HERE P2 .LT. P4.</span>
+<span class="c">! HERE P2 &lt; P4.</span>
             <span class="k">if</span> <span class="p">(</span> <span class="n">f2</span><span class="o">&lt;</span><span class="mi">0</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">200</span>
 <span class="c">!</span>
             <span class="k">if</span> <span class="p">(</span> <span class="n">f4</span><span class="o">&gt;=</span><span class="mi">0</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">500</span>
 <span class="c">!</span>
-<span class="c">! HERE P4 .LT. P2.</span>
+<span class="c">! HERE P4 &lt; P2.</span>
          <span class="n">elseif</span> <span class="p">(</span> <span class="n">f4</span><span class="o">&gt;=</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
 <span class="k">            goto </span><span class="mi">600</span>
          <span class="k">endif</span>
@@ -899,22 +893,22 @@ private subroutine muller(me, Ioptn, Nparm, Numgr, Dvec, Fun, Ifun, Pttbl, Iptb,
 <span class="k"> </span><span class="mi">600</span>  <span class="k">if</span> <span class="p">(</span> <span class="n">f2</span><span class="o">&gt;=</span><span class="mi">0</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">500</span>
       <span class="k">goto </span><span class="mi">200</span>
 <span class="c">!</span>
-<span class="c">! HERE EITHER F2 .LT. 0.0 AND F4 .LT. 0.0, OR ELSE F2 .GT. 0.0,</span>
-<span class="c">! F4 .LT. 0.0, AND P2-P1 .LE. P3-P4.  WE DISCARD P3, SINCE IN THE</span>
+<span class="c">! HERE EITHER F2 &lt; 0.0 AND F4 &lt; 0.0, OR ELSE F2 &gt; 0.0,</span>
+<span class="c">! F4 &lt; 0.0, AND P2-P1 &lt;= P3-P4.  WE DISCARD P3, SINCE IN THE</span>
 <span class="c">! FORMER CASE THE LAST THREE F VALUES ARE NEGATIVE, AND IN THE LATTER</span>
 <span class="c">! CASE ONLY THE LAST TWO F VALUES ARE NEGATIVE, BUT BY DROPPING P3 WE</span>
 <span class="c">! GET MAXIMUM SHRINKAGE OF P3-P1.</span>
  <span class="mi">700</span>  <span class="n">p3</span> <span class="o">=</span> <span class="n">p4</span>
       <span class="n">f3</span> <span class="o">=</span> <span class="n">f4</span>
 <span class="c">!</span>
-<span class="c">! HERE WE HAVE THREE POINTS.  IF P3-P1 .LT. TOL1 WE WILL RETURN AFTER</span>
+<span class="c">! HERE WE HAVE THREE POINTS.  IF P3-P1 &lt; TOL1 WE WILL RETURN AFTER</span>
 <span class="c">! SETTING PROCOR AND EMIN.</span>
  <span class="mi">800</span>  <span class="k">if</span> <span class="p">(</span> <span class="n">p3</span><span class="o">-</span><span class="n">p1</span><span class="o">&lt;</span><span class="n">tol1</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">600</span>
 <span class="c">!</span>
 <span class="c">! HERE WE RESET IMAIN TO 1 AND COMPUTE P4, THE UNIQUE ZERO IN THE</span>
 <span class="c">! INTERVAL (P1,P3) OF THE QUADRATIC POLYNOMIAL WHICH PASSES THROUGH</span>
-<span class="c">! (P1,F1), (P2,F2), AND (P3,F3).  RECALL THAT F1 .GT. 0.0,</span>
-<span class="c">! F3 .LT. 0.0, AND P1+TOL1/4.0 .LE. P2 .LE. P3-TOL1/4.0.</span>
+<span class="c">! (P1,F1), (P2,F2), AND (P3,F3).  RECALL THAT F1 &gt; 0.0,</span>
+<span class="c">! F3 &lt; 0.0, AND P1+TOL1/4.0 &lt;= P2 &lt;= P3-TOL1/4.0.</span>
  <span class="mi">900</span>  <span class="n">imain</span> <span class="o">=</span> <span class="mi">1</span>
 <span class="c">!</span>
 <span class="c">! COMPUTE THE COEFFICIENTS ACOF, BCOF, AND CCOF OF OUR POLYNOMIAL</span>
@@ -928,29 +922,29 @@ private subroutine muller(me, Ioptn, Nparm, Numgr, Dvec, Fun, Ifun, Pttbl, Iptb,
       <span class="k">if</span> <span class="p">(</span> <span class="n">discr</span><span class="o">&lt;</span><span class="mi">0</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">600</span>
       <span class="k">if</span> <span class="p">(</span> <span class="n">bcof</span><span class="o">&lt;=</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
 <span class="c">!</span>
-<span class="c">! HERE BCOF .LE. 0.0 AND WE USE THE ALTERNATE FORM OF THE QUADRATIC</span>
+<span class="c">! HERE BCOF &lt;= 0.0 AND WE USE THE ALTERNATE FORM OF THE QUADRATIC</span>
 <span class="c">! FORMULA.  NOTE THAT THE DENOMINATOR CANNOT BE ZERO SINCE THAT</span>
 <span class="c">! WOULD IMPLY BOTH BCOF=0.0 AND SQRT(...)=0.0, SO ALSO EITHER</span>
-<span class="c">! ACOF=0.0 OR CCOF=0.0, BUT THIS CONTRADICTS THE FACT THAT F1  .GT.</span>
-<span class="c">! 0.0 AND F3 .LT. 0.0.</span>
+<span class="c">! ACOF=0.0 OR CCOF=0.0, BUT THIS CONTRADICTS THE FACT THAT F1  &gt;</span>
+<span class="c">! 0.0 AND F3 &lt; 0.0.</span>
 <span class="c">! STILL, TO BE SAFE, WE CHECK THE SIZE OF THE DENOMINATOR.</span>
          <span class="n">den</span> <span class="o">=</span> <span class="o">-</span><span class="n">bcof</span> <span class="o">+</span> <span class="nb">sqrt</span><span class="p">(</span><span class="n">discr</span><span class="p">)</span>
          <span class="k">if</span> <span class="p">(</span> <span class="n">den</span><span class="o">&lt;</span><span class="n">tolden</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">600</span>
          <span class="n">p4</span> <span class="o">=</span> <span class="n">two</span><span class="o">*</span><span class="n">ccof</span><span class="o">/</span><span class="n">den</span>
       <span class="k">else</span>
 <span class="c">!</span>
-<span class="c">! HERE BCOF .GT. 0.0 AND WE USE THE USUAL FORM OF THE QUADRATIC</span>
+<span class="c">! HERE BCOF &gt; 0.0 AND WE USE THE USUAL FORM OF THE QUADRATIC</span>
 <span class="c">! FORMULA TO TRY TO REDUCE PROBLEMS WITH SUBTRACTION AND SMALL</span>
 <span class="c">! DENOMINATORS.  THE MINUS SIGN IS USED IN FRONT OF THE SQUARE ROOT</span>
-<span class="c">! BECAUSE IF ACOF .GT. 0.0 THEN THE POLYNOMIAL IS CONCAVE UP, WHICH</span>
-<span class="c">! IMPLIES P1 MUST BE ON THE LEFT BRANCH (SINCE F1 .GT. F3), WHICH</span>
+<span class="c">! BECAUSE IF ACOF &gt; 0.0 THEN THE POLYNOMIAL IS CONCAVE UP, WHICH</span>
+<span class="c">! IMPLIES P1 MUST BE ON THE LEFT BRANCH (SINCE F1 &gt; F3), WHICH</span>
 <span class="c">! IMPLIES WE WANT THE LEFT (I.E. SMALLER) ZERO, AGREEING WITH</span>
-<span class="c">! -SQRT(...)/ACOF .LE. 0.0.  IF ON THE OTHER HAND ACOF .LT. 0.0 THEN</span>
+<span class="c">! -SQRT(...)/ACOF &lt;= 0.0.  IF ON THE OTHER HAND ACOF &lt; 0.0 THEN</span>
 <span class="c">! THE POLYNOMIAL IS CONCAVE DOWN, WHICH IMPLIES P3 MUST BE ON THE</span>
-<span class="c">! RIGHT BRANCH (SINCE F1 .GT. F3), WHICH IMPLIES WE WANT THE RIGHT</span>
-<span class="c">! (I.E. LARGER) ZERO, AGREEING WITH -SQRT(...)/ACOF .GE. 0.0.</span>
+<span class="c">! RIGHT BRANCH (SINCE F1 &gt; F3), WHICH IMPLIES WE WANT THE RIGHT</span>
+<span class="c">! (I.E. LARGER) ZERO, AGREEING WITH -SQRT(...)/ACOF &gt;= 0.0.</span>
 <span class="c">! NOTE THAT ACOF=0.0 CANNOT OCCUR HERE SINCE IF IT DID THE POLYNOMIAL</span>
-<span class="c">! WOULD BE LINEAR, AND BCOF .GT. 0.0 WOULD THEN CONTRADICT F1 .GT. F3.</span>
+<span class="c">! WOULD BE LINEAR, AND BCOF &gt; 0.0 WOULD THEN CONTRADICT F1 &gt; F3.</span>
 <span class="c">! STILL, TO BE SAFE, WE CHECK THE SIZE OF THE DENOMINATOR.</span>
          <span class="n">den</span> <span class="o">=</span> <span class="n">two</span><span class="o">*</span><span class="n">acof</span>
          <span class="k">if</span> <span class="p">(</span> <span class="nb">abs</span><span class="p">(</span><span class="n">den</span><span class="p">)</span><span class="o">&lt;</span><span class="n">tolden</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">600</span>
@@ -958,23 +952,23 @@ private subroutine muller(me, Ioptn, Nparm, Numgr, Dvec, Fun, Ifun, Pttbl, Iptb,
       <span class="k">endif</span>
 <span class="c">!</span>
 <span class="c">! THE NEXT SECTION (FROM HERE TO STATEMENT 3200) MODIFIES P4, IF</span>
-<span class="c">! NECESSARY, TO GET P1+TOL4 .LE. P2,P4 .LE. P3-TOL4 AND ABS(P4-P2) .GE.</span>
+<span class="c">! NECESSARY, TO GET P1+TOL4 &lt;= P2,P4 &lt;= P3-TOL4 AND ABS(P4-P2) &gt;=</span>
 <span class="c">! TOL4.</span>
 <span class="c">!</span>
-<span class="c">! IF ABS(P4-P2) .LT. TOL1/4.0 WE REDEFINE P4 BY MOVING IT A DISTANCE</span>
+<span class="c">! IF ABS(P4-P2) &lt; TOL1/4.0 WE REDEFINE P4 BY MOVING IT A DISTANCE</span>
 <span class="c">! TOL1/4.0 FROM P2 INTO THE LONGER SUBINTERVAL.  NOTE THAT THE LENGTH</span>
-<span class="c">! OF THIS SUBINTERVAL MUST BE AT LEAST TOL1/2.0 SINCE P3-P1 .GE. TOL1.</span>
+<span class="c">! OF THIS SUBINTERVAL MUST BE AT LEAST TOL1/2.0 SINCE P3-P1 &gt;= TOL1.</span>
       <span class="k">if</span> <span class="p">(</span> <span class="nb">abs</span><span class="p">(</span><span class="n">p4</span><span class="o">-</span><span class="n">p2</span><span class="p">)</span><span class="o">&lt;</span><span class="n">tol4</span> <span class="p">)</span> <span class="k">then</span>
 <span class="k">         if</span> <span class="p">(</span> <span class="n">p3</span><span class="o">-</span><span class="n">p2</span><span class="o">&lt;=</span><span class="p">(</span><span class="n">p2</span><span class="o">-</span><span class="n">p1</span><span class="p">)</span> <span class="p">)</span> <span class="k">then</span>
 <span class="k">            </span><span class="n">p4</span> <span class="o">=</span> <span class="n">p2</span> <span class="o">-</span> <span class="n">tol4</span>
          <span class="k">else</span>
 <span class="k">            </span><span class="n">p4</span> <span class="o">=</span> <span class="n">p2</span> <span class="o">+</span> <span class="n">tol4</span>
          <span class="k">endif</span>
-<span class="c">! HERE WE HAD ABS(P4-P2) .GE. TOL4 AND WE MAKE SURE THAT P1+TOL4</span>
-<span class="c">! .LE. P4 .LE. P3-TOL4.</span>
+<span class="c">! HERE WE HAD ABS(P4-P2) &gt;= TOL4 AND WE MAKE SURE THAT P1+TOL4</span>
+<span class="c">! &lt;= P4 &lt;= P3-TOL4.</span>
       <span class="n">elseif</span> <span class="p">(</span> <span class="n">p4</span><span class="o">&lt;=</span><span class="p">(</span><span class="n">p3</span><span class="o">-</span><span class="n">tol4</span><span class="p">)</span> <span class="p">)</span> <span class="k">then</span>
 <span class="k">         if</span> <span class="p">(</span> <span class="n">p4</span><span class="o">&lt;</span><span class="p">(</span><span class="n">p1</span><span class="o">+</span><span class="n">tol4</span><span class="p">)</span> <span class="p">)</span> <span class="k">then</span>
-<span class="c">! HERE P4 .LT. P1+TOL4 AND WE SET P4=P1+TOL4 IF P2-P1 .GE. TOL1/2.0</span>
+<span class="c">! HERE P4 &lt; P1+TOL4 AND WE SET P4=P1+TOL4 IF P2-P1 &gt;= TOL1/2.0</span>
 <span class="c">! AND OTHERWISE WE SET P4=P2+TOL4.</span>
             <span class="k">if</span> <span class="p">(</span> <span class="n">p2</span><span class="o">-</span><span class="n">p1</span><span class="o">&lt;</span><span class="n">tol1</span><span class="o">/</span><span class="n">two</span> <span class="p">)</span> <span class="k">then</span>
 <span class="k">               </span><span class="n">p4</span> <span class="o">=</span> <span class="n">p2</span> <span class="o">+</span> <span class="n">tol4</span>
@@ -982,7 +976,7 @@ private subroutine muller(me, Ioptn, Nparm, Numgr, Dvec, Fun, Ifun, Pttbl, Iptb,
 <span class="k">               </span><span class="n">p4</span> <span class="o">=</span> <span class="n">p1</span> <span class="o">+</span> <span class="n">tol4</span>
             <span class="k">endif</span>
 <span class="k">         endif</span>
-<span class="c">! HERE P4 .GT. P3-TOL4 AND WE SET P4=P3-TOL4 IF P3-P2 .GE. TOL1/2.0,</span>
+<span class="c">! HERE P4 &gt; P3-TOL4 AND WE SET P4=P3-TOL4 IF P3-P2 &gt;= TOL1/2.0,</span>
 <span class="c">! AND OTHERWISE WE SET P4=P2-TOL4.</span>
       <span class="n">elseif</span> <span class="p">(</span> <span class="n">p3</span><span class="o">-</span><span class="n">p2</span><span class="o">&lt;</span><span class="n">tol1</span><span class="o">/</span><span class="n">two</span> <span class="p">)</span> <span class="k">then</span>
 <span class="k">         </span><span class="n">p4</span> <span class="o">=</span> <span class="n">p2</span> <span class="o">-</span> <span class="n">tol4</span>
@@ -1009,8 +1003,8 @@ private subroutine muller(me, Ioptn, Nparm, Numgr, Dvec, Fun, Ifun, Pttbl, Iptb,
 <span class="c">! ERRORS IF THE TEN THOUSANDS DIGIT OF IOPTN IS 1, THUS SAVING ERCMP1</span>
 <span class="c">! THE WORK OF SCANNING ICNTYP.</span>
       <span class="k">call </span><span class="n">me</span><span class="p">%</span><span class="n">ercmp1</span><span class="p">(</span><span class="n">Ioptn</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">,</span><span class="n">Fun</span><span class="p">,</span><span class="n">Ifun</span><span class="p">,</span><span class="n">Pttbl</span><span class="p">,</span><span class="n">Iptb</span><span class="p">,</span><span class="n">Indm</span><span class="p">,</span><span class="n">Parwrk</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span>  <span class="p">&amp;</span>
-                <span class="p">&amp;</span> <span class="o">-</span><span class="mi">3</span><span class="p">,</span><span class="n">Iwork</span><span class="p">,</span><span class="n">Liwrk</span><span class="p">,</span><span class="n">Work</span><span class="p">(</span><span class="n">ilc08</span><span class="p">),</span><span class="n">Iwork</span><span class="p">(</span><span class="n">ilc21</span><span class="p">),</span><span class="n">ipmax</span><span class="p">,</span><span class="n">ismax</span><span class="p">,</span>  <span class="p">&amp;</span>
-                <span class="p">&amp;</span> <span class="n">Err1</span><span class="p">)</span>
+                  <span class="o">-</span><span class="mi">3</span><span class="p">,</span><span class="n">Iwork</span><span class="p">,</span><span class="n">Liwrk</span><span class="p">,</span><span class="n">Work</span><span class="p">(</span><span class="n">ilc08</span><span class="p">),</span><span class="n">Iwork</span><span class="p">(</span><span class="n">ilc21</span><span class="p">),</span><span class="n">ipmax</span><span class="p">,</span><span class="n">ismax</span><span class="p">,</span>  <span class="p">&amp;</span>
+                  <span class="n">Err1</span><span class="p">)</span>
       <span class="n">fval</span> <span class="o">=</span> <span class="n">Err1</span><span class="p">(</span><span class="n">Numgr</span><span class="o">+</span><span class="mi">3</span><span class="p">)</span>
 <span class="c">!</span>
 <span class="c">! CARRY THE COMPUTED F VALUE BACK TO THE APPROPRIATE PART OF THE PROGRAM.</span>
@@ -1023,7 +1017,7 @@ private subroutine muller(me, Ioptn, Nparm, Numgr, Dvec, Fun, Ifun, Pttbl, Iptb,
 <span class="c">!</span>
          <span class="n">f4</span> <span class="o">=</span> <span class="n">fval</span>
 <span class="c">!</span>
-<span class="c">! IF -TOLCON .LE. F4 .LE. TOLCON WE RETURN WITH PROCOR=P4 AND EMIN</span>
+<span class="c">! IF -TOLCON &lt;= F4 &lt;= TOLCON WE RETURN WITH PROCOR=P4 AND EMIN</span>
 <span class="c">! =F4, AND OTHERWISE WE GO BACK UP TO SEE IF WE HAVE REACHED THE LIMIT</span>
 <span class="c">! ON THE NUMBER OF STEPS.</span>
          <span class="k">if</span> <span class="p">(</span> <span class="n">f4</span><span class="o">&gt;</span><span class="n">Tolcon</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">300</span>

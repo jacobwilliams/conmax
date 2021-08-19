@@ -125,7 +125,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 5.6% of total for procedures.">179 statements</a>
+    title=" 5.8% of total for procedures.">179 statements</a>
      </li> 
      
      
@@ -906,10 +906,10 @@ private subroutine setu1(me, Ioptn, Numgr, Nparm, Numin, Rchin, Pttbl, Iptb, Ind
       <span class="n">bndfud</span> <span class="o">=</span> <span class="n">stfudg</span><span class="o">*</span><span class="n">Bndlgt</span>
 <span class="c">!</span>
 <span class="c">! WE WILL SAY A PRIMARY CONSTRAINT IS ACTIVE IF ERROR(I) (OR ABS(ERROR(I</span>
-<span class="c">! IF ICNTYP(I)=2) .GE. ENORM-RCHDWN*BNDLGT.</span>
+<span class="c">! IF ICNTYP(I)=2) &gt;= ENORM-RCHDWN*BNDLGT.</span>
       <span class="n">actlim</span> <span class="o">=</span> <span class="n">enorm</span> <span class="o">-</span> <span class="n">Rchdwn</span><span class="o">*</span><span class="n">Bndlgt</span>
 <span class="c">!</span>
-<span class="c">! WE WILL SAY A TYPE -2 CONSTRAINT IS ACTIVE IF ERROR(I) .GE. -RCHIND.</span>
+<span class="c">! WE WILL SAY A TYPE -2 CONSTRAINT IS ACTIVE IF ERROR(I) &gt;= -RCHIND.</span>
       <span class="n">rchind</span> <span class="o">=</span> <span class="n">Rchin</span><span class="o">*</span><span class="n">Bndlgt</span>
 <span class="c">!</span>
       <span class="k">if</span> <span class="p">(</span> <span class="n">Numin</span><span class="o">&lt;=</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
@@ -920,8 +920,8 @@ private subroutine setu1(me, Ioptn, Numgr, Nparm, Numin, Rchin, Pttbl, Iptb, Ind
          <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Numgr</span>
             <span class="k">if</span> <span class="p">(</span> <span class="n">Icntyp</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">&lt;</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
 <span class="c">!</span>
-<span class="c">! HERE ICNTYP(I) .LT. 0 AND WE WILL DECLARE THE CONSTRAINT TO BE ACTIVE IF</span>
-<span class="c">! AND ONLY IF ICNTYP(I)=-1, OR ICNTYP(I)=-2 AND ERROR(I) .GE. -RCHIND.</span>
+<span class="c">! HERE ICNTYP(I) &lt; 0 AND WE WILL DECLARE THE CONSTRAINT TO BE ACTIVE IF</span>
+<span class="c">! AND ONLY IF ICNTYP(I)=-1, OR ICNTYP(I)=-2 AND ERROR(I) &gt;= -RCHIND.</span>
                <span class="k">if</span> <span class="p">(</span> <span class="n">Icntyp</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="o">&lt;</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
 <span class="k">                  if</span> <span class="p">(</span> <span class="n">Error</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">+</span><span class="n">rchind</span><span class="o">&lt;</span><span class="mi">0</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">50</span>
                <span class="k">endif</span>
@@ -930,11 +930,11 @@ private subroutine setu1(me, Ioptn, Numgr, Nparm, Numin, Rchin, Pttbl, Iptb, Ind
             <span class="n">elseif</span> <span class="p">(</span> <span class="n">Icntyp</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">&lt;=</span><span class="mi">1</span> <span class="p">)</span> <span class="k">then</span>
 <span class="c">!</span>
 <span class="c">! HERE ICNTYP(I)=1 AND WE WILL DECLARE THE CONSTRAINT TO BE +ACTIVE IF AND</span>
-<span class="c">! ONLY IF ERROR(I) .GE. ACTLIM.</span>
+<span class="c">! ONLY IF ERROR(I) &gt;= ACTLIM.</span>
                <span class="k">if</span> <span class="p">(</span> <span class="n">Error</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">&lt;</span><span class="n">actlim</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">50</span>
 <span class="c">!</span>
 <span class="c">! HERE ICNTYP(I)=2 AND WE WILL DECLARE THE CONSTRAINT TO BE +ACTIVE IF AND</span>
-<span class="c">! ONLY IF ERROR(I) .GE. ACTLIM OR -ACTIVE IF AND ONLY IF ERROR(I)  .LE.</span>
+<span class="c">! ONLY IF ERROR(I) &gt;= ACTLIM OR -ACTIVE IF AND ONLY IF ERROR(I)  &lt;=</span>
 <span class="c">! -ACTLIM.</span>
             <span class="n">elseif</span> <span class="p">(</span> <span class="n">Error</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">&lt;</span><span class="n">actlim</span> <span class="p">)</span> <span class="k">then</span>
 <span class="k">               if</span> <span class="p">(</span> <span class="n">Error</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">+</span><span class="n">actlim</span><span class="o">&lt;=</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
@@ -970,7 +970,7 @@ private subroutine setu1(me, Ioptn, Numgr, Nparm, Numin, Rchin, Pttbl, Iptb, Ind
          <span class="k">else</span>
 <span class="c">!</span>
 <span class="c">! HERE IOPTTH=1 AND ONLY ONE DERST CALL IS NEEDED.</span>
-<span class="c">! IF IPHSE .LT. 0 OR NO ICNTYP(L) IS POSITIVE, SET IPT=-1 TO TELL DERST</span>
+<span class="c">! IF IPHSE &lt; 0 OR NO ICNTYP(L) IS POSITIVE, SET IPT=-1 TO TELL DERST</span>
 <span class="c">! TO COMPUTE STANDARD CONSTRAINTS ONLY, WHILE OTHERWISE SET IPT=0 TO</span>
 <span class="c">! TELL DERST TO COMPUTE ALL CONSTRAINTS.</span>
             <span class="k">if</span> <span class="p">(</span> <span class="n">Iphse</span><span class="o">&gt;=</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
@@ -1015,9 +1015,9 @@ private subroutine setu1(me, Ioptn, Numgr, Nparm, Numin, Rchin, Pttbl, Iptb, Ind
                   <span class="nb">sum</span> <span class="o">=</span> <span class="nb">sum</span> <span class="o">+</span> <span class="p">(</span><span class="n">Funtbl</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span>
                <span class="k">enddo</span>
 <span class="k">               </span><span class="n">grdlgt</span> <span class="o">=</span> <span class="nb">sqrt</span><span class="p">(</span><span class="nb">sum</span><span class="p">)</span>
-<span class="c">! NOW SET UP A CONSTRAINT OF THE FORM GRADIENT.CHANGE  .LE.</span>
-<span class="c">! -MIN(1.0,CONSTRAINT VALUE)*BNDFUD*GRDLGT, SO IF GRDLGT .GT. 0.0 WE</span>
-<span class="c">! HAVE (-GRADIENT/GRDLGT).(CHANGE/BNDLGT) .GE. STFUDG*MIN(1.0,</span>
+<span class="c">! NOW SET UP A CONSTRAINT OF THE FORM GRADIENT.CHANGE  &lt;=</span>
+<span class="c">! -MIN(1.0,CONSTRAINT VALUE)*BNDFUD*GRDLGT, SO IF GRDLGT &gt; 0.0 WE</span>
+<span class="c">! HAVE (-GRADIENT/GRDLGT).(CHANGE/BNDLGT) &gt;= STFUDG*MIN(1.0,</span>
 <span class="c">! CONSTRAINT VALUE).</span>
                <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Nparm</span>
                   <span class="n">v</span><span class="p">(</span><span class="n">l</span><span class="p">,</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">Funtbl</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
@@ -1029,7 +1029,7 @@ private subroutine setu1(me, Ioptn, Numgr, Nparm, Numin, Rchin, Pttbl, Iptb, Ind
             <span class="k">else</span>
 <span class="c">!</span>
 <span class="c">! HERE ICNTYP(I)=-1 AND WE SET UP A CONSTRAINT OF THE FORM</span>
-<span class="c">! GRADIENT.CHANGE .LE. -CONSTRAINT VALUE.</span>
+<span class="c">! GRADIENT.CHANGE &lt;= -CONSTRAINT VALUE.</span>
                <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Nparm</span>
                   <span class="n">v</span><span class="p">(</span><span class="n">l</span><span class="p">,</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">Funtbl</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
                <span class="k">enddo</span>
@@ -1040,7 +1040,7 @@ private subroutine setu1(me, Ioptn, Numgr, Nparm, Numin, Rchin, Pttbl, Iptb, Ind
 <span class="k">            if</span> <span class="p">(</span> <span class="n">Icntyp</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">&lt;=</span><span class="mi">1</span> <span class="p">)</span> <span class="k">then</span>
 <span class="c">!</span>
 <span class="c">! HERE ICNTYP(I)=1 AND WE SET UP A CONSTRAINT OF THE FORM</span>
-<span class="c">! GRADIENT.CHANGE - W .LE. -CONSTRAINT VALUE.</span>
+<span class="c">! GRADIENT.CHANGE - W &lt;= -CONSTRAINT VALUE.</span>
                <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Nparm</span>
                   <span class="n">v</span><span class="p">(</span><span class="n">l</span><span class="p">,</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">Funtbl</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
                <span class="k">enddo</span>
@@ -1048,8 +1048,8 @@ private subroutine setu1(me, Ioptn, Numgr, Nparm, Numin, Rchin, Pttbl, Iptb, Ind
                <span class="n">v</span><span class="p">(</span><span class="n">l</span><span class="p">,</span><span class="n">npar2</span><span class="p">)</span> <span class="o">=</span> <span class="o">-</span><span class="n">Error</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
             <span class="n">elseif</span> <span class="p">(</span> <span class="n">Iact</span><span class="p">(</span><span class="n">l</span><span class="p">)</span><span class="o">&lt;=</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
 <span class="c">!</span>
-<span class="c">! HERE ICNTYP(I)=2 AND IACT(L) .LT. 0, AND WE SET UP A CONSTRAINT OF THE</span>
-<span class="c">! FORM GRADIENT.CHANGE - W .LE. FUN - CONSTRAINT VALUE.</span>
+<span class="c">! HERE ICNTYP(I)=2 AND IACT(L) &lt; 0, AND WE SET UP A CONSTRAINT OF THE</span>
+<span class="c">! FORM GRADIENT.CHANGE - W &lt;= FUN - CONSTRAINT VALUE.</span>
                <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Nparm</span>
                   <span class="n">v</span><span class="p">(</span><span class="n">l</span><span class="p">,</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">Funtbl</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
                <span class="k">enddo</span>
@@ -1057,8 +1057,8 @@ private subroutine setu1(me, Ioptn, Numgr, Nparm, Numin, Rchin, Pttbl, Iptb, Ind
                <span class="n">v</span><span class="p">(</span><span class="n">l</span><span class="p">,</span><span class="n">npar2</span><span class="p">)</span> <span class="o">=</span> <span class="n">Error</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
             <span class="k">else</span>
 <span class="c">!</span>
-<span class="c">! HERE ICNTYP(I)=2 AND IACT(L) .GT. 0, AND WE SET UP A CONSTRAINT OF THE</span>
-<span class="c">! FORM -GRADIENT.CHANGE - W .LE. -(FUN - CONSTRAINT VALUE).</span>
+<span class="c">! HERE ICNTYP(I)=2 AND IACT(L) &gt; 0, AND WE SET UP A CONSTRAINT OF THE</span>
+<span class="c">! FORM -GRADIENT.CHANGE - W &lt;= -(FUN - CONSTRAINT VALUE).</span>
                <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Nparm</span>
                   <span class="n">v</span><span class="p">(</span><span class="n">l</span><span class="p">,</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="o">-</span><span class="n">Funtbl</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
                <span class="k">enddo</span>
@@ -1068,8 +1068,8 @@ private subroutine setu1(me, Ioptn, Numgr, Nparm, Numin, Rchin, Pttbl, Iptb, Ind
 <span class="k">         endif</span>
 <span class="k">      enddo</span>
 <span class="c">!</span>
-<span class="c">! SET THE CONSTRAINTS OF THE FORM -X(J) .LE. COFBND(J) AND</span>
-<span class="c">! X(J) .LE. COFBND(J).</span>
+<span class="c">! SET THE CONSTRAINTS OF THE FORM -X(J) &lt;= COFBND(J) AND</span>
+<span class="c">! X(J) &lt;= COFBND(J).</span>
       <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Nparm</span>
          <span class="n">m</span> <span class="o">=</span> <span class="n">m</span> <span class="o">+</span> <span class="mi">2</span>
          <span class="n">mm1</span> <span class="o">=</span> <span class="n">m</span> <span class="o">-</span> <span class="mi">1</span>
@@ -1097,7 +1097,7 @@ private subroutine setu1(me, Ioptn, Numgr, Nparm, Numin, Rchin, Pttbl, Iptb, Ind
 <span class="c">! IF IYRCT(1) IS -1 ALREADY WE DO NOT ATTEMPT TO SPECIFY A VERTEX, BUT</span>
 <span class="c">! WE STORE MACT IN MACT1 AND IACT IN IACT1 FOR POSSIBLE LATER USE.</span>
       <span class="k">if</span> <span class="p">(</span> <span class="n">Iyrct</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">&gt;=</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
-<span class="c">! HERE IYRCT(1) .NE. -1, AND WE CONSIDER THE PRESENT ENTRIES IN IYRCT</span>
+<span class="c">! HERE IYRCT(1) /= -1, AND WE CONSIDER THE PRESENT ENTRIES IN IYRCT</span>
 <span class="c">! ONE BY ONE.</span>
          <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">npar1</span>
             <span class="n">jj</span> <span class="o">=</span> <span class="n">Iyrct</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>

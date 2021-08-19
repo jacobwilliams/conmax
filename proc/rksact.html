@@ -125,7 +125,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 1.4% of total for procedures.">43 statements</a>
+    title=" 1.3% of total for procedures.">41 statements</a>
      </li> 
      
      
@@ -561,21 +561,19 @@ private subroutine rksact(Ioptn, Numgr, Icntyp, Rchdwn, Rchin, Conup, Projct, Er
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
     <div class="highlight"><pre><span></span>      <span class="k">subroutine </span><span class="n">rksact</span><span class="p">(</span><span class="n">Ioptn</span><span class="p">,</span><span class="n">Numgr</span><span class="p">,</span><span class="n">Icntyp</span><span class="p">,</span><span class="n">Rchdwn</span><span class="p">,</span><span class="n">Rchin</span><span class="p">,</span><span class="n">Conup</span><span class="p">,</span><span class="n">Projct</span><span class="p">,</span>   <span class="p">&amp;</span>
-                      <span class="p">&amp;</span> <span class="n">Error</span><span class="p">,</span><span class="n">Mactrk</span><span class="p">,</span><span class="n">Actdif</span><span class="p">,</span><span class="n">Iact</span><span class="p">)</span>
+                        <span class="n">Error</span><span class="p">,</span><span class="n">Mactrk</span><span class="p">,</span><span class="n">Actdif</span><span class="p">,</span><span class="n">Iact</span><span class="p">)</span>
 <span class="c">!</span>
       <span class="k">implicit none</span>
 
-<span class="k">      </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="n">Actdif</span> <span class="p">,</span> <span class="n">Conup</span> <span class="p">,</span> <span class="n">elow</span> <span class="p">,</span> <span class="n">enorm</span> <span class="p">,</span> <span class="n">Error</span> <span class="p">,</span> <span class="n">one</span> <span class="p">,</span> <span class="n">Projct</span> <span class="p">,</span>     <span class="p">&amp;</span>
-           <span class="p">&amp;</span> <span class="n">Rchdwn</span> <span class="p">,</span> <span class="n">Rchin</span> <span class="p">,</span> <span class="n">rchind</span> <span class="p">,</span> <span class="n">two</span>
+<span class="k">      </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="n">Actdif</span> <span class="p">,</span> <span class="n">Conup</span> <span class="p">,</span> <span class="n">elow</span> <span class="p">,</span> <span class="n">enorm</span> <span class="p">,</span> <span class="n">Error</span> <span class="p">,</span> <span class="n">Projct</span> <span class="p">,</span>     <span class="p">&amp;</span>
+             <span class="n">Rchdwn</span> <span class="p">,</span> <span class="n">Rchin</span> <span class="p">,</span> <span class="n">rchind</span>
       <span class="kt">integer </span><span class="n">i</span> <span class="p">,</span> <span class="n">Iact</span> <span class="p">,</span> <span class="n">Icntyp</span> <span class="p">,</span> <span class="n">Ioptn</span> <span class="p">,</span> <span class="n">l</span> <span class="p">,</span> <span class="n">Mactrk</span> <span class="p">,</span> <span class="n">Numgr</span>
 <span class="c">!</span>
       <span class="k">dimension </span><span class="n">Error</span><span class="p">(</span><span class="n">Numgr</span><span class="o">+</span><span class="mi">3</span><span class="p">)</span> <span class="p">,</span> <span class="n">Iact</span><span class="p">(</span><span class="n">Numgr</span><span class="p">)</span> <span class="p">,</span> <span class="n">Actdif</span><span class="p">(</span><span class="n">Numgr</span><span class="p">)</span> <span class="p">,</span>          <span class="p">&amp;</span>
-              <span class="p">&amp;</span> <span class="n">Icntyp</span><span class="p">(</span><span class="n">Numgr</span><span class="p">)</span>
+                <span class="n">Icntyp</span><span class="p">(</span><span class="n">Numgr</span><span class="p">)</span>
 <span class="c">!</span>
 <span class="c">! SET MACHINE AND PRECISION DEPENDENT CONSTANTS FOR RKSACT.</span>
 <span class="c">!     NWRIT=output_unit</span>
-      <span class="n">one</span> <span class="o">=</span> <span class="mf">1.0d0</span>
-      <span class="n">two</span> <span class="o">=</span> <span class="n">one</span> <span class="o">+</span> <span class="n">one</span>
       <span class="n">enorm</span> <span class="o">=</span> <span class="n">Error</span><span class="p">(</span><span class="n">Numgr</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
       <span class="n">elow</span> <span class="o">=</span> <span class="n">enorm</span> <span class="o">-</span> <span class="n">Rchdwn</span><span class="o">*</span><span class="n">Projct</span>
       <span class="n">rchind</span> <span class="o">=</span> <span class="n">Rchin</span><span class="o">*</span><span class="n">Projct</span>
@@ -595,7 +593,7 @@ private subroutine rksact(Ioptn, Numgr, Icntyp, Rchdwn, Rchin, Conup, Projct, Er
                <span class="n">Actdif</span><span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="o">=</span> <span class="n">Error</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">/</span><span class="n">Projct</span>
 <span class="c">!</span>
 <span class="c">! HERE WE HAVE A TYPE -2 CONSTRAINT, WHICH WILL BE DECLARED TO BE</span>
-<span class="c">! ACTIVE IFF ERROR(I) .GE. -RCHIND.</span>
+<span class="c">! ACTIVE IFF ERROR(I) &gt;= -RCHIND.</span>
             <span class="n">elseif</span> <span class="p">(</span> <span class="n">Error</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">+</span><span class="n">rchind</span><span class="o">&gt;=</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
 <span class="c">!</span>
 <span class="c">! HERE WE HAVE AN ACTIVE TYPE -2 CONSTRAINT, AND WE SET ACTDIF(L)=</span>
@@ -622,7 +620,7 @@ private subroutine rksact(Ioptn, Numgr, Icntyp, Rchdwn, Rchin, Conup, Projct, Er
 <span class="k">            endif</span>
 <span class="c">!</span>
 <span class="c">! HERE WE HAVE A TYPE 1 CONSTRAINT, OR A TYPE 2 CONSTRAINT WITH</span>
-<span class="c">! ERROR(I) .GE. 0.0.</span>
+<span class="c">! ERROR(I) &gt;= 0.0.</span>
             <span class="k">if</span> <span class="p">(</span> <span class="n">Error</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">&gt;=</span><span class="n">elow</span> <span class="p">)</span> <span class="k">then</span>
 <span class="c">!</span>
 <span class="c">! HERE WE HAVE AN ACTIVE TYPE 1 CONSTRAINT OR A +ACTIVE TYPE 2 CONSTRAINT.</span>
