@@ -398,7 +398,7 @@
 !********************************************************************************
 
 !********************************************************************************
-!
+!>
 ! PLEASE SEE THE USERS GUIDE FOR CONMAX AT THE BEGINNING OF THIS
 ! PACKAGE FOR MORE INFORMATION ABOUT THE USE OF THESE SUBPROGRAMS.
 
@@ -3797,8 +3797,14 @@
       call me%ercmp1(Ioptn,Nparm,Numgr,Fun,Ifun,Pttbl,Iptb,Indm,Param,1,   &
                 & Iphse,Iwork,Liwrk,Confun,Icntyp,ipmax,ismax,Error)
       end
+!********************************************************************************
 
 !********************************************************************************
+!>
+! THIS SUBROUTINE PUTS THE (SIGNED) INDICES OF THE MACTRK
+! ACTIVE CONSTRAINTS IN IACT.  IT ALSO SETS THE RIGHT SIDE VECTOR
+! ACTDIF FOR THE WOLFE SUBPROBLEM.
+
       subroutine rksact(Ioptn,Numgr,Icntyp,Rchdwn,Rchin,Conup,Projct,   &
                       & Error,Mactrk,Actdif,Iact)
 !
@@ -3810,10 +3816,6 @@
 !
       dimension Error(Numgr+3) , Iact(Numgr) , Actdif(Numgr) ,          &
               & Icntyp(Numgr)
-!
-! THIS SUBROUTINE PUTS THE (SIGNED) INDICES OF THE MACTRK
-! ACTIVE CONSTRAINTS IN IACT.  IT ALSO SETS THE RIGHT SIDE VECTOR
-! ACTDIF FOR THE WOLFE SUBPROBLEM.
 !
 ! SET MACHINE AND PRECISION DEPENDENT CONSTANTS FOR RKSACT.
 !     NWRIT=output_unit
@@ -3876,9 +3878,20 @@
          endif
  100  enddo
       Mactrk = l
-      end
+    end subroutine rksact
+!********************************************************************************
 
 !********************************************************************************
+!>
+! THIS SUBROUTINE SETS UP THE (NPARM+1) BY MACTRK MATRIX PMAT.
+! FOR 1 .LE. J .LE. MACTRK, THE TOP NPARM ELEMENTS OF COLUMN J OF PMAT
+! WILL CONTAIN THE NEGATIVE OF THE GRADIENT OF ACTIVE CONSTRAINT J (IF
+! CONSTRAINT J IS OF TYPE 2, I.E. OF THE FORM ABS(F(X) - F(PARWRK,X))
+! .LE. W, THE LEFT SIDE WILL BE TREATED AS F(X) - F(PARWRK,X) IF THIS
+! QUANTITY IS NONNEGATIVE AND WILL BE TREATED AS F(PARWRK,X) - F(X)
+! OTHERWISE). THE (NPARM+1)ST ROW OF PMAT WILL CONTAIN ACTDIF, THE
+! RIGHT SIDE OF THE INEQUALITIES GRADIENT.VECTOR .GE. ACTDIF.
+
       subroutine pmtst(me,Ioptn,Numgr,Nparm,Param,Icntyp,Mactrk,Iact,Pttbl,&
                      & Iptb,Indm,Actdif,Iphse,Iwork,Liwrk,Work,Lwrk,    &
                      & Confun,Pmat)
@@ -3896,15 +3909,7 @@
       dimension Param(Nparm) , Iact(Numgr) , Pttbl(Iptb,Indm) ,         &
               & Icntyp(Numgr) , Confun(Numgr,Nparm+1) , Actdif(Numgr) , &
               & Pmat(Nparm+1,Numgr) , Iwork(Liwrk) , Work(Lwrk)
-!
-! THIS SUBROUTINE SETS UP THE (NPARM+1) BY MACTRK MATRIX PMAT.
-! FOR 1 .LE. J .LE. MACTRK, THE TOP NPARM ELEMENTS OF COLUMN J OF PMAT
-! WILL CONTAIN THE NEGATIVE OF THE GRADIENT OF ACTIVE CONSTRAINT J (IF
-! CONSTRAINT J IS OF TYPE 2, I.E. OF THE FORM ABS(F(X) - F(PARWRK,X))
-! .LE. W, THE LEFT SIDE WILL BE TREATED AS F(X) - F(PARWRK,X) IF THIS
-! QUANTITY IS NONNEGATIVE AND WILL BE TREATED AS F(PARWRK,X) - F(X)
-! OTHERWISE). THE (NPARM+1)ST ROW OF PMAT WILL CONTAIN ACTDIF, THE
-! RIGHT SIDE OF THE INEQUALITIES GRADIENT.VECTOR .GE. ACTDIF.
+
 ! SET MACHINE AND PRECISION DEPENDENT CONSTANTS FOR PMTST.
 !     NWRIT=output_unit
       one = 1.0d0
@@ -3980,9 +3985,17 @@
       do i = 1 , Mactrk
          Pmat(npar1,i) = Actdif(i)
       enddo
-      end
+
+    end subroutine pmtst
+!********************************************************************************
 
 !********************************************************************************
+!>
+! THIS SUBROUTINE COMPUTES A PARAMETER VECTOR PARPRJ USING FOURTH
+! ORDER RUNGE KUTTA WITH H=-PROJCT.  H IS NEGATIVE SINCE WE WANT
+! TO APPROXIMATE THE PARAMETERS RESULTING FROM DECREASING W BY
+! ABS(H).  IF WE DO NSTEP STEPS THEN H=-PROJCT/NSTEP.
+
       subroutine rkpar(me,Ioptn,Numgr,Nparm,Icntyp,Mactrk,Iact,Actdif,     &
                        Projct,Param,Fun,Ifun,Pttbl,Iptb,Indm,Vder,Pmat, &
                        Ncor,s,Itypm1,Itypm2,Unit,Tolcon,Rchin,Nstep,    &
@@ -4008,11 +4021,7 @@
               & , Vdern(Nparm) , Icntyp(Numgr) , Error(Numgr+3) ,       &
               & Iact(Numgr) , Actdif(Numgr) , Confun(Numgr,Nparm+1) ,   &
               & Pmat(Nparm+1,Numgr) , Iwork(Liwrk) , Work(Lwrk)
-!
-! THIS SUBROUTINE COMPUTES A PARAMETER VECTOR PARPRJ USING FOURTH
-! ORDER RUNGE KUTTA WITH H=-PROJCT.  H IS NEGATIVE SINCE WE WANT
-! TO APPROXIMATE THE PARAMETERS RESULTING FROM DECREASING W BY
-! ABS(H).  IF WE DO NSTEP STEPS THEN H=-PROJCT/NSTEP.
+
 ! SET MACHINE AND PRECISION DEPENDENT CONSTANTS FOR RKPAR.
       one = 1.0d0
       two = one + one
@@ -4156,14 +4165,25 @@
       else
          return
       endif
-      end
+
+    end subroutine rkpar
+!********************************************************************************
 
 !********************************************************************************
+!>
+! THIS SUBROUTINE DETERMINES WHETHER PARPRJ VIOLATES ANY TYPE -2
+! OR TYPE -1 (I.E. STANDARD) CONSTRAINTS BY MORE THAN TOLCON, AND IF
+! SO IT ATTEMPTS TO CORRECT BACK TO THE FEASIBLE REGION.  IF IT IS
+! SUCCESSFUL IT SETS ICORCT=0 AND REPLACES PARPRJ BY THE CORRECTED
+! VECTOR.  IF IT IS NOT SUCCESSFUL IT SETS ICORCT=1 AND LEAVES PARPRJ
+! UNCHANGED.  IF NO CORRECTION WAS NEEDED IT SETS ICORCT=-1 AND LEAVES
+! PARPRJ UNCHANGED.
+
       subroutine corrct(me,Ioptn,Nparm,Numgr,Fun,Ifun,Pttbl,Iptb,Indm,     &
-                      & Icntyp,Unit,Tolcon,Rchin,Error,Mact,Iact,Projct,&
-                      & Iphse,Iwork,Liwrk,Work,Lwrk,Parwrk,Err1,Dvec,   &
-                      & Pmat,Confun,Zwork,Jcntyp,Parprj,Icorct)
-!
+                        Icntyp,Unit,Tolcon,Rchin,Error,Mact,Iact,Projct,&
+                        Iphse,Iwork,Liwrk,Work,Lwrk,Parwrk,Err1,Dvec,   &
+                        Pmat,Confun,Zwork,Jcntyp,Parprj,Icorct)
+
       implicit none
 
       class(conmax_solver),intent(inout) :: me
@@ -4184,14 +4204,6 @@
               & Dvec(Nparm) , Pmat(Nparm+1,Numgr) , Jcntyp(Numgr) ,     &
               & Confun(Numgr,Nparm+1) , Zwork(Nparm) , Error(Numgr+3) , &
               & Iact(Numgr) , Iwork(Liwrk) , Work(Lwrk)
-!
-! THIS SUBROUTINE DETERMINES WHETHER PARPRJ VIOLATES ANY TYPE -2
-! OR TYPE -1 (I.E. STANDARD) CONSTRAINTS BY MORE THAN TOLCON, AND IF
-! SO IT ATTEMPTS TO CORRECT BACK TO THE FEASIBLE REGION.  IF IT IS
-! SUCCESSFUL IT SETS ICORCT=0 AND REPLACES PARPRJ BY THE CORRECTED
-! VECTOR.  IF IT IS NOT SUCCESSFUL IT SETS ICORCT=1 AND LEAVES PARPRJ
-! UNCHANGED.  IF NO CORRECTION WAS NEEDED IT SETS ICORCT=-1 AND LEAVES
-! PARPRJ UNCHANGED.
 !
 ! SET MACHINE AND PRECISION DEPENDENT CONSTANTS.
 !     NWRIT=output_unit
@@ -5061,24 +5073,25 @@
 !********************************************************************************
 
 !********************************************************************************
+!>
+! THIS SUBROUTINE INCREASES RCHDWN OR RCHIN IF IT APPEARS SOME
+! CONSTRAINTS WHICH SHOULD HAVE BEEN DECLARED ACTIVE WERE NOT SO
+! DECLARED.
+
       subroutine rchmod(Numgr,Error,Err1,Icntyp,Mact,Iact,Ipmax,Ismax,  &
                         Unit,Irch,Rchdwn,Rchin)
 
       implicit none
 
-      real(wp) ei , eipmax , enorm , epact , Err1 , Error ,      &
-           & four , fudge , one , rch1 , rchd1 , Rchdwn , Rchin ,       &
-           & rchtop , spcmn , ten , two , Unit
-      integer i , Iact , Icntyp , ipact , Ipmax , Irch , Ismax , l ,    &
-            & Mact , Numgr
-!
-      dimension Error(Numgr+3) , Err1(Numgr+3) , Icntyp(Numgr) ,        &
-              & Iact(Numgr)
-!
-! THIS SUBROUTINE INCREASES RCHDWN OR RCHIN IF IT APPEARS SOME
-! CONSTRAINTS WHICH SHOULD HAVE BEEN DECLARED ACTIVE WERE NOT SO
-! DECLARED.
-!
+      real(wp) :: ei , eipmax , enorm , epact , Err1 , Error , &
+                  four , fudge , one , rch1 , rchd1 , Rchdwn , Rchin , &
+                  rchtop , spcmn , ten , two , Unit
+      integer :: i , Iact , Icntyp , ipact , Ipmax , Irch , Ismax , l , &
+                 Mact , Numgr
+
+      dimension Error(Numgr+3) , Err1(Numgr+3) , Icntyp(Numgr) , &
+                Iact(Numgr)
+
 ! SET MACHINE AND PRECISION DEPENDENT CONSTANTS.
 !     NWRIT=output_unit
       one = 1.0d0
@@ -5661,7 +5674,7 @@
 !
       Jflag = 7
 
-end subroutine wolfe
+    end subroutine wolfe
 !********************************************************************************
 
 !********************************************************************************

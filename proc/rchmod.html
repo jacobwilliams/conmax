@@ -208,6 +208,10 @@ private subroutine rchmod(Numgr, Error, Err1, Icntyp, Mact, Iact, Ipmax, Ismax, 
 
 
     
+    <p>THIS SUBROUTINE INCREASES RCHDWN OR RCHIN IF IT APPEARS SOME
+ CONSTRAINTS WHICH SHOULD HAVE BEEN DECLARED ACTIVE WERE NOT SO
+ DECLARED.</p>
+    
 
     <h3>Arguments</h3>
     
@@ -433,33 +437,33 @@ private subroutine rchmod(Numgr, Error, Err1, Icntyp, Mact, Iact, Ipmax, Ismax, 
 <polygon fill="none" stroke="black" points="144,-45 90,-45 90,-21 144,-21 144,-45"/>
 <text text-anchor="middle" x="117" y="-30.6" font-family="Helvetica,sans-Serif" font-size="10.50">rchmod</text>
 </g>
-<!-- proc~corrct -->
-<g id="proc~~rchmod~~CalledByGraph_node2" class="node">
-<title>proc~corrct</title>
-<g id="a_proc~~rchmod~~CalledByGraph_node2"><a xlink:href=".././proc/corrct.html" xlink:title="corrct">
-<polygon fill="#d9534f" stroke="#d9534f" points="54,-66 0,-66 0,-42 54,-42 54,-66"/>
-<text text-anchor="middle" x="27" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">corrct</text>
-</a>
-</g>
-</g>
-<!-- proc~corrct&#45;&gt;proc~rchmod -->
-<g id="proc~~rchmod~~CalledByGraph_edge1" class="edge">
-<title>proc~corrct&#45;&gt;proc~rchmod</title>
-<path fill="none" stroke="#000000" d="M54.4,-47.7C62.48,-45.77 71.51,-43.62 80.1,-41.57"/>
-<polygon fill="#000000" stroke="#000000" points="81,-44.95 89.92,-39.22 79.38,-38.14 81,-44.95"/>
-</g>
 <!-- proc~searsl -->
-<g id="proc~~rchmod~~CalledByGraph_node3" class="node">
+<g id="proc~~rchmod~~CalledByGraph_node2" class="node">
 <title>proc~searsl</title>
-<g id="a_proc~~rchmod~~CalledByGraph_node3"><a xlink:href=".././proc/searsl.html" xlink:title="searsl">
-<polygon fill="#d9534f" stroke="#d9534f" points="54,-24 0,-24 0,0 54,0 54,-24"/>
-<text text-anchor="middle" x="27" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">searsl</text>
+<g id="a_proc~~rchmod~~CalledByGraph_node2"><a xlink:href=".././proc/searsl.html" xlink:title="searsl">
+<polygon fill="#d9534f" stroke="#d9534f" points="54,-66 0,-66 0,-42 54,-42 54,-66"/>
+<text text-anchor="middle" x="27" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">searsl</text>
 </a>
 </g>
 </g>
 <!-- proc~searsl&#45;&gt;proc~rchmod -->
-<g id="proc~~rchmod~~CalledByGraph_edge2" class="edge">
+<g id="proc~~rchmod~~CalledByGraph_edge1" class="edge">
 <title>proc~searsl&#45;&gt;proc~rchmod</title>
+<path fill="none" stroke="#000000" d="M54.4,-47.7C62.48,-45.77 71.51,-43.62 80.1,-41.57"/>
+<polygon fill="#000000" stroke="#000000" points="81,-44.95 89.92,-39.22 79.38,-38.14 81,-44.95"/>
+</g>
+<!-- proc~corrct -->
+<g id="proc~~rchmod~~CalledByGraph_node3" class="node">
+<title>proc~corrct</title>
+<g id="a_proc~~rchmod~~CalledByGraph_node3"><a xlink:href=".././proc/corrct.html" xlink:title="corrct">
+<polygon fill="#d9534f" stroke="#d9534f" points="54,-24 0,-24 0,0 54,0 54,-24"/>
+<text text-anchor="middle" x="27" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">corrct</text>
+</a>
+</g>
+</g>
+<!-- proc~corrct&#45;&gt;proc~rchmod -->
+<g id="proc~~rchmod~~CalledByGraph_edge2" class="edge">
+<title>proc~corrct&#45;&gt;proc~rchmod</title>
 <path fill="none" stroke="#000000" d="M54.4,-18.3C62.48,-20.23 71.51,-22.38 80.1,-24.43"/>
 <polygon fill="#000000" stroke="#000000" points="79.38,-27.86 89.92,-26.78 81,-21.05 79.38,-27.86"/>
 </g>
@@ -591,19 +595,15 @@ private subroutine rchmod(Numgr, Error, Err1, Icntyp, Mact, Iact, Ipmax, Ismax, 
 
       <span class="k">implicit none</span>
 
-<span class="k">      </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="n">ei</span> <span class="p">,</span> <span class="n">eipmax</span> <span class="p">,</span> <span class="n">enorm</span> <span class="p">,</span> <span class="n">epact</span> <span class="p">,</span> <span class="n">Err1</span> <span class="p">,</span> <span class="n">Error</span> <span class="p">,</span>      <span class="p">&amp;</span>
-           <span class="p">&amp;</span> <span class="n">four</span> <span class="p">,</span> <span class="n">fudge</span> <span class="p">,</span> <span class="n">one</span> <span class="p">,</span> <span class="n">rch1</span> <span class="p">,</span> <span class="n">rchd1</span> <span class="p">,</span> <span class="n">Rchdwn</span> <span class="p">,</span> <span class="n">Rchin</span> <span class="p">,</span>       <span class="p">&amp;</span>
-           <span class="p">&amp;</span> <span class="n">rchtop</span> <span class="p">,</span> <span class="n">spcmn</span> <span class="p">,</span> <span class="n">ten</span> <span class="p">,</span> <span class="n">two</span> <span class="p">,</span> <span class="n">Unit</span>
-      <span class="kt">integer </span><span class="n">i</span> <span class="p">,</span> <span class="n">Iact</span> <span class="p">,</span> <span class="n">Icntyp</span> <span class="p">,</span> <span class="n">ipact</span> <span class="p">,</span> <span class="n">Ipmax</span> <span class="p">,</span> <span class="n">Irch</span> <span class="p">,</span> <span class="n">Ismax</span> <span class="p">,</span> <span class="n">l</span> <span class="p">,</span>    <span class="p">&amp;</span>
-            <span class="p">&amp;</span> <span class="n">Mact</span> <span class="p">,</span> <span class="n">Numgr</span>
-<span class="c">!</span>
-      <span class="k">dimension </span><span class="n">Error</span><span class="p">(</span><span class="n">Numgr</span><span class="o">+</span><span class="mi">3</span><span class="p">)</span> <span class="p">,</span> <span class="n">Err1</span><span class="p">(</span><span class="n">Numgr</span><span class="o">+</span><span class="mi">3</span><span class="p">)</span> <span class="p">,</span> <span class="n">Icntyp</span><span class="p">(</span><span class="n">Numgr</span><span class="p">)</span> <span class="p">,</span>        <span class="p">&amp;</span>
-              <span class="p">&amp;</span> <span class="n">Iact</span><span class="p">(</span><span class="n">Numgr</span><span class="p">)</span>
-<span class="c">!</span>
-<span class="c">! THIS SUBROUTINE INCREASES RCHDWN OR RCHIN IF IT APPEARS SOME</span>
-<span class="c">! CONSTRAINTS WHICH SHOULD HAVE BEEN DECLARED ACTIVE WERE NOT SO</span>
-<span class="c">! DECLARED.</span>
-<span class="c">!</span>
+<span class="k">      </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">ei</span> <span class="p">,</span> <span class="n">eipmax</span> <span class="p">,</span> <span class="n">enorm</span> <span class="p">,</span> <span class="n">epact</span> <span class="p">,</span> <span class="n">Err1</span> <span class="p">,</span> <span class="n">Error</span> <span class="p">,</span> <span class="p">&amp;</span>
+                  <span class="n">four</span> <span class="p">,</span> <span class="n">fudge</span> <span class="p">,</span> <span class="n">one</span> <span class="p">,</span> <span class="n">rch1</span> <span class="p">,</span> <span class="n">rchd1</span> <span class="p">,</span> <span class="n">Rchdwn</span> <span class="p">,</span> <span class="n">Rchin</span> <span class="p">,</span> <span class="p">&amp;</span>
+                  <span class="n">rchtop</span> <span class="p">,</span> <span class="n">spcmn</span> <span class="p">,</span> <span class="n">ten</span> <span class="p">,</span> <span class="n">two</span> <span class="p">,</span> <span class="n">Unit</span>
+      <span class="kt">integer</span> <span class="kd">::</span> <span class="n">i</span> <span class="p">,</span> <span class="n">Iact</span> <span class="p">,</span> <span class="n">Icntyp</span> <span class="p">,</span> <span class="n">ipact</span> <span class="p">,</span> <span class="n">Ipmax</span> <span class="p">,</span> <span class="n">Irch</span> <span class="p">,</span> <span class="n">Ismax</span> <span class="p">,</span> <span class="n">l</span> <span class="p">,</span> <span class="p">&amp;</span>
+                 <span class="n">Mact</span> <span class="p">,</span> <span class="n">Numgr</span>
+
+      <span class="k">dimension </span><span class="n">Error</span><span class="p">(</span><span class="n">Numgr</span><span class="o">+</span><span class="mi">3</span><span class="p">)</span> <span class="p">,</span> <span class="n">Err1</span><span class="p">(</span><span class="n">Numgr</span><span class="o">+</span><span class="mi">3</span><span class="p">)</span> <span class="p">,</span> <span class="n">Icntyp</span><span class="p">(</span><span class="n">Numgr</span><span class="p">)</span> <span class="p">,</span> <span class="p">&amp;</span>
+                <span class="n">Iact</span><span class="p">(</span><span class="n">Numgr</span><span class="p">)</span>
+
 <span class="c">! SET MACHINE AND PRECISION DEPENDENT CONSTANTS.</span>
 <span class="c">!     NWRIT=output_unit</span>
       <span class="n">one</span> <span class="o">=</span> <span class="mf">1.0d0</span>

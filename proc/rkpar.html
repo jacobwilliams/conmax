@@ -183,7 +183,13 @@
 
 
 
-<em>None</em>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/rkpar.html#src">rkpar</a>
+  </div>
+</div>
+
 
 
 </div>
@@ -201,6 +207,11 @@ private subroutine rkpar(me, Ioptn, Numgr, Nparm, Icntyp, Mactrk, Iact, Actdif, 
   
 
 
+    
+    <p>THIS SUBROUTINE COMPUTES A PARAMETER VECTOR PARPRJ USING FOURTH
+ ORDER RUNGE KUTTA WITH H=-PROJCT.  H IS NEGATIVE SINCE WE WANT
+ TO APPROXIMATE THE PARAMETERS RESULTING FROM DECREASING W BY
+ ABS(H).  IF WE DO NSTEP STEPS THEN H=-PROJCT/NSTEP.</p>
     
 
     <h3>Arguments</h3>
@@ -798,116 +809,116 @@ private subroutine rkpar(me, Ioptn, Numgr, Nparm, Icntyp, Mactrk, Iact, Actdif, 
 <!-- proc~rkpar -->
 <g id="proc~~rkpar~~CallsGraph_node1" class="node">
 <title>proc~rkpar</title>
-<polygon fill="none" stroke="black" points="54,-145 0,-145 0,-121 54,-121 54,-145"/>
-<text text-anchor="middle" x="27" y="-130.6" font-family="Helvetica,sans-Serif" font-size="10.50">rkpar</text>
-</g>
-<!-- proc~iloc -->
-<g id="proc~~rkpar~~CallsGraph_node2" class="node">
-<title>proc~iloc</title>
-<g id="a_proc~~rkpar~~CallsGraph_node2"><a xlink:href=".././proc/iloc.html" xlink:title="iloc">
-<polygon fill="#d94e8f" stroke="#d94e8f" points="324,-146 270,-146 270,-122 324,-122 324,-146"/>
-<text text-anchor="middle" x="297" y="-131.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">iloc</text>
-</a>
-</g>
-</g>
-<!-- proc~rkpar&#45;&gt;proc~iloc -->
-<g id="proc~~rkpar~~CallsGraph_edge1" class="edge">
-<title>proc~rkpar&#45;&gt;proc~iloc</title>
-<path fill="none" stroke="#000000" d="M54.09,-133.22C84.37,-133.47 135.8,-133.85 180,-134 206.6,-134.09 236.63,-134.08 259.47,-134.06"/>
-<polygon fill="#000000" stroke="#000000" points="259.74,-137.56 269.74,-134.05 259.74,-130.56 259.74,-137.56"/>
+<polygon fill="none" stroke="black" points="54,-25 0,-25 0,-1 54,-1 54,-25"/>
+<text text-anchor="middle" x="27" y="-10.6" font-family="Helvetica,sans-Serif" font-size="10.50">rkpar</text>
 </g>
 <!-- proc~wolfe -->
-<g id="proc~~rkpar~~CallsGraph_node3" class="node">
+<g id="proc~~rkpar~~CallsGraph_node2" class="node">
 <title>proc~wolfe</title>
-<g id="a_proc~~rkpar~~CallsGraph_node3"><a xlink:href=".././proc/wolfe.html" xlink:title="wolfe">
-<polygon fill="#d9534f" stroke="#d9534f" points="144,-106 90,-106 90,-82 144,-82 144,-106"/>
-<text text-anchor="middle" x="117" y="-91.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">wolfe</text>
+<g id="a_proc~~rkpar~~CallsGraph_node2"><a xlink:href=".././proc/wolfe.html" xlink:title="wolfe">
+<polygon fill="#d9534f" stroke="#d9534f" points="144,-64 90,-64 90,-40 144,-40 144,-64"/>
+<text text-anchor="middle" x="117" y="-49.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">wolfe</text>
 </a>
 </g>
 </g>
 <!-- proc~rkpar&#45;&gt;proc~wolfe -->
-<g id="proc~~rkpar~~CallsGraph_edge2" class="edge">
+<g id="proc~~rkpar~~CallsGraph_edge1" class="edge">
 <title>proc~rkpar&#45;&gt;proc~wolfe</title>
-<path fill="none" stroke="#000000" d="M54.4,-121.3C62.66,-117.64 71.9,-113.54 80.66,-109.66"/>
-<polygon fill="#000000" stroke="#000000" points="82.19,-112.81 89.92,-105.56 79.36,-106.41 82.19,-112.81"/>
+<path fill="none" stroke="#000000" d="M54.4,-24.7C62.66,-28.36 71.9,-32.46 80.66,-36.34"/>
+<polygon fill="#000000" stroke="#000000" points="79.36,-39.59 89.92,-40.44 82.19,-33.19 79.36,-39.59"/>
 </g>
-<!-- proc~wolfe&#45;&gt;proc~iloc -->
-<g id="proc~~rkpar~~CallsGraph_edge3" class="edge">
-<title>proc~wolfe&#45;&gt;proc~iloc</title>
-<path fill="none" stroke="#000000" d="M144.27,-103.96C155.2,-107.83 168.09,-112.03 180,-115 206.44,-121.6 236.86,-126.48 259.92,-129.64"/>
-<polygon fill="#000000" stroke="#000000" points="259.58,-133.13 269.95,-130.98 260.5,-126.19 259.58,-133.13"/>
-</g>
-<!-- proc~dotprd -->
-<g id="proc~~rkpar~~CallsGraph_node4" class="node">
-<title>proc~dotprd</title>
-<g id="a_proc~~rkpar~~CallsGraph_node4"><a xlink:href=".././proc/dotprd.html" xlink:title="dotprd">
+<!-- proc~iloc -->
+<g id="proc~~rkpar~~CallsGraph_node3" class="node">
+<title>proc~iloc</title>
+<g id="a_proc~~rkpar~~CallsGraph_node3"><a xlink:href=".././proc/iloc.html" xlink:title="iloc">
 <polygon fill="#d94e8f" stroke="#d94e8f" points="324,-24 270,-24 270,0 324,0 324,-24"/>
-<text text-anchor="middle" x="297" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dotprd</text>
+<text text-anchor="middle" x="297" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">iloc</text>
 </a>
 </g>
 </g>
-<!-- proc~wolfe&#45;&gt;proc~dotprd -->
+<!-- proc~rkpar&#45;&gt;proc~iloc -->
+<g id="proc~~rkpar~~CallsGraph_edge2" class="edge">
+<title>proc~rkpar&#45;&gt;proc~iloc</title>
+<path fill="none" stroke="#000000" d="M54.18,-12.9C102.22,-12.72 204.51,-12.34 259.39,-12.14"/>
+<polygon fill="#000000" stroke="#000000" points="259.72,-15.64 269.71,-12.1 259.7,-8.64 259.72,-15.64"/>
+</g>
+<!-- proc~wolfe&#45;&gt;proc~iloc -->
+<g id="proc~~rkpar~~CallsGraph_edge5" class="edge">
+<title>proc~wolfe&#45;&gt;proc~iloc</title>
+<path fill="none" stroke="#000000" d="M144.27,-42.04C155.2,-38.17 168.09,-33.97 180,-31 206.44,-24.4 236.86,-19.52 259.92,-16.36"/>
+<polygon fill="#000000" stroke="#000000" points="260.5,-19.81 269.95,-15.02 259.58,-12.87 260.5,-19.81"/>
+</g>
+<!-- proc~refwl -->
+<g id="proc~~rkpar~~CallsGraph_node4" class="node">
+<title>proc~refwl</title>
+<g id="a_proc~~rkpar~~CallsGraph_node4"><a xlink:href=".././proc/refwl.html" xlink:title="refwl">
+<polygon fill="#d9534f" stroke="#d9534f" points="234,-64 180,-64 180,-40 234,-40 234,-64"/>
+<text text-anchor="middle" x="207" y="-49.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">refwl</text>
+</a>
+</g>
+</g>
+<!-- proc~wolfe&#45;&gt;proc~refwl -->
 <g id="proc~~rkpar~~CallsGraph_edge4" class="edge">
-<title>proc~wolfe&#45;&gt;proc~dotprd</title>
-<path fill="none" stroke="#000000" d="M126.26,-81.77C136.86,-67.12 156.7,-43.07 180,-31 204.62,-18.25 235.79,-13.68 259.62,-12.2"/>
-<polygon fill="#000000" stroke="#000000" points="259.84,-15.69 269.67,-11.73 259.52,-8.7 259.84,-15.69"/>
+<title>proc~wolfe&#45;&gt;proc~refwl</title>
+<path fill="none" stroke="#000000" d="M144.4,-52C152.39,-52 161.31,-52 169.82,-52"/>
+<polygon fill="#000000" stroke="#000000" points="169.92,-55.5 179.92,-52 169.92,-48.5 169.92,-55.5"/>
 </g>
 <!-- proc~conenr -->
 <g id="proc~~rkpar~~CallsGraph_node5" class="node">
 <title>proc~conenr</title>
 <g id="a_proc~~rkpar~~CallsGraph_node5"><a xlink:href=".././proc/conenr.html" xlink:title="conenr">
-<polygon fill="#d9534f" stroke="#d9534f" points="234,-64 180,-64 180,-40 234,-40 234,-64"/>
-<text text-anchor="middle" x="207" y="-49.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">conenr</text>
+<polygon fill="#d9534f" stroke="#d9534f" points="234,-106 180,-106 180,-82 234,-82 234,-106"/>
+<text text-anchor="middle" x="207" y="-91.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">conenr</text>
 </a>
 </g>
 </g>
 <!-- proc~wolfe&#45;&gt;proc~conenr -->
-<g id="proc~~rkpar~~CallsGraph_edge5" class="edge">
+<g id="proc~~rkpar~~CallsGraph_edge3" class="edge">
 <title>proc~wolfe&#45;&gt;proc~conenr</title>
-<path fill="none" stroke="#000000" d="M143.45,-81.85C152.21,-77.67 162.17,-72.92 171.52,-68.46"/>
-<polygon fill="#000000" stroke="#000000" points="173.09,-71.59 180.6,-64.12 170.07,-65.27 173.09,-71.59"/>
+<path fill="none" stroke="#000000" d="M143.45,-64.15C152.21,-68.33 162.17,-73.08 171.52,-77.54"/>
+<polygon fill="#000000" stroke="#000000" points="170.07,-80.73 180.6,-81.88 173.09,-74.41 170.07,-80.73"/>
 </g>
-<!-- proc~refwl -->
+<!-- proc~dotprd -->
 <g id="proc~~rkpar~~CallsGraph_node6" class="node">
-<title>proc~refwl</title>
-<g id="a_proc~~rkpar~~CallsGraph_node6"><a xlink:href=".././proc/refwl.html" xlink:title="refwl">
-<polygon fill="#d9534f" stroke="#d9534f" points="234,-106 180,-106 180,-82 234,-82 234,-106"/>
-<text text-anchor="middle" x="207" y="-91.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">refwl</text>
+<title>proc~dotprd</title>
+<g id="a_proc~~rkpar~~CallsGraph_node6"><a xlink:href=".././proc/dotprd.html" xlink:title="dotprd">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="324,-146 270,-146 270,-122 324,-122 324,-146"/>
+<text text-anchor="middle" x="297" y="-131.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dotprd</text>
 </a>
 </g>
 </g>
-<!-- proc~wolfe&#45;&gt;proc~refwl -->
+<!-- proc~wolfe&#45;&gt;proc~dotprd -->
 <g id="proc~~rkpar~~CallsGraph_edge6" class="edge">
-<title>proc~wolfe&#45;&gt;proc~refwl</title>
-<path fill="none" stroke="#000000" d="M144.4,-94C152.39,-94 161.31,-94 169.82,-94"/>
-<polygon fill="#000000" stroke="#000000" points="169.92,-97.5 179.92,-94 169.92,-90.5 169.92,-97.5"/>
+<title>proc~wolfe&#45;&gt;proc~dotprd</title>
+<path fill="none" stroke="#000000" d="M126.26,-64.23C136.86,-78.88 156.7,-102.93 180,-115 204.62,-127.75 235.79,-132.32 259.62,-133.8"/>
+<polygon fill="#000000" stroke="#000000" points="259.52,-137.3 269.67,-134.27 259.84,-130.31 259.52,-137.3"/>
 </g>
 <!-- proc~conenr&#45;&gt;proc~iloc -->
-<g id="proc~~rkpar~~CallsGraph_edge7" class="edge">
+<g id="proc~~rkpar~~CallsGraph_edge8" class="edge">
 <title>proc~conenr&#45;&gt;proc~iloc</title>
-<path fill="none" stroke="#000000" d="M223.61,-64.19C227.08,-67.02 230.71,-70.06 234,-73 248.98,-86.36 265.11,-102.28 277.17,-114.51"/>
-<polygon fill="#000000" stroke="#000000" points="274.95,-117.25 284.45,-121.95 279.95,-112.36 274.95,-117.25"/>
+<path fill="none" stroke="#000000" d="M223.61,-81.81C227.08,-78.98 230.71,-75.94 234,-73 248.98,-59.64 265.11,-43.72 277.17,-31.49"/>
+<polygon fill="#000000" stroke="#000000" points="279.95,-33.64 284.45,-24.05 274.95,-28.75 279.95,-33.64"/>
 </g>
 <!-- proc~conenr&#45;&gt;proc~dotprd -->
 <g id="proc~~rkpar~~CallsGraph_edge9" class="edge">
 <title>proc~conenr&#45;&gt;proc~dotprd</title>
-<path fill="none" stroke="#000000" d="M234.4,-40C242.66,-36.25 251.9,-32.05 260.66,-28.06"/>
-<polygon fill="#000000" stroke="#000000" points="262.26,-31.18 269.92,-23.86 259.37,-24.81 262.26,-31.18"/>
+<path fill="none" stroke="#000000" d="M234.4,-106C242.66,-109.75 251.9,-113.95 260.66,-117.94"/>
+<polygon fill="#000000" stroke="#000000" points="259.37,-121.19 269.92,-122.14 262.26,-114.82 259.37,-121.19"/>
 </g>
 <!-- proc~house -->
 <g id="proc~~rkpar~~CallsGraph_node7" class="node">
 <title>proc~house</title>
 <g id="a_proc~~rkpar~~CallsGraph_node7"><a xlink:href=".././proc/house.html" xlink:title="house">
-<polygon fill="#d9534f" stroke="#d9534f" points="324,-66 270,-66 270,-42 324,-42 324,-66"/>
-<text text-anchor="middle" x="297" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">house</text>
+<polygon fill="#d9534f" stroke="#d9534f" points="324,-104 270,-104 270,-80 324,-80 324,-104"/>
+<text text-anchor="middle" x="297" y="-89.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">house</text>
 </a>
 </g>
 </g>
 <!-- proc~conenr&#45;&gt;proc~house -->
-<g id="proc~~rkpar~~CallsGraph_edge8" class="edge">
+<g id="proc~~rkpar~~CallsGraph_edge7" class="edge">
 <title>proc~conenr&#45;&gt;proc~house</title>
-<path fill="none" stroke="#000000" d="M234.4,-52.6C242.39,-52.78 251.31,-52.98 259.82,-53.18"/>
-<polygon fill="#000000" stroke="#000000" points="259.84,-56.68 269.92,-53.41 260,-49.68 259.84,-56.68"/>
+<path fill="none" stroke="#000000" d="M234.4,-93.4C242.39,-93.22 251.31,-93.02 259.82,-92.82"/>
+<polygon fill="#000000" stroke="#000000" points="260,-96.32 269.92,-92.59 259.84,-89.32 260,-96.32"/>
 </g>
 </g>
 </svg>
@@ -1001,7 +1012,13 @@ private subroutine rkpar(me, Ioptn, Numgr, Nparm, Icntyp, Mactrk, Iact, Actdif, 
 
 
 
-<em>None</em>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/rkpar.html#src">rkpar</a>
+  </div>
+</div>
+
 
 
     </section>
@@ -1024,6 +1041,184 @@ private subroutine rkpar(me, Ioptn, Numgr, Nparm, Icntyp, Mactrk, Iact, Actdif, 
 
     
     
+    
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span>      <span class="k">subroutine </span><span class="n">rkpar</span><span class="p">(</span><span class="n">me</span><span class="p">,</span><span class="n">Ioptn</span><span class="p">,</span><span class="n">Numgr</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Icntyp</span><span class="p">,</span><span class="n">Mactrk</span><span class="p">,</span><span class="n">Iact</span><span class="p">,</span><span class="n">Actdif</span><span class="p">,</span>     <span class="p">&amp;</span>
+                       <span class="n">Projct</span><span class="p">,</span><span class="n">Param</span><span class="p">,</span><span class="n">Fun</span><span class="p">,</span><span class="n">Ifun</span><span class="p">,</span><span class="n">Pttbl</span><span class="p">,</span><span class="n">Iptb</span><span class="p">,</span><span class="n">Indm</span><span class="p">,</span><span class="n">Vder</span><span class="p">,</span><span class="n">Pmat</span><span class="p">,</span> <span class="p">&amp;</span>
+                       <span class="n">Ncor</span><span class="p">,</span><span class="n">s</span><span class="p">,</span><span class="n">Itypm1</span><span class="p">,</span><span class="n">Itypm2</span><span class="p">,</span><span class="n">Unit</span><span class="p">,</span><span class="n">Tolcon</span><span class="p">,</span><span class="n">Rchin</span><span class="p">,</span><span class="n">Nstep</span><span class="p">,</span>    <span class="p">&amp;</span>
+                       <span class="n">Error</span><span class="p">,</span><span class="n">Iphse</span><span class="p">,</span><span class="n">Iwork</span><span class="p">,</span><span class="n">Liwrk</span><span class="p">,</span><span class="n">Work</span><span class="p">,</span><span class="n">Lwrk</span><span class="p">,</span><span class="n">Confun</span><span class="p">,</span><span class="n">Vdern</span><span class="p">,</span>  <span class="p">&amp;</span>
+                       <span class="n">Vders</span><span class="p">,</span><span class="n">Wvec</span><span class="p">,</span><span class="n">Parprj</span><span class="p">,</span><span class="n">Ifrkpr</span><span class="p">)</span>
+<span class="c">!</span>
+      <span class="k">implicit none</span>
+
+<span class="k">      class</span><span class="p">(</span><span class="n">conmax_solver</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span> <span class="kd">::</span> <span class="n">me</span>
+      <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="n">Actdif</span> <span class="p">,</span> <span class="n">Confun</span> <span class="p">,</span> <span class="n">Error</span> <span class="p">,</span> <span class="n">Fun</span> <span class="p">,</span> <span class="n">one</span> <span class="p">,</span> <span class="n">p6</span> <span class="p">,</span> <span class="n">Param</span> <span class="p">,</span> <span class="n">Parprj</span> <span class="p">,&amp;</span>
+           <span class="p">&amp;</span> <span class="n">Pmat</span> <span class="p">,</span> <span class="n">proj1</span> <span class="p">,</span> <span class="n">Projct</span> <span class="p">,</span> <span class="n">Pttbl</span> <span class="p">,</span> <span class="n">Rchin</span> <span class="p">,</span> <span class="n">s</span> <span class="p">,</span> <span class="n">Tolcon</span> <span class="p">,</span> <span class="n">two</span> <span class="p">,</span> <span class="p">&amp;</span>
+           <span class="p">&amp;</span> <span class="n">Unit</span> <span class="p">,</span> <span class="n">Vder</span> <span class="p">,</span> <span class="n">Vdern</span> <span class="p">,</span> <span class="n">Vders</span>
+      <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="n">wdist</span> <span class="p">,</span> <span class="n">Work</span> <span class="p">,</span> <span class="n">Wvec</span>
+      <span class="kt">integer </span><span class="n">Iact</span> <span class="p">,</span> <span class="n">Icntyp</span> <span class="p">,</span> <span class="n">icorct</span> <span class="p">,</span> <span class="n">Ifrkpr</span> <span class="p">,</span> <span class="n">Ifun</span> <span class="p">,</span> <span class="n">ilc06</span> <span class="p">,</span> <span class="n">ilc10</span> <span class="p">,</span>  <span class="p">&amp;</span>
+            <span class="p">&amp;</span> <span class="n">ilc11</span> <span class="p">,</span> <span class="n">ilc15</span> <span class="p">,</span> <span class="n">ilc21</span> <span class="p">,</span> <span class="n">ilc27</span> <span class="p">,</span> <span class="n">ilc30</span> <span class="p">,</span> <span class="n">ilc31</span> <span class="p">,</span> <span class="n">ilc33</span> <span class="p">,</span>   <span class="p">&amp;</span>
+            <span class="p">&amp;</span> <span class="n">ilc40</span> <span class="p">,</span> <span class="n">ilc48</span> <span class="p">,</span> <span class="n">Indm</span> <span class="p">,</span> <span class="n">Ioptn</span> <span class="p">,</span> <span class="n">Iphse</span>
+      <span class="kt">integer </span><span class="n">Iptb</span> <span class="p">,</span> <span class="n">Itypm1</span> <span class="p">,</span> <span class="n">Itypm2</span> <span class="p">,</span> <span class="n">Iwork</span> <span class="p">,</span> <span class="n">j</span> <span class="p">,</span> <span class="n">jflag</span> <span class="p">,</span> <span class="n">Liwrk</span> <span class="p">,</span>      <span class="p">&amp;</span>
+            <span class="p">&amp;</span> <span class="n">Lwrk</span> <span class="p">,</span> <span class="n">Mactrk</span> <span class="p">,</span> <span class="n">Ncor</span> <span class="p">,</span> <span class="n">nmaj</span> <span class="p">,</span> <span class="n">nmin</span> <span class="p">,</span> <span class="n">npar1</span> <span class="p">,</span> <span class="n">Nparm</span> <span class="p">,</span>      <span class="p">&amp;</span>
+            <span class="p">&amp;</span> <span class="n">nstcnt</span> <span class="p">,</span> <span class="n">Nstep</span> <span class="p">,</span> <span class="n">Numgr</span>
+<span class="c">!</span>
+      <span class="k">dimension </span><span class="n">Param</span><span class="p">(</span><span class="n">Nparm</span><span class="p">)</span> <span class="p">,</span> <span class="n">Fun</span><span class="p">(</span><span class="n">Ifun</span><span class="p">)</span> <span class="p">,</span> <span class="n">Pttbl</span><span class="p">(</span><span class="n">Iptb</span><span class="p">,</span><span class="n">Indm</span><span class="p">)</span> <span class="p">,</span>           <span class="p">&amp;</span>
+              <span class="p">&amp;</span> <span class="n">Vder</span><span class="p">(</span><span class="n">Nparm</span><span class="p">)</span> <span class="p">,</span> <span class="n">Parprj</span><span class="p">(</span><span class="n">Nparm</span><span class="p">)</span> <span class="p">,</span> <span class="n">Vders</span><span class="p">(</span><span class="n">Nparm</span><span class="p">)</span> <span class="p">,</span> <span class="n">Wvec</span><span class="p">(</span><span class="n">Nparm</span><span class="p">)&amp;</span>
+              <span class="p">&amp;</span> <span class="p">,</span> <span class="n">Vdern</span><span class="p">(</span><span class="n">Nparm</span><span class="p">)</span> <span class="p">,</span> <span class="n">Icntyp</span><span class="p">(</span><span class="n">Numgr</span><span class="p">)</span> <span class="p">,</span> <span class="n">Error</span><span class="p">(</span><span class="n">Numgr</span><span class="o">+</span><span class="mi">3</span><span class="p">)</span> <span class="p">,</span>       <span class="p">&amp;</span>
+              <span class="p">&amp;</span> <span class="n">Iact</span><span class="p">(</span><span class="n">Numgr</span><span class="p">)</span> <span class="p">,</span> <span class="n">Actdif</span><span class="p">(</span><span class="n">Numgr</span><span class="p">)</span> <span class="p">,</span> <span class="n">Confun</span><span class="p">(</span><span class="n">Numgr</span><span class="p">,</span><span class="n">Nparm</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="p">,</span>   <span class="p">&amp;</span>
+              <span class="p">&amp;</span> <span class="n">Pmat</span><span class="p">(</span><span class="n">Nparm</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span> <span class="p">,</span> <span class="n">Iwork</span><span class="p">(</span><span class="n">Liwrk</span><span class="p">)</span> <span class="p">,</span> <span class="n">Work</span><span class="p">(</span><span class="n">Lwrk</span><span class="p">)</span>
+
+<span class="c">! SET MACHINE AND PRECISION DEPENDENT CONSTANTS FOR RKPAR.</span>
+      <span class="n">one</span> <span class="o">=</span> <span class="mf">1.0d0</span>
+      <span class="n">two</span> <span class="o">=</span> <span class="n">one</span> <span class="o">+</span> <span class="n">one</span>
+<span class="c">!     NWRIT=output_unit</span>
+      <span class="n">ilc06</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
+      <span class="n">ilc10</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
+      <span class="n">ilc11</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">11</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
+      <span class="n">ilc15</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
+      <span class="n">ilc21</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">21</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
+      <span class="n">ilc27</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">27</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
+      <span class="n">ilc30</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
+      <span class="n">ilc31</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">31</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
+      <span class="n">ilc33</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">33</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
+      <span class="n">ilc40</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">40</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
+      <span class="n">ilc48</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">48</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
+<span class="c">! IFRKPR=0 IS A SIGNAL THAT THE SUBROUTINE OPERATED NORMALLY.</span>
+      <span class="n">Ifrkpr</span> <span class="o">=</span> <span class="mi">0</span>
+      <span class="n">proj1</span> <span class="o">=</span> <span class="n">Projct</span><span class="o">/</span><span class="n">Nstep</span>
+      <span class="n">p6</span> <span class="o">=</span> <span class="n">proj1</span><span class="o">/</span><span class="p">(</span><span class="n">two</span><span class="o">+</span><span class="n">two</span><span class="o">+</span><span class="n">two</span><span class="p">)</span>
+      <span class="n">npar1</span> <span class="o">=</span> <span class="n">Nparm</span> <span class="o">+</span> <span class="mi">1</span>
+      <span class="n">nstcnt</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="c">! PARPRJ WILL BE USED AS THE BASE POINT FOR THE NEXT RK STEP DURING THE</span>
+<span class="c">! OPERATION OF THIS SUBROUTINE.</span>
+      <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Nparm</span>
+         <span class="n">Parprj</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+         <span class="n">Vdern</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">Vder</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+      <span class="k">enddo</span>
+<span class="c">!</span>
+<span class="c">! NOTE THAT HERE H*VDERN IS THE K1 OF THE USUAL RUNGE-KUTTA FORMULAE.</span>
+<span class="c">! SET THE WORK VECTOR WVEC = PARPRJ-PROJ1*VDERN/2.0, THEN CALL PMTST</span>
+<span class="c">! AND WOLFE TO GET THE VECTOR (AGAIN CALLED VDERN) OF DERIVATIVE VALUES.</span>
+<span class="c">! THEN H*VDERN WILL BE THE K2 OF THE USUAL RUNGE-KUTTA FORMULAE.</span>
+<span class="c">! WE WILL ACCUMULATE K1/H + 2.0*K2/H + 2.0*K3/H IN VDERS, AND ADD IN</span>
+<span class="c">! K4/H AT THE END.</span>
+ <span class="mi">100</span>  <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Nparm</span>
+         <span class="n">Vders</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">Vdern</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+         <span class="n">Wvec</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">Parprj</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">-</span> <span class="n">proj1</span><span class="o">*</span><span class="n">Vdern</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="o">/</span><span class="n">two</span>
+      <span class="k">enddo</span>
+<span class="c">! IF THERE ARE ANY STANDARD CONSTRAINTS, WE CORRECT BACK INTO THE</span>
+<span class="c">! FEASIBLE REGION IF POSSIBLE BEFORE CALLING PMTST.</span>
+      <span class="k">if</span> <span class="p">(</span> <span class="n">Itypm1</span><span class="o">+</span><span class="n">Itypm2</span><span class="o">&gt;</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
+<span class="k">         call </span><span class="n">me</span><span class="p">%</span><span class="n">corrct</span><span class="p">(</span><span class="n">Ioptn</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">,</span><span class="n">Fun</span><span class="p">,</span><span class="n">Ifun</span><span class="p">,</span><span class="n">Pttbl</span><span class="p">,</span><span class="n">Iptb</span><span class="p">,</span><span class="n">Indm</span><span class="p">,</span><span class="n">Icntyp</span><span class="p">,</span> <span class="p">&amp;</span>
+                   <span class="p">&amp;</span> <span class="n">Unit</span><span class="p">,</span><span class="n">Tolcon</span><span class="p">,</span><span class="n">Rchin</span><span class="p">,</span><span class="n">Error</span><span class="p">,</span><span class="n">Mactrk</span><span class="p">,</span><span class="n">Iact</span><span class="p">,</span><span class="n">Projct</span><span class="p">,</span><span class="n">Iphse</span><span class="p">,</span>  <span class="p">&amp;</span>
+                   <span class="p">&amp;</span> <span class="n">Iwork</span><span class="p">,</span><span class="n">Liwrk</span><span class="p">,</span><span class="n">Work</span><span class="p">,</span><span class="n">Lwrk</span><span class="p">,</span><span class="n">Work</span><span class="p">(</span><span class="n">ilc27</span><span class="p">),</span><span class="n">Work</span><span class="p">(</span><span class="n">ilc11</span><span class="p">),</span>     <span class="p">&amp;</span>
+                   <span class="p">&amp;</span> <span class="n">Work</span><span class="p">(</span><span class="n">ilc10</span><span class="p">),</span><span class="n">Pmat</span><span class="p">,</span><span class="n">Confun</span><span class="p">,</span><span class="n">Work</span><span class="p">(</span><span class="n">ilc48</span><span class="p">),</span><span class="n">Iwork</span><span class="p">(</span><span class="n">ilc21</span><span class="p">),</span>  <span class="p">&amp;</span>
+                   <span class="p">&amp;</span> <span class="n">Wvec</span><span class="p">,</span><span class="n">icorct</span><span class="p">)</span>
+         <span class="k">if</span> <span class="p">(</span> <span class="n">icorct</span><span class="o">&gt;</span><span class="mi">0</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">200</span>
+      <span class="k">endif</span>
+<span class="k">      call </span><span class="n">me</span><span class="p">%</span><span class="n">pmtst</span><span class="p">(</span><span class="n">Ioptn</span><span class="p">,</span><span class="n">Numgr</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Wvec</span><span class="p">,</span><span class="n">Icntyp</span><span class="p">,</span><span class="n">Mactrk</span><span class="p">,</span><span class="n">Iact</span><span class="p">,</span><span class="n">Pttbl</span><span class="p">,</span><span class="n">Iptb</span><span class="p">,</span>  <span class="p">&amp;</span>
+               <span class="p">&amp;</span> <span class="n">Indm</span><span class="p">,</span><span class="n">Actdif</span><span class="p">,</span><span class="n">Iphse</span><span class="p">,</span><span class="n">Iwork</span><span class="p">,</span><span class="n">Liwrk</span><span class="p">,</span><span class="n">Work</span><span class="p">,</span><span class="n">Lwrk</span><span class="p">,</span><span class="n">Confun</span><span class="p">,</span><span class="n">Pmat</span><span class="p">)</span>
+      <span class="k">call </span><span class="n">wolfe</span><span class="p">(</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Mactrk</span><span class="p">,</span><span class="n">Pmat</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">s</span><span class="p">,</span><span class="n">Ncor</span><span class="p">,</span><span class="n">Iwork</span><span class="p">(</span><span class="n">ilc15</span><span class="p">),</span><span class="n">Iwork</span><span class="p">,</span><span class="n">Liwrk</span><span class="p">,</span>   <span class="p">&amp;</span>
+               <span class="p">&amp;</span> <span class="n">Work</span><span class="p">,</span><span class="n">Lwrk</span><span class="p">,</span><span class="n">Work</span><span class="p">(</span><span class="n">ilc33</span><span class="p">),</span><span class="n">Work</span><span class="p">(</span><span class="n">ilc06</span><span class="p">),</span><span class="n">Work</span><span class="p">(</span><span class="n">ilc31</span><span class="p">),</span>         <span class="p">&amp;</span>
+               <span class="p">&amp;</span> <span class="n">Work</span><span class="p">(</span><span class="n">ilc30</span><span class="p">),</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">,</span><span class="n">Work</span><span class="p">(</span><span class="n">ilc40</span><span class="p">),</span><span class="n">Vdern</span><span class="p">,</span><span class="n">wdist</span><span class="p">,</span><span class="n">nmaj</span><span class="p">,</span>  <span class="p">&amp;</span>
+               <span class="p">&amp;</span> <span class="n">nmin</span><span class="p">,</span><span class="n">jflag</span><span class="p">)</span>
+<span class="c">! IF WOLFE FAILED, SO WILL THIS SUBROUTINE.</span>
+      <span class="k">if</span> <span class="p">(</span> <span class="n">jflag</span><span class="o">&lt;=</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
+<span class="c">!</span>
+<span class="c">! NOW VDERN REPRESENTS K2/H.  SET WVEC = PARPRJ-PROJ1*VDERN/2.0 AND</span>
+<span class="c">! COMPUTE THE NEW VDERN, WHICH WILL REPRESENT K3/H.</span>
+         <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Nparm</span>
+            <span class="n">Vders</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">Vders</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">+</span> <span class="n">two</span><span class="o">*</span><span class="n">Vdern</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+            <span class="n">Wvec</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">Parprj</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">-</span> <span class="n">proj1</span><span class="o">*</span><span class="n">Vdern</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="o">/</span><span class="n">two</span>
+         <span class="k">enddo</span>
+<span class="c">! IF THERE ARE ANY STANDARD CONSTRAINTS, WE CORRECT BACK INTO THE</span>
+<span class="c">! FEASIBLE REGION IF POSSIBLE BEFORE CALLING PMTST.</span>
+         <span class="k">if</span> <span class="p">(</span> <span class="n">Itypm1</span><span class="o">+</span><span class="n">Itypm2</span><span class="o">&lt;=</span><span class="mi">0</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">300</span>
+         <span class="k">call </span><span class="n">me</span><span class="p">%</span><span class="n">corrct</span><span class="p">(</span><span class="n">Ioptn</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">,</span><span class="n">Fun</span><span class="p">,</span><span class="n">Ifun</span><span class="p">,</span><span class="n">Pttbl</span><span class="p">,</span><span class="n">Iptb</span><span class="p">,</span><span class="n">Indm</span><span class="p">,</span><span class="n">Icntyp</span><span class="p">,</span> <span class="p">&amp;</span>
+                   <span class="p">&amp;</span> <span class="n">Unit</span><span class="p">,</span><span class="n">Tolcon</span><span class="p">,</span><span class="n">Rchin</span><span class="p">,</span><span class="n">Error</span><span class="p">,</span><span class="n">Mactrk</span><span class="p">,</span><span class="n">Iact</span><span class="p">,</span><span class="n">Projct</span><span class="p">,</span><span class="n">Iphse</span><span class="p">,</span>  <span class="p">&amp;</span>
+                   <span class="p">&amp;</span> <span class="n">Iwork</span><span class="p">,</span><span class="n">Liwrk</span><span class="p">,</span><span class="n">Work</span><span class="p">,</span><span class="n">Lwrk</span><span class="p">,</span><span class="n">Work</span><span class="p">(</span><span class="n">ilc27</span><span class="p">),</span><span class="n">Work</span><span class="p">(</span><span class="n">ilc11</span><span class="p">),</span>     <span class="p">&amp;</span>
+                   <span class="p">&amp;</span> <span class="n">Work</span><span class="p">(</span><span class="n">ilc10</span><span class="p">),</span><span class="n">Pmat</span><span class="p">,</span><span class="n">Confun</span><span class="p">,</span><span class="n">Work</span><span class="p">(</span><span class="n">ilc48</span><span class="p">),</span><span class="n">Iwork</span><span class="p">(</span><span class="n">ilc21</span><span class="p">),</span>  <span class="p">&amp;</span>
+                   <span class="p">&amp;</span> <span class="n">Wvec</span><span class="p">,</span><span class="n">icorct</span><span class="p">)</span>
+         <span class="k">if</span> <span class="p">(</span> <span class="n">icorct</span><span class="o">&lt;=</span><span class="mi">0</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">300</span>
+      <span class="k">endif</span>
+<span class="c">!</span>
+ <span class="mi">200</span>  <span class="n">Ifrkpr</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="c">!     WRITE(NWRIT,250)</span>
+<span class="c">! 250 FORMAT(22H *****RKPAR HAS FAILED)</span>
+      <span class="k">return</span>
+<span class="k"> </span><span class="mi">300</span>  <span class="k">call </span><span class="n">me</span><span class="p">%</span><span class="n">pmtst</span><span class="p">(</span><span class="n">Ioptn</span><span class="p">,</span><span class="n">Numgr</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Wvec</span><span class="p">,</span><span class="n">Icntyp</span><span class="p">,</span><span class="n">Mactrk</span><span class="p">,</span><span class="n">Iact</span><span class="p">,</span><span class="n">Pttbl</span><span class="p">,</span><span class="n">Iptb</span><span class="p">,</span>  <span class="p">&amp;</span>
+               <span class="p">&amp;</span> <span class="n">Indm</span><span class="p">,</span><span class="n">Actdif</span><span class="p">,</span><span class="n">Iphse</span><span class="p">,</span><span class="n">Iwork</span><span class="p">,</span><span class="n">Liwrk</span><span class="p">,</span><span class="n">Work</span><span class="p">,</span><span class="n">Lwrk</span><span class="p">,</span><span class="n">Confun</span><span class="p">,</span><span class="n">Pmat</span><span class="p">)</span>
+      <span class="k">call </span><span class="n">wolfe</span><span class="p">(</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Mactrk</span><span class="p">,</span><span class="n">Pmat</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">s</span><span class="p">,</span><span class="n">Ncor</span><span class="p">,</span><span class="n">Iwork</span><span class="p">(</span><span class="n">ilc15</span><span class="p">),</span><span class="n">Iwork</span><span class="p">,</span><span class="n">Liwrk</span><span class="p">,</span>   <span class="p">&amp;</span>
+               <span class="p">&amp;</span> <span class="n">Work</span><span class="p">,</span><span class="n">Lwrk</span><span class="p">,</span><span class="n">Work</span><span class="p">(</span><span class="n">ilc33</span><span class="p">),</span><span class="n">Work</span><span class="p">(</span><span class="n">ilc06</span><span class="p">),</span><span class="n">Work</span><span class="p">(</span><span class="n">ilc31</span><span class="p">),</span>         <span class="p">&amp;</span>
+               <span class="p">&amp;</span> <span class="n">Work</span><span class="p">(</span><span class="n">ilc30</span><span class="p">),</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">,</span><span class="n">Work</span><span class="p">(</span><span class="n">ilc40</span><span class="p">),</span><span class="n">Vdern</span><span class="p">,</span><span class="n">wdist</span><span class="p">,</span><span class="n">nmaj</span><span class="p">,</span>  <span class="p">&amp;</span>
+               <span class="p">&amp;</span> <span class="n">nmin</span><span class="p">,</span><span class="n">jflag</span><span class="p">)</span>
+      <span class="k">if</span> <span class="p">(</span> <span class="n">jflag</span><span class="o">&gt;</span><span class="mi">0</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">200</span>
+<span class="c">!</span>
+<span class="c">! NOW VDERN REPRESENTS K3/H.  SET WVEC = PARPRJ-PROJ1*VDERN AND</span>
+<span class="c">! COMPUTE THE NEW VDERN, WHICH WILL REPRESENT K4/H.</span>
+      <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Nparm</span>
+         <span class="n">Vders</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">Vders</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">+</span> <span class="n">two</span><span class="o">*</span><span class="n">Vdern</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+         <span class="n">Wvec</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">Parprj</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">-</span> <span class="n">proj1</span><span class="o">*</span><span class="n">Vdern</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+      <span class="k">enddo</span>
+<span class="c">! IF THERE ARE ANY STANDARD CONSTRAINTS, WE CORRECT BACK INTO THE</span>
+<span class="c">! FEASIBLE REGION IF POSSIBLE BEFORE CALLING PMTST.</span>
+      <span class="k">if</span> <span class="p">(</span> <span class="n">Itypm1</span><span class="o">+</span><span class="n">Itypm2</span><span class="o">&gt;</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
+<span class="k">         call </span><span class="n">me</span><span class="p">%</span><span class="n">corrct</span><span class="p">(</span><span class="n">Ioptn</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">,</span><span class="n">Fun</span><span class="p">,</span><span class="n">Ifun</span><span class="p">,</span><span class="n">Pttbl</span><span class="p">,</span><span class="n">Iptb</span><span class="p">,</span><span class="n">Indm</span><span class="p">,</span><span class="n">Icntyp</span><span class="p">,</span> <span class="p">&amp;</span>
+                   <span class="p">&amp;</span> <span class="n">Unit</span><span class="p">,</span><span class="n">Tolcon</span><span class="p">,</span><span class="n">Rchin</span><span class="p">,</span><span class="n">Error</span><span class="p">,</span><span class="n">Mactrk</span><span class="p">,</span><span class="n">Iact</span><span class="p">,</span><span class="n">Projct</span><span class="p">,</span><span class="n">Iphse</span><span class="p">,</span>  <span class="p">&amp;</span>
+                   <span class="p">&amp;</span> <span class="n">Iwork</span><span class="p">,</span><span class="n">Liwrk</span><span class="p">,</span><span class="n">Work</span><span class="p">,</span><span class="n">Lwrk</span><span class="p">,</span><span class="n">Work</span><span class="p">(</span><span class="n">ilc27</span><span class="p">),</span><span class="n">Work</span><span class="p">(</span><span class="n">ilc11</span><span class="p">),</span>     <span class="p">&amp;</span>
+                   <span class="p">&amp;</span> <span class="n">Work</span><span class="p">(</span><span class="n">ilc10</span><span class="p">),</span><span class="n">Pmat</span><span class="p">,</span><span class="n">Confun</span><span class="p">,</span><span class="n">Work</span><span class="p">(</span><span class="n">ilc48</span><span class="p">),</span><span class="n">Iwork</span><span class="p">(</span><span class="n">ilc21</span><span class="p">),</span>  <span class="p">&amp;</span>
+                   <span class="p">&amp;</span> <span class="n">Wvec</span><span class="p">,</span><span class="n">icorct</span><span class="p">)</span>
+         <span class="k">if</span> <span class="p">(</span> <span class="n">icorct</span><span class="o">&gt;</span><span class="mi">0</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">200</span>
+      <span class="k">endif</span>
+<span class="k">      call </span><span class="n">me</span><span class="p">%</span><span class="n">pmtst</span><span class="p">(</span><span class="n">Ioptn</span><span class="p">,</span><span class="n">Numgr</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Wvec</span><span class="p">,</span><span class="n">Icntyp</span><span class="p">,</span><span class="n">Mactrk</span><span class="p">,</span><span class="n">Iact</span><span class="p">,</span><span class="n">Pttbl</span><span class="p">,</span><span class="n">Iptb</span><span class="p">,</span>  <span class="p">&amp;</span>
+               <span class="p">&amp;</span> <span class="n">Indm</span><span class="p">,</span><span class="n">Actdif</span><span class="p">,</span><span class="n">Iphse</span><span class="p">,</span><span class="n">Iwork</span><span class="p">,</span><span class="n">Liwrk</span><span class="p">,</span><span class="n">Work</span><span class="p">,</span><span class="n">Lwrk</span><span class="p">,</span><span class="n">Confun</span><span class="p">,</span><span class="n">Pmat</span><span class="p">)</span>
+      <span class="k">call </span><span class="n">wolfe</span><span class="p">(</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Mactrk</span><span class="p">,</span><span class="n">Pmat</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">s</span><span class="p">,</span><span class="n">Ncor</span><span class="p">,</span><span class="n">Iwork</span><span class="p">(</span><span class="n">ilc15</span><span class="p">),</span><span class="n">Iwork</span><span class="p">,</span><span class="n">Liwrk</span><span class="p">,</span>   <span class="p">&amp;</span>
+               <span class="p">&amp;</span> <span class="n">Work</span><span class="p">,</span><span class="n">Lwrk</span><span class="p">,</span><span class="n">Work</span><span class="p">(</span><span class="n">ilc33</span><span class="p">),</span><span class="n">Work</span><span class="p">(</span><span class="n">ilc06</span><span class="p">),</span><span class="n">Work</span><span class="p">(</span><span class="n">ilc31</span><span class="p">),</span>         <span class="p">&amp;</span>
+               <span class="p">&amp;</span> <span class="n">Work</span><span class="p">(</span><span class="n">ilc30</span><span class="p">),</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">,</span><span class="n">Work</span><span class="p">(</span><span class="n">ilc40</span><span class="p">),</span><span class="n">Vdern</span><span class="p">,</span><span class="n">wdist</span><span class="p">,</span><span class="n">nmaj</span><span class="p">,</span>  <span class="p">&amp;</span>
+               <span class="p">&amp;</span> <span class="n">nmin</span><span class="p">,</span><span class="n">jflag</span><span class="p">)</span>
+      <span class="k">if</span> <span class="p">(</span> <span class="n">jflag</span><span class="o">&gt;</span><span class="mi">0</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">200</span>
+<span class="c">!</span>
+<span class="c">! NOW VDERN REPRESENTS K4/H, SO VDERS + VDERN WILL REPRESENT (K1 +</span>
+<span class="c">! 2.0*K2 + 2.0*K3 + K4)/H.  PUT THE NEW PARAMETER VECTOR IN PARPRJ.</span>
+      <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Nparm</span>
+         <span class="n">Parprj</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">Parprj</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">-</span> <span class="n">p6</span><span class="o">*</span><span class="p">(</span><span class="n">Vders</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="o">+</span><span class="n">Vdern</span><span class="p">(</span><span class="n">j</span><span class="p">))</span>
+      <span class="k">enddo</span>
+<span class="k">      if</span> <span class="p">(</span> <span class="n">nstcnt</span><span class="o">&lt;</span><span class="n">Nstep</span> <span class="p">)</span> <span class="k">then</span>
+<span class="c">!</span>
+<span class="c">! HERE NSTCNT .LT. NSTEP AND WE SET UP FOR THE NEXT RK STEP.</span>
+<span class="c">! AFTER WE HAVE DONE THIS STEP, VDERN WILL REPRESENT THE VDER1 FOR THE</span>
+<span class="c">! NEXT STEP.  PARPRJ ALREADY IS THE BASE POINT FOR THE NEXT STEP.</span>
+         <span class="n">nstcnt</span> <span class="o">=</span> <span class="n">nstcnt</span> <span class="o">+</span> <span class="mi">1</span>
+<span class="c">! IF THERE ARE ANY STANDARD CONSTRAINTS, WE CORRECT BACK INTO THE</span>
+<span class="c">! FEASIBLE REGION IF POSSIBLE BEFORE CALLING PMTST.</span>
+         <span class="k">if</span> <span class="p">(</span> <span class="n">Itypm1</span><span class="o">+</span><span class="n">Itypm2</span><span class="o">&gt;</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
+<span class="k">            call </span><span class="n">me</span><span class="p">%</span><span class="n">corrct</span><span class="p">(</span><span class="n">Ioptn</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">,</span><span class="n">Fun</span><span class="p">,</span><span class="n">Ifun</span><span class="p">,</span><span class="n">Pttbl</span><span class="p">,</span><span class="n">Iptb</span><span class="p">,</span><span class="n">Indm</span><span class="p">,</span>     <span class="p">&amp;</span>
+                      <span class="p">&amp;</span> <span class="n">Icntyp</span><span class="p">,</span><span class="n">Unit</span><span class="p">,</span><span class="n">Tolcon</span><span class="p">,</span><span class="n">Rchin</span><span class="p">,</span><span class="n">Error</span><span class="p">,</span><span class="n">Mactrk</span><span class="p">,</span><span class="n">Iact</span><span class="p">,</span>     <span class="p">&amp;</span>
+                      <span class="p">&amp;</span> <span class="n">Projct</span><span class="p">,</span><span class="n">Iphse</span><span class="p">,</span><span class="n">Iwork</span><span class="p">,</span><span class="n">Liwrk</span><span class="p">,</span><span class="n">Work</span><span class="p">,</span><span class="n">Lwrk</span><span class="p">,</span><span class="n">Work</span><span class="p">(</span><span class="n">ilc27</span><span class="p">),</span> <span class="p">&amp;</span>
+                      <span class="p">&amp;</span> <span class="n">Work</span><span class="p">(</span><span class="n">ilc11</span><span class="p">),</span><span class="n">Work</span><span class="p">(</span><span class="n">ilc10</span><span class="p">),</span><span class="n">Pmat</span><span class="p">,</span><span class="n">Confun</span><span class="p">,</span><span class="n">Work</span><span class="p">(</span><span class="n">ilc48</span><span class="p">),&amp;</span>
+                      <span class="p">&amp;</span> <span class="n">Iwork</span><span class="p">(</span><span class="n">ilc21</span><span class="p">),</span><span class="n">Parprj</span><span class="p">,</span><span class="n">icorct</span><span class="p">)</span>
+            <span class="k">if</span> <span class="p">(</span> <span class="n">icorct</span><span class="o">&gt;</span><span class="mi">0</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">200</span>
+         <span class="k">endif</span>
+<span class="k">         call </span><span class="n">me</span><span class="p">%</span><span class="n">pmtst</span><span class="p">(</span><span class="n">Ioptn</span><span class="p">,</span><span class="n">Numgr</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Parprj</span><span class="p">,</span><span class="n">Icntyp</span><span class="p">,</span><span class="n">Mactrk</span><span class="p">,</span><span class="n">Iact</span><span class="p">,</span><span class="n">Pttbl</span><span class="p">,</span>  <span class="p">&amp;</span>
+                  <span class="p">&amp;</span> <span class="n">Iptb</span><span class="p">,</span><span class="n">Indm</span><span class="p">,</span><span class="n">Actdif</span><span class="p">,</span><span class="n">Iphse</span><span class="p">,</span><span class="n">Iwork</span><span class="p">,</span><span class="n">Liwrk</span><span class="p">,</span><span class="n">Work</span><span class="p">,</span><span class="n">Lwrk</span><span class="p">,</span><span class="n">Confun</span><span class="p">,&amp;</span>
+                  <span class="p">&amp;</span> <span class="n">Pmat</span><span class="p">)</span>
+         <span class="k">call </span><span class="n">wolfe</span><span class="p">(</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Mactrk</span><span class="p">,</span><span class="n">Pmat</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">s</span><span class="p">,</span><span class="n">Ncor</span><span class="p">,</span><span class="n">Iwork</span><span class="p">(</span><span class="n">ilc15</span><span class="p">),</span><span class="n">Iwork</span><span class="p">,</span><span class="n">Liwrk</span><span class="p">,&amp;</span>
+                  <span class="p">&amp;</span> <span class="n">Work</span><span class="p">,</span><span class="n">Lwrk</span><span class="p">,</span><span class="n">Work</span><span class="p">(</span><span class="n">ilc33</span><span class="p">),</span><span class="n">Work</span><span class="p">(</span><span class="n">ilc06</span><span class="p">),</span><span class="n">Work</span><span class="p">(</span><span class="n">ilc31</span><span class="p">),</span>      <span class="p">&amp;</span>
+                  <span class="p">&amp;</span> <span class="n">Work</span><span class="p">(</span><span class="n">ilc30</span><span class="p">),</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">,</span><span class="n">Work</span><span class="p">(</span><span class="n">ilc40</span><span class="p">),</span><span class="n">Vdern</span><span class="p">,</span><span class="n">wdist</span><span class="p">,</span>    <span class="p">&amp;</span>
+                  <span class="p">&amp;</span> <span class="n">nmaj</span><span class="p">,</span><span class="n">nmin</span><span class="p">,</span><span class="n">jflag</span><span class="p">)</span>
+         <span class="k">if</span> <span class="p">(</span> <span class="n">jflag</span><span class="o">&gt;</span><span class="mi">0</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">200</span>
+         <span class="k">goto </span><span class="mi">100</span>
+      <span class="k">else</span>
+<span class="k">         return</span>
+<span class="k">      endif</span>
+
+<span class="k">    end subroutine </span><span class="n">rkpar</span>
+</pre></div>
+
+    </section>
+    <br>
     
     
     </div>
