@@ -127,7 +127,7 @@
     module tstot_test_module
 
     use conmax_module, only: conmax_solver
-    use iso_fortran_env, only: wp => real64
+    use iso_fortran_env, only: wp => real64, output_unit
 
     implicit none
 
@@ -148,8 +148,8 @@
 
       real(wp) :: eps , error(24) , fun(5) , one , param(4) , pttbl(6,2) , three , two , &
                   work(720) , zero
-      integer :: i , i1mach , ifun , indm , ioptn , iptb , iter , itlim ,  &
-                 iwork(178) , j , liwrk , lwrk , nparm , nread , numgr , nwrit
+      integer :: i , ifun , indm , ioptn , iptb , iter , itlim ,  &
+                 iwork(178) , j , liwrk , lwrk , nparm , numgr , nwrit
       type(my_solver) :: solver
 
       !OPEN(6,FILE='TSTOT')
@@ -159,8 +159,7 @@
       zero = one - one
       two = one + one
       three = one + two
-      nread = i1mach(1)
-      nwrit = i1mach(2)
+      nwrit = output_unit
 
       ! SET PARAMETERS FOR CONMAX.
       !

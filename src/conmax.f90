@@ -67,9 +67,9 @@
 !
 ! I1MACH(1) = (THE INPUT UNIT NUMBER FOR THE MACHINE BEING USED),
 !
-! I1MACH(2) = (THE OUTPUT UNIT NUMBER FOR THE MACHINE BEING USED),
+! output_unit = (THE OUTPUT UNIT NUMBER FOR THE MACHINE BEING USED),
 !
-! D1MACH(3) = B**(-ITT), WHERE B IS THE BASE FOR FLOATING POINT NUMBERS
+! d1mach3 = B**(-ITT), WHERE B IS THE BASE FOR FLOATING POINT NUMBERS
 !   AND ITT IS THE NUMBER OF BASE B DIGITS IN THE MANTISSA.
 !
 ! IF ONE WISHES TO CHANGE THE PRECISION TO SINGLE PRECISION (FOR
@@ -83,11 +83,11 @@
 !   (3) REPLACE ALL OCCURENCES OF  D1MACH  IN THE PACKAGE BY  R1MACH
 !       IF THE NETLIB SUPPLIED SUBPROGRAMS I1MACH, D1MACH, AND R1MACH ARE
 !       BEING USED, AND OTHERWISE MERELY CHANGE THE DEFINITION OF
-!       D1MACH(3)  IN SUBPROGRAM D1MACH TO REFLECT SINGLE PRESISION.
+!       d1mach3  IN SUBPROGRAM D1MACH TO REFLECT SINGLE PRESISION.
 !
 ! (WE NOTE HERE THAT THE ONLY ACTIVE WRITE STATEMENTS IN THIS PACKAGE
 ! ARE IN THE SAMPLE DRIVER PROGRAM, BUT SOME OF THOSE WHICH HAVE BEEN
-! COMMENTED OUT (ALONG WITH THE STATEMENTS  NWRIT=I1MACH(2)) ELSEWHERE
+! COMMENTED OUT (ALONG WITH THE STATEMENTS  NWRIT=output_unit) ELSEWHERE
 ! IN THE PROGRAM COULD PROVE USEFUL, ESPECIALLY THE STATEMENT
 ! WRITE(NWRIT,1100)... IN SUBROUTINE CONMAX.)
 !
@@ -392,6 +392,9 @@
 
     private
 
+    real(wp),parameter :: d1mach3 = real(radix(1.0_wp),wp)**(-digits(1.0_wp))
+            !! `d1mach3`: the smallest relative spacing
+
     type,abstract,public :: conmax_solver
         private
     contains
@@ -438,6 +441,9 @@
 
 !********************************************************************************
 !
+! PLEASE SEE THE USERS GUIDE FOR CONMAX AT THE BEGINNING OF THIS
+! PACKAGE FOR MORE INFORMATION ABOUT THE USE OF THESE SUBPROGRAMS.
+
       subroutine conmax(me,Ioptn,Nparm,Numgr,Itlim,Fun,Ifun,Pttbl,Iptb,    &
                         Indm,Iwork,Liwrk,Work,Lwrk,Iter,Param,Error)
 
@@ -463,11 +469,7 @@
 !
       dimension Fun(Ifun) , Pttbl(Iptb,Indm) , Error(Numgr+3) ,         &
               & Param(Nparm) , Iwork(Liwrk) , Work(Lwrk)
-!
-! PLEASE SEE THE USERS GUIDE FOR CONMAX AT THE BEGINNING OF THIS
-! PACKAGE FOR MORE INFORMATION ABOUT THE USE OF THESE SUBPROGRAMS.
-!
-!
+
 ! CHECK TO SEE IF THE DIMENSIONS LIWRK AND LWRK ARE LARGE ENOUGH.  IF
 ! EITHER IS NOT, REPLACE IT BY THE NEGATIVE OF ITS CORRECT MINIMUM VALUE
 ! AND RETRUN.
@@ -486,8 +488,8 @@
          two = one + one
          four = two + two
          ten = four + four + two
-!     NWRIT=I1MACH(2)
-         spcmn = d1mach(3)
+!     NWRIT=output_unit
+         spcmn = d1mach3
 !
 ! INITIALIZE SOME OTHER PARAMETERS.
          npar1 = Nparm + 1
@@ -1004,53 +1006,6 @@
 !********************************************************************************
 
 !********************************************************************************
-!     FUNCTION I1MACH(I)
-!C
-!C THIS IS THE FIRST OF TWO FUNCTION SUBPROGRAMS IN WHICH THE USER SETS
-!C MACHINE DEPENDENT CONSTANTS.  IT SETS THE INPUT AND OUTPUT UNIT
-!C NUMBERS.
-!C
-!C I1MACH(1) IS THE INPUT UNIT NUMBER, AND I1MACH(2) IS THE OUTPUT
-!C UNIT NUMBER.
-!     IF(I-1)1,1,2
-!   1 I1MACH=5
-!     RETURN
-!   2 I1MACH=6
-!     RETURN
-!     END
-!     FUNCTION D1MACH(I)
-!
-!C***BEGIN PROLOGUE  D1MACH
-!C***ROUTINES CALLED  (NONE)
-!C***PURPOSE  THIS IS THE SECOND OF TWO FUNCTION SUBPROGRAMS IN
-!C            WHICH THE USER MUST SET MACHINE DEPENDENT CONSTANTS.
-!C            IT SETS THE PRECISION DEPENDENT CONSTANT
-!C
-!C                 D1MACH(3) = B**(-ITT)
-!C
-!C            WHERE B IS THE BASE FOR FLOATING POINT NUMBERS, AND
-!C            ITT IS THE NUMBER OF BASE B DIGITS IN THE MANTISSA.
-!C***REMARK  TO CONVERT THIS PROGRAM FROM DOUBLE PRECISION TO SINGLE
-!C           PRECISION (FOR EXAMPLE), ON MANY MACHINES ONE NEED ONLY
-!C           RESET D1MACH(3), PUT A C IN COLUMN 1 OF ALL THE STATEMENTS
-!C
-!C                IMPLICIT real(wp) (A-H,O-Z)
-!C
-!C           AND CONVERT THE DRIVER PROGRAM AND SUBROUTINE FNSET TO
-!C           SINGLE PRECISION.
-!C
-!     IMPLICIT real(wp) (A-H,O-Z)
-!C
-!     IF(I-3)100,200,100
-!C
-! 100 RETURN
-!C
-! 200 D1MACH=16.0D0**(-14)
-!     RETURN
-!     END
-!********************************************************************************
-
-!********************************************************************************
 !>
 ! THIS FUNCTION SUBPROGRAM RETURNS THE SUBSCRIPT OF THE FIRST ELEMENT OF
 ! ARRAY IARR RELATIVE TO IWORK (IF THE ARRAY IS INTEGER, I.E. 13 .LE.
@@ -1348,7 +1303,7 @@
          ioptth = (Ioptn-(Ioptn/100000)*100000)/10000
 !
 ! SET PRECISION DEPENDENT CONSTANTS.
-         spcmn = d1mach(3)
+         spcmn = d1mach3
          delt = sqrt(spcmn)
          delt2 = delt + delt
          if ( ioptth<=0 ) then
@@ -1506,13 +1461,13 @@
               & Iwork(Liwrk) , Work(Lwrk)
 !
 ! SET MACHINE AND PRECISION DEPENDENT CONSTANTS.
-!     NWRIT=I1MACH(2)
+!     NWRIT=output_unit
       one = 1.0d0
       zero = one - one
       two = one + one
       four = two + two
       ten = four + four + two
-      spcmn = d1mach(3)
+      spcmn = d1mach3
       big = one/spcmn
       tol1 = ten*ten*spcmn
       tol2 = ten*spcmn
@@ -1669,8 +1624,8 @@
       two = one + one
       four = two + two
       ten = four + four + two
-!     NWRIT=I1MACH(2)
-      spcmn = d1mach(3)
+!     NWRIT=output_unit
+      spcmn = d1mach3
 !
 ! SET INITIAL PARAMETERS.  FACT1, FACT3A, FACT3B, CHLM1, AND CHLM2
 ! SHOULD BE BETWEEN 0.0 AND 1.0, WHILE FACT2 SHOULD BE .GT. 1.0.
@@ -1843,7 +1798,7 @@
 ! (ABOUT THE OLD PARAMETERS IN PARAM) VERSION OF OUR PROBLEM.
 !
 ! SET MACHINE AND PRECISION CONSTANTS FOR SETU1.
-!     NWRIT=I1MACH(2)
+!     NWRIT=output_unit
       one = 1.0d0
       zero = one - one
       two = one + one
@@ -2219,7 +2174,7 @@
 ! THE LENGTH OF THE MANTISSA.
 !
 !***FIRST EXECUTABLE STATEMENT  SLNPRO
-      spcmn = d1mach(3)
+      spcmn = d1mach3
 ! SET PRECISION DEPENDENT CONSTANTS FOR SLNPRO.
       one = 1.0d0
       zero = one - one
@@ -2972,8 +2927,8 @@
       two = one + one
       four = two + two
       ten = four + four + two
-!     NWRIT=I1MACH(2)
-      spcmn = d1mach(3)
+!     NWRIT=output_unit
+      spcmn = d1mach3
       big = one/spcmn
       tolden = ten*spcmn
       tol4 = Tol1/four
@@ -3430,7 +3385,7 @@
               & Iwork(Liwrk)
 !
 ! SET MACHINE AND PRECISION DEPENDENT CONSTANTS.
-!     NWRIT=I1MACH(2)
+!     NWRIT=output_unit
       one = 1.0d0
       zero = one - one
       ilc22 = iloc(22,Nparm,Numgr)
@@ -3644,12 +3599,12 @@
 !
 ! SET MACHINE AND PRECISION DEPENDENT PARAMETERS.
       one = 1.0d0
-!     NWRIT=I1MACH(2)
+!     NWRIT=output_unit
       zero = one - one
       two = one + one
       four = two + two
       ten = four + four + two
-      spcmn = d1mach(3)
+      spcmn = d1mach3
       qthi = (one+two)/four
       qtlo = one/four
       tol1 = ten*ten*spcmn
@@ -3984,7 +3939,7 @@
 ! ACTDIF FOR THE WOLFE SUBPROBLEM.
 !
 ! SET MACHINE AND PRECISION DEPENDENT CONSTANTS FOR RKSACT.
-!     NWRIT=I1MACH(2)
+!     NWRIT=output_unit
       one = 1.0d0
       two = one + one
       enorm = Error(Numgr+1)
@@ -4074,7 +4029,7 @@
 ! OTHERWISE). THE (NPARM+1)ST ROW OF PMAT WILL CONTAIN ACTDIF, THE
 ! RIGHT SIDE OF THE INEQUALITIES GRADIENT.VECTOR .GE. ACTDIF.
 ! SET MACHINE AND PRECISION DEPENDENT CONSTANTS FOR PMTST.
-!     NWRIT=I1MACH(2)
+!     NWRIT=output_unit
       one = 1.0d0
       zero = one - one
       two = one + one
@@ -4184,7 +4139,7 @@
 ! SET MACHINE AND PRECISION DEPENDENT CONSTANTS FOR RKPAR.
       one = 1.0d0
       two = one + one
-!     NWRIT=I1MACH(2)
+!     NWRIT=output_unit
       ilc06 = iloc(6,Nparm,Numgr)
       ilc10 = iloc(10,Nparm,Numgr)
       ilc11 = iloc(11,Nparm,Numgr)
@@ -4362,7 +4317,7 @@
 ! PARPRJ UNCHANGED.
 !
 ! SET MACHINE AND PRECISION DEPENDENT CONSTANTS.
-!     NWRIT=I1MACH(2)
+!     NWRIT=output_unit
       one = 1.0d0
       two = one + one
       four = two + two
@@ -4613,13 +4568,13 @@
 ! ISRCR=1, EMIN, PROCOR, AND NSRCH WILL BE AS ABOVE.
 !
 ! SET MACHINE AND PRECISION DEPENDENT CONSTANTS.
-!     NWRIT=I1MACH(2)
+!     NWRIT=output_unit
       one = 1.0d0
       zero = one - one
       two = one + one
       four = two + two
       ten = four + four + two
-      spcmn = d1mach(3)
+      spcmn = d1mach3
       tolden = ten*spcmn
       tol1 = ten*ten*spcmn
       tol4 = tol1/four
@@ -4962,12 +4917,12 @@
 ! THIS SUBROUTINE INTO SUBROUTINE ERCMP1 IN IWORK.
 !
 ! SET MACHINE AND PRECISION DEPENDENT CONSTANTS.
-!     NWRIT=I1MACH(2)
+!     NWRIT=output_unit
       one = 1.0d0
       two = one + one
       four = two + two
       ten = four + four + two
-      spcmn = d1mach(3)
+      spcmn = d1mach3
       tol1 = ten*ten*spcmn
       tol4 = tol1/four
       tolden = ten*spcmn
@@ -5244,13 +5199,13 @@
 ! DECLARED.
 !
 ! SET MACHINE AND PRECISION DEPENDENT CONSTANTS.
-!     NWRIT=I1MACH(2)
+!     NWRIT=output_unit
       one = 1.0d0
       two = one + one
       four = two + two
       ten = four + four + two
       fudge = one + one/ten
-      spcmn = d1mach(3)
+      spcmn = d1mach3
       rchtop = one/spcmn
       enorm = Error(Numgr+1)
 !
@@ -5526,14 +5481,14 @@
               & Pmat1(Nparm+1,Numgr) , Iwork(Liwrk) , Work(Lwrk)
 
 ! SET MACHINE AND PRECISION DEPENDENT CONSTANTS FOR WOLFE.
-!     NWRIT=I1MACH(2)
+!     NWRIT=output_unit
       one = 1.0d0
       zero = one - one
       two = one + one
       three = one + two
       four = two + two
       ten = four + four + two
-      spcmn = d1mach(3)
+      spcmn = d1mach3
       tol = ten*ten*spcmn
       tol1 = (ten**4)*spcmn
       tols = sqrt(spcmn)
@@ -5868,13 +5823,13 @@
 ! BE SET TO 0.0.)
 !
 ! SET MACHINE AND PRECISION DEPENDENT CONSTANTS FOR CONENR.
-!     NWRIT=I1MACH(2)
+!     NWRIT=output_unit
       one = 1.0d0
       zero = one - one
       two = one + one
       four = two + two
       ten = four + four + two
-      spcmn = d1mach(3)
+      spcmn = d1mach3
       tolel = ten*ten*spcmn
       z1 = ten*tolel
       z2 = ten*z1
@@ -6242,13 +6197,13 @@
 ! PRECISION THAN THE OTHER COMPUTATIONS IN THE SUBROUTINE.
 !
 ! COMPUTE MACHINE AND PRECISION DEPENDENT CONSTANTS.
-!     NWRIT=I1MACH(2)
+!     NWRIT=output_unit
       one = 1.0d0
       zero = one - one
       two = one + one
       four = two + two
       ten = four + four + two
-      spcmn = d1mach(3)
+      spcmn = d1mach3
       tolsq = (ten*ten*spcmn)**2
       Ihouse = 0
 ! SET NUMREF = THE LIMIT ON THE NUMBER OF ITERATIVE REFINEMENT STEPS.
@@ -6553,8 +6508,8 @@
 ! ITRLM STEPS OF ITERATIVE REFINEMENT ARE ATTEMPTED AT THE END.
 !
 ! COMPUTE MACHINE AND PRECISION DEPENDENT CONSTANTS.
-!     NWRIT=I1MACH(2)
-      spcmn = d1mach(3)
+!     NWRIT=output_unit
+      spcmn = d1mach3
       tole = spcmn
       itrlm = 2
       itrct = 0

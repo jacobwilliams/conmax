@@ -55,7 +55,7 @@
       implicit none
 
       real(wp) d1mach , emin , emin1 , err1 , error , fun , param ,       &
-           & parprj , parser , prjlim , projct , pttbl , spcmn , tol1 , &
+           & parprj , parser , prjlim , projct , pttbl , tol1 , &
            & tolcon , work , x
       integer iact , iwork , nsrch
       dimension x(2) , fun(1) , pttbl(1,1) , param(1) , error(4) ,      &
@@ -63,9 +63,11 @@
               & parser(1)
       type(my_solver) :: solver
 
+      real(wp),parameter :: spcmn = real(radix(1.0_wp),wp)**(-digits(1.0_wp))
+            !! `d1mach3`: the smallest relative spacing
+
       !open (6,file='serout')
 
-      spcmn    = d1mach(3)
       tol1     = 100.0_wp*spcmn
       tolcon   = sqrt(spcmn)
       iact(1)  = 1
