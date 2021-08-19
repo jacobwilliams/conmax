@@ -1,0 +1,1362 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+   
+   <meta name="description" content="CONMAX -- General nonlinearly constrained function minimization">
+    
+    <meta name="author" content="Jacob Williams" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>conenr &ndash; conmax</title>
+
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/local.css" rel="stylesheet">
+    
+    
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+    <script src="../js/jquery-2.1.3.min.js"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
+
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../index.html">conmax </a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+        
+            <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
+              <a href="#" class="dropdown-toggle"
+              data-toggle="dropdown" role="button"
+              aria-haspopup="true"
+     aria-expanded="false">Contents <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          
+              
+            <li><a href="../sourcefile/conmax.f90.html">Source File</a></li>
+        
+        
+        
+            <li><a href="../lists/modules.html">Modules</a></li>
+        
+            
+                                
+            <li><a href="../lists/procedures.html">Procedures</a></li>
+        
+        
+            <li><a href="../lists/absint.html">Abstract Interfaces</a></li>
+               
+            <li><a href="../lists/types.html">Derived Types</a></li>
+        
+               
+        
+        
+            </ul>
+        
+            </li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../sourcefile/conmax.f90.html">Source File</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/modules.html">Modules</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/procedures.html">Procedures</a></li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/absint.html">Abstract Interfaces</a></li>
+                             
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/types.html">Derived Types</a></li>
+
+
+
+
+          </ul>
+        
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="container">
+    
+  
+  <div class="row">
+    <h1>conenr
+      <small>Subroutine</small>
+    
+    </h1>
+    
+<div class="row">
+  <div class="col-lg-12">
+<div class="well well-sm">
+  <ul class="list-inline" style="margin-bottom:0px;display:inline">
+     
+     
+     
+     
+     
+    
+    
+     <li><i class="fa fa-list-ol"></i>
+       <a data-toggle="tooltip"
+    data-placement="bottom" data-html="true"
+    title=" 7.4% of total for procedures.">236 statements</a>
+     </li> 
+     
+     
+     
+    <li><i class="fa fa-code"></i><a href="../src/conmax.f90"> Source File</a></li>
+     
+     
+  </ul>
+  <ol class="breadcrumb in-well text-right">
+  
+    
+     <li><a href='../sourcefile/conmax.f90.html'>conmax.f90</a></li>
+    
+     <li><a href='../module/conmax_module.html'>conmax_module</a></li>
+    
+  
+     <li class="active">conenr</li>
+  </ol>
+</div>
+</div>
+</div>
+<script>
+  $(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+  })
+</script>
+
+  </div>
+  
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+    
+<div id="sidebar">
+  
+<h3>Contents</h3>
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/conenr.html#src">conenr</a>
+  </div>
+</div>
+
+
+
+</div>
+
+    </div>
+    
+    <div class="col-md-9" id='text'>
+    <h2>
+private subroutine conenr(n, m, Pmat1, r, Istrt1, Ncor, Icor, Tol, Iwork, Liwrk, Work, Lwrk, Vec, Ptnrr, Picor, Nparm, Numgr, Coef, Ptnr, Dist, Nmaj, Nmin, Jflag)
+    
+    
+   
+</h2>
+    
+  
+
+
+    
+    <p>GIVEN M N-DIMENSIONAL VECTORS P(J) AS THE FIRST M COLUMNS
+ OF THE MATRIX PMAT1 AND AN N-VECTOR R, THIS SUBROUTINE RETURNS IN
+ PTNR THE NEAREST POINT TO R IN THE CONE OF POINTS SUMMATION(
+ COEF(J)*P(J)), WHERE COEF(J) .GE. 0.0 FOR J=1,...,M (UNLESS JFLAG
+ .GT. 0, WHICH INDICATES FAILURE).  THE NUMBER OF VECTORS P(J) IN
+ THE FINAL CORRAL IS RETURNED IN NCOR WITH THEIR INDICES IN ICOR,
+ THE DISTANCE IS RETURNED IN DIST, THE NUMBER OF MAJOR CYCLES (I.E.
+ ADDING A VECTOR) IS RETURNED IN NMAJ, AND THE NUMBER OF MINOR CYCLES
+ (I.E. REMOVING A VECTOR) IS RETURNED IN NMIN.  IF THE USER SETS
+ ISTRT1=0 THE SUBROUTNE STARTS FROM SCRATCH, BUT THE USER CAN SET
+ ISTRT1=1 AND INITIALLY SPECIFY NCOR, ICOR, AND COEF (NOTING THAT NCOR
+ MUST BE .LE. N, AND IF J DOES NOT OCCUR IN ICOR, THEN COEF(J) SHOULD
+ BE SET TO 0.0.)</p>
+    
+
+    <h3>Arguments</h3>
+    
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-n~2"></span>integer</td>
+  <td></td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>n</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-m~4"></span>integer</td>
+  <td></td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>m</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-pmat1~2"></span>real(kind=wp)</td>
+  <td></td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>Pmat1</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-r~2"></span>real(kind=wp)</td>
+  <td></td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>r</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-istrt1"></span>integer</td>
+  <td></td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>Istrt1</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-ncor~3"></span>integer</td>
+  <td></td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>Ncor</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-icor~2"></span>integer</td>
+  <td></td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>Icor</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-tol"></span>real(kind=wp)</td>
+  <td></td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>Tol</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-iwork~13"></span>integer</td>
+  <td></td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>Iwork</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-liwrk~13"></span>integer</td>
+  <td></td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>Liwrk</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-work~12"></span>real(kind=wp)</td>
+  <td></td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>Work</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-lwrk~12"></span>integer</td>
+  <td></td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>Lwrk</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-vec"></span>real(kind=wp)</td>
+  <td></td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>Vec</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-ptnrr"></span>real(kind=wp)</td>
+  <td></td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>Ptnrr</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-picor"></span>real(kind=wp)</td>
+  <td></td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>Picor</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-nparm~20"></span>integer</td>
+  <td></td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>Nparm</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-numgr~20"></span>integer</td>
+  <td></td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>Numgr</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-coef~2"></span>real(kind=wp)</td>
+  <td></td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>Coef</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-ptnr~2"></span>real(kind=wp)</td>
+  <td></td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>Ptnr</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-dist"></span>real(kind=wp)</td>
+  <td></td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>Dist</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-nmaj~2"></span>integer</td>
+  <td></td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>Nmaj</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-nmin~2"></span>integer</td>
+  <td></td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>Nmin</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-jflag~2"></span>integer</td>
+  <td></td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>Jflag</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+    
+    
+    
+    <br>
+    
+    
+    <div class="panel panel-default">
+      <div class="panel-heading">
+  <h3 class="panel-title">Calls</h3>
+      </div>
+      <div class="panel-body">
+  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: proc~~conenr~~CallsGraph Pages: 1 -->
+<svg id="procconenrCallsGraph" width="152pt" height="116pt"
+ viewBox="0.00 0.00 152.00 116.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="proc~~conenr~~CallsGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 112)">
+<title>proc~~conenr~~CallsGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-112 148,-112 148,4 -4,4"/>
+<!-- proc~conenr -->
+<g id="proc~~conenr~~CallsGraph_node1" class="node">
+<title>proc~conenr</title>
+<polygon fill="none" stroke="black" points="54,-66 0,-66 0,-42 54,-42 54,-66"/>
+<text text-anchor="middle" x="27" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50">conenr</text>
+</g>
+<!-- proc~iloc -->
+<g id="proc~~conenr~~CallsGraph_node2" class="node">
+<title>proc~iloc</title>
+<g id="a_proc~~conenr~~CallsGraph_node2"><a xlink:href=".././proc/iloc.html" xlink:title="iloc">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="144,-108 90,-108 90,-84 144,-84 144,-108"/>
+<text text-anchor="middle" x="117" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">iloc</text>
+</a>
+</g>
+</g>
+<!-- proc~conenr&#45;&gt;proc~iloc -->
+<g id="proc~~conenr~~CallsGraph_edge1" class="edge">
+<title>proc~conenr&#45;&gt;proc~iloc</title>
+<path fill="none" stroke="#000000" d="M53.45,-66.15C62.21,-70.33 72.17,-75.08 81.52,-79.54"/>
+<polygon fill="#000000" stroke="#000000" points="80.07,-82.73 90.6,-83.88 83.09,-76.41 80.07,-82.73"/>
+</g>
+<!-- proc~house -->
+<g id="proc~~conenr~~CallsGraph_node3" class="node">
+<title>proc~house</title>
+<g id="a_proc~~conenr~~CallsGraph_node3"><a xlink:href=".././proc/house.html" xlink:title="house">
+<polygon fill="#d9534f" stroke="#d9534f" points="144,-66 90,-66 90,-42 144,-42 144,-66"/>
+<text text-anchor="middle" x="117" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">house</text>
+</a>
+</g>
+</g>
+<!-- proc~conenr&#45;&gt;proc~house -->
+<g id="proc~~conenr~~CallsGraph_edge2" class="edge">
+<title>proc~conenr&#45;&gt;proc~house</title>
+<path fill="none" stroke="#000000" d="M54.4,-54C62.39,-54 71.31,-54 79.82,-54"/>
+<polygon fill="#000000" stroke="#000000" points="79.92,-57.5 89.92,-54 79.92,-50.5 79.92,-57.5"/>
+</g>
+<!-- proc~dotprd -->
+<g id="proc~~conenr~~CallsGraph_node4" class="node">
+<title>proc~dotprd</title>
+<g id="a_proc~~conenr~~CallsGraph_node4"><a xlink:href=".././proc/dotprd.html" xlink:title="dotprd">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="144,-24 90,-24 90,0 144,0 144,-24"/>
+<text text-anchor="middle" x="117" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dotprd</text>
+</a>
+</g>
+</g>
+<!-- proc~conenr&#45;&gt;proc~dotprd -->
+<g id="proc~~conenr~~CallsGraph_edge3" class="edge">
+<title>proc~conenr&#45;&gt;proc~dotprd</title>
+<path fill="none" stroke="#000000" d="M53.45,-41.85C62.21,-37.67 72.17,-32.92 81.52,-28.46"/>
+<polygon fill="#000000" stroke="#000000" points="83.09,-31.59 90.6,-24.12 80.07,-25.27 83.09,-31.59"/>
+</g>
+</g>
+</svg>
+</div><div><a type="button" class="graph-help" data-toggle="modal" href="#graph-help-text">Help</a></div><div class="modal fade" id="graph-help-text" tabindex="-1" role="dialog"><div class="modal-dialog modal-lg" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="-graph-help-label">Graph Key</h4></div><div class="modal-body">
+    <p>Nodes of different colours represent the following: </p>
+    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="597pt" height="32pt"
+ viewBox="0.00 0.00 596.50 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 592.5,-28 592.5,4 -4,4"/>
+<!-- Subroutine -->
+<g id="node1" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="70,-24 0,-24 0,0 70,0 70,-24"/>
+<text text-anchor="middle" x="35" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node2" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="146,-24 88,-24 88,0 146,0 146,-24"/>
+<text text-anchor="middle" x="117" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Interface -->
+<g id="node3" class="node">
+<title>Interface</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="225.5,-24 164.5,-24 164.5,0 225.5,0 225.5,-24"/>
+<text text-anchor="middle" x="195" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Interface</text>
+</g>
+<!-- Unknown Procedure Type -->
+<g id="node4" class="node">
+<title>Unknown Procedure Type</title>
+<polygon fill="#777777" stroke="#777777" points="388.5,-24 243.5,-24 243.5,0 388.5,0 388.5,-24"/>
+<text text-anchor="middle" x="316" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Unknown Procedure Type</text>
+</g>
+<!-- Program -->
+<g id="node5" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="465,-24 407,-24 407,0 465,0 465,-24"/>
+<text text-anchor="middle" x="436" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node6" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="588.5,-24 483.5,-24 483.5,0 588.5,0 588.5,-24"/>
+<text text-anchor="middle" x="536" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+    
+    <p>Solid arrows point from a procedure to one which it calls. Dashed 
+    arrows point from an interface to procedures which implement that interface.
+    This could include the module procedures in a generic interface or the
+    implementation in a submodule of an interface in a parent module.
+    </p>
+    </div></div></div></div>
+      </div>
+    </div>
+     
+     
+    <div class="panel panel-default">
+      <div class="panel-heading">
+  <h3 class="panel-title">Called by</h3>
+      </div>
+      <div class="panel-body">
+  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: proc~~conenr~~CalledByGraph Pages: 1 -->
+<svg id="procconenrCalledByGraph" width="243pt" height="158pt"
+ viewBox="0.00 0.00 243.00 158.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="proc~~conenr~~CalledByGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 154)">
+<title>proc~~conenr~~CalledByGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-154 239,-154 239,4 -4,4"/>
+<!-- proc~conenr -->
+<g id="proc~~conenr~~CalledByGraph_node1" class="node">
+<title>proc~conenr</title>
+<polygon fill="none" stroke="black" points="235,-87 181,-87 181,-63 235,-63 235,-87"/>
+<text text-anchor="middle" x="208" y="-72.6" font-family="Helvetica,sans-Serif" font-size="10.50">conenr</text>
+</g>
+<!-- proc~wolfe -->
+<g id="proc~~conenr~~CalledByGraph_node2" class="node">
+<title>proc~wolfe</title>
+<g id="a_proc~~conenr~~CalledByGraph_node2"><a xlink:href=".././proc/wolfe.html" xlink:title="wolfe">
+<polygon fill="#d9534f" stroke="#d9534f" points="145,-87 91,-87 91,-63 145,-63 145,-87"/>
+<text text-anchor="middle" x="118" y="-72.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">wolfe</text>
+</a>
+</g>
+</g>
+<!-- proc~wolfe&#45;&gt;proc~conenr -->
+<g id="proc~~conenr~~CalledByGraph_edge1" class="edge">
+<title>proc~wolfe&#45;&gt;proc~conenr</title>
+<path fill="none" stroke="#000000" d="M145.4,-75C153.39,-75 162.31,-75 170.82,-75"/>
+<polygon fill="#000000" stroke="#000000" points="170.92,-78.5 180.92,-75 170.92,-71.5 170.92,-78.5"/>
+</g>
+<!-- proc~corrct -->
+<g id="proc~~conenr~~CalledByGraph_node3" class="node">
+<title>proc~corrct</title>
+<g id="a_proc~~conenr~~CalledByGraph_node3"><a xlink:href=".././proc/corrct.html" xlink:title="corrct">
+<polygon fill="#d9534f" stroke="#d9534f" points="54.5,-150 0.5,-150 0.5,-126 54.5,-126 54.5,-150"/>
+<text text-anchor="middle" x="27.5" y="-135.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">corrct</text>
+</a>
+</g>
+</g>
+<!-- proc~corrct&#45;&gt;proc~wolfe -->
+<g id="proc~~conenr~~CalledByGraph_edge2" class="edge">
+<title>proc~corrct&#45;&gt;proc~wolfe</title>
+<path fill="none" stroke="#000000" d="M45.56,-125.85C58.66,-116.53 76.95,-103.51 91.75,-92.98"/>
+<polygon fill="#000000" stroke="#000000" points="93.87,-95.76 99.99,-87.11 89.81,-90.06 93.87,-95.76"/>
+</g>
+<!-- proc~rkpar -->
+<g id="proc~~conenr~~CalledByGraph_node4" class="node">
+<title>proc~rkpar</title>
+<g id="a_proc~~conenr~~CalledByGraph_node4"><a xlink:href=".././proc/rkpar.html" xlink:title="rkpar">
+<polygon fill="#d9534f" stroke="#d9534f" points="54.5,-108 0.5,-108 0.5,-84 54.5,-84 54.5,-108"/>
+<text text-anchor="middle" x="27.5" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">rkpar</text>
+</a>
+</g>
+</g>
+<!-- proc~rkpar&#45;&gt;proc~wolfe -->
+<g id="proc~~conenr~~CalledByGraph_edge3" class="edge">
+<title>proc~rkpar&#45;&gt;proc~wolfe</title>
+<path fill="none" stroke="#000000" d="M54.57,-89.81C62.87,-87.84 72.2,-85.63 81.07,-83.53"/>
+<polygon fill="#000000" stroke="#000000" points="81.88,-86.93 90.81,-81.22 80.27,-80.12 81.88,-86.93"/>
+</g>
+<!-- proc~rkcon -->
+<g id="proc~~conenr~~CalledByGraph_node5" class="node">
+<title>proc~rkcon</title>
+<g id="a_proc~~conenr~~CalledByGraph_node5"><a xlink:href=".././proc/rkcon.html" xlink:title="rkcon">
+<polygon fill="#d9534f" stroke="#d9534f" points="54.5,-66 0.5,-66 0.5,-42 54.5,-42 54.5,-66"/>
+<text text-anchor="middle" x="27.5" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">rkcon</text>
+</a>
+</g>
+</g>
+<!-- proc~rkcon&#45;&gt;proc~wolfe -->
+<g id="proc~~conenr~~CalledByGraph_edge4" class="edge">
+<title>proc~rkcon&#45;&gt;proc~wolfe</title>
+<path fill="none" stroke="#000000" d="M54.57,-60.19C62.87,-62.16 72.2,-64.37 81.07,-66.47"/>
+<polygon fill="#000000" stroke="#000000" points="80.27,-69.88 90.81,-68.78 81.88,-63.07 80.27,-69.88"/>
+</g>
+<!-- proc~conmax -->
+<g id="proc~~conenr~~CalledByGraph_node6" class="node">
+<title>proc~conmax</title>
+<g id="a_proc~~conenr~~CalledByGraph_node6"><a xlink:href=".././proc/conmax.html" xlink:title="conmax">
+<polygon fill="#d9534f" stroke="#d9534f" points="55,-24 0,-24 0,0 55,0 55,-24"/>
+<text text-anchor="middle" x="27.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">conmax</text>
+</a>
+</g>
+</g>
+<!-- proc~conmax&#45;&gt;proc~wolfe -->
+<g id="proc~~conenr~~CalledByGraph_edge5" class="edge">
+<title>proc~conmax&#45;&gt;proc~wolfe</title>
+<path fill="none" stroke="#000000" d="M45.56,-24.15C58.66,-33.47 76.95,-46.49 91.75,-57.02"/>
+<polygon fill="#000000" stroke="#000000" points="89.81,-59.94 99.99,-62.89 93.87,-54.24 89.81,-59.94"/>
+</g>
+</g>
+</svg>
+</div><div><a type="button" class="graph-help" data-toggle="modal" href="#graph-help-text">Help</a></div><div class="modal fade" id="graph-help-text" tabindex="-1" role="dialog"><div class="modal-dialog modal-lg" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="-graph-help-label">Graph Key</h4></div><div class="modal-body">
+    <p>Nodes of different colours represent the following: </p>
+    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="597pt" height="32pt"
+ viewBox="0.00 0.00 596.50 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 592.5,-28 592.5,4 -4,4"/>
+<!-- Subroutine -->
+<g id="node1" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="70,-24 0,-24 0,0 70,0 70,-24"/>
+<text text-anchor="middle" x="35" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node2" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="146,-24 88,-24 88,0 146,0 146,-24"/>
+<text text-anchor="middle" x="117" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Interface -->
+<g id="node3" class="node">
+<title>Interface</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="225.5,-24 164.5,-24 164.5,0 225.5,0 225.5,-24"/>
+<text text-anchor="middle" x="195" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Interface</text>
+</g>
+<!-- Unknown Procedure Type -->
+<g id="node4" class="node">
+<title>Unknown Procedure Type</title>
+<polygon fill="#777777" stroke="#777777" points="388.5,-24 243.5,-24 243.5,0 388.5,0 388.5,-24"/>
+<text text-anchor="middle" x="316" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Unknown Procedure Type</text>
+</g>
+<!-- Program -->
+<g id="node5" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="465,-24 407,-24 407,0 465,0 465,-24"/>
+<text text-anchor="middle" x="436" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node6" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="588.5,-24 483.5,-24 483.5,0 588.5,0 588.5,-24"/>
+<text text-anchor="middle" x="536" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+    
+    <p>Solid arrows point from a procedure to one which it calls. Dashed 
+    arrows point from an interface to procedures which implement that interface.
+    This could include the module procedures in a generic interface or the
+    implementation in a submodule of an interface in a parent module.
+    </p>
+    </div></div></div></div>
+      </div>
+    </div>
+     
+    <br>
+
+    <section class="visible-xs visible-sm hidden-md">
+      
+<h3>Contents</h3>
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/conenr.html#src">conenr</a>
+  </div>
+</div>
+
+
+
+    </section>
+    <br class="visible-xs visible-sm hidden-md">
+
+    
+
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+
+
+    
+    
+    
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span>      <span class="k">subroutine </span><span class="n">conenr</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">m</span><span class="p">,</span><span class="n">Pmat1</span><span class="p">,</span><span class="n">r</span><span class="p">,</span><span class="n">Istrt1</span><span class="p">,</span><span class="n">Ncor</span><span class="p">,</span><span class="n">Icor</span><span class="p">,</span><span class="n">Tol</span><span class="p">,</span><span class="n">Iwork</span><span class="p">,</span><span class="n">Liwrk</span><span class="p">,</span>   <span class="p">&amp;</span>
+                      <span class="p">&amp;</span> <span class="n">Work</span><span class="p">,</span><span class="n">Lwrk</span><span class="p">,</span><span class="n">Vec</span><span class="p">,</span><span class="n">Ptnrr</span><span class="p">,</span><span class="n">Picor</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">,</span><span class="n">Coef</span><span class="p">,</span><span class="n">Ptnr</span><span class="p">,&amp;</span>
+                      <span class="p">&amp;</span> <span class="n">Dist</span><span class="p">,</span><span class="n">Nmaj</span><span class="p">,</span><span class="n">Nmin</span><span class="p">,</span><span class="n">Jflag</span><span class="p">)</span>
+<span class="c">!</span>
+      <span class="k">implicit none</span>
+
+<span class="k">      </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="nb">amax</span> <span class="p">,</span> <span class="nb">amin</span> <span class="p">,</span> <span class="n">cjj</span> <span class="p">,</span> <span class="n">Coef</span> <span class="p">,</span> <span class="n">diff</span> <span class="p">,</span> <span class="n">Dist</span> <span class="p">,</span> <span class="nb">dmax</span> <span class="p">,</span>   <span class="p">&amp;</span>
+           <span class="p">&amp;</span> <span class="n">dp</span> <span class="p">,</span> <span class="n">dsq</span> <span class="p">,</span> <span class="n">four</span> <span class="p">,</span> <span class="n">omt</span> <span class="p">,</span> <span class="n">one</span> <span class="p">,</span> <span class="n">pdotj</span> <span class="p">,</span> <span class="n">Picor</span> <span class="p">,</span>     <span class="p">&amp;</span>
+           <span class="p">&amp;</span> <span class="n">Pmat1</span> <span class="p">,</span> <span class="n">Ptnr</span> <span class="p">,</span> <span class="n">Ptnrr</span> <span class="p">,</span> <span class="n">quot</span>
+      <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="n">r</span> <span class="p">,</span> <span class="n">spcmn</span> <span class="p">,</span> <span class="n">ten</span> <span class="p">,</span> <span class="n">theta</span> <span class="p">,</span> <span class="n">Tol</span> <span class="p">,</span> <span class="n">tolel</span> <span class="p">,</span> <span class="n">tst</span> <span class="p">,</span> <span class="n">two</span> <span class="p">,</span> <span class="n">Vec</span> <span class="p">,</span>  <span class="p">&amp;</span>
+           <span class="p">&amp;</span> <span class="n">Work</span> <span class="p">,</span> <span class="n">z1</span> <span class="p">,</span> <span class="n">z2</span> <span class="p">,</span> <span class="n">z3</span> <span class="p">,</span> <span class="n">zero</span>
+      <span class="kt">integer </span><span class="n">i</span> <span class="p">,</span> <span class="n">Icor</span> <span class="p">,</span> <span class="n">icoro</span> <span class="p">,</span> <span class="n">ihouse</span> <span class="p">,</span> <span class="n">ii</span> <span class="p">,</span> <span class="n">ilc01</span> <span class="p">,</span> <span class="n">ilc03</span> <span class="p">,</span> <span class="n">ilc04</span> <span class="p">,</span>  <span class="p">&amp;</span>
+            <span class="p">&amp;</span> <span class="n">ilc09</span> <span class="p">,</span> <span class="n">ilc23</span> <span class="p">,</span> <span class="n">ilc34</span> <span class="p">,</span> <span class="n">Istrt1</span> <span class="p">,</span> <span class="n">itst1</span> <span class="p">,</span> <span class="n">Iwork</span> <span class="p">,</span>   <span class="p">&amp;</span>
+            <span class="p">&amp;</span> <span class="n">j</span> <span class="p">,</span> <span class="n">Jflag</span> <span class="p">,</span> <span class="n">jj</span> <span class="p">,</span> <span class="n">jmax</span> <span class="p">,</span> <span class="n">jmin</span>
+      <span class="kt">integer </span><span class="n">kntsl</span> <span class="p">,</span> <span class="n">l</span> <span class="p">,</span> <span class="n">limsl</span> <span class="p">,</span> <span class="n">Liwrk</span> <span class="p">,</span> <span class="n">ll</span> <span class="p">,</span> <span class="n">Lwrk</span> <span class="p">,</span> <span class="n">m</span> <span class="p">,</span> <span class="n">mincf</span> <span class="p">,</span> <span class="n">mp1</span> <span class="p">,</span> <span class="p">&amp;</span>
+            <span class="p">&amp;</span> <span class="n">n</span> <span class="p">,</span> <span class="n">Ncor</span> <span class="p">,</span> <span class="n">ncoro</span> <span class="p">,</span> <span class="n">ndm</span> <span class="p">,</span> <span class="n">Nmaj</span> <span class="p">,</span> <span class="n">Nmin</span> <span class="p">,</span> <span class="n">Nparm</span> <span class="p">,</span> <span class="n">Numgr</span>
+<span class="c">!</span>
+      <span class="k">dimension </span><span class="n">Pmat1</span><span class="p">(</span><span class="n">Nparm</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span> <span class="p">,</span> <span class="n">r</span><span class="p">(</span><span class="n">Nparm</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="p">,</span> <span class="n">Icor</span><span class="p">(</span><span class="n">Nparm</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="p">,</span>     <span class="p">&amp;</span>
+              <span class="p">&amp;</span> <span class="n">Coef</span><span class="p">(</span><span class="n">Numgr</span><span class="p">)</span> <span class="p">,</span> <span class="n">Ptnr</span><span class="p">(</span><span class="n">Nparm</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="p">,</span> <span class="n">Vec</span><span class="p">(</span><span class="n">Nparm</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="p">,</span>            <span class="p">&amp;</span>
+              <span class="p">&amp;</span> <span class="n">Ptnrr</span><span class="p">(</span><span class="n">Nparm</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="p">,</span> <span class="n">Picor</span><span class="p">(</span><span class="n">Nparm</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="n">Nparm</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="p">,</span> <span class="n">Iwork</span><span class="p">(</span><span class="n">Liwrk</span><span class="p">)</span> <span class="p">,&amp;</span>
+              <span class="p">&amp;</span> <span class="n">Work</span><span class="p">(</span><span class="n">Lwrk</span><span class="p">)</span>
+<span class="c">!</span>
+<span class="c">! SET MACHINE AND PRECISION DEPENDENT CONSTANTS FOR CONENR.</span>
+<span class="c">!     NWRIT=output_unit</span>
+      <span class="n">one</span> <span class="o">=</span> <span class="mf">1.0d0</span>
+      <span class="n">zero</span> <span class="o">=</span> <span class="n">one</span> <span class="o">-</span> <span class="n">one</span>
+      <span class="n">two</span> <span class="o">=</span> <span class="n">one</span> <span class="o">+</span> <span class="n">one</span>
+      <span class="n">four</span> <span class="o">=</span> <span class="n">two</span> <span class="o">+</span> <span class="n">two</span>
+      <span class="n">ten</span> <span class="o">=</span> <span class="n">four</span> <span class="o">+</span> <span class="n">four</span> <span class="o">+</span> <span class="n">two</span>
+      <span class="n">spcmn</span> <span class="o">=</span> <span class="n">d1mach3</span>
+      <span class="n">tolel</span> <span class="o">=</span> <span class="n">ten</span><span class="o">*</span><span class="n">ten</span><span class="o">*</span><span class="n">spcmn</span>
+      <span class="n">z1</span> <span class="o">=</span> <span class="n">ten</span><span class="o">*</span><span class="n">tolel</span>
+      <span class="n">z2</span> <span class="o">=</span> <span class="n">ten</span><span class="o">*</span><span class="n">z1</span>
+      <span class="n">z3</span> <span class="o">=</span> <span class="n">ten</span><span class="o">*</span><span class="n">z1</span>
+<span class="c">! END OF SETTING MACHINE AND PRECISION DEPENDENT CONSTANTS FOR CONENR.</span>
+      <span class="n">ilc01</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
+      <span class="n">ilc03</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
+      <span class="n">ilc04</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
+      <span class="n">ilc09</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
+      <span class="n">ilc23</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">23</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
+      <span class="n">ilc34</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">34</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
+      <span class="n">kntsl</span> <span class="o">=</span> <span class="mi">0</span>
+      <span class="n">limsl</span> <span class="o">=</span> <span class="mi">100</span>
+      <span class="n">mp1</span> <span class="o">=</span> <span class="n">m</span> <span class="o">+</span> <span class="mi">1</span>
+      <span class="n">ndm</span> <span class="o">=</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span>
+      <span class="n">Nmaj</span> <span class="o">=</span> <span class="mi">0</span>
+      <span class="n">Nmin</span> <span class="o">=</span> <span class="mi">0</span>
+      <span class="n">Jflag</span> <span class="o">=</span> <span class="mi">0</span>
+      <span class="n">itst1</span> <span class="o">=</span> <span class="mi">0</span>
+      <span class="n">ncoro</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+      <span class="k">if</span> <span class="p">(</span> <span class="n">Istrt1</span><span class="o">&gt;</span><span class="mi">0</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">200</span>
+<span class="c">!</span>
+<span class="c">! HERE ISTRT1=0 SO WE START FROM SCRATCH.  FIND THE INDEX JMAX FOR</span>
+<span class="c">! WHICH (P(J).R)/SQRT(P(J).P(J)) IS MAXIMIZED FOR P(J).P(J) .GT. Z1.</span>
+ <span class="mi">100</span>  <span class="nb">amax</span> <span class="o">=</span> <span class="n">zero</span>
+      <span class="n">jmax</span> <span class="o">=</span> <span class="mi">0</span>
+      <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">m</span>
+         <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">n</span>
+            <span class="n">Vec</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="n">Pmat1</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span>
+         <span class="k">enddo</span>
+<span class="k">         </span><span class="n">pdotj</span> <span class="o">=</span> <span class="n">dotprd</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">Vec</span><span class="p">,</span><span class="n">Vec</span><span class="p">,</span><span class="n">Nparm</span><span class="p">)</span>
+         <span class="k">if</span> <span class="p">(</span> <span class="n">pdotj</span><span class="o">&gt;</span><span class="n">z1</span> <span class="p">)</span> <span class="k">then</span>
+<span class="k">            </span><span class="n">quot</span> <span class="o">=</span> <span class="n">dotprd</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">Vec</span><span class="p">,</span><span class="n">r</span><span class="p">,</span><span class="n">Nparm</span><span class="p">)</span><span class="o">/</span><span class="nb">sqrt</span><span class="p">(</span><span class="n">pdotj</span><span class="p">)</span>
+            <span class="k">if</span> <span class="p">(</span> <span class="n">quot</span><span class="o">&gt;</span><span class="nb">amax</span> <span class="p">)</span> <span class="k">then</span>
+<span class="k">               </span><span class="nb">amax</span> <span class="o">=</span> <span class="n">quot</span>
+               <span class="n">jmax</span> <span class="o">=</span> <span class="n">j</span>
+            <span class="k">endif</span>
+<span class="k">         endif</span>
+<span class="k">      enddo</span>
+<span class="k">      if</span> <span class="p">(</span> <span class="n">jmax</span><span class="o">&gt;</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
+<span class="c">! IF AMAX IS NOT SIGINFICANTLY POSITIVE WE PROCEED AS IF IT WERE ZERO.</span>
+         <span class="k">if</span> <span class="p">(</span> <span class="nb">amax</span><span class="o">*</span><span class="nb">sqrt</span><span class="p">(</span><span class="n">ndm</span><span class="o">+</span><span class="n">one</span><span class="p">)</span><span class="o">&gt;</span><span class="n">tolel</span> <span class="p">)</span> <span class="k">then</span>
+<span class="c">!</span>
+<span class="c">! HERE WE FOUND THE RAY CLOSEST TO R AND WE COMPLETE THE</span>
+<span class="c">! INITIALIZATION BY SETTING NCOR=1, ICOR(1)=JMAX, AND COEF(JMAX)=1.0</span>
+<span class="c">! (WITH ALL OTHER ENTRIES OF COEF EQUAL TO ZERO).</span>
+            <span class="n">Ncor</span> <span class="o">=</span> <span class="mi">1</span>
+            <span class="n">Icor</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="n">jmax</span>
+            <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">m</span>
+               <span class="n">Coef</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="n">zero</span>
+            <span class="k">enddo</span>
+<span class="k">            </span><span class="n">Coef</span><span class="p">(</span><span class="n">jmax</span><span class="p">)</span> <span class="o">=</span> <span class="n">one</span>
+            <span class="k">goto </span><span class="mi">200</span>
+         <span class="k">endif</span>
+<span class="k">      endif</span>
+<span class="c">!</span>
+<span class="c">! HERE THERE WERE NO VECTORS P(J) WHICH HAVE BOTH LENGTH SQUARED</span>
+<span class="c">! GREATER THAN Z1 AND ANGLE WITH R SIGNIFICANTLY LESS THAN 90 DEGREES,</span>
+<span class="c">! AND WE SET NCOR=0, PTNR=THE ZERO VECTOR, COEF=THE ZERO VECTOR, DIST=</span>
+<span class="c">! THE LENGTH OF R, AND WE RETURN.</span>
+      <span class="n">Ncor</span> <span class="o">=</span> <span class="mi">0</span>
+      <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">n</span>
+         <span class="n">Ptnr</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="n">zero</span>
+      <span class="k">enddo</span>
+<span class="k">      do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">m</span>
+         <span class="n">Coef</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">zero</span>
+      <span class="k">enddo</span>
+<span class="k">      </span><span class="n">Dist</span> <span class="o">=</span> <span class="nb">sqrt</span><span class="p">(</span><span class="n">dotprd</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">r</span><span class="p">,</span><span class="n">r</span><span class="p">,</span><span class="n">Nparm</span><span class="p">))</span>
+      <span class="k">return</span>
+<span class="c">!</span>
+<span class="c">!</span>
+<span class="c">! SET PTNR TO THE CURRENT NEAREST POINT.  FIRST ZERO IT OUT.</span>
+ <span class="mi">200</span>  <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">n</span>
+         <span class="n">Ptnr</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="n">zero</span>
+      <span class="k">enddo</span>
+<span class="k">      if</span> <span class="p">(</span> <span class="n">Ncor</span><span class="o">&gt;</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
+<span class="c">! HERE NCOR .GT. 0 AND WE SET PTNR=SUMMATION(COEF(J)*P(J)).</span>
+         <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Ncor</span>
+            <span class="n">jj</span> <span class="o">=</span> <span class="n">Icor</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+            <span class="n">cjj</span> <span class="o">=</span> <span class="n">Coef</span><span class="p">(</span><span class="n">jj</span><span class="p">)</span>
+            <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">n</span>
+               <span class="n">Ptnr</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="n">Ptnr</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">+</span> <span class="n">cjj</span><span class="o">*</span><span class="n">Pmat1</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">jj</span><span class="p">)</span>
+            <span class="k">enddo</span>
+<span class="k">         enddo</span>
+<span class="k">      endif</span>
+<span class="c">!</span>
+<span class="c">! PUT PTNR-R INTO PTNRR AND COMPUTE THE DISTANCE FROM PTNR TO R.</span>
+      <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">n</span>
+         <span class="n">Ptnrr</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="n">Ptnr</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">-</span> <span class="n">r</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+      <span class="k">enddo</span>
+<span class="k">      </span><span class="n">dsq</span> <span class="o">=</span> <span class="n">dotprd</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">Ptnrr</span><span class="p">,</span><span class="n">Ptnrr</span><span class="p">,</span><span class="n">Nparm</span><span class="p">)</span>
+      <span class="n">Dist</span> <span class="o">=</span> <span class="nb">sqrt</span><span class="p">(</span><span class="n">dsq</span><span class="p">)</span>
+<span class="c">!</span>
+<span class="c">! NOW CHECK OPTIMALITY.</span>
+<span class="c">! FIRST SEE WHETHER THE HYPERPLANE THROUGH PTNR PERPENDICULAR TO</span>
+<span class="c">! PTNR-R PASSES THROUGH THE ORIGIN.  IF NCOR=0 THIS WILL</span>
+<span class="c">! AUTOMATICALLY BE TRUE SINCE THEN PTNR IS THE ORIGIN.  IF IT IS NOT</span>
+<span class="c">! TRUE WE GO DOWN TO SOLVE FOR A NEW NEAREST POINT IN THE SUBSPACE</span>
+<span class="c">! DETERMINED BY THE CURRENT ICOR.</span>
+      <span class="k">if</span> <span class="p">(</span> <span class="n">Ncor</span><span class="o">&gt;</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
+<span class="k">         </span><span class="n">tst</span> <span class="o">=</span> <span class="n">dotprd</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">Ptnr</span><span class="p">,</span><span class="n">Ptnrr</span><span class="p">,</span><span class="n">Nparm</span><span class="p">)</span>
+         <span class="k">if</span> <span class="p">(</span> <span class="nb">abs</span><span class="p">(</span><span class="n">tst</span><span class="p">)</span><span class="o">&gt;=</span><span class="n">z1</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">300</span>
+      <span class="k">endif</span>
+<span class="c">! HERE THE HYPERPLANE ROUGHLY PASSES THROUGH THE ORIGIN, AND WE</span>
+<span class="c">! CHECK WHETHER ALL P(J) VECTORS ARE ROUGHLY SEPARATED FROM R BY IT.</span>
+<span class="c">! PUT THE MINIMUM OF (PTNR-R).(P(J)-R) IN AMIN AND THE INDEX WHERE IT</span>
+<span class="c">! IS ACHIEVED IN JMIN.</span>
+      <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">n</span>
+         <span class="n">Vec</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="n">Pmat1</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="n">r</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+      <span class="k">enddo</span>
+<span class="k">      </span><span class="n">jmin</span> <span class="o">=</span> <span class="mi">1</span>
+      <span class="nb">amin</span> <span class="o">=</span> <span class="n">dotprd</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">Ptnrr</span><span class="p">,</span><span class="n">Vec</span><span class="p">,</span><span class="n">Nparm</span><span class="p">)</span>
+      <span class="k">if</span> <span class="p">(</span> <span class="n">m</span><span class="o">&gt;</span><span class="mi">1</span> <span class="p">)</span> <span class="k">then</span>
+<span class="k">         do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">2</span> <span class="p">,</span> <span class="n">m</span>
+            <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">n</span>
+               <span class="n">Vec</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="n">Pmat1</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span> <span class="o">-</span> <span class="n">r</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+            <span class="k">enddo</span>
+<span class="k">            </span><span class="n">dp</span> <span class="o">=</span> <span class="n">dotprd</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">Ptnrr</span><span class="p">,</span><span class="n">Vec</span><span class="p">,</span><span class="n">Nparm</span><span class="p">)</span>
+            <span class="k">if</span> <span class="p">(</span> <span class="n">dp</span><span class="o">&lt;</span><span class="nb">amin</span> <span class="p">)</span> <span class="k">then</span>
+<span class="k">               </span><span class="nb">amin</span> <span class="o">=</span> <span class="n">dp</span>
+               <span class="n">jmin</span> <span class="o">=</span> <span class="n">j</span>
+            <span class="k">endif</span>
+<span class="k">         enddo</span>
+<span class="k">      endif</span>
+<span class="c">!</span>
+<span class="c">! FOR TESTING PURPOSES COMPUTE THE MAXIMUM OF THE SQUARES OF THE</span>
+<span class="c">! LENGTHS OF THE DISTANCES CONSIDERED.</span>
+      <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">n</span>
+         <span class="n">Vec</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="n">Pmat1</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">jmin</span><span class="p">)</span> <span class="o">-</span> <span class="n">r</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+      <span class="k">enddo</span>
+<span class="k">      </span><span class="nb">dmax</span> <span class="o">=</span> <span class="n">dotprd</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">Vec</span><span class="p">,</span><span class="n">Vec</span><span class="p">,</span><span class="n">Nparm</span><span class="p">)</span>
+      <span class="k">if</span> <span class="p">(</span> <span class="n">Ncor</span><span class="o">&gt;</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
+<span class="k">         do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Ncor</span>
+            <span class="n">jj</span> <span class="o">=</span> <span class="n">Icor</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+            <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">n</span>
+               <span class="n">Vec</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="n">Pmat1</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">jj</span><span class="p">)</span> <span class="o">-</span> <span class="n">r</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+            <span class="k">enddo</span>
+<span class="k">            </span><span class="n">dp</span> <span class="o">=</span> <span class="n">dotprd</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">Vec</span><span class="p">,</span><span class="n">Vec</span><span class="p">,</span><span class="n">Nparm</span><span class="p">)</span>
+            <span class="k">if</span> <span class="p">(</span> <span class="n">dp</span><span class="o">&gt;</span><span class="nb">dmax</span> <span class="p">)</span> <span class="nb">dmax</span> <span class="o">=</span> <span class="n">dp</span>
+         <span class="k">enddo</span>
+<span class="k">      endif</span>
+<span class="c">! DO THE TEST.  IF IT IS SUCCESSFUL, THEN WE HAVE (APPROXIMATE)</span>
+<span class="c">! OPTIMALITY AND WE RETURN.</span>
+      <span class="k">if</span> <span class="p">(</span> <span class="nb">amin</span><span class="o">-</span><span class="n">dsq</span><span class="o">+</span><span class="n">z1</span><span class="o">*</span><span class="nb">dmax</span><span class="o">&lt;</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
+<span class="c">!</span>
+<span class="c">! HERE PTNR IS NOT OPTIMAL.  AS A CHECK AGAINST BLUNDERS WE MAKE SURE</span>
+<span class="c">! NCOR .LT. N AND JMIN IS NOT IN ICOR.</span>
+         <span class="k">if</span> <span class="p">(</span> <span class="n">Ncor</span><span class="o">&gt;</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
+<span class="k">            if</span> <span class="p">(</span> <span class="n">Ncor</span><span class="o">&lt;</span><span class="n">n</span> <span class="p">)</span> <span class="k">then</span>
+<span class="k">               do </span><span class="n">l</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Ncor</span>
+                  <span class="k">if</span> <span class="p">(</span> <span class="n">jmin</span><span class="o">==</span><span class="n">Icor</span><span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">220</span>
+               <span class="k">enddo</span>
+<span class="k">               goto </span><span class="mi">250</span>
+            <span class="k">endif</span>
+<span class="c">!</span>
+<span class="c">! HERE WE HAVE BLUNDERED SO WE SET JFLAG=1 AS A WARNING, COMPUTE DIST,</span>
+<span class="c">! AND RETURN.  FIRST TRY FROM SCRATCH IF THIS HAS NOT BEEN DONE.</span>
+ <span class="mi">220</span>        <span class="k">if</span> <span class="p">(</span> <span class="n">Istrt1</span><span class="o">+</span><span class="n">Jflag</span><span class="o">&lt;=</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
+<span class="k">               </span><span class="n">Jflag</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="c">!     WRITE(6,3880)</span>
+<span class="c">!3880 FORMAT(26H *****JFLAG IS 1 IN CONENR)</span>
+               <span class="k">return</span>
+<span class="k">            else</span>
+<span class="k">               </span><span class="n">Jflag</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+               <span class="n">kntsl</span> <span class="o">=</span> <span class="mi">0</span>
+               <span class="k">goto </span><span class="mi">100</span>
+            <span class="k">endif</span>
+<span class="k">         endif</span>
+<span class="c">!</span>
+<span class="c">! HERE PTNR IS NOT OPTIMAL, NCOR .LT. N, AND JMIN IS NOT IN ICOR.</span>
+<span class="c">! WE INCREMENT THE MAJOR CYCLE COUNTER AND ADD P(JMIN).</span>
+ <span class="mi">250</span>     <span class="n">Nmaj</span> <span class="o">=</span> <span class="n">Nmaj</span> <span class="o">+</span> <span class="mi">1</span>
+         <span class="n">Ncor</span> <span class="o">=</span> <span class="n">Ncor</span> <span class="o">+</span> <span class="mi">1</span>
+         <span class="n">Icor</span><span class="p">(</span><span class="n">Ncor</span><span class="p">)</span> <span class="o">=</span> <span class="n">jmin</span>
+         <span class="n">Coef</span><span class="p">(</span><span class="n">jmin</span><span class="p">)</span> <span class="o">=</span> <span class="n">zero</span>
+      <span class="k">else</span>
+<span class="k">         return</span>
+<span class="k">      endif</span>
+<span class="c">!</span>
+<span class="c">! CHECK TO SEE IF WE HAVE SOLVED THE SYSTEM BELOW LIMSL TIMES ALREADY,</span>
+<span class="c">! AND IF SO, SET JFLAG=6 AS A WARNING AND RETURN (BUT</span>
+<span class="c">! TRY FROM SCRATCH BEFORE GIVING UP IF THIS HAS NOT ALREADY BEEN DONE).</span>
+ <span class="mi">300</span>  <span class="k">if</span> <span class="p">(</span> <span class="n">kntsl</span><span class="o">&lt;</span><span class="n">limsl</span> <span class="p">)</span> <span class="k">then</span>
+<span class="c">!</span>
+<span class="c">! CHECK TO SEE IF NCOR AND THE LAST ELEMENT IN ICOR ARE UNCHANGED FROM THE</span>
+<span class="c">! PREVIOUS HOUSE CALL (HA HA), WHICH INDICATES FAILURE.  NOTE THAT HERE WE</span>
+<span class="c">! MUST HAVE NCOR .GT. 0.</span>
+         <span class="k">if</span> <span class="p">(</span> <span class="n">Ncor</span><span class="o">/=</span><span class="n">ncoro</span> <span class="p">)</span> <span class="k">then</span>
+<span class="c">!</span>
+            <span class="n">ncoro</span> <span class="o">=</span> <span class="n">Ncor</span>
+         <span class="n">elseif</span> <span class="p">(</span> <span class="n">Icor</span><span class="p">(</span><span class="n">Ncor</span><span class="p">)</span><span class="o">==</span><span class="n">icoro</span> <span class="p">)</span> <span class="k">then</span>
+<span class="c">!</span>
+<span class="c">! HERE WE HAVE CYCLING AND WE SET JFLAG=2 AS A WARNING AND RETURN.  FIRST</span>
+<span class="c">! TRY FROM SCRATCH IF THIS HAS NOT BEEN DONE.</span>
+            <span class="k">if</span> <span class="p">(</span> <span class="n">Istrt1</span><span class="o">+</span><span class="n">Jflag</span><span class="o">&lt;=</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
+<span class="c">!</span>
+               <span class="n">Jflag</span> <span class="o">=</span> <span class="mi">2</span>
+               <span class="k">return</span>
+<span class="k">            else</span>
+<span class="k">               </span><span class="n">Jflag</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+               <span class="n">kntsl</span> <span class="o">=</span> <span class="mi">0</span>
+               <span class="k">goto </span><span class="mi">100</span>
+            <span class="k">endif</span>
+<span class="k">         endif</span>
+<span class="k">         </span><span class="n">icoro</span> <span class="o">=</span> <span class="n">Icor</span><span class="p">(</span><span class="n">Ncor</span><span class="p">)</span>
+         <span class="n">kntsl</span> <span class="o">=</span> <span class="n">kntsl</span> <span class="o">+</span> <span class="mi">1</span>
+<span class="c">!</span>
+<span class="c">! NOW WE SOLVE THE SYSTEM PICOR*VEC = R IN THE LEAST SQUARES</span>
+<span class="c">! SENSE FOR THE COEFFICIENT VECTOR VEC (RELATIVE TO</span>
+<span class="c">! ICOR) OF THE NEAREST POINT TO R IN THE SUBSPACE SPANNED BY</span>
+<span class="c">! P(ICOR(1)),...,P(ICOR(NCOR)), WHERE P(ICOR) IS THE N X NCOR MATRIX</span>
+<span class="c">! WHOSE COLUMNS ARE THESE VECTORS.</span>
+<span class="c">! NOW FILL IN PICOR AND CALL HOUSE TO COMPUTE VEC.</span>
+         <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Ncor</span>
+            <span class="n">jj</span> <span class="o">=</span> <span class="n">Icor</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+            <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">n</span>
+               <span class="n">Picor</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">Pmat1</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">jj</span><span class="p">)</span>
+            <span class="k">enddo</span>
+<span class="k">         enddo</span>
+<span class="c">!</span>
+         <span class="k">call </span><span class="n">house</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">Ncor</span><span class="p">,</span><span class="n">Picor</span><span class="p">,</span><span class="n">r</span><span class="p">,</span><span class="n">Iwork</span><span class="p">(</span><span class="n">ilc23</span><span class="p">),</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Work</span><span class="p">(</span><span class="n">ilc01</span><span class="p">),</span>      <span class="p">&amp;</span>
+                  <span class="p">&amp;</span> <span class="n">Work</span><span class="p">(</span><span class="n">ilc04</span><span class="p">),</span><span class="n">Work</span><span class="p">(</span><span class="n">ilc09</span><span class="p">),</span><span class="n">Work</span><span class="p">(</span><span class="n">ilc34</span><span class="p">),</span><span class="n">Work</span><span class="p">(</span><span class="n">ilc03</span><span class="p">),</span><span class="n">Vec</span><span class="p">,&amp;</span>
+                  <span class="p">&amp;</span> <span class="n">ihouse</span><span class="p">)</span>
+<span class="c">!</span>
+<span class="c">! IF HOUSE FAILS (INDICATED BY IHOUSE=1) WE SET JFLAG=3 AS A</span>
+<span class="c">! WARNING AND RETURN.  FIRST TRY FROM SCRATCH IF THIS HAS NOT BEEN DONE.</span>
+         <span class="k">if</span> <span class="p">(</span> <span class="n">ihouse</span><span class="o">&lt;=</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
+<span class="c">!</span>
+<span class="c">! CHECK TO SEE IF ALL THE COEFFICIENTS IN VEC ARE .GT. Z2, AND IF SO,</span>
+<span class="c">! PUT VEC INTO COEF AND GO BACK TO COMPUTE PTNR.  THE COEFFICIENTS IN</span>
+<span class="c">! COEF NOT CORRESPONDING TO THOSE IN VEC WILL REMAIN EQUAL TO ZERO.</span>
+            <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Ncor</span>
+               <span class="k">if</span> <span class="p">(</span> <span class="n">Vec</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">&lt;=</span><span class="n">z2</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">350</span>
+            <span class="k">enddo</span>
+<span class="k">            do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Ncor</span>
+               <span class="n">ii</span> <span class="o">=</span> <span class="n">Icor</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+               <span class="n">Coef</span><span class="p">(</span><span class="n">ii</span><span class="p">)</span> <span class="o">=</span> <span class="n">Vec</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+            <span class="k">enddo</span>
+<span class="k">            goto </span><span class="mi">200</span>
+         <span class="n">elseif</span> <span class="p">(</span> <span class="n">Istrt1</span><span class="o">+</span><span class="n">Jflag</span><span class="o">&lt;=</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
+<span class="c">!</span>
+            <span class="n">Jflag</span> <span class="o">=</span> <span class="mi">3</span>
+            <span class="k">return</span>
+<span class="k">         else</span>
+<span class="k">            </span><span class="n">Jflag</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+            <span class="n">kntsl</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">goto </span><span class="mi">100</span>
+         <span class="k">endif</span>
+<span class="c">!</span>
+<span class="c">! HERE SOME ELEMENT OF VEC IS .LE. Z2.  COMPUTE THETA=MIN(1.0, MIN(</span>
+<span class="c">! COEF(ICOR(I))/(COEF(ICOR(I))-VEC(I)): COEF(ICOR(I))-VEC(I) .GT. Z3)).</span>
+ <span class="mi">350</span>     <span class="n">theta</span> <span class="o">=</span> <span class="n">one</span>
+         <span class="k">do </span><span class="n">l</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Ncor</span>
+            <span class="n">ll</span> <span class="o">=</span> <span class="n">Icor</span><span class="p">(</span><span class="n">l</span><span class="p">)</span>
+            <span class="n">diff</span> <span class="o">=</span> <span class="n">Coef</span><span class="p">(</span><span class="n">ll</span><span class="p">)</span> <span class="o">-</span> <span class="n">Vec</span><span class="p">(</span><span class="n">l</span><span class="p">)</span>
+            <span class="k">if</span> <span class="p">(</span> <span class="n">diff</span><span class="o">&gt;</span><span class="n">z3</span> <span class="p">)</span> <span class="k">then</span>
+<span class="k">               </span><span class="n">quot</span> <span class="o">=</span> <span class="n">Coef</span><span class="p">(</span><span class="n">ll</span><span class="p">)</span><span class="o">/</span><span class="n">diff</span>
+               <span class="k">if</span> <span class="p">(</span> <span class="n">quot</span><span class="o">&lt;</span><span class="n">theta</span> <span class="p">)</span> <span class="n">theta</span> <span class="o">=</span> <span class="n">quot</span>
+            <span class="k">endif</span>
+<span class="k">         enddo</span>
+<span class="c">! COMPUTE THE NEW COEF AS (1.0-THETA)*COEF+THETA*VEC.</span>
+         <span class="n">omt</span> <span class="o">=</span> <span class="n">one</span> <span class="o">-</span> <span class="n">theta</span>
+         <span class="k">do </span><span class="n">l</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Ncor</span>
+            <span class="n">ll</span> <span class="o">=</span> <span class="n">Icor</span><span class="p">(</span><span class="n">l</span><span class="p">)</span>
+            <span class="n">Coef</span><span class="p">(</span><span class="n">ll</span><span class="p">)</span> <span class="o">=</span> <span class="n">omt</span><span class="o">*</span><span class="n">Coef</span><span class="p">(</span><span class="n">ll</span><span class="p">)</span> <span class="o">+</span> <span class="n">theta</span><span class="o">*</span><span class="n">Vec</span><span class="p">(</span><span class="n">l</span><span class="p">)</span>
+         <span class="k">enddo</span>
+<span class="c">! COMPUTE THE INDEX MINCF (RELATIVE TO ICOR) OF THE SMALLEST ELEMENT OF</span>
+<span class="c">! COEF AND SET ALL ELEMENTS OF COEF WHICH ARE .LE. Z2 TO ZERO.</span>
+         <span class="n">mincf</span> <span class="o">=</span> <span class="mi">0</span>
+         <span class="nb">amin</span> <span class="o">=</span> <span class="n">z2</span>
+         <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Ncor</span>
+            <span class="n">ii</span> <span class="o">=</span> <span class="n">Icor</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+            <span class="k">if</span> <span class="p">(</span> <span class="n">Coef</span><span class="p">(</span><span class="n">ii</span><span class="p">)</span><span class="o">&lt;=</span><span class="n">z2</span> <span class="p">)</span> <span class="k">then</span>
+<span class="k">               if</span> <span class="p">(</span> <span class="n">Coef</span><span class="p">(</span><span class="n">ii</span><span class="p">)</span><span class="o">&lt;=</span><span class="nb">amin</span> <span class="p">)</span> <span class="k">then</span>
+<span class="k">                  </span><span class="nb">amin</span> <span class="o">=</span> <span class="n">Coef</span><span class="p">(</span><span class="n">ii</span><span class="p">)</span>
+                  <span class="n">mincf</span> <span class="o">=</span> <span class="n">i</span>
+               <span class="k">endif</span>
+<span class="k">               </span><span class="n">Coef</span><span class="p">(</span><span class="n">ii</span><span class="p">)</span> <span class="o">=</span> <span class="n">zero</span>
+            <span class="k">endif</span>
+<span class="k">         enddo</span>
+<span class="c">!</span>
+         <span class="k">if</span> <span class="p">(</span> <span class="n">mincf</span><span class="o">&lt;=</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
+<span class="c">! HERE MINCF=0 AND AN UNLIKELY BLUNDER HAS OCCURRED.  THIS MUST BE DUE TO</span>
+<span class="c">! ROUNDOFF ERROR SINCE IN THEORY (NEW) COEF(ICOR(I)) MUST BE .LE. Z2</span>
+<span class="c">! FOR SOME I=1,...,NCOR, WHICH MAKES MINCF .GT. 0 IN THE LAST LOOP.</span>
+<span class="c">! TO SEE THIS, FIRST NOTE THAT FOR SOME IBAR=1,...,NCOR, VEC(IBAR) MUST</span>
+<span class="c">! BE .LE. Z2 SINCE OTHERWISE WE WOULD NOT BE HERE.  BY ITS DEFINITION,</span>
+<span class="c">! THETA MUST BE .LE. 1.0.  IF THETA = 1.0, THEN (NEW) COEF(ICOR(IBAR))</span>
+<span class="c">! = (1.0 - THETA)*(OLD) COEF(ICOR(IBAR)) + THETA*VEC(IBAR) = VEC(IBAR)</span>
+<span class="c">! .LE. Z2.  IF ON THE OTHER HAND THETA .LT. 1.0, THEN FOR SOME ISTAR=1,</span>
+<span class="c">! ...,ICOR WE HAVE (OLD) COEF(ICOR(ISTAR)) - VEC(ISTAR) .GE. Z3 AND</span>
+<span class="c">! THETA = (OLD) COEF(ICOR(ISTAR))/((OLD) COEF(ICOR(ISTAR)) - VEC(ISTAR)),</span>
+<span class="c">! SO (NEW) COEF(ICOR(ISTAR)) = (1.0 - THETA)*(OLD) COEF(ICOR(ISTAR)) +</span>
+<span class="c">! THETA*VEC(ISTAR) = (-VEC(ISTAR)*(OLD) COEF(ICOR(ISTAR)) + (OLD)</span>
+<span class="c">! COEF(ICOR(ISTAR))*VEC(ISTAR))/((OLD) COEF(ICOR(ISTAR)) - VEC(ISTAR))</span>
+<span class="c">! = 0.0.  NOTE THAT WE HAVE Z2 .GE. 0.0 AND Z3 .GT. 0.0.</span>
+<span class="c">! TO CORRECT THIS BLUNDER WE SET MINCF = AN INDEX I FOR WHICH (NEW)</span>
+<span class="c">! COEF(ICOR(I)) IS MINIMIZED AND SET COEF(ICOR(I)) = 0.0.</span>
+            <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Ncor</span>
+               <span class="n">ii</span> <span class="o">=</span> <span class="n">Icor</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+               <span class="k">if</span> <span class="p">(</span> <span class="n">i</span><span class="o">&gt;</span><span class="mi">1</span> <span class="p">)</span> <span class="k">then</span>
+<span class="k">                  if</span> <span class="p">(</span> <span class="n">Coef</span><span class="p">(</span><span class="n">ii</span><span class="p">)</span><span class="o">&gt;=</span><span class="nb">amin</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">360</span>
+               <span class="k">endif</span>
+<span class="k">               </span><span class="nb">amin</span> <span class="o">=</span> <span class="n">Coef</span><span class="p">(</span><span class="n">ii</span><span class="p">)</span>
+               <span class="n">mincf</span> <span class="o">=</span> <span class="n">i</span>
+ <span class="mi">360</span>        <span class="k">enddo</span>
+<span class="k">            </span><span class="n">ii</span> <span class="o">=</span> <span class="n">Icor</span><span class="p">(</span><span class="n">mincf</span><span class="p">)</span>
+            <span class="n">Coef</span><span class="p">(</span><span class="n">ii</span><span class="p">)</span> <span class="o">=</span> <span class="n">zero</span>
+         <span class="k">endif</span>
+<span class="c">!</span>
+<span class="c">! INCREMENT THE MINOR ITERATION COUNTER NMIN, REMOVE ICOR(MINCF),</span>
+<span class="c">! AND DECREMENT NCOR.</span>
+         <span class="n">Nmin</span> <span class="o">=</span> <span class="n">Nmin</span> <span class="o">+</span> <span class="mi">1</span>
+         <span class="k">do </span><span class="n">l</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Ncor</span>
+            <span class="k">if</span> <span class="p">(</span> <span class="n">l</span><span class="o">&gt;</span><span class="n">mincf</span> <span class="p">)</span> <span class="n">Icor</span><span class="p">(</span><span class="n">l</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="n">Icor</span><span class="p">(</span><span class="n">l</span><span class="p">)</span>
+         <span class="k">enddo</span>
+<span class="k">         </span><span class="n">Ncor</span> <span class="o">=</span> <span class="n">Ncor</span> <span class="o">-</span> <span class="mi">1</span>
+<span class="c">! GO BACK TO COMPUTE PTNR.</span>
+         <span class="k">goto </span><span class="mi">200</span>
+      <span class="n">elseif</span> <span class="p">(</span> <span class="n">Istrt1</span><span class="o">+</span><span class="n">Jflag</span><span class="o">&lt;=</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
+<span class="c">!</span>
+         <span class="n">Jflag</span> <span class="o">=</span> <span class="mi">6</span>
+<span class="c">!     WRITE(6,4070)</span>
+<span class="c">!4070 FORMAT(26H *****JFLAG IS 6 IN CONENR)</span>
+         <span class="k">return</span>
+<span class="k">      else</span>
+<span class="k">         </span><span class="n">Jflag</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+         <span class="n">kntsl</span> <span class="o">=</span> <span class="mi">0</span>
+         <span class="k">goto </span><span class="mi">100</span>
+      <span class="k">endif</span>
+<span class="k">    end subroutine </span><span class="n">conenr</span>
+</pre></div>
+
+    </section>
+    <br>
+    
+    
+    </div>
+  </div>
+
+
+    <hr>    
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+      <div class="row">
+        <div class="col-xs-6 col-md-6"><p>conmax was developed by Jacob Williams<br>&copy; 2021 
+                                          </p>
+        </div>
+        <div class="col-xs-6 col-md-6">
+          <p class="text-right">
+            Documentation generated by 
+            <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+            
+            
+          </p>
+        </div>
+      </div>
+      <br>
+      </div> <!-- /container -->    
+    </footer>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+<!--
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+-->
+    <script src="../js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../js/ie10-viewport-bug-workaround.js"></script>
+
+    <!-- MathJax JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
+        jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+        extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
+      });
+    </script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    
+    
+  </body>
+</html>

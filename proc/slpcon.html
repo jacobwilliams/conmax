@@ -17,8 +17,6 @@
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
     
-    <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
-    
     
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -57,15 +55,21 @@
         <ul class="dropdown-menu">
           
               
-            <li><a href="../lists/files.html">Source Files</a></li>
+            <li><a href="../sourcefile/conmax.f90.html">Source File</a></li>
         
         
+        
+            <li><a href="../lists/modules.html">Modules</a></li>
         
             
                                 
             <li><a href="../lists/procedures.html">Procedures</a></li>
         
+        
+            <li><a href="../lists/absint.html">Abstract Interfaces</a></li>
                
+            <li><a href="../lists/types.html">Derived Types</a></li>
+        
                
         
         
@@ -74,28 +78,25 @@
             </li>
 
 
-<li class="visible-xs hidden-sm visible-lg"><a href="../lists/files.html">Source Files</a></li>
+<li class="visible-xs hidden-sm visible-lg"><a href="../sourcefile/conmax.f90.html">Source File</a></li>
 
 
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/modules.html">Modules</a></li>
 
 
 
 <li class="visible-xs hidden-sm visible-lg"><a href="../lists/procedures.html">Procedures</a></li>
 
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/absint.html">Abstract Interfaces</a></li>
                              
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/types.html">Derived Types</a></li>
+
 
 
 
           </ul>
-        
-        <form action="../search.html" class="navbar-form navbar-right" role="search">
-        <div class="form-group">
-          <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
-        </div>
-<!--
-        <button type="submit" class="btn btn-default">Submit</button>
--->
-        </form>
         
         </div><!--/.nav-collapse -->
       </div>
@@ -137,6 +138,8 @@
   
     
      <li><a href='../sourcefile/conmax.f90.html'>conmax.f90</a></li>
+    
+     <li><a href='../module/conmax_module.html'>conmax_module</a></li>
     
   
      <li class="active">slpcon</li>
@@ -180,7 +183,13 @@
 
 
 
-<em>None</em>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/slpcon.html#src">slpcon</a>
+  </div>
+</div>
+
 
 
 </div>
@@ -189,7 +198,7 @@
     
     <div class="col-md-9" id='text'>
     <h2>
-subroutine slpcon(Ioptn, Nparm, Numgr, Fun, Ifun, Pttbl, Iptb, Indm, Tolcon, Rchin, Irk, Itypm1, Itypm2, Icntyp, Rchdwn, Numlim, Itersl, Prjslp, Funtbl, Iyrct, x, Mact1, Iact1, Jcntyp, Iphse, Enchg, Iwork, Liwrk, Work, Lwrk, Parser, Isucc, Param, Error)
+private subroutine slpcon(me, Ioptn, Nparm, Numgr, Fun, Ifun, Pttbl, Iptb, Indm, Tolcon, Rchin, Irk, Itypm1, Itypm2, Icntyp, Rchdwn, Numlim, Itersl, Prjslp, Funtbl, Iyrct, x, Mact1, Iact1, Jcntyp, Iphse, Enchg, Iwork, Liwrk, Work, Lwrk, Parser, Isucc, Param, Error)
     
     
    
@@ -218,7 +227,22 @@ subroutine slpcon(Ioptn, Nparm, Numgr, Fun, Ifun, Pttbl, Iptb, Indm, Tolcon, Rch
   
 <tr>
   
-  <td><span class="anchor" id="variable-ioptn~2"></span>integer</td>
+  <td><span class="anchor" id="variable-me~4"></span>class(<a href='../type/conmax_solver.html'>conmax_solver</a>),</td>
+  <td>intent(inout)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>me</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-ioptn~3"></span>integer</td>
   <td></td>
   <td></td>
   
@@ -233,7 +257,7 @@ subroutine slpcon(Ioptn, Nparm, Numgr, Fun, Ifun, Pttbl, Iptb, Indm, Tolcon, Rch
   
 <tr>
   
-  <td><span class="anchor" id="variable-nparm~4"></span>integer</td>
+  <td><span class="anchor" id="variable-nparm~6"></span>integer</td>
   <td></td>
   <td></td>
   
@@ -248,7 +272,7 @@ subroutine slpcon(Ioptn, Nparm, Numgr, Fun, Ifun, Pttbl, Iptb, Indm, Tolcon, Rch
   
 <tr>
   
-  <td><span class="anchor" id="variable-numgr~3"></span>integer</td>
+  <td><span class="anchor" id="variable-numgr~5"></span>integer</td>
   <td></td>
   <td></td>
   
@@ -263,7 +287,7 @@ subroutine slpcon(Ioptn, Nparm, Numgr, Fun, Ifun, Pttbl, Iptb, Indm, Tolcon, Rch
   
 <tr>
   
-  <td><span class="anchor" id="variable-fun~2"></span>real(kind=8)</td>
+  <td><span class="anchor" id="variable-fun~2"></span>real(kind=wp)</td>
   <td></td>
   <td></td>
   
@@ -293,7 +317,7 @@ subroutine slpcon(Ioptn, Nparm, Numgr, Fun, Ifun, Pttbl, Iptb, Indm, Tolcon, Rch
   
 <tr>
   
-  <td><span class="anchor" id="variable-pttbl~2"></span>real(kind=8)</td>
+  <td><span class="anchor" id="variable-pttbl~4"></span>real(kind=wp)</td>
   <td></td>
   <td></td>
   
@@ -308,7 +332,7 @@ subroutine slpcon(Ioptn, Nparm, Numgr, Fun, Ifun, Pttbl, Iptb, Indm, Tolcon, Rch
   
 <tr>
   
-  <td><span class="anchor" id="variable-iptb~2"></span>integer</td>
+  <td><span class="anchor" id="variable-iptb~4"></span>integer</td>
   <td></td>
   <td></td>
   
@@ -323,7 +347,7 @@ subroutine slpcon(Ioptn, Nparm, Numgr, Fun, Ifun, Pttbl, Iptb, Indm, Tolcon, Rch
   
 <tr>
   
-  <td><span class="anchor" id="variable-indm~2"></span>integer</td>
+  <td><span class="anchor" id="variable-indm~4"></span>integer</td>
   <td></td>
   <td></td>
   
@@ -338,7 +362,7 @@ subroutine slpcon(Ioptn, Nparm, Numgr, Fun, Ifun, Pttbl, Iptb, Indm, Tolcon, Rch
   
 <tr>
   
-  <td><span class="anchor" id="variable-tolcon"></span>real(kind=8)</td>
+  <td><span class="anchor" id="variable-tolcon"></span>real(kind=wp)</td>
   <td></td>
   <td></td>
   
@@ -353,7 +377,7 @@ subroutine slpcon(Ioptn, Nparm, Numgr, Fun, Ifun, Pttbl, Iptb, Indm, Tolcon, Rch
   
 <tr>
   
-  <td><span class="anchor" id="variable-rchin"></span>real(kind=8)</td>
+  <td><span class="anchor" id="variable-rchin"></span>real(kind=wp)</td>
   <td></td>
   <td></td>
   
@@ -413,7 +437,7 @@ subroutine slpcon(Ioptn, Nparm, Numgr, Fun, Ifun, Pttbl, Iptb, Indm, Tolcon, Rch
   
 <tr>
   
-  <td><span class="anchor" id="variable-icntyp"></span>integer</td>
+  <td><span class="anchor" id="variable-icntyp~2"></span>integer</td>
   <td></td>
   <td></td>
   
@@ -428,7 +452,7 @@ subroutine slpcon(Ioptn, Nparm, Numgr, Fun, Ifun, Pttbl, Iptb, Indm, Tolcon, Rch
   
 <tr>
   
-  <td><span class="anchor" id="variable-rchdwn"></span>real(kind=8)</td>
+  <td><span class="anchor" id="variable-rchdwn"></span>real(kind=wp)</td>
   <td></td>
   <td></td>
   
@@ -473,7 +497,7 @@ subroutine slpcon(Ioptn, Nparm, Numgr, Fun, Ifun, Pttbl, Iptb, Indm, Tolcon, Rch
   
 <tr>
   
-  <td><span class="anchor" id="variable-prjslp"></span>real(kind=8)</td>
+  <td><span class="anchor" id="variable-prjslp"></span>real(kind=wp)</td>
   <td></td>
   <td></td>
   
@@ -488,7 +512,7 @@ subroutine slpcon(Ioptn, Nparm, Numgr, Fun, Ifun, Pttbl, Iptb, Indm, Tolcon, Rch
   
 <tr>
   
-  <td><span class="anchor" id="variable-funtbl"></span>real(kind=8)</td>
+  <td><span class="anchor" id="variable-funtbl"></span>real(kind=wp)</td>
   <td></td>
   <td></td>
   
@@ -518,7 +542,7 @@ subroutine slpcon(Ioptn, Nparm, Numgr, Fun, Ifun, Pttbl, Iptb, Indm, Tolcon, Rch
   
 <tr>
   
-  <td><span class="anchor" id="variable-x"></span>real(kind=8)</td>
+  <td><span class="anchor" id="variable-x"></span>real(kind=wp)</td>
   <td></td>
   <td></td>
   
@@ -593,7 +617,7 @@ subroutine slpcon(Ioptn, Nparm, Numgr, Fun, Ifun, Pttbl, Iptb, Indm, Tolcon, Rch
   
 <tr>
   
-  <td><span class="anchor" id="variable-enchg"></span>real(kind=8)</td>
+  <td><span class="anchor" id="variable-enchg"></span>real(kind=wp)</td>
   <td></td>
   <td></td>
   
@@ -638,7 +662,7 @@ subroutine slpcon(Ioptn, Nparm, Numgr, Fun, Ifun, Pttbl, Iptb, Indm, Tolcon, Rch
   
 <tr>
   
-  <td><span class="anchor" id="variable-work~2"></span>real(kind=8)</td>
+  <td><span class="anchor" id="variable-work~2"></span>real(kind=wp)</td>
   <td></td>
   <td></td>
   
@@ -668,7 +692,7 @@ subroutine slpcon(Ioptn, Nparm, Numgr, Fun, Ifun, Pttbl, Iptb, Indm, Tolcon, Rch
   
 <tr>
   
-  <td><span class="anchor" id="variable-parser"></span>real(kind=8)</td>
+  <td><span class="anchor" id="variable-parser"></span>real(kind=wp)</td>
   <td></td>
   <td></td>
   
@@ -698,7 +722,7 @@ subroutine slpcon(Ioptn, Nparm, Numgr, Fun, Ifun, Pttbl, Iptb, Indm, Tolcon, Rch
   
 <tr>
   
-  <td><span class="anchor" id="variable-param~2"></span>real(kind=8)</td>
+  <td><span class="anchor" id="variable-param~4"></span>real(kind=wp)</td>
   <td></td>
   <td></td>
   
@@ -713,7 +737,7 @@ subroutine slpcon(Ioptn, Nparm, Numgr, Fun, Ifun, Pttbl, Iptb, Indm, Tolcon, Rch
   
 <tr>
   
-  <td><span class="anchor" id="variable-error~2"></span>real(kind=8)</td>
+  <td><span class="anchor" id="variable-error~2"></span>real(kind=wp)</td>
   <td></td>
   <td></td>
   
@@ -742,265 +766,61 @@ subroutine slpcon(Ioptn, Nparm, Numgr, Fun, Ifun, Pttbl, Iptb, Indm, Tolcon, Rch
 <!-- Generated by graphviz version 2.43.0 (0)
  -->
 <!-- Title: proc~~slpcon~~CallsGraph Pages: 1 -->
-<svg id="procslpconCallsGraph" width="512pt" height="343pt"
- viewBox="0.00 0.00 512.00 342.93" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g id="proc~~slpcon~~CallsGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 338.93)">
+<svg id="procslpconCallsGraph" width="242pt" height="74pt"
+ viewBox="0.00 0.00 242.00 74.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="proc~~slpcon~~CallsGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 70)">
 <title>proc~~slpcon~~CallsGraph</title>
-<polygon fill="white" stroke="transparent" points="-4,4 -4,-338.93 508,-338.93 508,4 -4,4"/>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-70 238,-70 238,4 -4,4"/>
 <!-- proc~slpcon -->
 <g id="proc~~slpcon~~CallsGraph_node1" class="node">
 <title>proc~slpcon</title>
-<polygon fill="none" stroke="black" points="54,-261 0,-261 0,-237 54,-237 54,-261"/>
-<text text-anchor="middle" x="27" y="-246.6" font-family="Helvetica,sans-Serif" font-size="10.50">slpcon</text>
+<polygon fill="none" stroke="black" points="54,-45 0,-45 0,-21 54,-21 54,-45"/>
+<text text-anchor="middle" x="27" y="-30.6" font-family="Helvetica,sans-Serif" font-size="10.50">slpcon</text>
 </g>
-<!-- proc~setu1 -->
+<!-- proc~iloc -->
 <g id="proc~~slpcon~~CallsGraph_node2" class="node">
-<title>proc~setu1</title>
-<g id="a_proc~~slpcon~~CallsGraph_node2"><a xlink:href=".././proc/setu1.html" xlink:title="setu1">
-<polygon fill="#d9534f" stroke="#d9534f" points="234,-310 180,-310 180,-286 234,-286 234,-310"/>
-<text text-anchor="middle" x="207" y="-295.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">setu1</text>
+<title>proc~iloc</title>
+<g id="a_proc~~slpcon~~CallsGraph_node2"><a xlink:href=".././proc/iloc.html" xlink:title="iloc">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="144,-66 90,-66 90,-42 144,-42 144,-66"/>
+<text text-anchor="middle" x="117" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">iloc</text>
 </a>
 </g>
 </g>
-<!-- proc~slpcon&#45;&gt;proc~setu1 -->
+<!-- proc~slpcon&#45;&gt;proc~iloc -->
 <g id="proc~~slpcon~~CallsGraph_edge1" class="edge">
-<title>proc~slpcon&#45;&gt;proc~setu1</title>
-<path fill="none" stroke="#000000" d="M54.26,-256.23C84.85,-264.65 135.55,-278.61 169.84,-288.05"/>
-<polygon fill="#000000" stroke="#000000" points="169.35,-291.54 179.92,-290.82 171.21,-284.79 169.35,-291.54"/>
+<title>proc~slpcon&#45;&gt;proc~iloc</title>
+<path fill="none" stroke="#000000" d="M54.4,-39.3C62.48,-41.23 71.51,-43.38 80.1,-45.43"/>
+<polygon fill="#000000" stroke="#000000" points="79.38,-48.86 89.92,-47.78 81,-42.05 79.38,-48.86"/>
 </g>
 <!-- proc~slnpro -->
 <g id="proc~~slpcon~~CallsGraph_node3" class="node">
 <title>proc~slnpro</title>
 <g id="a_proc~~slpcon~~CallsGraph_node3"><a xlink:href=".././proc/slnpro.html" xlink:title="slnpro">
-<polygon fill="#d9534f" stroke="#d9534f" points="144,-160 90,-160 90,-136 144,-136 144,-160"/>
-<text text-anchor="middle" x="117" y="-145.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">slnpro</text>
+<polygon fill="#d9534f" stroke="#d9534f" points="144,-24 90,-24 90,0 144,0 144,-24"/>
+<text text-anchor="middle" x="117" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">slnpro</text>
 </a>
 </g>
 </g>
 <!-- proc~slpcon&#45;&gt;proc~slnpro -->
 <g id="proc~~slpcon~~CallsGraph_edge2" class="edge">
 <title>proc~slpcon&#45;&gt;proc~slnpro</title>
-<path fill="none" stroke="#000000" d="M38.79,-236.62C53.72,-219.49 80.83,-188.37 98.63,-167.94"/>
-<polygon fill="#000000" stroke="#000000" points="101.47,-170.01 105.4,-160.17 96.19,-165.41 101.47,-170.01"/>
+<path fill="none" stroke="#000000" d="M54.4,-26.7C62.48,-24.77 71.51,-22.62 80.1,-20.57"/>
+<polygon fill="#000000" stroke="#000000" points="81,-23.95 89.92,-18.22 79.38,-17.14 81,-23.95"/>
 </g>
-<!-- proc~searsl -->
+<!-- proc~sjelim -->
 <g id="proc~~slpcon~~CallsGraph_node4" class="node">
-<title>proc~searsl</title>
-<g id="a_proc~~slpcon~~CallsGraph_node4"><a xlink:href=".././proc/searsl.html" xlink:title="searsl">
-<polygon fill="#d9534f" stroke="#d9534f" points="144,-241 90,-241 90,-217 144,-217 144,-241"/>
-<text text-anchor="middle" x="117" y="-226.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">searsl</text>
+<title>proc~sjelim</title>
+<g id="a_proc~~slpcon~~CallsGraph_node4"><a xlink:href=".././proc/sjelim.html" xlink:title="sjelim">
+<polygon fill="#d9534f" stroke="#d9534f" points="234,-24 180,-24 180,0 234,0 234,-24"/>
+<text text-anchor="middle" x="207" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">sjelim</text>
 </a>
 </g>
 </g>
-<!-- proc~slpcon&#45;&gt;proc~searsl -->
+<!-- proc~slnpro&#45;&gt;proc~sjelim -->
 <g id="proc~~slpcon~~CallsGraph_edge3" class="edge">
-<title>proc~slpcon&#45;&gt;proc~searsl</title>
-<path fill="none" stroke="#000000" d="M54.4,-243C62.48,-241.16 71.51,-239.11 80.1,-237.16"/>
-<polygon fill="#000000" stroke="#000000" points="80.94,-240.56 89.92,-234.93 79.39,-233.73 80.94,-240.56"/>
-</g>
-<!-- proc~ercmp1 -->
-<g id="proc~~slpcon~~CallsGraph_node5" class="node">
-<title>proc~ercmp1</title>
-<g id="a_proc~~slpcon~~CallsGraph_node5"><a xlink:href=".././proc/ercmp1.html" xlink:title="ercmp1">
-<polygon fill="#d9534f" stroke="#d9534f" points="414,-251 360,-251 360,-227 414,-227 414,-251"/>
-<text text-anchor="middle" x="387" y="-236.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">ercmp1</text>
-</a>
-</g>
-</g>
-<!-- proc~slpcon&#45;&gt;proc~ercmp1 -->
-<g id="proc~~slpcon~~CallsGraph_edge4" class="edge">
-<title>proc~slpcon&#45;&gt;proc~ercmp1</title>
-<path fill="none" stroke="#000000" d="M45.94,-261.22C93.54,-292.01 226.08,-366.99 324,-319 348.84,-306.83 366.57,-279.38 376.55,-260.04"/>
-<polygon fill="#000000" stroke="#000000" points="379.69,-261.57 380.94,-251.05 373.4,-258.5 379.69,-261.57"/>
-</g>
-<!-- derst -->
-<g id="proc~~slpcon~~CallsGraph_node6" class="node">
-<title>derst</title>
-<polygon fill="#777777" stroke="#777777" points="324,-310 270,-310 270,-286 324,-286 324,-310"/>
-<text text-anchor="middle" x="297" y="-295.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">derst</text>
-</g>
-<!-- proc~setu1&#45;&gt;derst -->
-<g id="proc~~slpcon~~CallsGraph_edge5" class="edge">
-<title>proc~setu1&#45;&gt;derst</title>
-<path fill="none" stroke="#000000" d="M234.4,-298C242.39,-298 251.31,-298 259.82,-298"/>
-<polygon fill="#000000" stroke="#000000" points="259.92,-301.5 269.92,-298 259.92,-294.5 259.92,-301.5"/>
-</g>
-<!-- sjelim -->
-<g id="proc~~slpcon~~CallsGraph_node7" class="node">
-<title>sjelim</title>
-<polygon fill="#777777" stroke="#777777" points="234,-131 180,-131 180,-107 234,-107 234,-131"/>
-<text text-anchor="middle" x="207" y="-116.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">sjelim</text>
-</g>
-<!-- proc~slnpro&#45;&gt;sjelim -->
-<g id="proc~~slpcon~~CallsGraph_edge6" class="edge">
-<title>proc~slnpro&#45;&gt;sjelim</title>
-<path fill="none" stroke="#000000" d="M144.4,-139.3C152.57,-136.61 161.7,-133.6 170.38,-130.74"/>
-<polygon fill="#000000" stroke="#000000" points="171.52,-134.05 179.92,-127.59 169.33,-127.4 171.52,-134.05"/>
-</g>
-<!-- proc~searsl&#45;&gt;proc~ercmp1 -->
-<g id="proc~~slpcon~~CallsGraph_edge9" class="edge">
-<title>proc~searsl&#45;&gt;proc~ercmp1</title>
-<path fill="none" stroke="#000000" d="M144.18,-229.98C192.22,-231.77 294.51,-235.59 349.39,-237.63"/>
-<polygon fill="#000000" stroke="#000000" points="349.59,-241.14 359.71,-238.02 349.85,-234.15 349.59,-241.14"/>
-</g>
-<!-- proc~corrct -->
-<g id="proc~~slpcon~~CallsGraph_node9" class="node">
-<title>proc~corrct</title>
-<g id="a_proc~~slpcon~~CallsGraph_node9"><a xlink:href=".././proc/corrct.html" xlink:title="corrct">
-<polygon fill="#d9534f" stroke="#d9534f" points="234,-211 180,-211 180,-187 234,-187 234,-211"/>
-<text text-anchor="middle" x="207" y="-196.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">corrct</text>
-</a>
-</g>
-</g>
-<!-- proc~searsl&#45;&gt;proc~corrct -->
-<g id="proc~~slpcon~~CallsGraph_edge8" class="edge">
-<title>proc~searsl&#45;&gt;proc~corrct</title>
-<path fill="none" stroke="#000000" d="M144.4,-220C152.57,-217.22 161.7,-214.1 170.38,-211.14"/>
-<polygon fill="#000000" stroke="#000000" points="171.58,-214.43 179.92,-207.89 169.32,-207.81 171.58,-214.43"/>
-</g>
-<!-- proc~rchmod -->
-<g id="proc~~slpcon~~CallsGraph_node10" class="node">
-<title>proc~rchmod</title>
-<g id="a_proc~~slpcon~~CallsGraph_node10"><a xlink:href=".././proc/rchmod.html" xlink:title="rchmod">
-<polygon fill="#d9534f" stroke="#d9534f" points="324,-66 270,-66 270,-42 324,-42 324,-66"/>
-<text text-anchor="middle" x="297" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">rchmod</text>
-</a>
-</g>
-</g>
-<!-- proc~searsl&#45;&gt;proc~rchmod -->
-<g id="proc~~slpcon~~CallsGraph_edge7" class="edge">
-<title>proc~searsl&#45;&gt;proc~rchmod</title>
-<path fill="none" stroke="#000000" d="M132.04,-216.94C144.45,-206.41 163.14,-190.83 180,-178 203.35,-160.22 214.39,-161.84 234,-140 256.06,-115.43 248.76,-100.29 270,-75 270.49,-74.42 271,-73.84 271.52,-73.27"/>
-<polygon fill="#000000" stroke="#000000" points="274.08,-75.66 278.91,-66.22 269.25,-70.59 274.08,-75.66"/>
-</g>
-<!-- fnset -->
-<g id="proc~~slpcon~~CallsGraph_node8" class="node">
-<title>fnset</title>
-<polygon fill="#777777" stroke="#777777" points="504,-251 450,-251 450,-227 504,-227 504,-251"/>
-<text text-anchor="middle" x="477" y="-236.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">fnset</text>
-</g>
-<!-- proc~ercmp1&#45;&gt;fnset -->
-<g id="proc~~slpcon~~CallsGraph_edge10" class="edge">
-<title>proc~ercmp1&#45;&gt;fnset</title>
-<path fill="none" stroke="#000000" d="M414.4,-239C422.39,-239 431.31,-239 439.82,-239"/>
-<polygon fill="#000000" stroke="#000000" points="439.92,-242.5 449.92,-239 439.92,-235.5 439.92,-242.5"/>
-</g>
-<!-- proc~corrct&#45;&gt;proc~ercmp1 -->
-<g id="proc~~slpcon~~CallsGraph_edge16" class="edge">
-<title>proc~corrct&#45;&gt;proc~ercmp1</title>
-<path fill="none" stroke="#000000" d="M234.26,-204.9C264.85,-211.78 315.55,-223.17 349.84,-230.87"/>
-<polygon fill="#000000" stroke="#000000" points="349.39,-234.36 359.92,-233.14 350.93,-227.53 349.39,-234.36"/>
-</g>
-<!-- proc~corrct&#45;&gt;derst -->
-<g id="proc~~slpcon~~CallsGraph_edge12" class="edge">
-<title>proc~corrct&#45;&gt;derst</title>
-<path fill="none" stroke="#000000" d="M218.79,-211.14C233.63,-227.84 260.54,-258.1 278.34,-278.13"/>
-<polygon fill="#000000" stroke="#000000" points="275.86,-280.61 285.12,-285.76 281.09,-275.96 275.86,-280.61"/>
-</g>
-<!-- proc~corrct&#45;&gt;proc~rchmod -->
-<g id="proc~~slpcon~~CallsGraph_edge15" class="edge">
-<title>proc~corrct&#45;&gt;proc~rchmod</title>
-<path fill="none" stroke="#000000" d="M222.45,-186.75C226.59,-182.7 230.84,-177.95 234,-173 258.99,-133.9 242.97,-112.72 270,-75 270.36,-74.5 270.73,-74 271.12,-73.51"/>
-<polygon fill="#000000" stroke="#000000" points="273.81,-75.77 278.25,-66.15 268.78,-70.9 273.81,-75.77"/>
-</g>
-<!-- wolfe -->
-<g id="proc~~slpcon~~CallsGraph_node11" class="node">
-<title>wolfe</title>
-<polygon fill="#777777" stroke="#777777" points="324,-150 270,-150 270,-126 324,-126 324,-150"/>
-<text text-anchor="middle" x="297" y="-135.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">wolfe</text>
-</g>
-<!-- proc~corrct&#45;&gt;wolfe -->
-<g id="proc~~slpcon~~CallsGraph_edge11" class="edge">
-<title>proc~corrct&#45;&gt;wolfe</title>
-<path fill="none" stroke="#000000" d="M225.39,-186.95C238.16,-178.09 255.73,-165.91 270.15,-155.92"/>
-<polygon fill="#000000" stroke="#000000" points="272.43,-158.6 278.65,-150.03 268.44,-152.85 272.43,-158.6"/>
-</g>
-<!-- proc~muller -->
-<g id="proc~~slpcon~~CallsGraph_node13" class="node">
-<title>proc~muller</title>
-<g id="a_proc~~slpcon~~CallsGraph_node13"><a xlink:href=".././proc/muller.html" xlink:title="muller">
-<polygon fill="#d9534f" stroke="#d9534f" points="324,-192 270,-192 270,-168 324,-168 324,-192"/>
-<text text-anchor="middle" x="297" y="-177.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">muller</text>
-</a>
-</g>
-</g>
-<!-- proc~corrct&#45;&gt;proc~muller -->
-<g id="proc~~slpcon~~CallsGraph_edge13" class="edge">
-<title>proc~corrct&#45;&gt;proc~muller</title>
-<path fill="none" stroke="#000000" d="M234.4,-193.3C242.48,-191.56 251.51,-189.61 260.1,-187.75"/>
-<polygon fill="#000000" stroke="#000000" points="260.88,-191.16 269.92,-185.63 259.41,-184.32 260.88,-191.16"/>
-</g>
-<!-- searcr -->
-<g id="proc~~slpcon~~CallsGraph_node14" class="node">
-<title>searcr</title>
-<polygon fill="#777777" stroke="#777777" points="324,-108 270,-108 270,-84 324,-84 324,-108"/>
-<text text-anchor="middle" x="297" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">searcr</text>
-</g>
-<!-- proc~corrct&#45;&gt;searcr -->
-<g id="proc~~slpcon~~CallsGraph_edge14" class="edge">
-<title>proc~corrct&#45;&gt;searcr</title>
-<path fill="none" stroke="#000000" d="M221.27,-186.82C225.54,-182.62 230.15,-177.77 234,-173 252.57,-149.96 250.24,-139.02 270,-117 270.61,-116.32 271.24,-115.64 271.9,-114.97"/>
-<polygon fill="#000000" stroke="#000000" points="274.34,-117.48 279.34,-108.13 269.61,-112.32 274.34,-117.48"/>
-</g>
-<!-- proc~house -->
-<g id="proc~~slpcon~~CallsGraph_node12" class="node">
-<title>proc~house</title>
-<g id="a_proc~~slpcon~~CallsGraph_node12"><a xlink:href=".././proc/house.html" xlink:title="house">
-<polygon fill="#d9534f" stroke="#d9534f" points="414,-108 360,-108 360,-84 414,-84 414,-108"/>
-<text text-anchor="middle" x="387" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">house</text>
-</a>
-</g>
-</g>
-<!-- proc~rchmod&#45;&gt;proc~house -->
-<g id="proc~~slpcon~~CallsGraph_edge19" class="edge">
-<title>proc~rchmod&#45;&gt;proc~house</title>
-<path fill="none" stroke="#000000" d="M323.45,-66.15C332.21,-70.33 342.17,-75.08 351.52,-79.54"/>
-<polygon fill="#000000" stroke="#000000" points="350.07,-82.73 360.6,-83.88 353.09,-76.41 350.07,-82.73"/>
-</g>
-<!-- proc~refwl -->
-<g id="proc~~slpcon~~CallsGraph_node15" class="node">
-<title>proc~refwl</title>
-<g id="a_proc~~slpcon~~CallsGraph_node15"><a xlink:href=".././proc/refwl.html" xlink:title="refwl">
-<polygon fill="#d9534f" stroke="#d9534f" points="414,-66 360,-66 360,-42 414,-42 414,-66"/>
-<text text-anchor="middle" x="387" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">refwl</text>
-</a>
-</g>
-</g>
-<!-- proc~rchmod&#45;&gt;proc~refwl -->
-<g id="proc~~slpcon~~CallsGraph_edge17" class="edge">
-<title>proc~rchmod&#45;&gt;proc~refwl</title>
-<path fill="none" stroke="#000000" d="M324.4,-54C332.39,-54 341.31,-54 349.82,-54"/>
-<polygon fill="#000000" stroke="#000000" points="349.92,-57.5 359.92,-54 349.92,-50.5 349.92,-57.5"/>
-</g>
-<!-- conenr -->
-<g id="proc~~slpcon~~CallsGraph_node16" class="node">
-<title>conenr</title>
-<polygon fill="#777777" stroke="#777777" points="414,-24 360,-24 360,0 414,0 414,-24"/>
-<text text-anchor="middle" x="387" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">conenr</text>
-</g>
-<!-- proc~rchmod&#45;&gt;conenr -->
-<g id="proc~~slpcon~~CallsGraph_edge18" class="edge">
-<title>proc~rchmod&#45;&gt;conenr</title>
-<path fill="none" stroke="#000000" d="M323.45,-41.85C332.21,-37.67 342.17,-32.92 351.52,-28.46"/>
-<polygon fill="#000000" stroke="#000000" points="353.09,-31.59 360.6,-24.12 350.07,-25.27 353.09,-31.59"/>
-</g>
-<!-- float -->
-<g id="proc~~slpcon~~CallsGraph_node17" class="node">
-<title>float</title>
-<polygon fill="#777777" stroke="#777777" points="504,-108 450,-108 450,-84 504,-84 504,-108"/>
-<text text-anchor="middle" x="477" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">float</text>
-</g>
-<!-- proc~house&#45;&gt;float -->
-<g id="proc~~slpcon~~CallsGraph_edge20" class="edge">
-<title>proc~house&#45;&gt;float</title>
-<path fill="none" stroke="#000000" d="M414.4,-96C422.39,-96 431.31,-96 439.82,-96"/>
-<polygon fill="#000000" stroke="#000000" points="439.92,-99.5 449.92,-96 439.92,-92.5 439.92,-99.5"/>
-</g>
-<!-- proc~muller&#45;&gt;proc~ercmp1 -->
-<g id="proc~~slpcon~~CallsGraph_edge21" class="edge">
-<title>proc~muller&#45;&gt;proc~ercmp1</title>
-<path fill="none" stroke="#000000" d="M316.23,-192.22C328.71,-200.59 345.44,-211.81 359.4,-221.16"/>
-<polygon fill="#000000" stroke="#000000" points="357.84,-224.33 368.09,-226.99 361.73,-218.52 357.84,-224.33"/>
+<title>proc~slnpro&#45;&gt;proc~sjelim</title>
+<path fill="none" stroke="#000000" d="M144.4,-12C152.39,-12 161.31,-12 169.82,-12"/>
+<polygon fill="#000000" stroke="#000000" points="169.92,-15.5 179.92,-12 169.92,-8.5 169.92,-15.5"/>
 </g>
 </g>
 </svg>
@@ -1066,107 +886,6 @@ subroutine slpcon(Ioptn, Nparm, Numgr, Fun, Ifun, Pttbl, Iptb, Indm, Tolcon, Rch
       </div>
     </div>
      
-     
-    <div class="panel panel-default">
-      <div class="panel-heading">
-  <h3 class="panel-title">Called by</h3>
-      </div>
-      <div class="panel-body">
-  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
- "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<!-- Generated by graphviz version 2.43.0 (0)
- -->
-<!-- Title: proc~~slpcon~~CalledByGraph Pages: 1 -->
-<svg id="procslpconCalledByGraph" width="153pt" height="32pt"
- viewBox="0.00 0.00 153.00 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g id="proc~~slpcon~~CalledByGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
-<title>proc~~slpcon~~CalledByGraph</title>
-<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 149,-28 149,4 -4,4"/>
-<!-- proc~slpcon -->
-<g id="proc~~slpcon~~CalledByGraph_node1" class="node">
-<title>proc~slpcon</title>
-<polygon fill="none" stroke="black" points="145,-24 91,-24 91,0 145,0 145,-24"/>
-<text text-anchor="middle" x="118" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">slpcon</text>
-</g>
-<!-- proc~conmax -->
-<g id="proc~~slpcon~~CalledByGraph_node2" class="node">
-<title>proc~conmax</title>
-<g id="a_proc~~slpcon~~CalledByGraph_node2"><a xlink:href=".././proc/conmax.html" xlink:title="conmax">
-<polygon fill="#d9534f" stroke="#d9534f" points="55,-24 0,-24 0,0 55,0 55,-24"/>
-<text text-anchor="middle" x="27.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">conmax</text>
-</a>
-</g>
-</g>
-<!-- proc~conmax&#45;&gt;proc~slpcon -->
-<g id="proc~~slpcon~~CalledByGraph_edge1" class="edge">
-<title>proc~conmax&#45;&gt;proc~slpcon</title>
-<path fill="none" stroke="#000000" d="M55.05,-12C63.09,-12 72.06,-12 80.62,-12"/>
-<polygon fill="#000000" stroke="#000000" points="80.77,-15.5 90.77,-12 80.77,-8.5 80.77,-15.5"/>
-</g>
-</g>
-</svg>
-</div><div><a type="button" class="graph-help" data-toggle="modal" href="#graph-help-text">Help</a></div><div class="modal fade" id="graph-help-text" tabindex="-1" role="dialog"><div class="modal-dialog modal-lg" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="-graph-help-label">Graph Key</h4></div><div class="modal-body">
-    <p>Nodes of different colours represent the following: </p>
-    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
- "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<!-- Generated by graphviz version 2.43.0 (0)
- -->
-<!-- Title: Graph Key Pages: 1 -->
-<svg width="597pt" height="32pt"
- viewBox="0.00 0.00 596.50 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
-<title>Graph Key</title>
-<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 592.5,-28 592.5,4 -4,4"/>
-<!-- Subroutine -->
-<g id="node1" class="node">
-<title>Subroutine</title>
-<polygon fill="#d9534f" stroke="#d9534f" points="70,-24 0,-24 0,0 70,0 70,-24"/>
-<text text-anchor="middle" x="35" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
-</g>
-<!-- Function -->
-<g id="node2" class="node">
-<title>Function</title>
-<polygon fill="#d94e8f" stroke="#d94e8f" points="146,-24 88,-24 88,0 146,0 146,-24"/>
-<text text-anchor="middle" x="117" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
-</g>
-<!-- Interface -->
-<g id="node3" class="node">
-<title>Interface</title>
-<polygon fill="#a7506f" stroke="#a7506f" points="225.5,-24 164.5,-24 164.5,0 225.5,0 225.5,-24"/>
-<text text-anchor="middle" x="195" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Interface</text>
-</g>
-<!-- Unknown Procedure Type -->
-<g id="node4" class="node">
-<title>Unknown Procedure Type</title>
-<polygon fill="#777777" stroke="#777777" points="388.5,-24 243.5,-24 243.5,0 388.5,0 388.5,-24"/>
-<text text-anchor="middle" x="316" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Unknown Procedure Type</text>
-</g>
-<!-- Program -->
-<g id="node5" class="node">
-<title>Program</title>
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="465,-24 407,-24 407,0 465,0 465,-24"/>
-<text text-anchor="middle" x="436" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
-</g>
-<!-- This Page&#39;s Entity -->
-<g id="node6" class="node">
-<title>This Page&#39;s Entity</title>
-<polygon fill="none" stroke="black" points="588.5,-24 483.5,-24 483.5,0 588.5,0 588.5,-24"/>
-<text text-anchor="middle" x="536" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
-</g>
-</g>
-</svg>
-
-    
-    <p>Solid arrows point from a procedure to one which it calls. Dashed 
-    arrows point from an interface to procedures which implement that interface.
-    This could include the module procedures in a generic interface or the
-    implementation in a submodule of an interface in a parent module.
-    </p>
-    </div></div></div></div>
-      </div>
-    </div>
      
     <br>
 
@@ -1195,7 +914,13 @@ subroutine slpcon(Ioptn, Nparm, Numgr, Fun, Ifun, Pttbl, Iptb, Indm, Tolcon, Rch
 
 
 
-<em>None</em>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/slpcon.html#src">slpcon</a>
+  </div>
+</div>
+
 
 
     </section>
@@ -1218,6 +943,182 @@ subroutine slpcon(Ioptn, Nparm, Numgr, Fun, Ifun, Pttbl, Iptb, Indm, Tolcon, Rch
 
     
     
+    
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span>      <span class="k">subroutine </span><span class="n">slpcon</span><span class="p">(</span><span class="n">me</span><span class="p">,</span><span class="n">Ioptn</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">,</span><span class="n">Fun</span><span class="p">,</span><span class="n">Ifun</span><span class="p">,</span><span class="n">Pttbl</span><span class="p">,</span><span class="n">Iptb</span><span class="p">,</span><span class="n">Indm</span><span class="p">,</span>     <span class="p">&amp;</span>
+                        <span class="n">Tolcon</span><span class="p">,</span><span class="n">Rchin</span><span class="p">,</span><span class="n">Irk</span><span class="p">,</span><span class="n">Itypm1</span><span class="p">,</span><span class="n">Itypm2</span><span class="p">,</span><span class="n">Icntyp</span><span class="p">,</span><span class="n">Rchdwn</span><span class="p">,</span>   <span class="p">&amp;</span>
+                        <span class="n">Numlim</span><span class="p">,</span><span class="n">Itersl</span><span class="p">,</span><span class="n">Prjslp</span><span class="p">,</span><span class="n">Funtbl</span><span class="p">,</span><span class="n">Iyrct</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">Mact1</span><span class="p">,</span><span class="n">Iact1</span><span class="p">,&amp;</span>
+                        <span class="n">Jcntyp</span><span class="p">,</span><span class="n">Iphse</span><span class="p">,</span><span class="n">Enchg</span><span class="p">,</span><span class="n">Iwork</span><span class="p">,</span><span class="n">Liwrk</span><span class="p">,</span><span class="n">Work</span><span class="p">,</span><span class="n">Lwrk</span><span class="p">,</span><span class="n">Parser</span><span class="p">,&amp;</span>
+                        <span class="n">Isucc</span><span class="p">,</span><span class="n">Param</span><span class="p">,</span><span class="n">Error</span><span class="p">)</span>
+
+      <span class="k">implicit none</span>
+
+<span class="k">      class</span><span class="p">(</span><span class="n">conmax_solver</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span> <span class="kd">::</span> <span class="n">me</span>
+      <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">big</span> <span class="p">,</span> <span class="n">bndlgt</span> <span class="p">,</span> <span class="n">emin</span> <span class="p">,</span> <span class="n">emin1</span> <span class="p">,</span> <span class="n">Enchg</span> <span class="p">,</span> <span class="n">enorm</span> <span class="p">,</span>     <span class="p">&amp;</span>
+           <span class="p">&amp;</span> <span class="n">Error</span> <span class="p">,</span> <span class="n">four</span> <span class="p">,</span> <span class="n">Fun</span> <span class="p">,</span> <span class="n">Funtbl</span> <span class="p">,</span> <span class="n">one</span> <span class="p">,</span> <span class="n">Param</span> <span class="p">,</span> <span class="n">Parser</span> <span class="p">,</span>       <span class="p">&amp;</span>
+           <span class="p">&amp;</span> <span class="n">prjlim</span> <span class="p">,</span> <span class="n">Prjslp</span> <span class="p">,</span> <span class="n">Pttbl</span> <span class="p">,</span> <span class="n">quots</span> <span class="p">,</span> <span class="n">Rchdwn</span> <span class="p">,</span> <span class="n">Rchin</span>
+      <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">spcmn</span> <span class="p">,</span> <span class="n">ss</span> <span class="p">,</span> <span class="n">ten</span> <span class="p">,</span> <span class="n">tol1</span> <span class="p">,</span> <span class="n">tol2</span> <span class="p">,</span> <span class="n">Tolcon</span> <span class="p">,</span> <span class="n">two</span> <span class="p">,</span> <span class="n">unit</span> <span class="p">,</span>     <span class="p">&amp;</span>
+           <span class="p">&amp;</span> <span class="n">Work</span> <span class="p">,</span> <span class="n">x</span> <span class="p">,</span> <span class="n">zero</span>
+      <span class="kt">integer</span> <span class="kd">::</span> <span class="n">i</span> <span class="p">,</span> <span class="n">Iact1</span> <span class="p">,</span> <span class="n">Icntyp</span> <span class="p">,</span> <span class="n">Ifun</span> <span class="p">,</span> <span class="n">ilc05</span> <span class="p">,</span> <span class="n">ilc07</span> <span class="p">,</span> <span class="n">ilc08</span> <span class="p">,</span>       <span class="p">&amp;</span>
+            <span class="p">&amp;</span> <span class="n">ilc11</span> <span class="p">,</span> <span class="n">ilc13</span> <span class="p">,</span> <span class="n">ilc18</span> <span class="p">,</span> <span class="n">ilc19</span> <span class="p">,</span> <span class="n">ilc25</span> <span class="p">,</span> <span class="n">ilc35</span> <span class="p">,</span> <span class="n">ilc45</span> <span class="p">,</span>   <span class="p">&amp;</span>
+            <span class="p">&amp;</span> <span class="n">ilc47</span> <span class="p">,</span> <span class="n">indic</span> <span class="p">,</span> <span class="n">Indm</span> <span class="p">,</span> <span class="n">Ioptn</span> <span class="p">,</span> <span class="n">Iphse</span>
+      <span class="kt">integer</span> <span class="kd">::</span> <span class="n">ipmax</span> <span class="p">,</span> <span class="n">Iptb</span> <span class="p">,</span> <span class="n">Irk</span> <span class="p">,</span> <span class="n">ismax</span> <span class="p">,</span> <span class="n">Isucc</span> <span class="p">,</span> <span class="n">Itersl</span> <span class="p">,</span> <span class="n">Itypm1</span> <span class="p">,</span>    <span class="p">&amp;</span>
+            <span class="p">&amp;</span> <span class="n">Itypm2</span> <span class="p">,</span> <span class="n">Iwork</span> <span class="p">,</span> <span class="n">Iyrct</span> <span class="p">,</span> <span class="n">j</span> <span class="p">,</span> <span class="n">Jcntyp</span> <span class="p">,</span> <span class="n">Liwrk</span> <span class="p">,</span> <span class="n">Lwrk</span> <span class="p">,</span> <span class="n">m</span> <span class="p">,</span>  <span class="p">&amp;</span>
+            <span class="p">&amp;</span> <span class="n">Mact1</span> <span class="p">,</span> <span class="n">ng3</span> <span class="p">,</span> <span class="n">npar1</span> <span class="p">,</span> <span class="n">Nparm</span> <span class="p">,</span> <span class="n">nsrch</span>
+      <span class="kt">integer</span> <span class="kd">::</span> <span class="n">Numgr</span> <span class="p">,</span> <span class="n">numin</span> <span class="p">,</span> <span class="n">Numlim</span>
+<span class="c">!</span>
+      <span class="k">dimension </span><span class="n">Fun</span><span class="p">(</span><span class="n">Ifun</span><span class="p">)</span> <span class="p">,</span> <span class="n">Pttbl</span><span class="p">(</span><span class="n">Iptb</span><span class="p">,</span><span class="n">Indm</span><span class="p">)</span> <span class="p">,</span> <span class="n">Icntyp</span><span class="p">(</span><span class="n">Numgr</span><span class="p">)</span> <span class="p">,</span>          <span class="p">&amp;</span>
+              <span class="p">&amp;</span> <span class="n">Funtbl</span><span class="p">(</span><span class="n">Numgr</span><span class="p">,</span><span class="n">Nparm</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="p">,</span> <span class="n">Iyrct</span><span class="p">(</span><span class="n">Numgr</span><span class="o">+</span><span class="mi">2</span><span class="o">*</span><span class="n">Nparm</span><span class="p">)</span> <span class="p">,</span>          <span class="p">&amp;</span>
+              <span class="p">&amp;</span> <span class="n">x</span><span class="p">(</span><span class="n">Nparm</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="p">,</span> <span class="n">Iact1</span><span class="p">(</span><span class="n">Numgr</span><span class="p">)</span> <span class="p">,</span> <span class="n">Param</span><span class="p">(</span><span class="n">Nparm</span><span class="p">)</span> <span class="p">,</span>              <span class="p">&amp;</span>
+              <span class="p">&amp;</span> <span class="n">Error</span><span class="p">(</span><span class="n">Numgr</span><span class="o">+</span><span class="mi">3</span><span class="p">)</span> <span class="p">,</span> <span class="n">Jcntyp</span><span class="p">(</span><span class="n">Numgr</span><span class="p">)</span> <span class="p">,</span> <span class="n">Parser</span><span class="p">(</span><span class="n">Nparm</span><span class="p">)</span> <span class="p">,</span>        <span class="p">&amp;</span>
+              <span class="p">&amp;</span> <span class="n">Iwork</span><span class="p">(</span><span class="n">Liwrk</span><span class="p">)</span> <span class="p">,</span> <span class="n">Work</span><span class="p">(</span><span class="n">Lwrk</span><span class="p">)</span>
+<span class="c">!</span>
+<span class="c">! SET MACHINE AND PRECISION DEPENDENT CONSTANTS.</span>
+<span class="c">!     NWRIT=output_unit</span>
+      <span class="n">one</span> <span class="o">=</span> <span class="mf">1.0d0</span>
+      <span class="n">zero</span> <span class="o">=</span> <span class="n">one</span> <span class="o">-</span> <span class="n">one</span>
+      <span class="n">two</span> <span class="o">=</span> <span class="n">one</span> <span class="o">+</span> <span class="n">one</span>
+      <span class="n">four</span> <span class="o">=</span> <span class="n">two</span> <span class="o">+</span> <span class="n">two</span>
+      <span class="n">ten</span> <span class="o">=</span> <span class="n">four</span> <span class="o">+</span> <span class="n">four</span> <span class="o">+</span> <span class="n">two</span>
+      <span class="n">spcmn</span> <span class="o">=</span> <span class="n">d1mach3</span>
+      <span class="n">big</span> <span class="o">=</span> <span class="n">one</span><span class="o">/</span><span class="n">spcmn</span>
+      <span class="n">tol1</span> <span class="o">=</span> <span class="n">ten</span><span class="o">*</span><span class="n">ten</span><span class="o">*</span><span class="n">spcmn</span>
+      <span class="n">tol2</span> <span class="o">=</span> <span class="n">ten</span><span class="o">*</span><span class="n">spcmn</span>
+      <span class="n">ilc05</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
+      <span class="n">ilc07</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
+      <span class="n">ilc08</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
+      <span class="n">ilc11</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">11</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
+      <span class="n">ilc13</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">13</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
+      <span class="n">ilc18</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">18</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
+      <span class="n">ilc19</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">19</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
+      <span class="n">ilc25</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">25</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
+      <span class="n">ilc35</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">35</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
+      <span class="n">ilc45</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">45</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
+      <span class="n">ilc47</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">47</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
+      <span class="n">numin</span> <span class="o">=</span> <span class="mi">0</span>
+      <span class="n">Isucc</span> <span class="o">=</span> <span class="mi">0</span>
+      <span class="n">enorm</span> <span class="o">=</span> <span class="n">Error</span><span class="p">(</span><span class="n">Numgr</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+      <span class="n">npar1</span> <span class="o">=</span> <span class="n">Nparm</span> <span class="o">+</span> <span class="mi">1</span>
+      <span class="n">ng3</span> <span class="o">=</span> <span class="n">Numgr</span> <span class="o">+</span> <span class="mi">3</span>
+<span class="c">! IF ITERSL=0, SET IYRCT(1)=-1 FOR USE IN SETU1 AND TO TELL SLNPRO NOT</span>
+<span class="c">! TO TRY TO USE INFORMATION FROM A PREVIOUS VERTEX.</span>
+      <span class="k">if</span> <span class="p">(</span> <span class="n">Itersl</span><span class="o">&lt;=</span><span class="mi">0</span> <span class="p">)</span> <span class="n">Iyrct</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+<span class="c">!</span>
+<span class="c">! CALL BNDSET TO SET (OR RESET) THE COEFFICIENT CHANGE BOUNDS.</span>
+ <span class="mi">100</span>  <span class="k">call </span><span class="n">bndset</span><span class="p">(</span><span class="n">Nparm</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">Itersl</span><span class="p">,</span><span class="n">numin</span><span class="p">,</span><span class="n">Prjslp</span><span class="p">,</span><span class="n">Work</span><span class="p">(</span><span class="n">ilc07</span><span class="p">),</span><span class="n">Work</span><span class="p">(</span><span class="n">ilc45</span><span class="p">),</span>  <span class="p">&amp;</span>
+                <span class="p">&amp;</span> <span class="n">Work</span><span class="p">(</span><span class="n">ilc05</span><span class="p">))</span>
+<span class="c">!</span>
+<span class="c">! CALL SETU1 TO SET UP FOR SLNPRO AND, IF NUMIN=0, TO DETERMINE</span>
+<span class="c">! WHICH CONSTRAINTS ARE ACTIVE AND STORE FUNCTION AND GRADIENT VALUES</span>
+<span class="c">! FOR THEM IN FUNTBL.</span>
+      <span class="k">call </span><span class="n">me</span><span class="p">%</span><span class="n">setu1</span><span class="p">(</span><span class="n">Ioptn</span><span class="p">,</span><span class="n">Numgr</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">numin</span><span class="p">,</span><span class="n">Rchin</span><span class="p">,</span><span class="n">Pttbl</span><span class="p">,</span><span class="n">Iptb</span><span class="p">,</span><span class="n">Indm</span><span class="p">,</span><span class="n">Fun</span><span class="p">,</span><span class="n">Ifun</span><span class="p">,&amp;</span>
+               <span class="p">&amp;</span> <span class="n">Funtbl</span><span class="p">,</span><span class="n">Work</span><span class="p">(</span><span class="n">ilc07</span><span class="p">),</span><span class="n">Param</span><span class="p">,</span><span class="n">Icntyp</span><span class="p">,</span><span class="n">Rchdwn</span><span class="p">,</span><span class="n">Error</span><span class="p">,</span><span class="n">Mact1</span><span class="p">,</span>    <span class="p">&amp;</span>
+               <span class="p">&amp;</span> <span class="n">Iact1</span><span class="p">,</span><span class="n">bndlgt</span><span class="p">,</span><span class="n">Iyrct</span><span class="p">,</span><span class="n">Iphse</span><span class="p">,</span><span class="n">Iwork</span><span class="p">,</span><span class="n">Liwrk</span><span class="p">,</span><span class="n">Work</span><span class="p">,</span><span class="n">Lwrk</span><span class="p">,</span>        <span class="p">&amp;</span>
+               <span class="p">&amp;</span> <span class="n">Work</span><span class="p">(</span><span class="n">ilc08</span><span class="p">),</span><span class="n">Iwork</span><span class="p">(</span><span class="n">ilc13</span><span class="p">),</span><span class="n">Work</span><span class="p">(</span><span class="n">ilc35</span><span class="p">),</span><span class="n">m</span><span class="p">)</span>
+<span class="c">!</span>
+<span class="c">! SET UNIT (FOR USE IN RCHMOD) EQUAL TO THE VALUE OF BNDLGT AFTER</span>
+<span class="c">! SETU1 IS CALLED WITH NUMIN=0.</span>
+      <span class="k">if</span> <span class="p">(</span> <span class="n">numin</span><span class="o">&lt;=</span><span class="mi">0</span> <span class="p">)</span> <span class="n">unit</span> <span class="o">=</span> <span class="n">bndlgt</span>
+<span class="c">!</span>
+<span class="c">! CALL SLNPRO TO COMPUTE A SEARCH DIRECTION X.</span>
+      <span class="k">call </span><span class="n">slnpro</span><span class="p">(</span><span class="n">Work</span><span class="p">(</span><span class="n">ilc35</span><span class="p">),</span><span class="n">m</span><span class="p">,</span><span class="n">npar1</span><span class="p">,</span><span class="n">Iyrct</span><span class="p">,</span><span class="n">Work</span><span class="p">(</span><span class="n">ilc47</span><span class="p">),</span><span class="n">Iwork</span><span class="p">(</span><span class="n">ilc18</span><span class="p">),</span>   <span class="p">&amp;</span>
+                <span class="p">&amp;</span> <span class="n">Iwork</span><span class="p">(</span><span class="n">ilc19</span><span class="p">),</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">indic</span><span class="p">)</span>
+<span class="c">!</span>
+<span class="c">! IF INDIC .GT. 0 THEN SLNPRO FAILED TO PRODUCE AN X, AND IF WE HAVE</span>
+<span class="c">! REACHED THE SLPCON ITERATION LIMIT WE RETURN WITH THE WARNING</span>
+<span class="c">! ISUCC=1.</span>
+      <span class="k">if</span> <span class="p">(</span> <span class="n">indic</span><span class="o">&lt;=</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
+<span class="c">!</span>
+<span class="c">! HERE SLNPRO SUCCEEDED AND WE SET PRJSLP=1.0 INITIALLY FOR SEARSL.</span>
+         <span class="n">Prjslp</span> <span class="o">=</span> <span class="n">one</span>
+<span class="c">!</span>
+<span class="c">! WE NOW WISH TO DETERMINE PRJLIM = THE SMALLER OF 1.0/SPCMN AND</span>
+<span class="c">! THE LARGEST VALUE OF PRJSLP FOR WHICH THE LINEAR STANDARD CONSTRAINTS</span>
+<span class="c">! ARE SATISFIED FOR THE PARAMETER VECTOR PARAM+PRJSLP*X.  THIS</span>
+<span class="c">! WILL GIVE AN UPPER BOUND FOR LINE SEARCHING.  NOTE THAT IN</span>
+<span class="c">! THEORY WE SHOULD HAVE PRJLIM .GE. 1.0 SINCE THE LINEAR STANDARD</span>
+<span class="c">! CONSTRAINTS SHOULD BE SATISFIED FOR PRJSLP=0.0 AND PRJSLP=1.0, BUT</span>
+<span class="c">! ROUNDOFF ERROR COULD AFFECT THIS A LITTLE.  IF THERE ARE NO</span>
+<span class="c">! LINEAR STANDARD CONSTRAINTS, WE SET PRJLIM=1.0/SPCMN.</span>
+         <span class="n">prjlim</span> <span class="o">=</span> <span class="n">big</span>
+<span class="c">!*****INSERT TO MAKE SEARCHING LESS VIOLENT.</span>
+<span class="c">!     PRJLIM=TWO</span>
+<span class="c">!*****END INSERT</span>
+         <span class="k">if</span> <span class="p">(</span> <span class="n">Itypm1</span><span class="o">&gt;</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
+<span class="k">            do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Numgr</span>
+               <span class="k">if</span> <span class="p">(</span> <span class="n">Icntyp</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="o">==</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
+<span class="c">! WE WISH TO HAVE SUMMATION (FUNTBL(I,J+1)*(PARAM(J)+PRJSLP*X(J)))</span>
+<span class="c">! + C(I) .LE. 0.0 FOR I=1,...,NUMGR, ICNTYP(I) = -1,</span>
+<span class="c">! WHERE THE ITH CONSTRAINT APPLIED TO PARAM SAYS</span>
+<span class="c">! SUMMATION (FUNTBL(I,J+1)*PARAM(J)) + C(I) .LE. 0.0, SO C(I) IS THE</span>
+<span class="c">! CONSTANT TERM ON THE LEFT SIDE OF LINEAR CONSTRANT I.</span>
+<span class="c">! THUS FOR I=1,...,NUMGR, ICNTYP(I) = -1, WE WANT PRJLIM*SS .LE. SSS,</span>
+<span class="c">! WHERE SS = SUMMATION (FUNTBL(I,J+1)*X(J)) AND SSS = -C(I) -</span>
+<span class="c">! SUMMATION (FUNTBL(I,J+1)*PARAM(J)) = -FUNTBL(I,1).</span>
+                  <span class="n">ss</span> <span class="o">=</span> <span class="n">zero</span>
+                  <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Nparm</span>
+                     <span class="n">ss</span> <span class="o">=</span> <span class="n">ss</span> <span class="o">+</span> <span class="n">Funtbl</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">x</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+                  <span class="k">enddo</span>
+<span class="c">! IF SS .LT. 10.0*SPCMN THIS CONSTRAINT WILL NOT PUT A SIGNIFICANT</span>
+<span class="c">! RESTRICTION ON PRJSLP.</span>
+                  <span class="k">if</span> <span class="p">(</span> <span class="n">ss</span><span class="o">&gt;=</span><span class="n">tol2</span> <span class="p">)</span> <span class="k">then</span>
+<span class="c">! HERE SS .GE. 10.0*SPCMN AND WE COMPARE SSS/SS AGIANST PRJLIM.</span>
+                     <span class="n">quots</span> <span class="o">=</span> <span class="o">-</span><span class="n">Funtbl</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="n">ss</span>
+                     <span class="k">if</span> <span class="p">(</span> <span class="n">prjlim</span><span class="o">&gt;</span><span class="n">quots</span> <span class="p">)</span> <span class="n">prjlim</span> <span class="o">=</span> <span class="n">quots</span>
+                  <span class="k">endif</span>
+<span class="k">               endif</span>
+<span class="k">            enddo</span>
+<span class="k">         endif</span>
+<span class="c">! DO NOT ALLOW A PRJSLP SMALLER THAN TOL1.</span>
+         <span class="k">if</span> <span class="p">(</span> <span class="n">Prjslp</span><span class="o">&lt;</span><span class="n">tol1</span> <span class="p">)</span> <span class="n">Prjslp</span> <span class="o">=</span> <span class="n">tol1</span>
+<span class="c">! CALL SEARSL TO DO A LINE SEARCH IN DIRECTION X.</span>
+         <span class="k">call </span><span class="n">me</span><span class="p">%</span><span class="n">searsl</span><span class="p">(</span><span class="n">Ioptn</span><span class="p">,</span><span class="n">Numgr</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">prjlim</span><span class="p">,</span><span class="n">tol1</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">Fun</span><span class="p">,</span><span class="n">Ifun</span><span class="p">,</span><span class="n">Pttbl</span><span class="p">,</span>    <span class="p">&amp;</span>
+                        <span class="n">Iptb</span><span class="p">,</span><span class="n">Indm</span><span class="p">,</span><span class="n">Param</span><span class="p">,</span><span class="n">Error</span><span class="p">,</span><span class="n">Rchdwn</span><span class="p">,</span><span class="n">Mact1</span><span class="p">,</span><span class="n">Iact1</span><span class="p">,</span><span class="n">Iphse</span><span class="p">,</span>    <span class="p">&amp;</span>
+                        <span class="n">unit</span><span class="p">,</span><span class="n">Tolcon</span><span class="p">,</span><span class="n">Rchin</span><span class="p">,</span><span class="n">Itypm1</span><span class="p">,</span><span class="n">Itypm2</span><span class="p">,</span><span class="n">Iwork</span><span class="p">,</span><span class="n">Liwrk</span><span class="p">,</span><span class="n">Work</span><span class="p">,</span>  <span class="p">&amp;</span>
+                        <span class="n">Lwrk</span><span class="p">,</span><span class="n">Work</span><span class="p">(</span><span class="n">ilc11</span><span class="p">),</span><span class="n">Work</span><span class="p">(</span><span class="n">ilc25</span><span class="p">),</span><span class="n">Prjslp</span><span class="p">,</span><span class="n">emin</span><span class="p">,</span><span class="n">emin1</span><span class="p">,</span>    <span class="p">&amp;</span>
+                        <span class="n">Parser</span><span class="p">,</span><span class="n">nsrch</span><span class="p">)</span>
+<span class="c">!</span>
+<span class="c">! COMPUTE THE ERROR NORM CHANGE ENCHG.</span>
+         <span class="n">Enchg</span> <span class="o">=</span> <span class="n">emin</span> <span class="o">-</span> <span class="n">enorm</span>
+<span class="c">!</span>
+<span class="c">! IF WE HAVE AN IMPROVEMENT IN THE ERROR NORM ENORM OF MORE THAN TOL1</span>
+<span class="c">! WE UPDATE PARAM AND ERROR AND RETURN WITH ISUCC=0, INDICATING SUCCESS.</span>
+<span class="c">! OTHERWISE WE CHECK TO SEE IF WE HAVE REACHED THE SLPCON ITERATION</span>
+<span class="c">! LIMIT, AND IF SO WE RETURN WITH ISUCC=1, INDICATING FAILURE.</span>
+         <span class="k">if</span> <span class="p">(</span> <span class="n">Enchg</span><span class="o">+</span><span class="n">tol1</span><span class="o">&lt;</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
+<span class="c">!</span>
+<span class="c">! HERE WE HAD AN IMPROVEMENT IN THE ERROR NORM ENORM OF MORE THAN TOL1.</span>
+            <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Nparm</span>
+               <span class="n">Param</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">Parser</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+            <span class="k">enddo</span>
+<span class="k">            call </span><span class="n">me</span><span class="p">%</span><span class="n">ercmp1</span><span class="p">(</span><span class="n">Ioptn</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">,</span><span class="n">Fun</span><span class="p">,</span><span class="n">Ifun</span><span class="p">,</span><span class="n">Pttbl</span><span class="p">,</span><span class="n">Iptb</span><span class="p">,</span><span class="n">Indm</span><span class="p">,</span>     <span class="p">&amp;</span>
+                      <span class="p">&amp;</span> <span class="n">Param</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">Iphse</span><span class="p">,</span><span class="n">Iwork</span><span class="p">,</span><span class="n">Liwrk</span><span class="p">,</span><span class="n">Work</span><span class="p">(</span><span class="n">ilc08</span><span class="p">),</span><span class="n">Icntyp</span><span class="p">,</span>   <span class="p">&amp;</span>
+                      <span class="p">&amp;</span> <span class="n">ipmax</span><span class="p">,</span><span class="n">ismax</span><span class="p">,</span><span class="n">Error</span><span class="p">)</span>
+            <span class="k">return</span>
+<span class="k">         endif</span>
+<span class="k">      endif</span>
+<span class="c">!</span>
+<span class="c">! HERE WE DID NOT OBTAIN AN IMPROVED ERROR NORM SO WE RETURN WITH THE</span>
+<span class="c">! WARNING ISUCC=1 IF WE HAVE DONE NUMLIN ITERATIONS IN SLPCON.</span>
+      <span class="k">if</span> <span class="p">(</span> <span class="n">numin</span><span class="o">&lt;</span><span class="n">Numlim</span> <span class="p">)</span> <span class="k">then</span>
+<span class="c">!</span>
+<span class="c">! HERE WE DID NOT OBTAIN AN IMPROVED ERROR NORM BUT WE HAVE NOT YET DONE</span>
+<span class="c">! NUMLIM ITERATIONS IN SLPCON SO WE INCREMENT NUMIN, SET IYRCT(1)=-1 TO</span>
+<span class="c">! TELL SLNPRO NOT TO TRY TO USE INFORMATION FROM THE PREVIOUS FAILED</span>
+<span class="c">! VERTEX, AND GO BACK TO CALL BNDSET AND TRY ANOTHER ITERATION WITH</span>
+<span class="c">! A DIFFERENT TRUST REGION.</span>
+         <span class="n">numin</span> <span class="o">=</span> <span class="n">numin</span> <span class="o">+</span> <span class="mi">1</span>
+         <span class="n">Iyrct</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+         <span class="k">goto </span><span class="mi">100</span>
+      <span class="k">endif</span>
+<span class="k">      </span><span class="n">Isucc</span> <span class="o">=</span> <span class="mi">1</span>
+
+    <span class="k">end subroutine </span><span class="n">slpcon</span>
+</pre></div>
+
+    </section>
+    <br>
     
     
     </div>
@@ -1268,10 +1169,6 @@ subroutine slpcon(Ioptn, Nparm, Numgr, Fun, Ifun, Pttbl, Iptb, Indm, Tolcon, Rch
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
-    
-    <script src="../tipuesearch/tipuesearch_content.js"></script>
-    <script src="../tipuesearch/tipuesearch_set.js"></script>
-    <script src="../tipuesearch/tipuesearch.js"></script>
     
     
   </body>

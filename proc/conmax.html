@@ -17,8 +17,6 @@
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
     
-    <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
-    
     
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -57,15 +55,21 @@
         <ul class="dropdown-menu">
           
               
-            <li><a href="../lists/files.html">Source Files</a></li>
+            <li><a href="../sourcefile/conmax.f90.html">Source File</a></li>
         
         
+        
+            <li><a href="../lists/modules.html">Modules</a></li>
         
             
                                 
             <li><a href="../lists/procedures.html">Procedures</a></li>
         
+        
+            <li><a href="../lists/absint.html">Abstract Interfaces</a></li>
                
+            <li><a href="../lists/types.html">Derived Types</a></li>
+        
                
         
         
@@ -74,28 +78,25 @@
             </li>
 
 
-<li class="visible-xs hidden-sm visible-lg"><a href="../lists/files.html">Source Files</a></li>
+<li class="visible-xs hidden-sm visible-lg"><a href="../sourcefile/conmax.f90.html">Source File</a></li>
 
 
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/modules.html">Modules</a></li>
 
 
 
 <li class="visible-xs hidden-sm visible-lg"><a href="../lists/procedures.html">Procedures</a></li>
 
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/absint.html">Abstract Interfaces</a></li>
                              
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/types.html">Derived Types</a></li>
+
 
 
 
           </ul>
-        
-        <form action="../search.html" class="navbar-form navbar-right" role="search">
-        <div class="form-group">
-          <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
-        </div>
-<!--
-        <button type="submit" class="btn btn-default">Submit</button>
--->
-        </form>
         
         </div><!--/.nav-collapse -->
       </div>
@@ -124,7 +125,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 8.5% of total for procedures.">280 statements</a>
+    title=" 8.9% of total for procedures.">281 statements</a>
      </li> 
      
      
@@ -137,6 +138,8 @@
   
     
      <li><a href='../sourcefile/conmax.f90.html'>conmax.f90</a></li>
+    
+     <li><a href='../module/conmax_module.html'>conmax_module</a></li>
     
   
      <li class="active">conmax</li>
@@ -180,7 +183,13 @@
 
 
 
-<em>None</em>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/conmax.html#src">conmax</a>
+  </div>
+</div>
+
 
 
 </div>
@@ -189,7 +198,7 @@
     
     <div class="col-md-9" id='text'>
     <h2>
-subroutine conmax(Ioptn, Nparm, Numgr, Itlim, Fun, Ifun, Pttbl, Iptb, Indm, Iwork, Liwrk, Work, Lwrk, Iter, Param, Error)
+private subroutine conmax(me, Ioptn, Nparm, Numgr, Itlim, Fun, Ifun, Pttbl, Iptb, Indm, Iwork, Liwrk, Work, Lwrk, Iter, Param, Error)
     
     
    
@@ -218,6 +227,21 @@ subroutine conmax(Ioptn, Nparm, Numgr, Itlim, Fun, Ifun, Pttbl, Iptb, Indm, Iwor
   
 <tr>
   
+  <td><span class="anchor" id="variable-me~2"></span>class(<a href='../type/conmax_solver.html'>conmax_solver</a>),</td>
+  <td>intent(inout)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>me</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
   <td><span class="anchor" id="variable-ioptn"></span>integer</td>
   <td></td>
   <td></td>
@@ -233,7 +257,7 @@ subroutine conmax(Ioptn, Nparm, Numgr, Itlim, Fun, Ifun, Pttbl, Iptb, Indm, Iwor
   
 <tr>
   
-  <td><span class="anchor" id="variable-nparm~3"></span>integer</td>
+  <td><span class="anchor" id="variable-nparm~4"></span>integer</td>
   <td></td>
   <td></td>
   
@@ -248,7 +272,7 @@ subroutine conmax(Ioptn, Nparm, Numgr, Itlim, Fun, Ifun, Pttbl, Iptb, Indm, Iwor
   
 <tr>
   
-  <td><span class="anchor" id="variable-numgr~2"></span>integer</td>
+  <td><span class="anchor" id="variable-numgr~3"></span>integer</td>
   <td></td>
   <td></td>
   
@@ -278,7 +302,7 @@ subroutine conmax(Ioptn, Nparm, Numgr, Itlim, Fun, Ifun, Pttbl, Iptb, Indm, Iwor
   
 <tr>
   
-  <td><span class="anchor" id="variable-fun"></span>real(kind=8)</td>
+  <td><span class="anchor" id="variable-fun"></span>real(kind=wp)</td>
   <td></td>
   <td></td>
   
@@ -308,7 +332,7 @@ subroutine conmax(Ioptn, Nparm, Numgr, Itlim, Fun, Ifun, Pttbl, Iptb, Indm, Iwor
   
 <tr>
   
-  <td><span class="anchor" id="variable-pttbl"></span>real(kind=8)</td>
+  <td><span class="anchor" id="variable-pttbl~2"></span>real(kind=wp)</td>
   <td></td>
   <td></td>
   
@@ -323,7 +347,7 @@ subroutine conmax(Ioptn, Nparm, Numgr, Itlim, Fun, Ifun, Pttbl, Iptb, Indm, Iwor
   
 <tr>
   
-  <td><span class="anchor" id="variable-iptb"></span>integer</td>
+  <td><span class="anchor" id="variable-iptb~2"></span>integer</td>
   <td></td>
   <td></td>
   
@@ -338,7 +362,7 @@ subroutine conmax(Ioptn, Nparm, Numgr, Itlim, Fun, Ifun, Pttbl, Iptb, Indm, Iwor
   
 <tr>
   
-  <td><span class="anchor" id="variable-indm"></span>integer</td>
+  <td><span class="anchor" id="variable-indm~2"></span>integer</td>
   <td></td>
   <td></td>
   
@@ -383,7 +407,7 @@ subroutine conmax(Ioptn, Nparm, Numgr, Itlim, Fun, Ifun, Pttbl, Iptb, Indm, Iwor
   
 <tr>
   
-  <td><span class="anchor" id="variable-work"></span>real(kind=8)</td>
+  <td><span class="anchor" id="variable-work"></span>real(kind=wp)</td>
   <td></td>
   <td></td>
   
@@ -428,7 +452,7 @@ subroutine conmax(Ioptn, Nparm, Numgr, Itlim, Fun, Ifun, Pttbl, Iptb, Indm, Iwor
   
 <tr>
   
-  <td><span class="anchor" id="variable-param"></span>real(kind=8)</td>
+  <td><span class="anchor" id="variable-param~2"></span>real(kind=wp)</td>
   <td></td>
   <td></td>
   
@@ -443,7 +467,7 @@ subroutine conmax(Ioptn, Nparm, Numgr, Itlim, Fun, Ifun, Pttbl, Iptb, Indm, Iwor
   
 <tr>
   
-  <td><span class="anchor" id="variable-error"></span>real(kind=8)</td>
+  <td><span class="anchor" id="variable-error"></span>real(kind=wp)</td>
   <td></td>
   <td></td>
   
@@ -472,412 +496,124 @@ subroutine conmax(Ioptn, Nparm, Numgr, Itlim, Fun, Ifun, Pttbl, Iptb, Indm, Iwor
 <!-- Generated by graphviz version 2.43.0 (0)
  -->
 <!-- Title: proc~~conmax~~CallsGraph Pages: 1 -->
-<svg id="procconmaxCallsGraph" width="603pt" height="518pt"
- viewBox="0.00 0.00 603.00 517.97" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g id="proc~~conmax~~CallsGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 513.97)">
+<svg id="procconmaxCallsGraph" width="333pt" height="154pt"
+ viewBox="0.00 0.00 333.00 154.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="proc~~conmax~~CallsGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 150)">
 <title>proc~~conmax~~CallsGraph</title>
-<polygon fill="white" stroke="transparent" points="-4,4 -4,-513.97 599,-513.97 599,4 -4,4"/>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-150 329,-150 329,4 -4,4"/>
 <!-- proc~conmax -->
 <g id="proc~~conmax~~CallsGraph_node1" class="node">
 <title>proc~conmax</title>
-<polygon fill="none" stroke="black" points="55,-172 0,-172 0,-148 55,-148 55,-172"/>
-<text text-anchor="middle" x="27.5" y="-157.6" font-family="Helvetica,sans-Serif" font-size="10.50">conmax</text>
+<polygon fill="none" stroke="black" points="55,-145 0,-145 0,-121 55,-121 55,-145"/>
+<text text-anchor="middle" x="27.5" y="-130.6" font-family="Helvetica,sans-Serif" font-size="10.50">conmax</text>
 </g>
-<!-- wolfe -->
+<!-- proc~iloc -->
 <g id="proc~~conmax~~CallsGraph_node2" class="node">
-<title>wolfe</title>
-<polygon fill="#777777" stroke="#777777" points="415,-488 361,-488 361,-464 415,-464 415,-488"/>
-<text text-anchor="middle" x="388" y="-473.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">wolfe</text>
-</g>
-<!-- proc~conmax&#45;&gt;wolfe -->
-<g id="proc~~conmax~~CallsGraph_edge2" class="edge">
-<title>proc~conmax&#45;&gt;wolfe</title>
-<path fill="none" stroke="#000000" d="M29.99,-172.02C36.7,-220.63 68.91,-403.76 181,-482 233.89,-518.92 261.6,-511.84 325,-500 334.15,-498.29 343.69,-495.28 352.46,-491.95"/>
-<polygon fill="#000000" stroke="#000000" points="354.02,-495.1 361.98,-488.11 351.4,-488.6 354.02,-495.1"/>
-</g>
-<!-- proc~rkcon -->
-<g id="proc~~conmax~~CallsGraph_node3" class="node">
-<title>proc~rkcon</title>
-<g id="a_proc~~conmax~~CallsGraph_node3"><a xlink:href=".././proc/rkcon.html" xlink:title="rkcon">
-<polygon fill="#d9534f" stroke="#d9534f" points="145,-326 91,-326 91,-302 145,-302 145,-326"/>
-<text text-anchor="middle" x="118" y="-311.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">rkcon</text>
+<title>proc~iloc</title>
+<g id="a_proc~~conmax~~CallsGraph_node2"><a xlink:href=".././proc/iloc.html" xlink:title="iloc">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="325,-146 271,-146 271,-122 325,-122 325,-146"/>
+<text text-anchor="middle" x="298" y="-131.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">iloc</text>
 </a>
 </g>
 </g>
-<!-- proc~conmax&#45;&gt;proc~rkcon -->
+<!-- proc~conmax&#45;&gt;proc~iloc -->
 <g id="proc~~conmax~~CallsGraph_edge1" class="edge">
-<title>proc~conmax&#45;&gt;proc~rkcon</title>
-<path fill="none" stroke="#000000" d="M35.44,-172.08C50.5,-198.29 86.31,-260.59 105.07,-293.23"/>
-<polygon fill="#000000" stroke="#000000" points="102.07,-295.05 110.09,-301.97 108.14,-291.56 102.07,-295.05"/>
+<title>proc~conmax&#45;&gt;proc~iloc</title>
+<path fill="none" stroke="#000000" d="M55.22,-133.23C85.67,-133.48 136.92,-133.86 181,-134 207.6,-134.09 237.63,-134.08 260.47,-134.06"/>
+<polygon fill="#000000" stroke="#000000" points="260.74,-137.56 270.74,-134.05 260.74,-130.56 260.74,-137.56"/>
 </g>
-<!-- derst -->
-<g id="proc~~conmax~~CallsGraph_node4" class="node">
-<title>derst</title>
-<polygon fill="#777777" stroke="#777777" points="415,-244 361,-244 361,-220 415,-220 415,-244"/>
-<text text-anchor="middle" x="388" y="-229.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">derst</text>
+<!-- proc~wolfe -->
+<g id="proc~~conmax~~CallsGraph_node3" class="node">
+<title>proc~wolfe</title>
+<g id="a_proc~~conmax~~CallsGraph_node3"><a xlink:href=".././proc/wolfe.html" xlink:title="wolfe">
+<polygon fill="#d9534f" stroke="#d9534f" points="145,-106 91,-106 91,-82 145,-82 145,-106"/>
+<text text-anchor="middle" x="118" y="-91.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">wolfe</text>
+</a>
 </g>
-<!-- proc~conmax&#45;&gt;derst -->
+</g>
+<!-- proc~conmax&#45;&gt;proc~wolfe -->
+<g id="proc~~conmax~~CallsGraph_edge2" class="edge">
+<title>proc~conmax&#45;&gt;proc~wolfe</title>
+<path fill="none" stroke="#000000" d="M55.05,-121.3C63.35,-117.64 72.65,-113.54 81.46,-109.66"/>
+<polygon fill="#000000" stroke="#000000" points="83.03,-112.79 90.77,-105.56 80.21,-106.39 83.03,-112.79"/>
+</g>
+<!-- proc~wolfe&#45;&gt;proc~iloc -->
 <g id="proc~~conmax~~CallsGraph_edge3" class="edge">
-<title>proc~conmax&#45;&gt;derst</title>
-<path fill="none" stroke="#000000" d="M55.15,-165.35C118.57,-178.09 278.49,-210.21 350.67,-224.7"/>
-<polygon fill="#000000" stroke="#000000" points="350.16,-228.17 360.66,-226.71 351.54,-221.31 350.16,-228.17"/>
+<title>proc~wolfe&#45;&gt;proc~iloc</title>
+<path fill="none" stroke="#000000" d="M145.27,-103.96C156.2,-107.83 169.09,-112.03 181,-115 207.44,-121.6 237.86,-126.48 260.92,-129.64"/>
+<polygon fill="#000000" stroke="#000000" points="260.58,-133.13 270.95,-130.98 261.5,-126.19 260.58,-133.13"/>
 </g>
-<!-- proc~ercmp1 -->
-<g id="proc~~conmax~~CallsGraph_node5" class="node">
-<title>proc~ercmp1</title>
-<g id="a_proc~~conmax~~CallsGraph_node5"><a xlink:href=".././proc/ercmp1.html" xlink:title="ercmp1">
-<polygon fill="#d9534f" stroke="#d9534f" points="505,-207 451,-207 451,-183 505,-183 505,-207"/>
-<text text-anchor="middle" x="478" y="-192.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">ercmp1</text>
+<!-- proc~dotprd -->
+<g id="proc~~conmax~~CallsGraph_node4" class="node">
+<title>proc~dotprd</title>
+<g id="a_proc~~conmax~~CallsGraph_node4"><a xlink:href=".././proc/dotprd.html" xlink:title="dotprd">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="325,-24 271,-24 271,0 325,0 325,-24"/>
+<text text-anchor="middle" x="298" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dotprd</text>
 </a>
 </g>
 </g>
-<!-- proc~conmax&#45;&gt;proc~ercmp1 -->
+<!-- proc~wolfe&#45;&gt;proc~dotprd -->
 <g id="proc~~conmax~~CallsGraph_edge4" class="edge">
-<title>proc~conmax&#45;&gt;proc~ercmp1</title>
-<path fill="none" stroke="#000000" d="M34.41,-147.97C53.65,-110.76 118.36,0 207,0 207,0 207,0 299,0 392.06,0 449.46,-122.63 469.24,-173.4"/>
-<polygon fill="#000000" stroke="#000000" points="465.98,-174.68 472.79,-182.8 472.53,-172.21 465.98,-174.68"/>
+<title>proc~wolfe&#45;&gt;proc~dotprd</title>
+<path fill="none" stroke="#000000" d="M127.26,-81.77C137.86,-67.12 157.7,-43.07 181,-31 205.62,-18.25 236.79,-13.68 260.62,-12.2"/>
+<polygon fill="#000000" stroke="#000000" points="260.84,-15.69 270.67,-11.73 260.52,-8.7 260.84,-15.69"/>
 </g>
-<!-- proc~slpcon -->
-<g id="proc~~conmax~~CallsGraph_node6" class="node">
-<title>proc~slpcon</title>
-<g id="a_proc~~conmax~~CallsGraph_node6"><a xlink:href=".././proc/slpcon.html" xlink:title="slpcon">
-<polygon fill="#d9534f" stroke="#d9534f" points="145,-132 91,-132 91,-108 145,-108 145,-132"/>
-<text text-anchor="middle" x="118" y="-117.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">slpcon</text>
+<!-- proc~conenr -->
+<g id="proc~~conmax~~CallsGraph_node5" class="node">
+<title>proc~conenr</title>
+<g id="a_proc~~conmax~~CallsGraph_node5"><a xlink:href=".././proc/conenr.html" xlink:title="conenr">
+<polygon fill="#d9534f" stroke="#d9534f" points="235,-64 181,-64 181,-40 235,-40 235,-64"/>
+<text text-anchor="middle" x="208" y="-49.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">conenr</text>
 </a>
 </g>
 </g>
-<!-- proc~conmax&#45;&gt;proc~slpcon -->
+<!-- proc~wolfe&#45;&gt;proc~conenr -->
 <g id="proc~~conmax~~CallsGraph_edge5" class="edge">
-<title>proc~conmax&#45;&gt;proc~slpcon</title>
-<path fill="none" stroke="#000000" d="M55.05,-148C63.35,-144.25 72.65,-140.05 81.46,-136.06"/>
-<polygon fill="#000000" stroke="#000000" points="83.1,-139.16 90.77,-131.86 80.22,-132.78 83.1,-139.16"/>
-</g>
-<!-- proc~rkcon&#45;&gt;wolfe -->
-<g id="proc~~conmax~~CallsGraph_edge7" class="edge">
-<title>proc~rkcon&#45;&gt;wolfe</title>
-<path fill="none" stroke="#000000" d="M120.2,-326.12C123.72,-354.44 136.73,-424.94 181,-457 230.82,-493.08 306.18,-489.39 350.61,-482.99"/>
-<polygon fill="#000000" stroke="#000000" points="351.33,-486.42 360.67,-481.42 350.25,-479.51 351.33,-486.42"/>
-</g>
-<!-- proc~rkcon&#45;&gt;derst -->
-<g id="proc~~conmax~~CallsGraph_edge8" class="edge">
-<title>proc~rkcon&#45;&gt;derst</title>
-<path fill="none" stroke="#000000" d="M137.37,-301.99C149.4,-294.55 165.66,-285.26 181,-279 237.99,-255.76 308.76,-242.79 350.77,-236.62"/>
-<polygon fill="#000000" stroke="#000000" points="351.4,-240.06 360.81,-235.19 350.42,-233.13 351.4,-240.06"/>
-</g>
-<!-- proc~rkcon&#45;&gt;proc~ercmp1 -->
-<g id="proc~~conmax~~CallsGraph_edge12" class="edge">
-<title>proc~rkcon&#45;&gt;proc~ercmp1</title>
-<path fill="none" stroke="#000000" d="M124.71,-301.87C141.44,-267.95 194.07,-172.34 271,-137 333.18,-108.44 412.5,-150.98 452.12,-177.11"/>
-<polygon fill="#000000" stroke="#000000" points="450.39,-180.17 460.63,-182.88 454.32,-174.37 450.39,-180.17"/>
-</g>
-<!-- proc~corrct -->
-<g id="proc~~conmax~~CallsGraph_node9" class="node">
-<title>proc~corrct</title>
-<g id="a_proc~~conmax~~CallsGraph_node9"><a xlink:href=".././proc/corrct.html" xlink:title="corrct">
-<polygon fill="#d9534f" stroke="#d9534f" points="325,-372 271,-372 271,-348 325,-348 325,-372"/>
-<text text-anchor="middle" x="298" y="-357.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">corrct</text>
-</a>
-</g>
-</g>
-<!-- proc~rkcon&#45;&gt;proc~corrct -->
-<g id="proc~~conmax~~CallsGraph_edge9" class="edge">
-<title>proc~rkcon&#45;&gt;proc~corrct</title>
-<path fill="none" stroke="#000000" d="M126.43,-326.08C136.58,-341.29 156.37,-366.68 181,-377 206.46,-387.67 237.5,-382.26 261.07,-374.82"/>
-<polygon fill="#000000" stroke="#000000" points="262.33,-378.08 270.67,-371.54 260.07,-371.46 262.33,-378.08"/>
-</g>
-<!-- proc~rkpar -->
-<g id="proc~~conmax~~CallsGraph_node11" class="node">
-<title>proc~rkpar</title>
-<g id="a_proc~~conmax~~CallsGraph_node11"><a xlink:href=".././proc/rkpar.html" xlink:title="rkpar">
-<polygon fill="#d9534f" stroke="#d9534f" points="235,-448 181,-448 181,-424 235,-424 235,-448"/>
-<text text-anchor="middle" x="208" y="-433.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">rkpar</text>
-</a>
-</g>
-</g>
-<!-- proc~rkcon&#45;&gt;proc~rkpar -->
-<g id="proc~~conmax~~CallsGraph_edge13" class="edge">
-<title>proc~rkcon&#45;&gt;proc~rkpar</title>
-<path fill="none" stroke="#000000" d="M125.68,-326.08C136.31,-344.84 158.19,-381.75 181,-410 182.68,-412.09 184.52,-414.19 186.4,-416.24"/>
-<polygon fill="#000000" stroke="#000000" points="184.27,-419.07 193.74,-423.81 189.29,-414.2 184.27,-419.07"/>
-</g>
-<!-- proc~rksact -->
-<g id="proc~~conmax~~CallsGraph_node12" class="node">
-<title>proc~rksact</title>
-<g id="a_proc~~conmax~~CallsGraph_node12"><a xlink:href=".././proc/rksact.html" xlink:title="rksact">
-<polygon fill="#d9534f" stroke="#d9534f" points="235,-368 181,-368 181,-344 235,-344 235,-368"/>
-<text text-anchor="middle" x="208" y="-353.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">rksact</text>
-</a>
-</g>
-</g>
-<!-- proc~rkcon&#45;&gt;proc~rksact -->
-<g id="proc~~conmax~~CallsGraph_edge10" class="edge">
-<title>proc~rkcon&#45;&gt;proc~rksact</title>
-<path fill="none" stroke="#000000" d="M144.45,-326.15C153.21,-330.33 163.17,-335.08 172.52,-339.54"/>
-<polygon fill="#000000" stroke="#000000" points="171.07,-342.73 181.6,-343.88 174.09,-336.41 171.07,-342.73"/>
-</g>
-<!-- proc~pmtst -->
-<g id="proc~~conmax~~CallsGraph_node13" class="node">
-<title>proc~pmtst</title>
-<g id="a_proc~~conmax~~CallsGraph_node13"><a xlink:href=".././proc/pmtst.html" xlink:title="pmtst">
-<polygon fill="#d9534f" stroke="#d9534f" points="325,-288 271,-288 271,-264 325,-264 325,-288"/>
-<text text-anchor="middle" x="298" y="-273.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">pmtst</text>
-</a>
-</g>
-</g>
-<!-- proc~rkcon&#45;&gt;proc~pmtst -->
-<g id="proc~~conmax~~CallsGraph_edge11" class="edge">
-<title>proc~rkcon&#45;&gt;proc~pmtst</title>
-<path fill="none" stroke="#000000" d="M145.24,-303.94C156.17,-300.06 169.07,-295.87 181,-293 207.43,-286.64 237.85,-282.29 260.91,-279.58"/>
-<polygon fill="#000000" stroke="#000000" points="261.4,-283.05 270.94,-278.45 260.61,-276.1 261.4,-283.05"/>
-</g>
-<!-- proc~searsl -->
-<g id="proc~~conmax~~CallsGraph_node14" class="node">
-<title>proc~searsl</title>
-<g id="a_proc~~conmax~~CallsGraph_node14"><a xlink:href=".././proc/searsl.html" xlink:title="searsl">
-<polygon fill="#d9534f" stroke="#d9534f" points="235,-326 181,-326 181,-302 235,-302 235,-326"/>
-<text text-anchor="middle" x="208" y="-311.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">searsl</text>
-</a>
-</g>
-</g>
-<!-- proc~rkcon&#45;&gt;proc~searsl -->
-<g id="proc~~conmax~~CallsGraph_edge6" class="edge">
-<title>proc~rkcon&#45;&gt;proc~searsl</title>
-<path fill="none" stroke="#000000" d="M145.4,-314C153.39,-314 162.31,-314 170.82,-314"/>
-<polygon fill="#000000" stroke="#000000" points="170.92,-317.5 180.92,-314 170.92,-310.5 170.92,-317.5"/>
-</g>
-<!-- fnset -->
-<g id="proc~~conmax~~CallsGraph_node10" class="node">
-<title>fnset</title>
-<polygon fill="#777777" stroke="#777777" points="595,-207 541,-207 541,-183 595,-183 595,-207"/>
-<text text-anchor="middle" x="568" y="-192.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">fnset</text>
-</g>
-<!-- proc~ercmp1&#45;&gt;fnset -->
-<g id="proc~~conmax~~CallsGraph_edge14" class="edge">
-<title>proc~ercmp1&#45;&gt;fnset</title>
-<path fill="none" stroke="#000000" d="M505.4,-195C513.39,-195 522.31,-195 530.82,-195"/>
-<polygon fill="#000000" stroke="#000000" points="530.92,-198.5 540.92,-195 530.92,-191.5 530.92,-198.5"/>
-</g>
-<!-- proc~slpcon&#45;&gt;proc~ercmp1 -->
-<g id="proc~~conmax~~CallsGraph_edge18" class="edge">
-<title>proc~slpcon&#45;&gt;proc~ercmp1</title>
-<path fill="none" stroke="#000000" d="M145.05,-110.15C199.05,-91.45 325.6,-56.73 415,-104 442.43,-118.5 460,-151.19 469.19,-173.18"/>
-<polygon fill="#000000" stroke="#000000" points="466.01,-174.68 472.93,-182.7 472.53,-172.12 466.01,-174.68"/>
-</g>
-<!-- proc~slnpro -->
-<g id="proc~~conmax~~CallsGraph_node7" class="node">
-<title>proc~slnpro</title>
-<g id="a_proc~~conmax~~CallsGraph_node7"><a xlink:href=".././proc/slnpro.html" xlink:title="slnpro">
-<polygon fill="#d9534f" stroke="#d9534f" points="235,-52 181,-52 181,-28 235,-28 235,-52"/>
-<text text-anchor="middle" x="208" y="-37.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">slnpro</text>
-</a>
-</g>
-</g>
-<!-- proc~slpcon&#45;&gt;proc~slnpro -->
-<g id="proc~~conmax~~CallsGraph_edge16" class="edge">
-<title>proc~slpcon&#45;&gt;proc~slnpro</title>
-<path fill="none" stroke="#000000" d="M132.37,-107.85C146.66,-94.85 169.53,-74.07 186.18,-58.92"/>
-<polygon fill="#000000" stroke="#000000" points="188.75,-61.32 193.8,-52 184.04,-56.14 188.75,-61.32"/>
-</g>
-<!-- proc~setu1 -->
-<g id="proc~~conmax~~CallsGraph_node8" class="node">
-<title>proc~setu1</title>
-<g id="a_proc~~conmax~~CallsGraph_node8"><a xlink:href=".././proc/setu1.html" xlink:title="setu1">
-<polygon fill="#d9534f" stroke="#d9534f" points="325,-170 271,-170 271,-146 325,-146 325,-170"/>
-<text text-anchor="middle" x="298" y="-155.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">setu1</text>
-</a>
-</g>
-</g>
-<!-- proc~slpcon&#45;&gt;proc~setu1 -->
-<g id="proc~~conmax~~CallsGraph_edge15" class="edge">
-<title>proc~slpcon&#45;&gt;proc~setu1</title>
-<path fill="none" stroke="#000000" d="M145.26,-125.61C175.85,-132.14 226.55,-142.96 260.84,-150.28"/>
-<polygon fill="#000000" stroke="#000000" points="260.41,-153.77 270.92,-152.43 261.87,-146.92 260.41,-153.77"/>
-</g>
-<!-- proc~slpcon&#45;&gt;proc~searsl -->
-<g id="proc~~conmax~~CallsGraph_edge17" class="edge">
-<title>proc~slpcon&#45;&gt;proc~searsl</title>
-<path fill="none" stroke="#000000" d="M124.5,-132.14C139.07,-164.25 178.78,-251.8 197.28,-292.57"/>
-<polygon fill="#000000" stroke="#000000" points="194.18,-294.21 201.5,-301.87 200.55,-291.32 194.18,-294.21"/>
-</g>
-<!-- sjelim -->
-<g id="proc~~conmax~~CallsGraph_node18" class="node">
-<title>sjelim</title>
-<polygon fill="#777777" stroke="#777777" points="325,-52 271,-52 271,-28 325,-28 325,-52"/>
-<text text-anchor="middle" x="298" y="-37.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">sjelim</text>
-</g>
-<!-- proc~slnpro&#45;&gt;sjelim -->
-<g id="proc~~conmax~~CallsGraph_edge19" class="edge">
-<title>proc~slnpro&#45;&gt;sjelim</title>
-<path fill="none" stroke="#000000" d="M235.4,-40C243.39,-40 252.31,-40 260.82,-40"/>
-<polygon fill="#000000" stroke="#000000" points="260.92,-43.5 270.92,-40 260.92,-36.5 260.92,-43.5"/>
-</g>
-<!-- proc~setu1&#45;&gt;derst -->
-<g id="proc~~conmax~~CallsGraph_edge20" class="edge">
-<title>proc~setu1&#45;&gt;derst</title>
-<path fill="none" stroke="#000000" d="M313.53,-170.22C327.42,-181.9 348.55,-199.66 364.59,-213.15"/>
-<polygon fill="#000000" stroke="#000000" points="362.54,-216 372.45,-219.76 367.05,-210.65 362.54,-216"/>
-</g>
-<!-- proc~corrct&#45;&gt;wolfe -->
-<g id="proc~~conmax~~CallsGraph_edge21" class="edge">
-<title>proc~corrct&#45;&gt;wolfe</title>
-<path fill="none" stroke="#000000" d="M305.35,-372.25C315.54,-391.2 336.84,-428.26 361,-455 361.61,-455.68 362.25,-456.35 362.9,-457.02"/>
-<polygon fill="#000000" stroke="#000000" points="360.62,-459.67 370.35,-463.85 365.35,-454.51 360.62,-459.67"/>
-</g>
-<!-- proc~corrct&#45;&gt;derst -->
-<g id="proc~~conmax~~CallsGraph_edge22" class="edge">
-<title>proc~corrct&#45;&gt;derst</title>
-<path fill="none" stroke="#000000" d="M307.44,-347.73C322.59,-325.69 354.54,-279.21 373.01,-252.35"/>
-<polygon fill="#000000" stroke="#000000" points="375.94,-254.27 378.72,-244.05 370.17,-250.31 375.94,-254.27"/>
-</g>
-<!-- proc~corrct&#45;&gt;proc~ercmp1 -->
-<g id="proc~~conmax~~CallsGraph_edge26" class="edge">
-<title>proc~corrct&#45;&gt;proc~ercmp1</title>
-<path fill="none" stroke="#000000" d="M324.13,-347.81C349.11,-334.87 387.57,-312.61 415,-286 436.58,-265.07 455.04,-235.51 466.08,-215.83"/>
-<polygon fill="#000000" stroke="#000000" points="469.15,-217.49 470.88,-207.04 463.01,-214.13 469.15,-217.49"/>
-</g>
-<!-- proc~rchmod -->
-<g id="proc~~conmax~~CallsGraph_node15" class="node">
-<title>proc~rchmod</title>
-<g id="a_proc~~conmax~~CallsGraph_node15"><a xlink:href=".././proc/rchmod.html" xlink:title="rchmod">
-<polygon fill="#d9534f" stroke="#d9534f" points="415,-446 361,-446 361,-422 415,-422 415,-446"/>
-<text text-anchor="middle" x="388" y="-431.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">rchmod</text>
-</a>
-</g>
-</g>
-<!-- proc~corrct&#45;&gt;proc~rchmod -->
-<g id="proc~~conmax~~CallsGraph_edge25" class="edge">
-<title>proc~corrct&#45;&gt;proc~rchmod</title>
-<path fill="none" stroke="#000000" d="M313.19,-372.32C325.69,-383.14 344.45,-399.24 361,-413 361.98,-413.81 362.98,-414.64 364,-415.48"/>
-<polygon fill="#000000" stroke="#000000" points="361.86,-418.25 371.82,-421.86 366.28,-412.82 361.86,-418.25"/>
-</g>
-<!-- proc~muller -->
-<g id="proc~~conmax~~CallsGraph_node16" class="node">
-<title>proc~muller</title>
-<g id="a_proc~~conmax~~CallsGraph_node16"><a xlink:href=".././proc/muller.html" xlink:title="muller">
-<polygon fill="#d9534f" stroke="#d9534f" points="415,-362 361,-362 361,-338 415,-338 415,-362"/>
-<text text-anchor="middle" x="388" y="-347.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">muller</text>
-</a>
-</g>
-</g>
-<!-- proc~corrct&#45;&gt;proc~muller -->
-<g id="proc~~conmax~~CallsGraph_edge23" class="edge">
-<title>proc~corrct&#45;&gt;proc~muller</title>
-<path fill="none" stroke="#000000" d="M325.4,-357C333.39,-356.09 342.31,-355.08 350.82,-354.11"/>
-<polygon fill="#000000" stroke="#000000" points="351.38,-357.57 360.92,-352.96 350.59,-350.62 351.38,-357.57"/>
-</g>
-<!-- searcr -->
-<g id="proc~~conmax~~CallsGraph_node17" class="node">
-<title>searcr</title>
-<polygon fill="#777777" stroke="#777777" points="415,-404 361,-404 361,-380 415,-380 415,-404"/>
-<text text-anchor="middle" x="388" y="-389.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">searcr</text>
-</g>
-<!-- proc~corrct&#45;&gt;searcr -->
-<g id="proc~~conmax~~CallsGraph_edge24" class="edge">
-<title>proc~corrct&#45;&gt;searcr</title>
-<path fill="none" stroke="#000000" d="M325.4,-369.6C333.57,-372.57 342.7,-375.89 351.38,-379.05"/>
-<polygon fill="#000000" stroke="#000000" points="350.32,-382.39 360.92,-382.52 352.72,-375.81 350.32,-382.39"/>
-</g>
-<!-- proc~rkpar&#45;&gt;wolfe -->
-<g id="proc~~conmax~~CallsGraph_edge29" class="edge">
-<title>proc~rkpar&#45;&gt;wolfe</title>
-<path fill="none" stroke="#000000" d="M235.26,-441.87C258.78,-447.14 294.19,-455.07 325,-462 333.34,-463.88 342.32,-465.9 350.77,-467.81"/>
-<polygon fill="#000000" stroke="#000000" points="350.23,-471.28 360.76,-470.06 351.77,-464.45 350.23,-471.28"/>
-</g>
-<!-- proc~rkpar&#45;&gt;proc~corrct -->
-<g id="proc~~conmax~~CallsGraph_edge28" class="edge">
-<title>proc~rkpar&#45;&gt;proc~corrct</title>
-<path fill="none" stroke="#000000" d="M223.14,-423.79C237.12,-411.71 258.73,-393.05 274.96,-379.03"/>
-<polygon fill="#000000" stroke="#000000" points="277.62,-381.37 282.9,-372.18 273.04,-376.07 277.62,-381.37"/>
-</g>
-<!-- proc~rkpar&#45;&gt;proc~pmtst -->
-<g id="proc~~conmax~~CallsGraph_edge27" class="edge">
-<title>proc~rkpar&#45;&gt;proc~pmtst</title>
-<path fill="none" stroke="#000000" d="M215.61,-423.97C230.46,-396.99 266.58,-331.31 285.31,-297.26"/>
-<polygon fill="#000000" stroke="#000000" points="288.56,-298.61 290.31,-288.17 282.42,-295.24 288.56,-298.61"/>
-</g>
-<!-- proc~pmtst&#45;&gt;derst -->
-<g id="proc~~conmax~~CallsGraph_edge30" class="edge">
-<title>proc~pmtst&#45;&gt;derst</title>
-<path fill="none" stroke="#000000" d="M323.05,-263.98C332.55,-259.22 343.64,-253.68 353.88,-248.56"/>
-<polygon fill="#000000" stroke="#000000" points="355.6,-251.61 362.98,-244.01 352.47,-245.35 355.6,-251.61"/>
-</g>
-<!-- proc~searsl&#45;&gt;proc~ercmp1 -->
-<g id="proc~~conmax~~CallsGraph_edge33" class="edge">
-<title>proc~searsl&#45;&gt;proc~ercmp1</title>
-<path fill="none" stroke="#000000" d="M235.31,-312.47C259.16,-310.54 295.06,-306.27 325,-297 367.53,-283.84 378.34,-278.27 415,-253 431.13,-241.89 447.22,-226.68 458.97,-214.63"/>
-<polygon fill="#000000" stroke="#000000" points="461.65,-216.89 466.01,-207.24 456.58,-212.06 461.65,-216.89"/>
-</g>
-<!-- proc~searsl&#45;&gt;proc~corrct -->
-<g id="proc~~conmax~~CallsGraph_edge32" class="edge">
-<title>proc~searsl&#45;&gt;proc~corrct</title>
-<path fill="none" stroke="#000000" d="M232.12,-326.09C242.13,-331.32 254,-337.52 264.85,-343.19"/>
-<polygon fill="#000000" stroke="#000000" points="263.55,-346.46 274.03,-347.99 266.79,-340.26 263.55,-346.46"/>
-</g>
-<!-- proc~searsl&#45;&gt;proc~rchmod -->
-<g id="proc~~conmax~~CallsGraph_edge31" class="edge">
-<title>proc~searsl&#45;&gt;proc~rchmod</title>
-<path fill="none" stroke="#000000" d="M225.17,-326.11C228.54,-328.9 231.99,-331.94 235,-335 253.22,-353.5 250.61,-364.93 271,-381 294.99,-399.92 326.82,-413.84 351.07,-422.66"/>
-<polygon fill="#000000" stroke="#000000" points="350.03,-426 360.62,-426.01 352.34,-419.39 350.03,-426"/>
+<title>proc~wolfe&#45;&gt;proc~conenr</title>
+<path fill="none" stroke="#000000" d="M144.45,-81.85C153.21,-77.67 163.17,-72.92 172.52,-68.46"/>
+<polygon fill="#000000" stroke="#000000" points="174.09,-71.59 181.6,-64.12 171.07,-65.27 174.09,-71.59"/>
 </g>
 <!-- proc~refwl -->
-<g id="proc~~conmax~~CallsGraph_node19" class="node">
+<g id="proc~~conmax~~CallsGraph_node6" class="node">
 <title>proc~refwl</title>
-<g id="a_proc~~conmax~~CallsGraph_node19"><a xlink:href=".././proc/refwl.html" xlink:title="refwl">
-<polygon fill="#d9534f" stroke="#d9534f" points="505,-446 451,-446 451,-422 505,-422 505,-446"/>
-<text text-anchor="middle" x="478" y="-431.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">refwl</text>
+<g id="a_proc~~conmax~~CallsGraph_node6"><a xlink:href=".././proc/refwl.html" xlink:title="refwl">
+<polygon fill="#d9534f" stroke="#d9534f" points="235,-106 181,-106 181,-82 235,-82 235,-106"/>
+<text text-anchor="middle" x="208" y="-91.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">refwl</text>
 </a>
 </g>
 </g>
-<!-- proc~rchmod&#45;&gt;proc~refwl -->
-<g id="proc~~conmax~~CallsGraph_edge34" class="edge">
-<title>proc~rchmod&#45;&gt;proc~refwl</title>
-<path fill="none" stroke="#000000" d="M415.4,-434C423.39,-434 432.31,-434 440.82,-434"/>
-<polygon fill="#000000" stroke="#000000" points="440.92,-437.5 450.92,-434 440.92,-430.5 440.92,-437.5"/>
+<!-- proc~wolfe&#45;&gt;proc~refwl -->
+<g id="proc~~conmax~~CallsGraph_edge6" class="edge">
+<title>proc~wolfe&#45;&gt;proc~refwl</title>
+<path fill="none" stroke="#000000" d="M145.4,-94C153.39,-94 162.31,-94 170.82,-94"/>
+<polygon fill="#000000" stroke="#000000" points="170.92,-97.5 180.92,-94 170.92,-90.5 170.92,-97.5"/>
 </g>
-<!-- conenr -->
-<g id="proc~~conmax~~CallsGraph_node20" class="node">
-<title>conenr</title>
-<polygon fill="#777777" stroke="#777777" points="505,-404 451,-404 451,-380 505,-380 505,-404"/>
-<text text-anchor="middle" x="478" y="-389.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">conenr</text>
+<!-- proc~conenr&#45;&gt;proc~iloc -->
+<g id="proc~~conmax~~CallsGraph_edge7" class="edge">
+<title>proc~conenr&#45;&gt;proc~iloc</title>
+<path fill="none" stroke="#000000" d="M224.61,-64.19C228.08,-67.02 231.71,-70.06 235,-73 249.98,-86.36 266.11,-102.28 278.17,-114.51"/>
+<polygon fill="#000000" stroke="#000000" points="275.95,-117.25 285.45,-121.95 280.95,-112.36 275.95,-117.25"/>
 </g>
-<!-- proc~rchmod&#45;&gt;conenr -->
-<g id="proc~~conmax~~CallsGraph_edge35" class="edge">
-<title>proc~rchmod&#45;&gt;conenr</title>
-<path fill="none" stroke="#000000" d="M414.45,-421.85C423.21,-417.67 433.17,-412.92 442.52,-408.46"/>
-<polygon fill="#000000" stroke="#000000" points="444.09,-411.59 451.6,-404.12 441.07,-405.27 444.09,-411.59"/>
+<!-- proc~conenr&#45;&gt;proc~dotprd -->
+<g id="proc~~conmax~~CallsGraph_edge9" class="edge">
+<title>proc~conenr&#45;&gt;proc~dotprd</title>
+<path fill="none" stroke="#000000" d="M235.4,-40C243.66,-36.25 252.9,-32.05 261.66,-28.06"/>
+<polygon fill="#000000" stroke="#000000" points="263.26,-31.18 270.92,-23.86 260.37,-24.81 263.26,-31.18"/>
 </g>
 <!-- proc~house -->
-<g id="proc~~conmax~~CallsGraph_node21" class="node">
+<g id="proc~~conmax~~CallsGraph_node7" class="node">
 <title>proc~house</title>
-<g id="a_proc~~conmax~~CallsGraph_node21"><a xlink:href=".././proc/house.html" xlink:title="house">
-<polygon fill="#d9534f" stroke="#d9534f" points="505,-488 451,-488 451,-464 505,-464 505,-488"/>
-<text text-anchor="middle" x="478" y="-473.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">house</text>
+<g id="a_proc~~conmax~~CallsGraph_node7"><a xlink:href=".././proc/house.html" xlink:title="house">
+<polygon fill="#d9534f" stroke="#d9534f" points="325,-66 271,-66 271,-42 325,-42 325,-66"/>
+<text text-anchor="middle" x="298" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">house</text>
 </a>
 </g>
 </g>
-<!-- proc~rchmod&#45;&gt;proc~house -->
-<g id="proc~~conmax~~CallsGraph_edge36" class="edge">
-<title>proc~rchmod&#45;&gt;proc~house</title>
-<path fill="none" stroke="#000000" d="M414.45,-446.15C423.21,-450.33 433.17,-455.08 442.52,-459.54"/>
-<polygon fill="#000000" stroke="#000000" points="441.07,-462.73 451.6,-463.88 444.09,-456.41 441.07,-462.73"/>
-</g>
-<!-- proc~muller&#45;&gt;proc~ercmp1 -->
-<g id="proc~~conmax~~CallsGraph_edge37" class="edge">
-<title>proc~muller&#45;&gt;proc~ercmp1</title>
-<path fill="none" stroke="#000000" d="M402.89,-337.82C407.1,-333.7 411.53,-328.9 415,-324 439.61,-289.28 459.04,-243.28 469.21,-216.63"/>
-<polygon fill="#000000" stroke="#000000" points="472.54,-217.71 472.76,-207.11 465.98,-215.26 472.54,-217.71"/>
-</g>
-<!-- float -->
-<g id="proc~~conmax~~CallsGraph_node22" class="node">
-<title>float</title>
-<polygon fill="#777777" stroke="#777777" points="595,-488 541,-488 541,-464 595,-464 595,-488"/>
-<text text-anchor="middle" x="568" y="-473.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">float</text>
-</g>
-<!-- proc~house&#45;&gt;float -->
-<g id="proc~~conmax~~CallsGraph_edge38" class="edge">
-<title>proc~house&#45;&gt;float</title>
-<path fill="none" stroke="#000000" d="M505.4,-476C513.39,-476 522.31,-476 530.82,-476"/>
-<polygon fill="#000000" stroke="#000000" points="530.92,-479.5 540.92,-476 530.92,-472.5 530.92,-479.5"/>
+<!-- proc~conenr&#45;&gt;proc~house -->
+<g id="proc~~conmax~~CallsGraph_edge8" class="edge">
+<title>proc~conenr&#45;&gt;proc~house</title>
+<path fill="none" stroke="#000000" d="M235.4,-52.6C243.39,-52.78 252.31,-52.98 260.82,-53.18"/>
+<polygon fill="#000000" stroke="#000000" points="260.84,-56.68 270.92,-53.41 261,-49.68 260.84,-56.68"/>
 </g>
 </g>
 </svg>
@@ -971,7 +707,13 @@ subroutine conmax(Ioptn, Nparm, Numgr, Itlim, Fun, Ifun, Pttbl, Iptb, Indm, Iwor
 
 
 
-<em>None</em>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/conmax.html#src">conmax</a>
+  </div>
+</div>
+
 
 
     </section>
@@ -994,6 +736,573 @@ subroutine conmax(Ioptn, Nparm, Numgr, Itlim, Fun, Ifun, Pttbl, Iptb, Indm, Iwor
 
     
     
+    
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span>      <span class="k">subroutine </span><span class="n">conmax</span><span class="p">(</span><span class="n">me</span><span class="p">,</span><span class="n">Ioptn</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">,</span><span class="n">Itlim</span><span class="p">,</span><span class="n">Fun</span><span class="p">,</span><span class="n">Ifun</span><span class="p">,</span><span class="n">Pttbl</span><span class="p">,</span><span class="n">Iptb</span><span class="p">,</span>    <span class="p">&amp;</span>
+                        <span class="n">Indm</span><span class="p">,</span><span class="n">Iwork</span><span class="p">,</span><span class="n">Liwrk</span><span class="p">,</span><span class="n">Work</span><span class="p">,</span><span class="n">Lwrk</span><span class="p">,</span><span class="n">Iter</span><span class="p">,</span><span class="n">Param</span><span class="p">,</span><span class="n">Error</span><span class="p">)</span>
+
+      <span class="k">implicit none</span>
+
+<span class="k">      class</span><span class="p">(</span><span class="n">conmax_solver</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span> <span class="kd">::</span> <span class="n">me</span>
+      <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">enc1</span> <span class="p">,</span> <span class="n">enchg</span> <span class="p">,</span> <span class="n">encsm</span> <span class="p">,</span> <span class="n">enor2</span> <span class="p">,</span> <span class="n">enor3</span> <span class="p">,</span> <span class="n">enorm</span> <span class="p">,</span>    <span class="p">&amp;</span>
+           <span class="p">&amp;</span> <span class="n">Error</span> <span class="p">,</span> <span class="n">four</span> <span class="p">,</span> <span class="n">Fun</span> <span class="p">,</span> <span class="n">one</span> <span class="p">,</span> <span class="n">Param</span> <span class="p">,</span> <span class="n">prjslp</span> <span class="p">,</span> <span class="n">projct</span> <span class="p">,</span>       <span class="p">&amp;</span>
+           <span class="p">&amp;</span> <span class="n">Pttbl</span> <span class="p">,</span> <span class="n">rchdnk</span> <span class="p">,</span> <span class="n">rchdwn</span> <span class="p">,</span> <span class="n">rchin</span> <span class="p">,</span> <span class="n">s</span> <span class="p">,</span> <span class="n">spcmn</span>
+      <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">ten</span> <span class="p">,</span> <span class="n">tolcon</span> <span class="p">,</span> <span class="n">tollin</span> <span class="p">,</span> <span class="n">two</span> <span class="p">,</span> <span class="n">wdist</span> <span class="p">,</span> <span class="n">Work</span> <span class="p">,</span> <span class="n">zero</span>
+      <span class="kt">integer</span> <span class="kd">::</span> <span class="n">i</span> <span class="p">,</span> <span class="n">i1</span> <span class="p">,</span> <span class="n">Ifun</span> <span class="p">,</span> <span class="n">ii</span> <span class="p">,</span> <span class="n">ilc02</span> <span class="p">,</span> <span class="n">ilc06</span> <span class="p">,</span> <span class="n">ilc08</span> <span class="p">,</span> <span class="n">ilc11</span> <span class="p">,</span>      <span class="p">&amp;</span>
+            <span class="p">&amp;</span> <span class="n">ilc12</span> <span class="p">,</span> <span class="n">ilc13</span> <span class="p">,</span> <span class="n">ilc14</span> <span class="p">,</span> <span class="n">ilc15</span> <span class="p">,</span> <span class="n">ilc17</span> <span class="p">,</span> <span class="n">ilc20</span> <span class="p">,</span> <span class="n">ilc21</span> <span class="p">,</span>   <span class="p">&amp;</span>
+            <span class="p">&amp;</span> <span class="n">ilc22</span> <span class="p">,</span> <span class="n">ilc24</span> <span class="p">,</span> <span class="n">ilc25</span> <span class="p">,</span> <span class="n">ilc26</span> <span class="p">,</span> <span class="n">ilc27</span>
+      <span class="kt">integer</span> <span class="kd">::</span> <span class="n">ilc29</span> <span class="p">,</span> <span class="n">ilc30</span> <span class="p">,</span> <span class="n">ilc31</span> <span class="p">,</span> <span class="n">ilc33</span> <span class="p">,</span> <span class="n">ilc35</span> <span class="p">,</span> <span class="n">ilc40</span> <span class="p">,</span> <span class="n">ilc42</span> <span class="p">,</span>   <span class="p">&amp;</span>
+            <span class="p">&amp;</span> <span class="n">ilc44</span> <span class="p">,</span> <span class="n">ilc46</span> <span class="p">,</span> <span class="n">Indm</span> <span class="p">,</span> <span class="n">iophun</span> <span class="p">,</span> <span class="n">iopten</span> <span class="p">,</span> <span class="n">ioptho</span> <span class="p">,</span>  <span class="p">&amp;</span>
+            <span class="p">&amp;</span> <span class="n">Ioptn</span> <span class="p">,</span> <span class="n">ioptth</span> <span class="p">,</span> <span class="n">iphse</span> <span class="p">,</span> <span class="n">ipmax</span> <span class="p">,</span> <span class="n">ipt</span> <span class="p">,</span> <span class="n">Iptb</span>
+      <span class="kt">integer</span> <span class="kd">::</span> <span class="n">irk</span> <span class="p">,</span> <span class="n">ismax</span> <span class="p">,</span> <span class="n">isucc</span> <span class="p">,</span> <span class="n">Iter</span> <span class="p">,</span> <span class="n">itersl</span> <span class="p">,</span> <span class="n">Itlim</span> <span class="p">,</span> <span class="n">itlim1</span> <span class="p">,</span>    <span class="p">&amp;</span>
+            <span class="p">&amp;</span> <span class="n">ityp1</span> <span class="p">,</span> <span class="n">ityp1k</span> <span class="p">,</span> <span class="n">ityp2</span> <span class="p">,</span> <span class="n">ityp2k</span> <span class="p">,</span> <span class="n">itypm1</span> <span class="p">,</span> <span class="n">itypm2</span> <span class="p">,</span>       <span class="p">&amp;</span>
+            <span class="p">&amp;</span> <span class="n">Iwork</span> <span class="p">,</span> <span class="n">j</span> <span class="p">,</span> <span class="n">j1</span> <span class="p">,</span> <span class="n">j2</span> <span class="p">,</span> <span class="n">jflag</span> <span class="p">,</span> <span class="n">jiwrk</span> <span class="p">,</span> <span class="n">jj</span>
+      <span class="kt">integer</span> <span class="kd">::</span> <span class="n">jwrk</span> <span class="p">,</span> <span class="n">kntsm</span> <span class="p">,</span> <span class="n">l</span> <span class="p">,</span> <span class="n">l1</span> <span class="p">,</span> <span class="n">l2</span> <span class="p">,</span> <span class="n">limsm</span> <span class="p">,</span> <span class="n">Liwrk</span> <span class="p">,</span> <span class="n">Lwrk</span> <span class="p">,</span> <span class="n">m</span> <span class="p">,</span>   <span class="p">&amp;</span>
+            <span class="p">&amp;</span> <span class="n">mact1</span> <span class="p">,</span> <span class="n">ncor</span> <span class="p">,</span> <span class="n">nmaj</span> <span class="p">,</span> <span class="n">nmin</span> <span class="p">,</span> <span class="n">npar1</span> <span class="p">,</span> <span class="n">Nparm</span> <span class="p">,</span> <span class="n">nstep</span> <span class="p">,</span>      <span class="p">&amp;</span>
+            <span class="p">&amp;</span> <span class="n">Numgr</span> <span class="p">,</span> <span class="n">numlim</span>
+<span class="c">!</span>
+      <span class="k">dimension </span><span class="n">Fun</span><span class="p">(</span><span class="n">Ifun</span><span class="p">)</span> <span class="p">,</span> <span class="n">Pttbl</span><span class="p">(</span><span class="n">Iptb</span><span class="p">,</span><span class="n">Indm</span><span class="p">)</span> <span class="p">,</span> <span class="n">Error</span><span class="p">(</span><span class="n">Numgr</span><span class="o">+</span><span class="mi">3</span><span class="p">)</span> <span class="p">,</span>         <span class="p">&amp;</span>
+              <span class="p">&amp;</span> <span class="n">Param</span><span class="p">(</span><span class="n">Nparm</span><span class="p">)</span> <span class="p">,</span> <span class="n">Iwork</span><span class="p">(</span><span class="n">Liwrk</span><span class="p">)</span> <span class="p">,</span> <span class="n">Work</span><span class="p">(</span><span class="n">Lwrk</span><span class="p">)</span>
+
+<span class="c">! CHECK TO SEE IF THE DIMENSIONS LIWRK AND LWRK ARE LARGE ENOUGH.  IF</span>
+<span class="c">! EITHER IS NOT, REPLACE IT BY THE NEGATIVE OF ITS CORRECT MINIMUM VALUE</span>
+<span class="c">! AND RETRUN.</span>
+      <span class="n">jiwrk</span> <span class="o">=</span> <span class="mi">7</span><span class="o">*</span><span class="n">Numgr</span> <span class="o">+</span> <span class="mi">7</span><span class="o">*</span><span class="n">Nparm</span> <span class="o">+</span> <span class="mi">3</span>
+      <span class="n">jwrk</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">Nparm</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">4</span><span class="o">*</span><span class="n">Numgr</span><span class="o">*</span><span class="n">Nparm</span> <span class="o">+</span> <span class="mi">11</span><span class="o">*</span><span class="n">Numgr</span> <span class="o">+</span> <span class="mi">27</span><span class="o">*</span><span class="n">Nparm</span> <span class="o">+</span> <span class="mi">13</span>
+      <span class="k">if</span> <span class="p">(</span> <span class="n">Liwrk</span><span class="o">&lt;</span><span class="n">jiwrk</span> <span class="p">)</span> <span class="k">then</span>
+<span class="k">         </span><span class="n">Liwrk</span> <span class="o">=</span> <span class="o">-</span><span class="n">jiwrk</span>
+         <span class="k">if</span> <span class="p">(</span> <span class="n">Lwrk</span><span class="o">&lt;</span><span class="n">jwrk</span> <span class="p">)</span> <span class="n">Lwrk</span> <span class="o">=</span> <span class="o">-</span><span class="n">jwrk</span>
+      <span class="n">elseif</span> <span class="p">(</span> <span class="n">Lwrk</span><span class="o">&lt;</span><span class="n">jwrk</span> <span class="p">)</span> <span class="k">then</span>
+<span class="k">         </span><span class="n">Lwrk</span> <span class="o">=</span> <span class="o">-</span><span class="n">jwrk</span>
+      <span class="k">else</span>
+<span class="c">!</span>
+<span class="c">! SET MACHINE AND PRECISION DEPENDENT CONSTANTS.</span>
+         <span class="n">one</span> <span class="o">=</span> <span class="mf">1.0d0</span>
+         <span class="n">zero</span> <span class="o">=</span> <span class="n">one</span> <span class="o">-</span> <span class="n">one</span>
+         <span class="n">two</span> <span class="o">=</span> <span class="n">one</span> <span class="o">+</span> <span class="n">one</span>
+         <span class="n">four</span> <span class="o">=</span> <span class="n">two</span> <span class="o">+</span> <span class="n">two</span>
+         <span class="n">ten</span> <span class="o">=</span> <span class="n">four</span> <span class="o">+</span> <span class="n">four</span> <span class="o">+</span> <span class="n">two</span>
+<span class="c">!     NWRIT=output_unit</span>
+         <span class="n">spcmn</span> <span class="o">=</span> <span class="n">d1mach3</span>
+<span class="c">!</span>
+<span class="c">! INITIALIZE SOME OTHER PARAMETERS.</span>
+         <span class="n">npar1</span> <span class="o">=</span> <span class="n">Nparm</span> <span class="o">+</span> <span class="mi">1</span>
+         <span class="n">isucc</span> <span class="o">=</span> <span class="mi">0</span>
+         <span class="n">Iter</span> <span class="o">=</span> <span class="mi">0</span>
+         <span class="n">itersl</span> <span class="o">=</span> <span class="mi">0</span>
+         <span class="n">itlim1</span> <span class="o">=</span> <span class="n">Itlim</span>
+         <span class="n">enchg</span> <span class="o">=</span> <span class="n">zero</span>
+         <span class="n">ilc02</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
+         <span class="n">ilc06</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
+         <span class="n">ilc08</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
+         <span class="n">ilc11</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">11</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
+         <span class="n">ilc12</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
+         <span class="n">ilc13</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">13</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
+         <span class="n">ilc14</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
+         <span class="n">ilc15</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
+         <span class="n">ilc17</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">17</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
+         <span class="n">ilc20</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
+         <span class="n">ilc21</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">21</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
+         <span class="n">ilc22</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">22</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
+         <span class="n">ilc24</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">24</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
+         <span class="n">ilc25</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">25</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
+         <span class="n">ilc26</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">26</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
+         <span class="n">ilc27</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">27</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
+         <span class="n">ilc29</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">29</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
+         <span class="n">ilc30</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
+         <span class="n">ilc31</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">31</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
+         <span class="n">ilc33</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">33</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
+         <span class="n">ilc35</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">35</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
+         <span class="n">ilc40</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">40</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
+         <span class="n">ilc42</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">42</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
+         <span class="n">ilc44</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">44</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
+         <span class="n">ilc46</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">46</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
+<span class="c">!</span>
+<span class="c">! IF THE TENS DIGIT OF IOPTN IS 1, SET KNTSM TO 0 AND GET ENCSM</span>
+<span class="c">! FROM WORK(1) AND LIMSM FROM IWORK(1).</span>
+         <span class="n">iopten</span> <span class="o">=</span> <span class="p">(</span><span class="n">Ioptn</span><span class="o">-</span><span class="p">(</span><span class="n">Ioptn</span><span class="o">/</span><span class="mi">100</span><span class="p">)</span><span class="o">*</span><span class="mi">100</span><span class="p">)</span><span class="o">/</span><span class="mi">10</span>
+         <span class="k">if</span> <span class="p">(</span> <span class="n">iopten</span><span class="o">&gt;</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
+<span class="k">            </span><span class="n">kntsm</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">encsm</span> <span class="o">=</span> <span class="n">Work</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">limsm</span> <span class="o">=</span> <span class="n">Iwork</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+         <span class="k">endif</span>
+<span class="c">!</span>
+<span class="c">! IF THE HUNDREDS DIGIT OF IOPTN IS 1 OR 3, SET NSTEP = IWORK(2),</span>
+<span class="c">! AND OTHERWISE SET NSTEP TO ITS DEFAULT VALUE OF 1.</span>
+         <span class="n">iophun</span> <span class="o">=</span> <span class="p">(</span><span class="n">Ioptn</span><span class="o">-</span><span class="p">(</span><span class="n">Ioptn</span><span class="o">/</span><span class="mi">1000</span><span class="p">)</span><span class="o">*</span><span class="mi">1000</span><span class="p">)</span><span class="o">/</span><span class="mi">100</span>
+         <span class="k">if</span> <span class="p">(</span> <span class="n">iophun</span><span class="o">&lt;=</span><span class="p">(</span><span class="n">iophun</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="mi">2</span> <span class="p">)</span> <span class="k">then</span>
+<span class="k">            </span><span class="n">nstep</span> <span class="o">=</span> <span class="mi">1</span>
+         <span class="k">else</span>
+<span class="k">            </span><span class="n">nstep</span> <span class="o">=</span> <span class="n">Iwork</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+         <span class="k">endif</span>
+<span class="c">!</span>
+<span class="c">! IF THE HUNDREDS DIGIT OF IOPTN IS 2 OR 3, SET TOLCON = WORK(2),</span>
+<span class="c">! AND OTHERWISE SET TOLCON TO ITS DEFAULT VALUE OF SQRT(SPCMN).</span>
+         <span class="k">if</span> <span class="p">(</span> <span class="n">iophun</span><span class="o">&lt;</span><span class="mi">2</span> <span class="p">)</span> <span class="k">then</span>
+<span class="k">            </span><span class="n">tolcon</span> <span class="o">=</span> <span class="nb">sqrt</span><span class="p">(</span><span class="n">spcmn</span><span class="p">)</span>
+         <span class="k">else</span>
+<span class="k">            </span><span class="n">tolcon</span> <span class="o">=</span> <span class="n">Work</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+         <span class="k">endif</span>
+<span class="c">!</span>
+<span class="c">! IN THIS VERSION OF CONMAX WE SET THE LINEAR CONSTRAINT TOLERANCE</span>
+<span class="c">! EQUAL TO THE NONLINEAR CONSTRAINT TOLERANCE.</span>
+         <span class="n">tollin</span> <span class="o">=</span> <span class="n">tolcon</span>
+<span class="c">!</span>
+<span class="c">! SET IRK=1 IF THE THOUSANDS DIGIT OF IOPTN IS 0 AND OTHERWISE SET IRK=0.</span>
+         <span class="n">ioptho</span> <span class="o">=</span> <span class="p">(</span><span class="n">Ioptn</span><span class="o">-</span><span class="p">(</span><span class="n">Ioptn</span><span class="o">/</span><span class="mi">10000</span><span class="p">)</span><span class="o">*</span><span class="mi">10000</span><span class="p">)</span><span class="o">/</span><span class="mi">1000</span>
+         <span class="k">if</span> <span class="p">(</span> <span class="n">ioptho</span><span class="o">&lt;=</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
+<span class="k">            </span><span class="n">irk</span> <span class="o">=</span> <span class="mi">1</span>
+         <span class="k">else</span>
+<span class="k">            </span><span class="n">irk</span> <span class="o">=</span> <span class="mi">0</span>
+         <span class="k">endif</span>
+<span class="c">!</span>
+<span class="c">! COMPUTE THE TEN THOUSANDS DIGIT OF IOPTN FOR LATER USE.</span>
+         <span class="n">ioptth</span> <span class="o">=</span> <span class="p">(</span><span class="n">Ioptn</span><span class="o">-</span><span class="p">(</span><span class="n">Ioptn</span><span class="o">/</span><span class="mi">100000</span><span class="p">)</span><span class="o">*</span><span class="mi">100000</span><span class="p">)</span><span class="o">/</span><span class="mi">10000</span>
+<span class="c">!</span>
+<span class="c">! SET IPHSE=-1 TO INDICATE WE HAVE NOT CHECKED TYPE -1 FEASIBILITY YET.</span>
+         <span class="n">iphse</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+<span class="c">! SET RCHDWN = THE NUMBER OF LENGTHS OF PROJCT IN RKSACT (OR NUMBER OF</span>
+<span class="c">! LENGTHS OF BNDLGT IN SETU1) WE WILL GO BELOW ERROR(NUMGR+1) TO DECLARE</span>
+<span class="c">! A PRIMARY CONSTRAINT TO BE ACTIVE.</span>
+         <span class="n">rchdwn</span> <span class="o">=</span> <span class="n">two</span>
+         <span class="n">rchdnk</span> <span class="o">=</span> <span class="n">rchdwn</span>
+<span class="c">! SET RCHIN = THE NUMBER OF LENGTHS OF PROJCT (OR BNDLGT) WE WILL GO</span>
+<span class="c">! BELOW 0.0 TO DECLARE A TYPE -2 CONSTRAINT TO BE ACTIVE.</span>
+         <span class="n">rchin</span> <span class="o">=</span> <span class="n">two</span>
+<span class="c">! SET A NORMAL VALUE FOR NUMLIM FOR USE IN SLPCON.</span>
+         <span class="n">numlim</span> <span class="o">=</span> <span class="mi">11</span>
+         <span class="k">goto </span><span class="mi">100</span>
+      <span class="k">endif</span>
+<span class="k">      return</span>
+<span class="c">!</span>
+<span class="c">! END OF PRELIMINARY SECTION.  THE STATEMENTS ABOVE THIS POINT WILL NOT</span>
+<span class="c">! BE EXECUTED AGAIN IN THIS CALL TO CONMAX.</span>
+<span class="c">!</span>
+<span class="c">!</span>
+<span class="c">! CALL ERCMP1 WITH ICNUSE=0 TO COMPUTE THE ERRORS, ERROR NORMS, AND ICNTYP.</span>
+<span class="c">! WE TAKE IPHSE AS 0 SO ALL CONSTRAINTS WILL BE COMPUTED BY FNSET IN CASE</span>
+<span class="c">! THE TEN THOUSANDS DIGIT OF IOPTN IS 1.</span>
+<span class="c">! THIS IS ONE OF ONLY TWO PLACES IN THE PROGRAM WHERE WE CALL ERCMP1 WITH</span>
+<span class="c">! ICNUSE=0, THE OTHER BEING STATEMENT 1415 BELOW..</span>
+ <span class="mi">100</span>  <span class="k">call </span><span class="n">me</span><span class="p">%</span><span class="n">ercmp1</span><span class="p">(</span><span class="n">Ioptn</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">,</span><span class="n">Fun</span><span class="p">,</span><span class="n">Ifun</span><span class="p">,</span><span class="n">Pttbl</span><span class="p">,</span><span class="n">Iptb</span><span class="p">,</span><span class="n">Indm</span><span class="p">,</span><span class="n">Param</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span> <span class="p">&amp;</span>
+                <span class="p">&amp;</span> <span class="n">Iwork</span><span class="p">,</span><span class="n">Liwrk</span><span class="p">,</span><span class="n">Work</span><span class="p">(</span><span class="n">ilc08</span><span class="p">),</span><span class="n">Iwork</span><span class="p">(</span><span class="n">ilc17</span><span class="p">),</span><span class="n">ipmax</span><span class="p">,</span><span class="n">ismax</span><span class="p">,</span>     <span class="p">&amp;</span>
+                <span class="p">&amp;</span> <span class="n">Error</span><span class="p">)</span>
+<span class="c">! IF ITLIM=0 WE RETURN.</span>
+      <span class="k">if</span> <span class="p">(</span> <span class="n">Itlim</span><span class="o">&lt;=</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
+<span class="k">         return</span>
+<span class="k">      else</span>
+<span class="c">!</span>
+<span class="c">! COMPUTE ITYP2, ITYP1, ITYPM1, AND ITYPM2 AS THE NUMBER OF CONSTRAINTS  OF</span>
+<span class="c">! TYPE 2 (I.E. PRIMARY, ABS(FUN(I)-CONFUN(I,1)) .LE. W) OR 1 (I.E. PRIMARY,</span>
+<span class="c">! CONFUN(I,1) .LE. W) OR -1 (I.E. STANDARD LINEAR, CONFUN(I,1) .LE. 0.0)</span>
+<span class="c">! OR -2 (I.E. STANDARD NONLINEAR) RESPECTIVELY.</span>
+         <span class="n">ityp2</span> <span class="o">=</span> <span class="mi">0</span>
+         <span class="n">ityp1</span> <span class="o">=</span> <span class="mi">0</span>
+         <span class="n">itypm1</span> <span class="o">=</span> <span class="mi">0</span>
+         <span class="n">itypm2</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="c">! NOTE THAT ARRAYS NOT IN THE CALLING SEQUENCE FOR CONMAX ARE ACCESSED</span>
+<span class="c">! THROUGH THEIR LOCATION IN IWORK OR WORK.  CONMAX IS THE ONLY</span>
+<span class="c">! SUBROUTINE IN WHICH THIS IS NECESSARY.</span>
+         <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Numgr</span>
+            <span class="n">ii</span> <span class="o">=</span> <span class="n">ilc17</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">i</span>
+<span class="c">! HERE IWORK(II)=ICNTYP(I).</span>
+            <span class="k">if</span> <span class="p">(</span> <span class="n">Iwork</span><span class="p">(</span><span class="n">ii</span><span class="p">)</span><span class="o">&lt;</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
+<span class="k">               if</span> <span class="p">(</span> <span class="n">Iwork</span><span class="p">(</span><span class="n">ii</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="o">&lt;</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
+<span class="k">                  </span><span class="n">itypm2</span> <span class="o">=</span> <span class="n">itypm2</span> <span class="o">+</span> <span class="mi">1</span>
+               <span class="k">else</span>
+<span class="k">                  </span><span class="n">itypm1</span> <span class="o">=</span> <span class="n">itypm1</span> <span class="o">+</span> <span class="mi">1</span>
+               <span class="k">endif</span>
+<span class="k">            </span><span class="n">elseif</span> <span class="p">(</span> <span class="n">Iwork</span><span class="p">(</span><span class="n">ii</span><span class="p">)</span><span class="o">/=</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
+<span class="k">               if</span> <span class="p">(</span> <span class="n">Iwork</span><span class="p">(</span><span class="n">ii</span><span class="p">)</span><span class="o">&lt;=</span><span class="mi">1</span> <span class="p">)</span> <span class="k">then</span>
+<span class="k">                  </span><span class="n">ityp1</span> <span class="o">=</span> <span class="n">ityp1</span> <span class="o">+</span> <span class="mi">1</span>
+               <span class="k">else</span>
+<span class="k">                  </span><span class="n">ityp2</span> <span class="o">=</span> <span class="n">ityp2</span> <span class="o">+</span> <span class="mi">1</span>
+               <span class="k">endif</span>
+<span class="k">            endif</span>
+<span class="k">         enddo</span>
+<span class="k">      endif</span>
+<span class="c">!</span>
+<span class="c">! COMPUTE THE ERROR NORMS.  ENORM IS THE PRINCIPAL ERROR NORM.</span>
+ <span class="mi">200</span>  <span class="n">enorm</span> <span class="o">=</span> <span class="n">Error</span><span class="p">(</span><span class="n">Numgr</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+      <span class="n">enor2</span> <span class="o">=</span> <span class="n">Error</span><span class="p">(</span><span class="n">Numgr</span><span class="o">+</span><span class="mi">2</span><span class="p">)</span>
+      <span class="n">enor3</span> <span class="o">=</span> <span class="n">Error</span><span class="p">(</span><span class="n">Numgr</span><span class="o">+</span><span class="mi">3</span><span class="p">)</span>
+<span class="c">!</span>
+<span class="c">! WRITE ITER, ISUCC, IRK, ENCHG, AND THE ERROR NORMS.</span>
+<span class="c">!1050 WRITE(NWRIT,1100)ITER,ISUCC,IRK,ENCHG,ENORM,ENOR2,ENOR3</span>
+<span class="c">!     WRITE(9,1100)ITER,ISUCC,IRK,ENCHG,ENORM,ENOR2,ENOR3</span>
+<span class="c">!1100 FORMAT(/8H ITER IS,I5,10H  ISUCC IS,I4,8H  IRK IS,I4,</span>
+<span class="c">!    *10H  ENCHG IS,E24.14/9H ENORM IS,E24.14,10H  ENOR2 IS,E24.14/</span>
+<span class="c">!    *9H ENOR3 IS,E24.14)</span>
+<span class="c">!</span>
+<span class="c">!</span>
+<span class="c">! THE NEXT SECTION DETERMINES WHETHER WE WILL TERMINATE DUE TO ITERATION</span>
+<span class="c">! COUNT, AND IF SO FOR OUTPUT PURPOSES IT MODIFIES ITER (OR TWO OF THE</span>
+<span class="c">! ERROR NORMS IF THE FAILURE IS DUE TO INABILITY TO GAIN TYPE -2</span>
+<span class="c">! FEASIBILITY).</span>
+<span class="c">!</span>
+<span class="c">! IF IOPTEN=1 AND WE HAVE DONE AT LEAST ONE ITERATION IN THE MAIN PART</span>
+<span class="c">! OF CONMAX, WE WILL GIVE UP IF ABS(ENCHG) HAS BEEN LESS THAN ENCSM FOR</span>
+<span class="c">! LIMSM CONSECUTIVE MAIN ITERATIONS (INCLUDING THIS ONE).</span>
+ <span class="mi">300</span>  <span class="k">if</span> <span class="p">(</span> <span class="n">iopten</span><span class="o">==</span><span class="mi">1</span> <span class="p">)</span> <span class="k">then</span>
+<span class="k">         if</span> <span class="p">(</span> <span class="n">iphse</span><span class="o">==</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
+<span class="k">            if</span> <span class="p">(</span> <span class="n">Iter</span><span class="o">&gt;</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
+<span class="k">               if</span> <span class="p">(</span> <span class="o">-</span><span class="n">enchg</span><span class="o">&lt;</span><span class="n">encsm</span> <span class="p">)</span> <span class="k">then</span>
+<span class="k">                  </span><span class="n">kntsm</span> <span class="o">=</span> <span class="n">kntsm</span> <span class="o">+</span> <span class="mi">1</span>
+                  <span class="k">if</span> <span class="p">(</span> <span class="n">kntsm</span><span class="o">&gt;=</span><span class="n">limsm</span> <span class="p">)</span> <span class="k">then</span>
+<span class="c">!</span>
+<span class="c">! FOR OUTPUT PURPOSES REPLACE ITER BY ITER + ITLIM - ITLIM1, THE TRUE</span>
+<span class="c">! NUMBER OF ITERATIONS COUNTING INITIALIZATION.  ITLIM - ITLIM1 WILL BE</span>
+<span class="c">! THE NUMBER OF ITERATIONS NEEDED TO GAIN TYPE -2 FEASIBILITY.  WORK</span>
+<span class="c">! DONE TO GAIN TYPE -1 FEASIBILITY IS NOT COUNTED AS AN ITERATION.</span>
+                     <span class="n">Iter</span> <span class="o">=</span> <span class="n">Iter</span> <span class="o">+</span> <span class="n">Itlim</span> <span class="o">-</span> <span class="n">itlim1</span>
+                     <span class="k">goto </span><span class="mi">500</span>
+                  <span class="k">endif</span>
+<span class="k">               else</span>
+<span class="k">                  </span><span class="n">kntsm</span> <span class="o">=</span> <span class="mi">0</span>
+               <span class="k">endif</span>
+<span class="k">            endif</span>
+<span class="k">         endif</span>
+<span class="k">      endif</span>
+<span class="c">!</span>
+      <span class="k">if</span> <span class="p">(</span> <span class="n">Iter</span><span class="o">&lt;</span><span class="n">itlim1</span> <span class="p">)</span> <span class="k">then</span>
+<span class="c">!</span>
+<span class="c">! HERE ITER .LT. ITLIM1.  IF IPHSE = 0 OR -2 HERE WE GO INTO THE</span>
+<span class="c">! ITERATIVE PHASE OF CONMAX.</span>
+         <span class="k">if</span> <span class="p">(</span> <span class="n">iphse</span><span class="o">+</span><span class="mi">1</span><span class="o">/=</span><span class="mi">0</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">900</span>
+<span class="c">!</span>
+<span class="c">!</span>
+<span class="c">! HERE IPHSE=-1 AND WE CHECK TYPE -1 FEASIBILITY, TRY TO REGAIN IT IF</span>
+<span class="c">! WE DONT HAVE IT, CHECK TYPE -2 FEASIBILITY, AND SET UP FOR TYPE -2</span>
+<span class="c">! FEASIBILITY ITERATIONS IF WE DONT HAVE IT.  THE STATEMENTS FROM HERE</span>
+<span class="c">! DOWN TO THE TRIPLE BLANK LINE WILL BE EXECUTED AT MOST ONCE.</span>
+<span class="c">!</span>
+<span class="c">! NOTE THAT ENOR2=0.0 IF THERE ARE NO TYPE -1 CONSTRAINTS.</span>
+         <span class="k">if</span> <span class="p">(</span> <span class="n">enor2</span><span class="o">&lt;=</span><span class="n">tollin</span> <span class="p">)</span> <span class="k">then</span>
+<span class="c">!</span>
+<span class="c">! HERE WE HAD TYPE -1 FEASIBILITY INITIALLY.</span>
+            <span class="k">if</span> <span class="p">(</span> <span class="n">enor3</span><span class="o">&gt;</span><span class="n">tolcon</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">700</span>
+            <span class="k">goto </span><span class="mi">800</span>
+         <span class="k">else</span>
+<span class="c">!</span>
+<span class="c">! HERE WE DO NOT HAVE TYPE -1 FEASIBILITY SO WE TRY TO GET IT.</span>
+<span class="c">! WE WILL NEED TO TELL DERST TO COMPUTE THE VALUES OF THE LEFT SIDES</span>
+<span class="c">! OF THE TYPE -1 CONSTRAINTS WITH THE VARIABLES EQUAL TO ZERO (I.E.</span>
+<span class="c">! THE CONSTANT TERMS IN THE CONSTRAINTS), SO WE SET PARWRK TO THE</span>
+<span class="c">! ZERO VECTOR TO CARRY THE MESSAGE.</span>
+            <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Nparm</span>
+               <span class="n">jj</span> <span class="o">=</span> <span class="n">ilc27</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">j</span>
+<span class="c">! HERE WORK(JJ) = PARWRK(J).</span>
+               <span class="n">Work</span><span class="p">(</span><span class="n">jj</span><span class="p">)</span> <span class="o">=</span> <span class="n">zero</span>
+            <span class="k">enddo</span>
+<span class="k">            if</span> <span class="p">(</span> <span class="n">ioptth</span><span class="o">&gt;</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
+<span class="c">! HERE IOPTTH=1 AND WE CALL DERST WITH IPT=-1 TO PUT ALL THE STANDARD</span>
+<span class="c">! CONSTRAINT AND DERIVATIVE VALUES IN CONFUN.</span>
+<span class="c">! WE SET IPT=-1 TO TELL DERST IT NEED ONLY COMPUTE STANDARD CONSTRAINTS.</span>
+               <span class="n">ipt</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+               <span class="k">call </span><span class="n">me</span><span class="p">%</span><span class="n">derst</span><span class="p">(</span><span class="n">Ioptn</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">,</span><span class="n">Pttbl</span><span class="p">,</span><span class="n">Iptb</span><span class="p">,</span><span class="n">Indm</span><span class="p">,</span><span class="n">Work</span><span class="p">(</span><span class="n">ilc27</span><span class="p">),&amp;</span>
+                             <span class="n">ipt</span><span class="p">,</span><span class="n">Work</span><span class="p">(</span><span class="n">ilc24</span><span class="p">),</span><span class="n">Work</span><span class="p">(</span><span class="n">ilc35</span><span class="p">),</span><span class="n">Iwork</span><span class="p">(</span><span class="n">ilc22</span><span class="p">),</span>     <span class="p">&amp;</span>
+                             <span class="n">Work</span><span class="p">(</span><span class="n">ilc08</span><span class="p">))</span>
+            <span class="k">endif</span>
+<span class="c">!</span>
+            <span class="n">m</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Numgr</span>
+               <span class="n">ii</span> <span class="o">=</span> <span class="n">ilc17</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">i</span>
+<span class="c">! HERE WE CONSIDER ONLY TYPE -1 CONSTRAINTS.  THERE MUST BE AT LEAST</span>
+<span class="c">! ONE OF THESE, SINCE OTHERWISE WE WOULD NOT BE HERE ATTEMPTING TO</span>
+<span class="c">! GAIN TYPE -1 FEASIBILITY.</span>
+<span class="c">! HERE IWORK(II)=ICNTYP(I).</span>
+               <span class="k">if</span> <span class="p">(</span> <span class="n">Iwork</span><span class="p">(</span><span class="n">ii</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="o">==</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
+<span class="k">                  </span><span class="n">m</span> <span class="o">=</span> <span class="n">m</span> <span class="o">+</span> <span class="mi">1</span>
+                  <span class="k">if</span> <span class="p">(</span> <span class="n">ioptth</span><span class="o">&lt;=</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
+<span class="c">! HERE IOPTTH=0 AND WE HAVE NOT YET CALLED DERST TO PUT CONSTRAINT I</span>
+<span class="c">! AND ITS DERIVATIVES IN CONFUN, SO WE DO IT NOW.</span>
+                     <span class="n">ipt</span> <span class="o">=</span> <span class="n">i</span>
+                     <span class="k">call </span><span class="n">me</span><span class="p">%</span><span class="n">derst</span><span class="p">(</span><span class="n">Ioptn</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">,</span><span class="n">Pttbl</span><span class="p">,</span><span class="n">Iptb</span><span class="p">,</span><span class="n">Indm</span><span class="p">,</span>      <span class="p">&amp;</span>
+                                   <span class="n">Work</span><span class="p">(</span><span class="n">ilc27</span><span class="p">),</span><span class="n">ipt</span><span class="p">,</span><span class="n">Work</span><span class="p">(</span><span class="n">ilc24</span><span class="p">),</span><span class="n">Work</span><span class="p">(</span><span class="n">ilc35</span><span class="p">),&amp;</span>
+                                   <span class="n">Iwork</span><span class="p">(</span><span class="n">ilc22</span><span class="p">),</span><span class="n">Work</span><span class="p">(</span><span class="n">ilc08</span><span class="p">))</span>
+                  <span class="k">endif</span>
+<span class="c">! COPY THE DERIVATIVES INTO PMAT FOR USE BY WOLFE.</span>
+                  <span class="k">do </span><span class="n">l</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Nparm</span>
+                     <span class="n">l1</span> <span class="o">=</span> <span class="n">ilc29</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">l</span> <span class="o">+</span> <span class="p">(</span><span class="n">m</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">npar1</span>
+                     <span class="n">l2</span> <span class="o">=</span> <span class="n">ilc08</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">i</span> <span class="o">+</span> <span class="n">l</span><span class="o">*</span><span class="n">Numgr</span>
+<span class="c">! HERE WORK(L1)=PMAT(L,M) AND WORK(L2)=CONFUN(I,L+1).</span>
+                     <span class="n">Work</span><span class="p">(</span><span class="n">l1</span><span class="p">)</span> <span class="o">=</span> <span class="n">Work</span><span class="p">(</span><span class="n">l2</span><span class="p">)</span>
+                  <span class="k">enddo</span>
+<span class="c">!</span>
+<span class="c">! NOW THE ITH CONSTRAINT (WHICH IS ALSO THE MTH TYPE -1 CONSTRAINT) HAS</span>
+<span class="c">! THE FORM PMAT(1,M)*Z1+...+PMAT(NPARM,M)*ZNPARM + CONFUN(I,1)  .LE.</span>
+<span class="c">! 0.0.  WE MAKE THE CHANGE OF VARIABLES ZZ = Z - PARAM TO TRANSLATE THE</span>
+<span class="c">! ORIGIN TO PARAM.  THE ITH CONSTRAINT WILL THEN HAVE THE FORM</span>
+<span class="c">! PMAT(1,M)*ZZ1+...+PMAT(NPARM,M)*ZZNPARM + (CONFUN(I,1) + PMAT(1,M)*</span>
+<span class="c">! PARAM(1)+...+PMAT(NPARM,M)*PARAM(NPARM)) .LE. 0.0.  AFTER WOLFE FINDS</span>
+<span class="c">! THE CLOSEST POINT TO THE ORIGIN IN THE POLYHEDRON DEFINED BY THE NEW</span>
+<span class="c">! CONSTRAINTS, WE WILL ADD PARAM TO TRANSLATE BACK TO THE POINT WE WANT.</span>
+                  <span class="n">l1</span> <span class="o">=</span> <span class="n">ilc29</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">npar1</span> <span class="o">+</span> <span class="p">(</span><span class="n">m</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">npar1</span>
+                  <span class="n">l2</span> <span class="o">=</span> <span class="n">ilc08</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">i</span>
+<span class="c">! HERE WORK(L1)=PMAT(NPAR1,1) AND WORK(L2)=CONFUN(I,1).</span>
+                  <span class="n">Work</span><span class="p">(</span><span class="n">l1</span><span class="p">)</span> <span class="o">=</span> <span class="n">Work</span><span class="p">(</span><span class="n">l2</span><span class="p">)</span>
+                  <span class="k">do </span><span class="n">l</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Nparm</span>
+                     <span class="n">l2</span> <span class="o">=</span> <span class="n">ilc29</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">l</span> <span class="o">+</span> <span class="p">(</span><span class="n">m</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">npar1</span>
+<span class="c">! HERE WORK(L1)=PMAT(NPAR1,1) AND WORK(L2)=PMAT(L,M).</span>
+                     <span class="n">Work</span><span class="p">(</span><span class="n">l1</span><span class="p">)</span> <span class="o">=</span> <span class="n">Work</span><span class="p">(</span><span class="n">l1</span><span class="p">)</span> <span class="o">+</span> <span class="n">Work</span><span class="p">(</span><span class="n">l2</span><span class="p">)</span><span class="o">*</span><span class="n">Param</span><span class="p">(</span><span class="n">l</span><span class="p">)</span>
+                  <span class="k">enddo</span>
+<span class="k">               endif</span>
+<span class="k">            enddo</span>
+<span class="c">! CALL WOLFE WITH ISTRT=0 TO COMPUTE THE SOLUTION IN THE ZZ COORDINATE</span>
+<span class="c">! SYSTEM FROM SCRATCH.</span>
+            <span class="k">call </span><span class="n">wolfe</span><span class="p">(</span><span class="n">Nparm</span><span class="p">,</span><span class="n">m</span><span class="p">,</span><span class="n">Work</span><span class="p">(</span><span class="n">ilc29</span><span class="p">),</span><span class="mi">0</span><span class="p">,</span><span class="n">s</span><span class="p">,</span><span class="n">ncor</span><span class="p">,</span><span class="n">Iwork</span><span class="p">(</span><span class="n">ilc15</span><span class="p">),</span><span class="n">Iwork</span><span class="p">,</span> <span class="p">&amp;</span>
+                     <span class="p">&amp;</span> <span class="n">Liwrk</span><span class="p">,</span><span class="n">Work</span><span class="p">,</span><span class="n">Lwrk</span><span class="p">,</span><span class="n">Work</span><span class="p">(</span><span class="n">ilc33</span><span class="p">),</span><span class="n">Work</span><span class="p">(</span><span class="n">ilc06</span><span class="p">),</span>         <span class="p">&amp;</span>
+                     <span class="p">&amp;</span> <span class="n">Work</span><span class="p">(</span><span class="n">ilc31</span><span class="p">),</span><span class="n">Work</span><span class="p">(</span><span class="n">ilc30</span><span class="p">),</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">,</span><span class="n">Work</span><span class="p">(</span><span class="n">ilc40</span><span class="p">),</span> <span class="p">&amp;</span>
+                     <span class="p">&amp;</span> <span class="n">Work</span><span class="p">(</span><span class="n">ilc42</span><span class="p">),</span><span class="n">wdist</span><span class="p">,</span><span class="n">nmaj</span><span class="p">,</span><span class="n">nmin</span><span class="p">,</span><span class="n">jflag</span><span class="p">)</span>
+            <span class="k">if</span> <span class="p">(</span> <span class="n">jflag</span><span class="o">&gt;</span><span class="mi">0</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">600</span>
+<span class="c">!</span>
+<span class="c">! HERE JFLAG .LE. 0 AND WE PUT PARAM+WPT IN PARWRK TO CHECK WHETHER</span>
+<span class="c">! THE TYPE -1 CONSTRAINTS ARE NOW FEASIBLE WITHIN TOLLIN.</span>
+            <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Nparm</span>
+               <span class="n">j1</span> <span class="o">=</span> <span class="n">ilc27</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">j</span>
+               <span class="n">j2</span> <span class="o">=</span> <span class="n">ilc42</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">j</span>
+<span class="c">! HERE WORK(J1)=PARWRK(J) AND WORK(J2)=WPT(J).</span>
+               <span class="n">Work</span><span class="p">(</span><span class="n">j1</span><span class="p">)</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">+</span> <span class="n">Work</span><span class="p">(</span><span class="n">j2</span><span class="p">)</span>
+            <span class="k">enddo</span>
+<span class="c">! FOR USE IN ERCMP1 WE SET JCNTYP(I)=-1 IF ICNTYP(I)=-1 AND SET</span>
+<span class="c">! JCNTYP(I)=0 OTHERWISE.</span>
+            <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Numgr</span>
+               <span class="n">ii</span> <span class="o">=</span> <span class="n">ilc17</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">i</span>
+               <span class="n">jj</span> <span class="o">=</span> <span class="n">ilc21</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">i</span>
+<span class="c">! HERE IWORK(II)=ICNTYP(I) AND IWORK(JJ)=JCNTYP(I).</span>
+               <span class="k">if</span> <span class="p">(</span> <span class="n">Iwork</span><span class="p">(</span><span class="n">ii</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="o">/=</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
+<span class="k">                  </span><span class="n">Iwork</span><span class="p">(</span><span class="n">jj</span><span class="p">)</span> <span class="o">=</span> <span class="mi">0</span>
+               <span class="k">else</span>
+<span class="k">                  </span><span class="n">Iwork</span><span class="p">(</span><span class="n">jj</span><span class="p">)</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+               <span class="k">endif</span>
+<span class="k">            enddo</span>
+<span class="c">! CALL ERCMP1 WITH ICNUSE=1.</span>
+            <span class="k">call </span><span class="n">me</span><span class="p">%</span><span class="n">ercmp1</span><span class="p">(</span><span class="n">Ioptn</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">,</span><span class="n">Fun</span><span class="p">,</span><span class="n">Ifun</span><span class="p">,</span><span class="n">Pttbl</span><span class="p">,</span><span class="n">Iptb</span><span class="p">,</span><span class="n">Indm</span><span class="p">,</span>     <span class="p">&amp;</span>
+                      <span class="p">&amp;</span> <span class="n">Work</span><span class="p">(</span><span class="n">ilc27</span><span class="p">),</span><span class="mi">1</span><span class="p">,</span><span class="n">iphse</span><span class="p">,</span><span class="n">Iwork</span><span class="p">,</span><span class="n">Liwrk</span><span class="p">,</span><span class="n">Work</span><span class="p">(</span><span class="n">ilc08</span><span class="p">),</span>    <span class="p">&amp;</span>
+                      <span class="p">&amp;</span> <span class="n">Iwork</span><span class="p">(</span><span class="n">ilc21</span><span class="p">),</span><span class="n">ipmax</span><span class="p">,</span><span class="n">ismax</span><span class="p">,</span><span class="n">Work</span><span class="p">(</span><span class="n">ilc11</span><span class="p">))</span>
+            <span class="n">i1</span> <span class="o">=</span> <span class="n">ilc11</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">+</span> <span class="p">(</span><span class="n">Numgr</span><span class="o">+</span><span class="mi">2</span><span class="p">)</span>
+<span class="c">! HERE WORK(I1)=ERR1(NUMGR+2).</span>
+            <span class="k">if</span> <span class="p">(</span> <span class="n">Work</span><span class="p">(</span><span class="n">i1</span><span class="p">)</span><span class="o">&gt;</span><span class="n">tollin</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">600</span>
+<span class="c">!</span>
+<span class="c">! HERE WE HAVE ACHIEVED TYPE -1 FEASIBILITY.  WE REPLACE PARAM WITH</span>
+<span class="c">! PARWRK.</span>
+            <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Nparm</span>
+               <span class="n">jj</span> <span class="o">=</span> <span class="n">ilc27</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">j</span>
+<span class="c">! HERE WORK(JJ)=PARWRK(J).</span>
+               <span class="n">Param</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">Work</span><span class="p">(</span><span class="n">jj</span><span class="p">)</span>
+            <span class="k">enddo</span>
+<span class="k">            </span><span class="n">ii</span> <span class="o">=</span> <span class="n">ilc11</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">Numgr</span> <span class="o">+</span> <span class="mi">2</span>
+<span class="c">! HERE WORK(II)=ERR1(NUMGR+2).</span>
+<span class="c">!     WRITE(NWRIT,1397)WORK(II),(PARAM(J),J=1,NPARM)</span>
+<span class="c">!1397 FORMAT(48H TYPE -1 FEASIBILITY ACHIEVED.  ERR1(NUMGR+2) IS,</span>
+<span class="c">!    *E15.5,10H  PARAM IS/(4E20.12))</span>
+<span class="c">!</span>
+<span class="c">! IF THERE ARE TYPE -2 CONSTRAINTS, SET JCNTYP AS ICNTYP WITH ALL BUT -2</span>
+<span class="c">! VALUES ZEROED OUT AND CALL ERCMP1 WITH ICNUSE=1 TO CHECK TYPE -2</span>
+<span class="c">! FEASIBILITY.  WE CANNOT SIMPLY CHECK THE OLD ENOR3 HERE SINCE PARAM HAS</span>
+<span class="c">! BEEN CHANGED.  IF THERE ARE NO TYPE -2 CONSTRAINTS WE WILL AUTOMATICALLY</span>
+<span class="c">! HAVE TYPE -2 FEASIBILITY.</span>
+            <span class="k">if</span> <span class="p">(</span> <span class="n">itypm2</span><span class="o">&lt;=</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
+<span class="c">!</span>
+<span class="c">! HERE WE HAVE BOTH TYPE -1 AND TYPE -2 FEASIBILITY, BUT PARAM WAS</span>
+<span class="c">! CHANGED IN GETTING TYPE -1 FEASIBILITY, SO WE CALL ERCMP1</span>
+<span class="c">! WITH ICNUSE=0 (ICNUSE=1 WOULD WORK ALSO SINCE ICNTYP HAS NOT BEEN</span>
+<span class="c">! CHANGED HERE) TO GET THE NEW ERROR VECTOR.</span>
+               <span class="k">call </span><span class="n">me</span><span class="p">%</span><span class="n">ercmp1</span><span class="p">(</span><span class="n">Ioptn</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">,</span><span class="n">Fun</span><span class="p">,</span><span class="n">Ifun</span><span class="p">,</span><span class="n">Pttbl</span><span class="p">,</span><span class="n">Iptb</span><span class="p">,</span><span class="n">Indm</span><span class="p">,</span>  <span class="p">&amp;</span>
+                         <span class="p">&amp;</span> <span class="n">Param</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">iphse</span><span class="p">,</span><span class="n">Iwork</span><span class="p">,</span><span class="n">Liwrk</span><span class="p">,</span><span class="n">Work</span><span class="p">(</span><span class="n">ilc08</span><span class="p">),</span>       <span class="p">&amp;</span>
+                         <span class="p">&amp;</span> <span class="n">Iwork</span><span class="p">(</span><span class="n">ilc17</span><span class="p">),</span><span class="n">ipmax</span><span class="p">,</span><span class="n">ismax</span><span class="p">,</span><span class="n">Error</span><span class="p">)</span>
+               <span class="k">goto </span><span class="mi">800</span>
+            <span class="k">else</span>
+<span class="k">               do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Numgr</span>
+                  <span class="n">ii</span> <span class="o">=</span> <span class="n">ilc17</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">i</span>
+                  <span class="n">jj</span> <span class="o">=</span> <span class="n">ilc21</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">i</span>
+<span class="c">! HERE IWORK(II)=ICNTYP(I) AND IWORK(JJ)=JCNTYP(I).</span>
+                  <span class="k">if</span> <span class="p">(</span> <span class="n">Iwork</span><span class="p">(</span><span class="n">ii</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="o">&lt;</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
+<span class="k">                     </span><span class="n">Iwork</span><span class="p">(</span><span class="n">jj</span><span class="p">)</span> <span class="o">=</span> <span class="o">-</span><span class="mi">2</span>
+                  <span class="k">else</span>
+<span class="k">                     </span><span class="n">Iwork</span><span class="p">(</span><span class="n">jj</span><span class="p">)</span> <span class="o">=</span> <span class="mi">0</span>
+                  <span class="k">endif</span>
+<span class="k">               enddo</span>
+<span class="k">               call </span><span class="n">me</span><span class="p">%</span><span class="n">ercmp1</span><span class="p">(</span><span class="n">Ioptn</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">,</span><span class="n">Fun</span><span class="p">,</span><span class="n">Ifun</span><span class="p">,</span><span class="n">Pttbl</span><span class="p">,</span><span class="n">Iptb</span><span class="p">,</span><span class="n">Indm</span><span class="p">,</span>  <span class="p">&amp;</span>
+                         <span class="p">&amp;</span> <span class="n">Param</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">iphse</span><span class="p">,</span><span class="n">Iwork</span><span class="p">,</span><span class="n">Liwrk</span><span class="p">,</span><span class="n">Work</span><span class="p">(</span><span class="n">ilc08</span><span class="p">),</span>       <span class="p">&amp;</span>
+                         <span class="p">&amp;</span> <span class="n">Iwork</span><span class="p">(</span><span class="n">ilc21</span><span class="p">),</span><span class="n">ipmax</span><span class="p">,</span><span class="n">ismax</span><span class="p">,</span><span class="n">Work</span><span class="p">(</span><span class="n">ilc11</span><span class="p">))</span>
+               <span class="n">ii</span> <span class="o">=</span> <span class="n">ilc11</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">Numgr</span> <span class="o">+</span> <span class="mi">3</span>
+<span class="c">! HERE WORK(II)=ERR1(NUMGR+3).</span>
+               <span class="k">if</span> <span class="p">(</span> <span class="n">Work</span><span class="p">(</span><span class="n">ii</span><span class="p">)</span><span class="o">&gt;</span><span class="n">tolcon</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">700</span>
+               <span class="k">call </span><span class="n">me</span><span class="p">%</span><span class="n">ercmp1</span><span class="p">(</span><span class="n">Ioptn</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">,</span><span class="n">Fun</span><span class="p">,</span><span class="n">Ifun</span><span class="p">,</span><span class="n">Pttbl</span><span class="p">,</span><span class="n">Iptb</span><span class="p">,</span><span class="n">Indm</span><span class="p">,</span>  <span class="p">&amp;</span>
+                         <span class="p">&amp;</span> <span class="n">Param</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">iphse</span><span class="p">,</span><span class="n">Iwork</span><span class="p">,</span><span class="n">Liwrk</span><span class="p">,</span><span class="n">Work</span><span class="p">(</span><span class="n">ilc08</span><span class="p">),</span>       <span class="p">&amp;</span>
+                         <span class="p">&amp;</span> <span class="n">Iwork</span><span class="p">(</span><span class="n">ilc17</span><span class="p">),</span><span class="n">ipmax</span><span class="p">,</span><span class="n">ismax</span><span class="p">,</span><span class="n">Error</span><span class="p">)</span>
+               <span class="k">goto </span><span class="mi">800</span>
+            <span class="k">endif</span>
+<span class="k">         endif</span>
+<span class="c">!</span>
+<span class="c">! HERE ITER = ITLIM1, SO WE RETURN.</span>
+      <span class="n">elseif</span> <span class="p">(</span> <span class="n">iphse</span><span class="o">&gt;=</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
+<span class="k">         </span><span class="n">Iter</span> <span class="o">=</span> <span class="n">Iter</span> <span class="o">+</span> <span class="n">Itlim</span> <span class="o">-</span> <span class="n">itlim1</span>
+         <span class="k">goto </span><span class="mi">500</span>
+      <span class="k">endif</span>
+<span class="c">!</span>
+<span class="c">! HERE WE HAVE FAILED TO ACHIEVE TYPE -2 FEASIBILITY AND WE SET ITER=-2</span>
+<span class="c">! AS A WARNING, PUT ERROR(NUMGR+1) IN ITS PROPER LOCATION, SET</span>
+<span class="c">! ERROR(NUMGR+1) = 0.0 SINCE THE PRIMARY CONSTRAINTS WERE NOT COMPUTED,</span>
+<span class="c">! AND RETURN.  NOTE THAT WE CANNOT HAVE IPHSE=-1 HERE SINCE THAT WOULD</span>
+<span class="c">! IMPLY ITER=0, THUS ITLIM=ITLIM1=0, IN WHICH CASE WE WOULD HAVE</span>
+<span class="c">! TERMINATED EARLIER.</span>
+ <span class="mi">400</span>  <span class="n">Iter</span> <span class="o">=</span> <span class="o">-</span><span class="mi">2</span>
+      <span class="n">Error</span><span class="p">(</span><span class="n">Numgr</span><span class="o">+</span><span class="mi">3</span><span class="p">)</span> <span class="o">=</span> <span class="n">Error</span><span class="p">(</span><span class="n">Numgr</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+      <span class="n">Error</span><span class="p">(</span><span class="n">Numgr</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="n">zero</span>
+<span class="c">!     WRITE(6,1150)</span>
+<span class="c">!1150 FORMAT(43H ***WARNING  NONLINEAR STANDARD FEASIBILITY,</span>
+<span class="c">!    *16H NOT ACHIEVED***)</span>
+      <span class="k">return</span>
+<span class="c">!</span>
+ <span class="mi">500</span>  <span class="k">return</span>
+<span class="c">!</span>
+<span class="c">! HERE WE HAVE FAILED TO ACHIEVE TYPE -1 FEASIBILITY.  WE SET ITER=-1</span>
+<span class="c">! AS A WARNING AND RETURN.</span>
+ <span class="mi">600</span>  <span class="n">Iter</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+<span class="c">!     WRITE(NWRIT,1360)</span>
+<span class="c">!1360 FORMAT(40H ***WARNING  LINEAR STANDARD FEASIBILITY,</span>
+<span class="c">!    *16H NOT ACHIEVED***)</span>
+      <span class="k">return</span>
+<span class="c">!</span>
+<span class="c">! HERE WE HAVE TYPE -1 FEASIBILITY BUT NOT TYPE -2 FEASIBILITY.  WE SET</span>
+<span class="c">! UP FOR THE TYPE -2 FEASIBILITY ITERATIONS, IN WHICH TYPE 1 AND TYPE</span>
+<span class="c">! 2 CONSTRAINTS ARE IGNORED AND TYPE -2 CONSTRAINTS ARE TREATED AS</span>
+<span class="c">! TYPE 1 CONSTRAINTS, EXCEPT WE WILL SWITCH OVER TO NORMAL ITERATIONS</span>
+<span class="c">! ONCE WE CAN FORCE W .LE. TOLCON.  THUS WE SET THE INDICATOR IPHSE TO</span>
+<span class="c">! -2, RESET ICNTYP(I) TO 1 IF IT WAS -2, LEAVE IT AT -1 IF IT WAS -1,</span>
+<span class="c">! AND SET IT TO 0 OTHERWISE, RESET ITYP2, ITYP1, AND ITYPM2, AND CALL</span>
+<span class="c">! ERCMP1 WITH ICNUSE=1 TO PUT THE PROPER VALUES IN ERROR.</span>
+ <span class="mi">700</span>  <span class="n">iphse</span> <span class="o">=</span> <span class="o">-</span><span class="mi">2</span>
+      <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Numgr</span>
+         <span class="n">ii</span> <span class="o">=</span> <span class="n">ilc17</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">i</span>
+<span class="c">! HERE IWORK(II)=ICNTYP(I).</span>
+         <span class="k">if</span> <span class="p">(</span> <span class="n">Iwork</span><span class="p">(</span><span class="n">ii</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="o">&lt;</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
+<span class="k">            </span><span class="n">Iwork</span><span class="p">(</span><span class="n">ii</span><span class="p">)</span> <span class="o">=</span> <span class="mi">1</span>
+         <span class="n">elseif</span> <span class="p">(</span> <span class="n">Iwork</span><span class="p">(</span><span class="n">ii</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="o">/=</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
+<span class="k">            </span><span class="n">Iwork</span><span class="p">(</span><span class="n">ii</span><span class="p">)</span> <span class="o">=</span> <span class="mi">0</span>
+         <span class="k">endif</span>
+<span class="k">      enddo</span>
+<span class="c">! SAVE ITYP2 AND ITYP1.</span>
+      <span class="n">ityp2k</span> <span class="o">=</span> <span class="n">ityp2</span>
+      <span class="n">ityp1k</span> <span class="o">=</span> <span class="n">ityp1</span>
+      <span class="n">ityp2</span> <span class="o">=</span> <span class="mi">0</span>
+      <span class="n">ityp1</span> <span class="o">=</span> <span class="n">itypm2</span>
+      <span class="n">itypm2</span> <span class="o">=</span> <span class="mi">0</span>
+      <span class="k">call </span><span class="n">me</span><span class="p">%</span><span class="n">ercmp1</span><span class="p">(</span><span class="n">Ioptn</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">,</span><span class="n">Fun</span><span class="p">,</span><span class="n">Ifun</span><span class="p">,</span><span class="n">Pttbl</span><span class="p">,</span><span class="n">Iptb</span><span class="p">,</span><span class="n">Indm</span><span class="p">,</span><span class="n">Param</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span>   <span class="p">&amp;</span>
+                <span class="p">&amp;</span> <span class="n">iphse</span><span class="p">,</span><span class="n">Iwork</span><span class="p">,</span><span class="n">Liwrk</span><span class="p">,</span><span class="n">Work</span><span class="p">(</span><span class="n">ilc08</span><span class="p">),</span><span class="n">Iwork</span><span class="p">(</span><span class="n">ilc17</span><span class="p">),</span><span class="n">ipmax</span><span class="p">,</span>     <span class="p">&amp;</span>
+                <span class="p">&amp;</span> <span class="n">ismax</span><span class="p">,</span><span class="n">Error</span><span class="p">)</span>
+      <span class="k">goto </span><span class="mi">900</span>
+<span class="c">!</span>
+<span class="c">! HERE WE HAVE BOTH TYPE -1 AND TYPE -2 FEASIBILITY, AND WE</span>
+<span class="c">! SET IPHSE=0 AND GO INTO THE MAIN PART OF CONMAX (UNLESS THERE WERE</span>
+<span class="c">! NO TYPE 1 OR TYPE 2 CONSTRAINTS, IN WHICH CASE WE RETURN).</span>
+ <span class="mi">800</span>  <span class="n">iphse</span> <span class="o">=</span> <span class="mi">0</span>
+      <span class="k">if</span> <span class="p">(</span> <span class="n">ityp1</span><span class="o">+</span><span class="n">ityp2</span><span class="o">&lt;=</span><span class="mi">0</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">500</span>
+<span class="c">!</span>
+<span class="c">! END OF INITIAL FEASIBILITY CHECKING, TYPE -1 FEASIBILITY WORK, AND</span>
+<span class="c">! TYPE -2 SETUP.  THE BLOCK OF STATEMENTS FROM HERE UP TO THE</span>
+<span class="c">! PRECEDING DOUBLE BLANK LINE WILL NOT BE EXECUTED AGAIN.</span>
+<span class="c">!</span>
+<span class="c">!</span>
+<span class="c">!</span>
+ <span class="mi">900</span>  <span class="k">if</span> <span class="p">(</span> <span class="n">irk</span><span class="o">&lt;=</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
+<span class="c">!</span>
+<span class="c">! HERE IRK IS 0 OR -1 AND WE DO AN SLP STEP.  IF SLPCON CANNOT REDUCE THE</span>
+<span class="c">! PRINCIPAL ERROR NORM ENORM = ERROR(NUMGR+1) BY MORE THAN 100.0*B**(-ITT)</span>
+<span class="c">! THEN IT WILL LEAVE PARAM AND ERROR UNCHANGED.</span>
+         <span class="k">call </span><span class="n">me</span><span class="p">%</span><span class="n">slpcon</span><span class="p">(</span><span class="n">Ioptn</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">,</span><span class="n">Fun</span><span class="p">,</span><span class="n">Ifun</span><span class="p">,</span><span class="n">Pttbl</span><span class="p">,</span><span class="n">Iptb</span><span class="p">,</span><span class="n">Indm</span><span class="p">,</span><span class="n">tolcon</span><span class="p">,</span> <span class="p">&amp;</span>
+                   <span class="p">&amp;</span> <span class="n">rchin</span><span class="p">,</span><span class="n">irk</span><span class="p">,</span><span class="n">itypm1</span><span class="p">,</span><span class="n">itypm2</span><span class="p">,</span><span class="n">Iwork</span><span class="p">(</span><span class="n">ilc17</span><span class="p">),</span><span class="n">rchdwn</span><span class="p">,</span><span class="n">numlim</span><span class="p">,&amp;</span>
+                   <span class="p">&amp;</span> <span class="n">itersl</span><span class="p">,</span><span class="n">prjslp</span><span class="p">,</span><span class="n">Work</span><span class="p">(</span><span class="n">ilc12</span><span class="p">),</span><span class="n">Iwork</span><span class="p">(</span><span class="n">ilc20</span><span class="p">),</span><span class="n">Work</span><span class="p">(</span><span class="n">ilc44</span><span class="p">),&amp;</span>
+                   <span class="p">&amp;</span> <span class="n">mact1</span><span class="p">,</span><span class="n">Iwork</span><span class="p">(</span><span class="n">ilc14</span><span class="p">),</span><span class="n">Iwork</span><span class="p">(</span><span class="n">ilc21</span><span class="p">),</span><span class="n">iphse</span><span class="p">,</span><span class="n">enchg</span><span class="p">,</span><span class="n">Iwork</span><span class="p">,</span> <span class="p">&amp;</span>
+                   <span class="p">&amp;</span> <span class="n">Liwrk</span><span class="p">,</span><span class="n">Work</span><span class="p">,</span><span class="n">Lwrk</span><span class="p">,</span><span class="n">Work</span><span class="p">(</span><span class="n">ilc26</span><span class="p">),</span><span class="n">isucc</span><span class="p">,</span><span class="n">Param</span><span class="p">,</span><span class="n">Error</span><span class="p">)</span>
+      <span class="k">else</span>
+<span class="c">!</span>
+<span class="c">! HERE IRK IS 1 OR 2 AND WE DO AN RK STEP.  IF RKCON CANNOT REDUCE THE</span>
+<span class="c">! PRINCIPAL ERROR NORM ENORM = ERROR(NUMGR+1) BY MORE THAN 100.0*B**(-ITT)</span>
+<span class="c">! THEN IT WILL LEAVE PARAM AND ERROR UNCHANGED.</span>
+         <span class="k">call </span><span class="n">me</span><span class="p">%</span><span class="n">rkcon</span><span class="p">(</span><span class="n">Ioptn</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">,</span><span class="n">Fun</span><span class="p">,</span><span class="n">Ifun</span><span class="p">,</span><span class="n">Pttbl</span><span class="p">,</span><span class="n">Iptb</span><span class="p">,</span><span class="n">Indm</span><span class="p">,</span><span class="n">tolcon</span><span class="p">,</span>  <span class="p">&amp;</span>
+                  <span class="p">&amp;</span> <span class="n">rchin</span><span class="p">,</span><span class="n">Iter</span><span class="p">,</span><span class="n">irk</span><span class="p">,</span><span class="n">ityp2</span><span class="p">,</span><span class="n">ityp1</span><span class="p">,</span><span class="n">itypm1</span><span class="p">,</span><span class="n">itypm2</span><span class="p">,</span>           <span class="p">&amp;</span>
+                  <span class="p">&amp;</span> <span class="n">Iwork</span><span class="p">(</span><span class="n">ilc17</span><span class="p">),</span><span class="n">projct</span><span class="p">,</span><span class="n">rchdwn</span><span class="p">,</span><span class="n">nstep</span><span class="p">,</span><span class="n">iphse</span><span class="p">,</span><span class="n">enchg</span><span class="p">,</span><span class="n">enc1</span><span class="p">,</span>  <span class="p">&amp;</span>
+                  <span class="p">&amp;</span> <span class="n">Work</span><span class="p">(</span><span class="n">ilc29</span><span class="p">),</span><span class="n">Work</span><span class="p">(</span><span class="n">ilc12</span><span class="p">),</span><span class="n">Iwork</span><span class="p">,</span><span class="n">Liwrk</span><span class="p">,</span><span class="n">Work</span><span class="p">,</span><span class="n">Lwrk</span><span class="p">,</span>      <span class="p">&amp;</span>
+                  <span class="p">&amp;</span> <span class="n">Iwork</span><span class="p">(</span><span class="n">ilc13</span><span class="p">),</span><span class="n">Work</span><span class="p">(</span><span class="n">ilc02</span><span class="p">),</span><span class="n">Work</span><span class="p">(</span><span class="n">ilc25</span><span class="p">),</span><span class="n">Work</span><span class="p">(</span><span class="n">ilc26</span><span class="p">),</span>   <span class="p">&amp;</span>
+                  <span class="p">&amp;</span> <span class="n">Work</span><span class="p">(</span><span class="n">ilc46</span><span class="p">),</span><span class="n">Work</span><span class="p">(</span><span class="n">ilc11</span><span class="p">),</span><span class="n">Work</span><span class="p">(</span><span class="n">ilc08</span><span class="p">),</span><span class="n">isucc</span><span class="p">,</span><span class="n">Param</span><span class="p">,</span>    <span class="p">&amp;</span>
+                  <span class="p">&amp;</span> <span class="n">Error</span><span class="p">)</span>
+      <span class="k">endif</span>
+<span class="c">!</span>
+      <span class="k">if</span> <span class="p">(</span> <span class="n">isucc</span><span class="o">&lt;=</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
+<span class="c">! HERE THE RK OR SLP STEP REDUCED ERROR(NUMGR+1) BY MORE THAN</span>
+<span class="c">! 100.0*B**(-ITT), AND WE INCREMENT ITER.</span>
+         <span class="n">Iter</span> <span class="o">=</span> <span class="n">Iter</span> <span class="o">+</span> <span class="mi">1</span>
+<span class="c">!</span>
+<span class="c">! IF EITHER IPHSE=0, OR IPHSE=-2 AND ERROR(NUMGR+1) .GT. TOLCON, WE GO</span>
+<span class="c">! ON AS USUAL TO SET UP ANOTHER STEP WITH THE SAME IPHSE.</span>
+         <span class="k">if</span> <span class="p">(</span> <span class="n">iphse</span><span class="o">&lt;</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
+<span class="k">            if</span> <span class="p">(</span> <span class="n">Error</span><span class="p">(</span><span class="n">Numgr</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">&lt;=</span><span class="n">tolcon</span> <span class="p">)</span> <span class="k">then</span>
+<span class="c">!</span>
+<span class="c">! HERE IPHSE=-2 AND ERROR(NUMGR+1) .LE. TOLCON, SO WE HAVE JUST ACHIEVED</span>
+<span class="c">! TYPE -2 FEASIBILITY.  WE WILL SET IPHSE=0, AND IF THERE ARE ANY</span>
+<span class="c">! PRIMARY CONSTRAINTS WE WILL RESET ITER, ITERSL, AND ITLIM1 (SINCE</span>
+<span class="c">! ITER=0 AND ITERSL=0 HAVE MEANINGS TO RKCON AND SLPCON RESPECTIVELY),</span>
+<span class="c">! RESET RCHIN AND RCHDWN, AND GO BACK TO THE FIRST ERCMP1 CALL TO</span>
+<span class="c">! RESTORE ERROR AND ICNTYP (ITYP1, ITYP2, ITYPM1, AND ITYPM2 WILL ALSO</span>
+<span class="c">! BE RESTORED).</span>
+               <span class="n">iphse</span> <span class="o">=</span> <span class="mi">0</span>
+               <span class="k">if</span> <span class="p">(</span> <span class="n">ityp1k</span><span class="o">+</span><span class="n">ityp2k</span><span class="o">&lt;=</span><span class="mi">0</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">500</span>
+               <span class="n">itlim1</span> <span class="o">=</span> <span class="n">Itlim</span> <span class="o">-</span> <span class="n">Iter</span>
+               <span class="n">Iter</span> <span class="o">=</span> <span class="mi">0</span>
+               <span class="n">itersl</span> <span class="o">=</span> <span class="mi">0</span>
+               <span class="n">rchin</span> <span class="o">=</span> <span class="n">rchdwn</span>
+               <span class="n">rchdwn</span> <span class="o">=</span> <span class="n">rchdnk</span>
+               <span class="k">goto </span><span class="mi">100</span>
+            <span class="k">endif</span>
+<span class="k">         endif</span>
+<span class="c">!</span>
+         <span class="k">if</span> <span class="p">(</span> <span class="n">irk</span><span class="o">&lt;</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
+<span class="c">!</span>
+<span class="c">! HERE WE HAD AN SLP SUCCESS AND WE ARE GOING TO TRY RK AGAIN, SO WE SET</span>
+<span class="c">! IRK=2 TO WARN RKCON THAT THE SUCCESS CAME FROM SLP.</span>
+            <span class="n">irk</span> <span class="o">=</span> <span class="mi">2</span>
+         <span class="n">elseif</span> <span class="p">(</span> <span class="n">irk</span><span class="o">/=</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
+<span class="c">!</span>
+<span class="c">! HERE IRK IS 1 OR 2, SO WE JUST HAD AN RK SUCCESS.  WE RESET IRK AND</span>
+<span class="c">! ITERSL.</span>
+            <span class="n">irk</span> <span class="o">=</span> <span class="mi">1</span>
+            <span class="n">itersl</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">goto </span><span class="mi">200</span>
+         <span class="k">endif</span>
+<span class="c">! HERE WE HAD AN SLP SUCCESS AND WE INCREMENT ITERSL = THE NUMBER OF SLP</span>
+<span class="c">! SUCCESSES SINCE THE LAST SUCCESSFUL RK STEP (IF ANY).  ITERSL IS NEEDED</span>
+<span class="c">! IN SUBROUTINE BNDSET (CALLED BY SLPCON).</span>
+         <span class="n">itersl</span> <span class="o">=</span> <span class="n">itersl</span> <span class="o">+</span> <span class="mi">1</span>
+         <span class="k">goto </span><span class="mi">200</span>
+      <span class="k">else</span>
+<span class="c">!</span>
+<span class="c">! HERE RKCON OR SLPCON FAILED TO SIGNIFICANTLY REDUCE THE PRINCIPAL ERROR</span>
+<span class="c">! NORM.  IF WE JUST TRIED SLP WE QUIT, AND IF WE JUST TRIED RK WE ATTEMPT</span>
+<span class="c">! AN SLP STEP UNLESS IOPTHO = 2, IN WHICH CASE WE QUIT.</span>
+         <span class="k">if</span> <span class="p">(</span> <span class="n">irk</span><span class="o">&gt;</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
+<span class="k">            if</span> <span class="p">(</span> <span class="n">ioptho</span><span class="o">/=</span><span class="mi">2</span> <span class="p">)</span> <span class="k">then</span>
+<span class="k">               </span><span class="n">irk</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+               <span class="k">goto </span><span class="mi">300</span>
+            <span class="k">endif</span>
+<span class="k">         endif</span>
+<span class="c">!</span>
+<span class="c">! IF IPHSE=-2 HERE WE WILL SET ITER=-2 AS A WARNING AND CHANGE</span>
+<span class="c">! ERROR(NUMGR+1) AND ERROR(NUMGR+3) BEFORE RETURNING.  OTHERWISE WE WILL</span>
+<span class="c">! HAVE IPHSE=0 AND WE WILL ADJUST ITER BEFORE RETURNING.</span>
+         <span class="k">if</span> <span class="p">(</span> <span class="n">iphse</span><span class="o">&lt;</span><span class="mi">0</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">400</span>
+         <span class="n">Iter</span> <span class="o">=</span> <span class="n">Iter</span> <span class="o">+</span> <span class="n">Itlim</span> <span class="o">-</span> <span class="n">itlim1</span>
+         <span class="k">goto </span><span class="mi">500</span>
+      <span class="k">endif</span>
+
+<span class="k">    end subroutine </span><span class="n">conmax</span>
+</pre></div>
+
+    </section>
+    <br>
     
     
     </div>
@@ -1044,10 +1353,6 @@ subroutine conmax(Ioptn, Nparm, Numgr, Itlim, Fun, Ifun, Pttbl, Iptb, Indm, Iwor
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
-    
-    <script src="../tipuesearch/tipuesearch_content.js"></script>
-    <script src="../tipuesearch/tipuesearch_set.js"></script>
-    <script src="../tipuesearch/tipuesearch.js"></script>
     
     
   </body>

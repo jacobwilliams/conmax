@@ -17,8 +17,6 @@
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
     
-    <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
-    
     
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -57,15 +55,21 @@
         <ul class="dropdown-menu">
           
               
-            <li><a href="../lists/files.html">Source Files</a></li>
+            <li><a href="../sourcefile/conmax.f90.html">Source File</a></li>
         
         
+        
+            <li><a href="../lists/modules.html">Modules</a></li>
         
             
                                 
             <li><a href="../lists/procedures.html">Procedures</a></li>
         
+        
+            <li><a href="../lists/absint.html">Abstract Interfaces</a></li>
                
+            <li><a href="../lists/types.html">Derived Types</a></li>
+        
                
         
         
@@ -74,28 +78,25 @@
             </li>
 
 
-<li class="visible-xs hidden-sm visible-lg"><a href="../lists/files.html">Source Files</a></li>
+<li class="visible-xs hidden-sm visible-lg"><a href="../sourcefile/conmax.f90.html">Source File</a></li>
 
 
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/modules.html">Modules</a></li>
 
 
 
 <li class="visible-xs hidden-sm visible-lg"><a href="../lists/procedures.html">Procedures</a></li>
 
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/absint.html">Abstract Interfaces</a></li>
                              
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/types.html">Derived Types</a></li>
+
 
 
 
           </ul>
-        
-        <form action="../search.html" class="navbar-form navbar-right" role="search">
-        <div class="form-group">
-          <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
-        </div>
-<!--
-        <button type="submit" class="btn btn-default">Submit</button>
--->
-        </form>
         
         </div><!--/.nav-collapse -->
       </div>
@@ -124,7 +125,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title="15.5% of total for procedures.">508 statements</a>
+    title=" 2.0% of total for procedures.">62 statements</a>
      </li> 
      
      
@@ -137,6 +138,8 @@
   
     
      <li><a href='../sourcefile/conmax.f90.html'>conmax.f90</a></li>
+    
+     <li><a href='../module/conmax_module.html'>conmax_module</a></li>
     
   
      <li class="active">rchmod</li>
@@ -180,7 +183,13 @@
 
 
 
-<em>None</em>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/rchmod.html#src">rchmod</a>
+  </div>
+</div>
+
 
 
 </div>
@@ -189,7 +198,7 @@
     
     <div class="col-md-9" id='text'>
     <h2>
-subroutine rchmod(Numgr, Error, Err1, Icntyp, Mact, Iact, Ipmax, Ismax, Unit, Irch, Rchdwn, Rchin)
+private subroutine rchmod(Numgr, Error, Err1, Icntyp, Mact, Iact, Ipmax, Ismax, Unit, Irch, Rchdwn, Rchin)
     
     
    
@@ -218,7 +227,7 @@ subroutine rchmod(Numgr, Error, Err1, Icntyp, Mact, Iact, Ipmax, Ismax, Unit, Ir
   
 <tr>
   
-  <td><span class="anchor" id="variable-numgr~14"></span>integer</td>
+  <td><span class="anchor" id="variable-numgr~18"></span>integer</td>
   <td></td>
   <td></td>
   
@@ -233,7 +242,7 @@ subroutine rchmod(Numgr, Error, Err1, Icntyp, Mact, Iact, Ipmax, Ismax, Unit, Ir
   
 <tr>
   
-  <td><span class="anchor" id="variable-error~10"></span>real(kind=8)</td>
+  <td><span class="anchor" id="variable-error~10"></span>real(kind=wp)</td>
   <td></td>
   <td></td>
   
@@ -248,7 +257,7 @@ subroutine rchmod(Numgr, Error, Err1, Icntyp, Mact, Iact, Ipmax, Ismax, Unit, Ir
   
 <tr>
   
-  <td><span class="anchor" id="variable-err1~5"></span>real(kind=8)</td>
+  <td><span class="anchor" id="variable-err1~6"></span>real(kind=wp)</td>
   <td></td>
   <td></td>
   
@@ -263,7 +272,7 @@ subroutine rchmod(Numgr, Error, Err1, Icntyp, Mact, Iact, Ipmax, Ismax, Unit, Ir
   
 <tr>
   
-  <td><span class="anchor" id="variable-icntyp~9"></span>integer</td>
+  <td><span class="anchor" id="variable-icntyp~10"></span>integer</td>
   <td></td>
   <td></td>
   
@@ -338,7 +347,7 @@ subroutine rchmod(Numgr, Error, Err1, Icntyp, Mact, Iact, Ipmax, Ismax, Unit, Ir
   
 <tr>
   
-  <td><span class="anchor" id="variable-unit~4"></span>real(kind=8)</td>
+  <td><span class="anchor" id="variable-unit~4"></span>real(kind=wp)</td>
   <td></td>
   <td></td>
   
@@ -368,7 +377,7 @@ subroutine rchmod(Numgr, Error, Err1, Icntyp, Mact, Iact, Ipmax, Ismax, Unit, Ir
   
 <tr>
   
-  <td><span class="anchor" id="variable-rchdwn~6"></span>real(kind=8)</td>
+  <td><span class="anchor" id="variable-rchdwn~6"></span>real(kind=wp)</td>
   <td></td>
   <td></td>
   
@@ -383,7 +392,7 @@ subroutine rchmod(Numgr, Error, Err1, Icntyp, Mact, Iact, Ipmax, Ismax, Unit, Ir
   
 <tr>
   
-  <td><span class="anchor" id="variable-rchin~8"></span>real(kind=8)</td>
+  <td><span class="anchor" id="variable-rchin~8"></span>real(kind=wp)</td>
   <td></td>
   <td></td>
   
@@ -401,146 +410,6 @@ subroutine rchmod(Numgr, Error, Err1, Icntyp, Mact, Iact, Ipmax, Ismax, Unit, Ir
     <br>
     
     
-    <div class="panel panel-default">
-      <div class="panel-heading">
-  <h3 class="panel-title">Calls</h3>
-      </div>
-      <div class="panel-body">
-  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
- "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<!-- Generated by graphviz version 2.43.0 (0)
- -->
-<!-- Title: proc~~rchmod~~CallsGraph Pages: 1 -->
-<svg id="procrchmodCallsGraph" width="242pt" height="116pt"
- viewBox="0.00 0.00 242.00 116.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g id="proc~~rchmod~~CallsGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 112)">
-<title>proc~~rchmod~~CallsGraph</title>
-<polygon fill="white" stroke="transparent" points="-4,4 -4,-112 238,-112 238,4 -4,4"/>
-<!-- proc~rchmod -->
-<g id="proc~~rchmod~~CallsGraph_node1" class="node">
-<title>proc~rchmod</title>
-<polygon fill="none" stroke="black" points="54,-66 0,-66 0,-42 54,-42 54,-66"/>
-<text text-anchor="middle" x="27" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50">rchmod</text>
-</g>
-<!-- proc~refwl -->
-<g id="proc~~rchmod~~CallsGraph_node2" class="node">
-<title>proc~refwl</title>
-<g id="a_proc~~rchmod~~CallsGraph_node2"><a xlink:href=".././proc/refwl.html" xlink:title="refwl">
-<polygon fill="#d9534f" stroke="#d9534f" points="144,-108 90,-108 90,-84 144,-84 144,-108"/>
-<text text-anchor="middle" x="117" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">refwl</text>
-</a>
-</g>
-</g>
-<!-- proc~rchmod&#45;&gt;proc~refwl -->
-<g id="proc~~rchmod~~CallsGraph_edge1" class="edge">
-<title>proc~rchmod&#45;&gt;proc~refwl</title>
-<path fill="none" stroke="#000000" d="M53.45,-66.15C62.21,-70.33 72.17,-75.08 81.52,-79.54"/>
-<polygon fill="#000000" stroke="#000000" points="80.07,-82.73 90.6,-83.88 83.09,-76.41 80.07,-82.73"/>
-</g>
-<!-- conenr -->
-<g id="proc~~rchmod~~CallsGraph_node3" class="node">
-<title>conenr</title>
-<polygon fill="#777777" stroke="#777777" points="144,-66 90,-66 90,-42 144,-42 144,-66"/>
-<text text-anchor="middle" x="117" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">conenr</text>
-</g>
-<!-- proc~rchmod&#45;&gt;conenr -->
-<g id="proc~~rchmod~~CallsGraph_edge2" class="edge">
-<title>proc~rchmod&#45;&gt;conenr</title>
-<path fill="none" stroke="#000000" d="M54.4,-54C62.39,-54 71.31,-54 79.82,-54"/>
-<polygon fill="#000000" stroke="#000000" points="79.92,-57.5 89.92,-54 79.92,-50.5 79.92,-57.5"/>
-</g>
-<!-- proc~house -->
-<g id="proc~~rchmod~~CallsGraph_node4" class="node">
-<title>proc~house</title>
-<g id="a_proc~~rchmod~~CallsGraph_node4"><a xlink:href=".././proc/house.html" xlink:title="house">
-<polygon fill="#d9534f" stroke="#d9534f" points="144,-24 90,-24 90,0 144,0 144,-24"/>
-<text text-anchor="middle" x="117" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">house</text>
-</a>
-</g>
-</g>
-<!-- proc~rchmod&#45;&gt;proc~house -->
-<g id="proc~~rchmod~~CallsGraph_edge3" class="edge">
-<title>proc~rchmod&#45;&gt;proc~house</title>
-<path fill="none" stroke="#000000" d="M53.45,-41.85C62.21,-37.67 72.17,-32.92 81.52,-28.46"/>
-<polygon fill="#000000" stroke="#000000" points="83.09,-31.59 90.6,-24.12 80.07,-25.27 83.09,-31.59"/>
-</g>
-<!-- float -->
-<g id="proc~~rchmod~~CallsGraph_node5" class="node">
-<title>float</title>
-<polygon fill="#777777" stroke="#777777" points="234,-24 180,-24 180,0 234,0 234,-24"/>
-<text text-anchor="middle" x="207" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">float</text>
-</g>
-<!-- proc~house&#45;&gt;float -->
-<g id="proc~~rchmod~~CallsGraph_edge4" class="edge">
-<title>proc~house&#45;&gt;float</title>
-<path fill="none" stroke="#000000" d="M144.4,-12C152.39,-12 161.31,-12 169.82,-12"/>
-<polygon fill="#000000" stroke="#000000" points="169.92,-15.5 179.92,-12 169.92,-8.5 169.92,-15.5"/>
-</g>
-</g>
-</svg>
-</div><div><a type="button" class="graph-help" data-toggle="modal" href="#graph-help-text">Help</a></div><div class="modal fade" id="graph-help-text" tabindex="-1" role="dialog"><div class="modal-dialog modal-lg" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="-graph-help-label">Graph Key</h4></div><div class="modal-body">
-    <p>Nodes of different colours represent the following: </p>
-    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
- "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<!-- Generated by graphviz version 2.43.0 (0)
- -->
-<!-- Title: Graph Key Pages: 1 -->
-<svg width="597pt" height="32pt"
- viewBox="0.00 0.00 596.50 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
-<title>Graph Key</title>
-<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 592.5,-28 592.5,4 -4,4"/>
-<!-- Subroutine -->
-<g id="node1" class="node">
-<title>Subroutine</title>
-<polygon fill="#d9534f" stroke="#d9534f" points="70,-24 0,-24 0,0 70,0 70,-24"/>
-<text text-anchor="middle" x="35" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
-</g>
-<!-- Function -->
-<g id="node2" class="node">
-<title>Function</title>
-<polygon fill="#d94e8f" stroke="#d94e8f" points="146,-24 88,-24 88,0 146,0 146,-24"/>
-<text text-anchor="middle" x="117" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
-</g>
-<!-- Interface -->
-<g id="node3" class="node">
-<title>Interface</title>
-<polygon fill="#a7506f" stroke="#a7506f" points="225.5,-24 164.5,-24 164.5,0 225.5,0 225.5,-24"/>
-<text text-anchor="middle" x="195" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Interface</text>
-</g>
-<!-- Unknown Procedure Type -->
-<g id="node4" class="node">
-<title>Unknown Procedure Type</title>
-<polygon fill="#777777" stroke="#777777" points="388.5,-24 243.5,-24 243.5,0 388.5,0 388.5,-24"/>
-<text text-anchor="middle" x="316" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Unknown Procedure Type</text>
-</g>
-<!-- Program -->
-<g id="node5" class="node">
-<title>Program</title>
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="465,-24 407,-24 407,0 465,0 465,-24"/>
-<text text-anchor="middle" x="436" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
-</g>
-<!-- This Page&#39;s Entity -->
-<g id="node6" class="node">
-<title>This Page&#39;s Entity</title>
-<polygon fill="none" stroke="black" points="588.5,-24 483.5,-24 483.5,0 588.5,0 588.5,-24"/>
-<text text-anchor="middle" x="536" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
-</g>
-</g>
-</svg>
-
-    
-    <p>Solid arrows point from a procedure to one which it calls. Dashed 
-    arrows point from an interface to procedures which implement that interface.
-    This could include the module procedures in a generic interface or the
-    implementation in a submodule of an interface in a parent module.
-    </p>
-    </div></div></div></div>
-      </div>
-    </div>
-     
      
     <div class="panel panel-default">
       <div class="panel-heading">
@@ -553,130 +422,46 @@ subroutine rchmod(Numgr, Error, Err1, Icntyp, Mact, Iact, Ipmax, Ismax, Unit, Ir
 <!-- Generated by graphviz version 2.43.0 (0)
  -->
 <!-- Title: proc~~rchmod~~CalledByGraph Pages: 1 -->
-<svg id="procrchmodCalledByGraph" width="423pt" height="86pt"
- viewBox="0.00 0.00 423.00 86.01" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g id="proc~~rchmod~~CalledByGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 82.01)">
+<svg id="procrchmodCalledByGraph" width="152pt" height="74pt"
+ viewBox="0.00 0.00 152.00 74.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="proc~~rchmod~~CalledByGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 70)">
 <title>proc~~rchmod~~CalledByGraph</title>
-<polygon fill="white" stroke="transparent" points="-4,4 -4,-82.01 419,-82.01 419,4 -4,4"/>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-70 148,-70 148,4 -4,4"/>
 <!-- proc~rchmod -->
 <g id="proc~~rchmod~~CalledByGraph_node1" class="node">
 <title>proc~rchmod</title>
-<polygon fill="none" stroke="black" points="415,-45 361,-45 361,-21 415,-21 415,-45"/>
-<text text-anchor="middle" x="388" y="-30.6" font-family="Helvetica,sans-Serif" font-size="10.50">rchmod</text>
+<polygon fill="none" stroke="black" points="144,-45 90,-45 90,-21 144,-21 144,-45"/>
+<text text-anchor="middle" x="117" y="-30.6" font-family="Helvetica,sans-Serif" font-size="10.50">rchmod</text>
 </g>
 <!-- proc~corrct -->
 <g id="proc~~rchmod~~CalledByGraph_node2" class="node">
 <title>proc~corrct</title>
 <g id="a_proc~~rchmod~~CalledByGraph_node2"><a xlink:href=".././proc/corrct.html" xlink:title="corrct">
-<polygon fill="#d9534f" stroke="#d9534f" points="325,-65 271,-65 271,-41 325,-41 325,-65"/>
-<text text-anchor="middle" x="298" y="-50.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">corrct</text>
+<polygon fill="#d9534f" stroke="#d9534f" points="54,-66 0,-66 0,-42 54,-42 54,-66"/>
+<text text-anchor="middle" x="27" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">corrct</text>
 </a>
 </g>
 </g>
 <!-- proc~corrct&#45;&gt;proc~rchmod -->
 <g id="proc~~rchmod~~CalledByGraph_edge1" class="edge">
 <title>proc~corrct&#45;&gt;proc~rchmod</title>
-<path fill="none" stroke="#000000" d="M325.4,-47C333.48,-45.16 342.51,-43.11 351.1,-41.16"/>
-<polygon fill="#000000" stroke="#000000" points="351.94,-44.56 360.92,-38.93 350.39,-37.73 351.94,-44.56"/>
+<path fill="none" stroke="#000000" d="M54.4,-47.7C62.48,-45.77 71.51,-43.62 80.1,-41.57"/>
+<polygon fill="#000000" stroke="#000000" points="81,-44.95 89.92,-39.22 79.38,-38.14 81,-44.95"/>
 </g>
 <!-- proc~searsl -->
 <g id="proc~~rchmod~~CalledByGraph_node3" class="node">
 <title>proc~searsl</title>
 <g id="a_proc~~rchmod~~CalledByGraph_node3"><a xlink:href=".././proc/searsl.html" xlink:title="searsl">
-<polygon fill="#d9534f" stroke="#d9534f" points="235,-24 181,-24 181,0 235,0 235,-24"/>
-<text text-anchor="middle" x="208" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">searsl</text>
+<polygon fill="#d9534f" stroke="#d9534f" points="54,-24 0,-24 0,0 54,0 54,-24"/>
+<text text-anchor="middle" x="27" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">searsl</text>
 </a>
 </g>
 </g>
 <!-- proc~searsl&#45;&gt;proc~rchmod -->
 <g id="proc~~rchmod~~CalledByGraph_edge2" class="edge">
 <title>proc~searsl&#45;&gt;proc~rchmod</title>
-<path fill="none" stroke="#000000" d="M235.26,-15.1C265.85,-18.71 316.55,-24.69 350.84,-28.73"/>
-<polygon fill="#000000" stroke="#000000" points="350.58,-32.23 360.92,-29.92 351.4,-25.28 350.58,-32.23"/>
-</g>
-<!-- proc~searsl&#45;&gt;proc~corrct -->
-<g id="proc~~rchmod~~CalledByGraph_edge4" class="edge">
-<title>proc~searsl&#45;&gt;proc~corrct</title>
-<path fill="none" stroke="#000000" d="M234.93,-24.08C243.36,-28.01 252.86,-32.43 261.84,-36.62"/>
-<polygon fill="#000000" stroke="#000000" points="260.41,-39.81 270.95,-40.87 263.37,-33.47 260.41,-39.81"/>
-</g>
-<!-- proc~rkcon -->
-<g id="proc~~rchmod~~CalledByGraph_node4" class="node">
-<title>proc~rkcon</title>
-<g id="a_proc~~rchmod~~CalledByGraph_node4"><a xlink:href=".././proc/rkcon.html" xlink:title="rkcon">
-<polygon fill="#d9534f" stroke="#d9534f" points="145,-66 91,-66 91,-42 145,-42 145,-66"/>
-<text text-anchor="middle" x="118" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">rkcon</text>
-</a>
-</g>
-</g>
-<!-- proc~rkcon&#45;&gt;proc~corrct -->
-<g id="proc~~rchmod~~CalledByGraph_edge3" class="edge">
-<title>proc~rkcon&#45;&gt;proc~corrct</title>
-<path fill="none" stroke="#000000" d="M145.06,-64.94C155.96,-68.96 168.89,-73 181,-75 204.68,-78.9 211.35,-79.07 235,-75 243.74,-73.5 252.88,-70.88 261.37,-67.97"/>
-<polygon fill="#000000" stroke="#000000" points="262.79,-71.18 270.98,-64.46 260.39,-64.6 262.79,-71.18"/>
-</g>
-<!-- proc~rkcon&#45;&gt;proc~searsl -->
-<g id="proc~~rchmod~~CalledByGraph_edge6" class="edge">
-<title>proc~rkcon&#45;&gt;proc~searsl</title>
-<path fill="none" stroke="#000000" d="M144.45,-41.85C153.21,-37.67 163.17,-32.92 172.52,-28.46"/>
-<polygon fill="#000000" stroke="#000000" points="174.09,-31.59 181.6,-24.12 171.07,-25.27 174.09,-31.59"/>
-</g>
-<!-- proc~rkpar -->
-<g id="proc~~rchmod~~CalledByGraph_node5" class="node">
-<title>proc~rkpar</title>
-<g id="a_proc~~rchmod~~CalledByGraph_node5"><a xlink:href=".././proc/rkpar.html" xlink:title="rkpar">
-<polygon fill="#d9534f" stroke="#d9534f" points="235,-66 181,-66 181,-42 235,-42 235,-66"/>
-<text text-anchor="middle" x="208" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">rkpar</text>
-</a>
-</g>
-</g>
-<!-- proc~rkcon&#45;&gt;proc~rkpar -->
-<g id="proc~~rchmod~~CalledByGraph_edge9" class="edge">
-<title>proc~rkcon&#45;&gt;proc~rkpar</title>
-<path fill="none" stroke="#000000" d="M145.4,-54C153.39,-54 162.31,-54 170.82,-54"/>
-<polygon fill="#000000" stroke="#000000" points="170.92,-57.5 180.92,-54 170.92,-50.5 170.92,-57.5"/>
-</g>
-<!-- proc~rkpar&#45;&gt;proc~corrct -->
-<g id="proc~~rchmod~~CalledByGraph_edge5" class="edge">
-<title>proc~rkpar&#45;&gt;proc~corrct</title>
-<path fill="none" stroke="#000000" d="M235.4,-53.7C243.39,-53.61 252.31,-53.51 260.82,-53.41"/>
-<polygon fill="#000000" stroke="#000000" points="260.96,-56.91 270.92,-53.3 260.88,-49.91 260.96,-56.91"/>
-</g>
-<!-- proc~slpcon -->
-<g id="proc~~rchmod~~CalledByGraph_node6" class="node">
-<title>proc~slpcon</title>
-<g id="a_proc~~rchmod~~CalledByGraph_node6"><a xlink:href=".././proc/slpcon.html" xlink:title="slpcon">
-<polygon fill="#d9534f" stroke="#d9534f" points="145,-24 91,-24 91,0 145,0 145,-24"/>
-<text text-anchor="middle" x="118" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">slpcon</text>
-</a>
-</g>
-</g>
-<!-- proc~slpcon&#45;&gt;proc~searsl -->
-<g id="proc~~rchmod~~CalledByGraph_edge7" class="edge">
-<title>proc~slpcon&#45;&gt;proc~searsl</title>
-<path fill="none" stroke="#000000" d="M145.4,-12C153.39,-12 162.31,-12 170.82,-12"/>
-<polygon fill="#000000" stroke="#000000" points="170.92,-15.5 180.92,-12 170.92,-8.5 170.92,-15.5"/>
-</g>
-<!-- proc~conmax -->
-<g id="proc~~rchmod~~CalledByGraph_node7" class="node">
-<title>proc~conmax</title>
-<g id="a_proc~~rchmod~~CalledByGraph_node7"><a xlink:href=".././proc/conmax.html" xlink:title="conmax">
-<polygon fill="#d9534f" stroke="#d9534f" points="55,-45 0,-45 0,-21 55,-21 55,-45"/>
-<text text-anchor="middle" x="27.5" y="-30.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">conmax</text>
-</a>
-</g>
-</g>
-<!-- proc~conmax&#45;&gt;proc~rkcon -->
-<g id="proc~~rchmod~~CalledByGraph_edge8" class="edge">
-<title>proc~conmax&#45;&gt;proc~rkcon</title>
-<path fill="none" stroke="#000000" d="M55.05,-39.3C63.18,-41.23 72.25,-43.38 80.9,-45.43"/>
-<polygon fill="#000000" stroke="#000000" points="80.23,-48.87 90.77,-47.78 81.85,-42.06 80.23,-48.87"/>
-</g>
-<!-- proc~conmax&#45;&gt;proc~slpcon -->
-<g id="proc~~rchmod~~CalledByGraph_edge10" class="edge">
-<title>proc~conmax&#45;&gt;proc~slpcon</title>
-<path fill="none" stroke="#000000" d="M55.05,-26.7C63.18,-24.77 72.25,-22.62 80.9,-20.57"/>
-<polygon fill="#000000" stroke="#000000" points="81.85,-23.94 90.77,-18.22 80.23,-17.13 81.85,-23.94"/>
+<path fill="none" stroke="#000000" d="M54.4,-18.3C62.48,-20.23 71.51,-22.38 80.1,-24.43"/>
+<polygon fill="#000000" stroke="#000000" points="79.38,-27.86 89.92,-26.78 81,-21.05 79.38,-27.86"/>
 </g>
 </g>
 </svg>
@@ -769,7 +554,13 @@ subroutine rchmod(Numgr, Error, Err1, Icntyp, Mact, Iact, Ipmax, Ismax, Unit, Ir
 
 
 
-<em>None</em>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/rchmod.html#src">rchmod</a>
+  </div>
+</div>
+
 
 
     </section>
@@ -792,6 +583,151 @@ subroutine rchmod(Numgr, Error, Err1, Icntyp, Mact, Iact, Ipmax, Ismax, Unit, Ir
 
     
     
+    
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span>      <span class="k">subroutine </span><span class="n">rchmod</span><span class="p">(</span><span class="n">Numgr</span><span class="p">,</span><span class="n">Error</span><span class="p">,</span><span class="n">Err1</span><span class="p">,</span><span class="n">Icntyp</span><span class="p">,</span><span class="n">Mact</span><span class="p">,</span><span class="n">Iact</span><span class="p">,</span><span class="n">Ipmax</span><span class="p">,</span><span class="n">Ismax</span><span class="p">,</span>  <span class="p">&amp;</span>
+                        <span class="n">Unit</span><span class="p">,</span><span class="n">Irch</span><span class="p">,</span><span class="n">Rchdwn</span><span class="p">,</span><span class="n">Rchin</span><span class="p">)</span>
+
+      <span class="k">implicit none</span>
+
+<span class="k">      </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="n">ei</span> <span class="p">,</span> <span class="n">eipmax</span> <span class="p">,</span> <span class="n">enorm</span> <span class="p">,</span> <span class="n">epact</span> <span class="p">,</span> <span class="n">Err1</span> <span class="p">,</span> <span class="n">Error</span> <span class="p">,</span>      <span class="p">&amp;</span>
+           <span class="p">&amp;</span> <span class="n">four</span> <span class="p">,</span> <span class="n">fudge</span> <span class="p">,</span> <span class="n">one</span> <span class="p">,</span> <span class="n">rch1</span> <span class="p">,</span> <span class="n">rchd1</span> <span class="p">,</span> <span class="n">Rchdwn</span> <span class="p">,</span> <span class="n">Rchin</span> <span class="p">,</span>       <span class="p">&amp;</span>
+           <span class="p">&amp;</span> <span class="n">rchtop</span> <span class="p">,</span> <span class="n">spcmn</span> <span class="p">,</span> <span class="n">ten</span> <span class="p">,</span> <span class="n">two</span> <span class="p">,</span> <span class="n">Unit</span>
+      <span class="kt">integer </span><span class="n">i</span> <span class="p">,</span> <span class="n">Iact</span> <span class="p">,</span> <span class="n">Icntyp</span> <span class="p">,</span> <span class="n">ipact</span> <span class="p">,</span> <span class="n">Ipmax</span> <span class="p">,</span> <span class="n">Irch</span> <span class="p">,</span> <span class="n">Ismax</span> <span class="p">,</span> <span class="n">l</span> <span class="p">,</span>    <span class="p">&amp;</span>
+            <span class="p">&amp;</span> <span class="n">Mact</span> <span class="p">,</span> <span class="n">Numgr</span>
+<span class="c">!</span>
+      <span class="k">dimension </span><span class="n">Error</span><span class="p">(</span><span class="n">Numgr</span><span class="o">+</span><span class="mi">3</span><span class="p">)</span> <span class="p">,</span> <span class="n">Err1</span><span class="p">(</span><span class="n">Numgr</span><span class="o">+</span><span class="mi">3</span><span class="p">)</span> <span class="p">,</span> <span class="n">Icntyp</span><span class="p">(</span><span class="n">Numgr</span><span class="p">)</span> <span class="p">,</span>        <span class="p">&amp;</span>
+              <span class="p">&amp;</span> <span class="n">Iact</span><span class="p">(</span><span class="n">Numgr</span><span class="p">)</span>
+<span class="c">!</span>
+<span class="c">! THIS SUBROUTINE INCREASES RCHDWN OR RCHIN IF IT APPEARS SOME</span>
+<span class="c">! CONSTRAINTS WHICH SHOULD HAVE BEEN DECLARED ACTIVE WERE NOT SO</span>
+<span class="c">! DECLARED.</span>
+<span class="c">!</span>
+<span class="c">! SET MACHINE AND PRECISION DEPENDENT CONSTANTS.</span>
+<span class="c">!     NWRIT=output_unit</span>
+      <span class="n">one</span> <span class="o">=</span> <span class="mf">1.0d0</span>
+      <span class="n">two</span> <span class="o">=</span> <span class="n">one</span> <span class="o">+</span> <span class="n">one</span>
+      <span class="n">four</span> <span class="o">=</span> <span class="n">two</span> <span class="o">+</span> <span class="n">two</span>
+      <span class="n">ten</span> <span class="o">=</span> <span class="n">four</span> <span class="o">+</span> <span class="n">four</span> <span class="o">+</span> <span class="n">two</span>
+      <span class="n">fudge</span> <span class="o">=</span> <span class="n">one</span> <span class="o">+</span> <span class="n">one</span><span class="o">/</span><span class="n">ten</span>
+      <span class="n">spcmn</span> <span class="o">=</span> <span class="n">d1mach3</span>
+      <span class="n">rchtop</span> <span class="o">=</span> <span class="n">one</span><span class="o">/</span><span class="n">spcmn</span>
+      <span class="n">enorm</span> <span class="o">=</span> <span class="n">Error</span><span class="p">(</span><span class="n">Numgr</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+<span class="c">!</span>
+      <span class="k">if</span> <span class="p">(</span> <span class="n">Irch</span><span class="o">&lt;</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
+<span class="c">!</span>
+<span class="c">!</span>
+<span class="c">! HERE IRCH=-1 AND WE CONSIDER CHANGING RCHIN.</span>
+<span class="c">!</span>
+<span class="c">! SEE IF CONSTRAINT ISMAX IS IN THE ACTIVE SET, AND RETURN IF IT IS.</span>
+<span class="c">! NOTE THAT ISMAX .GT. 0 SINCE WE WOULD NOT HAVE CALLED RCHMOD WITH</span>
+<span class="c">! IRCH=-1 IF THERE WERE NO STANDARD CONSTRAINTS.</span>
+         <span class="k">do </span><span class="n">l</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Mact</span>
+            <span class="n">i</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">Iact</span><span class="p">(</span><span class="n">l</span><span class="p">))</span>
+            <span class="k">if</span> <span class="p">(</span> <span class="n">i</span><span class="o">==</span><span class="n">Ismax</span> <span class="p">)</span> <span class="k">return</span>
+<span class="k">         enddo</span>
+<span class="c">!</span>
+<span class="c">! RETURN IF RCHIN .GE. RCHTOP.</span>
+         <span class="k">if</span> <span class="p">(</span> <span class="n">Rchin</span><span class="o">&lt;</span><span class="n">rchtop</span> <span class="p">)</span> <span class="k">then</span>
+<span class="c">!</span>
+<span class="c">! SET THE PROSPECTIVE NEW RCHIN.  NOTE THAT WITHOUT THE FUDGE FACTOR,</span>
+<span class="c">! RCH1 WOULD HAVE BEEN JUST BARELY LARGE ENOUGH TO HAVE CAUSED</span>
+<span class="c">! CONSTRAINT ISMAX TO BE DECLARED ACTIVE WHEN THE OLD ACTIVE SET WAS</span>
+<span class="c">! DETERMINED.  (NOTE THAT RCHIN MAY HAVE ALREADY BEEN INCREASED SINCE</span>
+<span class="c">! THEN.  NOTE ALSO THAT ERROR(ISMAX) .LT. 0.0, ELSE CONSTRAINT ISMAX</span>
+<span class="c">! WOULD HAVE BEEN DECLARED ACTIVE.)</span>
+            <span class="n">rch1</span> <span class="o">=</span> <span class="n">fudge</span><span class="o">*</span><span class="p">(</span><span class="o">-</span><span class="n">Error</span><span class="p">(</span><span class="n">Ismax</span><span class="p">))</span><span class="o">/</span><span class="n">Unit</span>
+<span class="c">!</span>
+<span class="c">! IF RCH1 .GT. RCHIN WE REPLACE RCHIN BY MIN(RICH1,RCHTOP).</span>
+            <span class="k">if</span> <span class="p">(</span> <span class="n">rch1</span><span class="o">&gt;</span><span class="n">Rchin</span> <span class="p">)</span> <span class="k">then</span>
+<span class="k">               </span><span class="n">Rchin</span> <span class="o">=</span> <span class="n">rch1</span>
+               <span class="k">if</span> <span class="p">(</span> <span class="n">Rchin</span><span class="o">&gt;</span><span class="n">rchtop</span> <span class="p">)</span> <span class="n">Rchin</span> <span class="o">=</span> <span class="n">rchtop</span>
+            <span class="k">endif</span>
+<span class="k">         endif</span>
+<span class="k">         return</span>
+<span class="k">      else</span>
+<span class="c">!</span>
+<span class="c">!</span>
+<span class="c">! HERE IRCH=1 AND WE CONSIDER CHANGING RCHDWN.</span>
+<span class="c">!</span>
+<span class="c">! SEE IF CONSTRAINT IPMAX IS IN THE ACTIVE SET, AND RETURN IF IT IS.</span>
+<span class="c">! NOTE THAT IPMAX .GT. 0 SINCE THERE WILL BE AT LEAST ONE PRIMARY</span>
+<span class="c">! CONSTRAINT AT THIS STAGE (EVEN IF THERE WERE NONE IN THE ORIGINAL</span>
+<span class="c">! PROBLEM).</span>
+         <span class="k">do </span><span class="n">l</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Mact</span>
+            <span class="n">i</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">Iact</span><span class="p">(</span><span class="n">l</span><span class="p">))</span>
+            <span class="k">if</span> <span class="p">(</span> <span class="n">i</span><span class="o">==</span><span class="n">Ipmax</span> <span class="p">)</span> <span class="k">return</span>
+<span class="k">         enddo</span>
+<span class="c">!</span>
+<span class="c">! RETURN IF RCHDWN .GE. RCHTOP.</span>
+         <span class="k">if</span> <span class="p">(</span> <span class="n">Rchdwn</span><span class="o">&gt;=</span><span class="n">rchtop</span> <span class="p">)</span> <span class="k">return</span>
+<span class="c">!</span>
+<span class="c">! WE WILL CONSIDER CHANGING RCHDWN IF THE NEW PRIMARY ERROR NORM WITH</span>
+<span class="c">! ONLY THE OLD ACTIVE CONSTRAINTS CONSIDERED IS LESS THAN THE OLD</span>
+<span class="c">! PRIMARY ERROR NORM, AND THIS WILL CERTAINLY BE THE CASE IF THE NEW</span>
+<span class="c">! PRIMARY ERROR NORM IS LESS THAN THE OLD PRIMARY ERROR NORM.</span>
+         <span class="k">if</span> <span class="p">(</span> <span class="n">Err1</span><span class="p">(</span><span class="n">Numgr</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">&gt;=</span><span class="n">enorm</span> <span class="p">)</span> <span class="k">then</span>
+<span class="c">!</span>
+<span class="c">! COMPUTE EPACT, THE NEW PRIMARY ERROR NORM WITH ONLY THE OLD ACTIVE</span>
+<span class="c">! CONSTRAINTS CONSIDERED.</span>
+            <span class="n">ipact</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">do </span><span class="n">l</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Mact</span>
+               <span class="n">i</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">Iact</span><span class="p">(</span><span class="n">l</span><span class="p">))</span>
+               <span class="k">if</span> <span class="p">(</span> <span class="n">Icntyp</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">&lt;</span><span class="mi">1</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">20</span>
+               <span class="k">if</span> <span class="p">(</span> <span class="n">Icntyp</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">==</span><span class="mi">1</span> <span class="p">)</span> <span class="k">then</span>
+<span class="c">! HERE CONSTRAINT I WAS A PRIMARY ACTIVE CONSTRAINT.</span>
+                  <span class="n">ei</span> <span class="o">=</span> <span class="n">Err1</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+               <span class="k">else</span>
+<span class="k">                  </span><span class="n">ei</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">Err1</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+               <span class="k">endif</span>
+<span class="k">               if</span> <span class="p">(</span> <span class="n">ipact</span><span class="o">&lt;=</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
+<span class="k">                  </span><span class="n">ipact</span> <span class="o">=</span> <span class="mi">1</span>
+                  <span class="n">epact</span> <span class="o">=</span> <span class="n">ei</span>
+               <span class="n">elseif</span> <span class="p">(</span> <span class="n">ei</span><span class="o">&gt;</span><span class="n">epact</span> <span class="p">)</span> <span class="k">then</span>
+<span class="k">                  </span><span class="n">epact</span> <span class="o">=</span> <span class="n">ei</span>
+               <span class="k">endif</span>
+<span class="k"> </span><span class="mi">20</span>         <span class="k">enddo</span>
+<span class="c">!</span>
+<span class="c">! WE WILL RETURN IF EPACT IS .GE. THE OLD PRIMARY ERROR NORM, WHICH</span>
+<span class="c">! WOULD INDICATE THAT THE STEP WAS TOO INACCURATE TO BE TRUSTED TO</span>
+<span class="c">! USE IN MODIFYING RCHDWN.</span>
+         <span class="k">endif</span>
+<span class="c">!</span>
+<span class="c">! COMPUTE EIPMAX AS THE OLD ERROR AT CONSTRAINT IPMAX (IF ICNTYP(IPMAX)</span>
+<span class="c">! =1) OR THE OLD ABSOLUTE ERROR AT CONSTRAINT IPMAX (IF ICNTYP(IPMAX)</span>
+<span class="c">! =2).  NOTE THAT HERE ICNTYP(IPMAX) MUST BE 1 OR 2 SINCE ERCMP1</span>
+<span class="c">! COMPUTED IPMAX AS THE INDEX OF THE PRIMARY CONSTRAINT WHERE THE</span>
+<span class="c">! MAXIMUM PRIMARY CONSTRAINT ERROR (I.E. VALUE) WAS ACHIEVED.</span>
+         <span class="k">if</span> <span class="p">(</span> <span class="n">Icntyp</span><span class="p">(</span><span class="n">Ipmax</span><span class="p">)</span><span class="o">&lt;=</span><span class="mi">1</span> <span class="p">)</span> <span class="k">then</span>
+<span class="k">            </span><span class="n">eipmax</span> <span class="o">=</span> <span class="n">Error</span><span class="p">(</span><span class="n">Ipmax</span><span class="p">)</span>
+         <span class="k">else</span>
+<span class="k">            </span><span class="n">eipmax</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">Error</span><span class="p">(</span><span class="n">Ipmax</span><span class="p">))</span>
+         <span class="k">endif</span>
+<span class="c">!</span>
+<span class="c">! SET THE PROSPECTIVE NEW RCHDWN.  NOTE THAT WITHOUT THE FUDGE FACTOR,</span>
+<span class="c">! RCHD1 WOULD HAVE JUST BARELY BEEN LARGE ENOUGH TO HAVE CAUSED</span>
+<span class="c">! CONSTRAINT IPMAX TO BE DECLARED ACTIVE WHEN THE OLD ACTIVE SET WAS</span>
+<span class="c">! DETERMINED.  (NOTE THAT RCHDWN MAY HAVE ALREADY BEEN INCREASED</span>
+<span class="c">! SINCE THEN.)</span>
+         <span class="n">rchd1</span> <span class="o">=</span> <span class="n">fudge</span><span class="o">*</span><span class="p">(</span><span class="n">enorm</span><span class="o">-</span><span class="n">eipmax</span><span class="p">)</span><span class="o">/</span><span class="n">Unit</span>
+<span class="c">!</span>
+<span class="c">! IF RCHD1 .GT. RCHDWN WE REPLACE RCHDWN BY MIN (RCHD1, RCHTOP).</span>
+         <span class="k">if</span> <span class="p">(</span> <span class="n">rchd1</span><span class="o">&lt;=</span><span class="n">Rchdwn</span> <span class="p">)</span> <span class="k">return</span>
+<span class="k">         </span><span class="n">Rchdwn</span> <span class="o">=</span> <span class="n">rchd1</span>
+         <span class="k">if</span> <span class="p">(</span> <span class="n">Rchdwn</span><span class="o">&gt;</span><span class="n">rchtop</span> <span class="p">)</span> <span class="n">Rchdwn</span> <span class="o">=</span> <span class="n">rchtop</span>
+      <span class="k">endif</span>
+<span class="c">!1700 WRITE(NWRIT,1800)RCHDWN</span>
+<span class="c">!1800 FORMAT(23H ***RCHDWN INCREASED TO,E24.14)</span>
+      <span class="k">return</span>
+<span class="c">!2500 WRITE(NWRIT,2600)RCHIN</span>
+<span class="c">!2600 FORMAT(22H ***RCHIN INCREASED TO,E24.14)</span>
+
+    <span class="k">end subroutine </span><span class="n">rchmod</span>
+</pre></div>
+
+    </section>
+    <br>
     
     
     </div>
@@ -842,10 +778,6 @@ subroutine rchmod(Numgr, Error, Err1, Icntyp, Mact, Iact, Ipmax, Ismax, Unit, Ir
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
-    
-    <script src="../tipuesearch/tipuesearch_content.js"></script>
-    <script src="../tipuesearch/tipuesearch_set.js"></script>
-    <script src="../tipuesearch/tipuesearch.js"></script>
     
     
   </body>

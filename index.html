@@ -17,8 +17,6 @@
     <link href="./css/font-awesome.min.css" rel="stylesheet">
     <link href="./css/local.css" rel="stylesheet">
     
-    <link  href="./tipuesearch/tipuesearch.css" rel="stylesheet">
-    
     
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -57,15 +55,21 @@
         <ul class="dropdown-menu">
           
               
-            <li><a href="./lists/files.html">Source Files</a></li>
+            <li><a href="./sourcefile/conmax.f90.html">Source File</a></li>
         
         
+        
+            <li><a href="./lists/modules.html">Modules</a></li>
         
             
                                 
             <li><a href="./lists/procedures.html">Procedures</a></li>
         
+        
+            <li><a href="./lists/absint.html">Abstract Interfaces</a></li>
                
+            <li><a href="./lists/types.html">Derived Types</a></li>
+        
                
         
         
@@ -74,28 +78,25 @@
             </li>
 
 
-<li class="visible-xs hidden-sm visible-lg"><a href="./lists/files.html">Source Files</a></li>
+<li class="visible-xs hidden-sm visible-lg"><a href="./sourcefile/conmax.f90.html">Source File</a></li>
 
 
+
+<li class="visible-xs hidden-sm visible-lg"><a href="./lists/modules.html">Modules</a></li>
 
 
 
 <li class="visible-xs hidden-sm visible-lg"><a href="./lists/procedures.html">Procedures</a></li>
 
+
+<li class="visible-xs hidden-sm visible-lg"><a href="./lists/absint.html">Abstract Interfaces</a></li>
                              
+<li class="visible-xs hidden-sm visible-lg"><a href="./lists/types.html">Derived Types</a></li>
+
 
 
 
           </ul>
-        
-        <form action="./search.html" class="navbar-form navbar-right" role="search">
-        <div class="form-group">
-          <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
-        </div>
-<!--
-        <button type="submit" class="btn btn-default">Submit</button>
--->
-        </form>
         
         </div><!--/.nav-collapse -->
       </div>
@@ -184,29 +185,34 @@
         
       <div class="row">
         
-        <div class="col-xs-6 col-sm-6">
+        <div class="col-xs-6 col-sm-3">
               <h3>Source Files</h3>
               <ul>
                     <li><a href='./sourcefile/conmax.f90.html'>conmax.f90</a></li>
-                  
-                    <li><a href='./sourcefile/d1mach.f90.html'>d1mach.f90</a></li>
-                  
-                    <li><a href='./sourcefile/i1mach.f90.html'>i1mach.f90</a></li>
                   </ul>
           </div>
         
           
+		  <div class="col-xs-6 col-sm-3">
+              <h3>Modules</h3>
+              <ul>
+                    <li><a href='./module/conmax_module.html'>conmax_module</a></li>
+                  </ul>
+          </div>
           
-		  <div class="col-xs-6 col-sm-6">
+          
+		  <div class="col-xs-6 col-sm-3">
               <h3>Procedures</h3>
               <ul>
                     <li><a href='./proc/bndset.html'>bndset</a></li>
+                  
+                    <li><a href='./proc/conenr.html'>conenr</a></li>
                   
                     <li><a href='./proc/conmax.html'>conmax</a></li>
                   
                     <li><a href='./proc/corrct.html'>corrct</a></li>
                   
-                    <li><a href='./proc/d1mach.html'>D1MACH</a></li>
+                    <li><a href='./proc/derst.html'>derst</a></li>
                   
                     <li><a href='./proc/dotprd.html'>dotprd</a></li>
                   
@@ -214,14 +220,19 @@
                   
                     <li><a href='./proc/house.html'>house</a></li>
                   
-                    <li><a href='./proc/i1mach.html'>I1MACH</a></li>
-                  
                     <li><a href='./proc/iloc.html'>iloc</a></li>
                   
                     <li><a href='./proc/muller.html'>muller</a></li>
                   </ul>
           </div>
           
+          
+		  <div class="col-xs-6 col-sm-3">
+              <h3>Derived Types</h3>
+              <ul>
+                    <li><a href='./type/conmax_solver.html'>conmax_solver</a></li>
+                  </ul>
+          </div>
           
       </div>
       
@@ -270,10 +281,6 @@
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
-    
-    <script src="./tipuesearch/tipuesearch_content.js"></script>
-    <script src="./tipuesearch/tipuesearch_set.js"></script>
-    <script src="./tipuesearch/tipuesearch.js"></script>
     
     
   </body>
