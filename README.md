@@ -3,6 +3,8 @@
 
 ![Build Status](https://github.com/jacobwilliams/conmax/actions/workflows/CI.yml/badge.svg)
 
+This is a work in progress of a refactored version of [CONMAX](http://www.netlib.org/opt/conmax.f) in Modern Fortran.
+
 ### Compiling
 
 A [FoBiS](https://github.com/szaghi/FoBiS) configuration file (`conmax.fobis`) is provided that can also build the library and examples. Use the `mode` flag to indicate what to build. For example:
@@ -27,4 +29,4 @@ The conmax source code and related files and documentation are distributed under
 ### References
 
  * E. H. Kaufman Jr., D. J. Leeming & G. D. Taylor, "An ODE-based approach to nonlinearly constrained minimax problems", Numerical Algorithms, Volume 9, pages 25-37 (1995)
- * Original CONMAX sourcecode: http://www.netlib.org/opt/conmax.f
+ * Original CONMAX sourcecode at Netlib: http://www.netlib.org/opt/conmax.f
