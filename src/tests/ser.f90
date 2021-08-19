@@ -2,7 +2,7 @@
 ! (B) ONE-DIMENSIONAL DERIVATIVE-FREE QUADRATIC SEARCH FOR A POSITIVE
 !     LOCAL MINIMUM
 !
-! (SUBPROGRAMS INVOLVED:  SEARSL, FNSET (USER SUPPLIED), ILOC, D1MACH,
+! (SUBPROGRAMS INVOLVED:  SEARSL, FNSET (USER SUPPLIED), ILOC,
 ! ERCMP1, RCHMOD, CORRCT, SEARCR, MULLER, WOLFE, CONENR, HOUSE,
 ! DOTPRD, REFWL;  ONLY THE FIRST FIVE OF THESE ARE ACTUALLY USED)
 !
@@ -54,7 +54,7 @@
 
       implicit none
 
-      real(wp) d1mach , emin , emin1 , err1 , error , fun , param ,       &
+      real(wp) emin , emin1 , err1 , error , fun , param ,       &
            & parprj , parser , prjlim , projct , pttbl , tol1 , &
            & tolcon , work , x
       integer iact , iwork , nsrch

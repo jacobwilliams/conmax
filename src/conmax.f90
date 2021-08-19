@@ -51,47 +51,15 @@
 ! DESCRIBED BELOW) WHICH IS RELATIVELY CLOSE TO THE USER SUPPLIED INITIAL
 ! APPROXIMATION, THEN RETURN.
 !
-! TO USE THE PACKAGE THE USER MUST DO THREE THINGS:
-!
-! (A)  SET THE THREE MACHINE DEPENDENT CONSTANTS AND THE PRECISION.
-!
-! IF DOUBLE PRECISION IS DESIRED AND THE NETLIB-SUPPLIED SUBPROGRAMS
-! I1MACH, D1MACH, AND R1MACH ARE BEING USED, THEN THIS HAS BEEN TAKEN
-! CARE OF ALREADY.
-!
-! IF DOUBLE PRECISION IS DESIRED BUT THE NETLIB-SUPPLIED SUBPROGRAMS
-! I1MACH, D1MACH, AND R1MACH ARE NOT BEING USED, THEN REPLACE THE CS
-! IN COLUMN 1 OF THE SUBPROGRAMS I1MACH AND D1MACH INCLUDED IN THIS
-! PACKAGE BY BLANKS (EXCEPT REPLACE CC BY C) AND ADJUST THE ASSIGNMENT
-! STATEMENTS IN THESE SUBPROGRAMS TO SET
-!
-! I1MACH(1) = (THE INPUT UNIT NUMBER FOR THE MACHINE BEING USED),
-!
-! output_unit = (THE OUTPUT UNIT NUMBER FOR THE MACHINE BEING USED),
-!
-! d1mach3 = B**(-ITT), WHERE B IS THE BASE FOR FLOATING POINT NUMBERS
-!   AND ITT IS THE NUMBER OF BASE B DIGITS IN THE MANTISSA.
-!
-! IF ONE WISHES TO CHANGE THE PRECISION TO SINGLE PRECISION (FOR
-! EXAMPLE), THEN ONLY THREE THINGS NEED TO BE DONE:
-!
-!   (1) REPLACE ALL THE STATEMENTS  ONE=1.0D0  IN THE PACKAGE BY  ONE=1.0,
-!
-!   (2) PLACE A  C  IN COLUMN 1 OF ALL THE STATEMENTS IN THE PACKAGE
-!       IMPLICIT real(wp) (A-H,O-Z),
-!
-!   (3) REPLACE ALL OCCURENCES OF  D1MACH  IN THE PACKAGE BY  R1MACH
-!       IF THE NETLIB SUPPLIED SUBPROGRAMS I1MACH, D1MACH, AND R1MACH ARE
-!       BEING USED, AND OTHERWISE MERELY CHANGE THE DEFINITION OF
-!       d1mach3  IN SUBPROGRAM D1MACH TO REFLECT SINGLE PRESISION.
-!
 ! (WE NOTE HERE THAT THE ONLY ACTIVE WRITE STATEMENTS IN THIS PACKAGE
 ! ARE IN THE SAMPLE DRIVER PROGRAM, BUT SOME OF THOSE WHICH HAVE BEEN
 ! COMMENTED OUT (ALONG WITH THE STATEMENTS  NWRIT=output_unit) ELSEWHERE
 ! IN THE PROGRAM COULD PROVE USEFUL, ESPECIALLY THE STATEMENT
 ! WRITE(NWRIT,1100)... IN SUBROUTINE CONMAX.)
 !
-! (B)  CREATE A DRIVER (I.E. MAIN) PROGRAM WHICH DIMENSIONS THE ARRAYS
+! TO USE THE PACKAGE THE USER MUST DO TWO THINGS:
+!
+! (1)  CREATE A DRIVER (I.E. MAIN) PROGRAM WHICH DIMENSIONS THE ARRAYS
 ! FUN, PTTBL, IWORK, WORK, PARAM, AND ERROR, SETS THE INPUT VARIABLES
 ! IOPTN, NPARM, NUMGR, ITLIM, IFUN, IPTB, INDM, LIWRK, LWRK, PARAM
 ! (AND POSSIBLY ALSO FUN AND PTTBL), CONTAINS THE STATEMENT
@@ -105,7 +73,7 @@
 ! CHANGED BY THE PROGRAM, IN THIS CASE THE USER WILL NEED TO RESET THESE
 ! VALUES EACH TIME CONMAX IS CALLED.
 !
-! (C)  CREATE A SUBROUTINE FNSET (DESCRIBED LATER) FOR INPUT OF FUNCTION
+! (2)  CREATE A SUBROUTINE FNSET (DESCRIBED LATER) FOR INPUT OF FUNCTION
 ! DATA AND THE VECTOR ARRAY ICNTYP, WHICH SPECIFIES THE TYPE OF THE
 ! CONSTRAINTS.
 !
@@ -219,40 +187,6 @@
 !        THE USER).  THE USER CAN USE THIS FEATURE TO INSERT TYPE -2
 !        OR -1 CONSTRAINTS TO KEEP THE PARAMETERS AWAY FROM VALUES
 !        WHERE A TYPE 2 OR TYPE 1 CONSTRAINT IS UNDEFINED.
-!
-!
-! THE SUBPROGRAM FNSET CREATED BY THE USER MUST HAVE AS ITS FIRST THREE
-! STATEMENTS
-!
-!     SUBROUTINE FNSET(NPARM,NUMGR,PTTBL,IPTB,INDM,PARAM,IPT,
-!    *INDFN,ICNTYP,CONFUN)
-!
-!     IMPLICIT real(wp) (A-H,O-Z)
-!
-!     DIMENSION PTTBL(IPTB,INDM),PARAM(NPARM),ICNTYP(NUMGR),
-!    *CONFUN(NUMGR,NPARM+1)
-!
-! THE FIRST EIGHT VARIABLES IN THE CALLING SEQUENCE FOR FNSET ARE FOR
-! INPUT TO FNSET, WITH THE FIRST FIVE VARIABLES BEING EXACTLY AS THE
-! USER SET THEM IN THE DRIVER PROGRAM.  IF THE TEN THOUSANDS DIGIT OF
-! IOPTN WAS SET TO 0, FNSET SHOULD BE WRITTEN TO PLACE THE APPROPRIATE
-! VALUES IN ICNTYP AND CONFUN USING THE PARAMETERS IN PARAM, AS FOLLOWS.
-!
-! ICNTYP(IPT) = THE TYPE OF THE IPT(TH) CONSTRAINT (I.E. 2, 1, -1,
-!   OR -2), OR THE USER CAN SET ICNTYP(IPT)=0 AS A SIGNAL TO IGNORE
-!   CONSTRAINT IPT.
-!
-! CONFUN(IPT,1) = THE APPROPRIATE VALUE AS DISCUSSED ABOVE.  (THIS CAN
-!   BE LEFT UNDEFINED IF ICNTYP(IPT)=0.)
-!
-! IF INDFN=1 (WHICH IS THE ONLY POSSIBILITY OTHER THAN INDFN=0) THEN IN
-! ADDITION TO THE ABOVE, FOR J=1,...,NPARM, FNSET SHOULD COMPUTE
-!
-! CONFUN(IPT,J+1) = THE VALUE OF THE PARTIAL DERIVATIVE WITH RESPECT
-!   TO PARAM(J) OF THE FUNCTION WHOSE VALUE WAS COMPUTED IN
-!   CONFUN(IPT,1) (UNLESS ICNTYP(IPT)=0, IN WHICH CASE THESE VALUES
-!   NEED NOT BE COMPUTED).
-!
 !
 ! THE USER HAS SEVERAL EXTRA OPTIONS WHICH ARE ACTIVATED BY SETTING
 ! IOPTN TO A VALUE OTHER THAN 0; MORE THAN ONE AT A TIME CAN BE USED.
@@ -396,6 +330,8 @@
             !! `d1mach3`: the smallest relative spacing
 
     type,abstract,public :: conmax_solver
+        !! main CONMAX solver class. This class must be
+        !! extended to define the users's `fnset` function.
         private
     contains
         private
@@ -416,6 +352,28 @@
 
     abstract interface
         subroutine func(me,Nparm,Numgr,Pttbl,Iptb,Indm,Param,Ipt,Indfn,Icntyp,Confun)
+        !! interface for the `fnset` function.
+        !!
+        !! THE FIRST EIGHT VARIABLES IN THE CALLING SEQUENCE FOR FNSET ARE FOR
+        !! INPUT TO FNSET, WITH THE FIRST FIVE VARIABLES BEING EXACTLY AS THE
+        !! USER SET THEM IN THE DRIVER PROGRAM.  IF THE TEN THOUSANDS DIGIT OF
+        !! IOPTN WAS SET TO 0, FNSET SHOULD BE WRITTEN TO PLACE THE APPROPRIATE
+        !! VALUES IN ICNTYP AND CONFUN USING THE PARAMETERS IN PARAM, AS FOLLOWS.
+        !!
+        !! ICNTYP(IPT) = THE TYPE OF THE IPT(TH) CONSTRAINT (I.E. 2, 1, -1,
+        !!   OR -2), OR THE USER CAN SET ICNTYP(IPT)=0 AS A SIGNAL TO IGNORE
+        !!   CONSTRAINT IPT.
+        !!
+        !! CONFUN(IPT,1) = THE APPROPRIATE VALUE AS DISCUSSED ABOVE.  (THIS CAN
+        !!   BE LEFT UNDEFINED IF ICNTYP(IPT)=0.)
+        !!
+        !! IF INDFN=1 (WHICH IS THE ONLY POSSIBILITY OTHER THAN INDFN=0) THEN IN
+        !! ADDITION TO THE ABOVE, FOR J=1,...,NPARM, FNSET SHOULD COMPUTE
+        !!
+        !! CONFUN(IPT,J+1) = THE VALUE OF THE PARTIAL DERIVATIVE WITH RESPECT
+        !!   TO PARAM(J) OF THE FUNCTION WHOSE VALUE WAS COMPUTED IN
+        !!   CONFUN(IPT,1) (UNLESS ICNTYP(IPT)=0, IN WHICH CASE THESE VALUES
+        !!   NEED NOT BE COMPUTED).
         import :: wp,conmax_solver
         implicit none
         class(conmax_solver),intent(inout) :: me
@@ -432,7 +390,7 @@
         end subroutine func
     end interface
 
-    ! maybe just move into the solver
+    ! maybe just move these into the solver
     public :: wolfe
     public :: slnpro
 
@@ -450,20 +408,20 @@
       implicit none
 
       class(conmax_solver),intent(inout) :: me
-      real(wp) d1mach , enc1 , enchg , encsm , enor2 , enor3 , enorm ,    &
+      real(wp) :: enc1 , enchg , encsm , enor2 , enor3 , enorm ,    &
            & Error , four , Fun , one , Param , prjslp , projct ,       &
            & Pttbl , rchdnk , rchdwn , rchin , s , spcmn
-      real(wp) ten , tolcon , tollin , two , wdist , Work , zero
-      integer i , i1 , Ifun , ii , ilc02 , ilc06 , ilc08 , ilc11 ,      &
+      real(wp) :: ten , tolcon , tollin , two , wdist , Work , zero
+      integer :: i , i1 , Ifun , ii , ilc02 , ilc06 , ilc08 , ilc11 ,      &
             & ilc12 , ilc13 , ilc14 , ilc15 , ilc17 , ilc20 , ilc21 ,   &
             & ilc22 , ilc24 , ilc25 , ilc26 , ilc27
-      integer ilc29 , ilc30 , ilc31 , ilc33 , ilc35 , ilc40 , ilc42 ,   &
+      integer :: ilc29 , ilc30 , ilc31 , ilc33 , ilc35 , ilc40 , ilc42 ,   &
             & ilc44 , ilc46 , Indm , iophun , iopten , ioptho ,  &
             & Ioptn , ioptth , iphse , ipmax , ipt , Iptb
-      integer irk , ismax , isucc , Iter , itersl , Itlim , itlim1 ,    &
+      integer :: irk , ismax , isucc , Iter , itersl , Itlim , itlim1 ,    &
             & ityp1 , ityp1k , ityp2 , ityp2k , itypm1 , itypm2 ,       &
             & Iwork , j , j1 , j2 , jflag , jiwrk , jj
-      integer jwrk , kntsm , l , l1 , l2 , limsm , Liwrk , Lwrk , m ,   &
+      integer :: jwrk , kntsm , l , l1 , l2 , limsm , Liwrk , Lwrk , m ,   &
             & mact1 , ncor , nmaj , nmin , npar1 , Nparm , nstep ,      &
             & Numgr , numlim
 !
@@ -1002,7 +960,8 @@
          Iter = Iter + Itlim - itlim1
          goto 500
       endif
-      end
+
+    end subroutine conmax
 !********************************************************************************
 
 !********************************************************************************
@@ -1012,274 +971,166 @@
 ! IARR .LE. 23) OR RELATIVE TO WORK (IF THE ARRAY IS FLOATING POINT, I.E.
 ! 1 .LE. IARR .LE. 12 OR 24 .LE. IARR .LE. 48).
 
-      function iloc(Iarr,Nparm,Numgr)
-      implicit none
+    function iloc(Iarr,Nparm,Numgr)
 
-      integer Iarr , iloc , Nparm , Numgr
+    implicit none
 
-      select case (Iarr)
-      case (2)
+    integer,intent(in) :: Iarr , Nparm , Numgr
+    integer :: iloc
 
-!   2  ACTDIF(NUMGR)
-         iloc = 1
-         return
-      case (3)
-!
-!   3  B(NPARM+1)  (OPPOSITE V, Y;  FOLLOWS AA)
-         iloc = Nparm**2 + 3*Numgr*Nparm + 6*Numgr + 13*Nparm + 9
-         return
-      case (4)
-!
-!   4  BETA(NPARM+1)  (OPPOSITE V, Y;  FOLLOWS B)
-         iloc = Nparm**2 + 3*Numgr*Nparm + 6*Numgr + 14*Nparm + 10
-         return
-      case (5)
-!
-!   5  BNDKP(NPARM) (FOLLOWS ACTDIF)
-         iloc = Numgr + 1
-         return
-      case (6)
-!
-!   6  COEF(NUMGR)
-         iloc = Numgr + Nparm + 1
-         return
-      case (7)
-!
-!   7  COFBND(NPARM)
-         iloc = 2*Numgr + Nparm + 1
-         return
-      case (8)
-!
-!   8  CONFUN(NUMGR,NPARM+1)  (OPPOSITE PMAT1)
-         iloc = 2*Numgr + 2*Nparm + 1
-         return
-      case (9)
-!
-!   9  D(NPARM+1)  (OPPOSITE V, Y;  FOLLOWS BETA)
-         iloc = Nparm**2 + 3*Numgr*Nparm + 6*Numgr + 15*Nparm + 11
-         return
-      case (10)
-!
-!  10  DVEC(NPARM) (FOLLOWS CONFUN)
-         iloc = Numgr*Nparm + 3*Numgr + 2*Nparm + 1
-         return
-      case (11)
-!
-!  11  ERR1(NUMGR+3)
-         iloc = Numgr*Nparm + 3*Numgr + 3*Nparm + 1
-         return
-      case (12)
-!
-!  12  FUNTBL(NUMGR,NPARM+1)
-         iloc = Numgr*Nparm + 4*Numgr + 3*Nparm + 4
-         return
-      case (13)
-!
-!  13  IACT(NUMGR)
-         iloc = 1
-         return
-      case (14)
-!
-!  14  IACT1(NUMGR)
-         iloc = Numgr + 1
-         return
-      case (15)
-!
-!  15  ICOR(NPARM+1)
-         iloc = 2*Numgr + 1
-         return
-      case (16)
-!
-!  16  ICOR1(NPARM+1)  (DOES NOT APPEAR IN PROGRAM BY NAME)
-         iloc = 2*Numgr + Nparm + 2
-         return
-      case (17)
-!
-!  17  ICNTYP(NUMGR)
-         iloc = 2*Numgr + 2*Nparm + 3
-         return
-      case (18)
-!
-!  18  IXRCT(NUMGR+2*NPARM)
-         iloc = 3*Numgr + 2*Nparm + 3
-         return
-      case (19)
-!
-!  19  IYCCT(NPARM+1) (OPPOSITE KPIVOT)
-         iloc = 4*Numgr + 4*Nparm + 3
-         return
-      case (20)
-!
-!  20  IYRCT(NUMGR+2*NPARM)
-         iloc = 4*Numgr + 5*Nparm + 4
-         return
-      case (21)
-!
-!  21  JCNTYP(NUMGR)
-         iloc = 5*Numgr + 7*Nparm + 4
-         return
-      case (22)
-!
-!  22  KCNTYP(NUMGR)
-         iloc = 6*Numgr + 7*Nparm + 4
-         return
-      case (23)
-!
-!  23  KPIVOT(NPARM+1)  (OPPOSITE IYCCT)
-         iloc = 4*Numgr + 4*Nparm + 3
-         return
-      case (24)
-!
-!  24  PARAM1(NPARM) (FOLLOWS FUNTBL)
-         iloc = 2*Numgr*Nparm + 5*Numgr + 3*Nparm + 4
-         return
-      case (25)
-!
-!  25  PARPRJ(NPARM)
-         iloc = 2*Numgr*Nparm + 5*Numgr + 4*Nparm + 4
-         return
-      case (26)
-!
-!  26  PARSER(NPARM)
-         iloc = 2*Numgr*Nparm + 5*Numgr + 5*Nparm + 4
-         return
-      case (27)
-!
-!  27  PARWRK(NPARM)
-         iloc = 2*Numgr*Nparm + 5*Numgr + 6*Nparm + 4
-         return
-      case (28)
-!
-!  28  PICOR(NPARM+1,NPARM+1)  (OPPOSITE V, Y;  FOLLOWS D)
-         iloc = Nparm**2 + 3*Numgr*Nparm + 6*Numgr + 16*Nparm + 12
-         return
-      case (29)
-!
-!  29  PMAT(NPARM+1,NUMGR) (FOLLOWS PARWRK)
-         iloc = 2*Numgr*Nparm + 5*Numgr + 7*Nparm + 4
-         return
-      case (30)
-!
-!  30  PMAT1(NPARM+1,NUMGR)  (OPPOSITE CONFUN)
-         iloc = 2*Numgr + 2*Nparm + 1
-         return
-      case (31)
-!
-!  31  PTNR(NPARM+1) (FOLLOWS PMAT)
-         iloc = 3*Numgr*Nparm + 6*Numgr + 7*Nparm + 4
-         return
-      case (32)
-!
-!  32  PTNRR(NPARM+1)
-         iloc = 3*Numgr*Nparm + 6*Numgr + 8*Nparm + 5
-         return
-      case (33)
-!
-!  33  R(NPARM+1)
-         iloc = 3*Numgr*Nparm + 6*Numgr + 9*Nparm + 6
-         return
-      case (34)
-!
-!  34  SAVE(NPARM+1)
-         iloc = 3*Numgr*Nparm + 6*Numgr + 10*Nparm + 7
-         return
-      case (35)
-!
-!  35  V(NUMGR+2*NPARM+1,NPARM+2)  (WITH Y, OPPOSITE AA, B, BETA, D,
-!      PICOR, ZWORK)
-         iloc = 3*Numgr*Nparm + 6*Numgr + 11*Nparm + 8
-         return
-      case (36)
-!
-!  36  VDER(NPARM) (FOLLOWS Y)
-         iloc = 2*Nparm**2 + 4*Numgr*Nparm + 9*Numgr + 18*Nparm + 10
-         return
-      case (37)
-!
-!  37  VDERN(NPARM)
-         iloc = 2*Nparm**2 + 4*Numgr*Nparm + 9*Numgr + 19*Nparm + 10
-         return
-      case (38)
-!
-!  38  VDERS(NPARM)
-         iloc = 2*Nparm**2 + 4*Numgr*Nparm + 9*Numgr + 20*Nparm + 10
-         return
-      case (39)
-!
-!  39  VEC(NPARM+1)
-         iloc = 2*Nparm**2 + 4*Numgr*Nparm + 9*Numgr + 21*Nparm + 10
-         return
-      case (40)
-!
-!  40  WCOEF(NUMGR)
-         iloc = 2*Nparm**2 + 4*Numgr*Nparm + 9*Numgr + 22*Nparm + 11
-         return
-      case (41)
-!
-!  41  WCOEF1(NUMGR)  (DOES NOT APPEAR IN THE PROGRAM BY NAME)
-         iloc = 2*Nparm**2 + 4*Numgr*Nparm + 10*Numgr + 22*Nparm + 11
-         return
-      case (42)
-!
-!  42  WPT(NPARM)
-         iloc = 2*Nparm**2 + 4*Numgr*Nparm + 11*Numgr + 22*Nparm + 11
-         return
-      case (43)
-!
-!  43  WVEC(NPARM)
-         iloc = 2*Nparm**2 + 4*Numgr*Nparm + 11*Numgr + 23*Nparm + 11
-         return
-      case (44)
-!
-!  44  X(NPARM+1)
-         iloc = 2*Nparm**2 + 4*Numgr*Nparm + 11*Numgr + 24*Nparm + 11
-         return
-      case (45)
-!
-!  45  XKEEP(NPARM+1)
-         iloc = 2*Nparm**2 + 4*Numgr*Nparm + 11*Numgr + 25*Nparm + 12
-         return
-      case (46)
-!
-!  46  XRK(NPARM+1)
-         iloc = 2*Nparm**2 + 4*Numgr*Nparm + 11*Numgr + 26*Nparm + 13
-         return
-      case (47)
-!
-!  47  Y(NUMGR+2*NPARM)  (WITH V, OPPOSITE AA, B, BETA, D, PICOR,
-!      ZWORK;  FOLLOWS V)
-         iloc = 2*Nparm**2 + 4*Numgr*Nparm + 8*Numgr + 16*Nparm + 10
-         return
-      case (48)
-!
-!  48  ZWORK(NPARM)  (OPPOSITE V, Y;  FOLLOWS PICOR)
-         iloc = 2*Nparm**2 + 3*Numgr*Nparm + 6*Numgr + 18*Nparm + 13
-         goto 99999
-      case default
-      end select
-!
-!   1  AA(NPARM+1,NPARM+1)  (OPPOSITE V, Y; STARTS AT V STARTING POINT)
-      iloc = 3*Numgr*Nparm + 6*Numgr + 11*Nparm + 8
-      return
-99999 end
+    select case (Iarr)
+    case (2)
+        ! 2  ACTDIF(NUMGR)
+        iloc = 1
+    case (3)
+        ! 3  B(NPARM+1)  (OPPOSITE V, Y;  FOLLOWS AA)
+        iloc = Nparm**2 + 3*Numgr*Nparm + 6*Numgr + 13*Nparm + 9
+    case (4)
+        ! 4  BETA(NPARM+1)  (OPPOSITE V, Y;  FOLLOWS B)
+        iloc = Nparm**2 + 3*Numgr*Nparm + 6*Numgr + 14*Nparm + 10
+    case (5)
+        ! 5  BNDKP(NPARM) (FOLLOWS ACTDIF)
+        iloc = Numgr + 1
+    case (6)
+        ! 6  COEF(NUMGR)
+        iloc = Numgr + Nparm + 1
+    case (7)
+        ! 7  COFBND(NPARM)
+        iloc = 2*Numgr + Nparm + 1
+    case (8)
+        ! 8  CONFUN(NUMGR,NPARM+1)  (OPPOSITE PMAT1)
+        iloc = 2*Numgr + 2*Nparm + 1
+    case (9)
+        ! 9  D(NPARM+1)  (OPPOSITE V, Y;  FOLLOWS BETA)
+        iloc = Nparm**2 + 3*Numgr*Nparm + 6*Numgr + 15*Nparm + 11
+    case (10)
+        !  10  DVEC(NPARM) (FOLLOWS CONFUN)
+        iloc = Numgr*Nparm + 3*Numgr + 2*Nparm + 1
+    case (11)
+        !  11  ERR1(NUMGR+3)
+        iloc = Numgr*Nparm + 3*Numgr + 3*Nparm + 1
+    case (12)
+        !  12  FUNTBL(NUMGR,NPARM+1)
+        iloc = Numgr*Nparm + 4*Numgr + 3*Nparm + 4
+    case (13)
+        !  13  IACT(NUMGR)
+        iloc = 1
+    case (14)
+        !  14  IACT1(NUMGR)
+        iloc = Numgr + 1
+    case (15)
+        !  15  ICOR(NPARM+1)
+        iloc = 2*Numgr + 1
+    case (16)
+        !  16  ICOR1(NPARM+1)  (DOES NOT APPEAR IN PROGRAM BY NAME)
+        iloc = 2*Numgr + Nparm + 2
+    case (17)
+        !  17  ICNTYP(NUMGR)
+        iloc = 2*Numgr + 2*Nparm + 3
+    case (18)
+        !  18  IXRCT(NUMGR+2*NPARM)
+        iloc = 3*Numgr + 2*Nparm + 3
+    case (19)
+        !  19  IYCCT(NPARM+1) (OPPOSITE KPIVOT)
+        iloc = 4*Numgr + 4*Nparm + 3
+    case (20)
+        !  20  IYRCT(NUMGR+2*NPARM)
+        iloc = 4*Numgr + 5*Nparm + 4
+    case (21)
+        !  21  JCNTYP(NUMGR)
+        iloc = 5*Numgr + 7*Nparm + 4
+    case (22)
+        !  22  KCNTYP(NUMGR)
+        iloc = 6*Numgr + 7*Nparm + 4
+    case (23)
+        !  23  KPIVOT(NPARM+1)  (OPPOSITE IYCCT)
+        iloc = 4*Numgr + 4*Nparm + 3
+    case (24)
+        !  24  PARAM1(NPARM) (FOLLOWS FUNTBL)
+        iloc = 2*Numgr*Nparm + 5*Numgr + 3*Nparm + 4
+    case (25)
+        !  25  PARPRJ(NPARM)
+        iloc = 2*Numgr*Nparm + 5*Numgr + 4*Nparm + 4
+    case (26)
+        !  26  PARSER(NPARM)
+        iloc = 2*Numgr*Nparm + 5*Numgr + 5*Nparm + 4
+    case (27)
+        !  27  PARWRK(NPARM)
+        iloc = 2*Numgr*Nparm + 5*Numgr + 6*Nparm + 4
+    case (28)
+        !  28  PICOR(NPARM+1,NPARM+1)  (OPPOSITE V, Y;  FOLLOWS D)
+        iloc = Nparm**2 + 3*Numgr*Nparm + 6*Numgr + 16*Nparm + 12
+    case (29)
+        !  29  PMAT(NPARM+1,NUMGR) (FOLLOWS PARWRK)
+        iloc = 2*Numgr*Nparm + 5*Numgr + 7*Nparm + 4
+    case (30)
+        !  30  PMAT1(NPARM+1,NUMGR)  (OPPOSITE CONFUN)
+        iloc = 2*Numgr + 2*Nparm + 1
+    case (31)
+        !  31  PTNR(NPARM+1) (FOLLOWS PMAT)
+        iloc = 3*Numgr*Nparm + 6*Numgr + 7*Nparm + 4
+    case (32)
+        !  32  PTNRR(NPARM+1)
+        iloc = 3*Numgr*Nparm + 6*Numgr + 8*Nparm + 5
+    case (33)
+        !  33  R(NPARM+1)
+        iloc = 3*Numgr*Nparm + 6*Numgr + 9*Nparm + 6
+    case (34)
+        !  34  SAVE(NPARM+1)
+        iloc = 3*Numgr*Nparm + 6*Numgr + 10*Nparm + 7
+    case (35)
+        !  35  V(NUMGR+2*NPARM+1,NPARM+2)  (WITH Y, OPPOSITE AA, B, BETA, D,
+        !    PICOR, ZWORK)
+        iloc = 3*Numgr*Nparm + 6*Numgr + 11*Nparm + 8
+    case (36)
+        !  36  VDER(NPARM) (FOLLOWS Y)
+        iloc = 2*Nparm**2 + 4*Numgr*Nparm + 9*Numgr + 18*Nparm + 10
+    case (37)
+        !  37  VDERN(NPARM)
+        iloc = 2*Nparm**2 + 4*Numgr*Nparm + 9*Numgr + 19*Nparm + 10
+    case (38)
+        !  38  VDERS(NPARM)
+        iloc = 2*Nparm**2 + 4*Numgr*Nparm + 9*Numgr + 20*Nparm + 10
+    case (39)
+        !  39  VEC(NPARM+1)
+        iloc = 2*Nparm**2 + 4*Numgr*Nparm + 9*Numgr + 21*Nparm + 10
+    case (40)
+        !  40  WCOEF(NUMGR)
+        iloc = 2*Nparm**2 + 4*Numgr*Nparm + 9*Numgr + 22*Nparm + 11
+    case (41)
+        !  41  WCOEF1(NUMGR)  (DOES NOT APPEAR IN THE PROGRAM BY NAME)
+        iloc = 2*Nparm**2 + 4*Numgr*Nparm + 10*Numgr + 22*Nparm + 11
+    case (42)
+        !  42  WPT(NPARM)
+        iloc = 2*Nparm**2 + 4*Numgr*Nparm + 11*Numgr + 22*Nparm + 11
+    case (43)
+        !  43  WVEC(NPARM)
+        iloc = 2*Nparm**2 + 4*Numgr*Nparm + 11*Numgr + 23*Nparm + 11
+    case (44)
+        !  44  X(NPARM+1)
+        iloc = 2*Nparm**2 + 4*Numgr*Nparm + 11*Numgr + 24*Nparm + 11
+    case (45)
+        !  45  XKEEP(NPARM+1)
+        iloc = 2*Nparm**2 + 4*Numgr*Nparm + 11*Numgr + 25*Nparm + 12
+    case (46)
+        !  46  XRK(NPARM+1)
+        iloc = 2*Nparm**2 + 4*Numgr*Nparm + 11*Numgr + 26*Nparm + 13
+    case (47)
+        !  47  Y(NUMGR+2*NPARM)  (WITH V, OPPOSITE AA, B, BETA, D, PICOR, ZWORK;  FOLLOWS V)
+        iloc = 2*Nparm**2 + 4*Numgr*Nparm + 8*Numgr + 16*Nparm + 10
+    case (48)
+        !  48  ZWORK(NPARM)  (OPPOSITE V, Y;  FOLLOWS PICOR)
+        iloc = 2*Nparm**2 + 3*Numgr*Nparm + 6*Numgr + 18*Nparm + 13
+    case default
+        ! 1  AA(NPARM+1,NPARM+1)  (OPPOSITE V, Y; STARTS AT V STARTING POINT)
+        iloc = 3*Numgr*Nparm + 6*Numgr + 11*Nparm + 8
+    end select
+
+    end function iloc
 !********************************************************************************
 
 !********************************************************************************
-      subroutine derst(me,Ioptn,Nparm,Numgr,Pttbl,Iptb,Indm,Param,Ipt,     &
-                     & Param1,v,Kcntyp,Confun)
-!
-      implicit none
-
-      class(conmax_solver),intent(inout) :: me
-      real(wp) Confun , d1mach , delt , delt2 , Param , Param1 , Pttbl ,  &
-           & spcmn , up , v
-      integer Indm , iopone , Ioptn , ioptth , Ipt , Iptb , iptkp , j , &
-            & k , Kcntyp , l , npar1 , Nparm , Numgr
-!
-      dimension Pttbl(Iptb,Indm) , Param(Nparm) , Param1(Nparm) ,       &
-              & v(Numgr+2*Nparm+1,Nparm+2) , Kcntyp(Numgr) ,            &
-              & Confun(Numgr,Nparm+1)
-!
+!>
 ! THIS SUBROUTINE USES FNSET TO COMPUTE CONFUN(I,1) AND THE PARTIAL
 ! DERIVATIVES OF THE FUNCTION WHOSE VALUE IS IN CONFUN(I,1) FOR
 ! CERTAIN VALUE(S) OF I.  NOTE THAT WE DO NOT WANT THE ICNTYP COMPUTED
@@ -1287,7 +1138,22 @@
 ! SUBROUTINE IN ICNTYP, SO WE USE KCNTYP WHEN WE CALL FNSET.  (THE
 ! ICNTYP COMPUTED BY FNSET WAS STORED EARLIER THROUGH A CALL TO ERCMP1
 ! FROM CONMAX.)
-!
+
+    subroutine derst(me,Ioptn,Nparm,Numgr,Pttbl,Iptb,Indm,Param,&
+                     Ipt,Param1,v,Kcntyp,Confun)
+
+      implicit none
+
+      class(conmax_solver),intent(inout) :: me
+      real(wp) Confun , delt , delt2 , Param , Param1 , Pttbl ,  &
+           & spcmn , up , v
+      integer Indm , iopone , Ioptn , ioptth , Ipt , Iptb , iptkp , j , &
+            & k , Kcntyp , l , npar1 , Nparm , Numgr
+
+      dimension Pttbl(Iptb,Indm) , Param(Nparm) , Param1(Nparm) ,       &
+              & v(Numgr+2*Nparm+1,Nparm+2) , Kcntyp(Numgr) ,            &
+              & Confun(Numgr,Nparm+1)
+
 ! IF THE ONES DIGIT OF IOPTN IS 0, WE CALL FNSET WITH INDFN=1 TO DO THE
 ! COMPUTATIONS DIRECTLY USING FORMULAS SUPPLIED BY THE USER.
       iopone = Ioptn - (Ioptn/10)*10
@@ -1429,30 +1295,34 @@
  40         enddo
          endif
       endif
-      end
+
+    end subroutine derst
+!********************************************************************************
 
 !********************************************************************************
-      subroutine slpcon(me,Ioptn,Nparm,Numgr,Fun,Ifun,Pttbl,Iptb,Indm,     &
-                      & Tolcon,Rchin,Irk,Itypm1,Itypm2,Icntyp,Rchdwn,   &
-                      & Numlim,Itersl,Prjslp,Funtbl,Iyrct,x,Mact1,Iact1,&
-                      & Jcntyp,Iphse,Enchg,Iwork,Liwrk,Work,Lwrk,Parser,&
-                      & Isucc,Param,Error)
+!>
 !
+      subroutine slpcon(me,Ioptn,Nparm,Numgr,Fun,Ifun,Pttbl,Iptb,Indm,     &
+                        Tolcon,Rchin,Irk,Itypm1,Itypm2,Icntyp,Rchdwn,   &
+                        Numlim,Itersl,Prjslp,Funtbl,Iyrct,x,Mact1,Iact1,&
+                        Jcntyp,Iphse,Enchg,Iwork,Liwrk,Work,Lwrk,Parser,&
+                        Isucc,Param,Error)
+
       implicit none
 
       class(conmax_solver),intent(inout) :: me
-      real(wp) big , bndlgt , d1mach , emin , emin1 , Enchg , enorm ,     &
+      real(wp) :: big , bndlgt , emin , emin1 , Enchg , enorm ,     &
            & Error , four , Fun , Funtbl , one , Param , Parser ,       &
            & prjlim , Prjslp , Pttbl , quots , Rchdwn , Rchin
-      real(wp) spcmn , ss , ten , tol1 , tol2 , Tolcon , two , unit ,     &
+      real(wp) :: spcmn , ss , ten , tol1 , tol2 , Tolcon , two , unit ,     &
            & Work , x , zero
-      integer i , Iact1 , Icntyp , Ifun , ilc05 , ilc07 , ilc08 ,       &
+      integer :: i , Iact1 , Icntyp , Ifun , ilc05 , ilc07 , ilc08 ,       &
             & ilc11 , ilc13 , ilc18 , ilc19 , ilc25 , ilc35 , ilc45 ,   &
             & ilc47 , indic , Indm , Ioptn , Iphse
-      integer ipmax , Iptb , Irk , ismax , Isucc , Itersl , Itypm1 ,    &
+      integer :: ipmax , Iptb , Irk , ismax , Isucc , Itersl , Itypm1 ,    &
             & Itypm2 , Iwork , Iyrct , j , Jcntyp , Liwrk , Lwrk , m ,  &
             & Mact1 , ng3 , npar1 , Nparm , nsrch
-      integer Numgr , numin , Numlim
+      integer :: Numgr , numin , Numlim
 !
       dimension Fun(Ifun) , Pttbl(Iptb,Indm) , Icntyp(Numgr) ,          &
               & Funtbl(Numgr,Nparm+1) , Iyrct(Numgr+2*Nparm) ,          &
@@ -1599,24 +1469,26 @@
          goto 100
       endif
       Isucc = 1
-      return
-      end
+
+    end subroutine slpcon
+!********************************************************************************
 
 !********************************************************************************
-      subroutine bndset(Nparm,x,Itersl,Numin,Prjslp,Cofbnd,Xkeep,Bndkp)
-!
+!>
 ! THIS SUBROUTINE SETS THE BOUNDS ON THE COEFFICIENT CHANGES IN
 ! SLNPRO.
-!
+
+      subroutine bndset(Nparm,x,Itersl,Numin,Prjslp,Cofbnd,Xkeep,Bndkp)
+
       implicit none
 
-      real(wp) bnd , Bndkp , bsave , chlm1 , chlm2 , Cofbnd , d1mach ,    &
+      real(wp) bnd , Bndkp , bsave , chlm1 , chlm2 , Cofbnd ,    &
            & epsil , epsil1 , fact1 , fact2 , fact3 , fact3a , fact3b , &
            & fact4 , four , one , Prjslp , spcmn , ten
       real(wp) tstprj , two , x , Xkeep
       integer Itersl , itight , j , Nparm , Numin
 !
-      dimension x(Nparm+1) , Cofbnd(Nparm) , Xkeep(Nparm+1) ,           &
+      dimension x(Nparm+1) , Cofbnd(Nparm) , Xkeep(Nparm+1) , &
               & Bndkp(Nparm)
 !
 ! SET MACHINE AND PRECISION DEPENDENT CONSTANTS FOR BNDSET.
@@ -1767,36 +1639,38 @@
 !2900 FORMAT(/52H *****RESETTING BOUNDS TO THEIR ORIGINAL VALUES*****)
       if ( itight>0 ) goto 100
       goto 200
-      end
+    end subroutine bndset
+!********************************************************************************
 
 !********************************************************************************
-      subroutine setu1(me,Ioptn,Numgr,Nparm,Numin,Rchin,Pttbl,Iptb,Indm,   &
-                     & Fun,Ifun,Funtbl,Cofbnd,Param,Icntyp,Rchdwn,Error,&
-                     & Mact1,Iact1,Bndlgt,Iyrct,Iphse,Iwork,Liwrk,Work, &
-                     & Lwrk,Confun,Iact,v,m)
-!
+!>
+! THIS SUBROUTINE SETS UP V FOR SLNPRO TO SOLVE A MODIFIED LINEARIZED
+! (ABOUT THE OLD PARAMETERS IN PARAM) VERSION OF OUR PROBLEM.
+
+    subroutine setu1(me,Ioptn,Numgr,Nparm,Numin,Rchin,Pttbl,Iptb,Indm,&
+                     Fun,Ifun,Funtbl,Cofbnd,Param,Icntyp,Rchdwn,Error,&
+                     Mact1,Iact1,Bndlgt,Iyrct,Iphse,Iwork,Liwrk,Work, &
+                     Lwrk,Confun,Iact,v,m)
+
       implicit none
 
       class(conmax_solver),intent(inout) :: me
-      real(wp) actlim , bndfud , Bndlgt , Cofbnd , Confun , enorm ,       &
-           & Error , four , Fun , Funtbl , grdlgt , one , Param ,       &
-           & Pttbl , Rchdwn , Rchin , rchind , rt , stfudg , sum
-      real(wp) ten , two , v , Work , zero
-      integer i , Iact , Iact1 , Icntyp , Ifun , ii , ilc22 , ilc24 ,   &
-            & Indm , Ioptn , ioptth , Iphse , ipt , Iptb ,       &
-            & Iwork , Iyrct , j , jj , k
-      integer kk , l , Liwrk , Lwrk , m , mact , Mact1 , mm1 , mp1 ,    &
-            & npar1 , npar2 , Nparm , Numgr , Numin
-!
-      dimension Pttbl(Iptb,Indm) , Fun(Ifun) , Funtbl(Numgr,Nparm+1) ,  &
-              & Cofbnd(Nparm) , Param(Nparm) , Error(Numgr+3) ,         &
-              & v(Numgr+2*Nparm+1,Nparm+2) , Iact(Numgr) , Iact1(Numgr) &
-              & , Iyrct(Numgr+2*Nparm) , Icntyp(Numgr) ,                &
-              & Confun(Numgr,Nparm+1) , Iwork(Liwrk) , Work(Lwrk)
-!
-! THIS SUBROUTINE SETS UP V FOR SLNPRO TO SOLVE A MODIFIED LINEARIZED
-! (ABOUT THE OLD PARAMETERS IN PARAM) VERSION OF OUR PROBLEM.
-!
+      real(wp) :: actlim , bndfud , Bndlgt , Cofbnd , Confun , enorm , &
+                  Error , four , Fun , Funtbl , grdlgt , one , Param , &
+                  Pttbl , Rchdwn , Rchin , rchind , rt , stfudg , sum
+      real(wp) :: ten , two , v , Work , zero
+      integer :: i , Iact , Iact1 , Icntyp , Ifun , ii , ilc22 , ilc24 , &
+                 Indm , Ioptn , ioptth , Iphse , ipt , Iptb , &
+                 Iwork , Iyrct , j , jj , k
+      integer :: kk , l , Liwrk , Lwrk , m , mact , Mact1 , mm1 , mp1 , &
+                 npar1 , npar2 , Nparm , Numgr , Numin
+
+      dimension Pttbl(Iptb,Indm) , Fun(Ifun) , Funtbl(Numgr,Nparm+1) ,   &
+                Cofbnd(Nparm) , Param(Nparm) , Error(Numgr+3) ,          &
+                v(Numgr+2*Nparm+1,Nparm+2) , Iact(Numgr) , Iact1(Numgr), &
+                Iyrct(Numgr+2*Nparm) , Icntyp(Numgr) ,                   &
+                Confun(Numgr,Nparm+1) , Iwork(Liwrk) , Work(Lwrk)
+
 ! SET MACHINE AND PRECISION CONSTANTS FOR SETU1.
 !     NWRIT=output_unit
       one = 1.0d0
@@ -2076,41 +1950,18 @@
       do j = 1 , mact
          Iact1(j) = Iact(j)
       enddo
-      end
+    end subroutine setu1
+!********************************************************************************
 
 !********************************************************************************
-      subroutine slnpro(v,m,n,Iyrct,y,Ixrct,Iycct,Nparm,Numgr,x,Indic)
-!***BEGIN PROLOGUE  SLNPRO
-!***ROUTINES CALLED  SJELIM
-!***PURPOSE  THIS SUBROUTINE SOLVES THE LINEAR PROGRAMMING PROBLEM
-!              MAXIMIZE Z = -V(M+1,1)*X(1)-...-V(M+1,N)*X(N)
-!              WHERE X(1),...,X(N) ARE FREE VARIABLES, SUBJECT TO
-!              V(I,1)*X(1)+...+V(I,N)*X(N) .LE. V(I,N+1), FOR I=1,..,M,
-!              WHERE M .GE. N.
-!            (INFORMATION CONCERNING TOLERANCES AND BASIC VARIABLES
-!            IS ALSO TRANSMITTED USING M, N, AND IYRCT.)
-!***REFERENCES  AVDEYEVA, L. I. AND ZUKHOVITSKIY, S. I.,
-!                 LINEAR AND CONVEX PROGRAMMING,
-!                 SAUNDERS, PHILADELPHIA, 1966.
-!***END PROLOGUE  SLNPRO
-!
-      implicit none
-
-      real(wp) absv , amax , amin , ampr2 , amprv , bmpr2 , bmprv ,       &
-           & d1mach , dist , dist1 , four , one , rea , rea1 , rea2 ,   &
-           & rea3 , reakp , rowq , rtcol , spcmn
-      real(wp) temp , ten , two , v , x , y , zero
-      integer i , i1 , i10 , i2 , i20 , iback , id , ifail , ii ,       &
-            & inamp , Indic , indst , irlax , irow , itemp , Ixrct ,    &
-            & ixrj , Iycct , iycj , Iyrct
-      integer iyri , iytmp , j , jj , k , keep , keep1 , kkk , kpmp1 ,  &
-            & kpmp2 , ktjor , l , limjor , ll , lrknt , m , mp1 ,       &
-            & mxrkn , n , np1
-      integer Nparm , Numgr
-!
-      dimension v(Numgr+2*Nparm+1,Nparm+2) , Iyrct(Numgr+2*Nparm) ,     &
-              & x(Nparm+1) , y(Numgr+2*Nparm) , Ixrct(Numgr+2*Nparm) ,  &
-              & Iycct(Nparm+1)
+!>
+!  THIS SUBROUTINE SOLVES THE LINEAR PROGRAMMING PROBLEM
+!    MAXIMIZE Z = -V(M+1,1)*X(1)-...-V(M+1,N)*X(N)
+!    WHERE X(1),...,X(N) ARE FREE VARIABLES, SUBJECT TO
+!    V(I,1)*X(1)+...+V(I,N)*X(N) .LE. V(I,N+1), FOR I=1,..,M,
+!    WHERE M .GE. N.
+!  (INFORMATION CONCERNING TOLERANCES AND BASIC VARIABLES
+!  IS ALSO TRANSMITTED USING M, N, AND IYRCT.)
 !
 ! GIVEN INTEGERS M AND N (WITH M .GE. N) AND A MATRIX V,
 ! THIS SUBROUTINE SOLVES THE LINEAR PROGRAMMING PROBLEM
@@ -2163,6 +2014,31 @@
 ! NOTE THAT INDIC=-3 WILL OVERWRITE (AND THUS CONCEAL) INDIC=-2
 !   OR INDIC=-4, AND INDIC=-1 WILL OVERWRITE INDIC=-2, -3, OR -4
 !
+!###REFERENCE
+!  * AVDEYEVA, L. I. AND ZUKHOVITSKIY, S. I.,
+!    LINEAR AND CONVEX PROGRAMMING,
+!    SAUNDERS, PHILADELPHIA, 1966.
+
+    subroutine slnpro(v,m,n,Iyrct,y,Ixrct,Iycct,Nparm,Numgr,x,Indic)
+
+      implicit none
+
+      real(wp) :: absv , amax , amin , ampr2 , amprv , bmpr2 , bmprv , &
+                 dist , dist1 , four , one , rea , rea1 , rea2 ,   &
+                 rea3 , reakp , rowq , rtcol , spcmn
+      real(wp) :: temp , ten , two , v , x , y , zero
+      integer :: i , i1 , i10 , i2 , i20 , iback , id , ifail , ii ,     &
+                 inamp , Indic , indst , irlax , irow , itemp , Ixrct ,  &
+                 ixrj , Iycct , iycj , Iyrct
+      integer :: iyri , iytmp , j , jj , k , keep , keep1 , kkk , kpmp1 ,&
+                 kpmp2 , ktjor , l , limjor , ll , lrknt , m , mp1 ,     &
+                 mxrkn , n , np1
+      integer :: Nparm , Numgr
+
+      dimension v(Numgr+2*Nparm+1,Nparm+2) , Iyrct(Numgr+2*Nparm) ,    &
+              & x(Nparm+1) , y(Numgr+2*Nparm) , Ixrct(Numgr+2*Nparm) , &
+              & Iycct(Nparm+1)
+
 ! SET MACHINE DEPENDENT PARAMETERS FOR SUBROUTINE SLNPRO.
 ! SET SPCMN=B**(-ITT), WHERE B IS THE BASE AND ITT IS THE NUMBER
 ! OF BASE B DIGITS IN THE MANTISSA.  SPCMN IS THE MINIMUM
@@ -2716,8 +2592,7 @@
                               do jj = 1 , n
                                  if ( jj/=j ) then
                                     if ( y(jj)<=rea ) then
-                                       if ( v(ii,jj)-v(id,jj)           &
-                                        & *rowq+rea<0 ) then
+                                       if ( v(ii,jj)-v(id,jj)*rowq+rea<0 ) then
                                          lrknt = lrknt + 1
                                          if ( lrknt>mxrkn ) goto 1102
                                        endif
@@ -2834,8 +2709,9 @@
       endif
 !
  1200 Indic = 4
-      return
-99999 end
+
+99999 end subroutine slnpro
+!********************************************************************************
 
 !********************************************************************************
 !>
@@ -2846,12 +2722,11 @@
 !  is v(ir,is).
 
     subroutine sjelim(l,Ll,k,Ir,Is,Nparm,Numgr,v)
+
       implicit none
 
-      real(wp) fact , one , resol , v
-      integer i , Ir , Is , j , k , l , Ll , Nparm , Numgr
-
-      dimension v(Numgr+2*Nparm+1,Nparm+2)
+      integer :: i , Ir , Is , j , k , l , Ll , Nparm , Numgr
+      real(wp) :: fact , one , resol , v(Numgr+2*Nparm+1,Nparm+2)
 
 ! SET PRECISION DEPENDENT CONSTANTS FOR SJELIM.
       one = 1.0d0
@@ -2883,45 +2758,46 @@
 !********************************************************************************
 
 !********************************************************************************
-      subroutine searsl(me,Ioptn,Numgr,Nparm,Prjlim,Tol1,x,Fun,Ifun,Pttbl, &
-                        Iptb,Indm,Param,Error,Rchdwn,Mact,Iact,Iphse,   &
-                        Unit,Tolcon,Rchin,Itypm1,Itypm2,Iwork,Liwrk,    &
-                        Work,Lwrk,Err1,Parprj,Projct,Emin,Emin1,Parser, &
-                        Nsrch)
-!
+!>
+!  THIS SUBROUTINE USES A MODIFIED QUADRATIC FITTING PROCESS TO
+!  SEARCH FOR THE MINIMUM OF A FUNCTION F.  IT REQURES AN INITIAL
+!  GUESS IN PROJCT, A TOLERANCE TOL1 ON THE SEARCH INTERVAL LENGTH,
+!  AN UPPER BOUND PRJLIM ON THE MINIMIZING POINT (WHICH SHOULD BE SET
+!  VERY LARGE IF NO UPPER BOUND IS DESIRED), AND A WAY TO COMPUTE F(X)
+!  FOR A GIVEN X.  THE SUBROUTINE WILL PRINT A WARNING AND RETURN IF
+!  IT WOULD NEED TO COMPUTE F MORE THAN INITLM TIMES IN THE INITIALIZATION
+!  OR MORE THAN NADD ADDITIONAL TIMES IN THE MAIN PART OF THE PROGRAM.
+!  WHEN THE SUBROUTINE RETURNS, IT WILL HAVE PUT THE MINIMUM LOCATION IN
+!  PROJCT, THE MINIMUM F VALUE IN EMIN, THE F VALUE FOR THE INITIAL
+!  PROJCT IN EMIN1, AND THE NUMBER OF TIMES IT COMPUTED F IN NSRCH.
+
+    subroutine searsl(me,Ioptn,Numgr,Nparm,Prjlim,Tol1,x,Fun,Ifun,Pttbl, &
+                      Iptb,Indm,Param,Error,Rchdwn,Mact,Iact,Iphse,   &
+                      Unit,Tolcon,Rchin,Itypm1,Itypm2,Iwork,Liwrk,    &
+                      Work,Lwrk,Err1,Parprj,Projct,Emin,Emin1,Parser, &
+                      Nsrch)
+
       implicit none
 
       class(conmax_solver),intent(inout) :: me
-      real(wp) baladj , balfct , big , d1mach , Emin , Emin1 , Err1 ,     &
-           & Error , f1 , f2 , f3 , f4 , four , Fun , fval , fvlkp ,    &
-           & one , p1 , p2 , p3
-      real(wp) p4 , Param , Parprj , Parser , Prjlim , Projct , Pttbl ,   &
-           & pval , Rchdwn , Rchin , rlf , rrt , s1 , s2 , spcmn , ten ,&
-           & Tol1 , tol4 , Tolcon , tolden
-      real(wp) two , Unit , Work , x
-      integer Iact , icorct , Ifun , ilc08 , ilc10 , ilc17 , ilc21 ,    &
-            & ilc27 , ilc29 , ilc48 , ilf , Indm , initlm ,      &
-            & Ioptn , Iphse , ipmax , Iptb , irt , isave
-      integer ismax , Itypm1 , Itypm2 , iupbar , Iwork , j , lims1 ,    &
-            & Liwrk , lll , Lwrk , Mact , nadd , Nparm , Nsrch , Numgr
-!
-      dimension Fun(Ifun) , Pttbl(Iptb,Indm) , Param(Nparm) ,           &
-              & Err1(Numgr+3) , Parprj(Nparm) , x(Nparm+1) ,            &
-              & Error(Numgr+3) , Iact(Numgr) , Parser(Nparm) ,          &
+      real(wp) :: baladj , balfct , big , Emin , Emin1 , Err1 , &
+                  Error , f1 , f2 , f3 , f4 , four , Fun , fval , fvlkp , &
+                  one , p1 , p2 , p3
+      real(wp) :: p4 , Param , Parprj , Parser , Prjlim , Projct , Pttbl ,   &
+                  pval , Rchdwn , Rchin , rlf , rrt , s1 , s2 , spcmn , ten ,&
+                  Tol1 , tol4 , Tolcon , tolden
+      real(wp) :: two , Unit , Work , x
+      integer :: Iact , icorct , Ifun , ilc08 , ilc10 , ilc17 , ilc21 , &
+                 ilc27 , ilc29 , ilc48 , ilf , Indm , initlm , &
+                 Ioptn , Iphse , ipmax , Iptb , irt , isave
+      integer :: ismax , Itypm1 , Itypm2 , iupbar , Iwork , j , lims1 , &
+                 Liwrk , lll , Lwrk , Mact , nadd , Nparm , Nsrch , Numgr
+
+      dimension Fun(Ifun) , Pttbl(Iptb,Indm) , Param(Nparm) ,  &
+              & Err1(Numgr+3) , Parprj(Nparm) , x(Nparm+1) ,   &
+              & Error(Numgr+3) , Iact(Numgr) , Parser(Nparm) , &
               & Iwork(Liwrk) , Work(Lwrk)
-!
-! THIS SUBROUTINE USES A MODIFIED QUADRATIC FITTING PROCESS TO
-! SEARCH FOR THE MINIMUM OF A FUNCTION F.  IT REQURES AN INITIAL
-! GUESS IN PROJCT, A TOLERANCE TOL1 ON THE SEARCH INTERVAL LENGTH,
-! AN UPPER BOUND PRJLIM ON THE MINIMIZING POINT (WHICH SHOULD BE SET
-! VERY LARGE IF NO UPPER BOUND IS DESIRED), AND A WAY TO COMPUTE F(X)
-! FOR A GIVEN X.  THE SUBROUTINE WILL PRINT A WARNING AND RETURN IF
-! IT WOULD NEED TO COMPUTE F MORE THAN INITLM TIMES IN THE INITIALIZATION
-! OR MORE THAN NADD ADDITIONAL TIMES IN THE MAIN PART OF THE PROGRAM.
-! WHEN THE SUBROUTINE RETURNS, IT WILL HAVE PUT THE MINIMUM LOCATION IN
-! PROJCT, THE MINIMUM F VALUE IN EMIN, THE F VALUE FOR THE INITIAL
-! PROJCT IN EMIN1, AND THE NUMBER OF TIMES IT COMPUTED F IN NSRCH.
-!
+
 ! SET MACHINE AND PRECISION DEPENDENT CONSTANTS FOR SEARSL.
       one = 1.0d0
       two = one + one
@@ -3363,23 +3239,26 @@
          goto 800
       case default
       end select
-      end
+    end subroutine searsl
+!********************************************************************************
 
 !********************************************************************************
-      subroutine ercmp1(me,Ioptn,Nparm,Numgr,Fun,Ifun,Pttbl,Iptb,Indm,     &
-                        Param,Icnuse,Iphse,Iwork,Liwrk,Confun,Icntyp,   &
+!>
+!
+      subroutine ercmp1(me,Ioptn,Nparm,Numgr,Fun,Ifun,Pttbl,Iptb,Indm, &
+                        Param,Icnuse,Iphse,Iwork,Liwrk,Confun,Icntyp, &
                         Ipmax,Ismax,Error)
 
       implicit none
 
       class(conmax_solver),intent(inout) :: me
-      real(wp) Confun , ei , enor2 , enor3 , enorm , Error , Fun , one ,  &
-           & Param , Pttbl , zero
-      integer i , Icntyp , Icnuse , Ifun , ilc22 , im1 , im2 ,   &
-            & Indm , Ioptn , ioptth , Iphse , Ipmax , ipt , Iptb ,      &
-            & Ismax , Iwork , l , Liwrk , Nparm
-      integer Numgr
-!
+      real(wp) :: Confun , ei , enor2 , enor3 , enorm , Error , Fun , one , &
+                  Param , Pttbl , zero
+      integer :: i , Icntyp , Icnuse , Ifun , ilc22 , im1 , im2 ,   &
+                 Indm , Ioptn , ioptth , Iphse , Ipmax , ipt , Iptb , &
+                 Ismax , Iwork , l , Liwrk , Nparm
+      integer :: Numgr
+
       dimension Fun(Ifun) , Pttbl(Iptb,Indm) , Param(Nparm) ,           &
               & Icntyp(Numgr) , Error(Numgr+3) , Confun(Numgr,Nparm+1) ,&
               & Iwork(Liwrk)
@@ -3401,8 +3280,7 @@
 ! HERE ICNUSE=0 SO WE WILL ACCEPT AND USE THE ICNTYP(I) COMPUTED BY
 ! FNSET.
 ! CALL FNSET WITH INDFN=0 TO COMPUTE CONFUN(I,1) AND ICNTYP(I).
-               call me%fnset(Nparm,Numgr,Pttbl,Iptb,Indm,Param,ipt,0,      &
-                        & Icntyp,Confun)
+               call me%fnset(Nparm,Numgr,Pttbl,Iptb,Indm,Param,ipt,0,Icntyp,Confun)
 !
 ! HERE ICNUSE=1 AND THE ICNTYP CARRIED INTO ERCMP1 WILL OVERRIDE THAT
 ! COMPUTED BY FNSET.  THIS WILL ALSO BE TRUE IN ALL SUBROUTINES OTHER
@@ -3412,8 +3290,7 @@
 !
 ! CALL FNSET WITH INDFN=0 TO COMPUTE CONFUN(I,1).  THE COMPUTED KCNTYP
 ! WILL NOT BE USED.
-               call me%fnset(Nparm,Numgr,Pttbl,Iptb,Indm,Param,ipt,0,      &
-                        & Iwork(ilc22),Confun)
+               call me%fnset(Nparm,Numgr,Pttbl,Iptb,Indm,Param,ipt,0,Iwork(ilc22),Confun)
             else
 !
                Error(i) = zero
@@ -3448,8 +3325,7 @@
 ! BE POSITIVE AT EACH FNSET CALL, TELLING FNSET TO COMPUTE CONSTRAINT
 ! IPT ONLY.
             ipt = 0
-            call me%fnset(Nparm,Numgr,Pttbl,Iptb,Indm,Param,ipt,0,Icntyp,  &
-                     & Confun)
+            call me%fnset(Nparm,Numgr,Pttbl,Iptb,Indm,Param,ipt,0,Icntyp,Confun)
          else
 !
 ! HERE IOPTTH=1 AND ICNUSE=1, AND IF IPHSE IS NEGATIVE WE SET IPT=-1
@@ -3463,13 +3339,11 @@
                enddo
             endif
             ipt = -1
-            call me%fnset(Nparm,Numgr,Pttbl,Iptb,Indm,Param,ipt,0,         &
-                     & Iwork(ilc22),Confun)
+            call me%fnset(Nparm,Numgr,Pttbl,Iptb,Indm,Param,ipt,0,Iwork(ilc22),Confun)
          endif
          goto 200
  100     ipt = 0
-         call me%fnset(Nparm,Numgr,Pttbl,Iptb,Indm,Param,ipt,0,Iwork(ilc22)&
-                  & ,Confun)
+         call me%fnset(Nparm,Numgr,Pttbl,Iptb,Indm,Param,ipt,0,Iwork(ilc22),Confun)
       endif
 !
 ! COMPUTE ERROR AS ABOVE.
@@ -3561,19 +3435,22 @@
       Error(Numgr+1) = enorm
       Error(Numgr+2) = enor2
       Error(Numgr+3) = enor3
-      end
+    end subroutine ercmp1
+!********************************************************************************
 
 !********************************************************************************
+!>
+!
       subroutine rkcon(me,Ioptn,Nparm,Numgr,Fun,Ifun,Pttbl,Iptb,Indm,      &
-                     & Tolcon,Rchin,Iter,Irk,Ityp2,Ityp1,Itypm1,Itypm2, &
-                     & Icntyp,Projct,Rchdwn,Nstep,Iphse,Enchg,Enc1,Pmat,&
-                     & Funtbl,Iwork,Liwrk,Work,Lwrk,Iact,Actdif,Parprj, &
-                     & Parser,Xrk,Err1,Confun,Isucc,Param,Error)
+                       Tolcon,Rchin,Iter,Irk,Ityp2,Ityp1,Itypm1,Itypm2, &
+                       Icntyp,Projct,Rchdwn,Nstep,Iphse,Enchg,Enc1,Pmat,&
+                       Funtbl,Iwork,Liwrk,Work,Lwrk,Iact,Actdif,Parprj, &
+                       Parser,Xrk,Err1,Confun,Isucc,Param,Error)
 !
       implicit none
 
       class(conmax_solver),intent(inout) :: me
-      real(wp) Actdif , Confun , conup , d1mach , emin , emin1 , Enc1 ,   &
+      real(wp) Actdif , Confun , conup , emin , emin1 , Enc1 ,   &
            & Enchg , enorm , Err1 , Error , four , Fun , Funtbl , one , &
            & Param , Parprj , Parser , pe , Pmat
       real(wp) prden , prjbig , prjlim , Projct , prosea , Pttbl , qt ,   &
@@ -4532,7 +4409,7 @@
       implicit none
 
       class(conmax_solver),intent(inout) :: me
-      real(wp) baladj , balfct , d1mach , Dvec , Emin , Err1 , f1 , f1kp ,&
+      real(wp) baladj , balfct , Dvec , Emin , Err1 , f1 , f1kp ,&
            & f2 , f3 , f4 , four , Fun , fval , one , p1 , p2 , p3 ,    &
            & p4 , Parwrk
       real(wp) Procor , progr , Pttbl , pval , rlf , rrt , s1 , s2 ,      &
@@ -4890,7 +4767,7 @@
       implicit none
 
       class(conmax_solver),intent(inout) :: me
-      real(wp) acof , bcof , ccof , d1mach , den , discr , Dvec , Emin ,  &
+      real(wp) acof , bcof , ccof , den , discr , Dvec , Emin ,  &
            & Err1 , f1 , f2 , f3 , f4 , four , Fun , fval , one , p1 ,  &
            & p2 , p3
       real(wp) p4 , Parwrk , Procor , Pttbl , pval , spcmn , temp , ten , &
@@ -5185,7 +5062,7 @@
 !
       implicit none
 
-      real(wp) d1mach , ei , eipmax , enorm , epact , Err1 , Error ,      &
+      real(wp) ei , eipmax , enorm , epact , Err1 , Error ,      &
            & four , fudge , one , rch1 , rchd1 , Rchdwn , Rchin ,       &
            & rchtop , spcmn , ten , two , Unit
       integer i , Iact , Icntyp , ipact , Ipmax , Irch , Ismax , l ,    &
@@ -5330,13 +5207,10 @@
 !***THE NEXT GROUP OF COMMENTS IS FOR THE CASE WHERE THE USER WISHES TO
 ! RUN WOLFE BY ITSELF RATHER THAN AS A PART OF CONMAX.
 !
-! TO RUN THE PROGRAM, FIRST SET THE THREE MACHINE AND PRECISION DEPENDENT
-! CONSTANTS IN FUNCTION SUBPROGRAMS I1MACH AND D1MACH, WRITE A DRIVER
+! TO RUN THE PROGRAM, WRITE A DRIVER
 ! PROGRAM WHICH DIMENSIONS THE ARRAYS IN THE CALLING SEQUENCE FOR WOLFE
 ! AND SETS THE INPUT VARIABLES AS SPECIFIED IN THE LIST BELOW, THEN CALL
-! SUBROUTINE WOLFE.  THE ONLY SUBPROGRAMS NEEDED ARE I1MACH, D1MACH,
-! WOLFE, ILOC, CONENR, HOUSE, DOTPRD, AND REFWL.  NO SUBROUTINE LIBRARIES
-! (SUCH AS IMSL) ARE NEEDED.
+! SUBROUTINE WOLFE.
 !
 ! THE VARIABLES, IN THE ORDER OF THEIR APPEARANCE IN THE ARGUMENT LIST OF
 ! SUBROUTINE WOLFE, ARE AS FOLLOWS.
@@ -5464,7 +5338,7 @@
 
       implicit none
 
-      real(wp) ab , bk , Coef , d1mach , dist , fackp , facsc ,  &
+      real(wp) ab , bk , Coef , dist , fackp , facsc ,  &
            & fact , four , one , Pmat , Pmat1 , Ptnr , quot , r , s ,   &
            & s1 , s1hi , s1low
       real(wp) scl , scl1 , scl1a , spcmn , ten , three , tol , tol1 ,    &
@@ -5792,7 +5666,7 @@
 !
       implicit none
 
-      real(wp) amax , amin , cjj , Coef , d1mach , diff , Dist , dmax ,   &
+      real(wp) amax , amin , cjj , Coef , diff , Dist , dmax ,   &
            & dp , dsq , four , omt , one , pdotj , Picor ,     &
            & Pmat1 , Ptnr , Ptnrr , quot
       real(wp) r , spcmn , ten , theta , Tol , tolel , tst , two , Vec ,  &
@@ -6168,7 +6042,7 @@
 !
       implicit none
 
-      real(wp) Aa , aakk , amax , b , Beta , d , d1mach , four , one ,    &
+      real(wp) Aa , aakk , amax , b , Beta , d , four , one ,    &
            & Picor , r , Save , spcmn , sqdk , store , sum , summ ,     &
            & ten , test , testt
       real(wp) tolsq , two , Vec , zero
@@ -6488,7 +6362,7 @@
 !
       implicit none
 
-      real(wp) aa , amax , d1mach , fact , Pmat , Pmat1 , Save , spcmn ,  &
+      real(wp) aa , amax , fact , Pmat , Pmat1 , Save , spcmn ,  &
            & tole , Wpt , wrst , wrsto
       integer i , Icor , imax , itrct , itrlm , Ixrct , j , jmax ,      &
             & jstrt , k , kcol , kk , kp1 , l , maxrs , n , Ncor , Ndm ,&
