@@ -1,5 +1,5 @@
 
- 
+
 ! (D) LEAST-DISTANCE QUADRATIC PROGRAMMING
 !
 ! (SUBPROGRAMS INVOLVED:  WOLFE, D1MACH, ILOC, CONENR, HOUSE, DOTPRD,
@@ -22,13 +22,18 @@
 ! DISTANCE SQRT(1.5D0) FROM THE ORIGIN.)
 !
 ! SAMPLE DRIVER FOR (D) LEAST-DISTANCE QUADRATIC PROGRAMMING
-!
+
+    program main
+
+      use conmax_module
+      use iso_fortran_env, only: wp => real64
+
       IMPLICIT NONE
 
-      REAL*8 coef , pmat , pmat1 , ptnr , r , s , wcoef , wdist , work ,&
-           & wpt
+      real(wp) coef , pmat , pmat1 , ptnr , r , s , wcoef , wdist , work ,&
+               wpt
       INTEGER i , icor , iwork , j , jflag , liwrk , lwrk , m , mp1 ,   &
-            & n , ncor , nmaj , nmin , np1 , nparm , numgr
+              n , ncor , nmaj , nmin , np1 , nparm , numgr
 ! THE MINIMUM DIMENSIONS ARE PMAT(NPARM+1,NUMGR), PMAT1(NPARM+1,NUMGR),
 ! WPT(NPARM), ICOR(NPARM+1), R(NPARM+1), PTNR(NPARM+1), COEF(NUMGR),
 ! WCOEF(NUMGR), IWORK(4*NUMGR+5*NPARM+3), WORK(2*NPARM**2+4*NUMGR*NPARM
@@ -68,8 +73,9 @@
 99003 FORMAT (/' AFTER WOLFE THE ERROR FLAG IS',                        &
              &I4//' THE DISTANCE FROM THE ORIGIN IS',                   &
              &E22.13//' THE POINT HAS COORDINATES'//(3E22.13))
+
       END
- 
+
 ! OUTPUT FOR (D) LEAST-DISTANCE QUADRATIC PROGRAMMING
 !
 ! THERE ARE    2  BOUNDARIES AND    3  DIMENSIONS

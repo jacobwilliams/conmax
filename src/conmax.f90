@@ -1,25 +1,6 @@
 
 !********************************************************************************
-!
-!
-!********** COPYRIGHT 1996 EDWIN H. KAUFMAN JR., DAVID J. LEEMING,
-!********** GERALD D. TAYLOR
-!********** THE AUTHORS GRATEFULLY ACKNOWLEDGE THE ASSISTANCE OF
-!********** CENTRAL MICHIGAN UNIVERSITY, THE UNIVERSITY OF VICTORIA
-!********** (CANADA), AND COLORADO STATE UNIVERSITY.
-!********** PERMISSION TO USE, COPY, MODIFY, AND DISTRIBUTE THIS
-!********** SOFTWARE FOR ANY PURPOSE WITHOUT FEE IS HEREBY GRANTED,
-!********** PROVIDED THAT THIS ENTIRE NOTICE IS INCLUDED IN ANY
-!********** SOFTWARE WHICH IS OR INCLUDES A COPY OR MODIFICATION OF
-!********** THIS SOFTWARE AND IN ALL COPIES OF THE SUPPORTING
-!********** DOCUMENTATION FOR SUCH SOFTWARE.
-!********** THIS SOFTWARE IS PROVIDED "AS IS", WITHOUT EXPRESS OR
-!********** IMPLIED WARRANTY.  IN PARTICULAR, NEITHER THE AUTHORS NOR
-!********** THEIR UNIVERSITIES MAKE ANY REPRESENTATION OR WARRANTY OF
-!********** ANY KIND CONCERNING THE MERCHANTIBILITY OF THIS SOFTWARE
-!********** OR ITS FITNESS FOR ANY PARTICULAR PURPOSE.
-!
-!
+!>
 ! WELCOME TO CONMAX, VERSION 1.7
 !
 ! THIS PACKAGE WAS LAST REVISED ON DECEMBER 4, 1996.
@@ -97,7 +78,7 @@
 !   (1) REPLACE ALL THE STATEMENTS  ONE=1.0D0  IN THE PACKAGE BY  ONE=1.0,
 !
 !   (2) PLACE A  C  IN COLUMN 1 OF ALL THE STATEMENTS IN THE PACKAGE
-!       IMPLICIT REAL*8 (A-H,O-Z),
+!       IMPLICIT real(wp) (A-H,O-Z),
 !
 !   (3) REPLACE ALL OCCURENCES OF  D1MACH  IN THE PACKAGE BY  R1MACH
 !       IF THE NETLIB SUPPLIED SUBPROGRAMS I1MACH, D1MACH, AND R1MACH ARE
@@ -246,7 +227,7 @@
 !     SUBROUTINE FNSET(NPARM,NUMGR,PTTBL,IPTB,INDM,PARAM,IPT,
 !    *INDFN,ICNTYP,CONFUN)
 !
-!     IMPLICIT REAL*8 (A-H,O-Z)
+!     IMPLICIT real(wp) (A-H,O-Z)
 !
 !     DIMENSION PTTBL(IPTB,INDM),PARAM(NPARM),ICNTYP(NUMGR),
 !    *CONFUN(NUMGR,NPARM+1)
@@ -403,24 +384,75 @@
 !
 ! NOTE THAT SINCE THAT PAPER WAS WRITTEN, TOLCON WAS DELETED FROM THE
 ! ARGUMENT LIST OF CONMAX.
+    module conmax_module
 
+    use iso_fortran_env, only: wp => real64
+
+    implicit none
+
+    private
+
+    type,abstract,public :: conmax_solver
+        private
+    contains
+        private
+        procedure,public :: solve => conmax  !! main solver routine
+        procedure,public :: muller
+        procedure,public :: searsl
+        procedure(func),deferred,public :: fnset
+        procedure :: ercmp1
+        procedure :: rkcon
+        procedure :: slpcon
+        procedure :: corrct
+        procedure :: rkpar
+        procedure :: searcr
+        procedure :: derst
+        procedure :: setu1
+        procedure :: pmtst
+    end type conmax_solver
+
+    abstract interface
+        subroutine func(me,Nparm,Numgr,Pttbl,Iptb,Indm,Param,Ipt,Indfn,Icntyp,Confun)
+        import :: wp,conmax_solver
+        implicit none
+        class(conmax_solver),intent(inout) :: me
+        integer  :: Nparm
+        integer  :: Numgr
+        integer  :: Iptb
+        integer  :: Indm
+        real(wp) :: Pttbl(Iptb,Indm)
+        real(wp) :: Param(Nparm)
+        integer  :: Ipt
+        integer  :: Indfn
+        integer  :: Icntyp(Numgr)
+        real(wp) :: Confun(Numgr,Nparm+1)
+        end subroutine func
+    end interface
+
+    ! maybe just move into the solver
+    public :: wolfe
+    public :: slnpro
+
+    contains
+!********************************************************************************
 
 !********************************************************************************
 !
-      subroutine conmax(Ioptn,Nparm,Numgr,Itlim,Fun,Ifun,Pttbl,Iptb,    &
-                      & Indm,Iwork,Liwrk,Work,Lwrk,Iter,Param,Error)
+      subroutine conmax(me,Ioptn,Nparm,Numgr,Itlim,Fun,Ifun,Pttbl,Iptb,    &
+                        Indm,Iwork,Liwrk,Work,Lwrk,Iter,Param,Error)
 
       implicit none
 
-      real*8 d1mach , enc1 , enchg , encsm , enor2 , enor3 , enorm ,    &
+      class(conmax_solver),intent(inout) :: me
+      real(wp) d1mach , enc1 , enchg , encsm , enor2 , enor3 , enorm ,    &
            & Error , four , Fun , one , Param , prjslp , projct ,       &
            & Pttbl , rchdnk , rchdwn , rchin , s , spcmn
-      real*8 ten , tolcon , tollin , two , wdist , Work , zero
+      real(wp) ten , tolcon , tollin , two , wdist , Work , zero
       integer i , i1 , Ifun , ii , ilc02 , ilc06 , ilc08 , ilc11 ,      &
             & ilc12 , ilc13 , ilc14 , ilc15 , ilc17 , ilc20 , ilc21 ,   &
             & ilc22 , ilc24 , ilc25 , ilc26 , ilc27
       integer ilc29 , ilc30 , ilc31 , ilc33 , ilc35 , ilc40 , ilc42 ,   &
-            & ilc44 , ilc46 , iloc , Indm , iophun , iopten , ioptho ,  &
+            & ilc44 , ilc46 , Indm , iophun , iopten , ioptho ,  &
             & Ioptn , ioptth , iphse , ipmax , ipt , Iptb
       integer irk , ismax , isucc , Iter , itersl , Itlim , itlim1 ,    &
             & ityp1 , ityp1k , ityp2 , ityp2k , itypm1 , itypm2 ,       &
@@ -556,7 +588,7 @@
 ! THE TEN THOUSANDS DIGIT OF IOPTN IS 1.
 ! THIS IS ONE OF ONLY TWO PLACES IN THE PROGRAM WHERE WE CALL ERCMP1 WITH
 ! ICNUSE=0, THE OTHER BEING STATEMENT 1415 BELOW..
- 100  call ercmp1(Ioptn,Nparm,Numgr,Fun,Ifun,Pttbl,Iptb,Indm,Param,0,0, &
+ 100  call me%ercmp1(Ioptn,Nparm,Numgr,Fun,Ifun,Pttbl,Iptb,Indm,Param,0,0, &
                 & Iwork,Liwrk,Work(ilc08),Iwork(ilc17),ipmax,ismax,     &
                 & Error)
 ! IF ITLIM=0 WE RETURN.
@@ -671,9 +703,9 @@
 ! CONSTRAINT AND DERIVATIVE VALUES IN CONFUN.
 ! WE SET IPT=-1 TO TELL DERST IT NEED ONLY COMPUTE STANDARD CONSTRAINTS.
                ipt = -1
-               call derst(Ioptn,Nparm,Numgr,Pttbl,Iptb,Indm,Work(ilc27),&
-                        & ipt,Work(ilc24),Work(ilc35),Iwork(ilc22),     &
-                        & Work(ilc08))
+               call me%derst(Ioptn,Nparm,Numgr,Pttbl,Iptb,Indm,Work(ilc27),&
+                             ipt,Work(ilc24),Work(ilc35),Iwork(ilc22),     &
+                             Work(ilc08))
             endif
 !
             m = 0
@@ -689,9 +721,9 @@
 ! HERE IOPTTH=0 AND WE HAVE NOT YET CALLED DERST TO PUT CONSTRAINT I
 ! AND ITS DERIVATIVES IN CONFUN, SO WE DO IT NOW.
                      ipt = i
-                     call derst(Ioptn,Nparm,Numgr,Pttbl,Iptb,Indm,      &
-                              & Work(ilc27),ipt,Work(ilc24),Work(ilc35),&
-                              & Iwork(ilc22),Work(ilc08))
+                     call me%derst(Ioptn,Nparm,Numgr,Pttbl,Iptb,Indm,      &
+                                   Work(ilc27),ipt,Work(ilc24),Work(ilc35),&
+                                   Iwork(ilc22),Work(ilc08))
                   endif
 ! COPY THE DERIVATIVES INTO PMAT FOR USE BY WOLFE.
                   do l = 1 , Nparm
@@ -749,7 +781,7 @@
                endif
             enddo
 ! CALL ERCMP1 WITH ICNUSE=1.
-            call ercmp1(Ioptn,Nparm,Numgr,Fun,Ifun,Pttbl,Iptb,Indm,     &
+            call me%ercmp1(Ioptn,Nparm,Numgr,Fun,Ifun,Pttbl,Iptb,Indm,     &
                       & Work(ilc27),1,iphse,Iwork,Liwrk,Work(ilc08),    &
                       & Iwork(ilc21),ipmax,ismax,Work(ilc11))
             i1 = ilc11 - 1 + (Numgr+2)
@@ -780,7 +812,7 @@
 ! CHANGED IN GETTING TYPE -1 FEASIBILITY, SO WE CALL ERCMP1
 ! WITH ICNUSE=0 (ICNUSE=1 WOULD WORK ALSO SINCE ICNTYP HAS NOT BEEN
 ! CHANGED HERE) TO GET THE NEW ERROR VECTOR.
-               call ercmp1(Ioptn,Nparm,Numgr,Fun,Ifun,Pttbl,Iptb,Indm,  &
+               call me%ercmp1(Ioptn,Nparm,Numgr,Fun,Ifun,Pttbl,Iptb,Indm,  &
                          & Param,0,iphse,Iwork,Liwrk,Work(ilc08),       &
                          & Iwork(ilc17),ipmax,ismax,Error)
                goto 800
@@ -795,13 +827,13 @@
                      Iwork(jj) = 0
                   endif
                enddo
-               call ercmp1(Ioptn,Nparm,Numgr,Fun,Ifun,Pttbl,Iptb,Indm,  &
+               call me%ercmp1(Ioptn,Nparm,Numgr,Fun,Ifun,Pttbl,Iptb,Indm,  &
                          & Param,1,iphse,Iwork,Liwrk,Work(ilc08),       &
                          & Iwork(ilc21),ipmax,ismax,Work(ilc11))
                ii = ilc11 - 1 + Numgr + 3
 ! HERE WORK(II)=ERR1(NUMGR+3).
                if ( Work(ii)>tolcon ) goto 700
-               call ercmp1(Ioptn,Nparm,Numgr,Fun,Ifun,Pttbl,Iptb,Indm,  &
+               call me%ercmp1(Ioptn,Nparm,Numgr,Fun,Ifun,Pttbl,Iptb,Indm,  &
                          & Param,0,iphse,Iwork,Liwrk,Work(ilc08),       &
                          & Iwork(ilc17),ipmax,ismax,Error)
                goto 800
@@ -862,7 +894,7 @@
       ityp2 = 0
       ityp1 = itypm2
       itypm2 = 0
-      call ercmp1(Ioptn,Nparm,Numgr,Fun,Ifun,Pttbl,Iptb,Indm,Param,1,   &
+      call me%ercmp1(Ioptn,Nparm,Numgr,Fun,Ifun,Pttbl,Iptb,Indm,Param,1,   &
                 & iphse,Iwork,Liwrk,Work(ilc08),Iwork(ilc17),ipmax,     &
                 & ismax,Error)
       goto 900
@@ -884,7 +916,7 @@
 ! HERE IRK IS 0 OR -1 AND WE DO AN SLP STEP.  IF SLPCON CANNOT REDUCE THE
 ! PRINCIPAL ERROR NORM ENORM = ERROR(NUMGR+1) BY MORE THAN 100.0*B**(-ITT)
 ! THEN IT WILL LEAVE PARAM AND ERROR UNCHANGED.
-         call slpcon(Ioptn,Nparm,Numgr,Fun,Ifun,Pttbl,Iptb,Indm,tolcon, &
+         call me%slpcon(Ioptn,Nparm,Numgr,Fun,Ifun,Pttbl,Iptb,Indm,tolcon, &
                    & rchin,irk,itypm1,itypm2,Iwork(ilc17),rchdwn,numlim,&
                    & itersl,prjslp,Work(ilc12),Iwork(ilc20),Work(ilc44),&
                    & mact1,Iwork(ilc14),Iwork(ilc21),iphse,enchg,Iwork, &
@@ -894,7 +926,7 @@
 ! HERE IRK IS 1 OR 2 AND WE DO AN RK STEP.  IF RKCON CANNOT REDUCE THE
 ! PRINCIPAL ERROR NORM ENORM = ERROR(NUMGR+1) BY MORE THAN 100.0*B**(-ITT)
 ! THEN IT WILL LEAVE PARAM AND ERROR UNCHANGED.
-         call rkcon(Ioptn,Nparm,Numgr,Fun,Ifun,Pttbl,Iptb,Indm,tolcon,  &
+         call me%rkcon(Ioptn,Nparm,Numgr,Fun,Ifun,Pttbl,Iptb,Indm,tolcon,  &
                   & rchin,Iter,irk,ityp2,ityp1,itypm1,itypm2,           &
                   & Iwork(ilc17),projct,rchdwn,nstep,iphse,enchg,enc1,  &
                   & Work(ilc29),Work(ilc12),Iwork,Liwrk,Work,Lwrk,      &
@@ -969,6 +1001,7 @@
          goto 500
       endif
       end
+!********************************************************************************
 
 !********************************************************************************
 !     FUNCTION I1MACH(I)
@@ -1001,12 +1034,12 @@
 !C           PRECISION (FOR EXAMPLE), ON MANY MACHINES ONE NEED ONLY
 !C           RESET D1MACH(3), PUT A C IN COLUMN 1 OF ALL THE STATEMENTS
 !C
-!C                IMPLICIT REAL*8 (A-H,O-Z)
+!C                IMPLICIT real(wp) (A-H,O-Z)
 !C
 !C           AND CONVERT THE DRIVER PROGRAM AND SUBROUTINE FNSET TO
 !C           SINGLE PRECISION.
 !C
-!     IMPLICIT REAL*8 (A-H,O-Z)
+!     IMPLICIT real(wp) (A-H,O-Z)
 !C
 !     IF(I-3)100,200,100
 !C
@@ -1015,19 +1048,23 @@
 ! 200 D1MACH=16.0D0**(-14)
 !     RETURN
 !     END
-      function iloc(Iarr,Nparm,Numgr)
-      implicit none
+!********************************************************************************
 
-      integer Iarr , iloc , Nparm , Numgr
-!
+!********************************************************************************
+!>
 ! THIS FUNCTION SUBPROGRAM RETURNS THE SUBSCRIPT OF THE FIRST ELEMENT OF
 ! ARRAY IARR RELATIVE TO IWORK (IF THE ARRAY IS INTEGER, I.E. 13 .LE.
 ! IARR .LE. 23) OR RELATIVE TO WORK (IF THE ARRAY IS FLOATING POINT, I.E.
 ! 1 .LE. IARR .LE. 12 OR 24 .LE. IARR .LE. 48).
-!
+
+      function iloc(Iarr,Nparm,Numgr)
+      implicit none
+
+      integer Iarr , iloc , Nparm , Numgr
+
       select case (Iarr)
       case (2)
-!
+
 !   2  ACTDIF(NUMGR)
          iloc = 1
          return
@@ -1270,14 +1307,16 @@
       iloc = 3*Numgr*Nparm + 6*Numgr + 11*Nparm + 8
       return
 99999 end
+!********************************************************************************
 
 !********************************************************************************
-      subroutine derst(Ioptn,Nparm,Numgr,Pttbl,Iptb,Indm,Param,Ipt,     &
+      subroutine derst(me,Ioptn,Nparm,Numgr,Pttbl,Iptb,Indm,Param,Ipt,     &
                      & Param1,v,Kcntyp,Confun)
 !
       implicit none
 
-      real*8 Confun , d1mach , delt , delt2 , Param , Param1 , Pttbl ,  &
+      class(conmax_solver),intent(inout) :: me
+      real(wp) Confun , d1mach , delt , delt2 , Param , Param1 , Pttbl ,  &
            & spcmn , up , v
       integer Indm , iopone , Ioptn , ioptth , Ipt , Iptb , iptkp , j , &
             & k , Kcntyp , l , npar1 , Nparm , Numgr
@@ -1298,8 +1337,8 @@
 ! COMPUTATIONS DIRECTLY USING FORMULAS SUPPLIED BY THE USER.
       iopone = Ioptn - (Ioptn/10)*10
       if ( iopone<=0 ) then
-         call fnset(Nparm,Numgr,Pttbl,Iptb,Indm,Param,Ipt,1,Kcntyp,     &
-                  & Confun)
+         call me%fnset(Nparm,Numgr,Pttbl,Iptb,Indm,Param,Ipt,1,Kcntyp, &
+                       Confun)
          return
       else
 !
@@ -1329,14 +1368,14 @@
 !
 ! NOW CALL FNSET WITH INDFN=0 TO PLACE THE FUNCTION IN CONSTRAINT
 ! IPT EVALUATED AT POINT PARAM1 IN CONFUN(IPT,1).
-               call fnset(Nparm,Numgr,Pttbl,Iptb,Indm,Param1,Ipt,0,     &
+               call me%fnset(Nparm,Numgr,Pttbl,Iptb,Indm,Param1,Ipt,0,     &
                         & Kcntyp,Confun)
                up = Confun(Ipt,1)
 !
 ! SET PARAM1 EQUAL TO PARAM, ECXEPT WITH ITS LTH COMOPONENT DECREASED
 ! BY DELT, AND CALL FNSET AGAIN.
                Param1(l) = Param(l) - delt
-               call fnset(Nparm,Numgr,Pttbl,Iptb,Indm,Param1,Ipt,0,     &
+               call me%fnset(Nparm,Numgr,Pttbl,Iptb,Indm,Param1,Ipt,0,     &
                         & Kcntyp,Confun)
 !
 ! NOW WE CAN COMPUTE THE CENTERED-DIFFERENCE APPROXIMATION TO THE PARTIAL
@@ -1353,7 +1392,7 @@
 !
 ! NOW COMPUTE THE VALUE OF THE FUNCTION AT PARAM, AND THEN PUT THE
 ! EARLIER-COMPUTED PARTIAL DERIVATIVES INTO CONFUN.
-            call fnset(Nparm,Numgr,Pttbl,Iptb,Indm,Param,Ipt,0,Kcntyp,  &
+            call me%fnset(Nparm,Numgr,Pttbl,Iptb,Indm,Param,Ipt,0,Kcntyp,  &
                      & Confun)
             do l = 1 , Nparm
                Confun(Ipt,l+1) = v(l,1)
@@ -1387,7 +1426,7 @@
                   Param1(j) = Param(j)
                enddo
                Param1(l) = Param(l) + delt
-               call fnset(Nparm,Numgr,Pttbl,Iptb,Indm,Param1,Ipt,0,     &
+               call me%fnset(Nparm,Numgr,Pttbl,Iptb,Indm,Param1,Ipt,0,     &
                         & Kcntyp,Confun)
                Ipt = iptkp
                do k = 1 , Numgr
@@ -1403,7 +1442,7 @@
 !
 ! REVISE PARAM1 AND CALL FNSET AGAIN.
                Param1(l) = Param(l) - delt
-               call fnset(Nparm,Numgr,Pttbl,Iptb,Indm,Param1,Ipt,0,     &
+               call me%fnset(Nparm,Numgr,Pttbl,Iptb,Indm,Param1,Ipt,0,     &
                         & Kcntyp,Confun)
                Ipt = iptkp
                do k = 1 , Numgr
@@ -1421,7 +1460,7 @@
 ! CALL FNSET AGAIN TO COMPUTE THE VALUES OF THE FUNCTIONS AT POINT
 ! PARAM, AND THEN PUT THE EARLIER-COMPUTED PARTIAL DERIVATIVES INTO
 ! CONFUN.
-            call fnset(Nparm,Numgr,Pttbl,Iptb,Indm,Param,Ipt,0,Kcntyp,  &
+            call me%fnset(Nparm,Numgr,Pttbl,Iptb,Indm,Param,Ipt,0,Kcntyp,  &
                      & Confun)
             do k = 1 , Numgr
                if ( Ipt<0 ) then
@@ -1438,7 +1477,7 @@
       end
 
 !********************************************************************************
-      subroutine slpcon(Ioptn,Nparm,Numgr,Fun,Ifun,Pttbl,Iptb,Indm,     &
+      subroutine slpcon(me,Ioptn,Nparm,Numgr,Fun,Ifun,Pttbl,Iptb,Indm,     &
                       & Tolcon,Rchin,Irk,Itypm1,Itypm2,Icntyp,Rchdwn,   &
                       & Numlim,Itersl,Prjslp,Funtbl,Iyrct,x,Mact1,Iact1,&
                       & Jcntyp,Iphse,Enchg,Iwork,Liwrk,Work,Lwrk,Parser,&
@@ -1446,14 +1485,15 @@
 !
       implicit none
 
-      real*8 big , bndlgt , d1mach , emin , emin1 , Enchg , enorm ,     &
+      class(conmax_solver),intent(inout) :: me
+      real(wp) big , bndlgt , d1mach , emin , emin1 , Enchg , enorm ,     &
            & Error , four , Fun , Funtbl , one , Param , Parser ,       &
            & prjlim , Prjslp , Pttbl , quots , Rchdwn , Rchin
-      real*8 spcmn , ss , ten , tol1 , tol2 , Tolcon , two , unit ,     &
+      real(wp) spcmn , ss , ten , tol1 , tol2 , Tolcon , two , unit ,     &
            & Work , x , zero
       integer i , Iact1 , Icntyp , Ifun , ilc05 , ilc07 , ilc08 ,       &
             & ilc11 , ilc13 , ilc18 , ilc19 , ilc25 , ilc35 , ilc45 ,   &
-            & ilc47 , iloc , indic , Indm , Ioptn , Iphse
+            & ilc47 , indic , Indm , Ioptn , Iphse
       integer ipmax , Iptb , Irk , ismax , Isucc , Itersl , Itypm1 ,    &
             & Itypm2 , Iwork , Iyrct , j , Jcntyp , Liwrk , Lwrk , m ,  &
             & Mact1 , ng3 , npar1 , Nparm , nsrch
@@ -1503,7 +1543,7 @@
 ! CALL SETU1 TO SET UP FOR SLNPRO AND, IF NUMIN=0, TO DETERMINE
 ! WHICH CONSTRAINTS ARE ACTIVE AND STORE FUNCTION AND GRADIENT VALUES
 ! FOR THEM IN FUNTBL.
-      call setu1(Ioptn,Numgr,Nparm,numin,Rchin,Pttbl,Iptb,Indm,Fun,Ifun,&
+      call me%setu1(Ioptn,Numgr,Nparm,numin,Rchin,Pttbl,Iptb,Indm,Fun,Ifun,&
                & Funtbl,Work(ilc07),Param,Icntyp,Rchdwn,Error,Mact1,    &
                & Iact1,bndlgt,Iyrct,Iphse,Iwork,Liwrk,Work,Lwrk,        &
                & Work(ilc08),Iwork(ilc13),Work(ilc35),m)
@@ -1564,11 +1604,11 @@
 ! DO NOT ALLOW A PRJSLP SMALLER THAN TOL1.
          if ( Prjslp<tol1 ) Prjslp = tol1
 ! CALL SEARSL TO DO A LINE SEARCH IN DIRECTION X.
-         call searsl(Ioptn,Numgr,Nparm,prjlim,tol1,x,Fun,Ifun,Pttbl,    &
-                   & Iptb,Indm,Param,Error,Rchdwn,Mact1,Iact1,Iphse,    &
-                   & unit,Tolcon,Rchin,Itypm1,Itypm2,Iwork,Liwrk,Work,  &
-                   & Lwrk,Work(ilc11),Work(ilc25),Prjslp,emin,emin1,    &
-                   & Parser,nsrch)
+         call me%searsl(Ioptn,Numgr,Nparm,prjlim,tol1,x,Fun,Ifun,Pttbl,    &
+                        Iptb,Indm,Param,Error,Rchdwn,Mact1,Iact1,Iphse,    &
+                        unit,Tolcon,Rchin,Itypm1,Itypm2,Iwork,Liwrk,Work,  &
+                        Lwrk,Work(ilc11),Work(ilc25),Prjslp,emin,emin1,    &
+                        Parser,nsrch)
 !
 ! COMPUTE THE ERROR NORM CHANGE ENCHG.
          Enchg = emin - enorm
@@ -1583,7 +1623,7 @@
             do j = 1 , Nparm
                Param(j) = Parser(j)
             enddo
-            call ercmp1(Ioptn,Nparm,Numgr,Fun,Ifun,Pttbl,Iptb,Indm,     &
+            call me%ercmp1(Ioptn,Nparm,Numgr,Fun,Ifun,Pttbl,Iptb,Indm,     &
                       & Param,1,Iphse,Iwork,Liwrk,Work(ilc08),Icntyp,   &
                       & ipmax,ismax,Error)
             return
@@ -1615,10 +1655,10 @@
 !
       implicit none
 
-      real*8 bnd , Bndkp , bsave , chlm1 , chlm2 , Cofbnd , d1mach ,    &
+      real(wp) bnd , Bndkp , bsave , chlm1 , chlm2 , Cofbnd , d1mach ,    &
            & epsil , epsil1 , fact1 , fact2 , fact3 , fact3a , fact3b , &
            & fact4 , four , one , Prjslp , spcmn , ten
-      real*8 tstprj , two , x , Xkeep
+      real(wp) tstprj , two , x , Xkeep
       integer Itersl , itight , j , Nparm , Numin
 !
       dimension x(Nparm+1) , Cofbnd(Nparm) , Xkeep(Nparm+1) ,           &
@@ -1775,19 +1815,20 @@
       end
 
 !********************************************************************************
-      subroutine setu1(Ioptn,Numgr,Nparm,Numin,Rchin,Pttbl,Iptb,Indm,   &
+      subroutine setu1(me,Ioptn,Numgr,Nparm,Numin,Rchin,Pttbl,Iptb,Indm,   &
                      & Fun,Ifun,Funtbl,Cofbnd,Param,Icntyp,Rchdwn,Error,&
                      & Mact1,Iact1,Bndlgt,Iyrct,Iphse,Iwork,Liwrk,Work, &
                      & Lwrk,Confun,Iact,v,m)
 !
       implicit none
 
-      real*8 actlim , bndfud , Bndlgt , Cofbnd , Confun , enorm ,       &
+      class(conmax_solver),intent(inout) :: me
+      real(wp) actlim , bndfud , Bndlgt , Cofbnd , Confun , enorm ,       &
            & Error , four , Fun , Funtbl , grdlgt , one , Param ,       &
            & Pttbl , Rchdwn , Rchin , rchind , rt , stfudg , sum
-      real*8 ten , two , v , Work , zero
+      real(wp) ten , two , v , Work , zero
       integer i , Iact , Iact1 , Icntyp , Ifun , ii , ilc22 , ilc24 ,   &
-            & iloc , Indm , Ioptn , ioptth , Iphse , ipt , Iptb ,       &
+            & Indm , Ioptn , ioptth , Iphse , ipt , Iptb ,       &
             & Iwork , Iyrct , j , jj , k
       integer kk , l , Liwrk , Lwrk , m , mact , Mact1 , mm1 , mp1 ,    &
             & npar1 , npar2 , Nparm , Numgr , Numin
@@ -1889,11 +1930,11 @@
          if ( ioptth<=0 ) then
 ! HERE IOPTTH=0 AND WE CALL DERST FOR EACH ACTIVE CONSTRAINT.
             do l = 1 , mact
-               i = iabs(Iact(l))
+               i = abs(Iact(l))
                ipt = i
 ! CALL DERST TO COMPUTE BOTH FUNCTION AND GRADIENT VALUES.
-               call derst(Ioptn,Nparm,Numgr,Pttbl,Iptb,Indm,Param,ipt,  &
-                        & Work(ilc24),v,Iwork(ilc22),Confun)
+               call me%derst(Ioptn,Nparm,Numgr,Pttbl,Iptb,Indm,Param,ipt,  &
+                             Work(ilc24),v,Iwork(ilc22),Confun)
 ! COPY THE VALUES FOR CONSTRAINT I INTO FUNTBL.
                do j = 1 , npar1
                   Funtbl(i,j) = Confun(i,j)
@@ -1925,11 +1966,11 @@
          enddo
          goto 300
       endif
- 200  call derst(Ioptn,Nparm,Numgr,Pttbl,Iptb,Indm,Param,ipt,Work(ilc24)&
-               & ,v,Iwork(ilc22),Confun)
+ 200  call me%derst(Ioptn,Nparm,Numgr,Pttbl,Iptb,Indm,Param,ipt,Work(ilc24),&
+                    v,Iwork(ilc22),Confun)
 ! COPY THE ACTIVE FUNCTION AND GRADIENT VALUES INTO FUNTBL.
       do l = 1 , mact
-         i = iabs(Iact(l))
+         i = abs(Iact(l))
          do j = 1 , npar1
             Funtbl(i,j) = Confun(i,j)
          enddo
@@ -1937,7 +1978,7 @@
 !
 ! NOW SET UP THE ACTIVE CONSTRAINTS IN V FOR SLNPRO.
  300  do l = 1 , mact
-         i = iabs(Iact(l))
+         i = abs(Iact(l))
          if ( Icntyp(i)<0 ) then
 !
             if ( Icntyp(i)+1<0 ) then
@@ -2036,7 +2077,7 @@
             jj = Iyrct(j)
             if ( jj<=Mact1 ) then
 ! HERE ENTRY J OF IYRCT CORRESPONDS TO A FORMER ACTIVE CONSTRAINT AT
-! SOME POINT IABS(KK), WHERE THE SIGN OF KK WILL INDICATE WHETHER THE
+! SOME POINT abs(KK), WHERE THE SIGN OF KK WILL INDICATE WHETHER THE
 ! CONSTRAINT WAS +ACTIVE OR -ACTIVE.
                kk = Iact1(jj)
 ! WE NOW CHECK TO SEE IF THIS FORMER ACTIVE CONSTRAINT IS STILL
@@ -2100,10 +2141,10 @@
 !
       implicit none
 
-      real*8 absv , amax , amin , ampr2 , amprv , bmpr2 , bmprv ,       &
+      real(wp) absv , amax , amin , ampr2 , amprv , bmpr2 , bmprv ,       &
            & d1mach , dist , dist1 , four , one , rea , rea1 , rea2 ,   &
            & rea3 , reakp , rowq , rtcol , spcmn
-      real*8 temp , ten , two , v , x , y , zero
+      real(wp) temp , ten , two , v , x , y , zero
       integer i , i1 , i10 , i2 , i20 , iback , id , ifail , ii ,       &
             & inamp , Indic , indst , irlax , irow , itemp , Ixrct ,    &
             & ixrj , Iycct , iycj , Iyrct
@@ -2842,29 +2883,24 @@
 99999 end
 
 !********************************************************************************
-      subroutine sjelim(l,Ll,k,Ir,Is,Nparm,Numgr,v)
-!***BEGIN PROLOGUE  SJELIM
-!***REFER TO  SLNPRO
-!***ROUTINES CALLED  (NONE)
-!***PURPOSE  THIS SUBROUTINE PERFORMS A MODIFIED JORDAN
-!            ELIMINATION ON THE L-LL+1 BY K MATRIX
-!            CONSISTING OF ROWS LL THROUGH L OF V AND
-!            COLUMNS 1 THROUGH K OF V.  THE RESOLVENT
-!            IS V(IR,IS).
-!***END PROLOGUE  SJELIM
-!
+!>
+!  This subroutine performs a modified jordan
+!  elimination on the l-ll+1 by k matrix
+!  consisting of rows ll through l of v and
+!  columns 1 through k of v.  The resolvent
+!  is v(ir,is).
+
+    subroutine sjelim(l,Ll,k,Ir,Is,Nparm,Numgr,v)
       implicit none
 
-      real*8 fact , one , resol , v
+      real(wp) fact , one , resol , v
       integer i , Ir , Is , j , k , l , Ll , Nparm , Numgr
-!
+
       dimension v(Numgr+2*Nparm+1,Nparm+2)
-!
+
 ! SET PRECISION DEPENDENT CONSTANTS FOR SJELIM.
-!***FIRST EXECUTABLE STATEMENT  SJELIM
       one = 1.0d0
-! EMD OF SETTING PRECISION DEPENDENT CONSTANTS FOR SJELIM.
-!
+
 ! DIVIDE THE ENTRIES IN THE RESOLVENT ROW (EXCEPT FOR THE
 ! RESOLVENT) BY THE RESOLVENT.
       resol = v(Ir,Is)
@@ -2887,26 +2923,29 @@
       enddo
 ! REPLACE THE RESOLVENT BY ITS RECIPROCAL.
       v(Ir,Is) = one/resol
-      end
+
+    end subroutine sjelim
+!********************************************************************************
 
 !********************************************************************************
-      subroutine searsl(Ioptn,Numgr,Nparm,Prjlim,Tol1,x,Fun,Ifun,Pttbl, &
-                      & Iptb,Indm,Param,Error,Rchdwn,Mact,Iact,Iphse,   &
-                      & Unit,Tolcon,Rchin,Itypm1,Itypm2,Iwork,Liwrk,    &
-                      & Work,Lwrk,Err1,Parprj,Projct,Emin,Emin1,Parser, &
-                      & Nsrch)
+      subroutine searsl(me,Ioptn,Numgr,Nparm,Prjlim,Tol1,x,Fun,Ifun,Pttbl, &
+                        Iptb,Indm,Param,Error,Rchdwn,Mact,Iact,Iphse,   &
+                        Unit,Tolcon,Rchin,Itypm1,Itypm2,Iwork,Liwrk,    &
+                        Work,Lwrk,Err1,Parprj,Projct,Emin,Emin1,Parser, &
+                        Nsrch)
 !
       implicit none
 
-      real*8 baladj , balfct , big , d1mach , Emin , Emin1 , Err1 ,     &
+      class(conmax_solver),intent(inout) :: me
+      real(wp) baladj , balfct , big , d1mach , Emin , Emin1 , Err1 ,     &
            & Error , f1 , f2 , f3 , f4 , four , Fun , fval , fvlkp ,    &
            & one , p1 , p2 , p3
-      real*8 p4 , Param , Parprj , Parser , Prjlim , Projct , Pttbl ,   &
+      real(wp) p4 , Param , Parprj , Parser , Prjlim , Projct , Pttbl ,   &
            & pval , Rchdwn , Rchin , rlf , rrt , s1 , s2 , spcmn , ten ,&
            & Tol1 , tol4 , Tolcon , tolden
-      real*8 two , Unit , Work , x
+      real(wp) two , Unit , Work , x
       integer Iact , icorct , Ifun , ilc08 , ilc10 , ilc17 , ilc21 ,    &
-            & ilc27 , ilc29 , ilc48 , ilf , iloc , Indm , initlm ,      &
+            & ilc27 , ilc29 , ilc48 , ilf , Indm , initlm ,      &
             & Ioptn , Iphse , ipmax , Iptb , irt , isave
       integer ismax , Itypm1 , Itypm2 , iupbar , Iwork , j , lims1 ,    &
             & Liwrk , lll , Lwrk , Mact , nadd , Nparm , Nsrch , Numgr
@@ -3223,14 +3262,14 @@
 ! CALL CORRCT TO RETURN PARPRJ TO FEASIBILITY IF NECESSARY IF ITYPM1
 ! OR ITYPM2 IS POSITIVE.
       if ( Itypm1+Itypm2>0 ) then
-         call corrct(Ioptn,Nparm,Numgr,Fun,Ifun,Pttbl,Iptb,Indm,        &
+         call me%corrct(Ioptn,Nparm,Numgr,Fun,Ifun,Pttbl,Iptb,Indm,        &
                    & Iwork(ilc17),Unit,Tolcon,Rchin,Error,Mact,Iact,    &
                    & Projct,Iphse,Iwork,Liwrk,Work,Lwrk,Work(ilc27),    &
                    & Err1,Work(ilc10),Work(ilc29),Work(ilc08),          &
                    & Work(ilc48),Iwork(ilc21),Parprj,icorct)
          if ( icorct>0 ) goto 1300
       endif
-      call ercmp1(Ioptn,Nparm,Numgr,Fun,Ifun,Pttbl,Iptb,Indm,Parprj,1,  &
+      call me%ercmp1(Ioptn,Nparm,Numgr,Fun,Ifun,Pttbl,Iptb,Indm,Parprj,1,  &
                 & Iphse,Iwork,Liwrk,Work(ilc08),Iwork(ilc17),ipmax,     &
                 & ismax,Err1)
       fval = Err1(Numgr+1)
@@ -3372,15 +3411,16 @@
       end
 
 !********************************************************************************
-      subroutine ercmp1(Ioptn,Nparm,Numgr,Fun,Ifun,Pttbl,Iptb,Indm,     &
-                      & Param,Icnuse,Iphse,Iwork,Liwrk,Confun,Icntyp,   &
-                      & Ipmax,Ismax,Error)
-!
+      subroutine ercmp1(me,Ioptn,Nparm,Numgr,Fun,Ifun,Pttbl,Iptb,Indm,     &
+                        Param,Icnuse,Iphse,Iwork,Liwrk,Confun,Icntyp,   &
+                        Ipmax,Ismax,Error)
+
       implicit none
 
-      real*8 Confun , ei , enor2 , enor3 , enorm , Error , Fun , one ,  &
+      class(conmax_solver),intent(inout) :: me
+      real(wp) Confun , ei , enor2 , enor3 , enorm , Error , Fun , one ,  &
            & Param , Pttbl , zero
-      integer i , Icntyp , Icnuse , Ifun , ilc22 , iloc , im1 , im2 ,   &
+      integer i , Icntyp , Icnuse , Ifun , ilc22 , im1 , im2 ,   &
             & Indm , Ioptn , ioptth , Iphse , Ipmax , ipt , Iptb ,      &
             & Ismax , Iwork , l , Liwrk , Nparm
       integer Numgr
@@ -3406,7 +3446,7 @@
 ! HERE ICNUSE=0 SO WE WILL ACCEPT AND USE THE ICNTYP(I) COMPUTED BY
 ! FNSET.
 ! CALL FNSET WITH INDFN=0 TO COMPUTE CONFUN(I,1) AND ICNTYP(I).
-               call fnset(Nparm,Numgr,Pttbl,Iptb,Indm,Param,ipt,0,      &
+               call me%fnset(Nparm,Numgr,Pttbl,Iptb,Indm,Param,ipt,0,      &
                         & Icntyp,Confun)
 !
 ! HERE ICNUSE=1 AND THE ICNTYP CARRIED INTO ERCMP1 WILL OVERRIDE THAT
@@ -3417,7 +3457,7 @@
 !
 ! CALL FNSET WITH INDFN=0 TO COMPUTE CONFUN(I,1).  THE COMPUTED KCNTYP
 ! WILL NOT BE USED.
-               call fnset(Nparm,Numgr,Pttbl,Iptb,Indm,Param,ipt,0,      &
+               call me%fnset(Nparm,Numgr,Pttbl,Iptb,Indm,Param,ipt,0,      &
                         & Iwork(ilc22),Confun)
             else
 !
@@ -3453,7 +3493,7 @@
 ! BE POSITIVE AT EACH FNSET CALL, TELLING FNSET TO COMPUTE CONSTRAINT
 ! IPT ONLY.
             ipt = 0
-            call fnset(Nparm,Numgr,Pttbl,Iptb,Indm,Param,ipt,0,Icntyp,  &
+            call me%fnset(Nparm,Numgr,Pttbl,Iptb,Indm,Param,ipt,0,Icntyp,  &
                      & Confun)
          else
 !
@@ -3468,12 +3508,12 @@
                enddo
             endif
             ipt = -1
-            call fnset(Nparm,Numgr,Pttbl,Iptb,Indm,Param,ipt,0,         &
+            call me%fnset(Nparm,Numgr,Pttbl,Iptb,Indm,Param,ipt,0,         &
                      & Iwork(ilc22),Confun)
          endif
          goto 200
  100     ipt = 0
-         call fnset(Nparm,Numgr,Pttbl,Iptb,Indm,Param,ipt,0,Iwork(ilc22)&
+         call me%fnset(Nparm,Numgr,Pttbl,Iptb,Indm,Param,ipt,0,Iwork(ilc22)&
                   & ,Confun)
       endif
 !
@@ -3569,7 +3609,7 @@
       end
 
 !********************************************************************************
-      subroutine rkcon(Ioptn,Nparm,Numgr,Fun,Ifun,Pttbl,Iptb,Indm,      &
+      subroutine rkcon(me,Ioptn,Nparm,Numgr,Fun,Ifun,Pttbl,Iptb,Indm,      &
                      & Tolcon,Rchin,Iter,Irk,Ityp2,Ityp1,Itypm1,Itypm2, &
                      & Icntyp,Projct,Rchdwn,Nstep,Iphse,Enchg,Enc1,Pmat,&
                      & Funtbl,Iwork,Liwrk,Work,Lwrk,Iact,Actdif,Parprj, &
@@ -3577,17 +3617,18 @@
 !
       implicit none
 
-      real*8 Actdif , Confun , conup , d1mach , emin , emin1 , Enc1 ,   &
+      class(conmax_solver),intent(inout) :: me
+      real(wp) Actdif , Confun , conup , d1mach , emin , emin1 , Enc1 ,   &
            & Enchg , enorm , Err1 , Error , four , Fun , Funtbl , one , &
            & Param , Parprj , Parser , pe , Pmat
-      real*8 prden , prjbig , prjlim , Projct , prosea , Pttbl , qt ,   &
+      real(wp) prden , prjbig , prjlim , Projct , prosea , Pttbl , qt ,   &
            & qthi , qtlo , quots , Rchdwn , Rchin , s , spcmn , ss ,    &
            & steplm , ten , tol1 , tol2 , Tolcon
-      real*8 two , unit , wdist , Work , Xrk , zero
+      real(wp) two , unit , wdist , Work , Xrk , zero
       integer i , Iact , Icntyp , icorct , ifrkpr , Ifun , ilc06 ,      &
             & ilc10 , ilc15 , ilc21 , ilc22 , ilc24 , ilc27 , ilc30 ,   &
             & ilc31 , ilc33 , ilc35 , ilc36 , ilc37 , ilc38
-      integer ilc40 , ilc43 , ilc48 , iloc , Indm , Ioptn , ioptth ,    &
+      integer ilc40 , ilc43 , ilc48 , Indm , Ioptn , ioptth ,    &
             & Iphse , ipmax , ipt , Iptb , Irk , ismax , Isucc , Iter , &
             & Ityp1 , Ityp2 , Itypm1 , Itypm2 , iwarn
       integer Iwork , j , jflag , l , limfl , Liwrk , Lwrk , mactrk ,   &
@@ -3721,7 +3762,7 @@
       unit = Projct
 !
 ! CALL PMTST TO SET UP PMAT.
-      call pmtst(Ioptn,Numgr,Nparm,Param,Icntyp,mactrk,Iact,Pttbl,Iptb, &
+      call me%pmtst(Ioptn,Numgr,Nparm,Param,Icntyp,mactrk,Iact,Pttbl,Iptb, &
                & Indm,Actdif,Iphse,Iwork,Liwrk,Work,Lwrk,Confun,Pmat)
 !
 ! COPY PMAT TRANSPOSE INTO FUNTBL FOR POSSIBLE LATER USE.
@@ -3754,7 +3795,7 @@
 ! A FAILURE OF SOME KIND.
 !
 ! DO AN RK STEP.
-         call rkpar(Ioptn,Numgr,Nparm,Icntyp,mactrk,Iact,Actdif,Projct, &
+         call me%rkpar(Ioptn,Numgr,Nparm,Icntyp,mactrk,Iact,Actdif,Projct, &
                   & Param,Fun,Ifun,Pttbl,Iptb,Indm,Work(ilc36),Pmat,    &
                   & ncor,s,Itypm1,Itypm2,unit,Tolcon,Rchin,Nstep,Error, &
                   & Iphse,Iwork,Liwrk,Work,Lwrk,Confun,Work(ilc37),     &
@@ -3764,7 +3805,7 @@
 ! HERE RKPAR SUCCEEDED.  IF THERE ARE ANY STANDARD CONSTRAINTS WE CALL
 ! CORRCT TO MOVE BACK INTO THE FEASIBLE REGION IF NECESSARY.
             if ( Itypm1+Itypm2<=0 ) goto 500
-            call corrct(Ioptn,Nparm,Numgr,Fun,Ifun,Pttbl,Iptb,Indm,     &
+            call me%corrct(Ioptn,Nparm,Numgr,Fun,Ifun,Pttbl,Iptb,Indm,     &
                       & Icntyp,unit,Tolcon,Rchin,Error,mactrk,Iact,     &
                       & Projct,Iphse,Iwork,Liwrk,Work,Lwrk,Work(ilc27), &
                       & Err1,Work(ilc10),Pmat,Confun,Work(ilc48),       &
@@ -3796,7 +3837,7 @@
 !
 ! NOW RESET ACTDIF FOR THIS PROJCT.
  400  do l = 1 , mactrk
-         i = iabs(Iact(l))
+         i = abs(Iact(l))
          if ( Icntyp(i)<0 ) then
 !
             if ( Icntyp(i)+1<0 ) then
@@ -3866,17 +3907,17 @@
          if ( ioptth>0 ) then
 ! WE SET IPT=-1 TO TELL DERST TO COMPUTE STANDARD CONSTRAINTS ONLY.
             ipt = -1
-            call derst(Ioptn,Nparm,Numgr,Pttbl,Iptb,Indm,Param,ipt,     &
-                     & Work(ilc24),Work(ilc35),Iwork(ilc22),Confun)
+            call me%derst(Ioptn,Nparm,Numgr,Pttbl,Iptb,Indm,Param,ipt,     &
+                          Work(ilc24),Work(ilc35),Iwork(ilc22),Confun)
          endif
          do i = 1 , Numgr
             if ( Icntyp(i)+1==0 ) then
                ipt = i
 ! HERE WE HAVE A TYPE -1 CONSTRAINT AND IF IOPTTH=0 WE CALL DERST
 ! TO PUT THE CONSTRAINT VALUE AND GRADIENT INTO CONFUN(IPT,.).
-               if ( ioptth<=0 ) call derst(Ioptn,Nparm,Numgr,Pttbl,Iptb,&
-                  & Indm,Param,ipt,Work(ilc24),Work(ilc35),Iwork(ilc22),&
-                  & Confun)
+               if ( ioptth<=0 ) call me%derst(Ioptn,Nparm,Numgr,Pttbl,Iptb,&
+                                              Indm,Param,ipt,Work(ilc24),Work(ilc35),&
+                                              Iwork(ilc22),Confun)
 !
 ! WE WISH TO HAVE SUMMATION (CONFUN(IPT,J+1)*(PARAM(J)+PROSEA*XRK(J)))
 ! + C(IPT) .LE. 0.0 FOR IPT=1,...,NUMGR, ICNTYP(IPT) = -1,
@@ -3901,10 +3942,10 @@
          enddo
       endif
 !
-      call searsl(Ioptn,Numgr,Nparm,prjlim,tol1,Xrk,Fun,Ifun,Pttbl,Iptb,&
-                & Indm,Param,Error,Rchdwn,mactrk,Iact,Iphse,unit,Tolcon,&
-                & Rchin,Itypm1,Itypm2,Iwork,Liwrk,Work,Lwrk,Err1,Parprj,&
-                & prosea,emin,emin1,Parser,nsrch)
+      call me%searsl(Ioptn,Numgr,Nparm,prjlim,tol1,Xrk,Fun,Ifun,Pttbl,Iptb,&
+                     Indm,Param,Error,Rchdwn,mactrk,Iact,Iphse,unit,Tolcon,&
+                     Rchin,Itypm1,Itypm2,Iwork,Liwrk,Work,Lwrk,Err1,Parprj,&
+                     prosea,emin,emin1,Parser,nsrch)
 !
 ! COMPUTE THE PRINCIPAL ERROR NORM CHANGE ENCHG.  ALSO COMPUTE ENC1, THE
 ! CHANGE IN THE PRINCIPAL ERROR NORM WITHOUT THE LINE SEARCH.
@@ -3921,7 +3962,7 @@
       do j = 1 , Nparm
          Param(j) = Parser(j)
       enddo
-      call ercmp1(Ioptn,Nparm,Numgr,Fun,Ifun,Pttbl,Iptb,Indm,Param,1,   &
+      call me%ercmp1(Ioptn,Nparm,Numgr,Fun,Ifun,Pttbl,Iptb,Indm,Param,1,   &
                 & Iphse,Iwork,Liwrk,Confun,Icntyp,ipmax,ismax,Error)
       end
 
@@ -3931,7 +3972,7 @@
 !
       implicit none
 
-      real*8 Actdif , Conup , elow , enorm , Error , one , Projct ,     &
+      real(wp) Actdif , Conup , elow , enorm , Error , one , Projct ,     &
            & Rchdwn , Rchin , rchind , two
       integer i , Iact , Icntyp , Ioptn , l , Mactrk , Numgr
 !
@@ -4006,15 +4047,16 @@
       end
 
 !********************************************************************************
-      subroutine pmtst(Ioptn,Numgr,Nparm,Param,Icntyp,Mactrk,Iact,Pttbl,&
+      subroutine pmtst(me,Ioptn,Numgr,Nparm,Param,Icntyp,Mactrk,Iact,Pttbl,&
                      & Iptb,Indm,Actdif,Iphse,Iwork,Liwrk,Work,Lwrk,    &
                      & Confun,Pmat)
 !
       implicit none
 
-      real*8 Actdif , Confun , four , one , Param , Pmat , Pttbl , ten ,&
+      class(conmax_solver),intent(inout) :: me
+      real(wp) Actdif , Confun , four , one , Param , Pmat , Pttbl , ten ,&
            & two , Work , zero
-      integer i , Iact , Icntyp , ii , ilc22 , ilc24 , ilc35 , iloc ,   &
+      integer i , Iact , Icntyp , ii , ilc22 , ilc24 , ilc35 ,   &
             & Indm , Ioptn , ioptth , Iphse , ipt , Iptb , Iwork , j ,  &
             & l , Liwrk , Lwrk , Mactrk
       integer npar1 , Nparm , Numgr
@@ -4058,19 +4100,19 @@
       ipt = -1
       goto 200
  100  ipt = 0
- 200  call derst(Ioptn,Nparm,Numgr,Pttbl,Iptb,Indm,Param,ipt,Work(ilc24)&
-               & ,Work(ilc35),Iwork(ilc22),Confun)
+ 200  call me%derst(Ioptn,Nparm,Numgr,Pttbl,Iptb,Indm,Param,ipt,Work(ilc24),&
+                    Work(ilc35),Iwork(ilc22),Confun)
 !
  300  do i = 1 , Mactrk
          ii = Iact(i)
-         ipt = iabs(ii)
+         ipt = abs(ii)
 !
 ! HERE IOPTTH=0 AND WE HAVE NOT YET PLACED THE GRADIENT IN CONFUN, SO WE
 ! CALL DERST TO DO SO NOW.  DERST WILL ALSO COMPUTE THE
 ! CONSTRAINT VALUES, WHICH WILL NOT BE NEEDED HERE, BUT EXPECTING USERS TO
 ! WRITE FNSET SO THAT GRADIENT CALCULATIONS WILL NOT NEED FUNCTION VALUE
 ! CALCULATION RESULTS WOULD BE TOO MUCH OF A PROGRAMMING TRAP.
-         if ( ioptth<=0 ) call derst(Ioptn,Nparm,Numgr,Pttbl,Iptb,Indm, &
+         if ( ioptth<=0 ) call me%derst(Ioptn,Nparm,Numgr,Pttbl,Iptb,Indm, &
                                    & Param,ipt,Work(ilc24),Work(ilc35), &
                                    & Iwork(ilc22),Confun)
 !
@@ -4109,21 +4151,22 @@
       end
 
 !********************************************************************************
-      subroutine rkpar(Ioptn,Numgr,Nparm,Icntyp,Mactrk,Iact,Actdif,     &
-                     & Projct,Param,Fun,Ifun,Pttbl,Iptb,Indm,Vder,Pmat, &
-                     & Ncor,s,Itypm1,Itypm2,Unit,Tolcon,Rchin,Nstep,    &
-                     & Error,Iphse,Iwork,Liwrk,Work,Lwrk,Confun,Vdern,  &
-                     & Vders,Wvec,Parprj,Ifrkpr)
+      subroutine rkpar(me,Ioptn,Numgr,Nparm,Icntyp,Mactrk,Iact,Actdif,     &
+                       Projct,Param,Fun,Ifun,Pttbl,Iptb,Indm,Vder,Pmat, &
+                       Ncor,s,Itypm1,Itypm2,Unit,Tolcon,Rchin,Nstep,    &
+                       Error,Iphse,Iwork,Liwrk,Work,Lwrk,Confun,Vdern,  &
+                       Vders,Wvec,Parprj,Ifrkpr)
 !
       implicit none
 
-      real*8 Actdif , Confun , Error , Fun , one , p6 , Param , Parprj ,&
+      class(conmax_solver),intent(inout) :: me
+      real(wp) Actdif , Confun , Error , Fun , one , p6 , Param , Parprj ,&
            & Pmat , proj1 , Projct , Pttbl , Rchin , s , Tolcon , two , &
            & Unit , Vder , Vdern , Vders
-      real*8 wdist , Work , Wvec
+      real(wp) wdist , Work , Wvec
       integer Iact , Icntyp , icorct , Ifrkpr , Ifun , ilc06 , ilc10 ,  &
             & ilc11 , ilc15 , ilc21 , ilc27 , ilc30 , ilc31 , ilc33 ,   &
-            & ilc40 , ilc48 , iloc , Indm , Ioptn , Iphse
+            & ilc40 , ilc48 , Indm , Ioptn , Iphse
       integer Iptb , Itypm1 , Itypm2 , Iwork , j , jflag , Liwrk ,      &
             & Lwrk , Mactrk , Ncor , nmaj , nmin , npar1 , Nparm ,      &
             & nstcnt , Nstep , Numgr
@@ -4179,14 +4222,14 @@
 ! IF THERE ARE ANY STANDARD CONSTRAINTS, WE CORRECT BACK INTO THE
 ! FEASIBLE REGION IF POSSIBLE BEFORE CALLING PMTST.
       if ( Itypm1+Itypm2>0 ) then
-         call corrct(Ioptn,Nparm,Numgr,Fun,Ifun,Pttbl,Iptb,Indm,Icntyp, &
+         call me%corrct(Ioptn,Nparm,Numgr,Fun,Ifun,Pttbl,Iptb,Indm,Icntyp, &
                    & Unit,Tolcon,Rchin,Error,Mactrk,Iact,Projct,Iphse,  &
                    & Iwork,Liwrk,Work,Lwrk,Work(ilc27),Work(ilc11),     &
                    & Work(ilc10),Pmat,Confun,Work(ilc48),Iwork(ilc21),  &
                    & Wvec,icorct)
          if ( icorct>0 ) goto 200
       endif
-      call pmtst(Ioptn,Numgr,Nparm,Wvec,Icntyp,Mactrk,Iact,Pttbl,Iptb,  &
+      call me%pmtst(Ioptn,Numgr,Nparm,Wvec,Icntyp,Mactrk,Iact,Pttbl,Iptb,  &
                & Indm,Actdif,Iphse,Iwork,Liwrk,Work,Lwrk,Confun,Pmat)
       call wolfe(Nparm,Mactrk,Pmat,1,s,Ncor,Iwork(ilc15),Iwork,Liwrk,   &
                & Work,Lwrk,Work(ilc33),Work(ilc06),Work(ilc31),         &
@@ -4204,7 +4247,7 @@
 ! IF THERE ARE ANY STANDARD CONSTRAINTS, WE CORRECT BACK INTO THE
 ! FEASIBLE REGION IF POSSIBLE BEFORE CALLING PMTST.
          if ( Itypm1+Itypm2<=0 ) goto 300
-         call corrct(Ioptn,Nparm,Numgr,Fun,Ifun,Pttbl,Iptb,Indm,Icntyp, &
+         call me%corrct(Ioptn,Nparm,Numgr,Fun,Ifun,Pttbl,Iptb,Indm,Icntyp, &
                    & Unit,Tolcon,Rchin,Error,Mactrk,Iact,Projct,Iphse,  &
                    & Iwork,Liwrk,Work,Lwrk,Work(ilc27),Work(ilc11),     &
                    & Work(ilc10),Pmat,Confun,Work(ilc48),Iwork(ilc21),  &
@@ -4216,7 +4259,7 @@
 !     WRITE(NWRIT,250)
 ! 250 FORMAT(22H *****RKPAR HAS FAILED)
       return
- 300  call pmtst(Ioptn,Numgr,Nparm,Wvec,Icntyp,Mactrk,Iact,Pttbl,Iptb,  &
+ 300  call me%pmtst(Ioptn,Numgr,Nparm,Wvec,Icntyp,Mactrk,Iact,Pttbl,Iptb,  &
                & Indm,Actdif,Iphse,Iwork,Liwrk,Work,Lwrk,Confun,Pmat)
       call wolfe(Nparm,Mactrk,Pmat,1,s,Ncor,Iwork(ilc15),Iwork,Liwrk,   &
                & Work,Lwrk,Work(ilc33),Work(ilc06),Work(ilc31),         &
@@ -4233,14 +4276,14 @@
 ! IF THERE ARE ANY STANDARD CONSTRAINTS, WE CORRECT BACK INTO THE
 ! FEASIBLE REGION IF POSSIBLE BEFORE CALLING PMTST.
       if ( Itypm1+Itypm2>0 ) then
-         call corrct(Ioptn,Nparm,Numgr,Fun,Ifun,Pttbl,Iptb,Indm,Icntyp, &
+         call me%corrct(Ioptn,Nparm,Numgr,Fun,Ifun,Pttbl,Iptb,Indm,Icntyp, &
                    & Unit,Tolcon,Rchin,Error,Mactrk,Iact,Projct,Iphse,  &
                    & Iwork,Liwrk,Work,Lwrk,Work(ilc27),Work(ilc11),     &
                    & Work(ilc10),Pmat,Confun,Work(ilc48),Iwork(ilc21),  &
                    & Wvec,icorct)
          if ( icorct>0 ) goto 200
       endif
-      call pmtst(Ioptn,Numgr,Nparm,Wvec,Icntyp,Mactrk,Iact,Pttbl,Iptb,  &
+      call me%pmtst(Ioptn,Numgr,Nparm,Wvec,Icntyp,Mactrk,Iact,Pttbl,Iptb,  &
                & Indm,Actdif,Iphse,Iwork,Liwrk,Work,Lwrk,Confun,Pmat)
       call wolfe(Nparm,Mactrk,Pmat,1,s,Ncor,Iwork(ilc15),Iwork,Liwrk,   &
                & Work,Lwrk,Work(ilc33),Work(ilc06),Work(ilc31),         &
@@ -4262,14 +4305,14 @@
 ! IF THERE ARE ANY STANDARD CONSTRAINTS, WE CORRECT BACK INTO THE
 ! FEASIBLE REGION IF POSSIBLE BEFORE CALLING PMTST.
          if ( Itypm1+Itypm2>0 ) then
-            call corrct(Ioptn,Nparm,Numgr,Fun,Ifun,Pttbl,Iptb,Indm,     &
+            call me%corrct(Ioptn,Nparm,Numgr,Fun,Ifun,Pttbl,Iptb,Indm,     &
                       & Icntyp,Unit,Tolcon,Rchin,Error,Mactrk,Iact,     &
                       & Projct,Iphse,Iwork,Liwrk,Work,Lwrk,Work(ilc27), &
                       & Work(ilc11),Work(ilc10),Pmat,Confun,Work(ilc48),&
                       & Iwork(ilc21),Parprj,icorct)
             if ( icorct>0 ) goto 200
          endif
-         call pmtst(Ioptn,Numgr,Nparm,Parprj,Icntyp,Mactrk,Iact,Pttbl,  &
+         call me%pmtst(Ioptn,Numgr,Nparm,Parprj,Icntyp,Mactrk,Iact,Pttbl,  &
                   & Iptb,Indm,Actdif,Iphse,Iwork,Liwrk,Work,Lwrk,Confun,&
                   & Pmat)
          call wolfe(Nparm,Mactrk,Pmat,1,s,Ncor,Iwork(ilc15),Iwork,Liwrk,&
@@ -4284,20 +4327,21 @@
       end
 
 !********************************************************************************
-      subroutine corrct(Ioptn,Nparm,Numgr,Fun,Ifun,Pttbl,Iptb,Indm,     &
+      subroutine corrct(me,Ioptn,Nparm,Numgr,Fun,Ifun,Pttbl,Iptb,Indm,     &
                       & Icntyp,Unit,Tolcon,Rchin,Error,Mact,Iact,Projct,&
                       & Iphse,Iwork,Liwrk,Work,Lwrk,Parwrk,Err1,Dvec,   &
                       & Pmat,Confun,Zwork,Jcntyp,Parprj,Icorct)
 !
       implicit none
 
-      real*8 Confun , Dvec , emin , eold , Err1 , Error , f1 , four ,   &
+      class(conmax_solver),intent(inout) :: me
+      real(wp) Confun , Dvec , emin , eold , Err1 , Error , f1 , four ,   &
            & Fun , gain , one , p1 , Parprj , Parwrk , Pmat , procor ,  &
            & Projct , Pttbl , rchdwn , Rchin
-      real*8 s , ten , Tolcon , two , Unit , wdist , Work , Zwork
+      real(wp) s , ten , Tolcon , two , Unit , wdist , Work , Zwork
       integer i , Iact , Icntyp , Icorct , Ifun , ilc06 , ilc16 ,       &
             & ilc22 , ilc24 , ilc30 , ilc31 , ilc33 , ilc35 , ilc41 ,   &
-            & iloc , Indm , Ioptn , ioptth , Iphse , ipmax
+            & Indm , Ioptn , ioptth , Iphse , ipmax
       integer ipt , Iptb , ismax , isrcr , Iwork , j , Jcntyp , jflag , &
             & k , l , Liwrk , Lwrk , Mact , ncor , newtit , newtlm ,    &
             & nmaj , nmin , npar1 , Nparm
@@ -4359,8 +4403,8 @@
 ! WE TAKE IPHSE=-3 AS A KLUDGE TO TELL ERCMP1 TO COMPUTE ONLY STANDARD
 ! ERRORS IF THE TEN THOUSANDS DIGIT OF IOPTN IS 1, THUS SAVING ERCMP1
 ! THE WORK OF SCANNING ICNTYP.
-      call ercmp1(Ioptn,Nparm,Numgr,Fun,Ifun,Pttbl,Iptb,Indm,Parwrk,1,  &
-                & -3,Iwork,Liwrk,Confun,Jcntyp,ipmax,ismax,Err1)
+      call me%ercmp1(Ioptn,Nparm,Numgr,Fun,Ifun,Pttbl,Iptb,Indm,Parwrk,1,  &
+                     -3,Iwork,Liwrk,Confun,Jcntyp,ipmax,ismax,Err1)
 !
 ! IF THE TYPE -2 AND TYPE -1 ERROR NORMS ARE BOTH .LE. TOLCON
 ! WE RETURN WITH ICORCT=-1.
@@ -4401,8 +4445,8 @@
  100  if ( ioptth>0 ) then
 ! WE SET IPT=-1 TO TELL DERST TO COMPUTE STANDARD CONSTRAINTS ONLY.
          ipt = -1
-         call derst(Ioptn,Nparm,Numgr,Pttbl,Iptb,Indm,Parwrk,ipt,       &
-                  & Work(ilc24),Work(ilc35),Iwork(ilc22),Confun)
+         call me%derst(Ioptn,Nparm,Numgr,Pttbl,Iptb,Indm,Parwrk,ipt, &
+                       Work(ilc24),Work(ilc35),Iwork(ilc22),Confun)
       endif
 !
       l = 0
@@ -4422,8 +4466,8 @@
 ! HERE IOPTTH=0 AND WE HAVE NOT YET PLACED THE GRADIENT OF THE LEFT
 ! SIDE OF CONSTRAINT I IN CONFUN(I,.) SO WE DO IT NOW.
             ipt = i
-            call derst(Ioptn,Nparm,Numgr,Pttbl,Iptb,Indm,Parwrk,ipt,    &
-                     & Work(ilc24),Work(ilc35),Iwork(ilc22),Confun)
+            call me%derst(Ioptn,Nparm,Numgr,Pttbl,Iptb,Indm,Parwrk,ipt,    &
+                          Work(ilc24),Work(ilc35),Iwork(ilc22),Confun)
          endif
 !
          l = l + 1
@@ -4474,9 +4518,9 @@
 ! ERR1(NUMGR+3)) .LE. TOLCON.  IF SEARCR SUCCEEDS IT WILL RETURN WITH
 ! ISRCR=0, WHILE IF IT FAILS IT WILL RETURN WITH ISRCR=1.  IN BOTH
 ! CASES ZWORK WILL BE THE SAME AS BEFORE THE CALL TO SEARCR.
-         call searcr(Ioptn,Nparm,Numgr,Dvec,Fun,Ifun,Pttbl,Iptb,Indm,   &
-                   & Zwork,Tolcon,Iphse,Iwork,Liwrk,Work,Lwrk,Parwrk,   &
-                   & Err1,p1,f1,procor,emin,isrcr)
+         call me%searcr(Ioptn,Nparm,Numgr,Dvec,Fun,Ifun,Pttbl,Iptb,Indm,   &
+                        Zwork,Tolcon,Iphse,Iwork,Liwrk,Work,Lwrk,Parwrk,   &
+                        Err1,p1,f1,procor,emin,isrcr)
          if ( isrcr<=0 ) then
 !
 !
@@ -4485,7 +4529,7 @@
 ! WE CALL MULLER TO TRY TO GET THE MAXIMUM STANDARD CONSTRAINT
 ! ERROR INTO THE CLOSED INTERVAL (-TOLCON, TOLCON) BY FURTHER
 ! MODIFYING PROCOR.
-            if ( emin+Tolcon<0 ) call muller(Ioptn,Nparm,Numgr,Dvec,Fun,&
+            if ( emin+Tolcon<0 ) call me%muller(Ioptn,Nparm,Numgr,Dvec,Fun,&
                & Ifun,Pttbl,Iptb,Indm,Zwork,Tolcon,Iphse,Iwork,Liwrk,   &
                & Work,Lwrk,Parwrk,Err1,p1,f1,procor,emin)
 !
@@ -4510,7 +4554,7 @@
 ! WE TAKE IPHSE=-3 AS A KLUDGE TO TELL ERCMP1 TO COMPUTE ONLY STANDARD
 ! ERRORS IF THE TEN THOUSANDS DIGIT OF IOPTN IS 1, THUS SAVING ERCMP1 THE
 ! WORK OF SCANNING ICNTYP.
-                  call ercmp1(Ioptn,Nparm,Numgr,Fun,Ifun,Pttbl,Iptb,    &
+                  call me%ercmp1(Ioptn,Nparm,Numgr,Fun,Ifun,Pttbl,Iptb,    &
                             & Indm,Parwrk,1,-3,Iwork,Liwrk,Confun,      &
                             & Jcntyp,ipmax,ismax,Err1)
                   goto 100
@@ -4526,19 +4570,20 @@
 99999 end
 
 !********************************************************************************
-      subroutine searcr(Ioptn,Nparm,Numgr,Dvec,Fun,Ifun,Pttbl,Iptb,Indm,&
+      subroutine searcr(me,Ioptn,Nparm,Numgr,Dvec,Fun,Ifun,Pttbl,Iptb,Indm,&
                       & Zwork,Tolcon,Iphse,Iwork,Liwrk,Work,Lwrk,Parwrk,&
                       & Err1,p1,f1,Procor,Emin,Isrcr)
-!
+
       implicit none
 
-      real*8 baladj , balfct , d1mach , Dvec , Emin , Err1 , f1 , f1kp ,&
+      class(conmax_solver),intent(inout) :: me
+      real(wp) baladj , balfct , d1mach , Dvec , Emin , Err1 , f1 , f1kp ,&
            & f2 , f3 , f4 , four , Fun , fval , one , p1 , p2 , p3 ,    &
            & p4 , Parwrk
-      real*8 Procor , progr , Pttbl , pval , rlf , rrt , s1 , s2 ,      &
+      real(wp) Procor , progr , Pttbl , pval , rlf , rrt , s1 , s2 ,      &
            & spcmn , ten , tol1 , tol4 , Tolcon , tolden , two , Work , &
            & zero , Zwork
-      integer iaddl , iext , Ifun , ilc08 , ilc21 , ilf , iloc , Indm , &
+      integer iaddl , iext , Ifun , ilc08 , ilc21 , ilf , Indm , &
             & Ioptn , Iphse , ipmax , Iptb , irt , ismax , Isrcr ,      &
             & Iwork , j , limscr , Liwrk , lll
       integer Lwrk , Nparm , nsrch , Numgr
@@ -4730,7 +4775,7 @@
 ! WE TAKE IPHSE=-3 AS A KLUDGE TO TELL ERCMP1 TO COMPUTE ONLY STANDARD
 ! ERRORS IF THE TEN THOUSANDS DIGIT OF IOPTN IS 1, THUS SAVING ERCMP1
 ! THE WORK OF SCANNING ICNTYP.
-      call ercmp1(Ioptn,Nparm,Numgr,Fun,Ifun,Pttbl,Iptb,Indm,Parwrk,1,  &
+      call me%ercmp1(Ioptn,Nparm,Numgr,Fun,Ifun,Pttbl,Iptb,Indm,Parwrk,1,  &
                 & -3,Iwork,Liwrk,Work(ilc08),Iwork(ilc21),ipmax,ismax,  &
                 & Err1)
       fval = Err1(Numgr+3)
@@ -4883,18 +4928,19 @@
       end
 
 !********************************************************************************
-      subroutine muller(Ioptn,Nparm,Numgr,Dvec,Fun,Ifun,Pttbl,Iptb,Indm,&
-                      & Zwork,Tolcon,Iphse,Iwork,Liwrk,Work,Lwrk,Parwrk,&
-                      & Err1,p1,f1,Procor,Emin)
-!
+      subroutine muller(me,Ioptn,Nparm,Numgr,Dvec,Fun,Ifun,Pttbl,Iptb,Indm,&
+                        Zwork,Tolcon,Iphse,Iwork,Liwrk,Work,Lwrk,Parwrk,&
+                        Err1,p1,f1,Procor,Emin)
+
       implicit none
 
-      real*8 acof , bcof , ccof , d1mach , den , discr , Dvec , Emin ,  &
+      class(conmax_solver),intent(inout) :: me
+      real(wp) acof , bcof , ccof , d1mach , den , discr , Dvec , Emin ,  &
            & Err1 , f1 , f2 , f3 , f4 , four , Fun , fval , one , p1 ,  &
            & p2 , p3
-      real*8 p4 , Parwrk , Procor , Pttbl , pval , spcmn , temp , ten , &
+      real(wp) p4 , Parwrk , Procor , Pttbl , pval , spcmn , temp , ten , &
            & tol1 , tol4 , Tolcon , tolden , two , Work , Zwork
-      integer Ifun , ilc08 , ilc21 , iloc , imain , Indm , Ioptn ,      &
+      integer Ifun , ilc08 , ilc21 , imain , Indm , Ioptn ,      &
             & Iphse , ipmax , Iptb , ismax , Iwork , j , limmul ,       &
             & Liwrk , lll , Lwrk , Nparm , nsrch , Numgr
 !
@@ -5154,7 +5200,7 @@
 ! WE TAKE IPHSE=-3 AS A KLUDGE TO TELL ERCMP1 TO COMPUTE ONLY STANDARD
 ! ERRORS IF THE TEN THOUSANDS DIGIT OF IOPTN IS 1, THUS SAVING ERCMP1
 ! THE WORK OF SCANNING ICNTYP.
-      call ercmp1(Ioptn,Nparm,Numgr,Fun,Ifun,Pttbl,Iptb,Indm,Parwrk,1,  &
+      call me%ercmp1(Ioptn,Nparm,Numgr,Fun,Ifun,Pttbl,Iptb,Indm,Parwrk,1,  &
                 & -3,Iwork,Liwrk,Work(ilc08),Iwork(ilc21),ipmax,ismax,  &
                 & Err1)
       fval = Err1(Numgr+3)
@@ -5184,7 +5230,7 @@
 !
       implicit none
 
-      real*8 d1mach , ei , eipmax , enorm , epact , Err1 , Error ,      &
+      real(wp) d1mach , ei , eipmax , enorm , epact , Err1 , Error ,      &
            & four , fudge , one , rch1 , rchd1 , Rchdwn , Rchin ,       &
            & rchtop , spcmn , ten , two , Unit
       integer i , Iact , Icntyp , ipact , Ipmax , Irch , Ismax , l ,    &
@@ -5217,7 +5263,7 @@
 ! NOTE THAT ISMAX .GT. 0 SINCE WE WOULD NOT HAVE CALLED RCHMOD WITH
 ! IRCH=-1 IF THERE WERE NO STANDARD CONSTRAINTS.
          do l = 1 , Mact
-            i = iabs(Iact(l))
+            i = abs(Iact(l))
             if ( i==Ismax ) goto 99999
          enddo
 !
@@ -5249,7 +5295,7 @@
 ! CONSTRAINT AT THIS STAGE (EVEN IF THERE WERE NONE IN THE ORIGINAL
 ! PROBLEM).
          do l = 1 , Mact
-            i = iabs(Iact(l))
+            i = abs(Iact(l))
             if ( i==Ipmax ) goto 99999
          enddo
 !
@@ -5266,7 +5312,7 @@
 ! CONSTRAINTS CONSIDERED.
             ipact = 0
             do l = 1 , Mact
-               i = iabs(Iact(l))
+               i = abs(Iact(l))
                if ( Icntyp(i)<1 ) goto 20
                if ( Icntyp(i)==1 ) then
 ! HERE CONSTRAINT I WAS A PRIMARY ACTIVE CONSTRAINT.
@@ -5320,28 +5366,7 @@
 99999 end
 
 !********************************************************************************
-      subroutine wolfe(Ndm,m,Pmat,Istrt,s,Ncor,Icor,Iwork,Liwrk,Work,   &
-                     & Lwrk,r,Coef,Ptnr,Pmat1,Nparm,Numgr,Wcoef,Wpt,    &
-                     & Wdist,Nmaj,Nmin,Jflag)
-!
-      implicit none
-
-      real*8 ab , bk , Coef , d1mach , dist , dotprd , fackp , facsc ,  &
-           & fact , four , one , Pmat , Pmat1 , Ptnr , quot , r , s ,   &
-           & s1 , s1hi , s1low
-      real*8 scl , scl1 , scl1a , spcmn , ten , three , tol , tol1 ,    &
-           & tols , two , v1 , violm , vmax , Wcoef , Wdist , Work ,    &
-           & Wpt , zero
-      integer i , Icor , ilc18 , ilc28 , ilc32 , ilc34 , ilc39 , iloc , &
-            & ind , iref , Istrt , istrt1 , itcon , iup , Iwork , j ,   &
-            & Jflag , jmax , k , l
-      integer Liwrk , lmcon , Lwrk , m , n , Ncor , Ndm , Nmaj , Nmin , &
-            & Nparm , Numgr
-!
-      dimension Pmat(Nparm+1,Numgr) , Icor(Nparm+1) , Wcoef(Numgr) ,    &
-              & Wpt(Nparm) , r(Nparm+1) , Coef(Numgr) , Ptnr(Nparm+1) , &
-              & Pmat1(Nparm+1,Numgr) , Iwork(Liwrk) , Work(Lwrk)
-!
+!>
 ! THIS PROGRAM WAS DEVELOPED BY ED KAUFMAN, DAVID LEEMING, AND JERRY
 ! TAYLOR.  THE METHOD USED IS AN ENHANCED VERSION OF THE METHOD DESCRIBED
 ! IN (WOLFE, PHILIP, FINDING THE NEAREST POINT IN A POLYTOPE, MATHEMATICAL
@@ -5477,7 +5502,29 @@
 ! INDEPENDENT, AND IN PRACTICE WE WILL ALWAYS REQUIRE NCOR .LE. NDM+1.
 ! IF THE USER SETS ISTRT=1 BUT THE PROGRAM FAILS, IT WILL
 ! AUTOMATICALLY TRY FROM SCRATCH BEFORE GIVING UP.
+
+      subroutine wolfe(Ndm,m,Pmat,Istrt,s,Ncor,Icor,Iwork,Liwrk,Work,   &
+                       Lwrk,r,Coef,Ptnr,Pmat1,Nparm,Numgr,Wcoef,Wpt,    &
+                       Wdist,Nmaj,Nmin,Jflag)
+
+      implicit none
+
+      real(wp) ab , bk , Coef , d1mach , dist , fackp , facsc ,  &
+           & fact , four , one , Pmat , Pmat1 , Ptnr , quot , r , s ,   &
+           & s1 , s1hi , s1low
+      real(wp) scl , scl1 , scl1a , spcmn , ten , three , tol , tol1 ,    &
+           & tols , two , v1 , violm , vmax , Wcoef , Wdist , Work ,    &
+           & Wpt , zero
+      integer i , Icor , ilc18 , ilc28 , ilc32 , ilc34 , ilc39 , &
+            & ind , iref , Istrt , istrt1 , itcon , iup , Iwork , j ,   &
+            & Jflag , jmax , k , l
+      integer Liwrk , lmcon , Lwrk , m , n , Ncor , Ndm , Nmaj , Nmin , &
+            & Nparm , Numgr
 !
+      dimension Pmat(Nparm+1,Numgr) , Icor(Nparm+1) , Wcoef(Numgr) ,    &
+              & Wpt(Nparm) , r(Nparm+1) , Coef(Numgr) , Ptnr(Nparm+1) , &
+              & Pmat1(Nparm+1,Numgr) , Iwork(Liwrk) , Work(Lwrk)
+
 ! SET MACHINE AND PRECISION DEPENDENT CONSTANTS FOR WOLFE.
 !     NWRIT=I1MACH(2)
       one = 1.0d0
@@ -5790,13 +5837,13 @@
 !
       implicit none
 
-      real*8 amax , amin , cjj , Coef , d1mach , diff , Dist , dmax ,   &
-           & dotprd , dp , dsq , four , omt , one , pdotj , Picor ,     &
+      real(wp) amax , amin , cjj , Coef , d1mach , diff , Dist , dmax ,   &
+           & dp , dsq , four , omt , one , pdotj , Picor ,     &
            & Pmat1 , Ptnr , Ptnrr , quot
-      real*8 r , spcmn , ten , theta , Tol , tolel , tst , two , Vec ,  &
+      real(wp) r , spcmn , ten , theta , Tol , tolel , tst , two , Vec ,  &
            & Work , z1 , z2 , z3 , zero
       integer i , Icor , icoro , ihouse , ii , ilc01 , ilc03 , ilc04 ,  &
-            & ilc09 , ilc23 , ilc34 , iloc , Istrt1 , itst1 , Iwork ,   &
+            & ilc09 , ilc23 , ilc34 , Istrt1 , itst1 , Iwork ,   &
             & j , Jflag , jj , jmax , jmin
       integer kntsl , l , limsl , Liwrk , ll , Lwrk , m , mincf , mp1 , &
             & n , Ncor , ncoro , ndm , Nmaj , Nmin , Nparm , Numgr
@@ -6166,10 +6213,10 @@
 !
       implicit none
 
-      real*8 Aa , aakk , amax , b , Beta , d , d1mach , four , one ,    &
+      real(wp) Aa , aakk , amax , b , Beta , d , d1mach , four , one ,    &
            & Picor , r , Save , spcmn , sqdk , store , sum , summ ,     &
            & ten , test , testt
-      real*8 tolsq , two , Vec , zero
+      real(wp) tolsq , two , Vec , zero
       integer i , ia , icount , Ihouse , ii , j , jj , k , kchnge , kk ,&
             & kp , Kpivot , krank , kt , n , Ncor , nmref1 , nmref2 ,   &
             & Nparm , numref
@@ -6277,7 +6324,7 @@
          endif
          if ( k/=1 ) then
             amax = abs(d(1))
-            test = (float(n-k+1)*(ten*ten*spcmn)**2)*(amax*amax)
+            test = (real(n-k+1,wp)*(ten*ten*spcmn)**2)*(amax*amax)
             if ( abs(d(k))<=test ) then
 !
 ! HERE THE LENGTH OF THE BEST OF COLUMNS K THROUGH NCOR (FROM K DOWN)
@@ -6455,20 +6502,22 @@
       end
 
 !********************************************************************************
-      function dotprd(Lgth,Vec1,Vec2,Nparm)
-!
-      implicit none
-
-      real*8 dd , dotprd , Vec1 , Vec2
-      integer j , Lgth , Nparm
-!
-      dimension Vec1(Nparm+1) , Vec2(Nparm+1)
-!
 ! THIS SUBPROGRAM COMPUTES THE DOT PRODUCT OF VECTORS VEC1
 ! AND VEC2 OF LENGTH LGTH.
 ! VEC1 AND VEC2 DO NOT APPEAR IN FUNCTION ILOC SINCE THEY ARE USED ONLY
 ! AS INPUT NAMES FOR THIS SUBPROGRAM, AND SO THEY DON'T NEED TO HAVE
 ! SPACE RESERVED FOR THEM IN THE ARRAY WORK.
+
+      function dotprd(Lgth,Vec1,Vec2,Nparm)
+
+      implicit none
+
+      real(wp) dotprd
+      real(wp) dd , Vec1 , Vec2
+      integer j , Lgth , Nparm
+
+      dimension Vec1(Nparm+1) , Vec2(Nparm+1)
+
       dd = Vec1(1)*Vec2(1)
       if ( Lgth>1 ) then
          do j = 2 , Lgth
@@ -6476,7 +6525,7 @@
          enddo
       endif
       dotprd = dd
-      end
+      end function dotprd
 
 !********************************************************************************
       subroutine refwl(Ndm,Ncor,Icor,Pmat,Pmat1,Nparm,Numgr,Ixrct,Save, &
@@ -6484,7 +6533,7 @@
 !
       implicit none
 
-      real*8 aa , amax , d1mach , fact , Pmat , Pmat1 , Save , spcmn ,  &
+      real(wp) aa , amax , d1mach , fact , Pmat , Pmat1 , Save , spcmn ,  &
            & tole , Wpt , wrst , wrsto
       integer i , Icor , imax , itrct , itrlm , Ixrct , j , jmax ,      &
             & jstrt , k , kcol , kk , kp1 , l , maxrs , n , Ncor , Ndm ,&
@@ -6698,3 +6747,7 @@
       goto 200
       end
 !*****END OF CONMAX PACKAGE.
+
+!********************************************************************************
+    end module conmax_module
+!********************************************************************************

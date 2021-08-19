@@ -32,55 +32,92 @@
 ! RATHER SLOW, MAINLY BECAUSE F IS NOT DIFFERENTIABLE AT THE MINIMUM.)
 !
 ! SAMPLE DRIVER AND FNSET FOR (B) ONE-DIMENSIONAL SEARCH
- 
-      IMPLICIT NONE
+     module search_test_module
 
-      REAL*8 D1MACH , emin , emin1 , err1 , error , fun , param ,       &
+      use conmax_module, only: conmax_solver
+      use iso_fortran_env, only: wp => real64
+
+      implicit none
+
+      private
+
+      type,extends(conmax_solver) :: my_solver
+            contains
+            procedure :: fnset => my_fnset
+      end type my_solver
+
+      public :: search_test
+
+      contains
+
+      subroutine search_test()
+
+      implicit none
+
+      real(wp) d1mach , emin , emin1 , err1 , error , fun , param ,       &
            & parprj , parser , prjlim , projct , pttbl , spcmn , tol1 , &
            & tolcon , work , x
-      INTEGER iact , iwork , nsrch
-      DIMENSION x(2) , fun(1) , pttbl(1,1) , param(1) , error(4) ,      &
+      integer iact , iwork , nsrch
+      dimension x(2) , fun(1) , pttbl(1,1) , param(1) , error(4) ,      &
               & iact(1) , iwork(17) , work(42) , err1(4) , parprj(1) ,  &
               & parser(1)
-      !OPEN (6,FILE='SEROUT')
-      spcmn = D1MACH(3)
-      tol1 = 100.0D0*spcmn
-      tolcon = SQRT(spcmn)
-      iact(1) = 1
-      iwork(7) = 1
-      prjlim = 1.0D0/spcmn
-      param(1) = 0.0D0
-      x(1) = 1.0D0
-!*****BEGIN USER SETTABLE STATEMENTS 1 OF 2
-      projct = 1.0D0
-!*****END USER SETTABLE STATEMENTS 1 OF 2
-      WRITE (6,99001) projct
-99001 FORMAT (/' INITIALLY PROJCT IS',E22.13)
-      CALL SEARSL(0,1,1,prjlim,tol1,x,fun,1,pttbl,1,1,param,error,2.0D0,&
-                & 1,iact,0,1.0D0,tolcon,2.0D0,0,0,iwork,17,work,42,err1,&
-                & parprj,projct,emin,emin1,parser,nsrch)
-      WRITE (6,99002) projct , emin , nsrch
-99002 FORMAT (/' AFTER SEARSL PROJCT IS',E22.13//' EMIN IS',E22.13,     &
-             &'  NSRCH IS',I4)
-      END
-!*==FNSET.spg  processed by SPAG 6.72Dc at 18:12 on 18 Aug 2021
- 
-      SUBROUTINE FNSET(Nparm,Numgr,Pttbl,Iptb,Indm,Param,Ipt,Indfn,     &
-                     & Icntyp,Confun)
-      IMPLICIT NONE
+      type(my_solver) :: solver
 
-      REAL*8 Confun , Param , Pttbl , u , v
-      INTEGER Icntyp , Indfn , Indm , Ipt , Iptb , Nparm , Numgr
-      DIMENSION Pttbl(Iptb,Indm) , Param(Nparm) , Icntyp(Numgr) ,       &
-              & Confun(Numgr,Nparm+1)
-!*****BEGIN USER SETTABLE STATEMENTS 2 OF 2
-      u = 6.0D0 + Param(1)*(-2.0D0)
-      v = 2.0D0 + Param(1)*(-1.0D0)
-      Confun(1,1) = 3.0D0*ABS(u) + 2.0D0*ABS(v)
-!*****END USER SETTABLE STATEMENTS 2 OF 2
-      END
- 
- 
+      !open (6,file='serout')
+
+      spcmn    = d1mach(3)
+      tol1     = 100.0_wp*spcmn
+      tolcon   = sqrt(spcmn)
+      iact(1)  = 1
+      iwork(7) = 1
+      prjlim   = 1.0_wp/spcmn
+      param(1) = 0.0_wp
+      x(1)     = 1.0_wp
+      projct   = 1.0_wp
+
+      write (6,99001) projct
+99001 format (/' initially projct is',e22.13)
+      call solver%searsl(0,1,1,prjlim,tol1,x,fun,1,pttbl,1,1,param,error,2.0d0,&
+                         1,iact,0,1.0d0,tolcon,2.0d0,0,0,iwork,17,work,42,err1,&
+                         parprj,projct,emin,emin1,parser,nsrch)
+      write (6,99002) projct , emin , nsrch
+99002 format (/' after searsl projct is',e22.13//' emin is',e22.13,     &
+             &'  nsrch is',i4)
+
+      end subroutine search_test
+
+      subroutine my_fnset(me,nparm,numgr,pttbl,iptb,indm,param,ipt,indfn,icntyp,confun)
+
+      implicit none
+
+      class(my_solver),intent(inout) :: me
+      integer  :: nparm
+      integer  :: numgr
+      integer  :: iptb
+      integer  :: indm
+      real(wp) :: pttbl(iptb,indm)
+      real(wp) :: param(nparm)
+      integer  :: ipt
+      integer  :: indfn
+      integer  :: icntyp(numgr)
+      real(wp) :: confun(numgr,nparm+1)
+
+      real(wp) :: u, v
+
+      u = 6.0_wp + param(1)*(-2.0_wp)
+      v = 2.0_wp + param(1)*(-1.0_wp)
+      confun(1,1) = 3.0_wp*abs(u) + 2.0_wp*abs(v)
+
+      end subroutine my_fnset
+
+    end module search_test_module
+
+      program main
+            use search_test_module
+            implicit none
+            call search_test()
+      end program main
+
 ! OUTPUT 1 FOR (B) ONE-DIMENSIONAL SEARCH
 !
 ! INITIALLY PROJCT IS   0.1000000000000E+01

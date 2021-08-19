@@ -19,18 +19,23 @@
 ! FUNCTION VALUE 1.0D0.)
 !
 ! SAMPLE DRIVER FOR (C) LINEAR PROGRAMMING
-!
+
+    program main
+
+      use conmax_module
+      use iso_fortran_env, only: wp => real64
+
       IMPLICIT NONE
 
       INTEGER i , indic , ixrct , iycct , iyrct , j , m , mp1 , n ,     &
             & np1 , nparm , numgr
-      REAL*8 v , x , y
+      real(wp) v , x , y
 !  THE MINIMUM DIMENSIONS ARE V(NUMGR+2*NPARM+1,NPARM+2), X(NPARM+1),
 !  IYCCT(NPARM+1), Y(NUMGR+2*NPARM), IXRCT(NUMGR+2*NPARM),
 !  IYRCT(NUMGR+2*NPARM), WHERE NPARM .GE. N AND NUMGR .GE. M. THE FIRST
 !  DIMENSION OF V MUST BE EXACTLY NUMGR+2*NPARM+1.
-! *****BEGIN USER SETTABLE STATEMENTS 1 OF 1
       DIMENSION v(7,4) , x(3) , iycct(3) , y(6) , ixrct(6) , iyrct(6)
+
       n = 2
       m = 2
       v(1,1) = -1.0D0
@@ -43,12 +48,13 @@
       v(3,2) = 1.0D0
       nparm = n
       numgr = m
-! *****END USER SETTABLE STATEMENTS 1 OF 1
       mp1 = m + 1
       np1 = n + 1
       v(mp1,np1) = 0.0D0
       iyrct(1) = -1
+
       !OPEN (6,FILE='LPOUT')
+
       WRITE (6,99001) m , n
 99001 FORMAT (/' THERE ARE',I5,'  CONSTRAINTS AND',I5,                  &
              &'  VARIABLES'//' THE CONSTRAINT COEFFICIENTS AND',        &
@@ -58,16 +64,17 @@
 99002    FORMAT (/(3E22.13))
       ENDDO
       WRITE (6,99003) (v(mp1,j),j=1,n)
-99003 FORMAT (/' THE NEGATIVES OF THE OBJECTIVE FUNCTION',              &
+99003 FORMAT (/' THE NEGATIVES OF THE OBJECTIVE FUNCTION', &
              &' COEFFICIENTS ARE'//(3E22.13))
       CALL SLNPRO(v,m,n,iyrct,y,ixrct,iycct,nparm,numgr,x,indic)
       WRITE (6,99004) indic , (x(i),i=1,n)
-99004 FORMAT (/' AFTER SLNPRO THE ERROR FLAG IS',I4,                    &
+99004 FORMAT (/' AFTER SLNPRO THE ERROR FLAG IS',I4, &
              &'  THE VARIABLES ARE'//(3E22.13))
       WRITE (6,99005) v(mp1,np1)
 99005 FORMAT (/' THE OBJECTIVE FUNCTION VALUE IS',E22.13)
-      END
- 
+
+    END program main
+
 ! OUTPUT FOR (C) LINEAR PROGRAMMING
 !
 ! THERE ARE    2  CONSTRAINTS AND    2  VARIABLES

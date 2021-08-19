@@ -1,8 +1,6 @@
-
+!********************************************************************************
+!>
 ! (A) MULLERS METHOD DERIVATIVE FREE REAL ROOT FINDING
-!
-! (SUBPROGRAMS INVOLVED:  MULLER, FNSET (USER SUPPLIED), ILOC, D1MACH,
-! ERCMP1)
 !
 ! GIVEN A FUNCTION F OF ONE VARIABLE (WHERE F(X) IS COMPUTED IN SUBROUTINE
 ! FNSET AS CONFUN(1,1), WITH X = PARAM(1)), A NONNEGATIVE TOLERANCE TOLCON,
@@ -27,51 +25,89 @@
 ! PROGRAM AND SUBROUTINE FNSET ARE SET UP TO FIND PROCOR IN [-4.0D0,2.0D0]
 ! WITH ABS(F(PROCOR)) .LE. 0.001D0, WHERE F(X) = 2.0D0**(-X) - 0.5D0
 ! (THE EXACT SOLUTION IS PROCOR = 1.0D0, EMIN = 0.0D0).
-!
-! SAMPLE DRIVER AND FNSET FOR (A) MULLERS METHOD
- 
-      IMPLICIT NONE
 
-      REAL*8 dvec , emin , err1 , f1 , fun , p1 , parwrk , procor ,     &
-           & pttbl , tolcon , work , zwork
-      INTEGER iwork
-      DIMENSION dvec(1) , fun(1) , pttbl(1,1) , zwork(1) , err1(4) ,    &
-              & parwrk(1) , iwork(17) , work(6)
-      !OPEN (6,FILE='MULOUT')
-      dvec(1) = 1.0D0
-      zwork(1) = 0.0D0
+     module muller_test_module
+
+      use conmax_module, only: conmax_solver
+      use iso_fortran_env, only: wp => real64
+
+      implicit none
+
+      private
+
+      type,extends(conmax_solver) :: my_solver
+            contains
+            procedure :: fnset => my_fnset
+      end type my_solver
+
+      public :: muller_test
+
+      contains
+
+      subroutine muller_test()
+
+      implicit none
+
+      real(wp) dvec , emin , err1 , f1 , fun , p1 , parwrk , procor ,     &
+               pttbl , tolcon , work , zwork
+      integer iwork
+      dimension dvec(1) , fun(1) , pttbl(1,1) , zwork(1) , err1(4) ,    &
+                parwrk(1) , iwork(17) , work(6)
+
+      type(my_solver) :: solver
+
+      !open (6,file='mulout')
+
+      dvec(1)   = 1.0_wp
+      zwork(1)  = 0.0_wp
       iwork(16) = -2
-!*****BEGIN USER SETTABLE STATEMENTS 1 OF 2
-      tolcon = 1.0D-3
-      p1 = -2.0D0
-      f1 = 3.5D0
-      procor = 2.0D0
-      emin = -0.25D0
-!*****END USER SETTABLE STATEMENTS 1 OF 2
-      WRITE (6,99001) tolcon , p1 , f1 , procor , emin
-99001 FORMAT (/' TOLCON IS',E22.13//' INITIALLY P1 IS',E22.13,'  F1 IS',&
-            & E22.13//' PROCOR IS',E22.13,'  EMIN IS',E22.13)
-      CALL MULLER(0,1,1,dvec,fun,1,pttbl,1,1,zwork,tolcon,0,iwork,17,   &
-                & work,6,parwrk,err1,p1,f1,procor,emin)
-      WRITE (6,99002) procor , emin
-99002 FORMAT (/' AFTER MULLER PROCOR IS',E22.13//' EMIN IS',E22.13)
-      END
-!*==FNSET.spg  processed by SPAG 6.72Dc at 18:11 on 18 Aug 2021
- 
-      SUBROUTINE FNSET(Nparm,Numgr,Pttbl,Iptb,Indm,Param,Ipt,Indfn,     &
-                     & Icntyp,Confun)
-      IMPLICIT NONE
+      tolcon    = 1.0e-3_wp
+      p1        = -2.0_wp
+      f1        = 3.5_wp
+      procor    = 2.0_wp
+      emin      = -0.25_wp
 
-      REAL*8 Confun , Param , Pttbl
-      INTEGER Icntyp , Indfn , Indm , Ipt , Iptb , Nparm , Numgr
-      DIMENSION Pttbl(Iptb,Indm) , Param(Nparm) , Icntyp(Numgr) ,       &
-              & Confun(Numgr,Nparm+1)
-!*****BEGIN USER SETTABLE STATEMENTS 2 OF 2
-      Confun(1,1) = 2.0D0**(-Param(1)) - 0.5D0
-!*****END USER SETTABLE STATEMENTS 2 OF 2
-      END
- 
- 
+      write (6,99001) tolcon , p1 , f1 , procor , emin
+99001 format (/' tolcon is',e22.13//' initially p1 is',e22.13,'  f1 is',&
+            & e22.13//' procor is',e22.13,'  emin is',e22.13)
+
+      call solver%muller(0,1,1,dvec,fun,1,pttbl,1,1,zwork,tolcon,0,iwork,17,   &
+                         work,6,parwrk,err1,p1,f1,procor,emin)
+
+      write (6,99002) procor , emin
+99002 format (/' after muller procor is',e22.13//' emin is',e22.13)
+
+      end subroutine muller_test
+
+      subroutine my_fnset(me,nparm,numgr,pttbl,iptb,indm,param,ipt,indfn, &
+                          icntyp,confun)
+      implicit none
+
+      class(my_solver),intent(inout) :: me
+      integer  :: nparm
+      integer  :: numgr
+      integer  :: iptb
+      integer  :: indm
+      real(wp) :: pttbl(iptb,indm)
+      real(wp) :: param(nparm)
+      integer  :: ipt
+      integer  :: indfn
+      integer  :: icntyp(numgr)
+      real(wp) :: confun(numgr,nparm+1)
+
+      confun(1,1) = 2.0_wp**(-param(1)) - 0.5_wp
+
+      end subroutine my_fnset
+
+      end module muller_test_module
+
+      program main
+            use muller_test_module
+            implicit none
+            call muller_test()
+      end program main
+
+
 ! OUTPUT FOR (A) MULLERS METHOD
 !
 ! TOLCON IS   0.1000000000000E-02
