@@ -2693,7 +2693,7 @@
 ! NOW FILL IN THE REST OF IYRCT BY SCANNING IXRCT AGAIN.
             i = mp1
  1160       i = i - 1
-            if ( i<=0 ) goto 99999
+            if ( i<=0 ) return
             if ( Ixrct(i)>=0 ) then
                Iyrct(k) = i
                k = k + 1
@@ -2710,7 +2710,7 @@
 !
  1200 Indic = 4
 
-99999 end subroutine slnpro
+    end subroutine slnpro
 !********************************************************************************
 
 !********************************************************************************
@@ -4370,9 +4370,8 @@
                Parprj(j) = Zwork(j) + procor*Dvec(j)
             enddo
             Icorct = 0
-            goto 99999
+            return
          else
-!
             newtit = newtit + 1
             if ( newtit<newtlm ) then
                if ( emin<=gain*eold ) then
@@ -4398,10 +4397,32 @@
 ! HERE WE WERE UNABLE TO OBTAIN A FEASIBLE PARPRJ AND WE RETURN WITH
 ! THE WARNING ICORCT=1.
       Icorct = 1
-      return
-99999 end
+
+    end subroutine corrct
+!********************************************************************************
 
 !********************************************************************************
+!>
+!  THIS SUBROUTINE USES A MODIFIED QUADRATIC FITTING PROCESS TO SEARCH
+!  FOR A PROJECTION FACTOR PROCOR FOR WHICH THE MAXIMUM OF THE LEFT
+!  SIDES OF THE TYPE -2 AND -1 CONSTRAINTS EVALUATED AT ZWORK + PROCOR*DVEC
+!  IS .LE. TOLCON.  NOTE THAT WHEN CORRCT CALLS THIS SUBROUTINE IT WILL
+!  HAVE LUMPED THE TYPE -1 CONSTRAINTS IN WITH THE TYPE -2 CONSTRAINTS
+!  USING JCNTYP, WHICH IS CARRIED THROUGH THIS SUBROUTINE INTO SUBROUTINE
+!  ERCMP1 IN IWORK.  IF SEARCR IS ABLE TO FORCE THIS MAXIMUM .LE. TOLCON
+!  IT WILL RETURN WITH ISRCR=0, WITH THE MINIMUM VALUE FOUND FOR THE
+!  MAXIMUM IN EMIN, WITH THE CORRESPONDING PROJECTION FACTOR IN PROCOR,
+!  WITH THE NUMBER OF TIMES THE MAXIMUM WAS COMPUTED IN NSRCH, AND WITH THE
+!  CLOSEST POINT FOUND TO THE LEFT WITH THE MAXIMUM .GT. TOLCON IN (P1,F1).
+!  THE SUBROUTINE WILL BEGIN BY COMPUTING THE MAXIMA FOR PROCOR = 1.0,
+!  0.5, AND 2.0, AND IF NONE OF THESE MAXIMA IS .LE. TOLCON AND IT IS
+!  NOT THE CASE THAT THE MAXIMUM AT 1.0 IS .LE. THE OTHER TWO MAXIMA
+!  THE SUBROUTINE WILL RETURN WITH THE WARNING ISRCR=1. THE SUBROUTINE
+!  WILL ALSO RETURN WITH ISRCR=1 IF IT WOULD NEED TO COMPUTE F MORE THAN
+!  LIMSCR TIMES, OR THE SEARCH INTERVAL LENGTH DROPS BELOW TOL1, OR THE
+!  QUADRATIC FIT BECOMES TOO FLAT.  EVEN IN THE EVENT OF A RETURN WITH
+!  ISRCR=1, EMIN, PROCOR, AND NSRCH WILL BE AS ABOVE.
+
       subroutine searcr(me,Ioptn,Nparm,Numgr,Dvec,Fun,Ifun,Pttbl,Iptb,Indm,&
                       & Zwork,Tolcon,Iphse,Iwork,Liwrk,Work,Lwrk,Parwrk,&
                       & Err1,p1,f1,Procor,Emin,Isrcr)
@@ -4409,41 +4430,21 @@
       implicit none
 
       class(conmax_solver),intent(inout) :: me
-      real(wp) baladj , balfct , Dvec , Emin , Err1 , f1 , f1kp ,&
-           & f2 , f3 , f4 , four , Fun , fval , one , p1 , p2 , p3 ,    &
-           & p4 , Parwrk
-      real(wp) Procor , progr , Pttbl , pval , rlf , rrt , s1 , s2 ,      &
-           & spcmn , ten , tol1 , tol4 , Tolcon , tolden , two , Work , &
-           & zero , Zwork
-      integer iaddl , iext , Ifun , ilc08 , ilc21 , ilf , Indm , &
-            & Ioptn , Iphse , ipmax , Iptb , irt , ismax , Isrcr ,      &
-            & Iwork , j , limscr , Liwrk , lll
-      integer Lwrk , Nparm , nsrch , Numgr
+      real(wp) :: baladj , balfct , Dvec , Emin , Err1 , f1 , f1kp ,&
+                  f2 , f3 , f4 , four , Fun , fval , one , p1 , p2 , p3 , &
+                  p4 , Parwrk
+      real(wp) :: Procor , progr , Pttbl , pval , rlf , rrt , s1 , s2 ,      &
+                  spcmn , ten , tol1 , tol4 , Tolcon , tolden , two , Work , &
+                  zero , Zwork
+      integer :: iaddl , iext , Ifun , ilc08 , ilc21 , ilf , Indm , &
+                 Ioptn , Iphse , ipmax , Iptb , irt , ismax , Isrcr , &
+                 Iwork , j , limscr , Liwrk , lll
+      integer :: Lwrk , Nparm , nsrch , Numgr
 !
-      dimension Fun(Ifun) , Pttbl(Iptb,Indm) , Parwrk(Nparm) ,          &
-              & Err1(Numgr+3) , Zwork(Nparm) , Dvec(Nparm) ,            &
+      dimension Fun(Ifun) , Pttbl(Iptb,Indm) , Parwrk(Nparm) , &
+              & Err1(Numgr+3) , Zwork(Nparm) , Dvec(Nparm) , &
               & Iwork(Liwrk) , Work(Lwrk)
-!
-! THIS SUBROUTINE USES A MODIFIED QUADRATIC FITTING PROCESS TO SEARCH
-! FOR A PROJECTION FACTOR PROCOR FOR WHICH THE MAXIMUM OF THE LEFT
-! SIDES OF THE TYPE -2 AND -1 CONSTRAINTS EVALUATED AT ZWORK + PROCOR*DVEC
-! IS .LE. TOLCON.  NOTE THAT WHEN CORRCT CALLS THIS SUBROUTINE IT WILL
-! HAVE LUMPED THE TYPE -1 CONSTRAINTS IN WITH THE TYPE -2 CONSTRAINTS
-! USING JCNTYP, WHICH IS CARRIED THROUGH THIS SUBROUTINE INTO SUBROUTINE
-! ERCMP1 IN IWORK.  IF SEARCR IS ABLE TO FORCE THIS MAXIMUM .LE. TOLCON
-! IT WILL RETURN WITH ISRCR=0, WITH THE MINIMUM VALUE FOUND FOR THE
-! MAXIMUM IN EMIN, WITH THE CORRESPONDING PROJECTION FACTOR IN PROCOR,
-! WITH THE NUMBER OF TIMES THE MAXIMUM WAS COMPUTED IN NSRCH, AND WITH THE
-! CLOSEST POINT FOUND TO THE LEFT WITH THE MAXIMUM .GT. TOLCON IN (P1,F1).
-! THE SUBROUTINE WILL BEGIN BY COMPUTING THE MAXIMA FOR PROCOR = 1.0,
-! 0.5, AND 2.0, AND IF NONE OF THESE MAXIMA IS .LE. TOLCON AND IT IS
-! NOT THE CASE THAT THE MAXIMUM AT 1.0 IS .LE. THE OTHER TWO MAXIMA
-! THE SUBROUTINE WILL RETURN WITH THE WARNING ISRCR=1. THE SUBROUTINE
-! WILL ALSO RETURN WITH ISRCR=1 IF IT WOULD NEED TO COMPUTE F MORE THAN
-! LIMSCR TIMES, OR THE SEARCH INTERVAL LENGTH DROPS BELOW TOL1, OR THE
-! QUADRATIC FIT BECOMES TOO FLAT.  EVEN IN THE EVENT OF A RETURN WITH
-! ISRCR=1, EMIN, PROCOR, AND NSRCH WILL BE AS ABOVE.
-!
+
 ! SET MACHINE AND PRECISION DEPENDENT CONSTANTS.
 !     NWRIT=output_unit
       one = 1.0d0
@@ -4757,9 +4758,24 @@
          goto 200
       case default
       end select
-      end
+    end subroutine searcr
+!********************************************************************************
 
 !********************************************************************************
+!>
+! IN THIS SUBROUTINE WE ARE GIVEN A BASE VECTOR ZWORK, A DIRECTION
+! VECTOR DVEC, A SCALAR PROCOR WITH EMIN = F(PROCOR) = (THE MAXIMUM TYPE
+! -2 AND -1 ERROR WITH PARAMETERS ZWORK + PROCOR*DVEC) .LT. -TOLCON, AND
+! A SCALAR P1 WITH P1 .LT. PROCOR AND F1 = F(P1) .GT. TOLCON.  WE DO
+! A REVISED MULLERS METHOD APPROACH (WITH A SOLUTION CONTAINED IN A
+! SHRINKING INTERVAL) TO ATTEMPT TO ADJUST PROCOR SO THAT -TOLCON  .LE.
+! F(PROCOR) .LE. TOLCON, BUT IF WE ARE NOT SUCCESSFUL WE RETURN WITH THE
+! LEFTMOST PROCOR FOUND SATISFYING EMIN = F(PROCOR) .LT. -TOLCON ON THE
+! THEORY THAT OVERCORRECTION IS BETTER THAN NO CORRECTION.  NOTE THAT WHEN
+! CORRCT CALLS THIS SUBROUTINE IT WILL HAVE LUMPED THE TYPE -1 CONSTRAINTS
+! IN WITH THE TYPE -2 CONSTRAINTS USING JCNTYP, WHICH IS CARRIED THROUGH
+! THIS SUBROUTINE INTO SUBROUTINE ERCMP1 IN IWORK.
+
       subroutine muller(me,Ioptn,Nparm,Numgr,Dvec,Fun,Ifun,Pttbl,Iptb,Indm,&
                         Zwork,Tolcon,Iphse,Iwork,Liwrk,Work,Lwrk,Parwrk,&
                         Err1,p1,f1,Procor,Emin)
@@ -4779,19 +4795,6 @@
       dimension Dvec(Nparm) , Fun(Ifun) , Pttbl(Iptb,Indm) ,            &
               & Zwork(Nparm) , Err1(Numgr+3) , Parwrk(Nparm) ,          &
               & Iwork(Liwrk) , Work(Lwrk)
-!
-! IN THIS SUBROUTINE WE ARE GIVEN A BASE VECTOR ZWORK, A DIRECTION
-! VECTOR DVEC, A SCALAR PROCOR WITH EMIN = F(PROCOR) = (THE MAXIMUM TYPE
-! -2 AND -1 ERROR WITH PARAMETERS ZWORK + PROCOR*DVEC) .LT. -TOLCON, AND
-! A SCALAR P1 WITH P1 .LT. PROCOR AND F1 = F(P1) .GT. TOLCON.  WE DO
-! A REVISED MULLERS METHOD APPROACH (WITH A SOLUTION CONTAINED IN A
-! SHRINKING INTERVAL) TO ATTEMPT TO ADJUST PROCOR SO THAT -TOLCON  .LE.
-! F(PROCOR) .LE. TOLCON, BUT IF WE ARE NOT SUCCESSFUL WE RETURN WITH THE
-! LEFTMOST PROCOR FOUND SATISFYING EMIN = F(PROCOR) .LT. -TOLCON ON THE
-! THEORY THAT OVERCORRECTION IS BETTER THAN NO CORRECTION.  NOTE THAT WHEN
-! CORRCT CALLS THIS SUBROUTINE IT WILL HAVE LUMPED THE TYPE -1 CONSTRAINTS
-! IN WITH THE TYPE -2 CONSTRAINTS USING JCNTYP, WHICH IS CARRIED THROUGH
-! THIS SUBROUTINE INTO SUBROUTINE ERCMP1 IN IWORK.
 !
 ! SET MACHINE AND PRECISION DEPENDENT CONSTANTS.
 !     NWRIT=output_unit
@@ -5054,12 +5057,13 @@
          if ( f4+Tolcon>=0 ) goto 400
          goto 300
       endif
-      end
+    end subroutine muller
+!********************************************************************************
 
 !********************************************************************************
       subroutine rchmod(Numgr,Error,Err1,Icntyp,Mact,Iact,Ipmax,Ismax,  &
-                      & Unit,Irch,Rchdwn,Rchin)
-!
+                        Unit,Irch,Rchdwn,Rchin)
+
       implicit none
 
       real(wp) ei , eipmax , enorm , epact , Err1 , Error ,      &
@@ -5096,7 +5100,7 @@
 ! IRCH=-1 IF THERE WERE NO STANDARD CONSTRAINTS.
          do l = 1 , Mact
             i = abs(Iact(l))
-            if ( i==Ismax ) goto 99999
+            if ( i==Ismax ) return
          enddo
 !
 ! RETURN IF RCHIN .GE. RCHTOP.
@@ -5116,7 +5120,7 @@
                if ( Rchin>rchtop ) Rchin = rchtop
             endif
          endif
-         goto 99999
+         return
       else
 !
 !
@@ -5128,11 +5132,11 @@
 ! PROBLEM).
          do l = 1 , Mact
             i = abs(Iact(l))
-            if ( i==Ipmax ) goto 99999
+            if ( i==Ipmax ) return
          enddo
 !
 ! RETURN IF RCHDWN .GE. RCHTOP.
-         if ( Rchdwn>=rchtop ) goto 99999
+         if ( Rchdwn>=rchtop ) return
 !
 ! WE WILL CONSIDER CHANGING RCHDWN IF THE NEW PRIMARY ERROR NORM WITH
 ! ONLY THE OLD ACTIVE CONSTRAINTS CONSIDERED IS LESS THAN THE OLD
@@ -5163,7 +5167,6 @@
 ! WE WILL RETURN IF EPACT IS .GE. THE OLD PRIMARY ERROR NORM, WHICH
 ! WOULD INDICATE THAT THE STEP WAS TOO INACCURATE TO BE TRUSTED TO
 ! USE IN MODIFYING RCHDWN.
-            if ( epact>=enorm ) goto 99999
          endif
 !
 ! COMPUTE EIPMAX AS THE OLD ERROR AT CONSTRAINT IPMAX (IF ICNTYP(IPMAX)
@@ -5185,7 +5188,7 @@
          rchd1 = fudge*(enorm-eipmax)/Unit
 !
 ! IF RCHD1 .GT. RCHDWN WE REPLACE RCHDWN BY MIN (RCHD1, RCHTOP).
-         if ( rchd1<=Rchdwn ) goto 99999
+         if ( rchd1<=Rchdwn ) return
          Rchdwn = rchd1
          if ( Rchdwn>rchtop ) Rchdwn = rchtop
       endif
@@ -5194,8 +5197,9 @@
       return
 !2500 WRITE(NWRIT,2600)RCHIN
 !2600 FORMAT(22H ***RCHIN INCREASED TO,E24.14)
-!
-99999 end
+
+    end subroutine rchmod
+!********************************************************************************
 
 !********************************************************************************
 !>
@@ -5618,7 +5622,7 @@
          enddo
          Ptnr(n) = zero
          Wdist = sqrt(dotprd(Ndm,Ptnr,Ptnr,Nparm))
-         goto 99999
+         return
       else
 !
 ! HERE VMAX IS TOO LARGE.
@@ -5656,10 +5660,26 @@
       endif
 !
       Jflag = 7
-      return
-99999 end
+
+end subroutine wolfe
+!********************************************************************************
 
 !********************************************************************************
+!>
+! GIVEN M N-DIMENSIONAL VECTORS P(J) AS THE FIRST M COLUMNS
+! OF THE MATRIX PMAT1 AND AN N-VECTOR R, THIS SUBROUTINE RETURNS IN
+! PTNR THE NEAREST POINT TO R IN THE CONE OF POINTS SUMMATION(
+! COEF(J)*P(J)), WHERE COEF(J) .GE. 0.0 FOR J=1,...,M (UNLESS JFLAG
+! .GT. 0, WHICH INDICATES FAILURE).  THE NUMBER OF VECTORS P(J) IN
+! THE FINAL CORRAL IS RETURNED IN NCOR WITH THEIR INDICES IN ICOR,
+! THE DISTANCE IS RETURNED IN DIST, THE NUMBER OF MAJOR CYCLES (I.E.
+! ADDING A VECTOR) IS RETURNED IN NMAJ, AND THE NUMBER OF MINOR CYCLES
+! (I.E. REMOVING A VECTOR) IS RETURNED IN NMIN.  IF THE USER SETS
+! ISTRT1=0 THE SUBROUTNE STARTS FROM SCRATCH, BUT THE USER CAN SET
+! ISTRT1=1 AND INITIALLY SPECIFY NCOR, ICOR, AND COEF (NOTING THAT NCOR
+! MUST BE .LE. N, AND IF J DOES NOT OCCUR IN ICOR, THEN COEF(J) SHOULD
+! BE SET TO 0.0.)
+
       subroutine conenr(n,m,Pmat1,r,Istrt1,Ncor,Icor,Tol,Iwork,Liwrk,   &
                       & Work,Lwrk,Vec,Ptnrr,Picor,Nparm,Numgr,Coef,Ptnr,&
                       & Dist,Nmaj,Nmin,Jflag)
@@ -5681,20 +5701,6 @@
               & Coef(Numgr) , Ptnr(Nparm+1) , Vec(Nparm+1) ,            &
               & Ptnrr(Nparm+1) , Picor(Nparm+1,Nparm+1) , Iwork(Liwrk) ,&
               & Work(Lwrk)
-!
-! GIVEN M N-DIMENSIONAL VECTORS P(J) AS THE FIRST M COLUMNS
-! OF THE MATRIX PMAT1 AND AN N-VECTOR R, THIS SUBROUTINE RETURNS IN
-! PTNR THE NEAREST POINT TO R IN THE CONE OF POINTS SUMMATION(
-! COEF(J)*P(J)), WHERE COEF(J) .GE. 0.0 FOR J=1,...,M (UNLESS JFLAG
-! .GT. 0, WHICH INDICATES FAILURE).  THE NUMBER OF VECTORS P(J) IN
-! THE FINAL CORRAL IS RETURNED IN NCOR WITH THEIR INDICES IN ICOR,
-! THE DISTANCE IS RETURNED IN DIST, THE NUMBER OF MAJOR CYCLES (I.E.
-! ADDING A VECTOR) IS RETURNED IN NMAJ, AND THE NUMBER OF MINOR CYCLES
-! (I.E. REMOVING A VECTOR) IS RETURNED IN NMIN.  IF THE USER SETS
-! ISTRT1=0 THE SUBROUTNE STARTS FROM SCRATCH, BUT THE USER CAN SET
-! ISTRT1=1 AND INITIALLY SPECIFY NCOR, ICOR, AND COEF (NOTING THAT NCOR
-! MUST BE .LE. N, AND IF J DOES NOT OCCUR IN ICOR, THEN COEF(J) SHOULD
-! BE SET TO 0.0.)
 !
 ! SET MACHINE AND PRECISION DEPENDENT CONSTANTS FOR CONENR.
 !     NWRIT=output_unit
@@ -6034,26 +6040,11 @@
          kntsl = 0
          goto 100
       endif
-      end
+    end subroutine conenr
+!********************************************************************************
 
 !********************************************************************************
-      subroutine house(n,Ncor,Picor,r,Kpivot,Nparm,Aa,Beta,d,Save,b,Vec,&
-                     & Ihouse)
-!
-      implicit none
-
-      real(wp) Aa , aakk , amax , b , Beta , d , four , one ,    &
-           & Picor , r , Save , spcmn , sqdk , store , sum , summ ,     &
-           & ten , test , testt
-      real(wp) tolsq , two , Vec , zero
-      integer i , ia , icount , Ihouse , ii , j , jj , k , kchnge , kk ,&
-            & kp , Kpivot , krank , kt , n , Ncor , nmref1 , nmref2 ,   &
-            & Nparm , numref
-!
-      dimension Vec(Nparm+1) , Aa(Nparm+1,Nparm+1) , Beta(Nparm+1) ,    &
-              & d(Nparm+1) , Kpivot(Nparm+1) , Save(Nparm+1) ,          &
-              & b(Nparm+1) , Picor(Nparm+1,Nparm+1) , r(Nparm+1)
-!
+!>
 ! GIVEN NCOR N DIMENSIONAL VECTORS AS COLUMNS OF THE N BY NCOR
 ! MATRIX PICOR AND AN N DIMENSIONAL VECTOR R, THIS SUBROUTINE USES
 ! HOUSEHOLDER TRANSFORMATIONS TO FIND THE BEST LEAST SQUARES SOLUTION
@@ -6069,6 +6060,22 @@
 ! THE ITERATIVE REFINEMENT PROCESS, THE COMPUTATION OF THE RESIDUAL
 ! SUMM NEAR THE END OF THIS SUBROUTINE SHOULD BE DONE IN HIGHER
 ! PRECISION THAN THE OTHER COMPUTATIONS IN THE SUBROUTINE.
+
+    subroutine house(n,Ncor,Picor,r,Kpivot,Nparm,Aa,Beta,d,Save,b,Vec,Ihouse)
+
+      implicit none
+
+      real(wp) Aa , aakk , amax , b , Beta , d , four , one ,    &
+           & Picor , r , Save , spcmn , sqdk , store , sum , summ ,     &
+           & ten , test , testt
+      real(wp) tolsq , two , Vec , zero
+      integer i , ia , icount , Ihouse , ii , j , jj , k , kchnge , kk ,&
+            & kp , Kpivot , krank , kt , n , Ncor , nmref1 , nmref2 ,   &
+            & Nparm , numref
+
+      dimension Vec(Nparm+1) , Aa(Nparm+1,Nparm+1) , Beta(Nparm+1) ,    &
+              & d(Nparm+1) , Kpivot(Nparm+1) , Save(Nparm+1) ,          &
+              & b(Nparm+1) , Picor(Nparm+1,Nparm+1) , r(Nparm+1)
 !
 ! COMPUTE MACHINE AND PRECISION DEPENDENT CONSTANTS.
 !     NWRIT=output_unit
@@ -6118,8 +6125,7 @@
          do jj = k , Ncor
             sum = zero
             do ia = k , n
-               if ( abs(Aa(ia,jj))>spcmn ) sum = sum + Aa(ia,jj)        &
-                  & *Aa(ia,jj)
+               if ( abs(Aa(ia,jj))>spcmn ) sum = sum + Aa(ia,jj)*Aa(ia,jj)
             enddo
             if ( d(k)<sum ) then
                kchnge = jj
@@ -6327,10 +6333,12 @@
             endif
          endif
       endif
-!
-      end
+
+    end subroutine house
+!********************************************************************************
 
 !********************************************************************************
+!>
 ! THIS SUBPROGRAM COMPUTES THE DOT PRODUCT OF VECTORS VEC1
 ! AND VEC2 OF LENGTH LGTH.
 ! VEC1 AND VEC2 DO NOT APPEAR IN FUNCTION ILOC SINCE THEY ARE USED ONLY
@@ -6341,11 +6349,9 @@
 
       implicit none
 
-      real(wp) dotprd
-      real(wp) dd , Vec1 , Vec2
-      integer j , Lgth , Nparm
-
-      dimension Vec1(Nparm+1) , Vec2(Nparm+1)
+      integer :: j , Lgth , Nparm
+      real(wp) :: dd , Vec1(Nparm+1) , Vec2(Nparm+1)
+      real(wp) :: dotprd
 
       dd = Vec1(1)*Vec2(1)
       if ( Lgth>1 ) then
@@ -6354,25 +6360,12 @@
          enddo
       endif
       dotprd = dd
+
       end function dotprd
+!********************************************************************************
 
 !********************************************************************************
-      subroutine refwl(Ndm,Ncor,Icor,Pmat,Pmat1,Nparm,Numgr,Ixrct,Save, &
-                     & Wpt)
-!
-      implicit none
-
-      real(wp) aa , amax , fact , Pmat , Pmat1 , Save , spcmn ,  &
-           & tole , Wpt , wrst , wrsto
-      integer i , Icor , imax , itrct , itrlm , Ixrct , j , jmax ,      &
-            & jstrt , k , kcol , kk , kp1 , l , maxrs , n , Ncor , Ndm ,&
-            & Nparm , nresl
-      integer Numgr
-!
-      dimension Icor(Nparm+1) , Pmat(Nparm+1,Numgr) ,                   &
-              & Pmat1(Nparm+1,Numgr) , Wpt(Nparm+1) , Ixrct(2*Nparm) ,  &
-              & Save(Nparm)
-!
+!>
 ! THIS SUBROUTINE ATTEMPTS TO REFINE THE NDM DIMENSIONAL VECTOR WPT
 ! PRODUCED BY WOLFE BY DIRECTLY SOLVING THE SYSTEM
 ! SUMMATION(PMAT(I,J)*WPT(I), I=1,...,NDM) = -PMAT(NDM+1,J) FOR J =
@@ -6380,6 +6373,21 @@
 ! NRESL RESOLVENTS ARE CHOSEN BY TOTAL PIVOTING.  IF NRESL .LT. NDM THEN
 ! THE REMAINING NDM-NRESL ELEMENTS OF WPT ARE KEPT FORM THE OLD WPT.
 ! ITRLM STEPS OF ITERATIVE REFINEMENT ARE ATTEMPTED AT THE END.
+
+    subroutine refwl(Ndm,Ncor,Icor,Pmat,Pmat1,Nparm,Numgr,Ixrct,Save,Wpt)
+
+      implicit none
+
+      real(wp) :: aa , amax , fact , Pmat , Pmat1 , Save , spcmn ,  &
+                  tole , Wpt , wrst , wrsto
+      integer :: i , Icor , imax , itrct , itrlm , Ixrct , j , jmax ,      &
+                 jstrt , k , kcol , kk , kp1 , l , maxrs , n , Ncor , Ndm ,&
+                 Nparm , nresl
+      integer :: Numgr
+
+      dimension Icor(Nparm+1) , Pmat(Nparm+1,Numgr) ,                   &
+                Pmat1(Nparm+1,Numgr) , Wpt(Nparm+1) , Ixrct(2*Nparm) ,  &
+                Save(Nparm)
 !
 ! COMPUTE MACHINE AND PRECISION DEPENDENT CONSTANTS.
 !     NWRIT=output_unit
@@ -6574,8 +6582,9 @@
          Save(i) = Wpt(i)
       enddo
       goto 200
-      end
-!*****END OF CONMAX PACKAGE.
+
+    end subroutine refwl
+!********************************************************************************
 
 !********************************************************************************
     end module conmax_module
