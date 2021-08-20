@@ -1,68 +1,14 @@
 
 !********************************************************************************
 !>
-! CONMAX consists of two programs for solving the problem
-!
-!```
-!     minimize w
-!
-!     subject to
-!
-!     abs(fun(i) - confun(i,1)) <= w      if icntyp(i)=2,
-!
-!     confun(i,1)               <= w      if icntyp(i)=1,
-!
-!     confun(i,1)               <= 0.0    if icntyp(i)=-1 or -2,
-!```
-!
-! WHERE IF ICNTYP(I)=-1 THE CONSTRAINT IS LINEAR (I.E. THE LEFT SIDE
-! CONSISTS OF A LINEAR COMBINATION OF THE PARAMETERS IN THE VECTOR ARRAY
-! PARAM PLUS A CONSTANT) AND IF ICNTYP(I)=-2 THE CONSTRAINT MAY BE
-! NONLINEAR.
-!
-! THUS WE ARE CHOOSING THE PARAMETERS TO MINIMIZE THE LEFT SIDES OF
-! THE TYPE 2 AND TYPE 1 (I.E. PRIMARY) CONSTRAINTS SUBJECT TO THE
-! TYPE -1 AND TYPE -2 (I.E. STANDARD) CONSTRAINTS.
-!
-! IF THERE ARE NO PRIMARY CONSTRAINTS THE PROGRAM WILL ATTEMPT TO
-! FIND A FEASIBLE POINT (THAT IS, A VECTOR PARAM FOR WHICH THE TYPE -1
-! AND TYPE -2 CONSTRAINTS ARE SATISFIED WITHIN A TOLERANCE TOLCON
-! DESCRIBED BELOW) WHICH IS RELATIVELY CLOSE TO THE USER SUPPLIED INITIAL
-! APPROXIMATION, THEN RETURN.
-!
-! (WE NOTE HERE THAT THE ONLY ACTIVE WRITE STATEMENTS IN THIS PACKAGE
-! ARE IN THE SAMPLE DRIVER PROGRAM, BUT SOME OF THOSE WHICH HAVE BEEN
-! COMMENTED OUT (ALONG WITH THE STATEMENTS  NWRIT=output_unit) ELSEWHERE
-! IN THE PROGRAM COULD PROVE USEFUL, ESPECIALLY THE STATEMENT
-! WRITE(NWRIT,1100)... IN SUBROUTINE CONMAX.)
-!
-! TO USE THE PACKAGE THE USER MUST DO TWO THINGS:
-!
-! (1)  CREATE A DRIVER (I.E. MAIN) PROGRAM WHICH DIMENSIONS THE ARRAYS
-! FUN, PTTBL, IWORK, WORK, PARAM, AND ERROR, SETS THE INPUT VARIABLES
-! IOPTN, NPARM, NUMGR, ITLIM, IFUN, IPTB, INDM, LIWRK, LWRK, PARAM
-! (AND POSSIBLY ALSO FUN AND PTTBL), CONTAINS THE STATEMENT
-!
-!     CALL CONMAX(IOPTN,NPARM,NUMGR,ITLIM,FUN,IFUN,PTTBL,IPTB,
-!    *INDM,IWORK,LIWRK,WORK,LWRK,ITER,PARAM,ERROR)
-!
-! AND PRINTS THE OUTPUT.  IN ADDITION, WITH CERTAIN SETTINGS OF IOPTN
-! (SEE BELOW) THE USER WILL ALSO SUPPLY INPUT VALUES IN IWORK(1) AND
-! WORK(1), AND/OR IWORK(2), AND/OR WORK(2);  SINCE IWORK AND WORK ARE
-! CHANGED BY THE PROGRAM, IN THIS CASE THE USER WILL NEED TO RESET THESE
-! VALUES EACH TIME CONMAX IS CALLED.
-!
-! (2)  CREATE A SUBROUTINE FNSET (DESCRIBED LATER) FOR INPUT OF FUNCTION
-! DATA AND THE VECTOR ARRAY ICNTYP, WHICH SPECIFIES THE TYPE OF THE
-! CONSTRAINTS.
-!
-! FOR FURTHER INFORMATION ABOUT THE ALGORITHM AND PROGRAM, SEE THE PAPER
+!  Module for CONMAX.
 !
 !### Notes
-!  SUCCESS STORIES AND BUG REPORTS MAY BE SENT TO EDWIN H. KAUFMAN, JR.
-!  BY E-MAIL AT  32ZEJ7N@CMUVM.CSV.CMICH.EDU
-!  ALTHOUGH WE DO NOT PROMISE TO ATTEMPT TO FIX BUGS, WE MAY LOOK AT
-!  THEM AS TIME PERMITS.
+!  * We note here that the only active write statements in this package
+!   are in the sample driver program, but some of those which have been
+!   commented out (along with the statements  nwrit=output_unit) elsewhere
+!   in the program could prove useful, especially the statement
+!   write(nwrit,1100)... in subroutine conmax.)
 !
 !### Reference
 !  * E. H. Kaufman Jr., D. J. Leeming & G. D. Taylor,
@@ -166,360 +112,366 @@
 
 !********************************************************************************
 !>
-! PLEASE SEE THE USERS GUIDE FOR CONMAX AT THE BEGINNING OF THIS
-! PACKAGE FOR MORE INFORMATION ABOUT THE USE OF THESE SUBPROGRAMS.
+! CONMAX consists of two programs for solving the problem
 !
-! THE VARIABLES IN THE CALLING SEQUENCE FOR CONMAX ARE THE FOLLOWING.
+!```
+!     minimize w
 !
-! IOPTN  (INPUT)  THIS IS THE OPTION SWITCH, WHICH SHOULD BE SET TO
-!        0 UNLESS ONE OR MORE OF THE EXTRA OPTIONS DESCRIBED BELOW
-!        IS USED.
+!     subject to
 !
-! NPARM  (INPUT)  THIS IS THE NUMBER OF PARAMETERS IN THE PROBLEM.
-!        (THEY ARE STORED IN PARAM--SEE BELOW.)
+!     abs(fun(i) - confun(i,1)) <= w      if icntyp(i)=2,
 !
-! NUMGR  (INPUT)  THIS IS THE TOTAL NUMBER OF CONSTRAINTS.
+!     confun(i,1)               <= w      if icntyp(i)=1,
 !
-! ITLIM  (INPUT)  THIS IS THE LIMIT ON THE NUMBER OF ITERATIONS, I.E.
-!        THE LIMIT ON THE NUMBER OF TIMES THE PROGRAM REDUCES W.  IF
-!        ITLIM IS SET TO 0 THE PROGRAM WILL COMPUTE THE ERRORS FOR
-!        THE INITIAL APPROXIMATION AND STOP WITHOUT CHECKING
-!        FEASIBILITY.
+!     confun(i,1)               <= 0.0    if icntyp(i)=-1 or -2,
+!```
 !
-! FUN    (OPTIONAL INPUT)  (VECTOR ARRAY OF DIMENSION IFUN)  THIS IS
-!        A VECTOR ARRAY IN WHICH DATA OR FUNCTION VALUES IN TYPE 2
-!        CONSTRAINTS (SEE ABOVE) CAN BE STORED.  FUN(I) NEED NOT BE
-!        ASSIGNED A VALUE IF IT IS NOT GOING TO BE USED.
+! Where:
 !
-! IFUN   (INPUT)  THIS IS THE DIMENSION OF FUN IN THE DRIVER PROGRAM.
-!        IT MUST BE >= THE LARGEST INDEX I FOR WHICH FUN(I) IS USED
-!        UNLESS NO FUN(I) IS USED, IN WHICH CASE IT MUST BE >= 1.
+!  * if `icntyp(i)=-1` the constraint is linear (i.e. the left side
+!    consists of a linear combination of the parameters in the vector array
+!    param plus a constant)
+!  * if `icntyp(i)=-2` the constraint may be nonlinear.
 !
-! PTTBL  (OPTIONAL INPUT)  (MATRIX ARRAY OF DIMENSION (IPTB,INDM))
-!        ROW I OF THIS ARRAY NORMALLY CONTAINS A POINT USED IN THE ITH
-!        CONSTRAINT.  THE ENTRIES IN ROW I NEED NOT BE ASSIGNED VALUES IF
-!        SUCH A POINT IS NOT USED IN THE ITH CONSTRAINT.
-!        (EXAMPLE:  IF THE LEFT SIDE OF CONSTRAINT I IS A POLYNOMIAL IN
-!        ONE INDEPENDENT VARIABLE, THEN THE VALUE OF THE INDEPENDENT
-!        VARIABLE SHOULD BE IN PTTBL(I,1), AND THE COEFFICIENTS SHOULD BE
-!        IN PARAM.)
-!        PTTBL CAN ALSO BE USED TO PASS OTHER INFORMATION FROM THE DRIVER
-!        PROGRAM TO SUBROUTINE FNSET.
+! Thus we are choosing the parameters to minimize the left sides of
+! the type 2 and type 1 (i.e. primary) constraints subject to the
+! type -1 and type -2 (i.e. standard) constraints.
 !
-! IPTB   (INPUT)  THIS IS THE FIRST DIMENSION OF PTTBL IN THE DRIVER
-!        PROGRAM.  IT MUST BE >= THE LARGEST SUBSCRIPT I FOR WHICH A
-!        VALUE PTTBL(I,J) IS USED, AND MUST BE >= 1 IF NO SUCH VALUES
-!        ARE USED.
+! If there are no primary constraints the program will attempt to
+! find a feasible point (that is, a vector param for which the type -1
+! and type -2 constraints are satisfied within a tolerance tolcon
+! described below) which is relatively close to the user supplied initial
+! approximation, then return.
 !
-! INDB   (INPUT)  THIS IS THE SECOND DIMENSION OF PTTBL IN THE DRIVER
-!        PROGRAM.  IT MUST BE >= THE LARGEST SUBSCRIPT J FOR WHICH A
-!        VALUE PTTBL(I,J) IS USED, AND MUST BE >= 1 IF NO SUCH VALUES
-!        ARE USED.
-!
-! IWORK  (INPUT)  (VECTOR ARRAY OF DIMENSION LIWRK)  THIS IS AN INTEGER
-!        WORK ARRAY.  THE USER NEED NOT PLACE ANY VALUES IN IT, EXCEPT
-!        POSSIBLY CERTAIN OPTIONAL INFORMATION AS DESCRIBED BELOW.
-!
-! LIWRK  (INPUT)  THIS IS THE DIMENSION OF IWORK IN THE DRIVER PROGRAM.
-!        IT MUST BE AT LEAST 7*NUMGR + 7*NPARM + 3.  IF NOT, CONMAX WILL
-!        RETURN WITH THIS MINIMUM VALUE MULTIPLIED BY -1 AS A WARNING.
-!
-! WORK   (INPUT)  (VECTOR ARRAY OF DIMENSION LWRK)  THIS IS A FLOATING
-!        POINT WORK ARRAY.  THE USER NEED NOT PLACE ANY VALUES IN IT,
-!        EXCEPT POSSIBLY CERTAIN OPTIONAL INFORMATION AS DESCRIBED BELOW.
-!
-! LWRK   (INPUT)  THIS IS THE DIMENSION OF WORK IN THE DRIVER PROGRAM.
-!        IT MUST BE AT LEAST 2*NPARM**2 + 4*NUMGR*NPARM + 11*NUMGR +
-!        27*NPARM + 13.  IF NOT, CONMAX WILL RETURN WITH THIS MINIMUM
-!        VALUE MULTIPLIED BY -1 AS A WARNING.
-!
-! ITER   (OUTPUT)  THIS IS THE NUMBER OF ITERATIONS PERFORMED BY CONMAX,
-!        INCLUDING THOSE USED IN ATTEMPTING TO GAIN FEASIBILITY,
-!        UNTIL EITHER IT CAN NO LONGER IMPROVE THE SITUATION OR THE
-!        ITERATION LIMIT  IS REACHED.  IF ITER=ITLIM IT IS POSSIBLE
-!        THAT THE PROGRAM  COULD FURTHER REDUCE W IF RESTARTED
-!        (POSSIBLY WITH THE NEW PARAMETERS).  ITER=-1 IS A SIGNAL
-!        THAT TYPE -1 FEASIBILITY COULD NOT BE ACHIEVED, IN THIS CASE
-!        ERROR WILL CONTAIN THE VALUES COMPUTED USING THE USER
-!        SUPPLIED INITIAL APPROXIMATION.  ITER=-2 IS A SIGNAL THAT
-!        TYPE -1 FEASIBILITY WAS ACHIEVED BUT TYPE -2 FEASIBILITY
-!        COULD NOT BE ACHIEVED, IN THIS CASE VALUES IN ERROR
-!        CORRESPONDING TO TYPE 1 OR TYPE 2 CONSTRAINTS WILL BE ZERO.
-!
-! PARAM  (INPUT AND OUTPUT)  (VECTOR ARRAY OF DIMENSION AT LEAST NPARM
-!        IN THE DRIVER PROGRAM)  THE USER SHOULD PLACE AN INITIAL GUESS
-!        FOR THE PARAMETERS IN PARAM, AND ON OUTPUT PARAM WILL CONTAIN
-!        THE BEST PARAMETERS CONMAX HAS BEEN ABLE TO FIND.  IF THE
-!        INITIAL PARAM IS NOT FEASIBLE THE PROGRAM WILL FIRST TRY TO
-!        FIND A FEASIBLE PARAM.
-!
-! ERROR  (OUTPUT)  (VECTOR ARRAY OF DIMENSION AT LEAST NUMGR + 3 IN THE
-!        DRIVER PROGRAM)  FOR I=1,...,NUMGR, CONMAX WILL PLACE IN
-!        ERROR(I) THE ERROR IN CONSTRAINT I (DEFINED TO BE THE VALUE
-!        OF THE LEFT SIDE OF CONSTRAINT I, EXCEPT WITHOUT THE ABSOLUTE
-!        VALUE IN TYPE 2 CONSTRAINTS).  FURTHER,
-!
-!   ERROR(NUMGR+1) WILL BE THE (PRINCIPAL) ERROR NORM, THAT IS, THE
-!        MAXIMUM VALUE OF THE LEFT SIDES OF THE TYPE 2 (INCLUDING THE
-!        ABSOLUTE VALUE) AND TYPE 1 CONSTRAINTS.
-!
-!   ERROR(NUMGR+2) WILL BE THE MAXIMUM VALUE OF THE LEFT SIDES OF THE
-!        TYPE -1 CONSTRAINTS, OR 0.0 IF THERE ARE NO TYPE -1
-!        CONSTRAINTS.  EXCEPT FOR ROUNDOFF ERROR AND SMALL TOLERANCES
-!        IN SOME SUBROUTINES THIS VALUE WILL NORMALLY BE <= 0.0, AND
-!        IT WILL NOT BE ALLOWED TO BE > TOLCON IN THE MAIN PART OF
-!        THE PROGRAM.
-!
-!   ERROR(NUMGR+3) WILL BE THE MAXIMUM VALUE OF THE LEFT SIDES OF THE
-!        TYPE -2 CONSTRAINTS, OR 0.0 IF THERE ARE NO TYPE -2
-!        CONSTRAINTS.  THIS VALUE SHOULD BE <= TOLCON, SINCE THE
-!        PROGRAM WILL NOT EVEN ATTEMPT TO COMPUTE VALUES FOR THE
-!        TYPE 2 AND TYPE 1 CONSTRAINTS OTHERWISE (EXCEPT FOR VALUES
-!        CORRESPONDING TO THE INITIAL PARAMETERS PLACED IN PARAM BY
-!        THE USER).  THE USER CAN USE THIS FEATURE TO INSERT TYPE -2
-!        OR -1 CONSTRAINTS TO KEEP THE PARAMETERS AWAY FROM VALUES
-!        WHERE A TYPE 2 OR TYPE 1 CONSTRAINT IS UNDEFINED.
-!
-! THE USER HAS SEVERAL EXTRA OPTIONS WHICH ARE ACTIVATED BY SETTING
-! IOPTN TO A VALUE OTHER THAN 0; MORE THAN ONE AT A TIME CAN BE USED.
-! IN PARTICULAR,
-!
-! IF THE ONES DIGIT OF IOPTN IS 0, THEN THE USER SHOULD GIVE FORMULAS
-! IN FNSET FOR COMPUTING THE PARTIAL DERIVATIVES WHEN INDFN=1  AS DESCRIBED
-! ABOVE.
-!
-! IF THE USER SETS THE ONES DIGIT OF IOPTN TO 1, THEN INDFN WILL ALWAYS
-! BE 0 WHEN FNSET IS CALLED, AND THE PROGRAM WILL AUTOMATICALLY
-! APPROXIMATE THE PARTIAL DERIVATIVES WHEN REQUIRED USING THE FOLLOWING
-! CENTERED DIFFERENCE FORMULA:
-! PARTIAL DERIVATIVE WITH RESPECT TO THE JTH VARIABLE (WHERE 1 <= J
-! <= NPARM) OF THE FUNCTION WHOSE VALUE IS COMPUTED IN CONFUN(IPT,1)
-! (WHERE 1 <= IPT <= NUMGR) IS APPROXIMATELY THE VALUE OF THIS
-! FUNCTION WHEN THE JTH COMPONENT OF PARAM IS INCREASED BY DELT, MINUS
-! THE VALUE OF THIS FUNCTION WHEN THE JTH COMPONENT OF PARAM IS
-! DECREASED BY DELT, ALL DIVIDED BY 2.0*DELT, WHERE DELT = SQRT(B**(-ITT)),
-! WHERE B IS THE BASE FOR FOR FLOATING POINT NUMBERS AND ITT IS THE NUMBER
-! OF BASE B DIGITS IN THE MANTISSA.
-!
-! IF THE TENS DIGIT OF IOPTN IS 0, THE PROGRAM WILL NOT GIVE UP
-! UNTIL EITHER AN ITERATION FAILS TO PRODUCE A REDUCTION ABS(ENCHG) OF
-! MORE THAN 100.0*B**(-ITT) IN THE PRINCIPAL ERROR NORM, OR ITLIM
-! ITERATIONS HAVE BEEN USED.
-!
-! IF THE TENS DIGIT OF IOPTN IS 1, THE PROGRAM WILL ALSO GIVE UP IF
-! ABS(ENCHG) < ENCSM FOR LIMSM CONSECUTIVE STEPS IN THE MAIN PART OF
-! THE PROGRAM (I.E. AFTER TYPE -1 AND TYPE -2 FEASIBILITY HAVE BOTH BEEN
-! ACHIEVED).  THIS OPTION MAY BE USEFUL IN SAVING SOME TIME BY
-! FORESTALLING A LONG STRING OF ITERATIONS AT THE END OF A RUN WITH ONLY
-! A TINY IMPROVEMENT IN EACH ONE.  ENCSM AND LIMSM ARE TRANSMITTED TO
-! CONMAX IN WORK(1) AND IWORK(1) RESPECTIVELY.  WORK(1) AND IWORK(1) DO
-! NOT NEED TO BE ASSIGNED VALUES IF THE TENS DIGIT OF IOPTN IS 0.
-!
-! IF THE HUNDREDS DIGIT OF IOPTN IS 0 OR 2, THEN THE INTERNAL PARAMETER
-! NSTEP WILL BE GIVEN THE DEFAULT VALUE 1.  NSTEP IS THE NUMBER OF
-! RUNGE-KUTTA STEPS USED IN EACH RK ITERATION.
-!
-! IF THE HUNDREDS DIGIT OF IOPTN IS 1 OR 3, THEN THE VALUE OF NSTEP USED
-! WILL BE THE POSITIVE INTEGER VALUE PLACED IN IWORK(2) BY THE USER IN THE
-! DRIVER PROGRAM.  SETTING NSTEP LARGER THAN 1 MAY ALLOW THE PROGRAM TO
-! SUCCEED ON DIFFICULT PROBLEMS WHERE THE CONVERGENCE WOULD BE EXTREMELY
-! SLOW WITH NSTEP=1, BUT IT WILL GENERALLY CAUSE MORE COMPUTER TIME TO BE
-! USED IN EACH RK ITERATION.  IWORK(2) DOES NOT NEED TO BE ASSIGNED A
-! VALUE IF THE HUNDREDS DIGIT OF IOPTN IS 0 OR 2.  (NSTEP IS SOMETIMES
-! CALLED THE OVERDRIVE PARAMETER.)
-!
-! IF THE HUNDREDS DIGIT OF IOPTN IS 0 OR 1, THEN THE INTERNAL PARAMETER
-! TOLCON WILL BE GIVEN THE DEFAULT VALUE SQRT(B**(-ITT)), WHERE B IS THE
-! BASE FOR FLOATING POINT NUMBERS AND ITT IS THE NUMBER OF BASE B DIGITS
-! IN THE MANTISSA.
-!
-! IF THE HUNDREDS DIGIT OF IOPTN IS 2 OR 3, THEN THE VALUE OF TOLCON USED
-! WILL BE THE VALUE PLACED IN WORK(2) BY THE USER IN THE DRIVER PROGRAM.
-! THIS VALUE SHOULD ALWAYS BE NONNEGATIVE.  IF THERE ARE NO TYPE -2 OR -1
-! CONSTRAINTS THEN THE SETTING OF TOLCON WILL HAVE NO EFFECT, BUT IF
-! THERE ARE TYPE -2 OR -1 CONSTRAINTS THEN IN GENERAL SMALLER VALUES OF
-! TOLCON MAY GIVE MORE ACCURACY IN THE FINAL ANSWER, BUT MAY SLOW DOWN
-! OR PREVENT CONVERGENCE, WHILE LARGER VALUES OF TOLCON MAY HAVE THE
-! REVERSE EFFECT.  IN PARTICULAR, IF THE TYPE -2 AND -1 CONSTRAINTS
-! CANNOT BE SATISFIED SUMULTANEOUSLY WITH STRICT INEQUALITY (THIS CASE
-! COULD OCCUR, FOR EXAMPLE, IF AN EQUALITY CONSTRAINT G = 0.0 WAS
-! ENTERED AS THE TWO INEQUALITY CONSTRAINTS G <= 0.0 AND
-! -G <= 0.0), THEN SETTING TOLCON=0.0 WILL ALMOST CERTAINLY CAUSE THE
-! PROGRAM TO FAIL, SINCE AT EACH ITERATION THE PROGRAM WILL NOT ACCEPT
-! PROSPECTIVE NEW VALUES OF THE PARAMETERS UNLESS IT CAN CORRECT THEM
-! BACK INTO THE RELAXED FEASIBLE REGION WHERE CONFUN(IPT,1) <= TOLCON
-! FOR ALL THE TYPE -2 AND -1 CONSTRAINTS.
-!
-! IF THE THOUSANDS DIGIT OF IOPTN IS 0, THE PROGRAM WILL USE THE RK METHOD
-! (WHICH INVOLVES APPLYING FOURTH ORDER RUNGE-KUTTA TO A SYSTEM OF
-! DIFFERENTIAL EQUATIONS), THEN IF THIS FAILS IT WILL TRY TO REDUCE
-! W WITH AN SLP STEP (I.E. SUCCESSIVE LINEAR PROGRAMMING WITH A TRUST
-! REGION), THEN GO BACK TO RK IF THE SLP STEP REDUCES W.
-!
-! IF THE THOUSANDS DIGIT OF IOPTN IS 1, THE PROGRAM WILL USE SLP STEPS ONLY.
-! IN GENERAL, IN SOME PROBLEMS SLP WORKS VERY WELL, AND IN THOSE
-! PROBLEMS IT WILL USUALLY BE FASTER THAN RK BECAUSE IT REQUIRES FEWER
-! GRADIENT EVALUATIONS THAN RK, BUT IN OTHER PROBLEMS THE CONVERGENCE
-! OF SLP MAY BE EXCRUCIATINGLY SLOW, AND THE MORE POWERFUL RK METHOD
-! MAY BE MUCH FASTER.
-!
-! IF THE THOUSANDS DIGIT OF IOPTN IS 2 THE PROGRAM WILL USE THE RK METHOD
-! ONLY, QUITTING WHEN RK CAN NO LONGER PRODUCE AN IMPROVEMENT.  THIS
-! MAY GIVE A LITTLE LESS ACCURACY THAN SETTING THE THOUSANDS DIGIT TO 0,
-! BUT MAY SAVE SIGNIFICANT COMPUTER TIME IN SOME CASES.
-!
-! IF THE TEN THOUSANDS DIGIT OF IOPTN IS 0, THEN FNSET SHOULD BE WRITTEN AS
-! DESCRIBED ABOVE.
-!
-! IF THE USER SETS THE TEN THOUSANDS DIGIT OF IOPTN TO 1, THEN FNSET SHOULD BE
-! WRITTEN AS DESCRIBED ABOVE EXCEPT THAT THE COMPUTATIONS SHOULD BE DONE
-! FOR ALL IPT=1,..,NUMGR INSTEAD OF FOR A SINGLE GIVEN VALUE OF IPT.
-! THIS OPTION MAY SAVE COMPUTER TIME IN PROBLEMS WHERE A LARGE PART OF
-! THE COMPUTATION IS THE SAME FOR DIFFERENT VALUES OF IPT, SINCE IT
-! AVOIDS UNNECESSARY REPITITION OF THIS COMMON COMPUTATION BY HAVING
-! THE LOOP OVER IPT IN FNSET INSTEAD OF OUTSIDE FNSET.
-! IF THE TEN THOUSANDS DIGIT OF IOPTN IS 1, EVEN MORE TIME CAN OFTEN BE
-! SAVED IF FNSET IS WRITTEN SO THAT ALL CONSTRAINTS ARE COMPUTED IF IPT=0,
-! BUT ONLY THE STANDARD (I.E. TYPE -1 OR -2) CONSTRAINTS ARE COMPUTED IF
-! IPT=-1.  NOTE THAT IF THE TEN THOUSANDS DIGIT OF IOPTN IS 0, THEN IPT
-! WILL BE POSITIVE WHENEVER FNSET IS CALLED, INDICATING THAT ONLY
-! CONSTRAINT IPT SHOULD BE COMPUTED.
-! THE DRAWBACK OF USING THIS OPTION IS THAT IN GENERAL SOME CONSTRAINT
-! VALUES AND DERIVATIVES WILL BE COMPUTED UNNECESSARILY, WHICH COULD COST
-! TIME IN SOME PROBLEMS.
+!### Notes
+!  * Since `iwork` and `work` are changed by the program,
+!    the user will need to reset these values each time conmax is called.
 
-      subroutine conmax(me,Ioptn,Nparm,Numgr,Itlim,Fun,Ifun,Pttbl,Iptb,    &
-                        Indm,Iwork,Liwrk,Work,Lwrk,Iter,Param,Error)
+    subroutine conmax(me,Ioptn,Nparm,Numgr,Itlim,Fun,Ifun,Pttbl,Iptb, &
+                      Indm,Iwork,Liwrk,Work,Lwrk,Iter,Param,Error)
 
-      implicit none
+    implicit none
 
-      class(conmax_solver),intent(inout) :: me
-      real(wp) :: enc1 , enchg , encsm , enor2 , enor3 , enorm ,    &
-             Error , Fun , Param , prjslp , projct ,       &
-             Pttbl , rchdnk , rchdwn , rchin , s
-      real(wp) ::  tolcon , tollin , wdist , Work
-      integer :: i , i1 , Ifun , ii , ilc02 , ilc06 , ilc08 , ilc11 ,      &
-              ilc12 , ilc13 , ilc14 , ilc15 , ilc17 , ilc20 , ilc21 ,   &
-              ilc22 , ilc24 , ilc25 , ilc26 , ilc27
-      integer :: ilc29 , ilc30 , ilc31 , ilc33 , ilc35 , ilc40 , ilc42 ,   &
-              ilc44 , ilc46 , Indm , iophun , iopten , ioptho ,  &
-              Ioptn , ioptth , iphse , ipmax , ipt , Iptb
-      integer :: irk , ismax , isucc , Iter , itersl , Itlim , itlim1 ,    &
-              ityp1 , ityp1k , ityp2 , ityp2k , itypm1 , itypm2 ,       &
-              Iwork , j , j1 , j2 , jflag , jiwrk , jj
-      integer :: jwrk , kntsm , l , l1 , l2 , limsm , Liwrk , Lwrk , m ,   &
-              mact1 , ncor , nmaj , nmin , npar1 , Nparm , nstep ,      &
-              Numgr , numlim
-!
-      dimension Fun(Ifun) , Pttbl(Iptb,Indm) , Error(Numgr+3) ,         &
-                Param(Nparm) , Iwork(Liwrk) , Work(Lwrk)
+    class(conmax_solver),intent(inout) :: me
+    integer,  intent(in)    :: ifun   !! THIS IS THE DIMENSION OF FUN IN THE DRIVER PROGRAM.
+                                      !! IT MUST BE >= THE LARGEST INDEX I FOR WHICH FUN(I) IS USED
+                                      !! UNLESS NO FUN(I) IS USED, IN WHICH CASE IT MUST BE >= 1.
+    integer,  intent(in)    :: Indm   !! THIS IS THE SECOND DIMENSION OF PTTBL IN THE DRIVER
+                                      !! PROGRAM.  IT MUST BE >= THE LARGEST SUBSCRIPT J FOR WHICH A
+                                      !! VALUE PTTBL(I,J) IS USED, AND MUST BE >= 1 IF NO SUCH VALUES
+                                      !! ARE USED.
+    integer,  intent(in)    :: ioptn    !! THIS IS THE OPTION SWITCH, WHICH SHOULD BE SET TO
+                                        !! 0 UNLESS ONE OR MORE OF THE EXTRA OPTIONS DESCRIBED BELOW
+                                        !! IS USED. THE USER HAS SEVERAL EXTRA OPTIONS WHICH ARE ACTIVATED BY SETTING
+                                        !! IOPTN TO A VALUE OTHER THAN 0; MORE THAN ONE AT A TIME CAN BE USED.
+                                        !! IN PARTICULAR:
+                                        !!
+                                        !! * IF THE ONES DIGIT OF IOPTN IS 0, THEN THE USER SHOULD GIVE FORMULAS
+                                        !!   IN FNSET FOR COMPUTING THE PARTIAL DERIVATIVES WHEN INDFN=1 AS DESCRIBED
+                                        !!   ABOVE.
+                                        !!
+                                        !! * IF THE USER SETS THE ONES DIGIT OF IOPTN TO 1, THEN INDFN WILL ALWAYS
+                                        !!   BE 0 WHEN FNSET IS CALLED, AND THE PROGRAM WILL AUTOMATICALLY
+                                        !!   APPROXIMATE THE PARTIAL DERIVATIVES WHEN REQUIRED USING THE FOLLOWING
+                                        !!   CENTERED DIFFERENCE FORMULA:
+                                        !!   PARTIAL DERIVATIVE WITH RESPECT TO THE JTH VARIABLE (WHERE 1 <= J
+                                        !!   <= NPARM) OF THE FUNCTION WHOSE VALUE IS COMPUTED IN CONFUN(IPT,1)
+                                        !!   (WHERE 1 <= IPT <= NUMGR) IS APPROXIMATELY THE VALUE OF THIS
+                                        !!   FUNCTION WHEN THE JTH COMPONENT OF PARAM IS INCREASED BY DELT, MINUS
+                                        !!   THE VALUE OF THIS FUNCTION WHEN THE JTH COMPONENT OF PARAM IS
+                                        !!   DECREASED BY DELT, ALL DIVIDED BY 2.0*DELT, WHERE DELT = SQRT(B**(-ITT)),
+                                        !!   WHERE B IS THE BASE FOR FOR FLOATING POINT NUMBERS AND ITT IS THE NUMBER
+                                        !!   OF BASE B DIGITS IN THE MANTISSA.
+                                        !!
+                                        !! * IF THE TENS DIGIT OF IOPTN IS 0, THE PROGRAM WILL NOT GIVE UP
+                                        !!   UNTIL EITHER AN ITERATION FAILS TO PRODUCE A REDUCTION ABS(ENCHG) OF
+                                        !!   MORE THAN 100.0*B**(-ITT) IN THE PRINCIPAL ERROR NORM, OR ITLIM
+                                        !!   ITERATIONS HAVE BEEN USED.
+                                        !!
+                                        !! * IF THE TENS DIGIT OF IOPTN IS 1, THE PROGRAM WILL ALSO GIVE UP IF
+                                        !!   ABS(ENCHG) < ENCSM FOR LIMSM CONSECUTIVE STEPS IN THE MAIN PART OF
+                                        !!   THE PROGRAM (I.E. AFTER TYPE -1 AND TYPE -2 FEASIBILITY HAVE BOTH BEEN
+                                        !!   ACHIEVED).  THIS OPTION MAY BE USEFUL IN SAVING SOME TIME BY
+                                        !!   FORESTALLING A LONG STRING OF ITERATIONS AT THE END OF A RUN WITH ONLY
+                                        !!   A TINY IMPROVEMENT IN EACH ONE.  ENCSM AND LIMSM ARE TRANSMITTED TO
+                                        !!   CONMAX IN WORK(1) AND IWORK(1) RESPECTIVELY.  WORK(1) AND IWORK(1) DO
+                                        !!   NOT NEED TO BE ASSIGNED VALUES IF THE TENS DIGIT OF IOPTN IS 0.
+                                        !!
+                                        !! * IF THE HUNDREDS DIGIT OF IOPTN IS 0 OR 2, THEN THE INTERNAL PARAMETER
+                                        !!   NSTEP WILL BE GIVEN THE DEFAULT VALUE 1.  NSTEP IS THE NUMBER OF
+                                        !!   RUNGE-KUTTA STEPS USED IN EACH RK ITERATION.
+                                        !!
+                                        !! * IF THE HUNDREDS DIGIT OF IOPTN IS 1 OR 3, THEN THE VALUE OF NSTEP USED
+                                        !!   WILL BE THE POSITIVE INTEGER VALUE PLACED IN IWORK(2) BY THE USER IN THE
+                                        !!   DRIVER PROGRAM.  SETTING NSTEP LARGER THAN 1 MAY ALLOW THE PROGRAM TO
+                                        !!   SUCCEED ON DIFFICULT PROBLEMS WHERE THE CONVERGENCE WOULD BE EXTREMELY
+                                        !!   SLOW WITH NSTEP=1, BUT IT WILL GENERALLY CAUSE MORE COMPUTER TIME TO BE
+                                        !!   USED IN EACH RK ITERATION.  IWORK(2) DOES NOT NEED TO BE ASSIGNED A
+                                        !!   VALUE IF THE HUNDREDS DIGIT OF IOPTN IS 0 OR 2.  (NSTEP IS SOMETIMES
+                                        !!   CALLED THE OVERDRIVE PARAMETER.)
+                                        !!
+                                        !! * IF THE HUNDREDS DIGIT OF IOPTN IS 0 OR 1, THEN THE INTERNAL PARAMETER
+                                        !!   TOLCON WILL BE GIVEN THE DEFAULT VALUE SQRT(B**(-ITT)), WHERE B IS THE
+                                        !!   BASE FOR FLOATING POINT NUMBERS AND ITT IS THE NUMBER OF BASE B DIGITS
+                                        !!   IN THE MANTISSA.
+                                        !!
+                                        !! * IF THE HUNDREDS DIGIT OF IOPTN IS 2 OR 3, THEN THE VALUE OF TOLCON USED
+                                        !!   WILL BE THE VALUE PLACED IN WORK(2) BY THE USER IN THE DRIVER PROGRAM.
+                                        !!   THIS VALUE SHOULD ALWAYS BE NONNEGATIVE.  IF THERE ARE NO TYPE -2 OR -1
+                                        !!   CONSTRAINTS THEN THE SETTING OF TOLCON WILL HAVE NO EFFECT, BUT IF
+                                        !!   THERE ARE TYPE -2 OR -1 CONSTRAINTS THEN IN GENERAL SMALLER VALUES OF
+                                        !!   TOLCON MAY GIVE MORE ACCURACY IN THE FINAL ANSWER, BUT MAY SLOW DOWN
+                                        !!   OR PREVENT CONVERGENCE, WHILE LARGER VALUES OF TOLCON MAY HAVE THE
+                                        !!   REVERSE EFFECT.  IN PARTICULAR, IF THE TYPE -2 AND -1 CONSTRAINTS
+                                        !!   CANNOT BE SATISFIED SUMULTANEOUSLY WITH STRICT INEQUALITY (THIS CASE
+                                        !!   COULD OCCUR, FOR EXAMPLE, IF AN EQUALITY CONSTRAINT G = 0.0 WAS
+                                        !!   ENTERED AS THE TWO INEQUALITY CONSTRAINTS G <= 0.0 AND
+                                        !!   -G <= 0.0), THEN SETTING TOLCON=0.0 WILL ALMOST CERTAINLY CAUSE THE
+                                        !!   PROGRAM TO FAIL, SINCE AT EACH ITERATION THE PROGRAM WILL NOT ACCEPT
+                                        !!   PROSPECTIVE NEW VALUES OF THE PARAMETERS UNLESS IT CAN CORRECT THEM
+                                        !!   BACK INTO THE RELAXED FEASIBLE REGION WHERE CONFUN(IPT,1) <= TOLCON
+                                        !!   FOR ALL THE TYPE -2 AND -1 CONSTRAINTS.
+                                        !!
+                                        !! * IF THE THOUSANDS DIGIT OF IOPTN IS 0, THE PROGRAM WILL USE THE RK METHOD
+                                        !!   (WHICH INVOLVES APPLYING FOURTH ORDER RUNGE-KUTTA TO A SYSTEM OF
+                                        !!   DIFFERENTIAL EQUATIONS), THEN IF THIS FAILS IT WILL TRY TO REDUCE
+                                        !!   W WITH AN SLP STEP (I.E. SUCCESSIVE LINEAR PROGRAMMING WITH A TRUST
+                                        !!   REGION), THEN GO BACK TO RK IF THE SLP STEP REDUCES W.
+                                        !!
+                                        !! * IF THE THOUSANDS DIGIT OF IOPTN IS 1, THE PROGRAM WILL USE SLP STEPS ONLY.
+                                        !!   IN GENERAL, IN SOME PROBLEMS SLP WORKS VERY WELL, AND IN THOSE
+                                        !!   PROBLEMS IT WILL USUALLY BE FASTER THAN RK BECAUSE IT REQUIRES FEWER
+                                        !!   GRADIENT EVALUATIONS THAN RK, BUT IN OTHER PROBLEMS THE CONVERGENCE
+                                        !!   OF SLP MAY BE EXCRUCIATINGLY SLOW, AND THE MORE POWERFUL RK METHOD
+                                        !!   MAY BE MUCH FASTER.
+                                        !!
+                                        !! * IF THE THOUSANDS DIGIT OF IOPTN IS 2 THE PROGRAM WILL USE THE RK METHOD
+                                        !!   ONLY, QUITTING WHEN RK CAN NO LONGER PRODUCE AN IMPROVEMENT.  THIS
+                                        !!   MAY GIVE A LITTLE LESS ACCURACY THAN SETTING THE THOUSANDS DIGIT TO 0,
+                                        !!   BUT MAY SAVE SIGNIFICANT COMPUTER TIME IN SOME CASES.
+                                        !!
+                                        !! * IF THE TEN THOUSANDS DIGIT OF IOPTN IS 0, THEN FNSET SHOULD BE WRITTEN AS
+                                        !!   DESCRIBED ABOVE.
+                                        !!
+                                        !! * IF THE USER SETS THE TEN THOUSANDS DIGIT OF IOPTN TO 1, THEN FNSET SHOULD BE
+                                        !!   WRITTEN AS DESCRIBED ABOVE EXCEPT THAT THE COMPUTATIONS SHOULD BE DONE
+                                        !!   FOR ALL IPT=1,..,NUMGR INSTEAD OF FOR A SINGLE GIVEN VALUE OF IPT.
+                                        !!   THIS OPTION MAY SAVE COMPUTER TIME IN PROBLEMS WHERE A LARGE PART OF
+                                        !!   THE COMPUTATION IS THE SAME FOR DIFFERENT VALUES OF IPT, SINCE IT
+                                        !!   AVOIDS UNNECESSARY REPITITION OF THIS COMMON COMPUTATION BY HAVING
+                                        !!   THE LOOP OVER IPT IN FNSET INSTEAD OF OUTSIDE FNSET.
+                                        !!   IF THE TEN THOUSANDS DIGIT OF IOPTN IS 1, EVEN MORE TIME CAN OFTEN BE
+                                        !!   SAVED IF FNSET IS WRITTEN SO THAT ALL CONSTRAINTS ARE COMPUTED IF IPT=0,
+                                        !!   BUT ONLY THE STANDARD (I.E. TYPE -1 OR -2) CONSTRAINTS ARE COMPUTED IF
+                                        !!   IPT=-1.  NOTE THAT IF THE TEN THOUSANDS DIGIT OF IOPTN IS 0, THEN IPT
+                                        !!   WILL BE POSITIVE WHENEVER FNSET IS CALLED, INDICATING THAT ONLY
+                                        !!   CONSTRAINT IPT SHOULD BE COMPUTED.
+                                        !!   THE DRAWBACK OF USING THIS OPTION IS THAT IN GENERAL SOME CONSTRAINT
+                                        !!   VALUES AND DERIVATIVES WILL BE COMPUTED UNNECESSARILY, WHICH COULD COST
+                                        !!   TIME IN SOME PROBLEMS.
+    integer,  intent(in)    :: iptb   !! THIS IS THE FIRST DIMENSION OF PTTBL IN THE DRIVER
+                                      !! PROGRAM.  IT MUST BE >= THE LARGEST SUBSCRIPT I FOR WHICH A
+                                      !! VALUE PTTBL(I,J) IS USED, AND MUST BE >= 1 IF NO SUCH VALUES
+                                      !! ARE USED.
+    integer,  intent(in)    :: itlim  !! THIS IS THE LIMIT ON THE NUMBER OF ITERATIONS, I.E.
+                                      !! THE LIMIT ON THE NUMBER OF TIMES THE PROGRAM REDUCES W.  IF
+                                      !! ITLIM IS SET TO 0 THE PROGRAM WILL COMPUTE THE ERRORS FOR
+                                      !! THE INITIAL APPROXIMATION AND STOP WITHOUT CHECKING
+                                      !! FEASIBILITY.
+    integer,  intent(in)    :: liwrk  !! THIS IS THE DIMENSION OF IWORK IN THE DRIVER PROGRAM.
+                                      !! IT MUST BE AT LEAST 7*NUMGR + 7*NPARM + 3.  IF NOT, CONMAX WILL
+                                      !! RETURN WITH THIS MINIMUM VALUE MULTIPLIED BY -1 AS A WARNING.
+    integer,  intent(in)    :: lwrk   !! THIS IS THE DIMENSION OF WORK IN THE DRIVER PROGRAM.
+                                      !! IT MUST BE AT LEAST 2*NPARM**2 + 4*NUMGR*NPARM + 11*NUMGR +
+                                      !! 27*NPARM + 13.  IF NOT, CONMAX WILL RETURN WITH THIS MINIMUM
+                                      !! VALUE MULTIPLIED BY -1 AS A WARNING.
+    integer,  intent(in)    :: nparm  !! THIS IS THE NUMBER OF PARAMETERS IN THE PROBLEM.
+                                      !! (THEY ARE STORED IN `PARAM` -- SEE BELOW.)
+    integer,  intent(in)    :: numgr  !! THIS IS THE TOTAL NUMBER OF CONSTRAINTS.
+    real(wp), intent(in)    :: fun(Ifun)    !! (VECTOR ARRAY OF DIMENSION IFUN)  THIS IS
+                                            !! A VECTOR ARRAY IN WHICH DATA OR FUNCTION VALUES IN TYPE 2
+                                            !! CONSTRAINTS (SEE ABOVE) CAN BE STORED.  FUN(I) NEED NOT BE
+                                            !! ASSIGNED A VALUE IF IT IS NOT GOING TO BE USED.
+    real(wp), intent(in)    :: pttbl(Iptb,Indm)  !! (MATRIX ARRAY OF DIMENSION (IPTB,INDM))
+                                                 !! ROW I OF THIS ARRAY NORMALLY CONTAINS A POINT USED IN THE ITH
+                                                 !! CONSTRAINT.  THE ENTRIES IN ROW I NEED NOT BE ASSIGNED VALUES IF
+                                                 !! SUCH A POINT IS NOT USED IN THE ITH CONSTRAINT.
+                                                 !! (EXAMPLE:  IF THE LEFT SIDE OF CONSTRAINT I IS A POLYNOMIAL IN
+                                                 !! ONE INDEPENDENT VARIABLE, THEN THE VALUE OF THE INDEPENDENT
+                                                 !! VARIABLE SHOULD BE IN PTTBL(I,1), AND THE COEFFICIENTS SHOULD BE
+                                                 !! IN PARAM.)
+                                                 !! PTTBL CAN ALSO BE USED TO PASS OTHER INFORMATION FROM THE DRIVER
+                                                 !! PROGRAM TO SUBROUTINE FNSET.
+    integer,  intent(inout) :: iwork(Liwrk)     !! (VECTOR ARRAY OF DIMENSION LIWRK)  THIS IS AN INTEGER
+                                                !! WORK ARRAY.  THE USER NEED NOT PLACE ANY VALUES IN IT, EXCEPT
+                                                !! POSSIBLY CERTAIN OPTIONAL INFORMATION AS DESCRIBED BELOW.
+    real(wp), intent(inout) :: work(Lwrk)   !! (VECTOR ARRAY OF DIMENSION LWRK)  THIS IS A FLOATING
+                                            !! POINT WORK ARRAY.  THE USER NEED NOT PLACE ANY VALUES IN IT,
+                                            !! EXCEPT POSSIBLY CERTAIN OPTIONAL INFORMATION AS DESCRIBED BELOW.
+    real(wp), intent(inout) :: param(Nparm) !! (VECTOR ARRAY OF DIMENSION AT LEAST NPARM
+                                            !! IN THE DRIVER PROGRAM)  THE USER SHOULD PLACE AN INITIAL GUESS
+                                            !! FOR THE PARAMETERS IN PARAM, AND ON OUTPUT PARAM WILL CONTAIN
+                                            !! THE BEST PARAMETERS CONMAX HAS BEEN ABLE TO FIND.  IF THE
+                                            !! INITIAL PARAM IS NOT FEASIBLE THE PROGRAM WILL FIRST TRY TO
+                                            !! FIND A FEASIBLE PARAM.
+    real(wp), intent(out)   :: error(Numgr+3)   !! (VECTOR ARRAY OF DIMENSION AT LEAST NUMGR + 3 IN THE
+                                                !! DRIVER PROGRAM)  FOR I=1,...,NUMGR, CONMAX WILL PLACE IN
+                                                !! ERROR(I) THE ERROR IN CONSTRAINT I (DEFINED TO BE THE VALUE
+                                                !! OF THE LEFT SIDE OF CONSTRAINT I, EXCEPT WITHOUT THE ABSOLUTE
+                                                !! VALUE IN TYPE 2 CONSTRAINTS).  FURTHER,
+                                                !!
+                                                !!  * ERROR(NUMGR+1) WILL BE THE (PRINCIPAL) ERROR NORM, THAT IS, THE
+                                                !!    MAXIMUM VALUE OF THE LEFT SIDES OF THE TYPE 2 (INCLUDING THE
+                                                !!    ABSOLUTE VALUE) AND TYPE 1 CONSTRAINTS.
+                                                !!
+                                                !!  * ERROR(NUMGR+2) WILL BE THE MAXIMUM VALUE OF THE LEFT SIDES OF THE
+                                                !!    TYPE -1 CONSTRAINTS, OR 0.0 IF THERE ARE NO TYPE -1
+                                                !!    CONSTRAINTS.  EXCEPT FOR ROUNDOFF ERROR AND SMALL TOLERANCES
+                                                !!    IN SOME SUBROUTINES THIS VALUE WILL NORMALLY BE <= 0.0, AND
+                                                !!    IT WILL NOT BE ALLOWED TO BE > TOLCON IN THE MAIN PART OF
+                                                !!    THE PROGRAM.
+                                                !!
+                                                !!  * ERROR(NUMGR+3) WILL BE THE MAXIMUM VALUE OF THE LEFT SIDES OF THE
+                                                !!    TYPE -2 CONSTRAINTS, OR 0.0 IF THERE ARE NO TYPE -2
+                                                !!    CONSTRAINTS.  THIS VALUE SHOULD BE <= TOLCON, SINCE THE
+                                                !!    PROGRAM WILL NOT EVEN ATTEMPT TO COMPUTE VALUES FOR THE
+                                                !!    TYPE 2 AND TYPE 1 CONSTRAINTS OTHERWISE (EXCEPT FOR VALUES
+                                                !!    CORRESPONDING TO THE INITIAL PARAMETERS PLACED IN PARAM BY
+                                                !!    THE USER).  THE USER CAN USE THIS FEATURE TO INSERT TYPE -2
+                                                !!    OR -1 CONSTRAINTS TO KEEP THE PARAMETERS AWAY FROM VALUES
+                                                !!    WHERE A TYPE 2 OR TYPE 1 CONSTRAINT IS UNDEFINED.
+    integer,  intent(out)   :: iter !! THIS IS THE NUMBER OF ITERATIONS PERFORMED BY CONMAX,
+                                    !! INCLUDING THOSE USED IN ATTEMPTING TO GAIN FEASIBILITY,
+                                    !! UNTIL EITHER IT CAN NO LONGER IMPROVE THE SITUATION OR THE
+                                    !! ITERATION LIMIT IS REACHED.  IF ITER=ITLIM IT IS POSSIBLE
+                                    !! THAT THE PROGRAM COULD FURTHER REDUCE W IF RESTARTED
+                                    !! (POSSIBLY WITH THE NEW PARAMETERS).
+                                    !!
+                                    !!  * ITER=-1 IS A SIGNAL THAT TYPE -1 FEASIBILITY COULD NOT BE
+                                    !!    ACHIEVED, IN THIS CASE ERROR WILL CONTAIN THE VALUES COMPUTED
+                                    !!    USING THE USER SUPPLIED INITIAL APPROXIMATION.
+                                    !!  * ITER=-2 IS A SIGNAL THAT TYPE -1 FEASIBILITY WAS ACHIEVED
+                                    !!    BUT TYPE -2 FEASIBILITY COULD NOT BE ACHIEVED,
+                                    !!    IN THIS CASE VALUES IN ERROR CORRESPONDING TO TYPE 1 OR
+                                    !!    TYPE 2 CONSTRAINTS WILL BE ZERO.
 
-! CHECK TO SEE IF THE DIMENSIONS LIWRK AND LWRK ARE LARGE ENOUGH.  IF
-! EITHER IS NOT, REPLACE IT BY THE NEGATIVE OF ITS CORRECT MINIMUM VALUE
-! AND RETRUN.
-      jiwrk = 7*Numgr + 7*Nparm + 3
-      jwrk = 2*Nparm**2 + 4*Numgr*Nparm + 11*Numgr + 27*Nparm + 13
-      if ( Liwrk<jiwrk ) then
-         Liwrk = -jiwrk
-         if ( Lwrk<jwrk ) Lwrk = -jwrk
-      elseif ( Lwrk<jwrk ) then
-         Lwrk = -jwrk
-      else
-!
-! INITIALIZE SOME OTHER PARAMETERS.
-         npar1 = Nparm + 1
-         isucc = 0
-         Iter = 0
-         itersl = 0
-         itlim1 = Itlim
-         enchg = zero
-         ilc02 = iloc(2,Nparm,Numgr)
-         ilc06 = iloc(6,Nparm,Numgr)
-         ilc08 = iloc(8,Nparm,Numgr)
-         ilc11 = iloc(11,Nparm,Numgr)
-         ilc12 = iloc(12,Nparm,Numgr)
-         ilc13 = iloc(13,Nparm,Numgr)
-         ilc14 = iloc(14,Nparm,Numgr)
-         ilc15 = iloc(15,Nparm,Numgr)
-         ilc17 = iloc(17,Nparm,Numgr)
-         ilc20 = iloc(20,Nparm,Numgr)
-         ilc21 = iloc(21,Nparm,Numgr)
-         ilc22 = iloc(22,Nparm,Numgr)
-         ilc24 = iloc(24,Nparm,Numgr)
-         ilc25 = iloc(25,Nparm,Numgr)
-         ilc26 = iloc(26,Nparm,Numgr)
-         ilc27 = iloc(27,Nparm,Numgr)
-         ilc29 = iloc(29,Nparm,Numgr)
-         ilc30 = iloc(30,Nparm,Numgr)
-         ilc31 = iloc(31,Nparm,Numgr)
-         ilc33 = iloc(33,Nparm,Numgr)
-         ilc35 = iloc(35,Nparm,Numgr)
-         ilc40 = iloc(40,Nparm,Numgr)
-         ilc42 = iloc(42,Nparm,Numgr)
-         ilc44 = iloc(44,Nparm,Numgr)
-         ilc46 = iloc(46,Nparm,Numgr)
-!
-! IF THE TENS DIGIT OF IOPTN IS 1, SET KNTSM TO 0 AND GET ENCSM
-! FROM WORK(1) AND LIMSM FROM IWORK(1).
-         iopten = (Ioptn-(Ioptn/100)*100)/10
-         if ( iopten>0 ) then
+    real(wp) :: enc1 , enchg , encsm , enor2 , enor3 , enorm , &
+                prjslp , projct , &
+                rchdnk , rchdwn , rchin , s
+    real(wp) :: tolcon , tollin , wdist
+    integer :: i , i1 , ii , ilc02 , ilc06 , ilc08 , ilc11 , &
+                ilc12 , ilc13 , ilc14 , ilc15 , ilc17 , ilc20 , ilc21 , &
+                ilc22 , ilc24 , ilc25 , ilc26 , ilc27
+    integer :: ilc29 , ilc30 , ilc31 , ilc33 , ilc35 , ilc40 , ilc42 , &
+                ilc44 , ilc46 , iophun , iopten , ioptho , &
+                ioptth , iphse , ipmax , ipt
+    integer :: irk , ismax , isucc , itersl , itlim1 , &
+                ityp1 , ityp1k , ityp2 , ityp2k , itypm1 , itypm2 , &
+                j , j1 , j2 , jflag , jiwrk , jj
+    integer :: jwrk , kntsm , l , l1 , l2 , limsm , m , &
+                mact1 , ncor , nmaj , nmin , npar1 , nstep , &
+                numlim
+
+    ! check to see if the dimensions liwrk and lwrk are large enough.
+    jiwrk = 7*Numgr + 7*Nparm + 3
+    jwrk = 2*Nparm**2 + 4*Numgr*Nparm + 11*Numgr + 27*Nparm + 13
+    if (Liwrk<jiwrk .or. Lwrk<jwrk) then
+
+        iter = -999  ! error flag
+        return
+
+    else
+
+        ! INITIALIZE SOME OTHER PARAMETERS.
+        npar1 = Nparm + 1
+        isucc = 0
+        Iter = 0
+        itersl = 0
+        itlim1 = Itlim
+        enchg = zero
+        ilc02 = iloc(2,Nparm,Numgr)
+        ilc06 = iloc(6,Nparm,Numgr)
+        ilc08 = iloc(8,Nparm,Numgr)
+        ilc11 = iloc(11,Nparm,Numgr)
+        ilc12 = iloc(12,Nparm,Numgr)
+        ilc13 = iloc(13,Nparm,Numgr)
+        ilc14 = iloc(14,Nparm,Numgr)
+        ilc15 = iloc(15,Nparm,Numgr)
+        ilc17 = iloc(17,Nparm,Numgr)
+        ilc20 = iloc(20,Nparm,Numgr)
+        ilc21 = iloc(21,Nparm,Numgr)
+        ilc22 = iloc(22,Nparm,Numgr)
+        ilc24 = iloc(24,Nparm,Numgr)
+        ilc25 = iloc(25,Nparm,Numgr)
+        ilc26 = iloc(26,Nparm,Numgr)
+        ilc27 = iloc(27,Nparm,Numgr)
+        ilc29 = iloc(29,Nparm,Numgr)
+        ilc30 = iloc(30,Nparm,Numgr)
+        ilc31 = iloc(31,Nparm,Numgr)
+        ilc33 = iloc(33,Nparm,Numgr)
+        ilc35 = iloc(35,Nparm,Numgr)
+        ilc40 = iloc(40,Nparm,Numgr)
+        ilc42 = iloc(42,Nparm,Numgr)
+        ilc44 = iloc(44,Nparm,Numgr)
+        ilc46 = iloc(46,Nparm,Numgr)
+
+        ! IF THE TENS DIGIT OF IOPTN IS 1, SET KNTSM TO 0 AND GET ENCSM
+        ! FROM WORK(1) AND LIMSM FROM IWORK(1).
+        iopten = (Ioptn-(Ioptn/100)*100)/10
+        if ( iopten>0 ) then
             kntsm = 0
             encsm = Work(1)
             limsm = Iwork(1)
-         endif
-!
-! IF THE HUNDREDS DIGIT OF IOPTN IS 1 OR 3, SET NSTEP = IWORK(2),
-! AND OTHERWISE SET NSTEP TO ITS DEFAULT VALUE OF 1.
-         iophun = (Ioptn-(Ioptn/1000)*1000)/100
-         if ( iophun<=(iophun/2)*2 ) then
+        endif
+
+        ! IF THE HUNDREDS DIGIT OF IOPTN IS 1 OR 3, SET NSTEP = IWORK(2),
+        ! AND OTHERWISE SET NSTEP TO ITS DEFAULT VALUE OF 1.
+        iophun = (Ioptn-(Ioptn/1000)*1000)/100
+        if ( iophun<=(iophun/2)*2 ) then
             nstep = 1
-         else
+        else
             nstep = Iwork(2)
-         endif
-!
-! IF THE HUNDREDS DIGIT OF IOPTN IS 2 OR 3, SET TOLCON = WORK(2),
-! AND OTHERWISE SET TOLCON TO ITS DEFAULT VALUE OF SQRT(SPCMN).
-         if ( iophun<2 ) then
+        endif
+
+        ! IF THE HUNDREDS DIGIT OF IOPTN IS 2 OR 3, SET TOLCON = WORK(2),
+        ! AND OTHERWISE SET TOLCON TO ITS DEFAULT VALUE OF SQRT(SPCMN).
+        if ( iophun<2 ) then
             tolcon = sqrt(spcmn)
-         else
+        else
             tolcon = Work(2)
-         endif
-!
-! IN THIS VERSION OF CONMAX WE SET THE LINEAR CONSTRAINT TOLERANCE
-! EQUAL TO THE NONLINEAR CONSTRAINT TOLERANCE.
-         tollin = tolcon
-!
-! SET IRK=1 IF THE THOUSANDS DIGIT OF IOPTN IS 0 AND OTHERWISE SET IRK=0.
-         ioptho = (Ioptn-(Ioptn/10000)*10000)/1000
-         if ( ioptho<=0 ) then
+        endif
+
+        ! IN THIS VERSION OF CONMAX WE SET THE LINEAR CONSTRAINT TOLERANCE
+        ! EQUAL TO THE NONLINEAR CONSTRAINT TOLERANCE.
+        tollin = tolcon
+
+        ! SET IRK=1 IF THE THOUSANDS DIGIT OF IOPTN IS 0 AND OTHERWISE SET IRK=0.
+        ioptho = (Ioptn-(Ioptn/10000)*10000)/1000
+        if ( ioptho<=0 ) then
             irk = 1
-         else
+        else
             irk = 0
-         endif
-!
-! COMPUTE THE TEN THOUSANDS DIGIT OF IOPTN FOR LATER USE.
-         ioptth = (Ioptn-(Ioptn/100000)*100000)/10000
-!
-! SET IPHSE=-1 TO INDICATE WE HAVE NOT CHECKED TYPE -1 FEASIBILITY YET.
-         iphse = -1
-! SET RCHDWN = THE NUMBER OF LENGTHS OF PROJCT IN RKSACT (OR NUMBER OF
-! LENGTHS OF BNDLGT IN SETU1) WE WILL GO BELOW ERROR(NUMGR+1) TO DECLARE
-! A PRIMARY CONSTRAINT TO BE ACTIVE.
-         rchdwn = two
-         rchdnk = rchdwn
-! SET RCHIN = THE NUMBER OF LENGTHS OF PROJCT (OR BNDLGT) WE WILL GO
-! BELOW 0.0 TO DECLARE A TYPE -2 CONSTRAINT TO BE ACTIVE.
-         rchin = two
-! SET A NORMAL VALUE FOR NUMLIM FOR USE IN SLPCON.
-         numlim = 11
-         goto 100
-      endif
-      return
-!
-! END OF PRELIMINARY SECTION.  THE STATEMENTS ABOVE THIS POINT WILL NOT
-! BE EXECUTED AGAIN IN THIS CALL TO CONMAX.
-!
-!
+        endif
+
+        ! COMPUTE THE TEN THOUSANDS DIGIT OF IOPTN FOR LATER USE.
+        ioptth = (Ioptn-(Ioptn/100000)*100000)/10000
+
+        ! SET IPHSE=-1 TO INDICATE WE HAVE NOT CHECKED TYPE -1 FEASIBILITY YET.
+        iphse = -1
+        ! SET RCHDWN = THE NUMBER OF LENGTHS OF PROJCT IN RKSACT (OR NUMBER OF
+        ! LENGTHS OF BNDLGT IN SETU1) WE WILL GO BELOW ERROR(NUMGR+1) TO DECLARE
+        ! A PRIMARY CONSTRAINT TO BE ACTIVE.
+        rchdwn = two
+        rchdnk = rchdwn
+        ! SET RCHIN = THE NUMBER OF LENGTHS OF PROJCT (OR BNDLGT) WE WILL GO
+        ! BELOW 0.0 TO DECLARE A TYPE -2 CONSTRAINT TO BE ACTIVE.
+        rchin = two
+        ! SET A NORMAL VALUE FOR NUMLIM FOR USE IN SLPCON.
+        numlim = 11
+    endif
+    ! END OF PRELIMINARY SECTION.  THE STATEMENTS ABOVE THIS POINT WILL NOT
+    ! BE EXECUTED AGAIN IN THIS CALL TO CONMAX.
+
 ! CALL ERCMP1 WITH ICNUSE=0 TO COMPUTE THE ERRORS, ERROR NORMS, AND ICNTYP.
 ! WE TAKE IPHSE AS 0 SO ALL CONSTRAINTS WILL BE COMPUTED BY FNSET IN CASE
 ! THE TEN THOUSANDS DIGIT OF IOPTN IS 1.
@@ -1108,13 +1060,13 @@
 
 !********************************************************************************
 !>
-! THIS SUBROUTINE USES FNSET TO COMPUTE CONFUN(I,1) AND THE PARTIAL
-! DERIVATIVES OF THE FUNCTION WHOSE VALUE IS IN CONFUN(I,1) FOR
-! CERTAIN VALUE(S) OF I.  NOTE THAT WE DO NOT WANT THE ICNTYP COMPUTED
-! BY FNSET TO OVERRIDE THE ICNTYP (OR JCNTYP) CARRIED INTO THIS
-! SUBROUTINE IN ICNTYP, SO WE USE KCNTYP WHEN WE CALL FNSET.  (THE
-! ICNTYP COMPUTED BY FNSET WAS STORED EARLIER THROUGH A CALL TO ERCMP1
-! FROM CONMAX.)
+! This subroutine uses `fnset` to compute `confun(i,1)` and the partial
+! derivatives of the function whose value is in `confun(i,1)` for
+! certain value(s) of `i`.  note that we do not want the `icntyp` computed
+! by `fnset` to override the `icntyp` (or `jcntyp`) carried into this
+! subroutine in `icntyp`, so we use `kcntyp` when we call `fnset`.  (the
+! `icntyp` computed by `fnset` was stored earlier through a call to [[ercmp1]]
+! from [[conmax]].)
 
     subroutine derst(me,Ioptn,Nparm,Numgr,Pttbl,Iptb,Indm,Param,&
                      Ipt,Param1,v,Kcntyp,Confun)
@@ -1122,13 +1074,13 @@
       implicit none
 
       class(conmax_solver),intent(inout) :: me
-      real(wp) Confun , delt , delt2 , Param , Param1 , Pttbl ,  &
-               up , v
-      integer Indm , iopone , Ioptn , ioptth , Ipt , Iptb , iptkp , j , &
-              k , Kcntyp , l , npar1 , Nparm , Numgr
+      real(wp) :: Confun , delt , delt2 , Param , Param1 , Pttbl ,  &
+                  up , v
+      integer :: Indm , iopone , Ioptn , ioptth , Ipt , Iptb , iptkp , j , &
+                 k , Kcntyp , l , npar1 , Nparm , Numgr
 
-      dimension Pttbl(Iptb,Indm) , Param(Nparm) , Param1(Nparm) ,       &
-                v(Numgr+2*Nparm+1,Nparm+2) , Kcntyp(Numgr) ,            &
+      dimension Pttbl(Iptb,Indm) , Param(Nparm) , Param1(Nparm) , &
+                v(Numgr+2*Nparm+1,Nparm+2) , Kcntyp(Numgr) , &
                 Confun(Numgr,Nparm+1)
 
 ! IF THE ONES DIGIT OF IOPTN IS 0, WE CALL FNSET WITH INDFN=1 TO DO THE
@@ -1165,14 +1117,14 @@
 !
 ! NOW CALL FNSET WITH INDFN=0 TO PLACE THE FUNCTION IN CONSTRAINT
 ! IPT EVALUATED AT POINT PARAM1 IN CONFUN(IPT,1).
-               call me%fnset(Nparm,Numgr,Pttbl,Iptb,Indm,Param1,Ipt,0,     &
+               call me%fnset(Nparm,Numgr,Pttbl,Iptb,Indm,Param1,Ipt,0, &
                           Kcntyp,Confun)
                up = Confun(Ipt,1)
 !
 ! SET PARAM1 EQUAL TO PARAM, ECXEPT WITH ITS LTH COMOPONENT DECREASED
 ! BY DELT, AND CALL FNSET AGAIN.
                Param1(l) = Param(l) - delt
-               call me%fnset(Nparm,Numgr,Pttbl,Iptb,Indm,Param1,Ipt,0,     &
+               call me%fnset(Nparm,Numgr,Pttbl,Iptb,Indm,Param1,Ipt,0, &
                           Kcntyp,Confun)
 !
 ! NOW WE CAN COMPUTE THE CENTERED-DIFFERENCE APPROXIMATION TO THE PARTIAL
@@ -1189,7 +1141,7 @@
 !
 ! NOW COMPUTE THE VALUE OF THE FUNCTION AT PARAM, AND THEN PUT THE
 ! EARLIER-COMPUTED PARTIAL DERIVATIVES INTO CONFUN.
-            call me%fnset(Nparm,Numgr,Pttbl,Iptb,Indm,Param,Ipt,0,Kcntyp,  &
+            call me%fnset(Nparm,Numgr,Pttbl,Iptb,Indm,Param,Ipt,0,Kcntyp, &
                        Confun)
             do l = 1 , Nparm
                Confun(Ipt,l+1) = v(l,1)
@@ -1223,7 +1175,7 @@
                   Param1(j) = Param(j)
                enddo
                Param1(l) = Param(l) + delt
-               call me%fnset(Nparm,Numgr,Pttbl,Iptb,Indm,Param1,Ipt,0,     &
+               call me%fnset(Nparm,Numgr,Pttbl,Iptb,Indm,Param1,Ipt,0, &
                           Kcntyp,Confun)
                Ipt = iptkp
                do k = 1 , Numgr
@@ -1239,7 +1191,7 @@
 !
 ! REVISE PARAM1 AND CALL FNSET AGAIN.
                Param1(l) = Param(l) - delt
-               call me%fnset(Nparm,Numgr,Pttbl,Iptb,Indm,Param1,Ipt,0,     &
+               call me%fnset(Nparm,Numgr,Pttbl,Iptb,Indm,Param1,Ipt,0, &
                           Kcntyp,Confun)
                Ipt = iptkp
                do k = 1 , Numgr
@@ -1257,7 +1209,7 @@
 ! CALL FNSET AGAIN TO COMPUTE THE VALUES OF THE FUNCTIONS AT POINT
 ! PARAM, AND THEN PUT THE EARLIER-COMPUTED PARTIAL DERIVATIVES INTO
 ! CONFUN.
-            call me%fnset(Nparm,Numgr,Pttbl,Iptb,Indm,Param,Ipt,0,Kcntyp,  &
+            call me%fnset(Nparm,Numgr,Pttbl,Iptb,Indm,Param,Ipt,0,Kcntyp, &
                        Confun)
             do k = 1 , Numgr
                if ( Ipt<0 ) then
@@ -1278,7 +1230,7 @@
 !********************************************************************************
 !>
 !
-      subroutine slpcon(me,Ioptn,Nparm,Numgr,Fun,Ifun,Pttbl,Iptb,Indm,     &
+      subroutine slpcon(me,Ioptn,Nparm,Numgr,Fun,Ifun,Pttbl,Iptb,Indm,  &
                         Tolcon,Rchin,Irk,Itypm1,Itypm2,Icntyp,Rchdwn,   &
                         Numlim,Itersl,Prjslp,Funtbl,Iyrct,x,Mact1,Iact1,&
                         Jcntyp,Iphse,Enchg,Iwork,Liwrk,Work,Lwrk,Parser,&
@@ -1287,17 +1239,17 @@
       implicit none
 
       class(conmax_solver),intent(inout) :: me
-      real(wp) :: bndlgt , emin , emin1 , Enchg , enorm ,     &
-             Error , Fun , Funtbl , Param , Parser ,       &
-             prjlim , Prjslp , Pttbl , quots , Rchdwn , Rchin
+      real(wp) :: bndlgt , emin , emin1 , Enchg , enorm , &
+                  Error , Fun , Funtbl , Param , Parser , &
+                  prjlim , Prjslp , Pttbl , quots , Rchdwn , Rchin
       real(wp) ::  ss , tol1 , tol2 , Tolcon , unit ,     &
-             Work , x
+                   Work , x
       integer :: i , Iact1 , Icntyp , Ifun , ilc05 , ilc07 , ilc08 ,       &
-              ilc11 , ilc13 , ilc18 , ilc19 , ilc25 , ilc35 , ilc45 ,   &
-              ilc47 , indic , Indm , Ioptn , Iphse
+                 ilc11 , ilc13 , ilc18 , ilc19 , ilc25 , ilc35 , ilc45 ,   &
+                 ilc47 , indic , Indm , Ioptn , Iphse
       integer :: ipmax , Iptb , Irk , ismax , Isucc , Itersl , Itypm1 ,    &
-              Itypm2 , Iwork , Iyrct , j , Jcntyp , Liwrk , Lwrk , m ,  &
-              Mact1 , ng3 , npar1 , Nparm , nsrch
+                 Itypm2 , Iwork , Iyrct , j , Jcntyp , Liwrk , Lwrk , m ,  &
+                 Mact1 , ng3 , npar1 , Nparm , nsrch
       integer :: Numgr , numin , Numlim
 !
       dimension Fun(Ifun) , Pttbl(Iptb,Indm) , Icntyp(Numgr) ,          &

@@ -125,7 +125,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 8.9% of total for procedures.">275 statements</a>
+    title=" 9.2% of total for procedures.">286 statements</a>
      </li> 
      
      
@@ -198,7 +198,7 @@
     
     <div class="col-md-9" id='text'>
     <h2>
-private subroutine conmax(me, Ioptn, Nparm, Numgr, Itlim, Fun, Ifun, Pttbl, Iptb, Indm, Iwork, Liwrk, Work, Lwrk, Iter, Param, Error)
+private subroutine conmax(me, ioptn, nparm, numgr, itlim, fun, ifun, pttbl, iptb, Indm, iwork, liwrk, work, lwrk, iter, param, error)
     
     
    
@@ -208,193 +208,38 @@ private subroutine conmax(me, Ioptn, Nparm, Numgr, Itlim, Fun, Ifun, Pttbl, Iptb
 
 
     
-    <p>PLEASE SEE THE USERS GUIDE FOR CONMAX AT THE BEGINNING OF THIS
- PACKAGE FOR MORE INFORMATION ABOUT THE USE OF THESE SUBPROGRAMS.</p>
-<p>THE VARIABLES IN THE CALLING SEQUENCE FOR CONMAX ARE THE FOLLOWING.</p>
-<p>IOPTN  (INPUT)  THIS IS THE OPTION SWITCH, WHICH SHOULD BE SET TO
-        0 UNLESS ONE OR MORE OF THE EXTRA OPTIONS DESCRIBED BELOW
-        IS USED.</p>
-<p>NPARM  (INPUT)  THIS IS THE NUMBER OF PARAMETERS IN THE PROBLEM.
-        (THEY ARE STORED IN PARAM--SEE BELOW.)</p>
-<p>NUMGR  (INPUT)  THIS IS THE TOTAL NUMBER OF CONSTRAINTS.</p>
-<p>ITLIM  (INPUT)  THIS IS THE LIMIT ON THE NUMBER OF ITERATIONS, I.E.
-        THE LIMIT ON THE NUMBER OF TIMES THE PROGRAM REDUCES W.  IF
-        ITLIM IS SET TO 0 THE PROGRAM WILL COMPUTE THE ERRORS FOR
-        THE INITIAL APPROXIMATION AND STOP WITHOUT CHECKING
-        FEASIBILITY.</p>
-<p>FUN    (OPTIONAL INPUT)  (VECTOR ARRAY OF DIMENSION IFUN)  THIS IS
-        A VECTOR ARRAY IN WHICH DATA OR FUNCTION VALUES IN TYPE 2
-        CONSTRAINTS (SEE ABOVE) CAN BE STORED.  FUN(I) NEED NOT BE
-        ASSIGNED A VALUE IF IT IS NOT GOING TO BE USED.</p>
-<p>IFUN   (INPUT)  THIS IS THE DIMENSION OF FUN IN THE DRIVER PROGRAM.
-        IT MUST BE &gt;= THE LARGEST INDEX I FOR WHICH FUN(I) IS USED
-        UNLESS NO FUN(I) IS USED, IN WHICH CASE IT MUST BE &gt;= 1.</p>
-<p>PTTBL  (OPTIONAL INPUT)  (MATRIX ARRAY OF DIMENSION (IPTB,INDM))
-        ROW I OF THIS ARRAY NORMALLY CONTAINS A POINT USED IN THE ITH
-        CONSTRAINT.  THE ENTRIES IN ROW I NEED NOT BE ASSIGNED VALUES IF
-        SUCH A POINT IS NOT USED IN THE ITH CONSTRAINT.
-        (EXAMPLE:  IF THE LEFT SIDE OF CONSTRAINT I IS A POLYNOMIAL IN
-        ONE INDEPENDENT VARIABLE, THEN THE VALUE OF THE INDEPENDENT
-        VARIABLE SHOULD BE IN PTTBL(I,1), AND THE COEFFICIENTS SHOULD BE
-        IN PARAM.)
-        PTTBL CAN ALSO BE USED TO PASS OTHER INFORMATION FROM THE DRIVER
-        PROGRAM TO SUBROUTINE FNSET.</p>
-<p>IPTB   (INPUT)  THIS IS THE FIRST DIMENSION OF PTTBL IN THE DRIVER
-        PROGRAM.  IT MUST BE &gt;= THE LARGEST SUBSCRIPT I FOR WHICH A
-        VALUE PTTBL(I,J) IS USED, AND MUST BE &gt;= 1 IF NO SUCH VALUES
-        ARE USED.</p>
-<p>INDB   (INPUT)  THIS IS THE SECOND DIMENSION OF PTTBL IN THE DRIVER
-        PROGRAM.  IT MUST BE &gt;= THE LARGEST SUBSCRIPT J FOR WHICH A
-        VALUE PTTBL(I,J) IS USED, AND MUST BE &gt;= 1 IF NO SUCH VALUES
-        ARE USED.</p>
-<p>IWORK  (INPUT)  (VECTOR ARRAY OF DIMENSION LIWRK)  THIS IS AN INTEGER
-        WORK ARRAY.  THE USER NEED NOT PLACE ANY VALUES IN IT, EXCEPT
-        POSSIBLY CERTAIN OPTIONAL INFORMATION AS DESCRIBED BELOW.</p>
-<p>LIWRK  (INPUT)  THIS IS THE DIMENSION OF IWORK IN THE DRIVER PROGRAM.
-        IT MUST BE AT LEAST 7<em>NUMGR + 7</em>NPARM + 3.  IF NOT, CONMAX WILL
-        RETURN WITH THIS MINIMUM VALUE MULTIPLIED BY -1 AS A WARNING.</p>
-<p>WORK   (INPUT)  (VECTOR ARRAY OF DIMENSION LWRK)  THIS IS A FLOATING
-        POINT WORK ARRAY.  THE USER NEED NOT PLACE ANY VALUES IN IT,
-        EXCEPT POSSIBLY CERTAIN OPTIONAL INFORMATION AS DESCRIBED BELOW.</p>
-<p>LWRK   (INPUT)  THIS IS THE DIMENSION OF WORK IN THE DRIVER PROGRAM.
-        IT MUST BE AT LEAST 2<em>NPARM</em><em>2 + 4</em>NUMGR<em>NPARM + 11</em>NUMGR +
-        27*NPARM + 13.  IF NOT, CONMAX WILL RETURN WITH THIS MINIMUM
-        VALUE MULTIPLIED BY -1 AS A WARNING.</p>
-<p>ITER   (OUTPUT)  THIS IS THE NUMBER OF ITERATIONS PERFORMED BY CONMAX,
-        INCLUDING THOSE USED IN ATTEMPTING TO GAIN FEASIBILITY,
-        UNTIL EITHER IT CAN NO LONGER IMPROVE THE SITUATION OR THE
-        ITERATION LIMIT  IS REACHED.  IF ITER=ITLIM IT IS POSSIBLE
-        THAT THE PROGRAM  COULD FURTHER REDUCE W IF RESTARTED
-        (POSSIBLY WITH THE NEW PARAMETERS).  ITER=-1 IS A SIGNAL
-        THAT TYPE -1 FEASIBILITY COULD NOT BE ACHIEVED, IN THIS CASE
-        ERROR WILL CONTAIN THE VALUES COMPUTED USING THE USER
-        SUPPLIED INITIAL APPROXIMATION.  ITER=-2 IS A SIGNAL THAT
-        TYPE -1 FEASIBILITY WAS ACHIEVED BUT TYPE -2 FEASIBILITY
-        COULD NOT BE ACHIEVED, IN THIS CASE VALUES IN ERROR
-        CORRESPONDING TO TYPE 1 OR TYPE 2 CONSTRAINTS WILL BE ZERO.</p>
-<p>PARAM  (INPUT AND OUTPUT)  (VECTOR ARRAY OF DIMENSION AT LEAST NPARM
-        IN THE DRIVER PROGRAM)  THE USER SHOULD PLACE AN INITIAL GUESS
-        FOR THE PARAMETERS IN PARAM, AND ON OUTPUT PARAM WILL CONTAIN
-        THE BEST PARAMETERS CONMAX HAS BEEN ABLE TO FIND.  IF THE
-        INITIAL PARAM IS NOT FEASIBLE THE PROGRAM WILL FIRST TRY TO
-        FIND A FEASIBLE PARAM.</p>
-<p>ERROR  (OUTPUT)  (VECTOR ARRAY OF DIMENSION AT LEAST NUMGR + 3 IN THE
-        DRIVER PROGRAM)  FOR I=1,...,NUMGR, CONMAX WILL PLACE IN
-        ERROR(I) THE ERROR IN CONSTRAINT I (DEFINED TO BE THE VALUE
-        OF THE LEFT SIDE OF CONSTRAINT I, EXCEPT WITHOUT THE ABSOLUTE
-        VALUE IN TYPE 2 CONSTRAINTS).  FURTHER,</p>
-<p>ERROR(NUMGR+1) WILL BE THE (PRINCIPAL) ERROR NORM, THAT IS, THE
-        MAXIMUM VALUE OF THE LEFT SIDES OF THE TYPE 2 (INCLUDING THE
-        ABSOLUTE VALUE) AND TYPE 1 CONSTRAINTS.</p>
-<p>ERROR(NUMGR+2) WILL BE THE MAXIMUM VALUE OF THE LEFT SIDES OF THE
-        TYPE -1 CONSTRAINTS, OR 0.0 IF THERE ARE NO TYPE -1
-        CONSTRAINTS.  EXCEPT FOR ROUNDOFF ERROR AND SMALL TOLERANCES
-        IN SOME SUBROUTINES THIS VALUE WILL NORMALLY BE &lt;= 0.0, AND
-        IT WILL NOT BE ALLOWED TO BE &gt; TOLCON IN THE MAIN PART OF
-        THE PROGRAM.</p>
-<p>ERROR(NUMGR+3) WILL BE THE MAXIMUM VALUE OF THE LEFT SIDES OF THE
-        TYPE -2 CONSTRAINTS, OR 0.0 IF THERE ARE NO TYPE -2
-        CONSTRAINTS.  THIS VALUE SHOULD BE &lt;= TOLCON, SINCE THE
-        PROGRAM WILL NOT EVEN ATTEMPT TO COMPUTE VALUES FOR THE
-        TYPE 2 AND TYPE 1 CONSTRAINTS OTHERWISE (EXCEPT FOR VALUES
-        CORRESPONDING TO THE INITIAL PARAMETERS PLACED IN PARAM BY
-        THE USER).  THE USER CAN USE THIS FEATURE TO INSERT TYPE -2
-        OR -1 CONSTRAINTS TO KEEP THE PARAMETERS AWAY FROM VALUES
-        WHERE A TYPE 2 OR TYPE 1 CONSTRAINT IS UNDEFINED.</p>
-<p>THE USER HAS SEVERAL EXTRA OPTIONS WHICH ARE ACTIVATED BY SETTING
- IOPTN TO A VALUE OTHER THAN 0; MORE THAN ONE AT A TIME CAN BE USED.
- IN PARTICULAR,</p>
-<p>IF THE ONES DIGIT OF IOPTN IS 0, THEN THE USER SHOULD GIVE FORMULAS
- IN FNSET FOR COMPUTING THE PARTIAL DERIVATIVES WHEN INDFN=1  AS DESCRIBED
- ABOVE.</p>
-<p>IF THE USER SETS THE ONES DIGIT OF IOPTN TO 1, THEN INDFN WILL ALWAYS
- BE 0 WHEN FNSET IS CALLED, AND THE PROGRAM WILL AUTOMATICALLY
- APPROXIMATE THE PARTIAL DERIVATIVES WHEN REQUIRED USING THE FOLLOWING
- CENTERED DIFFERENCE FORMULA:
- PARTIAL DERIVATIVE WITH RESPECT TO THE JTH VARIABLE (WHERE 1 &lt;= J
- &lt;= NPARM) OF THE FUNCTION WHOSE VALUE IS COMPUTED IN CONFUN(IPT,1)
- (WHERE 1 &lt;= IPT &lt;= NUMGR) IS APPROXIMATELY THE VALUE OF THIS
- FUNCTION WHEN THE JTH COMPONENT OF PARAM IS INCREASED BY DELT, MINUS
- THE VALUE OF THIS FUNCTION WHEN THE JTH COMPONENT OF PARAM IS
- DECREASED BY DELT, ALL DIVIDED BY 2.0<em>DELT, WHERE DELT = SQRT(B</em>*(-ITT)),
- WHERE B IS THE BASE FOR FOR FLOATING POINT NUMBERS AND ITT IS THE NUMBER
- OF BASE B DIGITS IN THE MANTISSA.</p>
-<p>IF THE TENS DIGIT OF IOPTN IS 0, THE PROGRAM WILL NOT GIVE UP
- UNTIL EITHER AN ITERATION FAILS TO PRODUCE A REDUCTION ABS(ENCHG) OF
- MORE THAN 100.0<em>B</em>*(-ITT) IN THE PRINCIPAL ERROR NORM, OR ITLIM
- ITERATIONS HAVE BEEN USED.</p>
-<p>IF THE TENS DIGIT OF IOPTN IS 1, THE PROGRAM WILL ALSO GIVE UP IF
- ABS(ENCHG) &lt; ENCSM FOR LIMSM CONSECUTIVE STEPS IN THE MAIN PART OF
- THE PROGRAM (I.E. AFTER TYPE -1 AND TYPE -2 FEASIBILITY HAVE BOTH BEEN
- ACHIEVED).  THIS OPTION MAY BE USEFUL IN SAVING SOME TIME BY
- FORESTALLING A LONG STRING OF ITERATIONS AT THE END OF A RUN WITH ONLY
- A TINY IMPROVEMENT IN EACH ONE.  ENCSM AND LIMSM ARE TRANSMITTED TO
- CONMAX IN WORK(1) AND IWORK(1) RESPECTIVELY.  WORK(1) AND IWORK(1) DO
- NOT NEED TO BE ASSIGNED VALUES IF THE TENS DIGIT OF IOPTN IS 0.</p>
-<p>IF THE HUNDREDS DIGIT OF IOPTN IS 0 OR 2, THEN THE INTERNAL PARAMETER
- NSTEP WILL BE GIVEN THE DEFAULT VALUE 1.  NSTEP IS THE NUMBER OF
- RUNGE-KUTTA STEPS USED IN EACH RK ITERATION.</p>
-<p>IF THE HUNDREDS DIGIT OF IOPTN IS 1 OR 3, THEN THE VALUE OF NSTEP USED
- WILL BE THE POSITIVE INTEGER VALUE PLACED IN IWORK(2) BY THE USER IN THE
- DRIVER PROGRAM.  SETTING NSTEP LARGER THAN 1 MAY ALLOW THE PROGRAM TO
- SUCCEED ON DIFFICULT PROBLEMS WHERE THE CONVERGENCE WOULD BE EXTREMELY
- SLOW WITH NSTEP=1, BUT IT WILL GENERALLY CAUSE MORE COMPUTER TIME TO BE
- USED IN EACH RK ITERATION.  IWORK(2) DOES NOT NEED TO BE ASSIGNED A
- VALUE IF THE HUNDREDS DIGIT OF IOPTN IS 0 OR 2.  (NSTEP IS SOMETIMES
- CALLED THE OVERDRIVE PARAMETER.)</p>
-<p>IF THE HUNDREDS DIGIT OF IOPTN IS 0 OR 1, THEN THE INTERNAL PARAMETER
- TOLCON WILL BE GIVEN THE DEFAULT VALUE SQRT(B**(-ITT)), WHERE B IS THE
- BASE FOR FLOATING POINT NUMBERS AND ITT IS THE NUMBER OF BASE B DIGITS
- IN THE MANTISSA.</p>
-<p>IF THE HUNDREDS DIGIT OF IOPTN IS 2 OR 3, THEN THE VALUE OF TOLCON USED
- WILL BE THE VALUE PLACED IN WORK(2) BY THE USER IN THE DRIVER PROGRAM.
- THIS VALUE SHOULD ALWAYS BE NONNEGATIVE.  IF THERE ARE NO TYPE -2 OR -1
- CONSTRAINTS THEN THE SETTING OF TOLCON WILL HAVE NO EFFECT, BUT IF
- THERE ARE TYPE -2 OR -1 CONSTRAINTS THEN IN GENERAL SMALLER VALUES OF
- TOLCON MAY GIVE MORE ACCURACY IN THE FINAL ANSWER, BUT MAY SLOW DOWN
- OR PREVENT CONVERGENCE, WHILE LARGER VALUES OF TOLCON MAY HAVE THE
- REVERSE EFFECT.  IN PARTICULAR, IF THE TYPE -2 AND -1 CONSTRAINTS
- CANNOT BE SATISFIED SUMULTANEOUSLY WITH STRICT INEQUALITY (THIS CASE
- COULD OCCUR, FOR EXAMPLE, IF AN EQUALITY CONSTRAINT G = 0.0 WAS
- ENTERED AS THE TWO INEQUALITY CONSTRAINTS G &lt;= 0.0 AND
- -G &lt;= 0.0), THEN SETTING TOLCON=0.0 WILL ALMOST CERTAINLY CAUSE THE
- PROGRAM TO FAIL, SINCE AT EACH ITERATION THE PROGRAM WILL NOT ACCEPT
- PROSPECTIVE NEW VALUES OF THE PARAMETERS UNLESS IT CAN CORRECT THEM
- BACK INTO THE RELAXED FEASIBLE REGION WHERE CONFUN(IPT,1) &lt;= TOLCON
- FOR ALL THE TYPE -2 AND -1 CONSTRAINTS.</p>
-<p>IF THE THOUSANDS DIGIT OF IOPTN IS 0, THE PROGRAM WILL USE THE RK METHOD
- (WHICH INVOLVES APPLYING FOURTH ORDER RUNGE-KUTTA TO A SYSTEM OF
- DIFFERENTIAL EQUATIONS), THEN IF THIS FAILS IT WILL TRY TO REDUCE
- W WITH AN SLP STEP (I.E. SUCCESSIVE LINEAR PROGRAMMING WITH A TRUST
- REGION), THEN GO BACK TO RK IF THE SLP STEP REDUCES W.</p>
-<p>IF THE THOUSANDS DIGIT OF IOPTN IS 1, THE PROGRAM WILL USE SLP STEPS ONLY.
- IN GENERAL, IN SOME PROBLEMS SLP WORKS VERY WELL, AND IN THOSE
- PROBLEMS IT WILL USUALLY BE FASTER THAN RK BECAUSE IT REQUIRES FEWER
- GRADIENT EVALUATIONS THAN RK, BUT IN OTHER PROBLEMS THE CONVERGENCE
- OF SLP MAY BE EXCRUCIATINGLY SLOW, AND THE MORE POWERFUL RK METHOD
- MAY BE MUCH FASTER.</p>
-<p>IF THE THOUSANDS DIGIT OF IOPTN IS 2 THE PROGRAM WILL USE THE RK METHOD
- ONLY, QUITTING WHEN RK CAN NO LONGER PRODUCE AN IMPROVEMENT.  THIS
- MAY GIVE A LITTLE LESS ACCURACY THAN SETTING THE THOUSANDS DIGIT TO 0,
- BUT MAY SAVE SIGNIFICANT COMPUTER TIME IN SOME CASES.</p>
-<p>IF THE TEN THOUSANDS DIGIT OF IOPTN IS 0, THEN FNSET SHOULD BE WRITTEN AS
- DESCRIBED ABOVE.</p>
-<p>IF THE USER SETS THE TEN THOUSANDS DIGIT OF IOPTN TO 1, THEN FNSET SHOULD BE
- WRITTEN AS DESCRIBED ABOVE EXCEPT THAT THE COMPUTATIONS SHOULD BE DONE
- FOR ALL IPT=1,..,NUMGR INSTEAD OF FOR A SINGLE GIVEN VALUE OF IPT.
- THIS OPTION MAY SAVE COMPUTER TIME IN PROBLEMS WHERE A LARGE PART OF
- THE COMPUTATION IS THE SAME FOR DIFFERENT VALUES OF IPT, SINCE IT
- AVOIDS UNNECESSARY REPITITION OF THIS COMMON COMPUTATION BY HAVING
- THE LOOP OVER IPT IN FNSET INSTEAD OF OUTSIDE FNSET.
- IF THE TEN THOUSANDS DIGIT OF IOPTN IS 1, EVEN MORE TIME CAN OFTEN BE
- SAVED IF FNSET IS WRITTEN SO THAT ALL CONSTRAINTS ARE COMPUTED IF IPT=0,
- BUT ONLY THE STANDARD (I.E. TYPE -1 OR -2) CONSTRAINTS ARE COMPUTED IF
- IPT=-1.  NOTE THAT IF THE TEN THOUSANDS DIGIT OF IOPTN IS 0, THEN IPT
- WILL BE POSITIVE WHENEVER FNSET IS CALLED, INDICATING THAT ONLY
- CONSTRAINT IPT SHOULD BE COMPUTED.
- THE DRAWBACK OF USING THIS OPTION IS THAT IN GENERAL SOME CONSTRAINT
- VALUES AND DERIVATIVES WILL BE COMPUTED UNNECESSARILY, WHICH COULD COST
- TIME IN SOME PROBLEMS.</p>
+    <p>CONMAX consists of two programs for solving the problem</p>
+<div class="codehilite"><pre><span></span><code>     <span class="nv">minimize</span> <span class="nv">w</span>
+
+     <span class="nv">subject</span> <span class="nv">to</span>
+
+     <span class="nv">abs</span><span class="ss">(</span><span class="nv">fun</span><span class="ss">(</span><span class="nv">i</span><span class="ss">)</span> <span class="o">-</span> <span class="nv">confun</span><span class="ss">(</span><span class="nv">i</span>,<span class="mi">1</span><span class="ss">))</span> <span class="o">&lt;=</span> <span class="nv">w</span>      <span class="k">if</span> <span class="nv">icntyp</span><span class="ss">(</span><span class="nv">i</span><span class="ss">)</span><span class="o">=</span><span class="mi">2</span>,
+
+     <span class="nv">confun</span><span class="ss">(</span><span class="nv">i</span>,<span class="mi">1</span><span class="ss">)</span>               <span class="o">&lt;=</span> <span class="nv">w</span>      <span class="k">if</span> <span class="nv">icntyp</span><span class="ss">(</span><span class="nv">i</span><span class="ss">)</span><span class="o">=</span><span class="mi">1</span>,
+
+     <span class="nv">confun</span><span class="ss">(</span><span class="nv">i</span>,<span class="mi">1</span><span class="ss">)</span>               <span class="o">&lt;=</span> <span class="mi">0</span>.<span class="mi">0</span>    <span class="k">if</span> <span class="nv">icntyp</span><span class="ss">(</span><span class="nv">i</span><span class="ss">)</span><span class="o">=-</span><span class="mi">1</span> <span class="nv">or</span> <span class="o">-</span><span class="mi">2</span>,
+</code></pre></div>
+
+<p>Where:</p>
+<ul>
+<li>if <code>icntyp(i)=-1</code> the constraint is linear (i.e. the left side
+    consists of a linear combination of the parameters in the vector array
+    param plus a constant)</li>
+<li>if <code>icntyp(i)=-2</code> the constraint may be nonlinear.</li>
+</ul>
+<p>Thus we are choosing the parameters to minimize the left sides of
+ the type 2 and type 1 (i.e. primary) constraints subject to the
+ type -1 and type -2 (i.e. standard) constraints.</p>
+<p>If there are no primary constraints the program will attempt to
+ find a feasible point (that is, a vector param for which the type -1
+ and type -2 constraints are satisfied within a tolerance tolcon
+ described below) which is relatively close to the user supplied initial
+ approximation, then return.</p>
+<h3>Notes</h3>
+<ul>
+<li>Since <code>iwork</code> and <code>work</code> are changed by the program,
+    the user will need to reset these values each time conmax is called.</li>
+</ul>
     
 
     <h3>Arguments</h3>
@@ -430,12 +275,135 @@ private subroutine conmax(me, Ioptn, Nparm, Numgr, Itlim, Fun, Ifun, Pttbl, Iptb
   
 <tr>
   
-  <td><span class="anchor" id="variable-ioptn"></span>integer</td>
-  <td></td>
+  <td><span class="anchor" id="variable-ioptn"></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Ioptn</strong></td><td></td>
+  <td><strong>ioptn</strong></td><td><p>THIS IS THE OPTION SWITCH, WHICH SHOULD BE SET TO
+ 0 UNLESS ONE OR MORE OF THE EXTRA OPTIONS DESCRIBED BELOW
+ IS USED. THE USER HAS SEVERAL EXTRA OPTIONS WHICH ARE ACTIVATED BY SETTING
+ IOPTN TO A VALUE OTHER THAN 0; MORE THAN ONE AT A TIME CAN BE USED.
+ IN PARTICULAR:</p>
+<ul>
+<li>
+<p>IF THE ONES DIGIT OF IOPTN IS 0, THEN THE USER SHOULD GIVE FORMULAS
+   IN FNSET FOR COMPUTING THE PARTIAL DERIVATIVES WHEN INDFN=1 AS DESCRIBED
+   ABOVE.</p>
+</li>
+<li>
+<p>IF THE USER SETS THE ONES DIGIT OF IOPTN TO 1, THEN INDFN WILL ALWAYS
+   BE 0 WHEN FNSET IS CALLED, AND THE PROGRAM WILL AUTOMATICALLY
+   APPROXIMATE THE PARTIAL DERIVATIVES WHEN REQUIRED USING THE FOLLOWING
+   CENTERED DIFFERENCE FORMULA:
+   PARTIAL DERIVATIVE WITH RESPECT TO THE JTH VARIABLE (WHERE 1 &lt;= J
+   &lt;= NPARM) OF THE FUNCTION WHOSE VALUE IS COMPUTED IN CONFUN(IPT,1)
+   (WHERE 1 &lt;= IPT &lt;= NUMGR) IS APPROXIMATELY THE VALUE OF THIS
+   FUNCTION WHEN THE JTH COMPONENT OF PARAM IS INCREASED BY DELT, MINUS
+   THE VALUE OF THIS FUNCTION WHEN THE JTH COMPONENT OF PARAM IS
+   DECREASED BY DELT, ALL DIVIDED BY 2.0<em>DELT, WHERE DELT = SQRT(B</em>*(-ITT)),
+   WHERE B IS THE BASE FOR FOR FLOATING POINT NUMBERS AND ITT IS THE NUMBER
+   OF BASE B DIGITS IN THE MANTISSA.</p>
+</li>
+<li>
+<p>IF THE TENS DIGIT OF IOPTN IS 0, THE PROGRAM WILL NOT GIVE UP
+   UNTIL EITHER AN ITERATION FAILS TO PRODUCE A REDUCTION ABS(ENCHG) OF
+   MORE THAN 100.0<em>B</em>*(-ITT) IN THE PRINCIPAL ERROR NORM, OR ITLIM
+   ITERATIONS HAVE BEEN USED.</p>
+</li>
+<li>
+<p>IF THE TENS DIGIT OF IOPTN IS 1, THE PROGRAM WILL ALSO GIVE UP IF
+   ABS(ENCHG) &lt; ENCSM FOR LIMSM CONSECUTIVE STEPS IN THE MAIN PART OF
+   THE PROGRAM (I.E. AFTER TYPE -1 AND TYPE -2 FEASIBILITY HAVE BOTH BEEN
+   ACHIEVED).  THIS OPTION MAY BE USEFUL IN SAVING SOME TIME BY
+   FORESTALLING A LONG STRING OF ITERATIONS AT THE END OF A RUN WITH ONLY
+   A TINY IMPROVEMENT IN EACH ONE.  ENCSM AND LIMSM ARE TRANSMITTED TO
+   CONMAX IN WORK(1) AND IWORK(1) RESPECTIVELY.  WORK(1) AND IWORK(1) DO
+   NOT NEED TO BE ASSIGNED VALUES IF THE TENS DIGIT OF IOPTN IS 0.</p>
+</li>
+<li>
+<p>IF THE HUNDREDS DIGIT OF IOPTN IS 0 OR 2, THEN THE INTERNAL PARAMETER
+   NSTEP WILL BE GIVEN THE DEFAULT VALUE 1.  NSTEP IS THE NUMBER OF
+   RUNGE-KUTTA STEPS USED IN EACH RK ITERATION.</p>
+</li>
+<li>
+<p>IF THE HUNDREDS DIGIT OF IOPTN IS 1 OR 3, THEN THE VALUE OF NSTEP USED
+   WILL BE THE POSITIVE INTEGER VALUE PLACED IN IWORK(2) BY THE USER IN THE
+   DRIVER PROGRAM.  SETTING NSTEP LARGER THAN 1 MAY ALLOW THE PROGRAM TO
+   SUCCEED ON DIFFICULT PROBLEMS WHERE THE CONVERGENCE WOULD BE EXTREMELY
+   SLOW WITH NSTEP=1, BUT IT WILL GENERALLY CAUSE MORE COMPUTER TIME TO BE
+   USED IN EACH RK ITERATION.  IWORK(2) DOES NOT NEED TO BE ASSIGNED A
+   VALUE IF THE HUNDREDS DIGIT OF IOPTN IS 0 OR 2.  (NSTEP IS SOMETIMES
+   CALLED THE OVERDRIVE PARAMETER.)</p>
+</li>
+<li>
+<p>IF THE HUNDREDS DIGIT OF IOPTN IS 0 OR 1, THEN THE INTERNAL PARAMETER
+   TOLCON WILL BE GIVEN THE DEFAULT VALUE SQRT(B**(-ITT)), WHERE B IS THE
+   BASE FOR FLOATING POINT NUMBERS AND ITT IS THE NUMBER OF BASE B DIGITS
+   IN THE MANTISSA.</p>
+</li>
+<li>
+<p>IF THE HUNDREDS DIGIT OF IOPTN IS 2 OR 3, THEN THE VALUE OF TOLCON USED
+   WILL BE THE VALUE PLACED IN WORK(2) BY THE USER IN THE DRIVER PROGRAM.
+   THIS VALUE SHOULD ALWAYS BE NONNEGATIVE.  IF THERE ARE NO TYPE -2 OR -1
+   CONSTRAINTS THEN THE SETTING OF TOLCON WILL HAVE NO EFFECT, BUT IF
+   THERE ARE TYPE -2 OR -1 CONSTRAINTS THEN IN GENERAL SMALLER VALUES OF
+   TOLCON MAY GIVE MORE ACCURACY IN THE FINAL ANSWER, BUT MAY SLOW DOWN
+   OR PREVENT CONVERGENCE, WHILE LARGER VALUES OF TOLCON MAY HAVE THE
+   REVERSE EFFECT.  IN PARTICULAR, IF THE TYPE -2 AND -1 CONSTRAINTS
+   CANNOT BE SATISFIED SUMULTANEOUSLY WITH STRICT INEQUALITY (THIS CASE
+   COULD OCCUR, FOR EXAMPLE, IF AN EQUALITY CONSTRAINT G = 0.0 WAS
+   ENTERED AS THE TWO INEQUALITY CONSTRAINTS G &lt;= 0.0 AND
+   -G &lt;= 0.0), THEN SETTING TOLCON=0.0 WILL ALMOST CERTAINLY CAUSE THE
+   PROGRAM TO FAIL, SINCE AT EACH ITERATION THE PROGRAM WILL NOT ACCEPT
+   PROSPECTIVE NEW VALUES OF THE PARAMETERS UNLESS IT CAN CORRECT THEM
+   BACK INTO THE RELAXED FEASIBLE REGION WHERE CONFUN(IPT,1) &lt;= TOLCON
+   FOR ALL THE TYPE -2 AND -1 CONSTRAINTS.</p>
+</li>
+<li>
+<p>IF THE THOUSANDS DIGIT OF IOPTN IS 0, THE PROGRAM WILL USE THE RK METHOD
+   (WHICH INVOLVES APPLYING FOURTH ORDER RUNGE-KUTTA TO A SYSTEM OF
+   DIFFERENTIAL EQUATIONS), THEN IF THIS FAILS IT WILL TRY TO REDUCE
+   W WITH AN SLP STEP (I.E. SUCCESSIVE LINEAR PROGRAMMING WITH A TRUST
+   REGION), THEN GO BACK TO RK IF THE SLP STEP REDUCES W.</p>
+</li>
+<li>
+<p>IF THE THOUSANDS DIGIT OF IOPTN IS 1, THE PROGRAM WILL USE SLP STEPS ONLY.
+   IN GENERAL, IN SOME PROBLEMS SLP WORKS VERY WELL, AND IN THOSE
+   PROBLEMS IT WILL USUALLY BE FASTER THAN RK BECAUSE IT REQUIRES FEWER
+   GRADIENT EVALUATIONS THAN RK, BUT IN OTHER PROBLEMS THE CONVERGENCE
+   OF SLP MAY BE EXCRUCIATINGLY SLOW, AND THE MORE POWERFUL RK METHOD
+   MAY BE MUCH FASTER.</p>
+</li>
+<li>
+<p>IF THE THOUSANDS DIGIT OF IOPTN IS 2 THE PROGRAM WILL USE THE RK METHOD
+   ONLY, QUITTING WHEN RK CAN NO LONGER PRODUCE AN IMPROVEMENT.  THIS
+   MAY GIVE A LITTLE LESS ACCURACY THAN SETTING THE THOUSANDS DIGIT TO 0,
+   BUT MAY SAVE SIGNIFICANT COMPUTER TIME IN SOME CASES.</p>
+</li>
+<li>
+<p>IF THE TEN THOUSANDS DIGIT OF IOPTN IS 0, THEN FNSET SHOULD BE WRITTEN AS
+   DESCRIBED ABOVE.</p>
+</li>
+<li>
+<p>IF THE USER SETS THE TEN THOUSANDS DIGIT OF IOPTN TO 1, THEN FNSET SHOULD BE
+   WRITTEN AS DESCRIBED ABOVE EXCEPT THAT THE COMPUTATIONS SHOULD BE DONE
+   FOR ALL IPT=1,..,NUMGR INSTEAD OF FOR A SINGLE GIVEN VALUE OF IPT.
+   THIS OPTION MAY SAVE COMPUTER TIME IN PROBLEMS WHERE A LARGE PART OF
+   THE COMPUTATION IS THE SAME FOR DIFFERENT VALUES OF IPT, SINCE IT
+   AVOIDS UNNECESSARY REPITITION OF THIS COMMON COMPUTATION BY HAVING
+   THE LOOP OVER IPT IN FNSET INSTEAD OF OUTSIDE FNSET.
+   IF THE TEN THOUSANDS DIGIT OF IOPTN IS 1, EVEN MORE TIME CAN OFTEN BE
+   SAVED IF FNSET IS WRITTEN SO THAT ALL CONSTRAINTS ARE COMPUTED IF IPT=0,
+   BUT ONLY THE STANDARD (I.E. TYPE -1 OR -2) CONSTRAINTS ARE COMPUTED IF
+   IPT=-1.  NOTE THAT IF THE TEN THOUSANDS DIGIT OF IOPTN IS 0, THEN IPT
+   WILL BE POSITIVE WHENEVER FNSET IS CALLED, INDICATING THAT ONLY
+   CONSTRAINT IPT SHOULD BE COMPUTED.
+   THE DRAWBACK OF USING THIS OPTION IS THAT IN GENERAL SOME CONSTRAINT
+   VALUES AND DERIVATIVES WILL BE COMPUTED UNNECESSARILY, WHICH COULD COST
+   TIME IN SOME PROBLEMS.</p>
+</li>
+</ul></td>
   
 </tr>
 
@@ -445,12 +413,13 @@ private subroutine conmax(me, Ioptn, Nparm, Numgr, Itlim, Fun, Ifun, Pttbl, Iptb
   
 <tr>
   
-  <td><span class="anchor" id="variable-nparm~4"></span>integer</td>
-  <td></td>
+  <td><span class="anchor" id="variable-nparm"></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Nparm</strong></td><td></td>
+  <td><strong>nparm</strong></td><td><p>THIS IS THE NUMBER OF PARAMETERS IN THE PROBLEM.
+ (THEY ARE STORED IN <code>PARAM</code> -- SEE BELOW.)</p></td>
   
 </tr>
 
@@ -460,12 +429,12 @@ private subroutine conmax(me, Ioptn, Nparm, Numgr, Itlim, Fun, Ifun, Pttbl, Iptb
   
 <tr>
   
-  <td><span class="anchor" id="variable-numgr~3"></span>integer</td>
-  <td></td>
+  <td><span class="anchor" id="variable-numgr"></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Numgr</strong></td><td></td>
+  <td><strong>numgr</strong></td><td><p>THIS IS THE TOTAL NUMBER OF CONSTRAINTS.</p></td>
   
 </tr>
 
@@ -475,12 +444,16 @@ private subroutine conmax(me, Ioptn, Nparm, Numgr, Itlim, Fun, Ifun, Pttbl, Iptb
   
 <tr>
   
-  <td><span class="anchor" id="variable-itlim"></span>integer</td>
-  <td></td>
+  <td><span class="anchor" id="variable-itlim"></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Itlim</strong></td><td></td>
+  <td><strong>itlim</strong></td><td><p>THIS IS THE LIMIT ON THE NUMBER OF ITERATIONS, I.E.
+ THE LIMIT ON THE NUMBER OF TIMES THE PROGRAM REDUCES W.  IF
+ ITLIM IS SET TO 0 THE PROGRAM WILL COMPUTE THE ERRORS FOR
+ THE INITIAL APPROXIMATION AND STOP WITHOUT CHECKING
+ FEASIBILITY.</p></td>
   
 </tr>
 
@@ -490,12 +463,15 @@ private subroutine conmax(me, Ioptn, Nparm, Numgr, Itlim, Fun, Ifun, Pttbl, Iptb
   
 <tr>
   
-  <td><span class="anchor" id="variable-fun"></span>real(kind=wp)</td>
-  <td></td>
+  <td><span class="anchor" id="variable-fun"></span>real(kind=wp),</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Fun</strong></td><td></td>
+  <td><strong>fun</strong>(Ifun)</td><td><p>(VECTOR ARRAY OF DIMENSION IFUN)  THIS IS
+ A VECTOR ARRAY IN WHICH DATA OR FUNCTION VALUES IN TYPE 2
+ CONSTRAINTS (SEE ABOVE) CAN BE STORED.  FUN(I) NEED NOT BE
+ ASSIGNED A VALUE IF IT IS NOT GOING TO BE USED.</p></td>
   
 </tr>
 
@@ -505,12 +481,14 @@ private subroutine conmax(me, Ioptn, Nparm, Numgr, Itlim, Fun, Ifun, Pttbl, Iptb
   
 <tr>
   
-  <td><span class="anchor" id="variable-ifun"></span>integer</td>
-  <td></td>
+  <td><span class="anchor" id="variable-ifun"></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Ifun</strong></td><td></td>
+  <td><strong>ifun</strong></td><td><p>THIS IS THE DIMENSION OF FUN IN THE DRIVER PROGRAM.
+ IT MUST BE &gt;= THE LARGEST INDEX I FOR WHICH FUN(I) IS USED
+ UNLESS NO FUN(I) IS USED, IN WHICH CASE IT MUST BE &gt;= 1.</p></td>
   
 </tr>
 
@@ -520,12 +498,21 @@ private subroutine conmax(me, Ioptn, Nparm, Numgr, Itlim, Fun, Ifun, Pttbl, Iptb
   
 <tr>
   
-  <td><span class="anchor" id="variable-pttbl~2"></span>real(kind=wp)</td>
-  <td></td>
+  <td><span class="anchor" id="variable-pttbl"></span>real(kind=wp),</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Pttbl</strong></td><td></td>
+  <td><strong>pttbl</strong>(Iptb,Indm)</td><td><p>(MATRIX ARRAY OF DIMENSION (IPTB,INDM))
+ ROW I OF THIS ARRAY NORMALLY CONTAINS A POINT USED IN THE ITH
+ CONSTRAINT.  THE ENTRIES IN ROW I NEED NOT BE ASSIGNED VALUES IF
+ SUCH A POINT IS NOT USED IN THE ITH CONSTRAINT.
+ (EXAMPLE:  IF THE LEFT SIDE OF CONSTRAINT I IS A POLYNOMIAL IN
+ ONE INDEPENDENT VARIABLE, THEN THE VALUE OF THE INDEPENDENT
+ VARIABLE SHOULD BE IN PTTBL(I,1), AND THE COEFFICIENTS SHOULD BE
+ IN PARAM.)
+ PTTBL CAN ALSO BE USED TO PASS OTHER INFORMATION FROM THE DRIVER
+ PROGRAM TO SUBROUTINE FNSET.</p></td>
   
 </tr>
 
@@ -535,12 +522,15 @@ private subroutine conmax(me, Ioptn, Nparm, Numgr, Itlim, Fun, Ifun, Pttbl, Iptb
   
 <tr>
   
-  <td><span class="anchor" id="variable-iptb~2"></span>integer</td>
-  <td></td>
+  <td><span class="anchor" id="variable-iptb"></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Iptb</strong></td><td></td>
+  <td><strong>iptb</strong></td><td><p>THIS IS THE FIRST DIMENSION OF PTTBL IN THE DRIVER
+ PROGRAM.  IT MUST BE &gt;= THE LARGEST SUBSCRIPT I FOR WHICH A
+ VALUE PTTBL(I,J) IS USED, AND MUST BE &gt;= 1 IF NO SUCH VALUES
+ ARE USED.</p></td>
   
 </tr>
 
@@ -550,12 +540,15 @@ private subroutine conmax(me, Ioptn, Nparm, Numgr, Itlim, Fun, Ifun, Pttbl, Iptb
   
 <tr>
   
-  <td><span class="anchor" id="variable-indm~2"></span>integer</td>
-  <td></td>
+  <td><span class="anchor" id="variable-indm~2"></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Indm</strong></td><td></td>
+  <td><strong>Indm</strong></td><td><p>THIS IS THE SECOND DIMENSION OF PTTBL IN THE DRIVER
+ PROGRAM.  IT MUST BE &gt;= THE LARGEST SUBSCRIPT J FOR WHICH A
+ VALUE PTTBL(I,J) IS USED, AND MUST BE &gt;= 1 IF NO SUCH VALUES
+ ARE USED.</p></td>
   
 </tr>
 
@@ -565,12 +558,14 @@ private subroutine conmax(me, Ioptn, Nparm, Numgr, Itlim, Fun, Ifun, Pttbl, Iptb
   
 <tr>
   
-  <td><span class="anchor" id="variable-iwork"></span>integer</td>
-  <td></td>
+  <td><span class="anchor" id="variable-iwork"></span>integer,</td>
+  <td>intent(inout)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Iwork</strong></td><td></td>
+  <td><strong>iwork</strong>(Liwrk)</td><td><p>(VECTOR ARRAY OF DIMENSION LIWRK)  THIS IS AN INTEGER
+ WORK ARRAY.  THE USER NEED NOT PLACE ANY VALUES IN IT, EXCEPT
+ POSSIBLY CERTAIN OPTIONAL INFORMATION AS DESCRIBED BELOW.</p></td>
   
 </tr>
 
@@ -580,12 +575,14 @@ private subroutine conmax(me, Ioptn, Nparm, Numgr, Itlim, Fun, Ifun, Pttbl, Iptb
   
 <tr>
   
-  <td><span class="anchor" id="variable-liwrk"></span>integer</td>
-  <td></td>
+  <td><span class="anchor" id="variable-liwrk"></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Liwrk</strong></td><td></td>
+  <td><strong>liwrk</strong></td><td><p>THIS IS THE DIMENSION OF IWORK IN THE DRIVER PROGRAM.
+ IT MUST BE AT LEAST 7<em>NUMGR + 7</em>NPARM + 3.  IF NOT, CONMAX WILL
+ RETURN WITH THIS MINIMUM VALUE MULTIPLIED BY -1 AS A WARNING.</p></td>
   
 </tr>
 
@@ -595,12 +592,14 @@ private subroutine conmax(me, Ioptn, Nparm, Numgr, Itlim, Fun, Ifun, Pttbl, Iptb
   
 <tr>
   
-  <td><span class="anchor" id="variable-work"></span>real(kind=wp)</td>
-  <td></td>
+  <td><span class="anchor" id="variable-work"></span>real(kind=wp),</td>
+  <td>intent(inout)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Work</strong></td><td></td>
+  <td><strong>work</strong>(Lwrk)</td><td><p>(VECTOR ARRAY OF DIMENSION LWRK)  THIS IS A FLOATING
+ POINT WORK ARRAY.  THE USER NEED NOT PLACE ANY VALUES IN IT,
+ EXCEPT POSSIBLY CERTAIN OPTIONAL INFORMATION AS DESCRIBED BELOW.</p></td>
   
 </tr>
 
@@ -610,12 +609,15 @@ private subroutine conmax(me, Ioptn, Nparm, Numgr, Itlim, Fun, Ifun, Pttbl, Iptb
   
 <tr>
   
-  <td><span class="anchor" id="variable-lwrk"></span>integer</td>
-  <td></td>
+  <td><span class="anchor" id="variable-lwrk"></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Lwrk</strong></td><td></td>
+  <td><strong>lwrk</strong></td><td><p>THIS IS THE DIMENSION OF WORK IN THE DRIVER PROGRAM.
+ IT MUST BE AT LEAST 2<em>NPARM</em><em>2 + 4</em>NUMGR<em>NPARM + 11</em>NUMGR +
+ 27*NPARM + 13.  IF NOT, CONMAX WILL RETURN WITH THIS MINIMUM
+ VALUE MULTIPLIED BY -1 AS A WARNING.</p></td>
   
 </tr>
 
@@ -625,12 +627,26 @@ private subroutine conmax(me, Ioptn, Nparm, Numgr, Itlim, Fun, Ifun, Pttbl, Iptb
   
 <tr>
   
-  <td><span class="anchor" id="variable-iter"></span>integer</td>
-  <td></td>
+  <td><span class="anchor" id="variable-iter"></span>integer,</td>
+  <td>intent(out)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Iter</strong></td><td></td>
+  <td><strong>iter</strong></td><td><p>THIS IS THE NUMBER OF ITERATIONS PERFORMED BY CONMAX,
+ INCLUDING THOSE USED IN ATTEMPTING TO GAIN FEASIBILITY,
+ UNTIL EITHER IT CAN NO LONGER IMPROVE THE SITUATION OR THE
+ ITERATION LIMIT IS REACHED.  IF ITER=ITLIM IT IS POSSIBLE
+ THAT THE PROGRAM COULD FURTHER REDUCE W IF RESTARTED
+ (POSSIBLY WITH THE NEW PARAMETERS).</p>
+<ul>
+<li>ITER=-1 IS A SIGNAL THAT TYPE -1 FEASIBILITY COULD NOT BE
+    ACHIEVED, IN THIS CASE ERROR WILL CONTAIN THE VALUES COMPUTED
+    USING THE USER SUPPLIED INITIAL APPROXIMATION.</li>
+<li>ITER=-2 IS A SIGNAL THAT TYPE -1 FEASIBILITY WAS ACHIEVED
+    BUT TYPE -2 FEASIBILITY COULD NOT BE ACHIEVED,
+    IN THIS CASE VALUES IN ERROR CORRESPONDING TO TYPE 1 OR
+    TYPE 2 CONSTRAINTS WILL BE ZERO.</li>
+</ul></td>
   
 </tr>
 
@@ -640,12 +656,17 @@ private subroutine conmax(me, Ioptn, Nparm, Numgr, Itlim, Fun, Ifun, Pttbl, Iptb
   
 <tr>
   
-  <td><span class="anchor" id="variable-param~2"></span>real(kind=wp)</td>
-  <td></td>
+  <td><span class="anchor" id="variable-param"></span>real(kind=wp),</td>
+  <td>intent(inout)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Param</strong></td><td></td>
+  <td><strong>param</strong>(Nparm)</td><td><p>(VECTOR ARRAY OF DIMENSION AT LEAST NPARM
+ IN THE DRIVER PROGRAM)  THE USER SHOULD PLACE AN INITIAL GUESS
+ FOR THE PARAMETERS IN PARAM, AND ON OUTPUT PARAM WILL CONTAIN
+ THE BEST PARAMETERS CONMAX HAS BEEN ABLE TO FIND.  IF THE
+ INITIAL PARAM IS NOT FEASIBLE THE PROGRAM WILL FIRST TRY TO
+ FIND A FEASIBLE PARAM.</p></td>
   
 </tr>
 
@@ -655,12 +676,42 @@ private subroutine conmax(me, Ioptn, Nparm, Numgr, Itlim, Fun, Ifun, Pttbl, Iptb
   
 <tr>
   
-  <td><span class="anchor" id="variable-error"></span>real(kind=wp)</td>
-  <td></td>
+  <td><span class="anchor" id="variable-error"></span>real(kind=wp),</td>
+  <td>intent(out)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Error</strong></td><td></td>
+  <td><strong>error</strong>(Numgr+3)</td><td><p>(VECTOR ARRAY OF DIMENSION AT LEAST NUMGR + 3 IN THE
+ DRIVER PROGRAM)  FOR I=1,...,NUMGR, CONMAX WILL PLACE IN
+ ERROR(I) THE ERROR IN CONSTRAINT I (DEFINED TO BE THE VALUE
+ OF THE LEFT SIDE OF CONSTRAINT I, EXCEPT WITHOUT THE ABSOLUTE
+ VALUE IN TYPE 2 CONSTRAINTS).  FURTHER,</p>
+<ul>
+<li>
+<p>ERROR(NUMGR+1) WILL BE THE (PRINCIPAL) ERROR NORM, THAT IS, THE
+    MAXIMUM VALUE OF THE LEFT SIDES OF THE TYPE 2 (INCLUDING THE
+    ABSOLUTE VALUE) AND TYPE 1 CONSTRAINTS.</p>
+</li>
+<li>
+<p>ERROR(NUMGR+2) WILL BE THE MAXIMUM VALUE OF THE LEFT SIDES OF THE
+    TYPE -1 CONSTRAINTS, OR 0.0 IF THERE ARE NO TYPE -1
+    CONSTRAINTS.  EXCEPT FOR ROUNDOFF ERROR AND SMALL TOLERANCES
+    IN SOME SUBROUTINES THIS VALUE WILL NORMALLY BE &lt;= 0.0, AND
+    IT WILL NOT BE ALLOWED TO BE &gt; TOLCON IN THE MAIN PART OF
+    THE PROGRAM.</p>
+</li>
+<li>
+<p>ERROR(NUMGR+3) WILL BE THE MAXIMUM VALUE OF THE LEFT SIDES OF THE
+    TYPE -2 CONSTRAINTS, OR 0.0 IF THERE ARE NO TYPE -2
+    CONSTRAINTS.  THIS VALUE SHOULD BE &lt;= TOLCON, SINCE THE
+    PROGRAM WILL NOT EVEN ATTEMPT TO COMPUTE VALUES FOR THE
+    TYPE 2 AND TYPE 1 CONSTRAINTS OTHERWISE (EXCEPT FOR VALUES
+    CORRESPONDING TO THE INITIAL PARAMETERS PLACED IN PARAM BY
+    THE USER).  THE USER CAN USE THIS FEATURE TO INSERT TYPE -2
+    OR -1 CONSTRAINTS TO KEEP THE PARAMETERS AWAY FROM VALUES
+    WHERE A TYPE 2 OR TYPE 1 CONSTRAINT IS UNDEFINED.</p>
+</li>
+</ul></td>
   
 </tr>
 
@@ -726,30 +777,45 @@ private subroutine conmax(me, Ioptn, Nparm, Numgr, Itlim, Fun, Ifun, Pttbl, Iptb
 <polygon fill="#000000" stroke="#000000" points="83.03,-110.79 90.77,-103.56 80.21,-104.39 83.03,-110.79"/>
 </g>
 <!-- proc~wolfe&#45;&gt;proc~iloc -->
-<g id="proc~~conmax~~CallsGraph_edge4" class="edge">
+<g id="proc~~conmax~~CallsGraph_edge3" class="edge">
 <title>proc~wolfe&#45;&gt;proc~iloc</title>
 <path fill="none" stroke="#000000" d="M145,-101.71C156,-105.58 169.02,-109.85 181,-113 207.48,-119.96 237.9,-125.64 260.94,-129.49"/>
 <polygon fill="#000000" stroke="#000000" points="260.54,-132.97 270.97,-131.13 261.66,-126.06 260.54,-132.97"/>
 </g>
-<!-- proc~dotprd -->
+<!-- proc~conenr -->
 <g id="proc~~conmax~~CallsGraph_node4" class="node">
+<title>proc~conenr</title>
+<g id="a_proc~~conmax~~CallsGraph_node4"><a xlink:href=".././proc/conenr.html" xlink:title="conenr">
+<polygon fill="#d9534f" stroke="#d9534f" points="235,-104 181,-104 181,-80 235,-80 235,-104"/>
+<text text-anchor="middle" x="208" y="-89.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">conenr</text>
+</a>
+</g>
+</g>
+<!-- proc~wolfe&#45;&gt;proc~conenr -->
+<g id="proc~~conmax~~CallsGraph_edge4" class="edge">
+<title>proc~wolfe&#45;&gt;proc~conenr</title>
+<path fill="none" stroke="#000000" d="M145.4,-92C153.39,-92 162.31,-92 170.82,-92"/>
+<polygon fill="#000000" stroke="#000000" points="170.92,-95.5 180.92,-92 170.92,-88.5 170.92,-95.5"/>
+</g>
+<!-- proc~dotprd -->
+<g id="proc~~conmax~~CallsGraph_node5" class="node">
 <title>proc~dotprd</title>
-<g id="a_proc~~conmax~~CallsGraph_node4"><a xlink:href=".././proc/dotprd.html" xlink:title="dotprd">
+<g id="a_proc~~conmax~~CallsGraph_node5"><a xlink:href=".././proc/dotprd.html" xlink:title="dotprd">
 <polygon fill="#d94e8f" stroke="#d94e8f" points="325,-63 271,-63 271,-39 325,-39 325,-63"/>
 <text text-anchor="middle" x="298" y="-48.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dotprd</text>
 </a>
 </g>
 </g>
 <!-- proc~wolfe&#45;&gt;proc~dotprd -->
-<g id="proc~~conmax~~CallsGraph_edge3" class="edge">
+<g id="proc~~conmax~~CallsGraph_edge5" class="edge">
 <title>proc~wolfe&#45;&gt;proc~dotprd</title>
 <path fill="none" stroke="#000000" d="M145.28,-82.09C156.21,-78.23 169.1,-74.02 181,-71 207.45,-64.28 237.87,-59.13 260.92,-55.74"/>
 <polygon fill="#000000" stroke="#000000" points="261.55,-59.19 270.96,-54.31 260.56,-52.26 261.55,-59.19"/>
 </g>
 <!-- proc~refwl -->
-<g id="proc~~conmax~~CallsGraph_node5" class="node">
+<g id="proc~~conmax~~CallsGraph_node6" class="node">
 <title>proc~refwl</title>
-<g id="a_proc~~conmax~~CallsGraph_node5"><a xlink:href=".././proc/refwl.html" xlink:title="refwl">
+<g id="a_proc~~conmax~~CallsGraph_node6"><a xlink:href=".././proc/refwl.html" xlink:title="refwl">
 <polygon fill="#d9534f" stroke="#d9534f" points="235,-24 181,-24 181,0 235,0 235,-24"/>
 <text text-anchor="middle" x="208" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">refwl</text>
 </a>
@@ -761,29 +827,14 @@ private subroutine conmax(me, Ioptn, Nparm, Numgr, Itlim, Fun, Ifun, Pttbl, Iptb
 <path fill="none" stroke="#000000" d="M132.37,-79.85C146.66,-66.85 169.53,-46.07 186.18,-30.92"/>
 <polygon fill="#000000" stroke="#000000" points="188.75,-33.32 193.8,-24 184.04,-28.14 188.75,-33.32"/>
 </g>
-<!-- proc~conenr -->
-<g id="proc~~conmax~~CallsGraph_node6" class="node">
-<title>proc~conenr</title>
-<g id="a_proc~~conmax~~CallsGraph_node6"><a xlink:href=".././proc/conenr.html" xlink:title="conenr">
-<polygon fill="#d9534f" stroke="#d9534f" points="235,-104 181,-104 181,-80 235,-80 235,-104"/>
-<text text-anchor="middle" x="208" y="-89.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">conenr</text>
-</a>
-</g>
-</g>
-<!-- proc~wolfe&#45;&gt;proc~conenr -->
-<g id="proc~~conmax~~CallsGraph_edge5" class="edge">
-<title>proc~wolfe&#45;&gt;proc~conenr</title>
-<path fill="none" stroke="#000000" d="M145.4,-92C153.39,-92 162.31,-92 170.82,-92"/>
-<polygon fill="#000000" stroke="#000000" points="170.92,-95.5 180.92,-92 170.92,-88.5 170.92,-95.5"/>
-</g>
 <!-- proc~conenr&#45;&gt;proc~iloc -->
-<g id="proc~~conmax~~CallsGraph_edge8" class="edge">
+<g id="proc~~conmax~~CallsGraph_edge7" class="edge">
 <title>proc~conenr&#45;&gt;proc~iloc</title>
 <path fill="none" stroke="#000000" d="M233.98,-104.21C243.07,-108.65 253.5,-113.74 263.22,-118.49"/>
 <polygon fill="#000000" stroke="#000000" points="261.74,-121.67 272.26,-122.91 264.81,-115.38 261.74,-121.67"/>
 </g>
 <!-- proc~conenr&#45;&gt;proc~dotprd -->
-<g id="proc~~conmax~~CallsGraph_edge7" class="edge">
+<g id="proc~~conmax~~CallsGraph_edge9" class="edge">
 <title>proc~conenr&#45;&gt;proc~dotprd</title>
 <path fill="none" stroke="#000000" d="M234.93,-79.92C243.36,-75.99 252.86,-71.57 261.84,-67.38"/>
 <polygon fill="#000000" stroke="#000000" points="263.37,-70.53 270.95,-63.13 260.41,-64.19 263.37,-70.53"/>
@@ -798,7 +849,7 @@ private subroutine conmax(me, Ioptn, Nparm, Numgr, Itlim, Fun, Ifun, Pttbl, Iptb
 </g>
 </g>
 <!-- proc~conenr&#45;&gt;proc~house -->
-<g id="proc~~conmax~~CallsGraph_edge9" class="edge">
+<g id="proc~~conmax~~CallsGraph_edge8" class="edge">
 <title>proc~conenr&#45;&gt;proc~house</title>
 <path fill="none" stroke="#000000" d="M235.4,-92.3C243.39,-92.39 252.31,-92.49 260.82,-92.59"/>
 <polygon fill="#000000" stroke="#000000" points="260.88,-96.09 270.92,-92.7 260.96,-89.09 260.88,-96.09"/>
@@ -927,138 +978,331 @@ private subroutine conmax(me, Ioptn, Nparm, Numgr, Itlim, Fun, Ifun, Pttbl, Iptb
     
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="highlight"><pre><span></span>      <span class="k">subroutine </span><span class="n">conmax</span><span class="p">(</span><span class="n">me</span><span class="p">,</span><span class="n">Ioptn</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">,</span><span class="n">Itlim</span><span class="p">,</span><span class="n">Fun</span><span class="p">,</span><span class="n">Ifun</span><span class="p">,</span><span class="n">Pttbl</span><span class="p">,</span><span class="n">Iptb</span><span class="p">,</span>    <span class="p">&amp;</span>
-                        <span class="n">Indm</span><span class="p">,</span><span class="n">Iwork</span><span class="p">,</span><span class="n">Liwrk</span><span class="p">,</span><span class="n">Work</span><span class="p">,</span><span class="n">Lwrk</span><span class="p">,</span><span class="n">Iter</span><span class="p">,</span><span class="n">Param</span><span class="p">,</span><span class="n">Error</span><span class="p">)</span>
+    <div class="highlight"><pre><span></span>    <span class="k">subroutine </span><span class="n">conmax</span><span class="p">(</span><span class="n">me</span><span class="p">,</span><span class="n">Ioptn</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">,</span><span class="n">Itlim</span><span class="p">,</span><span class="n">Fun</span><span class="p">,</span><span class="n">Ifun</span><span class="p">,</span><span class="n">Pttbl</span><span class="p">,</span><span class="n">Iptb</span><span class="p">,</span> <span class="p">&amp;</span>
+                      <span class="n">Indm</span><span class="p">,</span><span class="n">Iwork</span><span class="p">,</span><span class="n">Liwrk</span><span class="p">,</span><span class="n">Work</span><span class="p">,</span><span class="n">Lwrk</span><span class="p">,</span><span class="n">Iter</span><span class="p">,</span><span class="n">Param</span><span class="p">,</span><span class="n">Error</span><span class="p">)</span>
 
-      <span class="k">implicit none</span>
+    <span class="k">implicit none</span>
 
-<span class="k">      class</span><span class="p">(</span><span class="n">conmax_solver</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span> <span class="kd">::</span> <span class="n">me</span>
-      <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">enc1</span> <span class="p">,</span> <span class="n">enchg</span> <span class="p">,</span> <span class="n">encsm</span> <span class="p">,</span> <span class="n">enor2</span> <span class="p">,</span> <span class="n">enor3</span> <span class="p">,</span> <span class="n">enorm</span> <span class="p">,</span>    <span class="p">&amp;</span>
-             <span class="n">Error</span> <span class="p">,</span> <span class="n">Fun</span> <span class="p">,</span> <span class="n">Param</span> <span class="p">,</span> <span class="n">prjslp</span> <span class="p">,</span> <span class="n">projct</span> <span class="p">,</span>       <span class="p">&amp;</span>
-             <span class="n">Pttbl</span> <span class="p">,</span> <span class="n">rchdnk</span> <span class="p">,</span> <span class="n">rchdwn</span> <span class="p">,</span> <span class="n">rchin</span> <span class="p">,</span> <span class="n">s</span>
-      <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span>  <span class="n">tolcon</span> <span class="p">,</span> <span class="n">tollin</span> <span class="p">,</span> <span class="n">wdist</span> <span class="p">,</span> <span class="n">Work</span>
-      <span class="kt">integer</span> <span class="kd">::</span> <span class="n">i</span> <span class="p">,</span> <span class="n">i1</span> <span class="p">,</span> <span class="n">Ifun</span> <span class="p">,</span> <span class="n">ii</span> <span class="p">,</span> <span class="n">ilc02</span> <span class="p">,</span> <span class="n">ilc06</span> <span class="p">,</span> <span class="n">ilc08</span> <span class="p">,</span> <span class="n">ilc11</span> <span class="p">,</span>      <span class="p">&amp;</span>
-              <span class="n">ilc12</span> <span class="p">,</span> <span class="n">ilc13</span> <span class="p">,</span> <span class="n">ilc14</span> <span class="p">,</span> <span class="n">ilc15</span> <span class="p">,</span> <span class="n">ilc17</span> <span class="p">,</span> <span class="n">ilc20</span> <span class="p">,</span> <span class="n">ilc21</span> <span class="p">,</span>   <span class="p">&amp;</span>
-              <span class="n">ilc22</span> <span class="p">,</span> <span class="n">ilc24</span> <span class="p">,</span> <span class="n">ilc25</span> <span class="p">,</span> <span class="n">ilc26</span> <span class="p">,</span> <span class="n">ilc27</span>
-      <span class="kt">integer</span> <span class="kd">::</span> <span class="n">ilc29</span> <span class="p">,</span> <span class="n">ilc30</span> <span class="p">,</span> <span class="n">ilc31</span> <span class="p">,</span> <span class="n">ilc33</span> <span class="p">,</span> <span class="n">ilc35</span> <span class="p">,</span> <span class="n">ilc40</span> <span class="p">,</span> <span class="n">ilc42</span> <span class="p">,</span>   <span class="p">&amp;</span>
-              <span class="n">ilc44</span> <span class="p">,</span> <span class="n">ilc46</span> <span class="p">,</span> <span class="n">Indm</span> <span class="p">,</span> <span class="n">iophun</span> <span class="p">,</span> <span class="n">iopten</span> <span class="p">,</span> <span class="n">ioptho</span> <span class="p">,</span>  <span class="p">&amp;</span>
-              <span class="n">Ioptn</span> <span class="p">,</span> <span class="n">ioptth</span> <span class="p">,</span> <span class="n">iphse</span> <span class="p">,</span> <span class="n">ipmax</span> <span class="p">,</span> <span class="n">ipt</span> <span class="p">,</span> <span class="n">Iptb</span>
-      <span class="kt">integer</span> <span class="kd">::</span> <span class="n">irk</span> <span class="p">,</span> <span class="n">ismax</span> <span class="p">,</span> <span class="n">isucc</span> <span class="p">,</span> <span class="n">Iter</span> <span class="p">,</span> <span class="n">itersl</span> <span class="p">,</span> <span class="n">Itlim</span> <span class="p">,</span> <span class="n">itlim1</span> <span class="p">,</span>    <span class="p">&amp;</span>
-              <span class="n">ityp1</span> <span class="p">,</span> <span class="n">ityp1k</span> <span class="p">,</span> <span class="n">ityp2</span> <span class="p">,</span> <span class="n">ityp2k</span> <span class="p">,</span> <span class="n">itypm1</span> <span class="p">,</span> <span class="n">itypm2</span> <span class="p">,</span>       <span class="p">&amp;</span>
-              <span class="n">Iwork</span> <span class="p">,</span> <span class="n">j</span> <span class="p">,</span> <span class="n">j1</span> <span class="p">,</span> <span class="n">j2</span> <span class="p">,</span> <span class="n">jflag</span> <span class="p">,</span> <span class="n">jiwrk</span> <span class="p">,</span> <span class="n">jj</span>
-      <span class="kt">integer</span> <span class="kd">::</span> <span class="n">jwrk</span> <span class="p">,</span> <span class="n">kntsm</span> <span class="p">,</span> <span class="n">l</span> <span class="p">,</span> <span class="n">l1</span> <span class="p">,</span> <span class="n">l2</span> <span class="p">,</span> <span class="n">limsm</span> <span class="p">,</span> <span class="n">Liwrk</span> <span class="p">,</span> <span class="n">Lwrk</span> <span class="p">,</span> <span class="n">m</span> <span class="p">,</span>   <span class="p">&amp;</span>
-              <span class="n">mact1</span> <span class="p">,</span> <span class="n">ncor</span> <span class="p">,</span> <span class="n">nmaj</span> <span class="p">,</span> <span class="n">nmin</span> <span class="p">,</span> <span class="n">npar1</span> <span class="p">,</span> <span class="n">Nparm</span> <span class="p">,</span> <span class="n">nstep</span> <span class="p">,</span>      <span class="p">&amp;</span>
-              <span class="n">Numgr</span> <span class="p">,</span> <span class="n">numlim</span>
-<span class="c">!</span>
-      <span class="k">dimension </span><span class="n">Fun</span><span class="p">(</span><span class="n">Ifun</span><span class="p">)</span> <span class="p">,</span> <span class="n">Pttbl</span><span class="p">(</span><span class="n">Iptb</span><span class="p">,</span><span class="n">Indm</span><span class="p">)</span> <span class="p">,</span> <span class="n">Error</span><span class="p">(</span><span class="n">Numgr</span><span class="o">+</span><span class="mi">3</span><span class="p">)</span> <span class="p">,</span>         <span class="p">&amp;</span>
-                <span class="n">Param</span><span class="p">(</span><span class="n">Nparm</span><span class="p">)</span> <span class="p">,</span> <span class="n">Iwork</span><span class="p">(</span><span class="n">Liwrk</span><span class="p">)</span> <span class="p">,</span> <span class="n">Work</span><span class="p">(</span><span class="n">Lwrk</span><span class="p">)</span>
+<span class="k">    class</span><span class="p">(</span><span class="n">conmax_solver</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span> <span class="kd">::</span> <span class="n">me</span>
+    <span class="kt">integer</span><span class="p">,</span>  <span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>    <span class="kd">::</span> <span class="n">ifun</span>   <span class="c">!! THIS IS THE DIMENSION OF FUN IN THE DRIVER PROGRAM.</span>
+                                      <span class="c">!! IT MUST BE &gt;= THE LARGEST INDEX I FOR WHICH FUN(I) IS USED</span>
+                                      <span class="c">!! UNLESS NO FUN(I) IS USED, IN WHICH CASE IT MUST BE &gt;= 1.</span>
+    <span class="kt">integer</span><span class="p">,</span>  <span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>    <span class="kd">::</span> <span class="n">Indm</span>   <span class="c">!! THIS IS THE SECOND DIMENSION OF PTTBL IN THE DRIVER</span>
+                                      <span class="c">!! PROGRAM.  IT MUST BE &gt;= THE LARGEST SUBSCRIPT J FOR WHICH A</span>
+                                      <span class="c">!! VALUE PTTBL(I,J) IS USED, AND MUST BE &gt;= 1 IF NO SUCH VALUES</span>
+                                      <span class="c">!! ARE USED.</span>
+    <span class="kt">integer</span><span class="p">,</span>  <span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>    <span class="kd">::</span> <span class="n">ioptn</span>    <span class="c">!! THIS IS THE OPTION SWITCH, WHICH SHOULD BE SET TO</span>
+                                        <span class="c">!! 0 UNLESS ONE OR MORE OF THE EXTRA OPTIONS DESCRIBED BELOW</span>
+                                        <span class="c">!! IS USED. THE USER HAS SEVERAL EXTRA OPTIONS WHICH ARE ACTIVATED BY SETTING</span>
+                                        <span class="c">!! IOPTN TO A VALUE OTHER THAN 0; MORE THAN ONE AT A TIME CAN BE USED.</span>
+                                        <span class="c">!! IN PARTICULAR:</span>
+                                        <span class="c">!!</span>
+                                        <span class="c">!! * IF THE ONES DIGIT OF IOPTN IS 0, THEN THE USER SHOULD GIVE FORMULAS</span>
+                                        <span class="c">!!   IN FNSET FOR COMPUTING THE PARTIAL DERIVATIVES WHEN INDFN=1 AS DESCRIBED</span>
+                                        <span class="c">!!   ABOVE.</span>
+                                        <span class="c">!!</span>
+                                        <span class="c">!! * IF THE USER SETS THE ONES DIGIT OF IOPTN TO 1, THEN INDFN WILL ALWAYS</span>
+                                        <span class="c">!!   BE 0 WHEN FNSET IS CALLED, AND THE PROGRAM WILL AUTOMATICALLY</span>
+                                        <span class="c">!!   APPROXIMATE THE PARTIAL DERIVATIVES WHEN REQUIRED USING THE FOLLOWING</span>
+                                        <span class="c">!!   CENTERED DIFFERENCE FORMULA:</span>
+                                        <span class="c">!!   PARTIAL DERIVATIVE WITH RESPECT TO THE JTH VARIABLE (WHERE 1 &lt;= J</span>
+                                        <span class="c">!!   &lt;= NPARM) OF THE FUNCTION WHOSE VALUE IS COMPUTED IN CONFUN(IPT,1)</span>
+                                        <span class="c">!!   (WHERE 1 &lt;= IPT &lt;= NUMGR) IS APPROXIMATELY THE VALUE OF THIS</span>
+                                        <span class="c">!!   FUNCTION WHEN THE JTH COMPONENT OF PARAM IS INCREASED BY DELT, MINUS</span>
+                                        <span class="c">!!   THE VALUE OF THIS FUNCTION WHEN THE JTH COMPONENT OF PARAM IS</span>
+                                        <span class="c">!!   DECREASED BY DELT, ALL DIVIDED BY 2.0*DELT, WHERE DELT = SQRT(B**(-ITT)),</span>
+                                        <span class="c">!!   WHERE B IS THE BASE FOR FOR FLOATING POINT NUMBERS AND ITT IS THE NUMBER</span>
+                                        <span class="c">!!   OF BASE B DIGITS IN THE MANTISSA.</span>
+                                        <span class="c">!!</span>
+                                        <span class="c">!! * IF THE TENS DIGIT OF IOPTN IS 0, THE PROGRAM WILL NOT GIVE UP</span>
+                                        <span class="c">!!   UNTIL EITHER AN ITERATION FAILS TO PRODUCE A REDUCTION ABS(ENCHG) OF</span>
+                                        <span class="c">!!   MORE THAN 100.0*B**(-ITT) IN THE PRINCIPAL ERROR NORM, OR ITLIM</span>
+                                        <span class="c">!!   ITERATIONS HAVE BEEN USED.</span>
+                                        <span class="c">!!</span>
+                                        <span class="c">!! * IF THE TENS DIGIT OF IOPTN IS 1, THE PROGRAM WILL ALSO GIVE UP IF</span>
+                                        <span class="c">!!   ABS(ENCHG) &lt; ENCSM FOR LIMSM CONSECUTIVE STEPS IN THE MAIN PART OF</span>
+                                        <span class="c">!!   THE PROGRAM (I.E. AFTER TYPE -1 AND TYPE -2 FEASIBILITY HAVE BOTH BEEN</span>
+                                        <span class="c">!!   ACHIEVED).  THIS OPTION MAY BE USEFUL IN SAVING SOME TIME BY</span>
+                                        <span class="c">!!   FORESTALLING A LONG STRING OF ITERATIONS AT THE END OF A RUN WITH ONLY</span>
+                                        <span class="c">!!   A TINY IMPROVEMENT IN EACH ONE.  ENCSM AND LIMSM ARE TRANSMITTED TO</span>
+                                        <span class="c">!!   CONMAX IN WORK(1) AND IWORK(1) RESPECTIVELY.  WORK(1) AND IWORK(1) DO</span>
+                                        <span class="c">!!   NOT NEED TO BE ASSIGNED VALUES IF THE TENS DIGIT OF IOPTN IS 0.</span>
+                                        <span class="c">!!</span>
+                                        <span class="c">!! * IF THE HUNDREDS DIGIT OF IOPTN IS 0 OR 2, THEN THE INTERNAL PARAMETER</span>
+                                        <span class="c">!!   NSTEP WILL BE GIVEN THE DEFAULT VALUE 1.  NSTEP IS THE NUMBER OF</span>
+                                        <span class="c">!!   RUNGE-KUTTA STEPS USED IN EACH RK ITERATION.</span>
+                                        <span class="c">!!</span>
+                                        <span class="c">!! * IF THE HUNDREDS DIGIT OF IOPTN IS 1 OR 3, THEN THE VALUE OF NSTEP USED</span>
+                                        <span class="c">!!   WILL BE THE POSITIVE INTEGER VALUE PLACED IN IWORK(2) BY THE USER IN THE</span>
+                                        <span class="c">!!   DRIVER PROGRAM.  SETTING NSTEP LARGER THAN 1 MAY ALLOW THE PROGRAM TO</span>
+                                        <span class="c">!!   SUCCEED ON DIFFICULT PROBLEMS WHERE THE CONVERGENCE WOULD BE EXTREMELY</span>
+                                        <span class="c">!!   SLOW WITH NSTEP=1, BUT IT WILL GENERALLY CAUSE MORE COMPUTER TIME TO BE</span>
+                                        <span class="c">!!   USED IN EACH RK ITERATION.  IWORK(2) DOES NOT NEED TO BE ASSIGNED A</span>
+                                        <span class="c">!!   VALUE IF THE HUNDREDS DIGIT OF IOPTN IS 0 OR 2.  (NSTEP IS SOMETIMES</span>
+                                        <span class="c">!!   CALLED THE OVERDRIVE PARAMETER.)</span>
+                                        <span class="c">!!</span>
+                                        <span class="c">!! * IF THE HUNDREDS DIGIT OF IOPTN IS 0 OR 1, THEN THE INTERNAL PARAMETER</span>
+                                        <span class="c">!!   TOLCON WILL BE GIVEN THE DEFAULT VALUE SQRT(B**(-ITT)), WHERE B IS THE</span>
+                                        <span class="c">!!   BASE FOR FLOATING POINT NUMBERS AND ITT IS THE NUMBER OF BASE B DIGITS</span>
+                                        <span class="c">!!   IN THE MANTISSA.</span>
+                                        <span class="c">!!</span>
+                                        <span class="c">!! * IF THE HUNDREDS DIGIT OF IOPTN IS 2 OR 3, THEN THE VALUE OF TOLCON USED</span>
+                                        <span class="c">!!   WILL BE THE VALUE PLACED IN WORK(2) BY THE USER IN THE DRIVER PROGRAM.</span>
+                                        <span class="c">!!   THIS VALUE SHOULD ALWAYS BE NONNEGATIVE.  IF THERE ARE NO TYPE -2 OR -1</span>
+                                        <span class="c">!!   CONSTRAINTS THEN THE SETTING OF TOLCON WILL HAVE NO EFFECT, BUT IF</span>
+                                        <span class="c">!!   THERE ARE TYPE -2 OR -1 CONSTRAINTS THEN IN GENERAL SMALLER VALUES OF</span>
+                                        <span class="c">!!   TOLCON MAY GIVE MORE ACCURACY IN THE FINAL ANSWER, BUT MAY SLOW DOWN</span>
+                                        <span class="c">!!   OR PREVENT CONVERGENCE, WHILE LARGER VALUES OF TOLCON MAY HAVE THE</span>
+                                        <span class="c">!!   REVERSE EFFECT.  IN PARTICULAR, IF THE TYPE -2 AND -1 CONSTRAINTS</span>
+                                        <span class="c">!!   CANNOT BE SATISFIED SUMULTANEOUSLY WITH STRICT INEQUALITY (THIS CASE</span>
+                                        <span class="c">!!   COULD OCCUR, FOR EXAMPLE, IF AN EQUALITY CONSTRAINT G = 0.0 WAS</span>
+                                        <span class="c">!!   ENTERED AS THE TWO INEQUALITY CONSTRAINTS G &lt;= 0.0 AND</span>
+                                        <span class="c">!!   -G &lt;= 0.0), THEN SETTING TOLCON=0.0 WILL ALMOST CERTAINLY CAUSE THE</span>
+                                        <span class="c">!!   PROGRAM TO FAIL, SINCE AT EACH ITERATION THE PROGRAM WILL NOT ACCEPT</span>
+                                        <span class="c">!!   PROSPECTIVE NEW VALUES OF THE PARAMETERS UNLESS IT CAN CORRECT THEM</span>
+                                        <span class="c">!!   BACK INTO THE RELAXED FEASIBLE REGION WHERE CONFUN(IPT,1) &lt;= TOLCON</span>
+                                        <span class="c">!!   FOR ALL THE TYPE -2 AND -1 CONSTRAINTS.</span>
+                                        <span class="c">!!</span>
+                                        <span class="c">!! * IF THE THOUSANDS DIGIT OF IOPTN IS 0, THE PROGRAM WILL USE THE RK METHOD</span>
+                                        <span class="c">!!   (WHICH INVOLVES APPLYING FOURTH ORDER RUNGE-KUTTA TO A SYSTEM OF</span>
+                                        <span class="c">!!   DIFFERENTIAL EQUATIONS), THEN IF THIS FAILS IT WILL TRY TO REDUCE</span>
+                                        <span class="c">!!   W WITH AN SLP STEP (I.E. SUCCESSIVE LINEAR PROGRAMMING WITH A TRUST</span>
+                                        <span class="c">!!   REGION), THEN GO BACK TO RK IF THE SLP STEP REDUCES W.</span>
+                                        <span class="c">!!</span>
+                                        <span class="c">!! * IF THE THOUSANDS DIGIT OF IOPTN IS 1, THE PROGRAM WILL USE SLP STEPS ONLY.</span>
+                                        <span class="c">!!   IN GENERAL, IN SOME PROBLEMS SLP WORKS VERY WELL, AND IN THOSE</span>
+                                        <span class="c">!!   PROBLEMS IT WILL USUALLY BE FASTER THAN RK BECAUSE IT REQUIRES FEWER</span>
+                                        <span class="c">!!   GRADIENT EVALUATIONS THAN RK, BUT IN OTHER PROBLEMS THE CONVERGENCE</span>
+                                        <span class="c">!!   OF SLP MAY BE EXCRUCIATINGLY SLOW, AND THE MORE POWERFUL RK METHOD</span>
+                                        <span class="c">!!   MAY BE MUCH FASTER.</span>
+                                        <span class="c">!!</span>
+                                        <span class="c">!! * IF THE THOUSANDS DIGIT OF IOPTN IS 2 THE PROGRAM WILL USE THE RK METHOD</span>
+                                        <span class="c">!!   ONLY, QUITTING WHEN RK CAN NO LONGER PRODUCE AN IMPROVEMENT.  THIS</span>
+                                        <span class="c">!!   MAY GIVE A LITTLE LESS ACCURACY THAN SETTING THE THOUSANDS DIGIT TO 0,</span>
+                                        <span class="c">!!   BUT MAY SAVE SIGNIFICANT COMPUTER TIME IN SOME CASES.</span>
+                                        <span class="c">!!</span>
+                                        <span class="c">!! * IF THE TEN THOUSANDS DIGIT OF IOPTN IS 0, THEN FNSET SHOULD BE WRITTEN AS</span>
+                                        <span class="c">!!   DESCRIBED ABOVE.</span>
+                                        <span class="c">!!</span>
+                                        <span class="c">!! * IF THE USER SETS THE TEN THOUSANDS DIGIT OF IOPTN TO 1, THEN FNSET SHOULD BE</span>
+                                        <span class="c">!!   WRITTEN AS DESCRIBED ABOVE EXCEPT THAT THE COMPUTATIONS SHOULD BE DONE</span>
+                                        <span class="c">!!   FOR ALL IPT=1,..,NUMGR INSTEAD OF FOR A SINGLE GIVEN VALUE OF IPT.</span>
+                                        <span class="c">!!   THIS OPTION MAY SAVE COMPUTER TIME IN PROBLEMS WHERE A LARGE PART OF</span>
+                                        <span class="c">!!   THE COMPUTATION IS THE SAME FOR DIFFERENT VALUES OF IPT, SINCE IT</span>
+                                        <span class="c">!!   AVOIDS UNNECESSARY REPITITION OF THIS COMMON COMPUTATION BY HAVING</span>
+                                        <span class="c">!!   THE LOOP OVER IPT IN FNSET INSTEAD OF OUTSIDE FNSET.</span>
+                                        <span class="c">!!   IF THE TEN THOUSANDS DIGIT OF IOPTN IS 1, EVEN MORE TIME CAN OFTEN BE</span>
+                                        <span class="c">!!   SAVED IF FNSET IS WRITTEN SO THAT ALL CONSTRAINTS ARE COMPUTED IF IPT=0,</span>
+                                        <span class="c">!!   BUT ONLY THE STANDARD (I.E. TYPE -1 OR -2) CONSTRAINTS ARE COMPUTED IF</span>
+                                        <span class="c">!!   IPT=-1.  NOTE THAT IF THE TEN THOUSANDS DIGIT OF IOPTN IS 0, THEN IPT</span>
+                                        <span class="c">!!   WILL BE POSITIVE WHENEVER FNSET IS CALLED, INDICATING THAT ONLY</span>
+                                        <span class="c">!!   CONSTRAINT IPT SHOULD BE COMPUTED.</span>
+                                        <span class="c">!!   THE DRAWBACK OF USING THIS OPTION IS THAT IN GENERAL SOME CONSTRAINT</span>
+                                        <span class="c">!!   VALUES AND DERIVATIVES WILL BE COMPUTED UNNECESSARILY, WHICH COULD COST</span>
+                                        <span class="c">!!   TIME IN SOME PROBLEMS.</span>
+    <span class="kt">integer</span><span class="p">,</span>  <span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>    <span class="kd">::</span> <span class="n">iptb</span>   <span class="c">!! THIS IS THE FIRST DIMENSION OF PTTBL IN THE DRIVER</span>
+                                      <span class="c">!! PROGRAM.  IT MUST BE &gt;= THE LARGEST SUBSCRIPT I FOR WHICH A</span>
+                                      <span class="c">!! VALUE PTTBL(I,J) IS USED, AND MUST BE &gt;= 1 IF NO SUCH VALUES</span>
+                                      <span class="c">!! ARE USED.</span>
+    <span class="kt">integer</span><span class="p">,</span>  <span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>    <span class="kd">::</span> <span class="n">itlim</span>  <span class="c">!! THIS IS THE LIMIT ON THE NUMBER OF ITERATIONS, I.E.</span>
+                                      <span class="c">!! THE LIMIT ON THE NUMBER OF TIMES THE PROGRAM REDUCES W.  IF</span>
+                                      <span class="c">!! ITLIM IS SET TO 0 THE PROGRAM WILL COMPUTE THE ERRORS FOR</span>
+                                      <span class="c">!! THE INITIAL APPROXIMATION AND STOP WITHOUT CHECKING</span>
+                                      <span class="c">!! FEASIBILITY.</span>
+    <span class="kt">integer</span><span class="p">,</span>  <span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>    <span class="kd">::</span> <span class="n">liwrk</span>  <span class="c">!! THIS IS THE DIMENSION OF IWORK IN THE DRIVER PROGRAM.</span>
+                                      <span class="c">!! IT MUST BE AT LEAST 7*NUMGR + 7*NPARM + 3.  IF NOT, CONMAX WILL</span>
+                                      <span class="c">!! RETURN WITH THIS MINIMUM VALUE MULTIPLIED BY -1 AS A WARNING.</span>
+    <span class="kt">integer</span><span class="p">,</span>  <span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>    <span class="kd">::</span> <span class="n">lwrk</span>   <span class="c">!! THIS IS THE DIMENSION OF WORK IN THE DRIVER PROGRAM.</span>
+                                      <span class="c">!! IT MUST BE AT LEAST 2*NPARM**2 + 4*NUMGR*NPARM + 11*NUMGR +</span>
+                                      <span class="c">!! 27*NPARM + 13.  IF NOT, CONMAX WILL RETURN WITH THIS MINIMUM</span>
+                                      <span class="c">!! VALUE MULTIPLIED BY -1 AS A WARNING.</span>
+    <span class="kt">integer</span><span class="p">,</span>  <span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>    <span class="kd">::</span> <span class="n">nparm</span>  <span class="c">!! THIS IS THE NUMBER OF PARAMETERS IN THE PROBLEM.</span>
+                                      <span class="c">!! (THEY ARE STORED IN `PARAM` -- SEE BELOW.)</span>
+    <span class="kt">integer</span><span class="p">,</span>  <span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>    <span class="kd">::</span> <span class="n">numgr</span>  <span class="c">!! THIS IS THE TOTAL NUMBER OF CONSTRAINTS.</span>
+    <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span> <span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>    <span class="kd">::</span> <span class="n">fun</span><span class="p">(</span><span class="n">Ifun</span><span class="p">)</span>    <span class="c">!! (VECTOR ARRAY OF DIMENSION IFUN)  THIS IS</span>
+                                            <span class="c">!! A VECTOR ARRAY IN WHICH DATA OR FUNCTION VALUES IN TYPE 2</span>
+                                            <span class="c">!! CONSTRAINTS (SEE ABOVE) CAN BE STORED.  FUN(I) NEED NOT BE</span>
+                                            <span class="c">!! ASSIGNED A VALUE IF IT IS NOT GOING TO BE USED.</span>
+    <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span> <span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>    <span class="kd">::</span> <span class="n">pttbl</span><span class="p">(</span><span class="n">Iptb</span><span class="p">,</span><span class="n">Indm</span><span class="p">)</span>  <span class="c">!! (MATRIX ARRAY OF DIMENSION (IPTB,INDM))</span>
+                                                 <span class="c">!! ROW I OF THIS ARRAY NORMALLY CONTAINS A POINT USED IN THE ITH</span>
+                                                 <span class="c">!! CONSTRAINT.  THE ENTRIES IN ROW I NEED NOT BE ASSIGNED VALUES IF</span>
+                                                 <span class="c">!! SUCH A POINT IS NOT USED IN THE ITH CONSTRAINT.</span>
+                                                 <span class="c">!! (EXAMPLE:  IF THE LEFT SIDE OF CONSTRAINT I IS A POLYNOMIAL IN</span>
+                                                 <span class="c">!! ONE INDEPENDENT VARIABLE, THEN THE VALUE OF THE INDEPENDENT</span>
+                                                 <span class="c">!! VARIABLE SHOULD BE IN PTTBL(I,1), AND THE COEFFICIENTS SHOULD BE</span>
+                                                 <span class="c">!! IN PARAM.)</span>
+                                                 <span class="c">!! PTTBL CAN ALSO BE USED TO PASS OTHER INFORMATION FROM THE DRIVER</span>
+                                                 <span class="c">!! PROGRAM TO SUBROUTINE FNSET.</span>
+    <span class="kt">integer</span><span class="p">,</span>  <span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span> <span class="kd">::</span> <span class="n">iwork</span><span class="p">(</span><span class="n">Liwrk</span><span class="p">)</span>     <span class="c">!! (VECTOR ARRAY OF DIMENSION LIWRK)  THIS IS AN INTEGER</span>
+                                                <span class="c">!! WORK ARRAY.  THE USER NEED NOT PLACE ANY VALUES IN IT, EXCEPT</span>
+                                                <span class="c">!! POSSIBLY CERTAIN OPTIONAL INFORMATION AS DESCRIBED BELOW.</span>
+    <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span> <span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span> <span class="kd">::</span> <span class="n">work</span><span class="p">(</span><span class="n">Lwrk</span><span class="p">)</span>   <span class="c">!! (VECTOR ARRAY OF DIMENSION LWRK)  THIS IS A FLOATING</span>
+                                            <span class="c">!! POINT WORK ARRAY.  THE USER NEED NOT PLACE ANY VALUES IN IT,</span>
+                                            <span class="c">!! EXCEPT POSSIBLY CERTAIN OPTIONAL INFORMATION AS DESCRIBED BELOW.</span>
+    <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span> <span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span> <span class="kd">::</span> <span class="n">param</span><span class="p">(</span><span class="n">Nparm</span><span class="p">)</span> <span class="c">!! (VECTOR ARRAY OF DIMENSION AT LEAST NPARM</span>
+                                            <span class="c">!! IN THE DRIVER PROGRAM)  THE USER SHOULD PLACE AN INITIAL GUESS</span>
+                                            <span class="c">!! FOR THE PARAMETERS IN PARAM, AND ON OUTPUT PARAM WILL CONTAIN</span>
+                                            <span class="c">!! THE BEST PARAMETERS CONMAX HAS BEEN ABLE TO FIND.  IF THE</span>
+                                            <span class="c">!! INITIAL PARAM IS NOT FEASIBLE THE PROGRAM WILL FIRST TRY TO</span>
+                                            <span class="c">!! FIND A FEASIBLE PARAM.</span>
+    <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span> <span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>   <span class="kd">::</span> <span class="n">error</span><span class="p">(</span><span class="n">Numgr</span><span class="o">+</span><span class="mi">3</span><span class="p">)</span>   <span class="c">!! (VECTOR ARRAY OF DIMENSION AT LEAST NUMGR + 3 IN THE</span>
+                                                <span class="c">!! DRIVER PROGRAM)  FOR I=1,...,NUMGR, CONMAX WILL PLACE IN</span>
+                                                <span class="c">!! ERROR(I) THE ERROR IN CONSTRAINT I (DEFINED TO BE THE VALUE</span>
+                                                <span class="c">!! OF THE LEFT SIDE OF CONSTRAINT I, EXCEPT WITHOUT THE ABSOLUTE</span>
+                                                <span class="c">!! VALUE IN TYPE 2 CONSTRAINTS).  FURTHER,</span>
+                                                <span class="c">!!</span>
+                                                <span class="c">!!  * ERROR(NUMGR+1) WILL BE THE (PRINCIPAL) ERROR NORM, THAT IS, THE</span>
+                                                <span class="c">!!    MAXIMUM VALUE OF THE LEFT SIDES OF THE TYPE 2 (INCLUDING THE</span>
+                                                <span class="c">!!    ABSOLUTE VALUE) AND TYPE 1 CONSTRAINTS.</span>
+                                                <span class="c">!!</span>
+                                                <span class="c">!!  * ERROR(NUMGR+2) WILL BE THE MAXIMUM VALUE OF THE LEFT SIDES OF THE</span>
+                                                <span class="c">!!    TYPE -1 CONSTRAINTS, OR 0.0 IF THERE ARE NO TYPE -1</span>
+                                                <span class="c">!!    CONSTRAINTS.  EXCEPT FOR ROUNDOFF ERROR AND SMALL TOLERANCES</span>
+                                                <span class="c">!!    IN SOME SUBROUTINES THIS VALUE WILL NORMALLY BE &lt;= 0.0, AND</span>
+                                                <span class="c">!!    IT WILL NOT BE ALLOWED TO BE &gt; TOLCON IN THE MAIN PART OF</span>
+                                                <span class="c">!!    THE PROGRAM.</span>
+                                                <span class="c">!!</span>
+                                                <span class="c">!!  * ERROR(NUMGR+3) WILL BE THE MAXIMUM VALUE OF THE LEFT SIDES OF THE</span>
+                                                <span class="c">!!    TYPE -2 CONSTRAINTS, OR 0.0 IF THERE ARE NO TYPE -2</span>
+                                                <span class="c">!!    CONSTRAINTS.  THIS VALUE SHOULD BE &lt;= TOLCON, SINCE THE</span>
+                                                <span class="c">!!    PROGRAM WILL NOT EVEN ATTEMPT TO COMPUTE VALUES FOR THE</span>
+                                                <span class="c">!!    TYPE 2 AND TYPE 1 CONSTRAINTS OTHERWISE (EXCEPT FOR VALUES</span>
+                                                <span class="c">!!    CORRESPONDING TO THE INITIAL PARAMETERS PLACED IN PARAM BY</span>
+                                                <span class="c">!!    THE USER).  THE USER CAN USE THIS FEATURE TO INSERT TYPE -2</span>
+                                                <span class="c">!!    OR -1 CONSTRAINTS TO KEEP THE PARAMETERS AWAY FROM VALUES</span>
+                                                <span class="c">!!    WHERE A TYPE 2 OR TYPE 1 CONSTRAINT IS UNDEFINED.</span>
+    <span class="kt">integer</span><span class="p">,</span>  <span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>   <span class="kd">::</span> <span class="n">iter</span> <span class="c">!! THIS IS THE NUMBER OF ITERATIONS PERFORMED BY CONMAX,</span>
+                                    <span class="c">!! INCLUDING THOSE USED IN ATTEMPTING TO GAIN FEASIBILITY,</span>
+                                    <span class="c">!! UNTIL EITHER IT CAN NO LONGER IMPROVE THE SITUATION OR THE</span>
+                                    <span class="c">!! ITERATION LIMIT IS REACHED.  IF ITER=ITLIM IT IS POSSIBLE</span>
+                                    <span class="c">!! THAT THE PROGRAM COULD FURTHER REDUCE W IF RESTARTED</span>
+                                    <span class="c">!! (POSSIBLY WITH THE NEW PARAMETERS).</span>
+                                    <span class="c">!!</span>
+                                    <span class="c">!!  * ITER=-1 IS A SIGNAL THAT TYPE -1 FEASIBILITY COULD NOT BE</span>
+                                    <span class="c">!!    ACHIEVED, IN THIS CASE ERROR WILL CONTAIN THE VALUES COMPUTED</span>
+                                    <span class="c">!!    USING THE USER SUPPLIED INITIAL APPROXIMATION.</span>
+                                    <span class="c">!!  * ITER=-2 IS A SIGNAL THAT TYPE -1 FEASIBILITY WAS ACHIEVED</span>
+                                    <span class="c">!!    BUT TYPE -2 FEASIBILITY COULD NOT BE ACHIEVED,</span>
+                                    <span class="c">!!    IN THIS CASE VALUES IN ERROR CORRESPONDING TO TYPE 1 OR</span>
+                                    <span class="c">!!    TYPE 2 CONSTRAINTS WILL BE ZERO.</span>
 
-<span class="c">! CHECK TO SEE IF THE DIMENSIONS LIWRK AND LWRK ARE LARGE ENOUGH.  IF</span>
-<span class="c">! EITHER IS NOT, REPLACE IT BY THE NEGATIVE OF ITS CORRECT MINIMUM VALUE</span>
-<span class="c">! AND RETRUN.</span>
-      <span class="n">jiwrk</span> <span class="o">=</span> <span class="mi">7</span><span class="o">*</span><span class="n">Numgr</span> <span class="o">+</span> <span class="mi">7</span><span class="o">*</span><span class="n">Nparm</span> <span class="o">+</span> <span class="mi">3</span>
-      <span class="n">jwrk</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">Nparm</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">4</span><span class="o">*</span><span class="n">Numgr</span><span class="o">*</span><span class="n">Nparm</span> <span class="o">+</span> <span class="mi">11</span><span class="o">*</span><span class="n">Numgr</span> <span class="o">+</span> <span class="mi">27</span><span class="o">*</span><span class="n">Nparm</span> <span class="o">+</span> <span class="mi">13</span>
-      <span class="k">if</span> <span class="p">(</span> <span class="n">Liwrk</span><span class="o">&lt;</span><span class="n">jiwrk</span> <span class="p">)</span> <span class="k">then</span>
-<span class="k">         </span><span class="n">Liwrk</span> <span class="o">=</span> <span class="o">-</span><span class="n">jiwrk</span>
-         <span class="k">if</span> <span class="p">(</span> <span class="n">Lwrk</span><span class="o">&lt;</span><span class="n">jwrk</span> <span class="p">)</span> <span class="n">Lwrk</span> <span class="o">=</span> <span class="o">-</span><span class="n">jwrk</span>
-      <span class="n">elseif</span> <span class="p">(</span> <span class="n">Lwrk</span><span class="o">&lt;</span><span class="n">jwrk</span> <span class="p">)</span> <span class="k">then</span>
-<span class="k">         </span><span class="n">Lwrk</span> <span class="o">=</span> <span class="o">-</span><span class="n">jwrk</span>
-      <span class="k">else</span>
-<span class="c">!</span>
-<span class="c">! INITIALIZE SOME OTHER PARAMETERS.</span>
-         <span class="n">npar1</span> <span class="o">=</span> <span class="n">Nparm</span> <span class="o">+</span> <span class="mi">1</span>
-         <span class="n">isucc</span> <span class="o">=</span> <span class="mi">0</span>
-         <span class="n">Iter</span> <span class="o">=</span> <span class="mi">0</span>
-         <span class="n">itersl</span> <span class="o">=</span> <span class="mi">0</span>
-         <span class="n">itlim1</span> <span class="o">=</span> <span class="n">Itlim</span>
-         <span class="n">enchg</span> <span class="o">=</span> <span class="n">zero</span>
-         <span class="n">ilc02</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
-         <span class="n">ilc06</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
-         <span class="n">ilc08</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
-         <span class="n">ilc11</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">11</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
-         <span class="n">ilc12</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
-         <span class="n">ilc13</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">13</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
-         <span class="n">ilc14</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
-         <span class="n">ilc15</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
-         <span class="n">ilc17</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">17</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
-         <span class="n">ilc20</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
-         <span class="n">ilc21</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">21</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
-         <span class="n">ilc22</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">22</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
-         <span class="n">ilc24</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">24</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
-         <span class="n">ilc25</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">25</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
-         <span class="n">ilc26</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">26</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
-         <span class="n">ilc27</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">27</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
-         <span class="n">ilc29</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">29</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
-         <span class="n">ilc30</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
-         <span class="n">ilc31</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">31</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
-         <span class="n">ilc33</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">33</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
-         <span class="n">ilc35</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">35</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
-         <span class="n">ilc40</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">40</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
-         <span class="n">ilc42</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">42</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
-         <span class="n">ilc44</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">44</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
-         <span class="n">ilc46</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">46</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
-<span class="c">!</span>
-<span class="c">! IF THE TENS DIGIT OF IOPTN IS 1, SET KNTSM TO 0 AND GET ENCSM</span>
-<span class="c">! FROM WORK(1) AND LIMSM FROM IWORK(1).</span>
-         <span class="n">iopten</span> <span class="o">=</span> <span class="p">(</span><span class="n">Ioptn</span><span class="o">-</span><span class="p">(</span><span class="n">Ioptn</span><span class="o">/</span><span class="mi">100</span><span class="p">)</span><span class="o">*</span><span class="mi">100</span><span class="p">)</span><span class="o">/</span><span class="mi">10</span>
-         <span class="k">if</span> <span class="p">(</span> <span class="n">iopten</span><span class="o">&gt;</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
+    <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">enc1</span> <span class="p">,</span> <span class="n">enchg</span> <span class="p">,</span> <span class="n">encsm</span> <span class="p">,</span> <span class="n">enor2</span> <span class="p">,</span> <span class="n">enor3</span> <span class="p">,</span> <span class="n">enorm</span> <span class="p">,</span> <span class="p">&amp;</span>
+                <span class="n">prjslp</span> <span class="p">,</span> <span class="n">projct</span> <span class="p">,</span> <span class="p">&amp;</span>
+                <span class="n">rchdnk</span> <span class="p">,</span> <span class="n">rchdwn</span> <span class="p">,</span> <span class="n">rchin</span> <span class="p">,</span> <span class="n">s</span>
+    <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">tolcon</span> <span class="p">,</span> <span class="n">tollin</span> <span class="p">,</span> <span class="n">wdist</span>
+    <span class="kt">integer</span> <span class="kd">::</span> <span class="n">i</span> <span class="p">,</span> <span class="n">i1</span> <span class="p">,</span> <span class="n">ii</span> <span class="p">,</span> <span class="n">ilc02</span> <span class="p">,</span> <span class="n">ilc06</span> <span class="p">,</span> <span class="n">ilc08</span> <span class="p">,</span> <span class="n">ilc11</span> <span class="p">,</span> <span class="p">&amp;</span>
+                <span class="n">ilc12</span> <span class="p">,</span> <span class="n">ilc13</span> <span class="p">,</span> <span class="n">ilc14</span> <span class="p">,</span> <span class="n">ilc15</span> <span class="p">,</span> <span class="n">ilc17</span> <span class="p">,</span> <span class="n">ilc20</span> <span class="p">,</span> <span class="n">ilc21</span> <span class="p">,</span> <span class="p">&amp;</span>
+                <span class="n">ilc22</span> <span class="p">,</span> <span class="n">ilc24</span> <span class="p">,</span> <span class="n">ilc25</span> <span class="p">,</span> <span class="n">ilc26</span> <span class="p">,</span> <span class="n">ilc27</span>
+    <span class="kt">integer</span> <span class="kd">::</span> <span class="n">ilc29</span> <span class="p">,</span> <span class="n">ilc30</span> <span class="p">,</span> <span class="n">ilc31</span> <span class="p">,</span> <span class="n">ilc33</span> <span class="p">,</span> <span class="n">ilc35</span> <span class="p">,</span> <span class="n">ilc40</span> <span class="p">,</span> <span class="n">ilc42</span> <span class="p">,</span> <span class="p">&amp;</span>
+                <span class="n">ilc44</span> <span class="p">,</span> <span class="n">ilc46</span> <span class="p">,</span> <span class="n">iophun</span> <span class="p">,</span> <span class="n">iopten</span> <span class="p">,</span> <span class="n">ioptho</span> <span class="p">,</span> <span class="p">&amp;</span>
+                <span class="n">ioptth</span> <span class="p">,</span> <span class="n">iphse</span> <span class="p">,</span> <span class="n">ipmax</span> <span class="p">,</span> <span class="n">ipt</span>
+    <span class="kt">integer</span> <span class="kd">::</span> <span class="n">irk</span> <span class="p">,</span> <span class="n">ismax</span> <span class="p">,</span> <span class="n">isucc</span> <span class="p">,</span> <span class="n">itersl</span> <span class="p">,</span> <span class="n">itlim1</span> <span class="p">,</span> <span class="p">&amp;</span>
+                <span class="n">ityp1</span> <span class="p">,</span> <span class="n">ityp1k</span> <span class="p">,</span> <span class="n">ityp2</span> <span class="p">,</span> <span class="n">ityp2k</span> <span class="p">,</span> <span class="n">itypm1</span> <span class="p">,</span> <span class="n">itypm2</span> <span class="p">,</span> <span class="p">&amp;</span>
+                <span class="n">j</span> <span class="p">,</span> <span class="n">j1</span> <span class="p">,</span> <span class="n">j2</span> <span class="p">,</span> <span class="n">jflag</span> <span class="p">,</span> <span class="n">jiwrk</span> <span class="p">,</span> <span class="n">jj</span>
+    <span class="kt">integer</span> <span class="kd">::</span> <span class="n">jwrk</span> <span class="p">,</span> <span class="n">kntsm</span> <span class="p">,</span> <span class="n">l</span> <span class="p">,</span> <span class="n">l1</span> <span class="p">,</span> <span class="n">l2</span> <span class="p">,</span> <span class="n">limsm</span> <span class="p">,</span> <span class="n">m</span> <span class="p">,</span> <span class="p">&amp;</span>
+                <span class="n">mact1</span> <span class="p">,</span> <span class="n">ncor</span> <span class="p">,</span> <span class="n">nmaj</span> <span class="p">,</span> <span class="n">nmin</span> <span class="p">,</span> <span class="n">npar1</span> <span class="p">,</span> <span class="n">nstep</span> <span class="p">,</span> <span class="p">&amp;</span>
+                <span class="n">numlim</span>
+
+    <span class="c">! check to see if the dimensions liwrk and lwrk are large enough.</span>
+    <span class="n">jiwrk</span> <span class="o">=</span> <span class="mi">7</span><span class="o">*</span><span class="n">Numgr</span> <span class="o">+</span> <span class="mi">7</span><span class="o">*</span><span class="n">Nparm</span> <span class="o">+</span> <span class="mi">3</span>
+    <span class="n">jwrk</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">Nparm</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">4</span><span class="o">*</span><span class="n">Numgr</span><span class="o">*</span><span class="n">Nparm</span> <span class="o">+</span> <span class="mi">11</span><span class="o">*</span><span class="n">Numgr</span> <span class="o">+</span> <span class="mi">27</span><span class="o">*</span><span class="n">Nparm</span> <span class="o">+</span> <span class="mi">13</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">Liwrk</span><span class="o">&lt;</span><span class="n">jiwrk</span> <span class="p">.</span><span class="nb">or</span><span class="p">.</span> <span class="n">Lwrk</span><span class="o">&lt;</span><span class="n">jwrk</span><span class="p">)</span> <span class="k">then</span>
+
+<span class="k">        </span><span class="n">iter</span> <span class="o">=</span> <span class="o">-</span><span class="mi">999</span>  <span class="c">! error flag</span>
+        <span class="k">return</span>
+
+<span class="k">    else</span>
+
+        <span class="c">! INITIALIZE SOME OTHER PARAMETERS.</span>
+        <span class="n">npar1</span> <span class="o">=</span> <span class="n">Nparm</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="n">isucc</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">Iter</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">itersl</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">itlim1</span> <span class="o">=</span> <span class="n">Itlim</span>
+        <span class="n">enchg</span> <span class="o">=</span> <span class="n">zero</span>
+        <span class="n">ilc02</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
+        <span class="n">ilc06</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
+        <span class="n">ilc08</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
+        <span class="n">ilc11</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">11</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
+        <span class="n">ilc12</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
+        <span class="n">ilc13</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">13</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
+        <span class="n">ilc14</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
+        <span class="n">ilc15</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
+        <span class="n">ilc17</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">17</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
+        <span class="n">ilc20</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
+        <span class="n">ilc21</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">21</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
+        <span class="n">ilc22</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">22</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
+        <span class="n">ilc24</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">24</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
+        <span class="n">ilc25</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">25</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
+        <span class="n">ilc26</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">26</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
+        <span class="n">ilc27</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">27</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
+        <span class="n">ilc29</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">29</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
+        <span class="n">ilc30</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
+        <span class="n">ilc31</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">31</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
+        <span class="n">ilc33</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">33</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
+        <span class="n">ilc35</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">35</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
+        <span class="n">ilc40</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">40</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
+        <span class="n">ilc42</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">42</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
+        <span class="n">ilc44</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">44</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
+        <span class="n">ilc46</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">46</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
+
+        <span class="c">! IF THE TENS DIGIT OF IOPTN IS 1, SET KNTSM TO 0 AND GET ENCSM</span>
+        <span class="c">! FROM WORK(1) AND LIMSM FROM IWORK(1).</span>
+        <span class="n">iopten</span> <span class="o">=</span> <span class="p">(</span><span class="n">Ioptn</span><span class="o">-</span><span class="p">(</span><span class="n">Ioptn</span><span class="o">/</span><span class="mi">100</span><span class="p">)</span><span class="o">*</span><span class="mi">100</span><span class="p">)</span><span class="o">/</span><span class="mi">10</span>
+        <span class="k">if</span> <span class="p">(</span> <span class="n">iopten</span><span class="o">&gt;</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
 <span class="k">            </span><span class="n">kntsm</span> <span class="o">=</span> <span class="mi">0</span>
             <span class="n">encsm</span> <span class="o">=</span> <span class="n">Work</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
             <span class="n">limsm</span> <span class="o">=</span> <span class="n">Iwork</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-         <span class="k">endif</span>
-<span class="c">!</span>
-<span class="c">! IF THE HUNDREDS DIGIT OF IOPTN IS 1 OR 3, SET NSTEP = IWORK(2),</span>
-<span class="c">! AND OTHERWISE SET NSTEP TO ITS DEFAULT VALUE OF 1.</span>
-         <span class="n">iophun</span> <span class="o">=</span> <span class="p">(</span><span class="n">Ioptn</span><span class="o">-</span><span class="p">(</span><span class="n">Ioptn</span><span class="o">/</span><span class="mi">1000</span><span class="p">)</span><span class="o">*</span><span class="mi">1000</span><span class="p">)</span><span class="o">/</span><span class="mi">100</span>
-         <span class="k">if</span> <span class="p">(</span> <span class="n">iophun</span><span class="o">&lt;=</span><span class="p">(</span><span class="n">iophun</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="mi">2</span> <span class="p">)</span> <span class="k">then</span>
+        <span class="k">endif</span>
+
+        <span class="c">! IF THE HUNDREDS DIGIT OF IOPTN IS 1 OR 3, SET NSTEP = IWORK(2),</span>
+        <span class="c">! AND OTHERWISE SET NSTEP TO ITS DEFAULT VALUE OF 1.</span>
+        <span class="n">iophun</span> <span class="o">=</span> <span class="p">(</span><span class="n">Ioptn</span><span class="o">-</span><span class="p">(</span><span class="n">Ioptn</span><span class="o">/</span><span class="mi">1000</span><span class="p">)</span><span class="o">*</span><span class="mi">1000</span><span class="p">)</span><span class="o">/</span><span class="mi">100</span>
+        <span class="k">if</span> <span class="p">(</span> <span class="n">iophun</span><span class="o">&lt;=</span><span class="p">(</span><span class="n">iophun</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="mi">2</span> <span class="p">)</span> <span class="k">then</span>
 <span class="k">            </span><span class="n">nstep</span> <span class="o">=</span> <span class="mi">1</span>
-         <span class="k">else</span>
+        <span class="k">else</span>
 <span class="k">            </span><span class="n">nstep</span> <span class="o">=</span> <span class="n">Iwork</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-         <span class="k">endif</span>
-<span class="c">!</span>
-<span class="c">! IF THE HUNDREDS DIGIT OF IOPTN IS 2 OR 3, SET TOLCON = WORK(2),</span>
-<span class="c">! AND OTHERWISE SET TOLCON TO ITS DEFAULT VALUE OF SQRT(SPCMN).</span>
-         <span class="k">if</span> <span class="p">(</span> <span class="n">iophun</span><span class="o">&lt;</span><span class="mi">2</span> <span class="p">)</span> <span class="k">then</span>
+        <span class="k">endif</span>
+
+        <span class="c">! IF THE HUNDREDS DIGIT OF IOPTN IS 2 OR 3, SET TOLCON = WORK(2),</span>
+        <span class="c">! AND OTHERWISE SET TOLCON TO ITS DEFAULT VALUE OF SQRT(SPCMN).</span>
+        <span class="k">if</span> <span class="p">(</span> <span class="n">iophun</span><span class="o">&lt;</span><span class="mi">2</span> <span class="p">)</span> <span class="k">then</span>
 <span class="k">            </span><span class="n">tolcon</span> <span class="o">=</span> <span class="nb">sqrt</span><span class="p">(</span><span class="n">spcmn</span><span class="p">)</span>
-         <span class="k">else</span>
+        <span class="k">else</span>
 <span class="k">            </span><span class="n">tolcon</span> <span class="o">=</span> <span class="n">Work</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-         <span class="k">endif</span>
-<span class="c">!</span>
-<span class="c">! IN THIS VERSION OF CONMAX WE SET THE LINEAR CONSTRAINT TOLERANCE</span>
-<span class="c">! EQUAL TO THE NONLINEAR CONSTRAINT TOLERANCE.</span>
-         <span class="n">tollin</span> <span class="o">=</span> <span class="n">tolcon</span>
-<span class="c">!</span>
-<span class="c">! SET IRK=1 IF THE THOUSANDS DIGIT OF IOPTN IS 0 AND OTHERWISE SET IRK=0.</span>
-         <span class="n">ioptho</span> <span class="o">=</span> <span class="p">(</span><span class="n">Ioptn</span><span class="o">-</span><span class="p">(</span><span class="n">Ioptn</span><span class="o">/</span><span class="mi">10000</span><span class="p">)</span><span class="o">*</span><span class="mi">10000</span><span class="p">)</span><span class="o">/</span><span class="mi">1000</span>
-         <span class="k">if</span> <span class="p">(</span> <span class="n">ioptho</span><span class="o">&lt;=</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
+        <span class="k">endif</span>
+
+        <span class="c">! IN THIS VERSION OF CONMAX WE SET THE LINEAR CONSTRAINT TOLERANCE</span>
+        <span class="c">! EQUAL TO THE NONLINEAR CONSTRAINT TOLERANCE.</span>
+        <span class="n">tollin</span> <span class="o">=</span> <span class="n">tolcon</span>
+
+        <span class="c">! SET IRK=1 IF THE THOUSANDS DIGIT OF IOPTN IS 0 AND OTHERWISE SET IRK=0.</span>
+        <span class="n">ioptho</span> <span class="o">=</span> <span class="p">(</span><span class="n">Ioptn</span><span class="o">-</span><span class="p">(</span><span class="n">Ioptn</span><span class="o">/</span><span class="mi">10000</span><span class="p">)</span><span class="o">*</span><span class="mi">10000</span><span class="p">)</span><span class="o">/</span><span class="mi">1000</span>
+        <span class="k">if</span> <span class="p">(</span> <span class="n">ioptho</span><span class="o">&lt;=</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
 <span class="k">            </span><span class="n">irk</span> <span class="o">=</span> <span class="mi">1</span>
-         <span class="k">else</span>
+        <span class="k">else</span>
 <span class="k">            </span><span class="n">irk</span> <span class="o">=</span> <span class="mi">0</span>
-         <span class="k">endif</span>
-<span class="c">!</span>
-<span class="c">! COMPUTE THE TEN THOUSANDS DIGIT OF IOPTN FOR LATER USE.</span>
-         <span class="n">ioptth</span> <span class="o">=</span> <span class="p">(</span><span class="n">Ioptn</span><span class="o">-</span><span class="p">(</span><span class="n">Ioptn</span><span class="o">/</span><span class="mi">100000</span><span class="p">)</span><span class="o">*</span><span class="mi">100000</span><span class="p">)</span><span class="o">/</span><span class="mi">10000</span>
-<span class="c">!</span>
-<span class="c">! SET IPHSE=-1 TO INDICATE WE HAVE NOT CHECKED TYPE -1 FEASIBILITY YET.</span>
-         <span class="n">iphse</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
-<span class="c">! SET RCHDWN = THE NUMBER OF LENGTHS OF PROJCT IN RKSACT (OR NUMBER OF</span>
-<span class="c">! LENGTHS OF BNDLGT IN SETU1) WE WILL GO BELOW ERROR(NUMGR+1) TO DECLARE</span>
-<span class="c">! A PRIMARY CONSTRAINT TO BE ACTIVE.</span>
-         <span class="n">rchdwn</span> <span class="o">=</span> <span class="n">two</span>
-         <span class="n">rchdnk</span> <span class="o">=</span> <span class="n">rchdwn</span>
-<span class="c">! SET RCHIN = THE NUMBER OF LENGTHS OF PROJCT (OR BNDLGT) WE WILL GO</span>
-<span class="c">! BELOW 0.0 TO DECLARE A TYPE -2 CONSTRAINT TO BE ACTIVE.</span>
-         <span class="n">rchin</span> <span class="o">=</span> <span class="n">two</span>
-<span class="c">! SET A NORMAL VALUE FOR NUMLIM FOR USE IN SLPCON.</span>
-         <span class="n">numlim</span> <span class="o">=</span> <span class="mi">11</span>
-         <span class="k">goto </span><span class="mi">100</span>
-      <span class="k">endif</span>
-<span class="k">      return</span>
-<span class="c">!</span>
-<span class="c">! END OF PRELIMINARY SECTION.  THE STATEMENTS ABOVE THIS POINT WILL NOT</span>
-<span class="c">! BE EXECUTED AGAIN IN THIS CALL TO CONMAX.</span>
-<span class="c">!</span>
-<span class="c">!</span>
+        <span class="k">endif</span>
+
+        <span class="c">! COMPUTE THE TEN THOUSANDS DIGIT OF IOPTN FOR LATER USE.</span>
+        <span class="n">ioptth</span> <span class="o">=</span> <span class="p">(</span><span class="n">Ioptn</span><span class="o">-</span><span class="p">(</span><span class="n">Ioptn</span><span class="o">/</span><span class="mi">100000</span><span class="p">)</span><span class="o">*</span><span class="mi">100000</span><span class="p">)</span><span class="o">/</span><span class="mi">10000</span>
+
+        <span class="c">! SET IPHSE=-1 TO INDICATE WE HAVE NOT CHECKED TYPE -1 FEASIBILITY YET.</span>
+        <span class="n">iphse</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="c">! SET RCHDWN = THE NUMBER OF LENGTHS OF PROJCT IN RKSACT (OR NUMBER OF</span>
+        <span class="c">! LENGTHS OF BNDLGT IN SETU1) WE WILL GO BELOW ERROR(NUMGR+1) TO DECLARE</span>
+        <span class="c">! A PRIMARY CONSTRAINT TO BE ACTIVE.</span>
+        <span class="n">rchdwn</span> <span class="o">=</span> <span class="n">two</span>
+        <span class="n">rchdnk</span> <span class="o">=</span> <span class="n">rchdwn</span>
+        <span class="c">! SET RCHIN = THE NUMBER OF LENGTHS OF PROJCT (OR BNDLGT) WE WILL GO</span>
+        <span class="c">! BELOW 0.0 TO DECLARE A TYPE -2 CONSTRAINT TO BE ACTIVE.</span>
+        <span class="n">rchin</span> <span class="o">=</span> <span class="n">two</span>
+        <span class="c">! SET A NORMAL VALUE FOR NUMLIM FOR USE IN SLPCON.</span>
+        <span class="n">numlim</span> <span class="o">=</span> <span class="mi">11</span>
+    <span class="k">endif</span>
+    <span class="c">! END OF PRELIMINARY SECTION.  THE STATEMENTS ABOVE THIS POINT WILL NOT</span>
+    <span class="c">! BE EXECUTED AGAIN IN THIS CALL TO CONMAX.</span>
+
 <span class="c">! CALL ERCMP1 WITH ICNUSE=0 TO COMPUTE THE ERRORS, ERROR NORMS, AND ICNTYP.</span>
 <span class="c">! WE TAKE IPHSE AS 0 SO ALL CONSTRAINTS WILL BE COMPUTED BY FNSET IN CASE</span>
 <span class="c">! THE TEN THOUSANDS DIGIT OF IOPTN IS 1.</span>

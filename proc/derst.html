@@ -208,13 +208,13 @@ private subroutine derst(me, Ioptn, Nparm, Numgr, Pttbl, Iptb, Indm, Param, Ipt,
 
 
     
-    <p>THIS SUBROUTINE USES FNSET TO COMPUTE CONFUN(I,1) AND THE PARTIAL
- DERIVATIVES OF THE FUNCTION WHOSE VALUE IS IN CONFUN(I,1) FOR
- CERTAIN VALUE(S) OF I.  NOTE THAT WE DO NOT WANT THE ICNTYP COMPUTED
- BY FNSET TO OVERRIDE THE ICNTYP (OR JCNTYP) CARRIED INTO THIS
- SUBROUTINE IN ICNTYP, SO WE USE KCNTYP WHEN WE CALL FNSET.  (THE
- ICNTYP COMPUTED BY FNSET WAS STORED EARLIER THROUGH A CALL TO ERCMP1
- FROM CONMAX.)</p>
+    <p>This subroutine uses <code>fnset</code> to compute <code>confun(i,1)</code> and the partial
+ derivatives of the function whose value is in <code>confun(i,1)</code> for
+ certain value(s) of <code>i</code>.  note that we do not want the <code>icntyp</code> computed
+ by <code>fnset</code> to override the <code>icntyp</code> (or <code>jcntyp</code>) carried into this
+ subroutine in <code>icntyp</code>, so we use <code>kcntyp</code> when we call <code>fnset</code>.  (the
+ <code>icntyp</code> computed by <code>fnset</code> was stored earlier through a call to <a href="../proc/ercmp1.html">ercmp1</a>
+ from <a href="../proc/conmax.html">conmax</a>.)</p>
     
 
     <h3>Arguments</h3>
@@ -250,7 +250,7 @@ private subroutine derst(me, Ioptn, Nparm, Numgr, Pttbl, Iptb, Indm, Param, Ipt,
   
 <tr>
   
-  <td><span class="anchor" id="variable-ioptn~2"></span>integer</td>
+  <td><span class="anchor" id="variable-ioptn"></span>integer</td>
   <td></td>
   <td></td>
   
@@ -265,7 +265,7 @@ private subroutine derst(me, Ioptn, Nparm, Numgr, Pttbl, Iptb, Indm, Param, Ipt,
   
 <tr>
   
-  <td><span class="anchor" id="variable-nparm~5"></span>integer</td>
+  <td><span class="anchor" id="variable-nparm~4"></span>integer</td>
   <td></td>
   <td></td>
   
@@ -280,7 +280,7 @@ private subroutine derst(me, Ioptn, Nparm, Numgr, Pttbl, Iptb, Indm, Param, Ipt,
   
 <tr>
   
-  <td><span class="anchor" id="variable-numgr~4"></span>integer</td>
+  <td><span class="anchor" id="variable-numgr~3"></span>integer</td>
   <td></td>
   <td></td>
   
@@ -295,7 +295,7 @@ private subroutine derst(me, Ioptn, Nparm, Numgr, Pttbl, Iptb, Indm, Param, Ipt,
   
 <tr>
   
-  <td><span class="anchor" id="variable-pttbl~3"></span>real(kind=wp)</td>
+  <td><span class="anchor" id="variable-pttbl~2"></span>real(kind=wp)</td>
   <td></td>
   <td></td>
   
@@ -310,7 +310,7 @@ private subroutine derst(me, Ioptn, Nparm, Numgr, Pttbl, Iptb, Indm, Param, Ipt,
   
 <tr>
   
-  <td><span class="anchor" id="variable-iptb~3"></span>integer</td>
+  <td><span class="anchor" id="variable-iptb~2"></span>integer</td>
   <td></td>
   <td></td>
   
@@ -340,7 +340,7 @@ private subroutine derst(me, Ioptn, Nparm, Numgr, Pttbl, Iptb, Indm, Param, Ipt,
   
 <tr>
   
-  <td><span class="anchor" id="variable-param~3"></span>real(kind=wp)</td>
+  <td><span class="anchor" id="variable-param~2"></span>real(kind=wp)</td>
   <td></td>
   <td></td>
   
@@ -497,13 +497,13 @@ private subroutine derst(me, Ioptn, Nparm, Numgr, Pttbl, Iptb, Indm, Param, Ipt,
       <span class="k">implicit none</span>
 
 <span class="k">      class</span><span class="p">(</span><span class="n">conmax_solver</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span> <span class="kd">::</span> <span class="n">me</span>
-      <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="n">Confun</span> <span class="p">,</span> <span class="n">delt</span> <span class="p">,</span> <span class="n">delt2</span> <span class="p">,</span> <span class="n">Param</span> <span class="p">,</span> <span class="n">Param1</span> <span class="p">,</span> <span class="n">Pttbl</span> <span class="p">,</span>  <span class="p">&amp;</span>
-               <span class="n">up</span> <span class="p">,</span> <span class="n">v</span>
-      <span class="kt">integer </span><span class="n">Indm</span> <span class="p">,</span> <span class="n">iopone</span> <span class="p">,</span> <span class="n">Ioptn</span> <span class="p">,</span> <span class="n">ioptth</span> <span class="p">,</span> <span class="n">Ipt</span> <span class="p">,</span> <span class="n">Iptb</span> <span class="p">,</span> <span class="n">iptkp</span> <span class="p">,</span> <span class="n">j</span> <span class="p">,</span> <span class="p">&amp;</span>
-              <span class="n">k</span> <span class="p">,</span> <span class="n">Kcntyp</span> <span class="p">,</span> <span class="n">l</span> <span class="p">,</span> <span class="n">npar1</span> <span class="p">,</span> <span class="n">Nparm</span> <span class="p">,</span> <span class="n">Numgr</span>
+      <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Confun</span> <span class="p">,</span> <span class="n">delt</span> <span class="p">,</span> <span class="n">delt2</span> <span class="p">,</span> <span class="n">Param</span> <span class="p">,</span> <span class="n">Param1</span> <span class="p">,</span> <span class="n">Pttbl</span> <span class="p">,</span>  <span class="p">&amp;</span>
+                  <span class="n">up</span> <span class="p">,</span> <span class="n">v</span>
+      <span class="kt">integer</span> <span class="kd">::</span> <span class="n">Indm</span> <span class="p">,</span> <span class="n">iopone</span> <span class="p">,</span> <span class="n">Ioptn</span> <span class="p">,</span> <span class="n">ioptth</span> <span class="p">,</span> <span class="n">Ipt</span> <span class="p">,</span> <span class="n">Iptb</span> <span class="p">,</span> <span class="n">iptkp</span> <span class="p">,</span> <span class="n">j</span> <span class="p">,</span> <span class="p">&amp;</span>
+                 <span class="n">k</span> <span class="p">,</span> <span class="n">Kcntyp</span> <span class="p">,</span> <span class="n">l</span> <span class="p">,</span> <span class="n">npar1</span> <span class="p">,</span> <span class="n">Nparm</span> <span class="p">,</span> <span class="n">Numgr</span>
 
-      <span class="k">dimension </span><span class="n">Pttbl</span><span class="p">(</span><span class="n">Iptb</span><span class="p">,</span><span class="n">Indm</span><span class="p">)</span> <span class="p">,</span> <span class="n">Param</span><span class="p">(</span><span class="n">Nparm</span><span class="p">)</span> <span class="p">,</span> <span class="n">Param1</span><span class="p">(</span><span class="n">Nparm</span><span class="p">)</span> <span class="p">,</span>       <span class="p">&amp;</span>
-                <span class="n">v</span><span class="p">(</span><span class="n">Numgr</span><span class="o">+</span><span class="mi">2</span><span class="o">*</span><span class="n">Nparm</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="n">Nparm</span><span class="o">+</span><span class="mi">2</span><span class="p">)</span> <span class="p">,</span> <span class="n">Kcntyp</span><span class="p">(</span><span class="n">Numgr</span><span class="p">)</span> <span class="p">,</span>            <span class="p">&amp;</span>
+      <span class="k">dimension </span><span class="n">Pttbl</span><span class="p">(</span><span class="n">Iptb</span><span class="p">,</span><span class="n">Indm</span><span class="p">)</span> <span class="p">,</span> <span class="n">Param</span><span class="p">(</span><span class="n">Nparm</span><span class="p">)</span> <span class="p">,</span> <span class="n">Param1</span><span class="p">(</span><span class="n">Nparm</span><span class="p">)</span> <span class="p">,</span> <span class="p">&amp;</span>
+                <span class="n">v</span><span class="p">(</span><span class="n">Numgr</span><span class="o">+</span><span class="mi">2</span><span class="o">*</span><span class="n">Nparm</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="n">Nparm</span><span class="o">+</span><span class="mi">2</span><span class="p">)</span> <span class="p">,</span> <span class="n">Kcntyp</span><span class="p">(</span><span class="n">Numgr</span><span class="p">)</span> <span class="p">,</span> <span class="p">&amp;</span>
                 <span class="n">Confun</span><span class="p">(</span><span class="n">Numgr</span><span class="p">,</span><span class="n">Nparm</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
 
 <span class="c">! IF THE ONES DIGIT OF IOPTN IS 0, WE CALL FNSET WITH INDFN=1 TO DO THE</span>
@@ -540,14 +540,14 @@ private subroutine derst(me, Ioptn, Nparm, Numgr, Pttbl, Iptb, Indm, Param, Ipt,
 <span class="c">!</span>
 <span class="c">! NOW CALL FNSET WITH INDFN=0 TO PLACE THE FUNCTION IN CONSTRAINT</span>
 <span class="c">! IPT EVALUATED AT POINT PARAM1 IN CONFUN(IPT,1).</span>
-               <span class="k">call </span><span class="n">me</span><span class="p">%</span><span class="n">fnset</span><span class="p">(</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">,</span><span class="n">Pttbl</span><span class="p">,</span><span class="n">Iptb</span><span class="p">,</span><span class="n">Indm</span><span class="p">,</span><span class="n">Param1</span><span class="p">,</span><span class="n">Ipt</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span>     <span class="p">&amp;</span>
+               <span class="k">call </span><span class="n">me</span><span class="p">%</span><span class="n">fnset</span><span class="p">(</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">,</span><span class="n">Pttbl</span><span class="p">,</span><span class="n">Iptb</span><span class="p">,</span><span class="n">Indm</span><span class="p">,</span><span class="n">Param1</span><span class="p">,</span><span class="n">Ipt</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span> <span class="p">&amp;</span>
                           <span class="n">Kcntyp</span><span class="p">,</span><span class="n">Confun</span><span class="p">)</span>
                <span class="n">up</span> <span class="o">=</span> <span class="n">Confun</span><span class="p">(</span><span class="n">Ipt</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
 <span class="c">!</span>
 <span class="c">! SET PARAM1 EQUAL TO PARAM, ECXEPT WITH ITS LTH COMOPONENT DECREASED</span>
 <span class="c">! BY DELT, AND CALL FNSET AGAIN.</span>
                <span class="n">Param1</span><span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="o">-</span> <span class="n">delt</span>
-               <span class="k">call </span><span class="n">me</span><span class="p">%</span><span class="n">fnset</span><span class="p">(</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">,</span><span class="n">Pttbl</span><span class="p">,</span><span class="n">Iptb</span><span class="p">,</span><span class="n">Indm</span><span class="p">,</span><span class="n">Param1</span><span class="p">,</span><span class="n">Ipt</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span>     <span class="p">&amp;</span>
+               <span class="k">call </span><span class="n">me</span><span class="p">%</span><span class="n">fnset</span><span class="p">(</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">,</span><span class="n">Pttbl</span><span class="p">,</span><span class="n">Iptb</span><span class="p">,</span><span class="n">Indm</span><span class="p">,</span><span class="n">Param1</span><span class="p">,</span><span class="n">Ipt</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span> <span class="p">&amp;</span>
                           <span class="n">Kcntyp</span><span class="p">,</span><span class="n">Confun</span><span class="p">)</span>
 <span class="c">!</span>
 <span class="c">! NOW WE CAN COMPUTE THE CENTERED-DIFFERENCE APPROXIMATION TO THE PARTIAL</span>
@@ -564,7 +564,7 @@ private subroutine derst(me, Ioptn, Nparm, Numgr, Pttbl, Iptb, Indm, Param, Ipt,
 <span class="c">!</span>
 <span class="c">! NOW COMPUTE THE VALUE OF THE FUNCTION AT PARAM, AND THEN PUT THE</span>
 <span class="c">! EARLIER-COMPUTED PARTIAL DERIVATIVES INTO CONFUN.</span>
-            <span class="k">call </span><span class="n">me</span><span class="p">%</span><span class="n">fnset</span><span class="p">(</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">,</span><span class="n">Pttbl</span><span class="p">,</span><span class="n">Iptb</span><span class="p">,</span><span class="n">Indm</span><span class="p">,</span><span class="n">Param</span><span class="p">,</span><span class="n">Ipt</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">Kcntyp</span><span class="p">,</span>  <span class="p">&amp;</span>
+            <span class="k">call </span><span class="n">me</span><span class="p">%</span><span class="n">fnset</span><span class="p">(</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">,</span><span class="n">Pttbl</span><span class="p">,</span><span class="n">Iptb</span><span class="p">,</span><span class="n">Indm</span><span class="p">,</span><span class="n">Param</span><span class="p">,</span><span class="n">Ipt</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">Kcntyp</span><span class="p">,</span> <span class="p">&amp;</span>
                        <span class="n">Confun</span><span class="p">)</span>
             <span class="k">do </span><span class="n">l</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Nparm</span>
                <span class="n">Confun</span><span class="p">(</span><span class="n">Ipt</span><span class="p">,</span><span class="n">l</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="n">v</span><span class="p">(</span><span class="n">l</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
@@ -598,7 +598,7 @@ private subroutine derst(me, Ioptn, Nparm, Numgr, Pttbl, Iptb, Indm, Param, Ipt,
                   <span class="n">Param1</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
                <span class="k">enddo</span>
 <span class="k">               </span><span class="n">Param1</span><span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="o">+</span> <span class="n">delt</span>
-               <span class="k">call </span><span class="n">me</span><span class="p">%</span><span class="n">fnset</span><span class="p">(</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">,</span><span class="n">Pttbl</span><span class="p">,</span><span class="n">Iptb</span><span class="p">,</span><span class="n">Indm</span><span class="p">,</span><span class="n">Param1</span><span class="p">,</span><span class="n">Ipt</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span>     <span class="p">&amp;</span>
+               <span class="k">call </span><span class="n">me</span><span class="p">%</span><span class="n">fnset</span><span class="p">(</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">,</span><span class="n">Pttbl</span><span class="p">,</span><span class="n">Iptb</span><span class="p">,</span><span class="n">Indm</span><span class="p">,</span><span class="n">Param1</span><span class="p">,</span><span class="n">Ipt</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span> <span class="p">&amp;</span>
                           <span class="n">Kcntyp</span><span class="p">,</span><span class="n">Confun</span><span class="p">)</span>
                <span class="n">Ipt</span> <span class="o">=</span> <span class="n">iptkp</span>
                <span class="k">do </span><span class="n">k</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Numgr</span>
@@ -614,7 +614,7 @@ private subroutine derst(me, Ioptn, Nparm, Numgr, Pttbl, Iptb, Indm, Param, Ipt,
 <span class="c">!</span>
 <span class="c">! REVISE PARAM1 AND CALL FNSET AGAIN.</span>
                <span class="n">Param1</span><span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="o">-</span> <span class="n">delt</span>
-               <span class="k">call </span><span class="n">me</span><span class="p">%</span><span class="n">fnset</span><span class="p">(</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">,</span><span class="n">Pttbl</span><span class="p">,</span><span class="n">Iptb</span><span class="p">,</span><span class="n">Indm</span><span class="p">,</span><span class="n">Param1</span><span class="p">,</span><span class="n">Ipt</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span>     <span class="p">&amp;</span>
+               <span class="k">call </span><span class="n">me</span><span class="p">%</span><span class="n">fnset</span><span class="p">(</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">,</span><span class="n">Pttbl</span><span class="p">,</span><span class="n">Iptb</span><span class="p">,</span><span class="n">Indm</span><span class="p">,</span><span class="n">Param1</span><span class="p">,</span><span class="n">Ipt</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span> <span class="p">&amp;</span>
                           <span class="n">Kcntyp</span><span class="p">,</span><span class="n">Confun</span><span class="p">)</span>
                <span class="n">Ipt</span> <span class="o">=</span> <span class="n">iptkp</span>
                <span class="k">do </span><span class="n">k</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Numgr</span>
@@ -632,7 +632,7 @@ private subroutine derst(me, Ioptn, Nparm, Numgr, Pttbl, Iptb, Indm, Param, Ipt,
 <span class="c">! CALL FNSET AGAIN TO COMPUTE THE VALUES OF THE FUNCTIONS AT POINT</span>
 <span class="c">! PARAM, AND THEN PUT THE EARLIER-COMPUTED PARTIAL DERIVATIVES INTO</span>
 <span class="c">! CONFUN.</span>
-            <span class="k">call </span><span class="n">me</span><span class="p">%</span><span class="n">fnset</span><span class="p">(</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">,</span><span class="n">Pttbl</span><span class="p">,</span><span class="n">Iptb</span><span class="p">,</span><span class="n">Indm</span><span class="p">,</span><span class="n">Param</span><span class="p">,</span><span class="n">Ipt</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">Kcntyp</span><span class="p">,</span>  <span class="p">&amp;</span>
+            <span class="k">call </span><span class="n">me</span><span class="p">%</span><span class="n">fnset</span><span class="p">(</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">,</span><span class="n">Pttbl</span><span class="p">,</span><span class="n">Iptb</span><span class="p">,</span><span class="n">Indm</span><span class="p">,</span><span class="n">Param</span><span class="p">,</span><span class="n">Ipt</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">Kcntyp</span><span class="p">,</span> <span class="p">&amp;</span>
                        <span class="n">Confun</span><span class="p">)</span>
             <span class="k">do </span><span class="n">k</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Numgr</span>
                <span class="k">if</span> <span class="p">(</span> <span class="n">Ipt</span><span class="o">&lt;</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
