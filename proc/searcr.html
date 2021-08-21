@@ -880,7 +880,7 @@ private subroutine searcr(me, Ioptn, Nparm, Numgr, Dvec, Fun, Ifun, Pttbl, Iptb,
 <span class="c">! THAN THE LEFT SUBINTERVAL, SO WE DECREASE RLF RELATIVE TO RRT.</span>
                <span class="n">rlf</span> <span class="o">=</span> <span class="n">baladj</span><span class="o">*</span><span class="n">rlf</span>
                <span class="n">rrt</span> <span class="o">=</span> <span class="n">one</span> <span class="o">-</span> <span class="n">rlf</span>
-            <span class="k">endif</span>
+            <span class="k">end if</span>
 <span class="c">!</span>
 <span class="c">! COMPUTE THE (POSSIBLY MODIFIED) MINIMUM OF THE QUADRATIC FIT.</span>
             <span class="n">p4</span> <span class="o">=</span> <span class="p">(</span><span class="n">rlf</span><span class="o">*</span><span class="n">p1</span><span class="o">+</span><span class="n">rrt</span><span class="o">*</span><span class="n">p3</span><span class="o">+</span><span class="n">p2</span><span class="p">)</span><span class="o">/</span><span class="n">two</span>
@@ -903,7 +903,7 @@ private subroutine searcr(me, Ioptn, Nparm, Numgr, Dvec, Fun, Ifun, Pttbl, Iptb,
                <span class="k">else</span>
 <span class="k">                  </span><span class="n">p4</span> <span class="o">=</span> <span class="n">p2</span> <span class="o">+</span> <span class="n">tol4</span>
                   <span class="n">pval</span> <span class="o">=</span> <span class="n">p4</span>
-               <span class="k">endif</span>
+               <span class="k">end if</span>
 <span class="c">! HERE WE HAD ABS(P4-P2) &gt;= TOL4 AND WE MAKE SURE THAT P1+TOL4</span>
 <span class="c">! &lt;= P4 &lt;= P3-TOL4.</span>
             <span class="n">elseif</span> <span class="p">(</span> <span class="n">p4</span><span class="o">&lt;=</span><span class="p">(</span><span class="n">p3</span><span class="o">-</span><span class="n">tol4</span><span class="p">)</span> <span class="p">)</span> <span class="k">then</span>
@@ -917,7 +917,7 @@ private subroutine searcr(me, Ioptn, Nparm, Numgr, Dvec, Fun, Ifun, Pttbl, Iptb,
                <span class="k">else</span>
 <span class="k">                  </span><span class="n">p4</span> <span class="o">=</span> <span class="n">p1</span> <span class="o">+</span> <span class="n">tol4</span>
                   <span class="n">pval</span> <span class="o">=</span> <span class="n">p4</span>
-               <span class="k">endif</span>
+               <span class="k">end if</span>
 <span class="c">! HERE P4 &gt; P3-TOL4 AND WE SET P4=P3-TOL4 IF P3-P2 &gt;= TOL1/2.0,</span>
 <span class="c">! AND OTHERWISE WE SET P4=P2-TOL4.</span>
             <span class="n">elseif</span> <span class="p">(</span> <span class="n">p3</span><span class="o">-</span><span class="n">p2</span><span class="o">&lt;</span><span class="n">tol1</span><span class="o">/</span><span class="n">two</span> <span class="p">)</span> <span class="k">then</span>
@@ -926,10 +926,10 @@ private subroutine searcr(me, Ioptn, Nparm, Numgr, Dvec, Fun, Ifun, Pttbl, Iptb,
             <span class="k">else</span>
 <span class="k">               </span><span class="n">p4</span> <span class="o">=</span> <span class="n">p3</span> <span class="o">-</span> <span class="n">tol4</span>
                <span class="n">pval</span> <span class="o">=</span> <span class="n">p4</span>
-            <span class="k">endif</span>
+            <span class="k">end if</span>
 <span class="k">            goto </span><span class="mi">400</span>
-         <span class="k">endif</span>
-<span class="k">      endif</span>
+         <span class="k">end if</span>
+<span class="k">      end if</span>
 <span class="c">!</span>
  <span class="mi">300</span>  <span class="n">Emin</span> <span class="o">=</span> <span class="n">f2</span>
       <span class="n">Procor</span> <span class="o">=</span> <span class="n">p2</span>
@@ -945,7 +945,7 @@ private subroutine searcr(me, Ioptn, Nparm, Numgr, Dvec, Fun, Ifun, Pttbl, Iptb,
 <span class="c">! PROJECT DVEC TO GET PARWRK.</span>
       <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Nparm</span>
          <span class="n">Parwrk</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">Zwork</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">+</span> <span class="n">pval</span><span class="o">*</span><span class="n">Dvec</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
-      <span class="k">enddo</span>
+      <span class="k">end do</span>
 <span class="c">! WE TAKE IPHSE=-3 AS A KLUDGE TO TELL ERCMP1 TO COMPUTE ONLY STANDARD</span>
 <span class="c">! ERRORS IF THE TEN THOUSANDS DIGIT OF IOPTN IS 1, THUS SAVING ERCMP1</span>
 <span class="c">! THE WORK OF SCANNING ICNTYP.</span>
@@ -989,7 +989,7 @@ private subroutine searcr(me, Ioptn, Nparm, Numgr, Dvec, Fun, Ifun, Pttbl, Iptb,
          <span class="k">if</span> <span class="p">(</span> <span class="n">fval</span><span class="o">&lt;=</span><span class="n">progr</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">600</span>
          <span class="k">if</span> <span class="p">(</span> <span class="n">f2</span><span class="o">&gt;</span><span class="n">progr</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">700</span>
          <span class="k">goto </span><span class="mi">600</span>
-      <span class="k">endif</span>
+      <span class="k">end if</span>
 <span class="k"> </span><span class="mi">500</span>  <span class="n">p1</span> <span class="o">=</span> <span class="n">p2</span>
       <span class="n">f1</span> <span class="o">=</span> <span class="n">f2</span>
       <span class="k">return</span>
@@ -1054,7 +1054,7 @@ private subroutine searcr(me, Ioptn, Nparm, Numgr, Dvec, Fun, Ifun, Pttbl, Iptb,
             <span class="n">Emin</span> <span class="o">=</span> <span class="n">f1</span>
             <span class="n">Procor</span> <span class="o">=</span> <span class="n">one</span><span class="o">/</span><span class="n">two</span>
             <span class="k">goto </span><span class="mi">800</span>
-         <span class="k">endif</span>
+         <span class="k">end if</span>
 <span class="k">      case</span> <span class="p">(</span><span class="mi">4</span><span class="p">)</span>
 <span class="c">!</span>
          <span class="n">f4</span> <span class="o">=</span> <span class="n">fval</span>
@@ -1081,7 +1081,7 @@ private subroutine searcr(me, Ioptn, Nparm, Numgr, Dvec, Fun, Ifun, Pttbl, Iptb,
                <span class="n">f1</span> <span class="o">=</span> <span class="n">f4</span>
                <span class="n">ilf</span> <span class="o">=</span> <span class="n">ilf</span> <span class="o">+</span> <span class="mi">1</span>
                <span class="n">irt</span> <span class="o">=</span> <span class="mi">0</span>
-            <span class="k">endif</span>
+            <span class="k">end if</span>
 <span class="c">! HERE P4 &gt; P2.</span>
          <span class="n">elseif</span> <span class="p">(</span> <span class="n">f2</span><span class="o">&lt;</span><span class="n">f4</span> <span class="p">)</span> <span class="k">then</span>
 <span class="k">            </span><span class="n">p3</span> <span class="o">=</span> <span class="n">p4</span>
@@ -1095,7 +1095,7 @@ private subroutine searcr(me, Ioptn, Nparm, Numgr, Dvec, Fun, Ifun, Pttbl, Iptb,
             <span class="n">f2</span> <span class="o">=</span> <span class="n">f4</span>
             <span class="n">ilf</span> <span class="o">=</span> <span class="n">ilf</span> <span class="o">+</span> <span class="mi">1</span>
             <span class="n">irt</span> <span class="o">=</span> <span class="mi">0</span>
-         <span class="k">endif</span>
+         <span class="k">end if</span>
 <span class="k">         goto </span><span class="mi">200</span>
       <span class="k">case </span><span class="n">default</span>
       <span class="k">end select</span>

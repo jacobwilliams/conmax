@@ -620,7 +620,7 @@ private subroutine rchmod(Numgr, Error, Err1, Icntyp, Mact, Iact, Ipmax, Ismax, 
          <span class="k">do </span><span class="n">l</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Mact</span>
             <span class="n">i</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">Iact</span><span class="p">(</span><span class="n">l</span><span class="p">))</span>
             <span class="k">if</span> <span class="p">(</span> <span class="n">i</span><span class="o">==</span><span class="n">Ismax</span> <span class="p">)</span> <span class="k">return</span>
-<span class="k">         enddo</span>
+<span class="k">         end do</span>
 <span class="c">!</span>
 <span class="c">! RETURN IF RCHIN &gt;= RCHTOP.</span>
          <span class="k">if</span> <span class="p">(</span> <span class="n">Rchin</span><span class="o">&lt;</span><span class="n">rchtop</span> <span class="p">)</span> <span class="k">then</span>
@@ -637,8 +637,8 @@ private subroutine rchmod(Numgr, Error, Err1, Icntyp, Mact, Iact, Ipmax, Ismax, 
             <span class="k">if</span> <span class="p">(</span> <span class="n">rch1</span><span class="o">&gt;</span><span class="n">Rchin</span> <span class="p">)</span> <span class="k">then</span>
 <span class="k">               </span><span class="n">Rchin</span> <span class="o">=</span> <span class="n">rch1</span>
                <span class="k">if</span> <span class="p">(</span> <span class="n">Rchin</span><span class="o">&gt;</span><span class="n">rchtop</span> <span class="p">)</span> <span class="n">Rchin</span> <span class="o">=</span> <span class="n">rchtop</span>
-            <span class="k">endif</span>
-<span class="k">         endif</span>
+            <span class="k">end if</span>
+<span class="k">         end if</span>
 <span class="k">         return</span>
 <span class="k">      else</span>
 <span class="c">!</span>
@@ -652,7 +652,7 @@ private subroutine rchmod(Numgr, Error, Err1, Icntyp, Mact, Iact, Ipmax, Ismax, 
          <span class="k">do </span><span class="n">l</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Mact</span>
             <span class="n">i</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">Iact</span><span class="p">(</span><span class="n">l</span><span class="p">))</span>
             <span class="k">if</span> <span class="p">(</span> <span class="n">i</span><span class="o">==</span><span class="n">Ipmax</span> <span class="p">)</span> <span class="k">return</span>
-<span class="k">         enddo</span>
+<span class="k">         end do</span>
 <span class="c">!</span>
 <span class="c">! RETURN IF RCHDWN &gt;= RCHTOP.</span>
          <span class="k">if</span> <span class="p">(</span> <span class="n">Rchdwn</span><span class="o">&gt;=</span><span class="n">rchtop</span> <span class="p">)</span> <span class="k">return</span>
@@ -674,19 +674,19 @@ private subroutine rchmod(Numgr, Error, Err1, Icntyp, Mact, Iact, Ipmax, Ismax, 
                   <span class="n">ei</span> <span class="o">=</span> <span class="n">Err1</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
                <span class="k">else</span>
 <span class="k">                  </span><span class="n">ei</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">Err1</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
-               <span class="k">endif</span>
+               <span class="k">end if</span>
 <span class="k">               if</span> <span class="p">(</span> <span class="n">ipact</span><span class="o">&lt;=</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
 <span class="k">                  </span><span class="n">ipact</span> <span class="o">=</span> <span class="mi">1</span>
                   <span class="n">epact</span> <span class="o">=</span> <span class="n">ei</span>
                <span class="n">elseif</span> <span class="p">(</span> <span class="n">ei</span><span class="o">&gt;</span><span class="n">epact</span> <span class="p">)</span> <span class="k">then</span>
 <span class="k">                  </span><span class="n">epact</span> <span class="o">=</span> <span class="n">ei</span>
-               <span class="k">endif</span>
-<span class="k"> </span><span class="mi">20</span>         <span class="k">enddo</span>
+               <span class="k">end if</span>
+<span class="k"> </span><span class="mi">20</span>         <span class="k">end do</span>
 <span class="c">!</span>
 <span class="c">! WE WILL RETURN IF EPACT IS &gt;= THE OLD PRIMARY ERROR NORM, WHICH</span>
 <span class="c">! WOULD INDICATE THAT THE STEP WAS TOO INACCURATE TO BE TRUSTED TO</span>
 <span class="c">! USE IN MODIFYING RCHDWN.</span>
-         <span class="k">endif</span>
+         <span class="k">end if</span>
 <span class="c">!</span>
 <span class="c">! COMPUTE EIPMAX AS THE OLD ERROR AT CONSTRAINT IPMAX (IF ICNTYP(IPMAX)</span>
 <span class="c">! =1) OR THE OLD ABSOLUTE ERROR AT CONSTRAINT IPMAX (IF ICNTYP(IPMAX)</span>
@@ -697,7 +697,7 @@ private subroutine rchmod(Numgr, Error, Err1, Icntyp, Mact, Iact, Ipmax, Ismax, 
 <span class="k">            </span><span class="n">eipmax</span> <span class="o">=</span> <span class="n">Error</span><span class="p">(</span><span class="n">Ipmax</span><span class="p">)</span>
          <span class="k">else</span>
 <span class="k">            </span><span class="n">eipmax</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">Error</span><span class="p">(</span><span class="n">Ipmax</span><span class="p">))</span>
-         <span class="k">endif</span>
+         <span class="k">end if</span>
 <span class="c">!</span>
 <span class="c">! SET THE PROSPECTIVE NEW RCHDWN.  NOTE THAT WITHOUT THE FUDGE FACTOR,</span>
 <span class="c">! RCHD1 WOULD HAVE JUST BARELY BEEN LARGE ENOUGH TO HAVE CAUSED</span>
@@ -710,7 +710,7 @@ private subroutine rchmod(Numgr, Error, Err1, Icntyp, Mact, Iact, Ipmax, Ismax, 
          <span class="k">if</span> <span class="p">(</span> <span class="n">rchd1</span><span class="o">&lt;=</span><span class="n">Rchdwn</span> <span class="p">)</span> <span class="k">return</span>
 <span class="k">         </span><span class="n">Rchdwn</span> <span class="o">=</span> <span class="n">rchd1</span>
          <span class="k">if</span> <span class="p">(</span> <span class="n">Rchdwn</span><span class="o">&gt;</span><span class="n">rchtop</span> <span class="p">)</span> <span class="n">Rchdwn</span> <span class="o">=</span> <span class="n">rchtop</span>
-      <span class="k">endif</span>
+      <span class="k">end if</span>
 <span class="c">!1700 WRITE(NWRIT,1800)RCHDWN</span>
 <span class="c">!1800 FORMAT(23H ***RCHDWN INCREASED TO,E24.14)</span>
       <span class="k">return</span>

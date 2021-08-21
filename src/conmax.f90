@@ -422,7 +422,7 @@
             kntsm = 0
             encsm = Work(1)
             limsm = Iwork(1)
-        endif
+        end if
 
         ! IF THE HUNDREDS DIGIT OF IOPTN IS 1 OR 3, SET NSTEP = IWORK(2),
         ! AND OTHERWISE SET NSTEP TO ITS DEFAULT VALUE OF 1.
@@ -431,7 +431,7 @@
             nstep = 1
         else
             nstep = Iwork(2)
-        endif
+        end if
 
         ! IF THE HUNDREDS DIGIT OF IOPTN IS 2 OR 3, SET TOLCON = WORK(2),
         ! AND OTHERWISE SET TOLCON TO ITS DEFAULT VALUE OF SQRT(SPCMN).
@@ -439,7 +439,7 @@
             tolcon = sqrt(spcmn)
         else
             tolcon = Work(2)
-        endif
+        end if
 
         ! IN THIS VERSION OF CONMAX WE SET THE LINEAR CONSTRAINT TOLERANCE
         ! EQUAL TO THE NONLINEAR CONSTRAINT TOLERANCE.
@@ -451,7 +451,7 @@
             irk = 1
         else
             irk = 0
-        endif
+        end if
 
         ! COMPUTE THE TEN THOUSANDS DIGIT OF IOPTN FOR LATER USE.
         ioptth = (Ioptn-(Ioptn/100000)*100000)/10000
@@ -468,7 +468,7 @@
         rchin = two
         ! SET A NORMAL VALUE FOR NUMLIM FOR USE IN SLPCON.
         numlim = 11
-    endif
+    end if
     ! END OF PRELIMINARY SECTION.  THE STATEMENTS ABOVE THIS POINT WILL NOT
     ! BE EXECUTED AGAIN IN THIS CALL TO CONMAX.
 
@@ -504,16 +504,16 @@
                   itypm2 = itypm2 + 1
                else
                   itypm1 = itypm1 + 1
-               endif
+               end if
             elseif ( Iwork(ii)/=0 ) then
                if ( Iwork(ii)<=1 ) then
                   ityp1 = ityp1 + 1
                else
                   ityp2 = ityp2 + 1
-               endif
-            endif
-         enddo
-      endif
+               end if
+            end if
+         end do
+      end if
 !
 ! COMPUTE THE ERROR NORMS.  ENORM IS THE PRINCIPAL ERROR NORM.
  200  enorm = Error(Numgr+1)
@@ -549,13 +549,13 @@
 ! DONE TO GAIN TYPE -1 FEASIBILITY IS NOT COUNTED AS AN ITERATION.
                      Iter = Iter + Itlim - itlim1
                      goto 500
-                  endif
+                  end if
                else
                   kntsm = 0
-               endif
-            endif
-         endif
-      endif
+               end if
+            end if
+         end if
+      end if
 !
       if ( Iter<itlim1 ) then
 !
@@ -586,7 +586,7 @@
                jj = ilc27 - 1 + j
 ! HERE WORK(JJ) = PARWRK(J).
                Work(jj) = zero
-            enddo
+            end do
             if ( ioptth>0 ) then
 ! HERE IOPTTH=1 AND WE CALL DERST WITH IPT=-1 TO PUT ALL THE STANDARD
 ! CONSTRAINT AND DERIVATIVE VALUES IN CONFUN.
@@ -595,7 +595,7 @@
                call me%derst(Ioptn,Nparm,Numgr,Pttbl,Iptb,Indm,Work(ilc27),&
                              ipt,Work(ilc24),Work(ilc35),Iwork(ilc22),     &
                              Work(ilc08))
-            endif
+            end if
 !
             m = 0
             do i = 1 , Numgr
@@ -613,14 +613,14 @@
                      call me%derst(Ioptn,Nparm,Numgr,Pttbl,Iptb,Indm,      &
                                    Work(ilc27),ipt,Work(ilc24),Work(ilc35),&
                                    Iwork(ilc22),Work(ilc08))
-                  endif
+                  end if
 ! COPY THE DERIVATIVES INTO PMAT FOR USE BY WOLFE.
                   do l = 1 , Nparm
                      l1 = ilc29 - 1 + l + (m-1)*npar1
                      l2 = ilc08 - 1 + i + l*Numgr
 ! HERE WORK(L1)=PMAT(L,M) AND WORK(L2)=CONFUN(I,L+1).
                      Work(l1) = Work(l2)
-                  enddo
+                  end do
 !
 ! NOW THE ITH CONSTRAINT (WHICH IS ALSO THE MTH TYPE -1 CONSTRAINT) HAS
 ! THE FORM PMAT(1,M)*Z1+...+PMAT(NPARM,M)*ZNPARM + CONFUN(I,1)  <=
@@ -638,9 +638,9 @@
                      l2 = ilc29 - 1 + l + (m-1)*npar1
 ! HERE WORK(L1)=PMAT(NPAR1,1) AND WORK(L2)=PMAT(L,M).
                      Work(l1) = Work(l1) + Work(l2)*Param(l)
-                  enddo
-               endif
-            enddo
+                  end do
+               end if
+            end do
 ! CALL WOLFE WITH ISTRT=0 TO COMPUTE THE SOLUTION IN THE ZZ COORDINATE
 ! SYSTEM FROM SCRATCH.
             call wolfe(Nparm,m,Work(ilc29),0,s,ncor,Iwork(ilc15),Iwork, &
@@ -656,7 +656,7 @@
                j2 = ilc42 - 1 + j
 ! HERE WORK(J1)=PARWRK(J) AND WORK(J2)=WPT(J).
                Work(j1) = Param(j) + Work(j2)
-            enddo
+            end do
 ! FOR USE IN ERCMP1 WE SET JCNTYP(I)=-1 IF ICNTYP(I)=-1 AND SET
 ! JCNTYP(I)=0 OTHERWISE.
             do i = 1 , Numgr
@@ -667,8 +667,8 @@
                   Iwork(jj) = 0
                else
                   Iwork(jj) = -1
-               endif
-            enddo
+               end if
+            end do
 ! CALL ERCMP1 WITH ICNUSE=1.
             call me%ercmp1(Ioptn,Nparm,Numgr,Fun,Ifun,Pttbl,Iptb,Indm,     &
                         Work(ilc27),1,iphse,Iwork,Liwrk,Work(ilc08),    &
@@ -683,7 +683,7 @@
                jj = ilc27 - 1 + j
 ! HERE WORK(JJ)=PARWRK(J).
                Param(j) = Work(jj)
-            enddo
+            end do
             ii = ilc11 - 1 + Numgr + 2
 ! HERE WORK(II)=ERR1(NUMGR+2).
 !     WRITE(NWRIT,1397)WORK(II),(PARAM(J),J=1,NPARM)
@@ -714,8 +714,8 @@
                      Iwork(jj) = -2
                   else
                      Iwork(jj) = 0
-                  endif
-               enddo
+                  end if
+               end do
                call me%ercmp1(Ioptn,Nparm,Numgr,Fun,Ifun,Pttbl,Iptb,Indm,  &
                            Param,1,iphse,Iwork,Liwrk,Work(ilc08),       &
                            Iwork(ilc21),ipmax,ismax,Work(ilc11))
@@ -726,14 +726,14 @@
                            Param,0,iphse,Iwork,Liwrk,Work(ilc08),       &
                            Iwork(ilc17),ipmax,ismax,Error)
                goto 800
-            endif
-         endif
+            end if
+         end if
 !
 ! HERE ITER = ITLIM1, SO WE RETURN.
       elseif ( iphse>=0 ) then
          Iter = Iter + Itlim - itlim1
          goto 500
-      endif
+      end if
 !
 ! HERE WE HAVE FAILED TO ACHIEVE TYPE -2 FEASIBILITY AND WE SET ITER=-2
 ! AS A WARNING, PUT ERROR(NUMGR+1) IN ITS PROPER LOCATION, SET
@@ -775,8 +775,8 @@
             Iwork(ii) = 1
          elseif ( Iwork(ii)+1/=0 ) then
             Iwork(ii) = 0
-         endif
-      enddo
+         end if
+      end do
 ! SAVE ITYP2 AND ITYP1.
       ityp2k = ityp2
       ityp1k = ityp1
@@ -822,7 +822,7 @@
                     Iwork(ilc13),Work(ilc02),Work(ilc25),Work(ilc26),   &
                     Work(ilc46),Work(ilc11),Work(ilc08),isucc,Param,    &
                     Error)
-      endif
+      end if
 !
       if ( isucc<=0 ) then
 ! HERE THE RK OR SLP STEP REDUCED ERROR(NUMGR+1) BY MORE THAN
@@ -849,8 +849,8 @@
                rchin = rchdwn
                rchdwn = rchdnk
                goto 100
-            endif
-         endif
+            end if
+         end if
 !
          if ( irk<0 ) then
 !
@@ -864,7 +864,7 @@
             irk = 1
             itersl = 0
             goto 200
-         endif
+         end if
 ! HERE WE HAD AN SLP SUCCESS AND WE INCREMENT ITERSL = THE NUMBER OF SLP
 ! SUCCESSES SINCE THE LAST SUCCESSFUL RK STEP (IF ANY).  ITERSL IS NEEDED
 ! IN SUBROUTINE BNDSET (CALLED BY SLPCON).
@@ -879,8 +879,8 @@
             if ( ioptho/=2 ) then
                irk = -1
                goto 300
-            endif
-         endif
+            end if
+         end if
 !
 ! IF IPHSE=-2 HERE WE WILL SET ITER=-2 AS A WARNING AND CHANGE
 ! ERROR(NUMGR+1) AND ERROR(NUMGR+3) BEFORE RETURNING.  OTHERWISE WE WILL
@@ -888,7 +888,7 @@
          if ( iphse<0 ) goto 400
          Iter = Iter + Itlim - itlim1
          goto 500
-      endif
+      end if
 
     end subroutine conmax
 !********************************************************************************
@@ -900,11 +900,13 @@
 !  iarr <= 23`) or relative to work (if the array is floating point, i.e.
 !  `1 <= iarr <= 12` or `24 <= iarr <= 48`).
 
-    function iloc(Iarr,Nparm,Numgr)
+    pure function iloc(Iarr,Nparm,Numgr)
 
     implicit none
 
-    integer,intent(in) :: Iarr , Nparm , Numgr
+    integer,intent(in) :: Iarr
+    integer,intent(in) :: Nparm
+    integer,intent(in) :: Numgr
     integer :: iloc
 
     select case (Iarr)
@@ -1114,7 +1116,7 @@
                 ! BY DELT.
                 do j = 1 , Nparm
                     Param1(j) = Param(j)
-                enddo
+                end do
                 Param1(l) = Param(l) + delt
                 ! NOW CALL FNSET WITH INDFN=0 TO PLACE THE FUNCTION IN CONSTRAINT
                 ! IPT EVALUATED AT POINT PARAM1 IN CONFUN(IPT,1).
@@ -1134,14 +1136,14 @@
                 ! WORK ARRAY, WHILE THE WORK ARRAY PARAM1 IS NOT USED ELSEWHERE IN
                 ! THE PROGRAM.
                 v(l,1) = (up-Confun(Ipt,1))/delt2
-            enddo
+            end do
             ! NOW COMPUTE THE VALUE OF THE FUNCTION AT PARAM, AND THEN PUT THE
             ! EARLIER-COMPUTED PARTIAL DERIVATIVES INTO CONFUN.
             call me%fnset(Nparm,Numgr,Pttbl,Iptb,Indm,Param,Ipt,0,Kcntyp, &
             Confun)
             do l = 1 , Nparm
                 Confun(Ipt,l+1) = v(l,1)
-            enddo
+            end do
             return
         else
             ! HERE IOPONE=1 AND IOPTTH=1, AND EACH TIME FNSET IS CALLED IT WILL
@@ -1160,13 +1162,13 @@
             ! OR THE CONSTRAINTS K WITH KCNTYP(K) < 0 IF IPT=-1.
             do k = 1 , Numgr
                 Kcntyp(k) = 0
-            enddo
+            end do
             ! NOW FOLLOW BASICALLY THE SAME PROCEDURES AS IN THE IOPTTH=0 CASE DONE
             ! ABOVE.
             do l = 1 , Nparm
                 do j = 1 , Nparm
                     Param1(j) = Param(j)
-                enddo
+                end do
                 Param1(l) = Param(l) + delt
                 call me%fnset(Nparm,Numgr,Pttbl,Iptb,Indm,Param1,Ipt,0, &
                 Kcntyp,Confun)
@@ -1176,10 +1178,10 @@
                         if ( Kcntyp(k)>=0 ) cycle
                     elseif ( Kcntyp(k)==0 ) then
                         cycle
-                    endif
+                    end if
                     ! SAVE THE UPPER NUMBERS IN COLUMN NPARM+1 OF V.
                     v(k,npar1) = Confun(k,1)
-                enddo
+                end do
                 ! REVISE PARAM1 AND CALL FNSET AGAIN.
                 Param1(l) = Param(l) - delt
                 call me%fnset(Nparm,Numgr,Pttbl,Iptb,Indm,Param1,Ipt,0, &
@@ -1190,12 +1192,12 @@
                         if ( Kcntyp(k)>=0 ) cycle
                     elseif ( Kcntyp(k)==0 ) then
                         cycle
-                    endif
+                    end if
                     ! STORE THE APPROXIMATE PARTIAL DERIVATIVES WITH RESPECT TO THE LTH
                     ! VARIABLE IN THE LTH COLUMN OF V.
                     v(k,l) = (v(k,npar1)-Confun(k,1))/delt2
-                enddo
-            enddo
+                end do
+            end do
             ! CALL FNSET AGAIN TO COMPUTE THE VALUES OF THE FUNCTIONS AT POINT
             ! PARAM, AND THEN PUT THE EARLIER-COMPUTED PARTIAL DERIVATIVES INTO
             ! CONFUN.
@@ -1206,13 +1208,13 @@
                     if ( Kcntyp(k)>=0 ) cycle
                 elseif ( Kcntyp(k)==0 ) then
                     cycle
-                endif
+                end if
                 do l = 1 , Nparm
                     Confun(k,l+1) = v(k,l)
-                enddo
-            enddo
-        endif
-    endif
+                end do
+            end do
+        end if
+    end if
 
     end subroutine derst
 !********************************************************************************
@@ -1298,7 +1300,7 @@
 
         ! CALL BNDSET TO SET (OR RESET) THE COEFFICIENT CHANGE BOUNDS.
         call bndset(Nparm,x,Itersl,numin,Prjslp,Work(ilc07),Work(ilc45), &
-        Work(ilc05))
+                    Work(ilc05))
 
         ! CALL SETU1 TO SET UP FOR SLNPRO AND, IF NUMIN=0, TO DETERMINE
         ! WHICH CONSTRAINTS ARE ACTIVE AND STORE FUNCTION AND GRADIENT VALUES
@@ -1350,17 +1352,17 @@
                         ss = zero
                         do j = 1 , Nparm
                             ss = ss + Funtbl(i,j+1)*x(j)
-                        enddo
+                        end do
                         ! IF SS < 10.0*SPCMN THIS CONSTRAINT WILL NOT PUT A SIGNIFICANT
                         ! RESTRICTION ON PRJSLP.
                         if ( ss>=tol2 ) then
                             ! HERE SS >= 10.0*SPCMN AND WE COMPARE SSS/SS AGIANST PRJLIM.
                             quots = -Funtbl(i,1)/ss
                             if ( prjlim>quots ) prjlim = quots
-                        endif
-                    endif
-                enddo
-            endif
+                        end if
+                    end if
+                end do
+            end if
             ! DO NOT ALLOW A PRJSLP SMALLER THAN TOL1.
             if ( Prjslp<tol1 ) Prjslp = tol1
             ! CALL SEARSL TO DO A LINE SEARCH IN DIRECTION X.
@@ -1381,13 +1383,13 @@
                 ! HERE WE HAD AN IMPROVEMENT IN THE ERROR NORM ENORM OF MORE THAN TOL1.
                 do j = 1 , Nparm
                     Param(j) = Parser(j)
-                enddo
+                end do
                 call me%ercmp1(Ioptn,Nparm,Numgr,Fun,Ifun,Pttbl,Iptb,Indm,   &
                                Param,1,Iphse,Iwork,Liwrk,Work(ilc08),Icntyp, &
                                ipmax,ismax,Error)
                 return
-            endif
-        endif
+            end if
+        end if
 
         ! HERE WE DID NOT OBTAIN AN IMPROVED ERROR NORM SO WE RETURN WITH THE
         ! WARNING ISUCC=1 IF WE HAVE DONE NUMLIN ITERATIONS IN SLPCON.
@@ -1400,7 +1402,7 @@
             numin = numin + 1
             Iyrct(1) = -1
             cycle
-        endif
+        end if
         exit
     end do
     Isucc = 1
@@ -1410,160 +1412,157 @@
 
 !********************************************************************************
 !>
-! THIS SUBROUTINE SETS THE BOUNDS ON THE COEFFICIENT CHANGES IN
-! SLNPRO.
+!  This subroutine sets the bounds on the coefficient changes in
+!  [[slnpro]].
 
-      subroutine bndset(Nparm,x,Itersl,Numin,Prjslp,Cofbnd,Xkeep,Bndkp)
+    subroutine bndset(Nparm,x,Itersl,Numin,Prjslp,Cofbnd,Xkeep,Bndkp)
 
-      implicit none
+    implicit none
 
-      real(wp) bnd , Bndkp , bsave , chlm1 , chlm2 , Cofbnd ,    &
-             epsil , epsil1 , fact1 , fact2 , fact3 , fact3a , fact3b , &
-             fact4 , Prjslp
-      real(wp) tstprj , x , Xkeep
-      integer Itersl , itight , j , Nparm , Numin
-!
-      dimension x(Nparm+1) , Cofbnd(Nparm) , Xkeep(Nparm+1) , &
-                Bndkp(Nparm)
-!
-! SET INITIAL PARAMETERS.  FACT1, FACT3A, FACT3B, CHLM1, AND CHLM2
-! SHOULD BE BETWEEN 0.0 AND 1.0, WHILE FACT2 SHOULD BE > 1.0.
-      fact1 = (one+two)/four
-      fact2 = two
-      fact3a = one/ten
-      fact3b = one/(ten*ten)
-      fact4 = two/ten
-      chlm1 = one/ten
-      chlm2 = (four+four)/ten
-      tstprj = one/two - one/(ten*ten*ten)
-      epsil = ten*ten*spcmn
-      epsil1 = (one+one/(ten*ten*ten))*epsil
-      bnd = two/(ten*ten) ! THE INITIAL BOUND ON ALL COEFFICIENT CHANGES.
-!
-      if ( Numin<1 ) then
-         if ( Itersl<1 ) then
-         elseif ( Itersl==1 ) then
-!
-! HERE NUMIN=0 AND ITERSL=1, SO THE LAST BNDSET CALL RESULTED IN
-! THE FIRST SUCCESSFUL PRINCIPAL ERROR NORM IMPROVEMENT,
-! AND SO WE SAVE COFBND IN BNDKP AND X IN XKEEP.  WE WILL NOT
-! CHANGE COFBND HERE.
+    integer,intent(in)                        :: Nparm
+    real(wp),dimension(Nparm+1),intent(in)    :: x
+    integer,intent(in)                        :: Itersl
+    integer,intent(in)                        :: Numin
+    real(wp),intent(in)                       :: Prjslp
+    real(wp),dimension(Nparm),intent(inout)   :: Cofbnd
+    real(wp),dimension(Nparm+1),intent(inout) :: Xkeep
+    real(wp),dimension(Nparm),intent(inout)   :: Bndkp
+
+    ! set initial parameters.  fact1, fact3a, fact3b, chlm1, and chlm2
+    ! should be between 0.0 and 1.0, while fact2 should be > 1.0.
+    real(wp),parameter :: fact1 = (one+two)/four
+    real(wp),parameter :: fact2 = two
+    real(wp),parameter :: fact3a = one/ten
+    real(wp),parameter :: fact3b = one/(ten*ten)
+    real(wp),parameter :: fact4 = two/ten
+    real(wp),parameter :: chlm1 = one/ten
+    real(wp),parameter :: chlm2 = (four+four)/ten
+    real(wp),parameter :: tstprj = one/two - one/(ten*ten*ten)
+    real(wp),parameter :: epsil = ten*ten*spcmn
+    real(wp),parameter :: epsil1 = (one+one/(ten*ten*ten))*epsil
+    real(wp),parameter :: bnd = two/(ten*ten) !! The initial bound on all coefficient changes.
+
+    real(wp) :: bsave , fact3
+    integer :: itight , j
+
+    if ( Numin<1 ) then
+
+        if ( Itersl<1 ) then
+
+        elseif ( Itersl==1 ) then
+            ! HERE NUMIN=0 AND ITERSL=1, SO THE LAST BNDSET CALL RESULTED IN
+            ! THE FIRST SUCCESSFUL PRINCIPAL ERROR NORM IMPROVEMENT,
+            ! AND SO WE SAVE COFBND IN BNDKP AND X IN XKEEP.  WE WILL NOT
+            ! CHANGE COFBND HERE.
             do j = 1 , Nparm
-               Xkeep(j) = x(j)
-               Bndkp(j) = Cofbnd(j)
-            enddo
+                Xkeep(j) = x(j)
+                Bndkp(j) = Cofbnd(j)
+            end do
             return
-         else
-!
-! HERE NUMIN=0 AND ITERSL >= 2, SO WE HAVE HAD AT LEAST 2 SUCCESSES,
-! WITH THE COEFFICIENTS AND BOUNDS FOR THE LAST ONE IN X AND
-! COFBND RESPECTIVELY, AND THE COEFFICIENTS AND BOUNDS FOR THE
-! PREVIOUS ONE IN XKEEP AND BNDKP RESPECTIVELY.  WE WILL FORM A
-! NEW COFBND, AND SHIFT THE OLD COFBND INTO BNDKP AND X INTO XKEEP.
+        else
+            ! HERE NUMIN=0 AND ITERSL >= 2, SO WE HAVE HAD AT LEAST 2 SUCCESSES,
+            ! WITH THE COEFFICIENTS AND BOUNDS FOR THE LAST ONE IN X AND
+            ! COFBND RESPECTIVELY, AND THE COEFFICIENTS AND BOUNDS FOR THE
+            ! PREVIOUS ONE IN XKEEP AND BNDKP RESPECTIVELY.  WE WILL FORM A
+            ! NEW COFBND, AND SHIFT THE OLD COFBND INTO BNDKP AND X INTO XKEEP.
             do j = 1 , Nparm
-! SAVE THE OLD COFBND(J) IN BSAVE.
-               bsave = Cofbnd(j)
-! IF AT BOTH THE LAST AND PREVIOUS SUCCESSFUL ITERATION THE CHANGES
-! IN A COEFFICIENT RELATIVE TO ITS BOUND WERE >= CHLM2 IN ABSOLUTE
-! VALUE AND IN THE SAME DIRECTION, WE LOOSEN THE BOUND BY A FACTOR
-! OF FACT2.  IF THE RELATIVE CHANGES WERE >= CHLM1 IN ABSOLUTE
-! VALUE AND IN OPPOSITE DIRECTIONS, WE TIGHTEN THE BOUND BY A FACTOR
-! OF FACT1 BECAUSE OF SUSPECTED OSCILLATION.  WE ALSO TIGHTEN THE
-! BOUND IF BOTH RELATIVE CHANGES WERE LESS THAN CHLM1 IN ABSOLUTE
-! VALUE IN ORDER TO PREVENT A LONG SEQUENCE OF OSCILLATIONS OF THE
-! SAME SMALL ORDER.  OTHERWISE WE LEAVE THE BOUND ALONE.
-! THE NEXT FOUR IF STATEMENTS CHECK TO SEE IF THE BOUND SHOULD BE
-! LOOSENED.
-               if ( x(j)<chlm2*Cofbnd(j) ) then
-                  if ( x(j)+chlm2*Cofbnd(j)<=0 ) then
-                     if ( Xkeep(j)+chlm2*Bndkp(j)<=0 ) then
-! LOOSEN THE BOUND.
+                Cofbnd_block : block
+                    ! SAVE THE OLD COFBND(J) IN BSAVE.
+                    bsave = Cofbnd(j)
+                    ! IF AT BOTH THE LAST AND PREVIOUS SUCCESSFUL ITERATION THE CHANGES
+                    ! IN A COEFFICIENT RELATIVE TO ITS BOUND WERE >= CHLM2 IN ABSOLUTE
+                    ! VALUE AND IN THE SAME DIRECTION, WE LOOSEN THE BOUND BY A FACTOR
+                    ! OF FACT2.  IF THE RELATIVE CHANGES WERE >= CHLM1 IN ABSOLUTE
+                    ! VALUE AND IN OPPOSITE DIRECTIONS, WE TIGHTEN THE BOUND BY A FACTOR
+                    ! OF FACT1 BECAUSE OF SUSPECTED OSCILLATION.  WE ALSO TIGHTEN THE
+                    ! BOUND IF BOTH RELATIVE CHANGES WERE LESS THAN CHLM1 IN ABSOLUTE
+                    ! VALUE IN ORDER TO PREVENT A LONG SEQUENCE OF OSCILLATIONS OF THE
+                    ! SAME SMALL ORDER.  OTHERWISE WE LEAVE THE BOUND ALONE.
+                    ! THE NEXT FOUR IF STATEMENTS CHECK TO SEE IF THE BOUND SHOULD BE
+                    ! LOOSENED.
+                    if ( x(j)<chlm2*Cofbnd(j) ) then
+                        if ( x(j)+chlm2*Cofbnd(j)<=0 ) then
+                            if ( Xkeep(j)+chlm2*Bndkp(j)<=0 ) then
+                                ! LOOSEN THE BOUND.
+                                Cofbnd(j) = fact2*Cofbnd(j)
+                                exit Cofbnd_block
+                            end if
+                        end if
+                    elseif ( Xkeep(j)>=chlm2*Bndkp(j) ) then
                         Cofbnd(j) = fact2*Cofbnd(j)
-                        goto 10
-                     endif
-                  endif
-               elseif ( Xkeep(j)>=chlm2*Bndkp(j) ) then
-                  Cofbnd(j) = fact2*Cofbnd(j)
-                  goto 10
-               endif
-!
-! HERE THE BOUND SHOULD NOT BE LOOSENED.  THE NEXT FIVE IF
-! STATEMTENTS CHECK TO SEE IF IT SHOULD BE TIGHTENED.
-               if ( x(j)<chlm1*Cofbnd(j) ) then
-                  if ( x(j)+chlm1*Cofbnd(j)<=0 ) then
-                     if ( Xkeep(j)<chlm1*Bndkp(j) ) goto 10
-! HERE WE HAVE ABS(X(J)) < CHLM1*COFBND(J).
-                  elseif ( abs(Xkeep(j))>=chlm1*Bndkp(j) ) then
-                     goto 10
-                  endif
-               elseif ( Xkeep(j)+chlm1*Bndkp(j)>0 ) then
-                  goto 10
-               endif
-! TIGHTEN THE BOUND.
-               Cofbnd(j) = fact1*Cofbnd(j)
-! DO NOT ALLOW THE BOUND TO DROP BELOW EPSIL.
-               if ( Cofbnd(j)<epsil ) Cofbnd(j) = epsil
-!
-! SAVE X(J) AND THE OLD COFBND(J).
- 10            Bndkp(j) = bsave
-               Xkeep(j) = x(j)
-            enddo
-!
-! IF THE LAST PROJECTION FACTOR IS SMALLER THAN .499, WE TIGHTEN THE
-! BOUNDS BY A FACTOR OF 0.2, WITH THE RESTRICTION THAT WE DO NOT
-! ALLOW THE BOUNDS TO DROP BELOW EPSIL.
+                        exit Cofbnd_block
+                    end if
+                    ! HERE THE BOUND SHOULD NOT BE LOOSENED.  THE NEXT FIVE IF
+                    ! STATEMTENTS CHECK TO SEE IF IT SHOULD BE TIGHTENED.
+                    if ( x(j)<chlm1*Cofbnd(j) ) then
+                        if ( x(j)+chlm1*Cofbnd(j)<=0 ) then
+                            if ( Xkeep(j)<chlm1*Bndkp(j) ) exit Cofbnd_block
+                            ! HERE WE HAVE ABS(X(J)) < CHLM1*COFBND(J).
+                        elseif ( abs(Xkeep(j))>=chlm1*Bndkp(j) ) then
+                            exit Cofbnd_block
+                        end if
+                    elseif ( Xkeep(j)+chlm1*Bndkp(j)>0 ) then
+                        exit Cofbnd_block
+                    end if
+                    ! TIGHTEN THE BOUND.
+                    Cofbnd(j) = fact1*Cofbnd(j)
+                    ! DO NOT ALLOW THE BOUND TO DROP BELOW EPSIL.
+                    if ( Cofbnd(j)<epsil ) Cofbnd(j) = epsil
+                end block Cofbnd_block
+                ! SAVE X(J) AND THE OLD COFBND(J).
+                Bndkp(j) = bsave
+                Xkeep(j) = x(j)
+            end do
+            ! IF THE LAST PROJECTION FACTOR IS SMALLER THAN .499, WE TIGHTEN THE
+            ! BOUNDS BY A FACTOR OF 0.2, WITH THE RESTRICTION THAT WE DO NOT
+            ! ALLOW THE BOUNDS TO DROP BELOW EPSIL.
             if ( Prjslp<tstprj ) then
-               do j = 1 , Nparm
-                  Cofbnd(j) = fact4*Cofbnd(j)
-                  if ( Cofbnd(j)<epsil ) Cofbnd(j) = epsil
-               enddo
-            endif
-            goto 200
-         endif
-      elseif ( Numin==1 ) then
-!
-! HERE NUMIN=1 SO THE LAST BNDSET CALL RESULTED IN FAILURE TO
-! IMPROVE THE PRINCIPAL ERROR NORM, AND WE SET FACT3=
-! FACT3A AND TIGHTEN THE BOUNDS.
-         fact3 = fact3a
-         goto 300
-      else
-!
-! HERE NUMIN > 1 SO THERE HAVE BEEN AT LEAST 2 SUCCESSIVE
-! FAILURES, AND WE SET FACT3=FACT3B AND TIGHTEN THE BOUNDS.
-         fact3 = fact3b
-         goto 300
-      endif
-!
-! HERE NUMIN=0 AND ITERSL=0, SO WE ARE IN THE FIRST BNDSET CALL SINCE THE
-! LAST RK SUCCESS (IF ANY), SO WE SET INITIAL BOUNDS.
- 100  do j = 1 , Nparm
-         Cofbnd(j) = bnd
-      enddo
-      return
- 200  return
-!
-! TIGHTEN THE BOUNDS BY A FACTOR OF FACT3.
- 300  itight = 1
-      do j = 1 , Nparm
-         bsave = Cofbnd(j)
-         Cofbnd(j) = fact3*bsave
-! WE DO NOT ALLOW A BOUND TO DROP BELOW EPSIL.
-         if ( Cofbnd(j)<epsil ) then
-! IF THE BOUND WAS ALREADY (ESSENTIALLY) AT EPSIL, KEEP TRACK OF
-! THIS BY NOT SETTING ITIGHT=0.
+                do j = 1 , Nparm
+                    Cofbnd(j) = fact4*Cofbnd(j)
+                    if ( Cofbnd(j)<epsil ) Cofbnd(j) = epsil
+                end do
+            end if
+            return
+        end if
+
+        ! HERE NUMIN=0 AND ITERSL=0, SO WE ARE IN THE FIRST BNDSET CALL SINCE THE
+        ! LAST RK SUCCESS (IF ANY), SO WE SET INITIAL BOUNDS.
+        Cofbnd = bnd
+        return
+
+    elseif ( Numin==1 ) then
+        ! HERE NUMIN=1 SO THE LAST BNDSET CALL RESULTED IN FAILURE TO
+        ! IMPROVE THE PRINCIPAL ERROR NORM, AND WE SET FACT3=
+        ! FACT3A AND TIGHTEN THE BOUNDS.
+        fact3 = fact3a
+    else
+        ! HERE NUMIN > 1 SO THERE HAVE BEEN AT LEAST 2 SUCCESSIVE
+        ! FAILURES, AND WE SET FACT3=FACT3B AND TIGHTEN THE BOUNDS.
+        fact3 = fact3b
+    end if
+
+    ! TIGHTEN THE BOUNDS BY A FACTOR OF FACT3.
+    itight = 1
+    do j = 1 , Nparm
+        bsave = Cofbnd(j)
+        Cofbnd(j) = fact3*bsave
+        ! WE DO NOT ALLOW A BOUND TO DROP BELOW EPSIL.
+        if ( Cofbnd(j)<epsil ) then
+            ! IF THE BOUND WAS ALREADY (ESSENTIALLY) AT EPSIL, KEEP TRACK OF
+            ! THIS BY NOT SETTING ITIGHT=0.
             if ( bsave>epsil1 ) itight = 0
             Cofbnd(j) = epsil
-         else
+        else
             itight = 0
-         endif
-      enddo
-! IF ALL THE BOUNDS WERE ALREADY (ESSENTIALLY) AT EPSIL, WE TRY
-! RESETTING THE BOUNDS TO THEIR ORIGINAL VALUES.
-!2800 WRITE(NWRIT,2900)
-!2900 FORMAT(/52H *****RESETTING BOUNDS TO THEIR ORIGINAL VALUES*****)
-      if ( itight>0 ) goto 100
-      goto 200
+        end if
+    end do
+
+    ! IF ALL THE BOUNDS WERE ALREADY (ESSENTIALLY) AT EPSIL, WE TRY
+    ! RESETTING THE BOUNDS TO THEIR ORIGINAL VALUES.
+    !2800 WRITE(NWRIT,2900)
+    !2900 FORMAT(/52H *****RESETTING BOUNDS TO THEIR ORIGINAL VALUES*****)
+    if ( itight>0 ) Cofbnd = bnd
+
     end subroutine bndset
 !********************************************************************************
 
@@ -1620,7 +1619,7 @@
       sum = zero
       do j = 1 , Nparm
          sum = sum + (Cofbnd(j))**2
-      enddo
+      end do
       Bndlgt = sqrt(sum)
       bndfud = stfudg*Bndlgt
 !
@@ -1643,7 +1642,7 @@
 ! AND ONLY IF ICNTYP(I)=-1, OR ICNTYP(I)=-2 AND ERROR(I) >= -RCHIND.
                if ( Icntyp(i)+1<0 ) then
                   if ( Error(i)+rchind<0 ) goto 50
-               endif
+               end if
             elseif ( Icntyp(i)==0 ) then
                goto 50
             elseif ( Icntyp(i)<=1 ) then
@@ -1661,14 +1660,14 @@
 ! DECLARE CONSTRAINT I TO BE -ACTIVE.
                   m = m + 1
                   Iact(m) = -i
-               endif
+               end if
                goto 50
-            endif
+            end if
 !
 ! DECLARE CONSTRAINT I TO BE (+)ACTIVE.
             m = m + 1
             Iact(m) = i
- 50      enddo
+ 50      end do
          mact = m
 !
 ! NOW PUT ACTIVE VALUES AND GRADIENTS IN FUNTBL.
@@ -1683,8 +1682,8 @@
 ! COPY THE VALUES FOR CONSTRAINT I INTO FUNTBL.
                do j = 1 , npar1
                   Funtbl(i,j) = Confun(i,j)
-               enddo
-            enddo
+               end do
+            end do
             goto 300
          else
 !
@@ -1695,11 +1694,11 @@
             if ( Iphse>=0 ) then
                do l = 1 , Numgr
                   if ( Icntyp(l)>0 ) goto 100
-               enddo
-            endif
+               end do
+            end if
             ipt = -1
             goto 200
-         endif
+         end if
  100     ipt = 0
       else
 ! HERE NUMIN IS NOT 0, AND WE WILL KEEP THE OLD ACTIVE CONSTRAINT SET
@@ -1708,9 +1707,9 @@
          m = mact
          do l = 1 , mact
             Iact(l) = Iact1(l)
-         enddo
+         end do
          goto 300
-      endif
+      end if
  200  call me%derst(Ioptn,Nparm,Numgr,Pttbl,Iptb,Indm,Param,ipt,Work(ilc24),&
                     v,Iwork(ilc22),Confun)
 ! COPY THE ACTIVE FUNCTION AND GRADIENT VALUES INTO FUNTBL.
@@ -1718,8 +1717,8 @@
          i = abs(Iact(l))
          do j = 1 , npar1
             Funtbl(i,j) = Confun(i,j)
-         enddo
-      enddo
+         end do
+      end do
 !
 ! NOW SET UP THE ACTIVE CONSTRAINTS IN V FOR SLNPRO.
  300  do l = 1 , mact
@@ -1732,7 +1731,7 @@
                sum = zero
                do j = 1 , Nparm
                   sum = sum + (Funtbl(i,j+1))**2
-               enddo
+               end do
                grdlgt = sqrt(sum)
 ! NOW SET UP A CONSTRAINT OF THE FORM GRADIENT.CHANGE  <=
 ! -MIN(1.0,CONSTRAINT VALUE)*BNDFUD*GRDLGT, SO IF GRDLGT > 0.0 WE
@@ -1740,7 +1739,7 @@
 ! CONSTRAINT VALUE).
                do j = 1 , Nparm
                   v(l,j) = Funtbl(i,j+1)
-               enddo
+               end do
                v(l,npar1) = zero
                rt = Error(i)
                if ( rt>one ) rt = one
@@ -1751,10 +1750,10 @@
 ! GRADIENT.CHANGE <= -CONSTRAINT VALUE.
                do j = 1 , Nparm
                   v(l,j) = Funtbl(i,j+1)
-               enddo
+               end do
                v(l,npar1) = zero
                v(l,npar2) = -Error(i)
-            endif
+            end if
          elseif ( Icntyp(i)/=0 ) then
             if ( Icntyp(i)<=1 ) then
 !
@@ -1762,7 +1761,7 @@
 ! GRADIENT.CHANGE - W <= -CONSTRAINT VALUE.
                do j = 1 , Nparm
                   v(l,j) = Funtbl(i,j+1)
-               enddo
+               end do
                v(l,npar1) = -one
                v(l,npar2) = -Error(i)
             elseif ( Iact(l)<=0 ) then
@@ -1771,7 +1770,7 @@
 ! FORM GRADIENT.CHANGE - W <= FUN - CONSTRAINT VALUE.
                do j = 1 , Nparm
                   v(l,j) = Funtbl(i,j+1)
-               enddo
+               end do
                v(l,npar1) = -one
                v(l,npar2) = Error(i)
             else
@@ -1780,12 +1779,12 @@
 ! FORM -GRADIENT.CHANGE - W <= -(FUN - CONSTRAINT VALUE).
                do j = 1 , Nparm
                   v(l,j) = -Funtbl(i,j+1)
-               enddo
+               end do
                v(l,npar1) = -one
                v(l,npar2) = -Error(i)
-            endif
-         endif
-      enddo
+            end if
+         end if
+      end do
 !
 ! SET THE CONSTRAINTS OF THE FORM -X(J) <= COFBND(J) AND
 ! X(J) <= COFBND(J).
@@ -1795,18 +1794,18 @@
          do k = 1 , npar1
             v(mm1,k) = zero
             v(m,k) = zero
-         enddo
+         end do
          v(mm1,j) = -one
          v(m,j) = one
          v(mm1,npar2) = Cofbnd(j)
          v(m,npar2) = Cofbnd(j)
-      enddo
+      end do
 !
 ! NOW SET THE BOTTOM ROW.  TO MINIMIZE W = X(NPARM+1) WE MAXIMIZE -W.
       mp1 = m + 1
       do j = 1 , npar2
          v(mp1,j) = zero
-      enddo
+      end do
       v(mp1,npar1) = one
 !
 ! THIS SECTION ADJUSTS IYRCT TO EITHER TELL SLNPRO TO DO THE INITIAL
@@ -1834,8 +1833,8 @@
                   if ( kk==Iact(k) ) then
                      Iyrct(j) = k
                      goto 350
-                  endif
-               enddo
+                  end if
+               end do
                Iyrct(1) = -1
                goto 500
             else
@@ -1843,8 +1842,8 @@
 ! POINT CONSTRAINTS, AND WE ADJUST IYRCT(J) BY THE DIFFERENCE OF THE
 ! PRESENT AND FORMER NUMBER OF ACTIVE CONSTRAINTS.
                Iyrct(j) = Iyrct(j) + mact - Mact1
-            endif
- 350     enddo
+            end if
+ 350     end do
 ! WE HAVE NOW FILLED IN IYRCT(1),...,IYRCT(NPARM+1) WITH DISTINCT
 ! POSITIVE INTEGERS BETWEEN 1 AND M, AND WE FILL IN THE REST OF IYRCT
 ! SO THAT IYRCT WILL CONTAIN A PERMUTATION OF 1,...,M.  TO BE CONSISTENT
@@ -1855,17 +1854,17 @@
 ! SKIP II IF IT IS ALREADY IN IYRCT.
             do j = 1 , npar1
                if ( ii==Iyrct(j) ) goto 400
-            enddo
+            end do
             l = l + 1
             Iyrct(l) = ii
- 400     enddo
-      endif
+ 400     end do
+      end if
 !
 ! SAVE MACT IN MACT1 AND IACT IN IACT1 AND RETURN.
  500  Mact1 = mact
       do j = 1 , mact
          Iact1(j) = Iact(j)
-      enddo
+      end do
     end subroutine setu1
 !********************************************************************************
 
@@ -1993,7 +1992,7 @@
          rea = sqrt(rea)
          rea1 = sqrt(rea1)
          Indic = -2
-      endif
+      end if
 ! N BEING NEGATIVE IS A SIGNAL TO DECREASE REA AND REA1 TO TRY
 ! FOR MORE ACCURACY.  AMONG OTHER THINGS, THIS MAKES IT MORE
 ! LIKELY THAT THE PREVIOUS VERTEX WILL BE RETAINED IN PHASE 1
@@ -2004,7 +2003,7 @@
          rea = rea1
          rea1 = rea1/(ten*ten)
          Indic = -4
-      endif
+      end if
 ! PRESERVE REA IN CASE IT MUST BE TEMPORARILY RELAXED.
 ! IRLAX=0 INDICATES REA IS NOT RELAXED AT THIS STAGE.
       reakp = rea
@@ -2031,7 +2030,7 @@
 ! IXRCT(I)=K/=0 MEANS X(K) IS IN ROW I.
       do i = 1 , m
          Ixrct(i) = 0
-      enddo
+      end do
 !
 ! EXCHANGE THE XS AT THE TOP OF THE TABLE FOR YS.
 ! IF IYRCT(1) IS NONPOSITIVE, WE SET IYRCT AND CHOOSE THE
@@ -2055,11 +2054,11 @@
          iback = 1
          do i = 1 , m
             Iyrct(i) = i
-         enddo
+         end do
       else
          i10 = 1
          i20 = n
-      endif
+      end if
       j = 0
 ! SET THE LOWER BOUND ON THE ABSOLUTE VALUE OF A RESOLVENT IN
 ! PHASE 1.  ALSO SET IFAIL=0 TO INDICATE THE RESOLVENT SEARCH
@@ -2075,10 +2074,10 @@
 ! ROW I (FOR I GREATER THAN N).
          do i = 1 , m
             Iyrct(i) = i
-         enddo
+         end do
          irow = 0
          goto 400
-      endif
+      end if
 ! SET I1, I2 ACCORDING TO THE STRATEGY WE ARE USING.
  200  i1 = i10
       i2 = i20
@@ -2091,9 +2090,9 @@
             if ( absv>amax ) then
                iyri = iytmp
                amax = absv
-            endif
-         endif
-      enddo
+            end if
+         end if
+      end do
 ! CHECK TO SEE IF THE PROSPECTIVE RESOLVENT IS LARGE ENOUGH
 ! IN ABSOLUTE VALUE.
       if ( amax>rea3 ) then
@@ -2127,7 +2126,7 @@
 !
          Indic = 1
          return
-      endif
+      end if
  400  irow = irow + 1
       if ( irow<=m ) then
          if ( Ixrct(irow)==0 ) goto 400
@@ -2137,7 +2136,7 @@
 ! IN IT.
          do i = 1 , n
             Ixrct(i) = Iycct(i)
-         enddo
+         end do
 ! END OF PHASE 1.
 !
 ! THE FIRST N ROWS OF V GIVE THE XS IN TERMS OF CERTAIN
@@ -2152,7 +2151,7 @@
 ! PROBLEM.  STICK WITH COLUMN JJ UNTIL V(M+1,JJ) >= -REA1.
          jj = 0
          goto 600
-      endif
+      end if
 ! NOW X(L) IS IN ROW IROW, BUT WE WANT IT IN ROW L.
  500  l = Ixrct(irow)
       ll = Ixrct(l)
@@ -2165,13 +2164,13 @@
          Ixrct(irow) = 0
          Iyrct(irow) = Iyrct(l)
          Ixrct(l) = l
-      endif
+      end if
 ! NOW EXCHANGE THE CONTENTS OF ROWS IROW AND L.
       do j = 1 , np1
          temp = v(irow,j)
          v(irow,j) = v(l,j)
          v(l,j) = temp
-      enddo
+      end do
       if ( Ixrct(irow)==0 ) goto 400
       if ( Ixrct(irow)==irow ) goto 400
       goto 500
@@ -2188,13 +2187,13 @@
                if ( v(mp1,j)+rea<=0 ) then
                   jj = j
                   goto 700
-               endif
-            enddo
-         endif
+               end if
+            end do
+         end if
          goto 900
       elseif ( v(mp1,jj)+rea1>=0 ) then
          goto 600
-      endif
+      end if
 !
 ! WE HAVE V(M+1,JJ) SIGNIFICANTLY NEGATIVE.  SEARCH COLUMN
 ! JJ FOR A POSITIVE ELEMENT, TREATING A VERY SMALL V(I,J)
@@ -2216,17 +2215,17 @@
          do j = 1 , n
             if ( v(mp1,j)<0 ) then
                if ( j>=jj ) goto 850
-            endif
+            end if
             if ( v(i,j)+rea<0 ) then
                dist1 = v(mp1,j)/v(i,j)
                if ( indst>0 ) then
                   if ( dist1<=dist ) goto 850
-               endif
+               end if
                dist = dist1
                indst = 1
                k = j
-            endif
- 850     enddo
+            end if
+ 850     end do
          if ( indst<=0 ) then
 !
 ! IF THERE WAS NO INDEX K SUCH THAT V(M+1,K) >= 0.0.OR.K <
@@ -2244,10 +2243,10 @@
                      if ( dist1<dist ) then
                         dist = dist1
                         k = j
-                     endif
-                  endif
-               endif
-            enddo
+                     end if
+                  end if
+               end if
+            end do
          else
 !
 ! WE NOW COMPUTE V(I,JJ)*DIST AND GO ON TO LOOK AT OTHER
@@ -2257,7 +2256,7 @@
             bmprv = v(i,jj)*dist
             if ( inamp>0 ) then
                if ( bmprv>=amprv ) goto 800
-            endif
+            end if
             amprv = bmprv
             inamp = 1
             kpmp1 = i
@@ -2265,7 +2264,7 @@
 ! (KPMP1,KPMP2) GIVES THE POSITION OF THE BEST PROSPECTIVE
 ! RESOLVENT FOUND SO FAR.
             goto 800
-         endif
+         end if
 !
       elseif ( inamp<=0 ) then
 ! AT THIS POINT INAMP IS POSITIVE IFF THERE WAS AT LEAST ONE
@@ -2280,7 +2279,7 @@
 !
             Indic = 2
             return
-         endif
+         end if
       else
 !
 ! CHECK TO SEE IF V(MP1,KPMP2) IS VERY SMALL IN ABSOLUTE
@@ -2301,7 +2300,7 @@
                   if ( j>=jj ) goto 860
                elseif ( v(mp1,j)>rea ) then
                   goto 860
-               endif
+               end if
 ! WE WILL BE STUCK IN COLUMN J IFF THERE IS AN INDEX ID FOR
 ! WHICH V(ID,JJ) > REA AND V(ID,J) < -REA.  IF THIS IS THE
 ! CASE, CHOOSING SUCH AN ID SO THAT V(ID,JJ)/V(ID,J) IS
@@ -2316,10 +2315,10 @@
                         if ( dist1<dist ) then
                            dist = dist1
                            id = i
-                        endif
-                     endif
-                  endif
-               enddo
+                        end if
+                     end if
+                  end if
+               end do
                if ( dist<one/two ) then
 ! WE HAVE NOW DETERMINED THAT WE ARE STUCK IN COLUMN J.
 ! IF V(ID,J) < AMIN THEN V(ID,J) IS THE BEST RESOLVENT
@@ -2328,16 +2327,16 @@
                      amin = v(id,j)
                      kpmp1 = id
                      kpmp2 = j
-                  endif
-               endif
+                  end if
+               end if
 ! THE BEST RESOLVENT IS V(KPMP1,KPMP2), SO WE DO AN
 ! ELIMINATION.
- 860        enddo
-         endif
+ 860        end do
+         end if
 ! DO AN ELIMINATION WITH RESOLVENT V(KPMP1,KPMP2).
          i = kpmp1
          k = kpmp2
-      endif
+      end if
 !
       ktjor = ktjor + 1
       if ( ktjor>limjor ) goto 1200
@@ -2379,12 +2378,12 @@
                dist1 = v(mp1,j)/v(i,j)
                if ( indst>0 ) then
                   if ( dist1<=dist ) goto 1100
-               endif
+               end if
                k = j
                indst = 1
                dist = dist1
-            endif
- 1100    enddo
+            end if
+ 1100    end do
          if ( indst>0 ) then
 !
 ! COMPUTE THE IMPROVEMENT DIST*V(I,N+1) IN THE VALUE OF THE
@@ -2399,7 +2398,7 @@
             irlax = 0
             if ( kkk>0 ) then
                if ( bmpr2<=ampr2 ) goto 1000
-            endif
+            end if
             kkk = 1
             keep = i
             keep1 = k
@@ -2416,7 +2415,7 @@
 !
             Indic = 3
             return
-         endif
+         end if
 ! KKK=0 HERE IFF NONE OF THE COST COEFFICIENTS ARE
 ! SIGNIFICANTLY NEGATIVE.
       elseif ( kkk/=0 ) then
@@ -2450,10 +2449,10 @@
                            if ( dist1>dist ) then
                               dist = dist1
                               id = i
-                           endif
-                        endif
-                     endif
-                  enddo
+                           end if
+                        end if
+                     end if
+                  end do
                   if ( dist+one/two<=0 ) goto 1120
 !
 ! WE HAVE NOW DETERMINED THAT WE ARE STUCK IN COLUMN J.
@@ -2476,7 +2475,7 @@
                      rowq = v(mp1,j)/v(id,j)
                      do l = 1 , n
                         if ( l/=j ) y(l) = v(mp1,l) - v(id,l)*rowq
-                     enddo
+                     end do
                      lrknt = -1
 ! WE LOOK FOR A ROW WHICH WILL HAVE A SIGNIFICANTLY NEGATIVE
 ! LAST ELEMENT BUT A MINIMUM NUMBER OF PLACES WHERE WE WILL
@@ -2503,40 +2502,40 @@
                                        if ( v(ii,jj)-v(id,jj)*rowq+rea<0 ) then
                                          lrknt = lrknt + 1
                                          if ( lrknt>mxrkn ) goto 1102
-                                       endif
-                                    endif
-                                 endif
-                              enddo
+                                       end if
+                                    end if
+                                 end if
+                              end do
                               if ( lrknt<mxrkn ) then
                               elseif ( lrknt==mxrkn ) then
                                  if ( v(id,j)>=amin ) goto 1102
                               else
                                  goto 1102
-                              endif
+                              end if
                               mxrkn = lrknt
                               amin = v(id,j)
                               keep = id
                               keep1 = j
-                           endif
-                        endif
- 1102                enddo
+                           end if
+                        end if
+ 1102                end do
 ! LRKNT=-1 HERE WOULD MEAN THIS RESOLVENT WOULD FINISH THE
 ! ROUTINE.  IF LRKNT >= 0 THEN MXRKN >= 0 ALSO, SO WE WILL
 ! NOT HAVE EARLIER FOUND A RESOLVENT WHICH WILL FINISH THE
 ! ROUTINE.
                      if ( lrknt+1/=0 ) goto 1120
                      if ( mxrkn+1/=0 ) goto 1105
-                  endif
+                  end if
                   if ( v(id,j)>=amin ) goto 1120
  1105             mxrkn = -1
                   amin = v(id,j)
                   keep = id
                   keep1 = j
-               endif
+               end if
 ! THE BEST RESOLVENT IS V(KEEP,KEEP1), SO WE DO AN
 ! ELIMINATION.
- 1120       enddo
-         endif
+ 1120       end do
+         end if
 ! DO AN ELIMINATION WITH RESOLVENT V(KEEP,KEEP1).
          i = keep
          k = keep1
@@ -2551,7 +2550,7 @@
             rea = reakp
             irlax = 0
             goto 900
-         endif
+         end if
       else
 ! CHECK TO SEE IF ANY OF THE NUMBERS IN THE BOTTOM ROW HAVE
 ! BECOME VERY SIGNIFICANTLY NEGATIVE.  IF SO, WE MUST
@@ -2562,20 +2561,20 @@
                if ( v(mp1,j)+rea<=0 ) then
                   jj = j
                   goto 700
-               endif
-            enddo
-         endif
+               end if
+            end do
+         end if
 ! END OF PHASE 3.  WE NOW HAVE THE VERTEX WE ARE SEEKING.
 !
 ! READ OFF THE Y VALUES FOR THIS VERTEX.
          do j = 1 , n
             iycj = Iycct(j)
             y(iycj) = zero
-         enddo
+         end do
          do i = np1 , m
             iyri = Iyrct(i)
             y(iyri) = v(i,np1)
-         enddo
+         end do
 ! COMPUTE THE XS FROM THE YS.  RECALL THAT IXRCT CONTAINS
 ! THE FORMER IYCCT.
          do i = 1 , n
@@ -2583,8 +2582,8 @@
             do j = 1 , n
                ixrj = Ixrct(j)
                x(i) = x(i) - v(i,j)*y(ixrj)
-            enddo
-         enddo
+            end do
+         end do
 !
 ! NOW PUT THE VALUES IN IYCCT INTO THE FIRST N POSITIONS OF
 ! IYRCT IN DECREASING ORDER.
@@ -2593,7 +2592,7 @@
          do j = 1 , n
             iycj = Iycct(j)
             Ixrct(iycj) = -1
-         enddo
+         end do
          k = 1
          i = mp1
  1150    i = i - 1
@@ -2605,16 +2604,16 @@
             if ( Ixrct(i)>=0 ) then
                Iyrct(k) = i
                k = k + 1
-            endif
+            end if
             goto 1160
          else
             if ( Ixrct(i)+1==0 ) then
                Iyrct(k) = i
                k = k + 1
-            endif
+            end if
             goto 1150
-         endif
-      endif
+         end if
+      end if
 !
  1200 Indic = 4
 
@@ -2631,36 +2630,42 @@
 
     subroutine sjelim(l,Ll,k,Ir,Is,Nparm,Numgr,v)
 
-      implicit none
+    implicit none
 
-      integer :: i , Ir , Is , j , k , l , Ll , Nparm , Numgr
-      real(wp) :: fact , one , resol , v(Numgr+2*Nparm+1,Nparm+2)
+    integer,intent(in) :: l
+    integer,intent(in) :: Ll
+    integer,intent(in) :: k
+    integer,intent(in) :: Ir
+    integer,intent(in) :: Is
+    integer,intent(in) :: Nparm
+    integer,intent(in) :: Numgr
+    real(wp),intent(inout) :: v(Numgr+2*Nparm+1,Nparm+2)
 
-! SET PRECISION DEPENDENT CONSTANTS FOR SJELIM.
-      one = 1.0d0
+    integer :: i , j
+    real(wp) :: fact , resol
 
-! DIVIDE THE ENTRIES IN THE RESOLVENT ROW (EXCEPT FOR THE
-! RESOLVENT) BY THE RESOLVENT.
-      resol = v(Ir,Is)
-      do j = 1 , k
-         if ( j/=Is ) v(Ir,j) = v(Ir,j)/resol
-      enddo
-! SWEEP OUT IN ALL BUT ROW IR AND COLUMN IS.
-      do i = Ll , l
-         if ( i/=Ir ) then
+    ! DIVIDE THE ENTRIES IN THE RESOLVENT ROW (EXCEPT FOR THE
+    ! RESOLVENT) BY THE RESOLVENT.
+    resol = v(Ir,Is)
+    do j = 1 , k
+        if ( j/=Is ) v(Ir,j) = v(Ir,j)/resol
+    end do
+    ! SWEEP OUT IN ALL BUT ROW IR AND COLUMN IS.
+    do i = Ll , l
+        if ( i/=Ir ) then
             fact = -v(i,Is)
             do j = 1 , k
-               if ( j/=Is ) v(i,j) = v(i,j) + v(Ir,j)*fact
-            enddo
-         endif
-      enddo
-! DIVIDE THE ENTRIES IN THE RESOLVENT COLUMN (EXCEPT FOR THE
-! RESOLVENT) BY THE NEGATIVE OF THE RESOLVENT.
-      do i = Ll , l
-         if ( i/=Ir ) v(i,Is) = -v(i,Is)/resol
-      enddo
-! REPLACE THE RESOLVENT BY ITS RECIPROCAL.
-      v(Ir,Is) = one/resol
+                if ( j/=Is ) v(i,j) = v(i,j) + v(Ir,j)*fact
+            end do
+        end if
+    end do
+    ! DIVIDE THE ENTRIES IN THE RESOLVENT COLUMN (EXCEPT FOR THE
+    ! RESOLVENT) BY THE NEGATIVE OF THE RESOLVENT.
+    do i = Ll , l
+        if ( i/=Ir ) v(i,Is) = -v(i,Is)/resol
+    end do
+    ! REPLACE THE RESOLVENT BY ITS RECIPROCAL.
+    v(Ir,Is) = one/resol
 
     end subroutine sjelim
 !********************************************************************************
@@ -2735,7 +2740,7 @@
 ! WE NEVER GET A CORRECTIBLE PARPRJ.
       do j = 1 , Nparm
          Parser(j) = Param(j)
-      enddo
+      end do
 ! WE NOW TRY TO COMPUTE VALUES AT POINTS P2=PROJCT, P1=P2/2.0, AND
 ! P3=2.0*P2 (BUT P3 CANNOT EXCEED PRJLIM).
       p2 = Projct
@@ -2760,7 +2765,7 @@
          goto 400
       elseif ( f1>f3 ) then
          goto 500
-      endif
+      end if
 !
 ! HERE WE WILL EXPAND THE INTERVAL TO THE LEFT, PROVIDING THAT
 ! NSRCH < INITLM AND P1-P1/2.0**(NSRCH-1) >= TOL4.
@@ -2777,8 +2782,8 @@
             lll = 5
             pval = p1
             goto 1200
-         endif
-      endif
+         end if
+      end if
 !
 ! HERE WE CANNOT EXPAND LEFT AND WE RETURN WITH THE BEST VALUES
 ! FOUND SO FAR.
@@ -2819,9 +2824,9 @@
 !
                p3 = Prjlim
                goto 600
-            endif
-         endif
-      endif
+            end if
+         end if
+      end if
 !
 ! HERE WE CANNOT EXPAND RIGHT AND WE RETURN WITH THE BEST VALUES
 ! FOUND SO FAR.
@@ -2904,7 +2909,7 @@
 ! THAN THE LEFT SUBINTERVAL, SO WE DECREASE RLF RELATIVE TO RRT.
                   rlf = baladj*rlf
                   rrt = one - rlf
-               endif
+               end if
 !
 ! COMPUTE THE (POSSIBLY MODIFIED) MINIMUM OF THE QUADRATIC FIT.
                p4 = (rlf*p1+rrt*p3+p2)/two
@@ -2936,7 +2941,7 @@
                   else
                      pval = p4
                      goto 1200
-                  endif
+                  end if
                else
 ! HERE P4 > P3-TOL4 AND WE SET P4=P3-TOL4 IF P3-P2 >= TOL1/2.0,
 ! AND OTHERWISE WE SET P4=P2-TOL4.
@@ -2944,10 +2949,10 @@
                   p4 = p3 - tol4
                   pval = p4
                   goto 1200
-               endif
-            endif
-         endif
-      endif
+               end if
+            end if
+         end if
+      end if
 !
  900  Projct = p2
       Emin = f2
@@ -2961,7 +2966,7 @@
       if ( p4<=p2 ) then
          p4 = (p2+p3)/two
          if ( p4<=p2 ) goto 900
-      endif
+      end if
       if ( p4>=p3 ) goto 900
       pval = p4
       goto 1200
@@ -2974,7 +2979,7 @@
       if ( p4>=p2 ) then
          p4 = (p1+p2)/two
          if ( p4>=p2 ) goto 900
-      endif
+      end if
       if ( p4<=p1 ) goto 900
       pval = p4
 !
@@ -2989,7 +2994,7 @@
 ! PROJECT X TO GET PARPRJ.
       do j = 1 , Nparm
          Parprj(j) = Param(j) + pval*x(j)
-      enddo
+      end do
 !
 ! CALL CORRCT TO RETURN PARPRJ TO FEASIBILITY IF NECESSARY IF ITYPM1
 ! OR ITYPM2 IS POSITIVE.
@@ -3000,7 +3005,7 @@
                      Err1,Work(ilc10),Work(ilc29),Work(ilc08),          &
                      Work(ilc48),Iwork(ilc21),Parprj,icorct)
          if ( icorct>0 ) goto 1300
-      endif
+      end if
       call me%ercmp1(Ioptn,Nparm,Numgr,Fun,Ifun,Pttbl,Iptb,Indm,Parprj,1,  &
                   Iphse,Iwork,Liwrk,Work(ilc08),Iwork(ilc17),ipmax,     &
                   ismax,Err1)
@@ -3016,10 +3021,10 @@
          isave = 1
       elseif ( fval>=fvlkp ) then
          goto 1300
-      endif
+      end if
       do j = 1 , Nparm
          Parser(j) = Parprj(j)
-      enddo
+      end do
       fvlkp = fval
 ! IF IPHSE < 0 AND FVAL <= TOLCON WE RETURN WITH THE BEST VALUES
 ! FOUND SO FAR.
@@ -3028,8 +3033,8 @@
             Projct = pval
             Emin = fval
             return
-         endif
-      endif
+         end if
+      end if
 !
 ! CARRY THE COMPUTED F VALUE BACK TO THE APPROPRIATE PART OF THE PROGRAM.
  1300 select case (lll)
@@ -3059,7 +3064,7 @@
          else
             p3 = Prjlim
             goto 100
-         endif
+         end if
       case (2)
 !
          f2 = fval
@@ -3121,7 +3126,7 @@
                f1 = f4
                ilf = ilf + 1
                irt = 0
-            endif
+            end if
 !
 ! HERE P4 > P2.
          elseif ( f2<f4 ) then
@@ -3136,7 +3141,7 @@
             f2 = f4
             ilf = ilf + 1
             irt = 0
-         endif
+         end if
          goto 800
       case default
       end select
@@ -3146,200 +3151,196 @@
 !********************************************************************************
 !>
 !
-      subroutine ercmp1(me,Ioptn,Nparm,Numgr,Fun,Ifun,Pttbl,Iptb,Indm, &
-                        Param,Icnuse,Iphse,Iwork,Liwrk,Confun,Icntyp, &
-                        Ipmax,Ismax,Error)
+    subroutine ercmp1(me,Ioptn,Nparm,Numgr,Fun,Ifun,Pttbl,Iptb,Indm, &
+                      Param,Icnuse,Iphse,Iwork,Liwrk,Confun,Icntyp, &
+                      Ipmax,Ismax,Error)
 
-      implicit none
+    implicit none
 
-      class(conmax_solver),intent(inout) :: me
-      real(wp) :: Confun , ei , enor2 , enor3 , enorm , Error , Fun , &
-                  Param , Pttbl
-      integer :: i , Icntyp , Icnuse , Ifun , ilc22 , im1 , im2 ,   &
-                 Indm , Ioptn , ioptth , Iphse , Ipmax , ipt , Iptb , &
-                 Ismax , Iwork , l , Liwrk , Nparm
-      integer :: Numgr
+    class(conmax_solver),intent(inout) :: me
+    integer,intent(in) :: Ioptn
+    integer,intent(in) :: Nparm
+    integer,intent(in) :: Numgr
+    integer,intent(in) :: Ifun
+    integer,intent(in) :: Iptb
+    integer,intent(in) :: Indm
+    integer,intent(in) :: Icnuse
+    integer,intent(in) :: Iphse
+    integer,intent(in) :: Liwrk
+    integer,intent(out) :: Ipmax
+    integer,intent(out) :: Ismax
+    real(wp),intent(in) :: Fun(Ifun)
+    real(wp),intent(in) :: Pttbl(Iptb,Indm)
+    real(wp),intent(in) :: Param(Nparm)
+    integer  :: Iwork(Liwrk)
+    integer  :: Icntyp(Numgr)
+    real(wp) :: Confun(Numgr,Nparm+1)
+    real(wp) :: Error(Numgr+3)
 
-      dimension Fun(Ifun) , Pttbl(Iptb,Indm) , Param(Nparm) ,           &
-                Icntyp(Numgr) , Error(Numgr+3) , Confun(Numgr,Nparm+1) ,&
-                Iwork(Liwrk)
-!
-! SET MACHINE AND PRECISION DEPENDENT CONSTANTS.
-      ilc22 = iloc(22,Nparm,Numgr)
-      ioptth = (Ioptn-(Ioptn/100000)*100000)/10000
-      if ( ioptth<=0 ) then
-!
-! HERE IOPTTH=0, AND EACH CALL TO FNSET WILL COMPUTE FUNCTION VALUES
-! FOR ONLY ONE CONSTRAINT.
-         do i = 1 , Numgr
+    real(wp) :: ei , enor2 , enor3 , enorm
+    integer  :: i , ilc22 , im1 , im2 , ioptth , ipt , l
+
+    ! SET MACHINE AND PRECISION DEPENDENT CONSTANTS.
+    ilc22 = iloc(22,Nparm,Numgr)
+    ioptth = (Ioptn-(Ioptn/100000)*100000)/10000
+    if ( ioptth<=0 ) then
+
+        ! HERE IOPTTH=0, AND EACH CALL TO FNSET WILL COMPUTE FUNCTION VALUES
+        ! FOR ONLY ONE CONSTRAINT.
+        do i = 1 , Numgr
             ipt = i
             if ( Icnuse<=0 ) then
-!
-! HERE ICNUSE=0 SO WE WILL ACCEPT AND USE THE ICNTYP(I) COMPUTED BY
-! FNSET.
-! CALL FNSET WITH INDFN=0 TO COMPUTE CONFUN(I,1) AND ICNTYP(I).
-               call me%fnset(Nparm,Numgr,Pttbl,Iptb,Indm,Param,ipt,0,Icntyp,Confun)
-!
-! HERE ICNUSE=1 AND THE ICNTYP CARRIED INTO ERCMP1 WILL OVERRIDE THAT
-! COMPUTED BY FNSET.  THIS WILL ALSO BE TRUE IN ALL SUBROUTINES OTHER
-! THAN CONMAX.  IF ICNTYP(I)=0 WE WILL SET ERROR(I)=0.0 AND WILL NOT
-! NEED TO CALL FNSET.
+                ! HERE ICNUSE=0 SO WE WILL ACCEPT AND USE THE ICNTYP(I) COMPUTED BY
+                ! FNSET.
+                ! CALL FNSET WITH INDFN=0 TO COMPUTE CONFUN(I,1) AND ICNTYP(I).
+                call me%fnset(Nparm,Numgr,Pttbl,Iptb,Indm,Param,ipt,0,Icntyp,Confun)
+                ! HERE ICNUSE=1 AND THE ICNTYP CARRIED INTO ERCMP1 WILL OVERRIDE THAT
+                ! COMPUTED BY FNSET.  THIS WILL ALSO BE TRUE IN ALL SUBROUTINES OTHER
+                ! THAN CONMAX.  IF ICNTYP(I)=0 WE WILL SET ERROR(I)=0.0 AND WILL NOT
+                ! NEED TO CALL FNSET.
             elseif ( Icntyp(i)/=0 ) then
-!
-! CALL FNSET WITH INDFN=0 TO COMPUTE CONFUN(I,1).  THE COMPUTED KCNTYP
-! WILL NOT BE USED.
-               call me%fnset(Nparm,Numgr,Pttbl,Iptb,Indm,Param,ipt,0,Iwork(ilc22),Confun)
+                ! CALL FNSET WITH INDFN=0 TO COMPUTE CONFUN(I,1).  THE COMPUTED KCNTYP
+                ! WILL NOT BE USED.
+                call me%fnset(Nparm,Numgr,Pttbl,Iptb,Indm,Param,ipt,0,Iwork(ilc22),Confun)
             else
-!
-               Error(i) = zero
-               goto 50
-            endif
-!
-! SET ERROR(I)=0.0, OR CONFUN(I,1), OR FUN(I) - CONFUN(I,1) ACCORDING AS
-! ICNTYP(I) IS 0, OR -2, -1, 1, OR 2.
-            if ( Icntyp(i)<0 ) then
-            elseif ( Icntyp(i)==0 ) then
-               Error(i) = zero
-               goto 50
-!
-            elseif ( Icntyp(i)>1 ) then
-!
-               Error(i) = Fun(i) - Confun(i,1)
-               goto 50
-            endif
-!
-            Error(i) = Confun(i,1)
- 50      enddo
-         goto 400
-      else
-!
-! HERE IOPTTH=1 AND A SINGLE CALL TO FNSET WITH INDFN=0 WILL COMPUTE
-! CONFUN(.,1) AND (IF ICNUSE=0) ICNTYP(.).
-         if ( Icnuse<=0 ) then
-!
-! HERE IOPTTH=1 AND ICNUSE=0, AND WE SET IPT=0 TO TELL FNSET TO COMPUTE
-! ALL CONSTRAINTS (SINCE WE WANT TO BE SURE THAT ALL OF ICNTYP IS
-! COMPUTED).  NOTE THAT IF INSTEAD WE HAD IOPTTH=0, THEN IPT WOULD
-! BE POSITIVE AT EACH FNSET CALL, TELLING FNSET TO COMPUTE CONSTRAINT
-! IPT ONLY.
-            ipt = 0
-            call me%fnset(Nparm,Numgr,Pttbl,Iptb,Indm,Param,ipt,0,Icntyp,Confun)
-         else
-!
-! HERE IOPTTH=1 AND ICNUSE=1, AND IF IPHSE IS NEGATIVE WE SET IPT=-1
-! TO TELL FNSET THAT ONLY STANDARD CONSTRAINTS NEED TO BE COMPUTED.
-! IF IPHSE=0 HERE WE CHECK TO SEE IF ANY ICNTYP(L) IS POSITIVE FOR
-! L=1,...,NUMGR, AND IF SO WE SET IPT=0 TO TELL FNSET TO COMPUTE ALL
-! CONSTRAINTS, WHILE OTHERWISE WE SET IPT=-1.
-            if ( Iphse>=0 ) then
-               do l = 1 , Numgr
-                  if ( Icntyp(l)>0 ) goto 100
-               enddo
-            endif
-            ipt = -1
-            call me%fnset(Nparm,Numgr,Pttbl,Iptb,Indm,Param,ipt,0,Iwork(ilc22),Confun)
-         endif
-         goto 200
- 100     ipt = 0
-         call me%fnset(Nparm,Numgr,Pttbl,Iptb,Indm,Param,ipt,0,Iwork(ilc22),Confun)
-      endif
-!
-! COMPUTE ERROR AS ABOVE.
- 200  do i = 1 , Numgr
-         if ( Icntyp(i)<0 ) then
-         elseif ( Icntyp(i)==0 ) then
-!
-            Error(i) = zero
-            goto 300
-!
-         elseif ( Icntyp(i)>1 ) then
-!
-            Error(i) = Fun(i) - Confun(i,1)
-            goto 300
-         endif
-!
-         Error(i) = Confun(i,1)
- 300  enddo
-!
-!
-! HAVING FINISHED COMPUTING ERROR(I) AND (IF ICNUSE=0) ICNTYP(I) FOR
-! I=1,...,NUMGR WE NOW COMPUTE THE ERROR NORMS.
-! WE ALSO COMPUTE THE INDEX IPMAX OF THE CONSTRAINT WHERE THE PRIMARY
-! (I.E. TYPE 1 OR TYPE 2) ERROR NORM OCCURS AND THE INDEX ISMAX OF THE
-! CONSTRAINT WHERE THE STANDARD (I.E. TYPE -1 OR TYPE -2) ERROR NORM
-! OCCURS.
-! FIRST INITIALIZE THE INDICATORS AND ERROR NORMS.
- 400  im1 = 0
-      im2 = 0
-      Ipmax = 0
-      Ismax = 0
-      enorm = zero
-      enor2 = zero
-      enor3 = zero
-!
-      do i = 1 , Numgr
-         ei = Error(i)
-         if ( Icntyp(i)<0 ) then
+                Error(i) = zero
+                cycle
+            end if
+            call compute_error(i)
+        end do
+
+    else
+
+        fnset: block
+            ! HERE IOPTTH=1 AND A SINGLE CALL TO FNSET WITH INDFN=0 WILL COMPUTE
+            ! CONFUN(.,1) AND (IF ICNUSE=0) ICNTYP(.).
+            if ( Icnuse<=0 ) then
+                ! HERE IOPTTH=1 AND ICNUSE=0, AND WE SET IPT=0 TO TELL FNSET TO COMPUTE
+                ! ALL CONSTRAINTS (SINCE WE WANT TO BE SURE THAT ALL OF ICNTYP IS
+                ! COMPUTED).  NOTE THAT IF INSTEAD WE HAD IOPTTH=0, THEN IPT WOULD
+                ! BE POSITIVE AT EACH FNSET CALL, TELLING FNSET TO COMPUTE CONSTRAINT
+                ! IPT ONLY.
+                ipt = 0
+                call me%fnset(Nparm,Numgr,Pttbl,Iptb,Indm,Param,ipt,0,Icntyp,Confun)
+            else
+                ! HERE IOPTTH=1 AND ICNUSE=1, AND IF IPHSE IS NEGATIVE WE SET IPT=-1
+                ! TO TELL FNSET THAT ONLY STANDARD CONSTRAINTS NEED TO BE COMPUTED.
+                ! IF IPHSE=0 HERE WE CHECK TO SEE IF ANY ICNTYP(L) IS POSITIVE FOR
+                ! L=1,...,NUMGR, AND IF SO WE SET IPT=0 TO TELL FNSET TO COMPUTE ALL
+                ! CONSTRAINTS, WHILE OTHERWISE WE SET IPT=-1.
+                if ( Iphse>=0 ) then
+                    do l = 1 , Numgr
+                        if ( Icntyp(l)>0 ) then
+                            ipt = 0
+                            call me%fnset(Nparm,Numgr,Pttbl,Iptb,Indm,Param,ipt,0,Iwork(ilc22),Confun)
+                            exit fnset
+                        end if
+                    end do
+                end if
+                ipt = -1
+                call me%fnset(Nparm,Numgr,Pttbl,Iptb,Indm,Param,ipt,0,Iwork(ilc22),Confun)
+            end if
+        end block fnset
+
+        ! Compute error as above.
+        do i = 1 , Numgr
+            call compute_error(i)
+        end do
+
+    end if
+
+    ! HAVING FINISHED COMPUTING ERROR(I) AND (IF ICNUSE=0) ICNTYP(I) FOR
+    ! I=1,...,NUMGR WE NOW COMPUTE THE ERROR NORMS.
+    ! WE ALSO COMPUTE THE INDEX IPMAX OF THE CONSTRAINT WHERE THE PRIMARY
+    ! (I.E. TYPE 1 OR TYPE 2) ERROR NORM OCCURS AND THE INDEX ISMAX OF THE
+    ! CONSTRAINT WHERE THE STANDARD (I.E. TYPE -1 OR TYPE -2) ERROR NORM
+    ! OCCURS.
+    ! FIRST INITIALIZE THE INDICATORS AND ERROR NORMS.
+    im1 = 0
+    im2 = 0
+    Ipmax = 0
+    Ismax = 0
+    enorm = zero
+    enor2 = zero
+    enor3 = zero
+
+    do i = 1 , Numgr
+        ei = Error(i)
+        if ( Icntyp(i)<0 ) then
             if ( Icntyp(i)+1<0 ) then
-!
-! HERE ICNTYP(I)=-2 AND WE DO AS ABOVE EXCEPT WITH IM2 AND ENOR3.
-               if ( im2>0 ) then
-                  if ( ei<=enor3 ) goto 500
-               endif
-               im2 = i
-               enor3 = ei
+                ! HERE ICNTYP(I)=-2 AND WE DO AS ABOVE EXCEPT WITH IM2 AND ENOR3.
+                if ( im2>0 ) then
+                    if ( ei<=enor3 ) cycle
+                end if
+                im2 = i
+                enor3 = ei
             else
-!
-! HERE ICNTYP(I)=-1 AND WE DO AS ABOVE EXCEPT WITH IM1 AND ENOR2.
-               if ( im1>0 ) then
-                  if ( ei<=enor2 ) goto 500
-               endif
-               im1 = i
-               enor2 = ei
-            endif
-         elseif ( Icntyp(i)/=0 ) then
-!
-! HERE ICNTYP(I) > 0.  IF ICNTYP(I)=2 REPLACE EI BY ABS(EI).  IF THIS
-! IS THE FIRST I FOUND WITH ICNTYP(I) > 0 WE RESET IPMAX TO I AND PUT
-! EI IN ENORM, AND OTHERWISE RESET IPMAX AND PUT EI IN ENORM IF AND ONLY
-! IF EI IS BIGGER THAN THE VALUES FOUND SO FAR.
+                ! HERE ICNTYP(I)=-1 AND WE DO AS ABOVE EXCEPT WITH IM1 AND ENOR2.
+                if ( im1>0 ) then
+                    if ( ei<=enor2 ) cycle
+                end if
+                im1 = i
+                enor2 = ei
+            end if
+        elseif ( Icntyp(i)/=0 ) then
+            ! HERE ICNTYP(I) > 0.  IF ICNTYP(I)=2 REPLACE EI BY ABS(EI).  IF THIS
+            ! IS THE FIRST I FOUND WITH ICNTYP(I) > 0 WE RESET IPMAX TO I AND PUT
+            ! EI IN ENORM, AND OTHERWISE RESET IPMAX AND PUT EI IN ENORM IF AND ONLY
+            ! IF EI IS BIGGER THAN THE VALUES FOUND SO FAR.
             if ( Icntyp(i)>1 ) ei = abs(ei)
             if ( Ipmax>0 ) then
-               if ( ei<=enorm ) goto 500
-            endif
+                if ( ei<=enorm ) cycle
+            end if
             Ipmax = i
             enorm = ei
-         endif
- 500  enddo
-!
-! NOW RESET ISMAX IF THERE ARE ANY STANDARD CONSTRAINTS.
-      if ( im1<=0 ) then
-! HERE THERE ARE STANDARD NONLINEAR CONSTRAINTS BUT NO STANDARD LINEAR
-! CONSTRAINTS.
-         if ( im2>0 ) Ismax = im2
-      elseif ( im2<=0 ) then
-! HERE THERE ARE STANDARD LINEAR CONSTRAINTS BUT NO STANDARD NONLINEAR
-! CONSTRAINTS.
-         Ismax = im1
-! HERE THERE ARE BOTH STANDARD LINEAR CONSTRAINTS AND STANDARD NONLINEAR
-! CONSTRAINTS.
-      elseif ( enor3<enor2 ) then
-         Ismax = im1
-      else
-         Ismax = im2
-      endif
-!
-! SET ERROR(NUMGR+1) THROUGH ERROR(NUMGR+3).
-      Error(Numgr+1) = enorm
-      Error(Numgr+2) = enor2
-      Error(Numgr+3) = enor3
+        end if
+    end do
+
+    ! NOW RESET ISMAX IF THERE ARE ANY STANDARD CONSTRAINTS.
+    if ( im1<=0 ) then
+        ! HERE THERE ARE STANDARD NONLINEAR CONSTRAINTS BUT NO STANDARD LINEAR
+        ! CONSTRAINTS.
+        if ( im2>0 ) Ismax = im2
+    elseif ( im2<=0 ) then
+        ! HERE THERE ARE STANDARD LINEAR CONSTRAINTS BUT NO STANDARD NONLINEAR
+        ! CONSTRAINTS.
+        Ismax = im1
+        ! HERE THERE ARE BOTH STANDARD LINEAR CONSTRAINTS AND STANDARD NONLINEAR
+        ! CONSTRAINTS.
+    elseif ( enor3<enor2 ) then
+        Ismax = im1
+    else
+        Ismax = im2
+    end if
+
+    ! SET ERROR(NUMGR+1) THROUGH ERROR(NUMGR+3).
+    Error(Numgr+1) = enorm
+    Error(Numgr+2) = enor2
+    Error(Numgr+3) = enor3
+
+    contains
+
+    subroutine compute_error(i)
+    !! Set error(i)=0.0, or confun(i,1), or fun(i) - confun(i,1) according as
+    !! icntyp(i) is 0, or -2, -1, 1, or 2.
+    implicit none
+    integer,intent(in) :: i
+    if ( Icntyp(i)==0 ) then
+        Error(i) = zero
+    elseif ( Icntyp(i)>1 ) then
+        Error(i) = Fun(i) - Confun(i,1)
+    else
+        Error(i) = Confun(i,1)
+    end if
+    end subroutine compute_error
+
     end subroutine ercmp1
 !********************************************************************************
 
 !********************************************************************************
 !>
 !
-      subroutine rkcon(me,Ioptn,Nparm,Numgr,Fun,Ifun,Pttbl,Iptb,Indm,      &
+      subroutine rkcon(me,Ioptn,Nparm,Numgr,Fun,Ifun,Pttbl,Iptb,Indm,   &
                        Tolcon,Rchin,Iter,Irk,Ityp2,Ityp1,Itypm1,Itypm2, &
                        Icntyp,Projct,Rchdwn,Nstep,Iphse,Enchg,Enc1,Pmat,&
                        Funtbl,Iwork,Liwrk,Work,Lwrk,Iact,Actdif,Parprj, &
@@ -3429,10 +3430,10 @@
 ! QTLO WE DIVIDE PROJCT BY 4.0.
             elseif ( qt<=qtlo ) then
                Projct = Projct/four
-            endif
+            end if
             goto 100
-         endif
-      endif
+         end if
+      end if
 !
 ! HERE ITER=0, OR ELSE ITER > 0 AND IRK=2, AND WE INITIALIZE PROJCT.
       if ( Iphse+1<0 ) then
@@ -3461,8 +3462,8 @@
 ! THERE WILL BE TYPE 2 CONSTRAINTS.
          if ( Ityp2>0 ) then
             if ( enorm<Projct ) Projct = enorm
-         endif
-      endif
+         end if
+      end if
 !
 ! WE DO NOT WISH FOR PROJCT TO BE SET BELOW 100.0*SPCMN
       if ( Projct<ten*ten*spcmn ) Projct = ten*ten*spcmn
@@ -3473,7 +3474,7 @@
       if ( Projct<steplm ) then
          iwarn = 1
          Projct = steplm
-      endif
+      end if
 !
 ! CALL RKSACT TO PUT THE (SIGNED) INDICES OF THE ACTIVE CONSTRAINTS IN
 ! IACT AND THEIR NUMBER IN MACTRK.
@@ -3492,8 +3493,8 @@
       do j = 1 , npar1
          do i = 1 , mactrk
             Funtbl(i,j) = Pmat(j,i)
-         enddo
-      enddo
+         end do
+      end do
 !
 !
 ! STATEMENTS ABOVE THIS POINT WILL NOT BE EXECUTED AGAIN IN THIS CALL
@@ -3534,8 +3535,8 @@
                         Err1,Work(ilc10),Pmat,Confun,Work(ilc48),       &
                         Iwork(ilc21),Parprj,icorct)
             if ( icorct<=0 ) goto 500
-         endif
-      endif
+         end if
+      end if
 !
 ! THE NEXT GROUP OF STATEMENTS IS TO REDUCE PROJCT (IF POSSIBLE) IN CASE
 ! OF A FAILURE OF SOME KIND.
@@ -3550,8 +3551,8 @@
             iwarn = 1
             Projct = steplm
             goto 400
-         endif
-      endif
+         end if
+      end if
 !
 ! HERE RKCON COULD NOT REDUCE THE ERROR NORM AND WE RETURN WITH THE
 ! WARNING ISUCC=1.
@@ -3573,7 +3574,7 @@
 !
 ! HERE WE HAVE AN ACTIVE TYPE -1 CONSTRAINT.
                Actdif(l) = Error(i)/Projct
-            endif
+            end if
          elseif ( Icntyp(i)==0 ) then
 !
 ! ICNTYP(I)=0 SHOULD NOT OCCUR HERE SINCE CONSTRAINT I WAS DECLARED
@@ -3588,23 +3589,23 @@
 !
 ! HERE WE HAVE AN ACTIVE TYPE 2 CONSTRAINT.
             Actdif(l) = one + (abs(Error(i))-enorm)/Projct
-         endif
-      enddo
+         end if
+      end do
 !
 ! COPY THE FIRST NPARM ROWS OF PMAT FROM OLD PMAT TRANSPOSE STORED
 ! IN FUNTBL, THEN APPEND ACTDIF AS THE LAST ROW.
       do j = 1 , mactrk
          do i = 1 , Nparm
             Pmat(i,j) = Funtbl(j,i)
-         enddo
+         end do
          Pmat(npar1,j) = Actdif(j)
-      enddo
+      end do
       goto 200
 !
 ! PUT THE SEARCH DIRECTION VECTOR PARPRJ - PARAM INTO XRK.
  500  do j = 1 , Nparm
          Xrk(j) = Parprj(j) - Param(j)
-      enddo
+      end do
 !
 ! CALL SEARSL TO DO A LINE SEARCH IN DIRECTION XRK AND PUT THE RESULTING
 ! VECTOR IN PARSER.  START WITH A PROJECTION FACTOR PROSEA=1.0.
@@ -3632,7 +3633,7 @@
             ipt = -1
             call me%derst(Ioptn,Nparm,Numgr,Pttbl,Iptb,Indm,Param,ipt,     &
                           Work(ilc24),Work(ilc35),Iwork(ilc22),Confun)
-         endif
+         end if
          do i = 1 , Numgr
             if ( Icntyp(i)+1==0 ) then
                ipt = i
@@ -3653,17 +3654,17 @@
                ss = zero
                do j = 1 , Nparm
                   ss = ss + Confun(i,j+1)*Xrk(j)
-               enddo
+               end do
 ! IF SS < 10.0*SPCMN THIS CONSTRAINT WILL NOT PUT A SIGNIFICANT
 ! RESTRICTION ON PROSEA.
                if ( ss>=tol2 ) then
 ! HERE SS >= 10.0*SPCMN AND WE COMPARE SSS/SS AGIANST PRJLIM.
                   quots = -Confun(i,1)/ss
                   if ( prjlim>quots ) prjlim = quots
-               endif
-            endif
-         enddo
-      endif
+               end if
+            end if
+         end do
+      end if
 !
       call me%searsl(Ioptn,Numgr,Nparm,prjlim,tol1,Xrk,Fun,Ifun,Pttbl,Iptb,&
                      Indm,Param,Error,Rchdwn,mactrk,Iact,Iphse,unit,Tolcon,&
@@ -3684,7 +3685,7 @@
 !
       do j = 1 , Nparm
          Param(j) = Parser(j)
-      enddo
+      end do
       call me%ercmp1(Ioptn,Nparm,Numgr,Fun,Ifun,Pttbl,Iptb,Indm,Param,1,   &
                   Iphse,Iwork,Liwrk,Confun,Icntyp,ipmax,ismax,Error)
       end
@@ -3738,7 +3739,7 @@
                Iact(l) = i
                Actdif(l) = Error(i)/Projct
                if ( Actdif(l)>Conup ) Actdif(l) = Conup
-            endif
+            end if
          elseif ( Icntyp(i)/=0 ) then
             if ( Icntyp(i)>1 ) then
 !
@@ -3750,10 +3751,10 @@
                      l = l + 1
                      Iact(l) = -i
                      Actdif(l) = one + (-Error(i)-enorm)/Projct
-                  endif
+                  end if
                   goto 100
-               endif
-            endif
+               end if
+            end if
 !
 ! HERE WE HAVE A TYPE 1 CONSTRAINT, OR A TYPE 2 CONSTRAINT WITH
 ! ERROR(I) >= 0.0.
@@ -3763,9 +3764,9 @@
                l = l + 1
                Iact(l) = i
                Actdif(l) = one + (Error(i)-enorm)/Projct
-            endif
-         endif
- 100  enddo
+            end if
+         end if
+ 100  end do
       Mactrk = l
     end subroutine rksact
 !********************************************************************************
@@ -3814,8 +3815,8 @@
       if ( Iphse>=0 ) then
          do l = 1 , Numgr
             if ( Icntyp(l)>0 ) goto 100
-         enddo
-      endif
+         end do
+      end if
       ipt = -1
       goto 200
  100  ipt = 0
@@ -3851,22 +3852,22 @@
 ! GRADIENT OF F(PARWRK,X).  THUS WE PUT CONFUN(IPT,.) IN COLUMN I OF PMAT.
                do j = 1 , Nparm
                   Pmat(j,i) = Confun(ipt,j+1)
-               enddo
+               end do
                goto 400
-            endif
-         endif
+            end if
+         end if
 !
 ! HERE WE HAVE A -ACTIVE TYPE 2 CONSTRAINT AT POINT -II OR AN ACTIVE
 ! CONSTRAINT OF TYPE -2, -1, OR 1 AT POINT II.
          do j = 1 , Nparm
             Pmat(j,i) = -Confun(ipt,j+1)
-         enddo
- 400  enddo
+         end do
+ 400  end do
 !
 ! PUT ACTDIF IN THE LAST ROW OF PMAT.
       do i = 1 , Mactrk
          Pmat(npar1,i) = Actdif(i)
-      enddo
+      end do
 
     end subroutine pmtst
 !********************************************************************************
@@ -3927,7 +3928,7 @@
       do j = 1 , Nparm
          Parprj(j) = Param(j)
          Vdern(j) = Vder(j)
-      enddo
+      end do
 !
 ! NOTE THAT HERE H*VDERN IS THE K1 OF THE USUAL RUNGE-KUTTA FORMULAE.
 ! SET THE WORK VECTOR WVEC = PARPRJ-PROJ1*VDERN/2.0, THEN CALL PMTST
@@ -3938,7 +3939,7 @@
  100  do j = 1 , Nparm
          Vders(j) = Vdern(j)
          Wvec(j) = Parprj(j) - proj1*Vdern(j)/two
-      enddo
+      end do
 ! IF THERE ARE ANY STANDARD CONSTRAINTS, WE CORRECT BACK INTO THE
 ! FEASIBLE REGION IF POSSIBLE BEFORE CALLING PMTST.
       if ( Itypm1+Itypm2>0 ) then
@@ -3948,7 +3949,7 @@
                      Work(ilc10),Pmat,Confun,Work(ilc48),Iwork(ilc21),  &
                      Wvec,icorct)
          if ( icorct>0 ) goto 200
-      endif
+      end if
       call me%pmtst(Ioptn,Numgr,Nparm,Wvec,Icntyp,Mactrk,Iact,Pttbl,Iptb,  &
                  Indm,Actdif,Iphse,Iwork,Liwrk,Work,Lwrk,Confun,Pmat)
       call wolfe(Nparm,Mactrk,Pmat,1,s,Ncor,Iwork(ilc15),Iwork,Liwrk,   &
@@ -3963,7 +3964,7 @@
          do j = 1 , Nparm
             Vders(j) = Vders(j) + two*Vdern(j)
             Wvec(j) = Parprj(j) - proj1*Vdern(j)/two
-         enddo
+         end do
 ! IF THERE ARE ANY STANDARD CONSTRAINTS, WE CORRECT BACK INTO THE
 ! FEASIBLE REGION IF POSSIBLE BEFORE CALLING PMTST.
          if ( Itypm1+Itypm2<=0 ) goto 300
@@ -3973,7 +3974,7 @@
                      Work(ilc10),Pmat,Confun,Work(ilc48),Iwork(ilc21),  &
                      Wvec,icorct)
          if ( icorct<=0 ) goto 300
-      endif
+      end if
 !
  200  Ifrkpr = 1
 !     WRITE(NWRIT,250)
@@ -3992,7 +3993,7 @@
       do j = 1 , Nparm
          Vders(j) = Vders(j) + two*Vdern(j)
          Wvec(j) = Parprj(j) - proj1*Vdern(j)
-      enddo
+      end do
 ! IF THERE ARE ANY STANDARD CONSTRAINTS, WE CORRECT BACK INTO THE
 ! FEASIBLE REGION IF POSSIBLE BEFORE CALLING PMTST.
       if ( Itypm1+Itypm2>0 ) then
@@ -4002,7 +4003,7 @@
                      Work(ilc10),Pmat,Confun,Work(ilc48),Iwork(ilc21),  &
                      Wvec,icorct)
          if ( icorct>0 ) goto 200
-      endif
+      end if
       call me%pmtst(Ioptn,Numgr,Nparm,Wvec,Icntyp,Mactrk,Iact,Pttbl,Iptb,  &
                  Indm,Actdif,Iphse,Iwork,Liwrk,Work,Lwrk,Confun,Pmat)
       call wolfe(Nparm,Mactrk,Pmat,1,s,Ncor,Iwork(ilc15),Iwork,Liwrk,   &
@@ -4015,7 +4016,7 @@
 ! 2.0*K2 + 2.0*K3 + K4)/H.  PUT THE NEW PARAMETER VECTOR IN PARPRJ.
       do j = 1 , Nparm
          Parprj(j) = Parprj(j) - p6*(Vders(j)+Vdern(j))
-      enddo
+      end do
       if ( nstcnt<Nstep ) then
 !
 ! HERE NSTCNT < NSTEP AND WE SET UP FOR THE NEXT RK STEP.
@@ -4031,7 +4032,7 @@
                         Work(ilc11),Work(ilc10),Pmat,Confun,Work(ilc48),&
                         Iwork(ilc21),Parprj,icorct)
             if ( icorct>0 ) goto 200
-         endif
+         end if
          call me%pmtst(Ioptn,Numgr,Nparm,Parprj,Icntyp,Mactrk,Iact,Pttbl,  &
                     Iptb,Indm,Actdif,Iphse,Iwork,Liwrk,Work,Lwrk,Confun,&
                     Pmat)
@@ -4043,7 +4044,7 @@
          goto 100
       else
          return
-      endif
+      end if
 
     end subroutine rkpar
 !********************************************************************************
@@ -4111,12 +4112,12 @@
             Jcntyp(i) = Icntyp(i)
          else
             Jcntyp(i) = 0
-         endif
-      enddo
+         end if
+      end do
 ! PUT PARPRJ IN PARWRK FOR USE IN ERCMP1 AND FNSET.
       do j = 1 , Nparm
          Parwrk(j) = Parprj(j)
-      enddo
+      end do
 ! CALL ERCMP1 WITH ICNUSE=1 TO COMPUTE THE STANDARD ERRORS.
 ! WE TAKE IPHSE=-3 AS A KLUDGE TO TELL ERCMP1 TO COMPUTE ONLY STANDARD
 ! ERRORS IF THE TEN THOUSANDS DIGIT OF IOPTN IS 1, THUS SAVING ERCMP1
@@ -4138,14 +4139,14 @@
       elseif ( Err1(Numgr+2)<=Tolcon ) then
          Icorct = -1
          return
-      endif
+      end if
 !
 ! PUT PARPRJ INTO THE WORK VECTOR ZWORK SO PARPRJ ITSELF WILL REMAIN
 ! UNCHANGED UNLESS CORRCT IS SUCCESSFUL IN CORRECTING BACK INTO THE
 ! FEASIBLE REGION.
       do j = 1 , Nparm
          Zwork(j) = Parprj(j)
-      enddo
+      end do
 ! COMPUTE EOLD = MAX(ERR1(NUMGR+2),ERR1(NUMGR+3)).  NOTE THAT EOLD IS
 ! POSITIVE SINCE OTHERWISE WE WOULD HAVE RETURNED ABOVE (ASSUMING
 ! TOLCON >= 0.0).  THUS IF ONLY ONE TYPE OF STANDARD CONSTRAINT IS
@@ -4165,7 +4166,7 @@
          ipt = -1
          call me%derst(Ioptn,Nparm,Numgr,Pttbl,Iptb,Indm,Parwrk,ipt, &
                        Work(ilc24),Work(ilc35),Iwork(ilc22),Confun)
-      endif
+      end if
 !
       l = 0
       do i = 1 , Numgr
@@ -4177,7 +4178,7 @@
             if ( Err1(i)+Rchin*Projct<0 ) goto 200
          elseif ( Icntyp(i)+1/=0 ) then
             goto 200
-         endif
+         end if
 !
          if ( ioptth<=0 ) then
 !
@@ -4186,14 +4187,14 @@
             ipt = i
             call me%derst(Ioptn,Nparm,Numgr,Pttbl,Iptb,Indm,Parwrk,ipt,    &
                           Work(ilc24),Work(ilc35),Iwork(ilc22),Confun)
-         endif
+         end if
 !
          l = l + 1
 ! PUT THE GRADIENT OF THE LEFT SIDE OF CONSTRAINT I IN PMAT(1,L),...,
 ! PMAT(NPARM,L).
          do k = 1 , Nparm
             Pmat(k,l) = Confun(i,k+1)
-         enddo
+         end do
 !
 ! SET ROW NPARM+1 OF PMAT.  WE WILL USUALLY SET PMAT(NPARM+1,L)=
 ! ERR1(I), SO THE WOLFE CONSTRAINT WILL BE GRADIENT(I).DVEC + ERR1(I)
@@ -4214,10 +4215,10 @@
             if ( Err1(i)<0 ) then
                Pmat(npar1,l) = Err1(i)/two
                goto 200
-            endif
-         endif
+            end if
+         end if
          Pmat(npar1,l) = Err1(i)
- 200  enddo
+ 200  end do
 !
 ! CALL WOLFE WITH ISTRT=0 TO COMPUTE DVEC FROM SCRATCH.
       call wolfe(Nparm,l,Pmat,0,s,ncor,Iwork(ilc16),Iwork,Liwrk,Work,   &
@@ -4230,7 +4231,7 @@
 ! JCNTYP(I)=-2 IF IT WAS -1.
          do i = 1 , Numgr
             if ( Jcntyp(i)+1==0 ) Jcntyp(i) = -2
-         enddo
+         end do
 ! CALL SEARCR TO TRY TO FIND PROCOR SO THAT WITH PARAMETER VECTOR
 ! (OLD) ZWORK + PROCOR*DVEC WE WILL HAVE EMIN = MAX(ERR1(NUMGR+2),
 ! ERR1(NUMGR+3)) <= TOLCON.  IF SEARCR SUCCEEDS IT WILL RETURN WITH
@@ -4254,7 +4255,7 @@
 ! NOW COMPUTE PARPRJ = ZWORK + PROCOR*DVEC, SET ICORCT=0, AND RETURN.
             do j = 1 , Nparm
                Parprj(j) = Zwork(j) + procor*Dvec(j)
-            enddo
+            end do
             Icorct = 0
             return
          else
@@ -4267,7 +4268,7 @@
                   do j = 1 , Nparm
                      Zwork(j) = Zwork(j) + procor*Dvec(j)
                      Parwrk(j) = Zwork(j)
-                  enddo
+                  end do
 ! WE TAKE IPHSE=-3 AS A KLUDGE TO TELL ERCMP1 TO COMPUTE ONLY STANDARD
 ! ERRORS IF THE TEN THOUSANDS DIGIT OF IOPTN IS 1, THUS SAVING ERCMP1 THE
 ! WORK OF SCANNING ICNTYP.
@@ -4275,10 +4276,10 @@
                               Indm,Parwrk,1,-3,Iwork,Liwrk,Confun,      &
                               Jcntyp,ipmax,ismax,Err1)
                   goto 100
-               endif
-            endif
-         endif
-      endif
+               end if
+            end if
+         end if
+      end if
 !
 ! HERE WE WERE UNABLE TO OBTAIN A FEASIBLE PARPRJ AND WE RETURN WITH
 ! THE WARNING ICORCT=1.
@@ -4418,7 +4419,7 @@
 ! THAN THE LEFT SUBINTERVAL, SO WE DECREASE RLF RELATIVE TO RRT.
                rlf = baladj*rlf
                rrt = one - rlf
-            endif
+            end if
 !
 ! COMPUTE THE (POSSIBLY MODIFIED) MINIMUM OF THE QUADRATIC FIT.
             p4 = (rlf*p1+rrt*p3+p2)/two
@@ -4441,7 +4442,7 @@
                else
                   p4 = p2 + tol4
                   pval = p4
-               endif
+               end if
 ! HERE WE HAD ABS(P4-P2) >= TOL4 AND WE MAKE SURE THAT P1+TOL4
 ! <= P4 <= P3-TOL4.
             elseif ( p4<=(p3-tol4) ) then
@@ -4455,7 +4456,7 @@
                else
                   p4 = p1 + tol4
                   pval = p4
-               endif
+               end if
 ! HERE P4 > P3-TOL4 AND WE SET P4=P3-TOL4 IF P3-P2 >= TOL1/2.0,
 ! AND OTHERWISE WE SET P4=P2-TOL4.
             elseif ( p3-p2<tol1/two ) then
@@ -4464,10 +4465,10 @@
             else
                p4 = p3 - tol4
                pval = p4
-            endif
+            end if
             goto 400
-         endif
-      endif
+         end if
+      end if
 !
  300  Emin = f2
       Procor = p2
@@ -4483,7 +4484,7 @@
 ! PROJECT DVEC TO GET PARWRK.
       do j = 1 , Nparm
          Parwrk(j) = Zwork(j) + pval*Dvec(j)
-      enddo
+      end do
 ! WE TAKE IPHSE=-3 AS A KLUDGE TO TELL ERCMP1 TO COMPUTE ONLY STANDARD
 ! ERRORS IF THE TEN THOUSANDS DIGIT OF IOPTN IS 1, THUS SAVING ERCMP1
 ! THE WORK OF SCANNING ICNTYP.
@@ -4527,7 +4528,7 @@
          if ( fval<=progr ) goto 600
          if ( f2>progr ) goto 700
          goto 600
-      endif
+      end if
  500  p1 = p2
       f1 = f2
       return
@@ -4592,7 +4593,7 @@
             Emin = f1
             Procor = one/two
             goto 800
-         endif
+         end if
       case (4)
 !
          f4 = fval
@@ -4619,7 +4620,7 @@
                f1 = f4
                ilf = ilf + 1
                irt = 0
-            endif
+            end if
 ! HERE P4 > P2.
          elseif ( f2<f4 ) then
             p3 = p4
@@ -4633,7 +4634,7 @@
             f2 = f4
             ilf = ilf + 1
             irt = 0
-         endif
+         end if
          goto 200
       case default
       end select
@@ -4700,7 +4701,7 @@
 ! COMPUTE F(PVAL)=F(P2).  WE WILL JUMP BACK AFTER ALL SUCH JUMPS.
          lll = 1
          goto 1000
-      endif
+      end if
 !
 ! HERE -TOLCON <= F2 <= TOLCON AND WE RETURN WITH PROCOR=P2 AND
 ! EMIN=F2.
@@ -4734,7 +4735,7 @@
             temp = f2
             f2 = f4
             f4 = temp
-         endif
+         end if
          if ( f2<=0 ) then
 !
 ! HERE F2 < 0.0.
@@ -4756,7 +4757,7 @@
 !
 ! HERE F2 > 0.0 AND F4 < 0.0.
                if ( p2-p1<=(p3-p4) ) goto 700
-            endif
+            end if
 !
 ! HERE EITHER F2 > 0.0 AND F4 > 0.0, OR ELSE F2 > 0.0,
 ! F4 < 0.0, AND P2-P1 > P3-P4.  WE DISCARD P1, SINCE IN THE
@@ -4768,7 +4769,7 @@
             p2 = p4
             f2 = f4
             goto 800
-         endif
+         end if
       else
 !
 ! HERE WE HAVE REACHED THE ITERATION LIMIT WITHOUT SUCCESS.  WE RETURN
@@ -4787,8 +4788,8 @@
 ! HERE P4 < P2.
          elseif ( f4>=0 ) then
             goto 600
-         endif
-      endif
+         end if
+      end if
  400  Procor = p4
       Emin = f4
       return
@@ -4855,7 +4856,7 @@
          den = two*acof
          if ( abs(den)<tolden ) goto 600
          p4 = (-bcof-sqrt(discr))/den
-      endif
+      end if
 !
 ! THE NEXT SECTION (FROM HERE TO STATEMENT 3200) MODIFIES P4, IF
 ! NECESSARY, TO GET P1+TOL4 <= P2,P4 <= P3-TOL4 AND ABS(P4-P2) >=
@@ -4869,7 +4870,7 @@
             p4 = p2 - tol4
          else
             p4 = p2 + tol4
-         endif
+         end if
 ! HERE WE HAD ABS(P4-P2) >= TOL4 AND WE MAKE SURE THAT P1+TOL4
 ! <= P4 <= P3-TOL4.
       elseif ( p4<=(p3-tol4) ) then
@@ -4880,15 +4881,15 @@
                p4 = p2 + tol4
             else
                p4 = p1 + tol4
-            endif
-         endif
+            end if
+         end if
 ! HERE P4 > P3-TOL4 AND WE SET P4=P3-TOL4 IF P3-P2 >= TOL1/2.0,
 ! AND OTHERWISE WE SET P4=P2-TOL4.
       elseif ( p3-p2<tol1/two ) then
          p4 = p2 - tol4
       else
          p4 = p3 - tol4
-      endif
+      end if
 !
 ! COMPUTE F4=F(P4).
       pval = p4
@@ -4904,7 +4905,7 @@
 ! PROJECT DVEC TO GET PARWRK FOR USE IN ERCMP1.
       do j = 1 , Nparm
          Parwrk(j) = Zwork(j) + pval*Dvec(j)
-      enddo
+      end do
 ! WE TAKE IPHSE=-3 AS A KLUDGE TO TELL ERCMP1 TO COMPUTE ONLY STANDARD
 ! ERRORS IF THE TEN THOUSANDS DIGIT OF IOPTN IS 1, THUS SAVING ERCMP1
 ! THE WORK OF SCANNING ICNTYP.
@@ -4929,7 +4930,7 @@
          if ( f4>Tolcon ) goto 300
          if ( f4+Tolcon>=0 ) goto 400
          goto 300
-      endif
+      end if
     end subroutine muller
 !********************************************************************************
 
@@ -4969,7 +4970,7 @@
          do l = 1 , Mact
             i = abs(Iact(l))
             if ( i==Ismax ) return
-         enddo
+         end do
 !
 ! RETURN IF RCHIN >= RCHTOP.
          if ( Rchin<rchtop ) then
@@ -4986,8 +4987,8 @@
             if ( rch1>Rchin ) then
                Rchin = rch1
                if ( Rchin>rchtop ) Rchin = rchtop
-            endif
-         endif
+            end if
+         end if
          return
       else
 !
@@ -5001,7 +5002,7 @@
          do l = 1 , Mact
             i = abs(Iact(l))
             if ( i==Ipmax ) return
-         enddo
+         end do
 !
 ! RETURN IF RCHDWN >= RCHTOP.
          if ( Rchdwn>=rchtop ) return
@@ -5023,19 +5024,19 @@
                   ei = Err1(i)
                else
                   ei = abs(Err1(i))
-               endif
+               end if
                if ( ipact<=0 ) then
                   ipact = 1
                   epact = ei
                elseif ( ei>epact ) then
                   epact = ei
-               endif
- 20         enddo
+               end if
+ 20         end do
 !
 ! WE WILL RETURN IF EPACT IS >= THE OLD PRIMARY ERROR NORM, WHICH
 ! WOULD INDICATE THAT THE STEP WAS TOO INACCURATE TO BE TRUSTED TO
 ! USE IN MODIFYING RCHDWN.
-         endif
+         end if
 !
 ! COMPUTE EIPMAX AS THE OLD ERROR AT CONSTRAINT IPMAX (IF ICNTYP(IPMAX)
 ! =1) OR THE OLD ABSOLUTE ERROR AT CONSTRAINT IPMAX (IF ICNTYP(IPMAX)
@@ -5046,7 +5047,7 @@
             eipmax = Error(Ipmax)
          else
             eipmax = abs(Error(Ipmax))
-         endif
+         end if
 !
 ! SET THE PROSPECTIVE NEW RCHDWN.  NOTE THAT WITHOUT THE FUDGE FACTOR,
 ! RCHD1 WOULD HAVE JUST BARELY BEEN LARGE ENOUGH TO HAVE CAUSED
@@ -5059,7 +5060,7 @@
          if ( rchd1<=Rchdwn ) return
          Rchdwn = rchd1
          if ( Rchdwn>rchtop ) Rchdwn = rchtop
-      endif
+      end if
 !1700 WRITE(NWRIT,1800)RCHDWN
 !1800 FORMAT(23H ***RCHDWN INCREASED TO,E24.14)
       return
@@ -5210,7 +5211,7 @@
     istrt1 = istrt
     do i = 1 , ndm
         r(i) = zero
-    enddo
+    end do
     r(n) = one
 
     ! now compute the scale factor scl, whose main purpose is to avoid
@@ -5229,24 +5230,24 @@
             do i = 1 , ndm
                 ab = abs(pmat(i,k))
                 if ( ab>quot ) quot = ab
-            enddo
+            end do
             quot = quot/bk
             if ( ind>0 ) then
                 if ( quot>=scl ) cycle
-            endif
+            end if
             ind = 1
             scl = quot
-        endif
-    enddo
+        end if
+    end do
 300 if ( scl<tol ) scl = tol
     ! put scaled pmat into pmat1 for use in conenr.  pmat itself will remain
     ! unchanged.
 400 do j = 1 , m
         do i = 1 , ndm
             pmat1(i,j) = pmat(i,j)/scl
-        enddo
+        end do
         pmat1(n,j) = pmat(n,j)
-    enddo
+    end do
     ! now do a normal scaling on each column of pmat1 which has an element
     ! with absolute value >= tol1.
     do j = 1 , m
@@ -5254,17 +5255,17 @@
         do i = 1 , n
             ab = abs(pmat1(i,j))
             if ( ab>scl1 ) scl1 = ab
-        enddo
+        end do
         if ( scl1>=tol1 ) then
             do i = 1 , n
                 pmat1(i,j) = pmat1(i,j)/scl1
-            enddo
+            end do
             if ( istrt1>0 ) coef(j) = wcoef(j)*scl1
             ! also put a scaled version of wcoef into coef if istrt1=1.
         elseif ( istrt1>0 ) then
             coef(j) = wcoef(j)
-        endif
-    enddo
+        end if
+    end do
 
     ! if istrt1=1, for use in conenr set coef = (-s1*scl**2)*coef, where
     ! s1 = s/(s + (1.0-s)*scl**2) is the s value in the scaled situation.
@@ -5276,8 +5277,8 @@
         fact = -(s/(s+(one-s)*scl**2))*scl**2
         do j = 1 , m
             coef(j) = fact*coef(j)
-        enddo
-    endif
+        end do
+    end if
 
     ! call conenr to compute the nearest point to r in the cone of
     ! nonnegative linear combinations of columns of pmat1.
@@ -5302,8 +5303,8 @@
             if ( jflag/=0 ) goto 600
             if ( ncor>0 ) goto 600
             goto 700
-        endif
-    endif
+        end if
+    end if
     ! here jflag=3 or s1 < s1low, so if itcon < lmcon we try again with
     ! smaller scl.
     if ( itcon<lmcon ) then
@@ -5320,20 +5321,20 @@
                 iup = -1
             else
                 facsc = sqrt(facsc)
-            endif
+            end if
         else
             ! here iup=1 and we have oscillation in the search for a usable scl so
             ! we replace the correction factor by its square root and reset iup to
             ! 0 to indicate oscillation.
             iup = 0
             facsc = sqrt(facsc)
-        endif
+        end if
         ! here we decrease scl if it was not already very small.
         if ( scl>=(one+one/ten)*tol ) then
             scl = scl/facsc
             goto 300
-        endif
-    endif
+        end if
+    end if
 
     ! here we were unable to get an acceptable s1 from conenr so we set
     ! jflag=4 as a warning and return.  first try again from scratch if this
@@ -5348,7 +5349,7 @@
         iup = 0
         facsc = fackp
         goto 100
-    endif
+    end if
 600 if ( itcon>=lmcon ) goto 500
     itcon = itcon + 1
     if ( iup<0 ) then
@@ -5367,10 +5368,10 @@
         else
             facsc = sqrt(facsc)
             scl = scl*facsc
-        endif
+        end if
     else
         scl = scl*facsc
-    endif
+    end if
     goto 400
 
     ! here conenr may have succeeded and we compute the nearest point
@@ -5379,23 +5380,23 @@
     ! 0.0 for k=1,...,m.
 700 do i = 1 , ndm
         wpt(i) = -ptnr(i)
-    enddo
+    end do
     ! divide wpt by s1*scl.
     do i = 1 , ndm
         wpt(i) = wpt(i)/(s1*scl)
-    enddo
+    end do
     ! compute the maximum wolfe constraint violation as a check.
 800 do j = 1 , m
         v1 = pmat(n,j)
         do i = 1 , ndm
             v1 = v1 + pmat(i,j)*wpt(i)
-        enddo
+        end do
         if ( j>1 ) then
             if ( v1<=vmax ) goto 900
-        endif
+        end if
         jmax = j
         vmax = v1
-900 enddo
+900 end do
     ! if vmax <= violm we reset jflag to 0 and accept the result.
     if ( vmax<=violm ) then
         jflag = 0
@@ -5403,7 +5404,7 @@
         ! divide the coefficients by -s1*scl**2.
         do j = 1 , m
             wcoef(j) = -coef(j)/(s1*scl**2)
-        enddo
+        end do
 
         ! we now reconstruct the normal scaling factors computed in the loop
         ! ending with the statement labelled 190 in this subroutine.  in a later
@@ -5421,12 +5422,12 @@
             do i = 1 , ndm
                 ab = abs(pmat(i,j))
                 if ( ab>scl1a ) scl1a = ab
-            enddo
+            end do
             scl1 = scl1a/scl
             ab = abs(pmat(ndm+1,j))
             if ( ab>scl1 ) scl1 = ab
             if ( scl1>=tol1 ) wcoef(j) = wcoef(j)/scl1
-        enddo
+        end do
 
         ! compute the s value for the unscaled situation.
         s = s1/(s1+(one-s1)/scl**2)
@@ -5434,7 +5435,7 @@
         ! the distance.
         do i = 1 , ndm
             ptnr(i) = wpt(i)
-        enddo
+        end do
         ptnr(n) = zero
         wdist = sqrt(dotprd(ndm,ptnr,ptnr,nparm))
         return
@@ -5451,11 +5452,11 @@
             if ( ncor>0 ) then
                 do l = 1 , ncor
                     if ( jmax==icor(l) ) goto 1000
-                enddo
-            endif
+                end do
+            end if
             ncor = ncor + 1
             icor(ncor) = jmax
-        endif
+        end if
 
         ! increment iref and call refwl to attempt to refine wpt, then go back
         ! and recheck the maximum constraint violation.
@@ -5463,7 +5464,7 @@
         call refwl(ndm,ncor,icor,pmat,pmat1,nparm,numgr,iwork(ilc18),  &
         work(ilc34),wpt)
         goto 800
-    endif
+    end if
 
 1000 if ( istrt1>0 ) then
         istrt1 = 0
@@ -5472,7 +5473,7 @@
         iup = 0
         facsc = fackp
         goto 100
-    endif
+    end if
 
     jflag = 7
 
@@ -5547,16 +5548,16 @@
       do j = 1 , m
          do i = 1 , n
             Vec(i) = Pmat1(i,j)
-         enddo
+         end do
          pdotj = dotprd(n,Vec,Vec,Nparm)
          if ( pdotj>z1 ) then
             quot = dotprd(n,Vec,r,Nparm)/sqrt(pdotj)
             if ( quot>amax ) then
                amax = quot
                jmax = j
-            endif
-         endif
-      enddo
+            end if
+         end if
+      end do
       if ( jmax>0 ) then
 ! IF AMAX IS NOT SIGINFICANTLY POSITIVE WE PROCEED AS IF IT WERE ZERO.
          if ( amax*sqrt(ndm+one)>tolel ) then
@@ -5568,11 +5569,11 @@
             Icor(1) = jmax
             do i = 1 , m
                Coef(i) = zero
-            enddo
+            end do
             Coef(jmax) = one
             goto 200
-         endif
-      endif
+         end if
+      end if
 !
 ! HERE THERE WERE NO VECTORS P(J) WHICH HAVE BOTH LENGTH SQUARED
 ! GREATER THAN Z1 AND ANGLE WITH R SIGNIFICANTLY LESS THAN 90 DEGREES,
@@ -5581,10 +5582,10 @@
       Ncor = 0
       do i = 1 , n
          Ptnr(i) = zero
-      enddo
+      end do
       do j = 1 , m
          Coef(j) = zero
-      enddo
+      end do
       Dist = sqrt(dotprd(n,r,r,Nparm))
       return
 !
@@ -5592,7 +5593,7 @@
 ! SET PTNR TO THE CURRENT NEAREST POINT.  FIRST ZERO IT OUT.
  200  do i = 1 , n
          Ptnr(i) = zero
-      enddo
+      end do
       if ( Ncor>0 ) then
 ! HERE NCOR > 0 AND WE SET PTNR=SUMMATION(COEF(J)*P(J)).
          do j = 1 , Ncor
@@ -5600,14 +5601,14 @@
             cjj = Coef(jj)
             do i = 1 , n
                Ptnr(i) = Ptnr(i) + cjj*Pmat1(i,jj)
-            enddo
-         enddo
-      endif
+            end do
+         end do
+      end if
 !
 ! PUT PTNR-R INTO PTNRR AND COMPUTE THE DISTANCE FROM PTNR TO R.
       do i = 1 , n
          Ptnrr(i) = Ptnr(i) - r(i)
-      enddo
+      end do
       dsq = dotprd(n,Ptnrr,Ptnrr,Nparm)
       Dist = sqrt(dsq)
 !
@@ -5620,45 +5621,45 @@
       if ( Ncor>0 ) then
          tst = dotprd(n,Ptnr,Ptnrr,Nparm)
          if ( abs(tst)>=z1 ) goto 300
-      endif
+      end if
 ! HERE THE HYPERPLANE ROUGHLY PASSES THROUGH THE ORIGIN, AND WE
 ! CHECK WHETHER ALL P(J) VECTORS ARE ROUGHLY SEPARATED FROM R BY IT.
 ! PUT THE MINIMUM OF (PTNR-R).(P(J)-R) IN AMIN AND THE INDEX WHERE IT
 ! IS ACHIEVED IN JMIN.
       do i = 1 , n
          Vec(i) = Pmat1(i,1) - r(i)
-      enddo
+      end do
       jmin = 1
       amin = dotprd(n,Ptnrr,Vec,Nparm)
       if ( m>1 ) then
          do j = 2 , m
             do i = 1 , n
                Vec(i) = Pmat1(i,j) - r(i)
-            enddo
+            end do
             dp = dotprd(n,Ptnrr,Vec,Nparm)
             if ( dp<amin ) then
                amin = dp
                jmin = j
-            endif
-         enddo
-      endif
+            end if
+         end do
+      end if
 !
 ! FOR TESTING PURPOSES COMPUTE THE MAXIMUM OF THE SQUARES OF THE
 ! LENGTHS OF THE DISTANCES CONSIDERED.
       do i = 1 , n
          Vec(i) = Pmat1(i,jmin) - r(i)
-      enddo
+      end do
       dmax = dotprd(n,Vec,Vec,Nparm)
       if ( Ncor>0 ) then
          do j = 1 , Ncor
             jj = Icor(j)
             do i = 1 , n
                Vec(i) = Pmat1(i,jj) - r(i)
-            enddo
+            end do
             dp = dotprd(n,Vec,Vec,Nparm)
             if ( dp>dmax ) dmax = dp
-         enddo
-      endif
+         end do
+      end if
 ! DO THE TEST.  IF IT IS SUCCESSFUL, THEN WE HAVE (APPROXIMATE)
 ! OPTIMALITY AND WE RETURN.
       if ( amin-dsq+z1*dmax<0 ) then
@@ -5669,9 +5670,9 @@
             if ( Ncor<n ) then
                do l = 1 , Ncor
                   if ( jmin==Icor(l) ) goto 220
-               enddo
+               end do
                goto 250
-            endif
+            end if
 !
 ! HERE WE HAVE BLUNDERED SO WE SET JFLAG=1 AS A WARNING, COMPUTE DIST,
 ! AND RETURN.  FIRST TRY FROM SCRATCH IF THIS HAS NOT BEEN DONE.
@@ -5684,8 +5685,8 @@
                Jflag = -1
                kntsl = 0
                goto 100
-            endif
-         endif
+            end if
+         end if
 !
 ! HERE PTNR IS NOT OPTIMAL, NCOR < N, AND JMIN IS NOT IN ICOR.
 ! WE INCREMENT THE MAJOR CYCLE COUNTER AND ADD P(JMIN).
@@ -5695,7 +5696,7 @@
          Coef(jmin) = zero
       else
          return
-      endif
+      end if
 !
 ! CHECK TO SEE IF WE HAVE SOLVED THE SYSTEM BELOW LIMSL TIMES ALREADY,
 ! AND IF SO, SET JFLAG=6 AS A WARNING AND RETURN (BUT
@@ -5720,8 +5721,8 @@
                Jflag = -1
                kntsl = 0
                goto 100
-            endif
-         endif
+            end if
+         end if
          icoro = Icor(Ncor)
          kntsl = kntsl + 1
 !
@@ -5735,8 +5736,8 @@
             jj = Icor(j)
             do i = 1 , n
                Picor(i,j) = Pmat1(i,jj)
-            enddo
-         enddo
+            end do
+         end do
 !
          call house(n,Ncor,Picor,r,Iwork(ilc23),Nparm,Work(ilc01),      &
                     Work(ilc04),Work(ilc09),Work(ilc34),Work(ilc03),Vec,&
@@ -5751,11 +5752,11 @@
 ! COEF NOT CORRESPONDING TO THOSE IN VEC WILL REMAIN EQUAL TO ZERO.
             do i = 1 , Ncor
                if ( Vec(i)<=z2 ) goto 350
-            enddo
+            end do
             do i = 1 , Ncor
                ii = Icor(i)
                Coef(ii) = Vec(i)
-            enddo
+            end do
             goto 200
          elseif ( Istrt1+Jflag<=0 ) then
 !
@@ -5765,7 +5766,7 @@
             Jflag = -1
             kntsl = 0
             goto 100
-         endif
+         end if
 !
 ! HERE SOME ELEMENT OF VEC IS <= Z2.  COMPUTE THETA=MIN(1.0, MIN(
 ! COEF(ICOR(I))/(COEF(ICOR(I))-VEC(I)): COEF(ICOR(I))-VEC(I) > Z3)).
@@ -5776,14 +5777,14 @@
             if ( diff>z3 ) then
                quot = Coef(ll)/diff
                if ( quot<theta ) theta = quot
-            endif
-         enddo
+            end if
+         end do
 ! COMPUTE THE NEW COEF AS (1.0-THETA)*COEF+THETA*VEC.
          omt = one - theta
          do l = 1 , Ncor
             ll = Icor(l)
             Coef(ll) = omt*Coef(ll) + theta*Vec(l)
-         enddo
+         end do
 ! COMPUTE THE INDEX MINCF (RELATIVE TO ICOR) OF THE SMALLEST ELEMENT OF
 ! COEF AND SET ALL ELEMENTS OF COEF WHICH ARE <= Z2 TO ZERO.
          mincf = 0
@@ -5794,10 +5795,10 @@
                if ( Coef(ii)<=amin ) then
                   amin = Coef(ii)
                   mincf = i
-               endif
+               end if
                Coef(ii) = zero
-            endif
-         enddo
+            end if
+         end do
 !
          if ( mincf<=0 ) then
 ! HERE MINCF=0 AND AN UNLIKELY BLUNDER HAS OCCURRED.  THIS MUST BE DUE TO
@@ -5820,20 +5821,20 @@
                ii = Icor(i)
                if ( i>1 ) then
                   if ( Coef(ii)>=amin ) goto 360
-               endif
+               end if
                amin = Coef(ii)
                mincf = i
- 360        enddo
+ 360        end do
             ii = Icor(mincf)
             Coef(ii) = zero
-         endif
+         end if
 !
 ! INCREMENT THE MINOR ITERATION COUNTER NMIN, REMOVE ICOR(MINCF),
 ! AND DECREMENT NCOR.
          Nmin = Nmin + 1
          do l = 1 , Ncor
             if ( l>mincf ) Icor(l-1) = Icor(l)
-         enddo
+         end do
          Ncor = Ncor - 1
 ! GO BACK TO COMPUTE PTNR.
          goto 200
@@ -5847,7 +5848,7 @@
          Jflag = -1
          kntsl = 0
          goto 100
-      endif
+      end if
     end subroutine conenr
 !********************************************************************************
 
@@ -5900,7 +5901,7 @@
 ! JTH PIVOT WAS DONE.  THIS COLUMN WILL BE MOVED TO COLUMN J.
       do j = 1 , Ncor
          Kpivot(j) = j
-      enddo
+      end do
 ! COPY R INTO B AND PICOR INTO AA, BUT IN THE PROCESS REPLACE ANY NUMBERS
 ! WITH ABSOLUTE VALUE LESS THAN SPCMN BY ZERO TO AVOID UNDERFLOWS.
       do i = 1 , n
@@ -5908,17 +5909,17 @@
             b(i) = zero
          else
             b(i) = r(i)
-         endif
-      enddo
+         end if
+      end do
       do j = 1 , Ncor
          do i = 1 , n
             if ( abs(Picor(i,j))<spcmn ) then
                Aa(i,j) = zero
             else
                Aa(i,j) = Picor(i,j)
-            endif
-         enddo
-      enddo
+            end if
+         end do
+      end do
       do k = 1 , Ncor
          if ( k>n ) goto 100
          d(k) = zero
@@ -5927,12 +5928,12 @@
             sum = zero
             do ia = k , n
                if ( abs(Aa(ia,jj))>spcmn ) sum = sum + Aa(ia,jj)*Aa(ia,jj)
-            enddo
+            end do
             if ( d(k)<sum ) then
                kchnge = jj
                d(k) = sum
-            endif
-         enddo
+            end if
+         end do
 !
 !  KCHNGE CONTAINS THE INDEX OF THE COLUMN OF GREATEST
 !  LENGTH BETWEEN K AND NCOR (FROM POSITION K TO THE BOTTOM).
@@ -5942,8 +5943,8 @@
             if ( d(k)<tolsq ) then
                Ihouse = 1
                return
-            endif
-         endif
+            end if
+         end if
 !
          if ( kchnge/=k ) then
 !
@@ -5953,11 +5954,11 @@
                store = Aa(i,kchnge)
                Aa(i,kchnge) = Aa(i,k)
                Aa(i,k) = store
-            enddo
+            end do
             kk = Kpivot(k)
             Kpivot(k) = Kpivot(kchnge)
             Kpivot(kchnge) = kk
-         endif
+         end if
          if ( k/=1 ) then
             amax = abs(d(1))
             test = (real(n-k+1,wp)*(ten*ten*spcmn)**2)*(amax*amax)
@@ -5968,8 +5969,8 @@
                d(k) = sqrt(d(k))
                krank = k - 1
                goto 100
-            endif
-         endif
+            end if
+         end if
 !
 !
 ! NOW COMPUTE THE SCALAR BETA(K) AND THE N-K+1 DIMENSIONAL VECTOR
@@ -5994,7 +5995,7 @@
             Beta(k) = one/(d(k)+aakk*sqdk)
             Aa(k,k) = sqdk + aakk
             d(k) = -sqdk
-         endif
+         end if
          kt = k + 1
          if ( k/=Ncor ) then
 !
@@ -6007,13 +6008,13 @@
                Save(j) = zero
                do ia = k , n
                   Save(j) = Save(j) + Aa(ia,k)*Aa(ia,j)
-               enddo
+               end do
                do i = k , n
                   Aa(i,j) = Aa(i,j) - Aa(i,k)*Save(j)*Beta(k)
-               enddo
-            enddo
-         endif
-      enddo
+               end do
+            end do
+         end if
+      end do
 !
  100  do i = 1 , krank
 ! IF I <= MIN(KRANK,NCOR-1), DIVIDE ROW I OF AA FROM COLUMN I+1
@@ -6023,8 +6024,8 @@
          if ( i==Ncor ) goto 200
          do j = ii , Ncor
             Aa(i,j) = Aa(i,j)/d(i)
-         enddo
-      enddo
+         end do
+      end do
 !
 ! NOW ALL THE DIAGONAL ELEMENTS OF AA (ALTHOUGH NOT WRITTEN IN)
 ! ARE 1.0 AND ALL OFF DIAGONAL ELEMENTS OF AA ARE LESS THAN OR
@@ -6036,7 +6037,7 @@
  200  icount = 1
       do i = 1 , Ncor
          Vec(i) = zero
-      enddo
+      end do
 !
 ! PREMULTIPLY B BY THE HOUSEHOLDER TRANSFORMATIONS PH(1),...,
 ! PH(KRANK).  RECALL THAT GNU(I) IS STILL IN AA(I,I),...,AA(N,I)
@@ -6046,12 +6047,12 @@
          sum = zero
          do ia = i , n
             sum = sum + Aa(ia,i)*b(ia)
-         enddo
+         end do
          sum = sum*Beta(i)
          do j = i , n
             b(j) = b(j) - Aa(j,i)*sum
-         enddo
-      enddo
+         end do
+      end do
 !
 ! NOW ONLY USE THE FIRST KRANK TERMS OF B, AS WE CANT DO ANYTHING ABOUT
 ! THE OTHERS, WHOSE SQUARE ROOT OF SUM OF SQUARES WILL GIVE THE LEAST
@@ -6060,7 +6061,7 @@
 !
       do i = 1 , krank
          b(i) = b(i)/d(i)
-      enddo
+      end do
 !
 ! THE PROBLEM HAS NOW BEEN REDUCED TO SOLVING (UPPER LEFT KRANK BY
 ! KRANK PART OF AA)*(FIRST KRANK TERMS OF VEC, MODULO COLUMN
@@ -6079,9 +6080,9 @@
 ! B(I) FROM B(J) FOR J = 1,...,I-1.
             do j = 1 , kk
                b(j) = b(j) - Aa(j,i)*b(i)
-            enddo
-         endif
-      enddo
+            end do
+         end if
+      end do
 !
 !  TEST FOR CONVERGENCE.
 !  FIRST TEST, TOO MANY ITERATIONS.
@@ -6092,12 +6093,12 @@
       sum = zero
       do i = 1 , krank
          if ( abs(b(i))>spcmn ) sum = sum + b(i)*b(i)
-      enddo
+      end do
       if ( icount==1 ) then
          testt = sum
       elseif ( sum>test/two ) then
          icount = nmref2
-      endif
+      end if
       test = sum
 !
 ! COMPUTE THE VEC VALUES, WHICH WILL BE ACTUAL VEC VALUES IF ICOUNT=1
@@ -6107,7 +6108,7 @@
       do i = 1 , krank
          kp = Kpivot(i)
          Vec(kp) = b(i) + Vec(kp)
-      enddo
+      end do
 !
 ! CALCULATE THE RESIDUAL R - ACOEF*VEC.  RECALL THAT ACOEF AND R
 ! CONTAIN THE ORIGINAL COEFFICIENT AND RIGHT SIDE ARRAYS RESPECTIVELY.
@@ -6120,9 +6121,9 @@
          do j = 1 , Ncor
             if ( abs(Picor(i,j))>=spcmn ) summ = summ + Picor(i,j)      &
                  *Vec(j)
-         enddo
+         end do
          b(i) = r(i) - summ
-      enddo
+      end do
 !
 !  THIRD TEST, WAS THE CORRECTION SIGNIFICANT.
 !
@@ -6131,38 +6132,41 @@
             if ( icount<nmref2 ) then
                icount = icount + 1
                goto 300
-            endif
-         endif
-      endif
+            end if
+         end if
+      end if
 
     end subroutine house
 !********************************************************************************
 
 !********************************************************************************
 !>
-! THIS SUBPROGRAM COMPUTES THE DOT PRODUCT OF VECTORS VEC1
-! AND VEC2 OF LENGTH LGTH.
-! VEC1 AND VEC2 DO NOT APPEAR IN FUNCTION ILOC SINCE THEY ARE USED ONLY
-! AS INPUT NAMES FOR THIS SUBPROGRAM, AND SO THEY DON'T NEED TO HAVE
-! SPACE RESERVED FOR THEM IN THE ARRAY WORK.
+! This subprogram computes the dot product of vectors vec1
+! and vec2 of length lgth.
+! vec1 and vec2 do not appear in function iloc since they are used only
+! as input names for this subprogram, and so they don't need to have
+! space reserved for them in the array work.
 
-      function dotprd(Lgth,Vec1,Vec2,Nparm)
+    pure function dotprd(Lgth,Vec1,Vec2,Nparm) result(dd)
 
-      implicit none
+    implicit none
 
-      integer :: j , Lgth , Nparm
-      real(wp) :: dd , Vec1(Nparm+1) , Vec2(Nparm+1)
-      real(wp) :: dotprd
+    integer,intent(in) :: Lgth
+    integer,intent(in) :: Nparm
+    real(wp),dimension(Nparm+1),intent(in) :: Vec1
+    real(wp),dimension(Nparm+1),intent(in) :: Vec2
+    real(wp) :: dd
 
-      dd = Vec1(1)*Vec2(1)
-      if ( Lgth>1 ) then
-         do j = 2 , Lgth
+    integer :: j
+
+    dd = Vec1(1)*Vec2(1)
+    if ( Lgth>1 ) then
+        do j = 2 , Lgth
             dd = dd + Vec1(j)*Vec2(j)
-         enddo
-      endif
-      dotprd = dd
+        end do
+    end if
 
-      end function dotprd
+    end function dotprd
 !********************************************************************************
 
 !********************************************************************************
@@ -6206,9 +6210,9 @@
             j = Icor(l)
             do i = 1 , Ndm
                Pmat1(i,l) = Pmat(i,j)
-            enddo
+            end do
             Pmat1(n,l) = -Pmat(n,j)
-         enddo
+         end do
 !
 !
 ! NOW COLUMN REDUCE PMAT1.  NOTE THAT PMAT1 IS THE TRANSPOSE OF THE USUAL
@@ -6227,27 +6231,27 @@
                if ( nresl>0 ) then
                   do l = 1 , nresl
                      if ( j==Ixrct(2*l) ) goto 20
-                  enddo
-               endif
+                  end do
+               end if
 ! HERE THERE IS NO EARLIER RESOLVENT IN COLUMN J.
                do i = 1 , Ndm
                   if ( nresl>0 ) then
                      do l = 1 , nresl
                         if ( i==Ixrct(2*l-1) ) goto 10
-                     enddo
-                  endif
+                     end do
+                  end if
 ! HERE THERE IS NO EARLIER RESOLVENT IN ROW I.
                   aa = abs(Pmat1(i,j))
                   if ( jstrt<=0 ) then
                      jstrt = 1
                   elseif ( aa<=amax ) then
                      goto 10
-                  endif
+                  end if
                   amax = aa
                   imax = i
                   jmax = j
- 10            enddo
- 20         enddo
+ 10            end do
+ 20         end do
 ! IF THE ABSOLUTE VALUE OF THIS RESOLVENT IS VERY SMALL WE DO NOT ATTEMPT
 ! ANY FURTHER COLUMN OPERATIONS.
             if ( amax<tole ) goto 50
@@ -6262,7 +6266,7 @@
             do j = 1 , Ncor
                do l = 1 , nresl
                   if ( j==Ixrct(2*l) ) goto 40
-               enddo
+               end do
 ! HERE COLUMN J DOES NOT CONTAIN ANY OF THE RESOLVENTS FOUND SO FAR, AND
 ! WE COMPUTE THE FACTOR FOR THE COLUMN OPERATION NEEDED TO ZERO OUT
 ! PMAT1(IMAX,J) (ALTHOUGH WE DO NOT ACTUALLY WRITE IN THE ZERO).
@@ -6273,11 +6277,11 @@
                do i = 1 , n
                   do l = 1 , nresl
                      if ( i==Ixrct(2*l-1) ) goto 30
-                  enddo
+                  end do
                   Pmat1(i,j) = Pmat1(i,j) - fact*Pmat1(i,jmax)
- 30            enddo
- 40         enddo
-         enddo
+ 30            end do
+ 40         end do
+         end do
 ! END OF COLUMN REDUCTION OF PMAT1.
 !
 !
@@ -6285,7 +6289,7 @@
 ! 1 <= J <= NCOR WERE VERY SMALL IN ABSOLUTE VALUE, AND THERE IS
 ! NOTHING WE CAN DO, SO WE RETURN.
  50      if ( nresl>0 ) goto 200
-      endif
+      end if
 !
  100  return
 !
@@ -6306,7 +6310,7 @@
          do i = 1 , Ndm
             do l = 1 , k
                if ( i==Ixrct(2*l-1) ) goto 250
-            enddo
+            end do
 ! HERE ROW I CONTAINS NO EARLIER (OR PRESENT) RESOLVENTS.
             if ( itrct>0 ) then
                if ( k<nresl ) then
@@ -6316,14 +6320,14 @@
                   kp1 = k + 1
                   do l = kp1 , nresl
                      if ( i==Ixrct(2*l-1) ) goto 220
-                  enddo
-               endif
+                  end do
+               end if
                goto 250
-            endif
+            end if
  220        Wpt(imax) = Wpt(imax) - Pmat1(i,jmax)*Wpt(i)
- 250     enddo
+ 250     end do
          Wpt(imax) = Wpt(imax)/Pmat1(imax,jmax)
-      enddo
+      end do
 ! END OF BACK SUBSTITUTION.
 !
 !
@@ -6334,11 +6338,11 @@
          do i = 1 , Ndm
             do l = 1 , nresl
                if ( i==Ixrct(2*l-1) ) goto 260
-            enddo
+            end do
             goto 300
  260        Wpt(i) = Wpt(i) + Save(i)
- 300     enddo
-      endif
+ 300     end do
+      end if
 !
 !
 ! NOW COMPUTE THE RESIDUAL AND PUT IT INTO PMAT1(NDM+1,.).
@@ -6349,17 +6353,17 @@
          Pmat1(n,k) = -Pmat(n,kcol)
          do i = 1 , Ndm
             Pmat1(n,k) = Pmat1(n,k) - Pmat(i,kcol)*Wpt(i)
-         enddo
-      enddo
+         end do
+      end do
 !
 ! COMPUTE THE WORST ABSOLUTE VALUE OF THE RESIDUAL ELEMENTS.
       do k = 1 , Ncor
          aa = abs(Pmat1(n,k))
          if ( k>1 ) then
             if ( aa<=wrst ) goto 400
-         endif
+         end if
          wrst = aa
- 400  enddo
+ 400  end do
 !
       if ( itrct<=0 ) then
          wrsto = wrst
@@ -6369,9 +6373,9 @@
          wrst = wrsto
          do i = 1 , Ndm
             Wpt(i) = Save(i)
-         enddo
+         end do
          return
-      endif
+      end if
 !
       if ( itrct>=itrlm ) goto 100
 ! HERE ITRCT < ITRLM AND WE INCREMENT ITRCT AND SET UP FOR THE ITRCTTH
@@ -6380,7 +6384,7 @@
 ! COPY WPT INTO SAVE.
       do i = 1 , Ndm
          Save(i) = Wpt(i)
-      enddo
+      end do
       goto 200
 
     end subroutine refwl

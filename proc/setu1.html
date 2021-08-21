@@ -892,7 +892,7 @@ private subroutine setu1(me, Ioptn, Numgr, Nparm, Numin, Rchin, Pttbl, Iptb, Ind
       <span class="nb">sum</span> <span class="o">=</span> <span class="n">zero</span>
       <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Nparm</span>
          <span class="nb">sum</span> <span class="o">=</span> <span class="nb">sum</span> <span class="o">+</span> <span class="p">(</span><span class="n">Cofbnd</span><span class="p">(</span><span class="n">j</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span>
-      <span class="k">enddo</span>
+      <span class="k">end do</span>
 <span class="k">      </span><span class="n">Bndlgt</span> <span class="o">=</span> <span class="nb">sqrt</span><span class="p">(</span><span class="nb">sum</span><span class="p">)</span>
       <span class="n">bndfud</span> <span class="o">=</span> <span class="n">stfudg</span><span class="o">*</span><span class="n">Bndlgt</span>
 <span class="c">!</span>
@@ -915,7 +915,7 @@ private subroutine setu1(me, Ioptn, Numgr, Nparm, Numin, Rchin, Pttbl, Iptb, Ind
 <span class="c">! AND ONLY IF ICNTYP(I)=-1, OR ICNTYP(I)=-2 AND ERROR(I) &gt;= -RCHIND.</span>
                <span class="k">if</span> <span class="p">(</span> <span class="n">Icntyp</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="o">&lt;</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
 <span class="k">                  if</span> <span class="p">(</span> <span class="n">Error</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">+</span><span class="n">rchind</span><span class="o">&lt;</span><span class="mi">0</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">50</span>
-               <span class="k">endif</span>
+               <span class="k">end if</span>
 <span class="k">            </span><span class="n">elseif</span> <span class="p">(</span> <span class="n">Icntyp</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">==</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
 <span class="k">               goto </span><span class="mi">50</span>
             <span class="n">elseif</span> <span class="p">(</span> <span class="n">Icntyp</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">&lt;=</span><span class="mi">1</span> <span class="p">)</span> <span class="k">then</span>
@@ -933,14 +933,14 @@ private subroutine setu1(me, Ioptn, Numgr, Nparm, Numin, Rchin, Pttbl, Iptb, Ind
 <span class="c">! DECLARE CONSTRAINT I TO BE -ACTIVE.</span>
                   <span class="n">m</span> <span class="o">=</span> <span class="n">m</span> <span class="o">+</span> <span class="mi">1</span>
                   <span class="n">Iact</span><span class="p">(</span><span class="n">m</span><span class="p">)</span> <span class="o">=</span> <span class="o">-</span><span class="n">i</span>
-               <span class="k">endif</span>
+               <span class="k">end if</span>
 <span class="k">               goto </span><span class="mi">50</span>
-            <span class="k">endif</span>
+            <span class="k">end if</span>
 <span class="c">!</span>
 <span class="c">! DECLARE CONSTRAINT I TO BE (+)ACTIVE.</span>
             <span class="n">m</span> <span class="o">=</span> <span class="n">m</span> <span class="o">+</span> <span class="mi">1</span>
             <span class="n">Iact</span><span class="p">(</span><span class="n">m</span><span class="p">)</span> <span class="o">=</span> <span class="n">i</span>
- <span class="mi">50</span>      <span class="k">enddo</span>
+ <span class="mi">50</span>      <span class="k">end do</span>
 <span class="k">         </span><span class="n">mact</span> <span class="o">=</span> <span class="n">m</span>
 <span class="c">!</span>
 <span class="c">! NOW PUT ACTIVE VALUES AND GRADIENTS IN FUNTBL.</span>
@@ -955,8 +955,8 @@ private subroutine setu1(me, Ioptn, Numgr, Nparm, Numin, Rchin, Pttbl, Iptb, Ind
 <span class="c">! COPY THE VALUES FOR CONSTRAINT I INTO FUNTBL.</span>
                <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">npar1</span>
                   <span class="n">Funtbl</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">Confun</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span>
-               <span class="k">enddo</span>
-<span class="k">            enddo</span>
+               <span class="k">end do</span>
+<span class="k">            end do</span>
 <span class="k">            goto </span><span class="mi">300</span>
          <span class="k">else</span>
 <span class="c">!</span>
@@ -967,11 +967,11 @@ private subroutine setu1(me, Ioptn, Numgr, Nparm, Numin, Rchin, Pttbl, Iptb, Ind
             <span class="k">if</span> <span class="p">(</span> <span class="n">Iphse</span><span class="o">&gt;=</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
 <span class="k">               do </span><span class="n">l</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Numgr</span>
                   <span class="k">if</span> <span class="p">(</span> <span class="n">Icntyp</span><span class="p">(</span><span class="n">l</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">0</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">100</span>
-               <span class="k">enddo</span>
-<span class="k">            endif</span>
+               <span class="k">end do</span>
+<span class="k">            end if</span>
 <span class="k">            </span><span class="n">ipt</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
             <span class="k">goto </span><span class="mi">200</span>
-         <span class="k">endif</span>
+         <span class="k">end if</span>
 <span class="k"> </span><span class="mi">100</span>     <span class="n">ipt</span> <span class="o">=</span> <span class="mi">0</span>
       <span class="k">else</span>
 <span class="c">! HERE NUMIN IS NOT 0, AND WE WILL KEEP THE OLD ACTIVE CONSTRAINT SET</span>
@@ -980,9 +980,9 @@ private subroutine setu1(me, Ioptn, Numgr, Nparm, Numin, Rchin, Pttbl, Iptb, Ind
          <span class="n">m</span> <span class="o">=</span> <span class="n">mact</span>
          <span class="k">do </span><span class="n">l</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">mact</span>
             <span class="n">Iact</span><span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="o">=</span> <span class="n">Iact1</span><span class="p">(</span><span class="n">l</span><span class="p">)</span>
-         <span class="k">enddo</span>
+         <span class="k">end do</span>
 <span class="k">         goto </span><span class="mi">300</span>
-      <span class="k">endif</span>
+      <span class="k">end if</span>
 <span class="k"> </span><span class="mi">200</span>  <span class="k">call </span><span class="n">me</span><span class="p">%</span><span class="n">derst</span><span class="p">(</span><span class="n">Ioptn</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">,</span><span class="n">Pttbl</span><span class="p">,</span><span class="n">Iptb</span><span class="p">,</span><span class="n">Indm</span><span class="p">,</span><span class="n">Param</span><span class="p">,</span><span class="n">ipt</span><span class="p">,</span><span class="n">Work</span><span class="p">(</span><span class="n">ilc24</span><span class="p">),&amp;</span>
                     <span class="n">v</span><span class="p">,</span><span class="n">Iwork</span><span class="p">(</span><span class="n">ilc22</span><span class="p">),</span><span class="n">Confun</span><span class="p">)</span>
 <span class="c">! COPY THE ACTIVE FUNCTION AND GRADIENT VALUES INTO FUNTBL.</span>
@@ -990,8 +990,8 @@ private subroutine setu1(me, Ioptn, Numgr, Nparm, Numin, Rchin, Pttbl, Iptb, Ind
          <span class="n">i</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">Iact</span><span class="p">(</span><span class="n">l</span><span class="p">))</span>
          <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">npar1</span>
             <span class="n">Funtbl</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">Confun</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span>
-         <span class="k">enddo</span>
-<span class="k">      enddo</span>
+         <span class="k">end do</span>
+<span class="k">      end do</span>
 <span class="c">!</span>
 <span class="c">! NOW SET UP THE ACTIVE CONSTRAINTS IN V FOR SLNPRO.</span>
  <span class="mi">300</span>  <span class="k">do </span><span class="n">l</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">mact</span>
@@ -1004,7 +1004,7 @@ private subroutine setu1(me, Ioptn, Numgr, Nparm, Numin, Rchin, Pttbl, Iptb, Ind
                <span class="nb">sum</span> <span class="o">=</span> <span class="n">zero</span>
                <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Nparm</span>
                   <span class="nb">sum</span> <span class="o">=</span> <span class="nb">sum</span> <span class="o">+</span> <span class="p">(</span><span class="n">Funtbl</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span>
-               <span class="k">enddo</span>
+               <span class="k">end do</span>
 <span class="k">               </span><span class="n">grdlgt</span> <span class="o">=</span> <span class="nb">sqrt</span><span class="p">(</span><span class="nb">sum</span><span class="p">)</span>
 <span class="c">! NOW SET UP A CONSTRAINT OF THE FORM GRADIENT.CHANGE  &lt;=</span>
 <span class="c">! -MIN(1.0,CONSTRAINT VALUE)*BNDFUD*GRDLGT, SO IF GRDLGT &gt; 0.0 WE</span>
@@ -1012,7 +1012,7 @@ private subroutine setu1(me, Ioptn, Numgr, Nparm, Numin, Rchin, Pttbl, Iptb, Ind
 <span class="c">! CONSTRAINT VALUE).</span>
                <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Nparm</span>
                   <span class="n">v</span><span class="p">(</span><span class="n">l</span><span class="p">,</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">Funtbl</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
-               <span class="k">enddo</span>
+               <span class="k">end do</span>
 <span class="k">               </span><span class="n">v</span><span class="p">(</span><span class="n">l</span><span class="p">,</span><span class="n">npar1</span><span class="p">)</span> <span class="o">=</span> <span class="n">zero</span>
                <span class="n">rt</span> <span class="o">=</span> <span class="n">Error</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
                <span class="k">if</span> <span class="p">(</span> <span class="n">rt</span><span class="o">&gt;</span><span class="n">one</span> <span class="p">)</span> <span class="n">rt</span> <span class="o">=</span> <span class="n">one</span>
@@ -1023,10 +1023,10 @@ private subroutine setu1(me, Ioptn, Numgr, Nparm, Numin, Rchin, Pttbl, Iptb, Ind
 <span class="c">! GRADIENT.CHANGE &lt;= -CONSTRAINT VALUE.</span>
                <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Nparm</span>
                   <span class="n">v</span><span class="p">(</span><span class="n">l</span><span class="p">,</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">Funtbl</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
-               <span class="k">enddo</span>
+               <span class="k">end do</span>
 <span class="k">               </span><span class="n">v</span><span class="p">(</span><span class="n">l</span><span class="p">,</span><span class="n">npar1</span><span class="p">)</span> <span class="o">=</span> <span class="n">zero</span>
                <span class="n">v</span><span class="p">(</span><span class="n">l</span><span class="p">,</span><span class="n">npar2</span><span class="p">)</span> <span class="o">=</span> <span class="o">-</span><span class="n">Error</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-            <span class="k">endif</span>
+            <span class="k">end if</span>
 <span class="k">         </span><span class="n">elseif</span> <span class="p">(</span> <span class="n">Icntyp</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">/=</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
 <span class="k">            if</span> <span class="p">(</span> <span class="n">Icntyp</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">&lt;=</span><span class="mi">1</span> <span class="p">)</span> <span class="k">then</span>
 <span class="c">!</span>
@@ -1034,7 +1034,7 @@ private subroutine setu1(me, Ioptn, Numgr, Nparm, Numin, Rchin, Pttbl, Iptb, Ind
 <span class="c">! GRADIENT.CHANGE - W &lt;= -CONSTRAINT VALUE.</span>
                <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Nparm</span>
                   <span class="n">v</span><span class="p">(</span><span class="n">l</span><span class="p">,</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">Funtbl</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
-               <span class="k">enddo</span>
+               <span class="k">end do</span>
 <span class="k">               </span><span class="n">v</span><span class="p">(</span><span class="n">l</span><span class="p">,</span><span class="n">npar1</span><span class="p">)</span> <span class="o">=</span> <span class="o">-</span><span class="n">one</span>
                <span class="n">v</span><span class="p">(</span><span class="n">l</span><span class="p">,</span><span class="n">npar2</span><span class="p">)</span> <span class="o">=</span> <span class="o">-</span><span class="n">Error</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
             <span class="n">elseif</span> <span class="p">(</span> <span class="n">Iact</span><span class="p">(</span><span class="n">l</span><span class="p">)</span><span class="o">&lt;=</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
@@ -1043,7 +1043,7 @@ private subroutine setu1(me, Ioptn, Numgr, Nparm, Numin, Rchin, Pttbl, Iptb, Ind
 <span class="c">! FORM GRADIENT.CHANGE - W &lt;= FUN - CONSTRAINT VALUE.</span>
                <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Nparm</span>
                   <span class="n">v</span><span class="p">(</span><span class="n">l</span><span class="p">,</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">Funtbl</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
-               <span class="k">enddo</span>
+               <span class="k">end do</span>
 <span class="k">               </span><span class="n">v</span><span class="p">(</span><span class="n">l</span><span class="p">,</span><span class="n">npar1</span><span class="p">)</span> <span class="o">=</span> <span class="o">-</span><span class="n">one</span>
                <span class="n">v</span><span class="p">(</span><span class="n">l</span><span class="p">,</span><span class="n">npar2</span><span class="p">)</span> <span class="o">=</span> <span class="n">Error</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
             <span class="k">else</span>
@@ -1052,12 +1052,12 @@ private subroutine setu1(me, Ioptn, Numgr, Nparm, Numin, Rchin, Pttbl, Iptb, Ind
 <span class="c">! FORM -GRADIENT.CHANGE - W &lt;= -(FUN - CONSTRAINT VALUE).</span>
                <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Nparm</span>
                   <span class="n">v</span><span class="p">(</span><span class="n">l</span><span class="p">,</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="o">-</span><span class="n">Funtbl</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
-               <span class="k">enddo</span>
+               <span class="k">end do</span>
 <span class="k">               </span><span class="n">v</span><span class="p">(</span><span class="n">l</span><span class="p">,</span><span class="n">npar1</span><span class="p">)</span> <span class="o">=</span> <span class="o">-</span><span class="n">one</span>
                <span class="n">v</span><span class="p">(</span><span class="n">l</span><span class="p">,</span><span class="n">npar2</span><span class="p">)</span> <span class="o">=</span> <span class="o">-</span><span class="n">Error</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-            <span class="k">endif</span>
-<span class="k">         endif</span>
-<span class="k">      enddo</span>
+            <span class="k">end if</span>
+<span class="k">         end if</span>
+<span class="k">      end do</span>
 <span class="c">!</span>
 <span class="c">! SET THE CONSTRAINTS OF THE FORM -X(J) &lt;= COFBND(J) AND</span>
 <span class="c">! X(J) &lt;= COFBND(J).</span>
@@ -1067,18 +1067,18 @@ private subroutine setu1(me, Ioptn, Numgr, Nparm, Numin, Rchin, Pttbl, Iptb, Ind
          <span class="k">do </span><span class="n">k</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">npar1</span>
             <span class="n">v</span><span class="p">(</span><span class="n">mm1</span><span class="p">,</span><span class="n">k</span><span class="p">)</span> <span class="o">=</span> <span class="n">zero</span>
             <span class="n">v</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="n">k</span><span class="p">)</span> <span class="o">=</span> <span class="n">zero</span>
-         <span class="k">enddo</span>
+         <span class="k">end do</span>
 <span class="k">         </span><span class="n">v</span><span class="p">(</span><span class="n">mm1</span><span class="p">,</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="o">-</span><span class="n">one</span>
          <span class="n">v</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">one</span>
          <span class="n">v</span><span class="p">(</span><span class="n">mm1</span><span class="p">,</span><span class="n">npar2</span><span class="p">)</span> <span class="o">=</span> <span class="n">Cofbnd</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
          <span class="n">v</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="n">npar2</span><span class="p">)</span> <span class="o">=</span> <span class="n">Cofbnd</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
-      <span class="k">enddo</span>
+      <span class="k">end do</span>
 <span class="c">!</span>
 <span class="c">! NOW SET THE BOTTOM ROW.  TO MINIMIZE W = X(NPARM+1) WE MAXIMIZE -W.</span>
       <span class="n">mp1</span> <span class="o">=</span> <span class="n">m</span> <span class="o">+</span> <span class="mi">1</span>
       <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">npar2</span>
          <span class="n">v</span><span class="p">(</span><span class="n">mp1</span><span class="p">,</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">zero</span>
-      <span class="k">enddo</span>
+      <span class="k">end do</span>
 <span class="k">      </span><span class="n">v</span><span class="p">(</span><span class="n">mp1</span><span class="p">,</span><span class="n">npar1</span><span class="p">)</span> <span class="o">=</span> <span class="n">one</span>
 <span class="c">!</span>
 <span class="c">! THIS SECTION ADJUSTS IYRCT TO EITHER TELL SLNPRO TO DO THE INITIAL</span>
@@ -1106,8 +1106,8 @@ private subroutine setu1(me, Ioptn, Numgr, Nparm, Numin, Rchin, Pttbl, Iptb, Ind
                   <span class="k">if</span> <span class="p">(</span> <span class="n">kk</span><span class="o">==</span><span class="n">Iact</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="p">)</span> <span class="k">then</span>
 <span class="k">                     </span><span class="n">Iyrct</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">k</span>
                      <span class="k">goto </span><span class="mi">350</span>
-                  <span class="k">endif</span>
-<span class="k">               enddo</span>
+                  <span class="k">end if</span>
+<span class="k">               end do</span>
 <span class="k">               </span><span class="n">Iyrct</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
                <span class="k">goto </span><span class="mi">500</span>
             <span class="k">else</span>
@@ -1115,8 +1115,8 @@ private subroutine setu1(me, Ioptn, Numgr, Nparm, Numin, Rchin, Pttbl, Iptb, Ind
 <span class="c">! POINT CONSTRAINTS, AND WE ADJUST IYRCT(J) BY THE DIFFERENCE OF THE</span>
 <span class="c">! PRESENT AND FORMER NUMBER OF ACTIVE CONSTRAINTS.</span>
                <span class="n">Iyrct</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">Iyrct</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">+</span> <span class="n">mact</span> <span class="o">-</span> <span class="n">Mact1</span>
-            <span class="k">endif</span>
-<span class="k"> </span><span class="mi">350</span>     <span class="k">enddo</span>
+            <span class="k">end if</span>
+<span class="k"> </span><span class="mi">350</span>     <span class="k">end do</span>
 <span class="c">! WE HAVE NOW FILLED IN IYRCT(1),...,IYRCT(NPARM+1) WITH DISTINCT</span>
 <span class="c">! POSITIVE INTEGERS BETWEEN 1 AND M, AND WE FILL IN THE REST OF IYRCT</span>
 <span class="c">! SO THAT IYRCT WILL CONTAIN A PERMUTATION OF 1,...,M.  TO BE CONSISTENT</span>
@@ -1127,17 +1127,17 @@ private subroutine setu1(me, Ioptn, Numgr, Nparm, Numin, Rchin, Pttbl, Iptb, Ind
 <span class="c">! SKIP II IF IT IS ALREADY IN IYRCT.</span>
             <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">npar1</span>
                <span class="k">if</span> <span class="p">(</span> <span class="n">ii</span><span class="o">==</span><span class="n">Iyrct</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">400</span>
-            <span class="k">enddo</span>
+            <span class="k">end do</span>
 <span class="k">            </span><span class="n">l</span> <span class="o">=</span> <span class="n">l</span> <span class="o">+</span> <span class="mi">1</span>
             <span class="n">Iyrct</span><span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="o">=</span> <span class="n">ii</span>
- <span class="mi">400</span>     <span class="k">enddo</span>
-<span class="k">      endif</span>
+ <span class="mi">400</span>     <span class="k">end do</span>
+<span class="k">      end if</span>
 <span class="c">!</span>
 <span class="c">! SAVE MACT IN MACT1 AND IACT IN IACT1 AND RETURN.</span>
  <span class="mi">500</span>  <span class="n">Mact1</span> <span class="o">=</span> <span class="n">mact</span>
       <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">mact</span>
          <span class="n">Iact1</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">Iact</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
-      <span class="k">enddo</span>
+      <span class="k">end do</span>
 <span class="k">    end subroutine </span><span class="n">setu1</span>
 </pre></div>
 

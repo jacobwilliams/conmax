@@ -794,7 +794,7 @@ private subroutine muller(me, Ioptn, Nparm, Numgr, Dvec, Fun, Ifun, Pttbl, Iptb,
 <span class="c">! COMPUTE F(PVAL)=F(P2).  WE WILL JUMP BACK AFTER ALL SUCH JUMPS.</span>
          <span class="n">lll</span> <span class="o">=</span> <span class="mi">1</span>
          <span class="k">goto </span><span class="mi">1000</span>
-      <span class="k">endif</span>
+      <span class="k">end if</span>
 <span class="c">!</span>
 <span class="c">! HERE -TOLCON &lt;= F2 &lt;= TOLCON AND WE RETURN WITH PROCOR=P2 AND</span>
 <span class="c">! EMIN=F2.</span>
@@ -828,7 +828,7 @@ private subroutine muller(me, Ioptn, Nparm, Numgr, Dvec, Fun, Ifun, Pttbl, Iptb,
             <span class="n">temp</span> <span class="o">=</span> <span class="n">f2</span>
             <span class="n">f2</span> <span class="o">=</span> <span class="n">f4</span>
             <span class="n">f4</span> <span class="o">=</span> <span class="n">temp</span>
-         <span class="k">endif</span>
+         <span class="k">end if</span>
 <span class="k">         if</span> <span class="p">(</span> <span class="n">f2</span><span class="o">&lt;=</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
 <span class="c">!</span>
 <span class="c">! HERE F2 &lt; 0.0.</span>
@@ -850,7 +850,7 @@ private subroutine muller(me, Ioptn, Nparm, Numgr, Dvec, Fun, Ifun, Pttbl, Iptb,
 <span class="c">!</span>
 <span class="c">! HERE F2 &gt; 0.0 AND F4 &lt; 0.0.</span>
                <span class="k">if</span> <span class="p">(</span> <span class="n">p2</span><span class="o">-</span><span class="n">p1</span><span class="o">&lt;=</span><span class="p">(</span><span class="n">p3</span><span class="o">-</span><span class="n">p4</span><span class="p">)</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">700</span>
-            <span class="k">endif</span>
+            <span class="k">end if</span>
 <span class="c">!</span>
 <span class="c">! HERE EITHER F2 &gt; 0.0 AND F4 &gt; 0.0, OR ELSE F2 &gt; 0.0,</span>
 <span class="c">! F4 &lt; 0.0, AND P2-P1 &gt; P3-P4.  WE DISCARD P1, SINCE IN THE</span>
@@ -862,7 +862,7 @@ private subroutine muller(me, Ioptn, Nparm, Numgr, Dvec, Fun, Ifun, Pttbl, Iptb,
             <span class="n">p2</span> <span class="o">=</span> <span class="n">p4</span>
             <span class="n">f2</span> <span class="o">=</span> <span class="n">f4</span>
             <span class="k">goto </span><span class="mi">800</span>
-         <span class="k">endif</span>
+         <span class="k">end if</span>
 <span class="k">      else</span>
 <span class="c">!</span>
 <span class="c">! HERE WE HAVE REACHED THE ITERATION LIMIT WITHOUT SUCCESS.  WE RETURN</span>
@@ -881,8 +881,8 @@ private subroutine muller(me, Ioptn, Nparm, Numgr, Dvec, Fun, Ifun, Pttbl, Iptb,
 <span class="c">! HERE P4 &lt; P2.</span>
          <span class="n">elseif</span> <span class="p">(</span> <span class="n">f4</span><span class="o">&gt;=</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
 <span class="k">            goto </span><span class="mi">600</span>
-         <span class="k">endif</span>
-<span class="k">      endif</span>
+         <span class="k">end if</span>
+<span class="k">      end if</span>
 <span class="k"> </span><span class="mi">400</span>  <span class="n">Procor</span> <span class="o">=</span> <span class="n">p4</span>
       <span class="n">Emin</span> <span class="o">=</span> <span class="n">f4</span>
       <span class="k">return</span>
@@ -949,7 +949,7 @@ private subroutine muller(me, Ioptn, Nparm, Numgr, Dvec, Fun, Ifun, Pttbl, Iptb,
          <span class="n">den</span> <span class="o">=</span> <span class="n">two</span><span class="o">*</span><span class="n">acof</span>
          <span class="k">if</span> <span class="p">(</span> <span class="nb">abs</span><span class="p">(</span><span class="n">den</span><span class="p">)</span><span class="o">&lt;</span><span class="n">tolden</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">600</span>
          <span class="n">p4</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="n">bcof</span><span class="o">-</span><span class="nb">sqrt</span><span class="p">(</span><span class="n">discr</span><span class="p">))</span><span class="o">/</span><span class="n">den</span>
-      <span class="k">endif</span>
+      <span class="k">end if</span>
 <span class="c">!</span>
 <span class="c">! THE NEXT SECTION (FROM HERE TO STATEMENT 3200) MODIFIES P4, IF</span>
 <span class="c">! NECESSARY, TO GET P1+TOL4 &lt;= P2,P4 &lt;= P3-TOL4 AND ABS(P4-P2) &gt;=</span>
@@ -963,7 +963,7 @@ private subroutine muller(me, Ioptn, Nparm, Numgr, Dvec, Fun, Ifun, Pttbl, Iptb,
 <span class="k">            </span><span class="n">p4</span> <span class="o">=</span> <span class="n">p2</span> <span class="o">-</span> <span class="n">tol4</span>
          <span class="k">else</span>
 <span class="k">            </span><span class="n">p4</span> <span class="o">=</span> <span class="n">p2</span> <span class="o">+</span> <span class="n">tol4</span>
-         <span class="k">endif</span>
+         <span class="k">end if</span>
 <span class="c">! HERE WE HAD ABS(P4-P2) &gt;= TOL4 AND WE MAKE SURE THAT P1+TOL4</span>
 <span class="c">! &lt;= P4 &lt;= P3-TOL4.</span>
       <span class="n">elseif</span> <span class="p">(</span> <span class="n">p4</span><span class="o">&lt;=</span><span class="p">(</span><span class="n">p3</span><span class="o">-</span><span class="n">tol4</span><span class="p">)</span> <span class="p">)</span> <span class="k">then</span>
@@ -974,15 +974,15 @@ private subroutine muller(me, Ioptn, Nparm, Numgr, Dvec, Fun, Ifun, Pttbl, Iptb,
 <span class="k">               </span><span class="n">p4</span> <span class="o">=</span> <span class="n">p2</span> <span class="o">+</span> <span class="n">tol4</span>
             <span class="k">else</span>
 <span class="k">               </span><span class="n">p4</span> <span class="o">=</span> <span class="n">p1</span> <span class="o">+</span> <span class="n">tol4</span>
-            <span class="k">endif</span>
-<span class="k">         endif</span>
+            <span class="k">end if</span>
+<span class="k">         end if</span>
 <span class="c">! HERE P4 &gt; P3-TOL4 AND WE SET P4=P3-TOL4 IF P3-P2 &gt;= TOL1/2.0,</span>
 <span class="c">! AND OTHERWISE WE SET P4=P2-TOL4.</span>
       <span class="n">elseif</span> <span class="p">(</span> <span class="n">p3</span><span class="o">-</span><span class="n">p2</span><span class="o">&lt;</span><span class="n">tol1</span><span class="o">/</span><span class="n">two</span> <span class="p">)</span> <span class="k">then</span>
 <span class="k">         </span><span class="n">p4</span> <span class="o">=</span> <span class="n">p2</span> <span class="o">-</span> <span class="n">tol4</span>
       <span class="k">else</span>
 <span class="k">         </span><span class="n">p4</span> <span class="o">=</span> <span class="n">p3</span> <span class="o">-</span> <span class="n">tol4</span>
-      <span class="k">endif</span>
+      <span class="k">end if</span>
 <span class="c">!</span>
 <span class="c">! COMPUTE F4=F(P4).</span>
       <span class="n">pval</span> <span class="o">=</span> <span class="n">p4</span>
@@ -998,7 +998,7 @@ private subroutine muller(me, Ioptn, Nparm, Numgr, Dvec, Fun, Ifun, Pttbl, Iptb,
 <span class="c">! PROJECT DVEC TO GET PARWRK FOR USE IN ERCMP1.</span>
       <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Nparm</span>
          <span class="n">Parwrk</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">Zwork</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">+</span> <span class="n">pval</span><span class="o">*</span><span class="n">Dvec</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
-      <span class="k">enddo</span>
+      <span class="k">end do</span>
 <span class="c">! WE TAKE IPHSE=-3 AS A KLUDGE TO TELL ERCMP1 TO COMPUTE ONLY STANDARD</span>
 <span class="c">! ERRORS IF THE TEN THOUSANDS DIGIT OF IOPTN IS 1, THUS SAVING ERCMP1</span>
 <span class="c">! THE WORK OF SCANNING ICNTYP.</span>
@@ -1023,7 +1023,7 @@ private subroutine muller(me, Ioptn, Nparm, Numgr, Dvec, Fun, Ifun, Pttbl, Iptb,
          <span class="k">if</span> <span class="p">(</span> <span class="n">f4</span><span class="o">&gt;</span><span class="n">Tolcon</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">300</span>
          <span class="k">if</span> <span class="p">(</span> <span class="n">f4</span><span class="o">+</span><span class="n">Tolcon</span><span class="o">&gt;=</span><span class="mi">0</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">400</span>
          <span class="k">goto </span><span class="mi">300</span>
-      <span class="k">endif</span>
+      <span class="k">end if</span>
 <span class="k">    end subroutine </span><span class="n">muller</span>
 </pre></div>
 

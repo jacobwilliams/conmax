@@ -125,7 +125,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title="12.7% of total for procedures.">400 statements</a>
+    title="12.6% of total for procedures.">400 statements</a>
      </li> 
      
      
@@ -777,7 +777,7 @@ public subroutine slnpro(v, m, n, Iyrct, y, Ixrct, Iycct, Nparm, Numgr, x, Indic
          <span class="n">rea</span> <span class="o">=</span> <span class="nb">sqrt</span><span class="p">(</span><span class="n">rea</span><span class="p">)</span>
          <span class="n">rea1</span> <span class="o">=</span> <span class="nb">sqrt</span><span class="p">(</span><span class="n">rea1</span><span class="p">)</span>
          <span class="n">Indic</span> <span class="o">=</span> <span class="o">-</span><span class="mi">2</span>
-      <span class="k">endif</span>
+      <span class="k">end if</span>
 <span class="c">! N BEING NEGATIVE IS A SIGNAL TO DECREASE REA AND REA1 TO TRY</span>
 <span class="c">! FOR MORE ACCURACY.  AMONG OTHER THINGS, THIS MAKES IT MORE</span>
 <span class="c">! LIKELY THAT THE PREVIOUS VERTEX WILL BE RETAINED IN PHASE 1</span>
@@ -788,7 +788,7 @@ public subroutine slnpro(v, m, n, Iyrct, y, Ixrct, Iycct, Nparm, Numgr, x, Indic
          <span class="n">rea</span> <span class="o">=</span> <span class="n">rea1</span>
          <span class="n">rea1</span> <span class="o">=</span> <span class="n">rea1</span><span class="o">/</span><span class="p">(</span><span class="n">ten</span><span class="o">*</span><span class="n">ten</span><span class="p">)</span>
          <span class="n">Indic</span> <span class="o">=</span> <span class="o">-</span><span class="mi">4</span>
-      <span class="k">endif</span>
+      <span class="k">end if</span>
 <span class="c">! PRESERVE REA IN CASE IT MUST BE TEMPORARILY RELAXED.</span>
 <span class="c">! IRLAX=0 INDICATES REA IS NOT RELAXED AT THIS STAGE.</span>
       <span class="n">reakp</span> <span class="o">=</span> <span class="n">rea</span>
@@ -815,7 +815,7 @@ public subroutine slnpro(v, m, n, Iyrct, y, Ixrct, Iycct, Nparm, Numgr, x, Indic
 <span class="c">! IXRCT(I)=K/=0 MEANS X(K) IS IN ROW I.</span>
       <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">m</span>
          <span class="n">Ixrct</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="mi">0</span>
-      <span class="k">enddo</span>
+      <span class="k">end do</span>
 <span class="c">!</span>
 <span class="c">! EXCHANGE THE XS AT THE TOP OF THE TABLE FOR YS.</span>
 <span class="c">! IF IYRCT(1) IS NONPOSITIVE, WE SET IYRCT AND CHOOSE THE</span>
@@ -839,11 +839,11 @@ public subroutine slnpro(v, m, n, Iyrct, y, Ixrct, Iycct, Nparm, Numgr, x, Indic
          <span class="n">iback</span> <span class="o">=</span> <span class="mi">1</span>
          <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">m</span>
             <span class="n">Iyrct</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="n">i</span>
-         <span class="k">enddo</span>
+         <span class="k">end do</span>
 <span class="k">      else</span>
 <span class="k">         </span><span class="n">i10</span> <span class="o">=</span> <span class="mi">1</span>
          <span class="n">i20</span> <span class="o">=</span> <span class="n">n</span>
-      <span class="k">endif</span>
+      <span class="k">end if</span>
 <span class="k">      </span><span class="n">j</span> <span class="o">=</span> <span class="mi">0</span>
 <span class="c">! SET THE LOWER BOUND ON THE ABSOLUTE VALUE OF A RESOLVENT IN</span>
 <span class="c">! PHASE 1.  ALSO SET IFAIL=0 TO INDICATE THE RESOLVENT SEARCH</span>
@@ -859,10 +859,10 @@ public subroutine slnpro(v, m, n, Iyrct, y, Ixrct, Iycct, Nparm, Numgr, x, Indic
 <span class="c">! ROW I (FOR I GREATER THAN N).</span>
          <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">m</span>
             <span class="n">Iyrct</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="n">i</span>
-         <span class="k">enddo</span>
+         <span class="k">end do</span>
 <span class="k">         </span><span class="n">irow</span> <span class="o">=</span> <span class="mi">0</span>
          <span class="k">goto </span><span class="mi">400</span>
-      <span class="k">endif</span>
+      <span class="k">end if</span>
 <span class="c">! SET I1, I2 ACCORDING TO THE STRATEGY WE ARE USING.</span>
  <span class="mi">200</span>  <span class="n">i1</span> <span class="o">=</span> <span class="n">i10</span>
       <span class="n">i2</span> <span class="o">=</span> <span class="n">i20</span>
@@ -875,9 +875,9 @@ public subroutine slnpro(v, m, n, Iyrct, y, Ixrct, Iycct, Nparm, Numgr, x, Indic
             <span class="k">if</span> <span class="p">(</span> <span class="n">absv</span><span class="o">&gt;</span><span class="nb">amax</span> <span class="p">)</span> <span class="k">then</span>
 <span class="k">               </span><span class="n">iyri</span> <span class="o">=</span> <span class="n">iytmp</span>
                <span class="nb">amax</span> <span class="o">=</span> <span class="n">absv</span>
-            <span class="k">endif</span>
-<span class="k">         endif</span>
-<span class="k">      enddo</span>
+            <span class="k">end if</span>
+<span class="k">         end if</span>
+<span class="k">      end do</span>
 <span class="c">! CHECK TO SEE IF THE PROSPECTIVE RESOLVENT IS LARGE ENOUGH</span>
 <span class="c">! IN ABSOLUTE VALUE.</span>
       <span class="k">if</span> <span class="p">(</span> <span class="nb">amax</span><span class="o">&gt;</span><span class="n">rea3</span> <span class="p">)</span> <span class="k">then</span>
@@ -911,7 +911,7 @@ public subroutine slnpro(v, m, n, Iyrct, y, Ixrct, Iycct, Nparm, Numgr, x, Indic
 <span class="c">!</span>
          <span class="n">Indic</span> <span class="o">=</span> <span class="mi">1</span>
          <span class="k">return</span>
-<span class="k">      endif</span>
+<span class="k">      end if</span>
 <span class="k"> </span><span class="mi">400</span>  <span class="n">irow</span> <span class="o">=</span> <span class="n">irow</span> <span class="o">+</span> <span class="mi">1</span>
       <span class="k">if</span> <span class="p">(</span> <span class="n">irow</span><span class="o">&lt;=</span><span class="n">m</span> <span class="p">)</span> <span class="k">then</span>
 <span class="k">         if</span> <span class="p">(</span> <span class="n">Ixrct</span><span class="p">(</span><span class="n">irow</span><span class="p">)</span><span class="o">==</span><span class="mi">0</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">400</span>
@@ -921,7 +921,7 @@ public subroutine slnpro(v, m, n, Iyrct, y, Ixrct, Iycct, Nparm, Numgr, x, Indic
 <span class="c">! IN IT.</span>
          <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">n</span>
             <span class="n">Ixrct</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="n">Iycct</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-         <span class="k">enddo</span>
+         <span class="k">end do</span>
 <span class="c">! END OF PHASE 1.</span>
 <span class="c">!</span>
 <span class="c">! THE FIRST N ROWS OF V GIVE THE XS IN TERMS OF CERTAIN</span>
@@ -936,7 +936,7 @@ public subroutine slnpro(v, m, n, Iyrct, y, Ixrct, Iycct, Nparm, Numgr, x, Indic
 <span class="c">! PROBLEM.  STICK WITH COLUMN JJ UNTIL V(M+1,JJ) &gt;= -REA1.</span>
          <span class="n">jj</span> <span class="o">=</span> <span class="mi">0</span>
          <span class="k">goto </span><span class="mi">600</span>
-      <span class="k">endif</span>
+      <span class="k">end if</span>
 <span class="c">! NOW X(L) IS IN ROW IROW, BUT WE WANT IT IN ROW L.</span>
  <span class="mi">500</span>  <span class="n">l</span> <span class="o">=</span> <span class="n">Ixrct</span><span class="p">(</span><span class="n">irow</span><span class="p">)</span>
       <span class="n">ll</span> <span class="o">=</span> <span class="n">Ixrct</span><span class="p">(</span><span class="n">l</span><span class="p">)</span>
@@ -949,13 +949,13 @@ public subroutine slnpro(v, m, n, Iyrct, y, Ixrct, Iycct, Nparm, Numgr, x, Indic
          <span class="n">Ixrct</span><span class="p">(</span><span class="n">irow</span><span class="p">)</span> <span class="o">=</span> <span class="mi">0</span>
          <span class="n">Iyrct</span><span class="p">(</span><span class="n">irow</span><span class="p">)</span> <span class="o">=</span> <span class="n">Iyrct</span><span class="p">(</span><span class="n">l</span><span class="p">)</span>
          <span class="n">Ixrct</span><span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="o">=</span> <span class="n">l</span>
-      <span class="k">endif</span>
+      <span class="k">end if</span>
 <span class="c">! NOW EXCHANGE THE CONTENTS OF ROWS IROW AND L.</span>
       <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">np1</span>
          <span class="n">temp</span> <span class="o">=</span> <span class="n">v</span><span class="p">(</span><span class="n">irow</span><span class="p">,</span><span class="n">j</span><span class="p">)</span>
          <span class="n">v</span><span class="p">(</span><span class="n">irow</span><span class="p">,</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">v</span><span class="p">(</span><span class="n">l</span><span class="p">,</span><span class="n">j</span><span class="p">)</span>
          <span class="n">v</span><span class="p">(</span><span class="n">l</span><span class="p">,</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">temp</span>
-      <span class="k">enddo</span>
+      <span class="k">end do</span>
 <span class="k">      if</span> <span class="p">(</span> <span class="n">Ixrct</span><span class="p">(</span><span class="n">irow</span><span class="p">)</span><span class="o">==</span><span class="mi">0</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">400</span>
       <span class="k">if</span> <span class="p">(</span> <span class="n">Ixrct</span><span class="p">(</span><span class="n">irow</span><span class="p">)</span><span class="o">==</span><span class="n">irow</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">400</span>
       <span class="k">goto </span><span class="mi">500</span>
@@ -972,13 +972,13 @@ public subroutine slnpro(v, m, n, Iyrct, y, Ixrct, Iycct, Nparm, Numgr, x, Indic
                <span class="k">if</span> <span class="p">(</span> <span class="n">v</span><span class="p">(</span><span class="n">mp1</span><span class="p">,</span><span class="n">j</span><span class="p">)</span><span class="o">+</span><span class="n">rea</span><span class="o">&lt;=</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
 <span class="k">                  </span><span class="n">jj</span> <span class="o">=</span> <span class="n">j</span>
                   <span class="k">goto </span><span class="mi">700</span>
-               <span class="k">endif</span>
-<span class="k">            enddo</span>
-<span class="k">         endif</span>
+               <span class="k">end if</span>
+<span class="k">            end do</span>
+<span class="k">         end if</span>
 <span class="k">         goto </span><span class="mi">900</span>
       <span class="n">elseif</span> <span class="p">(</span> <span class="n">v</span><span class="p">(</span><span class="n">mp1</span><span class="p">,</span><span class="n">jj</span><span class="p">)</span><span class="o">+</span><span class="n">rea1</span><span class="o">&gt;=</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
 <span class="k">         goto </span><span class="mi">600</span>
-      <span class="k">endif</span>
+      <span class="k">end if</span>
 <span class="c">!</span>
 <span class="c">! WE HAVE V(M+1,JJ) SIGNIFICANTLY NEGATIVE.  SEARCH COLUMN</span>
 <span class="c">! JJ FOR A POSITIVE ELEMENT, TREATING A VERY SMALL V(I,J)</span>
@@ -1000,17 +1000,17 @@ public subroutine slnpro(v, m, n, Iyrct, y, Ixrct, Iycct, Nparm, Numgr, x, Indic
          <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">n</span>
             <span class="k">if</span> <span class="p">(</span> <span class="n">v</span><span class="p">(</span><span class="n">mp1</span><span class="p">,</span><span class="n">j</span><span class="p">)</span><span class="o">&lt;</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
 <span class="k">               if</span> <span class="p">(</span> <span class="n">j</span><span class="o">&gt;=</span><span class="n">jj</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">850</span>
-            <span class="k">endif</span>
+            <span class="k">end if</span>
 <span class="k">            if</span> <span class="p">(</span> <span class="n">v</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span><span class="o">+</span><span class="n">rea</span><span class="o">&lt;</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
 <span class="k">               </span><span class="n">dist1</span> <span class="o">=</span> <span class="n">v</span><span class="p">(</span><span class="n">mp1</span><span class="p">,</span><span class="n">j</span><span class="p">)</span><span class="o">/</span><span class="n">v</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span>
                <span class="k">if</span> <span class="p">(</span> <span class="n">indst</span><span class="o">&gt;</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
 <span class="k">                  if</span> <span class="p">(</span> <span class="n">dist1</span><span class="o">&lt;=</span><span class="n">dist</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">850</span>
-               <span class="k">endif</span>
+               <span class="k">end if</span>
 <span class="k">               </span><span class="n">dist</span> <span class="o">=</span> <span class="n">dist1</span>
                <span class="n">indst</span> <span class="o">=</span> <span class="mi">1</span>
                <span class="n">k</span> <span class="o">=</span> <span class="n">j</span>
-            <span class="k">endif</span>
-<span class="k"> </span><span class="mi">850</span>     <span class="k">enddo</span>
+            <span class="k">end if</span>
+<span class="k"> </span><span class="mi">850</span>     <span class="k">end do</span>
 <span class="k">         if</span> <span class="p">(</span> <span class="n">indst</span><span class="o">&lt;=</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
 <span class="c">!</span>
 <span class="c">! IF THERE WAS NO INDEX K SUCH THAT V(M+1,K) &gt;= 0.0.OR.K &lt;</span>
@@ -1028,10 +1028,10 @@ public subroutine slnpro(v, m, n, Iyrct, y, Ixrct, Iycct, Nparm, Numgr, x, Indic
                      <span class="k">if</span> <span class="p">(</span> <span class="n">dist1</span><span class="o">&lt;</span><span class="n">dist</span> <span class="p">)</span> <span class="k">then</span>
 <span class="k">                        </span><span class="n">dist</span> <span class="o">=</span> <span class="n">dist1</span>
                         <span class="n">k</span> <span class="o">=</span> <span class="n">j</span>
-                     <span class="k">endif</span>
-<span class="k">                  endif</span>
-<span class="k">               endif</span>
-<span class="k">            enddo</span>
+                     <span class="k">end if</span>
+<span class="k">                  end if</span>
+<span class="k">               end if</span>
+<span class="k">            end do</span>
 <span class="k">         else</span>
 <span class="c">!</span>
 <span class="c">! WE NOW COMPUTE V(I,JJ)*DIST AND GO ON TO LOOK AT OTHER</span>
@@ -1041,7 +1041,7 @@ public subroutine slnpro(v, m, n, Iyrct, y, Ixrct, Iycct, Nparm, Numgr, x, Indic
             <span class="n">bmprv</span> <span class="o">=</span> <span class="n">v</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">jj</span><span class="p">)</span><span class="o">*</span><span class="n">dist</span>
             <span class="k">if</span> <span class="p">(</span> <span class="n">inamp</span><span class="o">&gt;</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
 <span class="k">               if</span> <span class="p">(</span> <span class="n">bmprv</span><span class="o">&gt;=</span><span class="n">amprv</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">800</span>
-            <span class="k">endif</span>
+            <span class="k">end if</span>
 <span class="k">            </span><span class="n">amprv</span> <span class="o">=</span> <span class="n">bmprv</span>
             <span class="n">inamp</span> <span class="o">=</span> <span class="mi">1</span>
             <span class="n">kpmp1</span> <span class="o">=</span> <span class="n">i</span>
@@ -1049,7 +1049,7 @@ public subroutine slnpro(v, m, n, Iyrct, y, Ixrct, Iycct, Nparm, Numgr, x, Indic
 <span class="c">! (KPMP1,KPMP2) GIVES THE POSITION OF THE BEST PROSPECTIVE</span>
 <span class="c">! RESOLVENT FOUND SO FAR.</span>
             <span class="k">goto </span><span class="mi">800</span>
-         <span class="k">endif</span>
+         <span class="k">end if</span>
 <span class="c">!</span>
       <span class="n">elseif</span> <span class="p">(</span> <span class="n">inamp</span><span class="o">&lt;=</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
 <span class="c">! AT THIS POINT INAMP IS POSITIVE IFF THERE WAS AT LEAST ONE</span>
@@ -1064,7 +1064,7 @@ public subroutine slnpro(v, m, n, Iyrct, y, Ixrct, Iycct, Nparm, Numgr, x, Indic
 <span class="c">!</span>
             <span class="n">Indic</span> <span class="o">=</span> <span class="mi">2</span>
             <span class="k">return</span>
-<span class="k">         endif</span>
+<span class="k">         end if</span>
 <span class="k">      else</span>
 <span class="c">!</span>
 <span class="c">! CHECK TO SEE IF V(MP1,KPMP2) IS VERY SMALL IN ABSOLUTE</span>
@@ -1085,7 +1085,7 @@ public subroutine slnpro(v, m, n, Iyrct, y, Ixrct, Iycct, Nparm, Numgr, x, Indic
 <span class="k">                  if</span> <span class="p">(</span> <span class="n">j</span><span class="o">&gt;=</span><span class="n">jj</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">860</span>
                <span class="n">elseif</span> <span class="p">(</span> <span class="n">v</span><span class="p">(</span><span class="n">mp1</span><span class="p">,</span><span class="n">j</span><span class="p">)</span><span class="o">&gt;</span><span class="n">rea</span> <span class="p">)</span> <span class="k">then</span>
 <span class="k">                  goto </span><span class="mi">860</span>
-               <span class="k">endif</span>
+               <span class="k">end if</span>
 <span class="c">! WE WILL BE STUCK IN COLUMN J IFF THERE IS AN INDEX ID FOR</span>
 <span class="c">! WHICH V(ID,JJ) &gt; REA AND V(ID,J) &lt; -REA.  IF THIS IS THE</span>
 <span class="c">! CASE, CHOOSING SUCH AN ID SO THAT V(ID,JJ)/V(ID,J) IS</span>
@@ -1100,10 +1100,10 @@ public subroutine slnpro(v, m, n, Iyrct, y, Ixrct, Iycct, Nparm, Numgr, x, Indic
                         <span class="k">if</span> <span class="p">(</span> <span class="n">dist1</span><span class="o">&lt;</span><span class="n">dist</span> <span class="p">)</span> <span class="k">then</span>
 <span class="k">                           </span><span class="n">dist</span> <span class="o">=</span> <span class="n">dist1</span>
                            <span class="n">id</span> <span class="o">=</span> <span class="n">i</span>
-                        <span class="k">endif</span>
-<span class="k">                     endif</span>
-<span class="k">                  endif</span>
-<span class="k">               enddo</span>
+                        <span class="k">end if</span>
+<span class="k">                     end if</span>
+<span class="k">                  end if</span>
+<span class="k">               end do</span>
 <span class="k">               if</span> <span class="p">(</span> <span class="n">dist</span><span class="o">&lt;</span><span class="n">one</span><span class="o">/</span><span class="n">two</span> <span class="p">)</span> <span class="k">then</span>
 <span class="c">! WE HAVE NOW DETERMINED THAT WE ARE STUCK IN COLUMN J.</span>
 <span class="c">! IF V(ID,J) &lt; AMIN THEN V(ID,J) IS THE BEST RESOLVENT</span>
@@ -1112,16 +1112,16 @@ public subroutine slnpro(v, m, n, Iyrct, y, Ixrct, Iycct, Nparm, Numgr, x, Indic
 <span class="k">                     </span><span class="nb">amin</span> <span class="o">=</span> <span class="n">v</span><span class="p">(</span><span class="n">id</span><span class="p">,</span><span class="n">j</span><span class="p">)</span>
                      <span class="n">kpmp1</span> <span class="o">=</span> <span class="n">id</span>
                      <span class="n">kpmp2</span> <span class="o">=</span> <span class="n">j</span>
-                  <span class="k">endif</span>
-<span class="k">               endif</span>
+                  <span class="k">end if</span>
+<span class="k">               end if</span>
 <span class="c">! THE BEST RESOLVENT IS V(KPMP1,KPMP2), SO WE DO AN</span>
 <span class="c">! ELIMINATION.</span>
- <span class="mi">860</span>        <span class="k">enddo</span>
-<span class="k">         endif</span>
+ <span class="mi">860</span>        <span class="k">end do</span>
+<span class="k">         end if</span>
 <span class="c">! DO AN ELIMINATION WITH RESOLVENT V(KPMP1,KPMP2).</span>
          <span class="n">i</span> <span class="o">=</span> <span class="n">kpmp1</span>
          <span class="n">k</span> <span class="o">=</span> <span class="n">kpmp2</span>
-      <span class="k">endif</span>
+      <span class="k">end if</span>
 <span class="c">!</span>
       <span class="n">ktjor</span> <span class="o">=</span> <span class="n">ktjor</span> <span class="o">+</span> <span class="mi">1</span>
       <span class="k">if</span> <span class="p">(</span> <span class="n">ktjor</span><span class="o">&gt;</span><span class="n">limjor</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">1200</span>
@@ -1163,12 +1163,12 @@ public subroutine slnpro(v, m, n, Iyrct, y, Ixrct, Iycct, Nparm, Numgr, x, Indic
 <span class="k">               </span><span class="n">dist1</span> <span class="o">=</span> <span class="n">v</span><span class="p">(</span><span class="n">mp1</span><span class="p">,</span><span class="n">j</span><span class="p">)</span><span class="o">/</span><span class="n">v</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span>
                <span class="k">if</span> <span class="p">(</span> <span class="n">indst</span><span class="o">&gt;</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
 <span class="k">                  if</span> <span class="p">(</span> <span class="n">dist1</span><span class="o">&lt;=</span><span class="n">dist</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">1100</span>
-               <span class="k">endif</span>
+               <span class="k">end if</span>
 <span class="k">               </span><span class="n">k</span> <span class="o">=</span> <span class="n">j</span>
                <span class="n">indst</span> <span class="o">=</span> <span class="mi">1</span>
                <span class="n">dist</span> <span class="o">=</span> <span class="n">dist1</span>
-            <span class="k">endif</span>
-<span class="k"> </span><span class="mi">1100</span>    <span class="k">enddo</span>
+            <span class="k">end if</span>
+<span class="k"> </span><span class="mi">1100</span>    <span class="k">end do</span>
 <span class="k">         if</span> <span class="p">(</span> <span class="n">indst</span><span class="o">&gt;</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
 <span class="c">!</span>
 <span class="c">! COMPUTE THE IMPROVEMENT DIST*V(I,N+1) IN THE VALUE OF THE</span>
@@ -1183,7 +1183,7 @@ public subroutine slnpro(v, m, n, Iyrct, y, Ixrct, Iycct, Nparm, Numgr, x, Indic
             <span class="n">irlax</span> <span class="o">=</span> <span class="mi">0</span>
             <span class="k">if</span> <span class="p">(</span> <span class="n">kkk</span><span class="o">&gt;</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
 <span class="k">               if</span> <span class="p">(</span> <span class="n">bmpr2</span><span class="o">&lt;=</span><span class="n">ampr2</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">1000</span>
-            <span class="k">endif</span>
+            <span class="k">end if</span>
 <span class="k">            </span><span class="n">kkk</span> <span class="o">=</span> <span class="mi">1</span>
             <span class="n">keep</span> <span class="o">=</span> <span class="n">i</span>
             <span class="n">keep1</span> <span class="o">=</span> <span class="n">k</span>
@@ -1200,7 +1200,7 @@ public subroutine slnpro(v, m, n, Iyrct, y, Ixrct, Iycct, Nparm, Numgr, x, Indic
 <span class="c">!</span>
             <span class="n">Indic</span> <span class="o">=</span> <span class="mi">3</span>
             <span class="k">return</span>
-<span class="k">         endif</span>
+<span class="k">         end if</span>
 <span class="c">! KKK=0 HERE IFF NONE OF THE COST COEFFICIENTS ARE</span>
 <span class="c">! SIGNIFICANTLY NEGATIVE.</span>
       <span class="n">elseif</span> <span class="p">(</span> <span class="n">kkk</span><span class="o">/=</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
@@ -1234,10 +1234,10 @@ public subroutine slnpro(v, m, n, Iyrct, y, Ixrct, Iycct, Nparm, Numgr, x, Indic
                            <span class="k">if</span> <span class="p">(</span> <span class="n">dist1</span><span class="o">&gt;</span><span class="n">dist</span> <span class="p">)</span> <span class="k">then</span>
 <span class="k">                              </span><span class="n">dist</span> <span class="o">=</span> <span class="n">dist1</span>
                               <span class="n">id</span> <span class="o">=</span> <span class="n">i</span>
-                           <span class="k">endif</span>
-<span class="k">                        endif</span>
-<span class="k">                     endif</span>
-<span class="k">                  enddo</span>
+                           <span class="k">end if</span>
+<span class="k">                        end if</span>
+<span class="k">                     end if</span>
+<span class="k">                  end do</span>
 <span class="k">                  if</span> <span class="p">(</span> <span class="n">dist</span><span class="o">+</span><span class="n">one</span><span class="o">/</span><span class="n">two</span><span class="o">&lt;=</span><span class="mi">0</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">1120</span>
 <span class="c">!</span>
 <span class="c">! WE HAVE NOW DETERMINED THAT WE ARE STUCK IN COLUMN J.</span>
@@ -1260,7 +1260,7 @@ public subroutine slnpro(v, m, n, Iyrct, y, Ixrct, Iycct, Nparm, Numgr, x, Indic
                      <span class="n">rowq</span> <span class="o">=</span> <span class="n">v</span><span class="p">(</span><span class="n">mp1</span><span class="p">,</span><span class="n">j</span><span class="p">)</span><span class="o">/</span><span class="n">v</span><span class="p">(</span><span class="n">id</span><span class="p">,</span><span class="n">j</span><span class="p">)</span>
                      <span class="k">do </span><span class="n">l</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">n</span>
                         <span class="k">if</span> <span class="p">(</span> <span class="n">l</span><span class="o">/=</span><span class="n">j</span> <span class="p">)</span> <span class="n">y</span><span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="o">=</span> <span class="n">v</span><span class="p">(</span><span class="n">mp1</span><span class="p">,</span><span class="n">l</span><span class="p">)</span> <span class="o">-</span> <span class="n">v</span><span class="p">(</span><span class="n">id</span><span class="p">,</span><span class="n">l</span><span class="p">)</span><span class="o">*</span><span class="n">rowq</span>
-                     <span class="k">enddo</span>
+                     <span class="k">end do</span>
 <span class="k">                     </span><span class="n">lrknt</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
 <span class="c">! WE LOOK FOR A ROW WHICH WILL HAVE A SIGNIFICANTLY NEGATIVE</span>
 <span class="c">! LAST ELEMENT BUT A MINIMUM NUMBER OF PLACES WHERE WE WILL</span>
@@ -1287,40 +1287,40 @@ public subroutine slnpro(v, m, n, Iyrct, y, Ixrct, Iycct, Nparm, Numgr, x, Indic
 <span class="k">                                       if</span> <span class="p">(</span> <span class="n">v</span><span class="p">(</span><span class="n">ii</span><span class="p">,</span><span class="n">jj</span><span class="p">)</span><span class="o">-</span><span class="n">v</span><span class="p">(</span><span class="n">id</span><span class="p">,</span><span class="n">jj</span><span class="p">)</span><span class="o">*</span><span class="n">rowq</span><span class="o">+</span><span class="n">rea</span><span class="o">&lt;</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
 <span class="k">                                         </span><span class="n">lrknt</span> <span class="o">=</span> <span class="n">lrknt</span> <span class="o">+</span> <span class="mi">1</span>
                                          <span class="k">if</span> <span class="p">(</span> <span class="n">lrknt</span><span class="o">&gt;</span><span class="n">mxrkn</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">1102</span>
-                                       <span class="k">endif</span>
-<span class="k">                                    endif</span>
-<span class="k">                                 endif</span>
-<span class="k">                              enddo</span>
+                                       <span class="k">end if</span>
+<span class="k">                                    end if</span>
+<span class="k">                                 end if</span>
+<span class="k">                              end do</span>
 <span class="k">                              if</span> <span class="p">(</span> <span class="n">lrknt</span><span class="o">&lt;</span><span class="n">mxrkn</span> <span class="p">)</span> <span class="k">then</span>
 <span class="k">                              </span><span class="n">elseif</span> <span class="p">(</span> <span class="n">lrknt</span><span class="o">==</span><span class="n">mxrkn</span> <span class="p">)</span> <span class="k">then</span>
 <span class="k">                                 if</span> <span class="p">(</span> <span class="n">v</span><span class="p">(</span><span class="n">id</span><span class="p">,</span><span class="n">j</span><span class="p">)</span><span class="o">&gt;=</span><span class="nb">amin</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">1102</span>
                               <span class="k">else</span>
 <span class="k">                                 goto </span><span class="mi">1102</span>
-                              <span class="k">endif</span>
+                              <span class="k">end if</span>
 <span class="k">                              </span><span class="n">mxrkn</span> <span class="o">=</span> <span class="n">lrknt</span>
                               <span class="nb">amin</span> <span class="o">=</span> <span class="n">v</span><span class="p">(</span><span class="n">id</span><span class="p">,</span><span class="n">j</span><span class="p">)</span>
                               <span class="n">keep</span> <span class="o">=</span> <span class="n">id</span>
                               <span class="n">keep1</span> <span class="o">=</span> <span class="n">j</span>
-                           <span class="k">endif</span>
-<span class="k">                        endif</span>
-<span class="k"> </span><span class="mi">1102</span>                <span class="k">enddo</span>
+                           <span class="k">end if</span>
+<span class="k">                        end if</span>
+<span class="k"> </span><span class="mi">1102</span>                <span class="k">end do</span>
 <span class="c">! LRKNT=-1 HERE WOULD MEAN THIS RESOLVENT WOULD FINISH THE</span>
 <span class="c">! ROUTINE.  IF LRKNT &gt;= 0 THEN MXRKN &gt;= 0 ALSO, SO WE WILL</span>
 <span class="c">! NOT HAVE EARLIER FOUND A RESOLVENT WHICH WILL FINISH THE</span>
 <span class="c">! ROUTINE.</span>
                      <span class="k">if</span> <span class="p">(</span> <span class="n">lrknt</span><span class="o">+</span><span class="mi">1</span><span class="o">/=</span><span class="mi">0</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">1120</span>
                      <span class="k">if</span> <span class="p">(</span> <span class="n">mxrkn</span><span class="o">+</span><span class="mi">1</span><span class="o">/=</span><span class="mi">0</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">1105</span>
-                  <span class="k">endif</span>
+                  <span class="k">end if</span>
 <span class="k">                  if</span> <span class="p">(</span> <span class="n">v</span><span class="p">(</span><span class="n">id</span><span class="p">,</span><span class="n">j</span><span class="p">)</span><span class="o">&gt;=</span><span class="nb">amin</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">1120</span>
  <span class="mi">1105</span>             <span class="n">mxrkn</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
                   <span class="nb">amin</span> <span class="o">=</span> <span class="n">v</span><span class="p">(</span><span class="n">id</span><span class="p">,</span><span class="n">j</span><span class="p">)</span>
                   <span class="n">keep</span> <span class="o">=</span> <span class="n">id</span>
                   <span class="n">keep1</span> <span class="o">=</span> <span class="n">j</span>
-               <span class="k">endif</span>
+               <span class="k">end if</span>
 <span class="c">! THE BEST RESOLVENT IS V(KEEP,KEEP1), SO WE DO AN</span>
 <span class="c">! ELIMINATION.</span>
- <span class="mi">1120</span>       <span class="k">enddo</span>
-<span class="k">         endif</span>
+ <span class="mi">1120</span>       <span class="k">end do</span>
+<span class="k">         end if</span>
 <span class="c">! DO AN ELIMINATION WITH RESOLVENT V(KEEP,KEEP1).</span>
          <span class="n">i</span> <span class="o">=</span> <span class="n">keep</span>
          <span class="n">k</span> <span class="o">=</span> <span class="n">keep1</span>
@@ -1335,7 +1335,7 @@ public subroutine slnpro(v, m, n, Iyrct, y, Ixrct, Iycct, Nparm, Numgr, x, Indic
             <span class="n">rea</span> <span class="o">=</span> <span class="n">reakp</span>
             <span class="n">irlax</span> <span class="o">=</span> <span class="mi">0</span>
             <span class="k">goto </span><span class="mi">900</span>
-         <span class="k">endif</span>
+         <span class="k">end if</span>
 <span class="k">      else</span>
 <span class="c">! CHECK TO SEE IF ANY OF THE NUMBERS IN THE BOTTOM ROW HAVE</span>
 <span class="c">! BECOME VERY SIGNIFICANTLY NEGATIVE.  IF SO, WE MUST</span>
@@ -1346,20 +1346,20 @@ public subroutine slnpro(v, m, n, Iyrct, y, Ixrct, Iycct, Nparm, Numgr, x, Indic
                <span class="k">if</span> <span class="p">(</span> <span class="n">v</span><span class="p">(</span><span class="n">mp1</span><span class="p">,</span><span class="n">j</span><span class="p">)</span><span class="o">+</span><span class="n">rea</span><span class="o">&lt;=</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
 <span class="k">                  </span><span class="n">jj</span> <span class="o">=</span> <span class="n">j</span>
                   <span class="k">goto </span><span class="mi">700</span>
-               <span class="k">endif</span>
-<span class="k">            enddo</span>
-<span class="k">         endif</span>
+               <span class="k">end if</span>
+<span class="k">            end do</span>
+<span class="k">         end if</span>
 <span class="c">! END OF PHASE 3.  WE NOW HAVE THE VERTEX WE ARE SEEKING.</span>
 <span class="c">!</span>
 <span class="c">! READ OFF THE Y VALUES FOR THIS VERTEX.</span>
          <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">n</span>
             <span class="n">iycj</span> <span class="o">=</span> <span class="n">Iycct</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
             <span class="n">y</span><span class="p">(</span><span class="n">iycj</span><span class="p">)</span> <span class="o">=</span> <span class="n">zero</span>
-         <span class="k">enddo</span>
+         <span class="k">end do</span>
 <span class="k">         do </span><span class="n">i</span> <span class="o">=</span> <span class="n">np1</span> <span class="p">,</span> <span class="n">m</span>
             <span class="n">iyri</span> <span class="o">=</span> <span class="n">Iyrct</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
             <span class="n">y</span><span class="p">(</span><span class="n">iyri</span><span class="p">)</span> <span class="o">=</span> <span class="n">v</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">np1</span><span class="p">)</span>
-         <span class="k">enddo</span>
+         <span class="k">end do</span>
 <span class="c">! COMPUTE THE XS FROM THE YS.  RECALL THAT IXRCT CONTAINS</span>
 <span class="c">! THE FORMER IYCCT.</span>
          <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">n</span>
@@ -1367,8 +1367,8 @@ public subroutine slnpro(v, m, n, Iyrct, y, Ixrct, Iycct, Nparm, Numgr, x, Indic
             <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">n</span>
                <span class="n">ixrj</span> <span class="o">=</span> <span class="n">Ixrct</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
                <span class="n">x</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="n">x</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">-</span> <span class="n">v</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span><span class="o">*</span><span class="n">y</span><span class="p">(</span><span class="n">ixrj</span><span class="p">)</span>
-            <span class="k">enddo</span>
-<span class="k">         enddo</span>
+            <span class="k">end do</span>
+<span class="k">         end do</span>
 <span class="c">!</span>
 <span class="c">! NOW PUT THE VALUES IN IYCCT INTO THE FIRST N POSITIONS OF</span>
 <span class="c">! IYRCT IN DECREASING ORDER.</span>
@@ -1377,7 +1377,7 @@ public subroutine slnpro(v, m, n, Iyrct, y, Ixrct, Iycct, Nparm, Numgr, x, Indic
          <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">n</span>
             <span class="n">iycj</span> <span class="o">=</span> <span class="n">Iycct</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
             <span class="n">Ixrct</span><span class="p">(</span><span class="n">iycj</span><span class="p">)</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
-         <span class="k">enddo</span>
+         <span class="k">end do</span>
 <span class="k">         </span><span class="n">k</span> <span class="o">=</span> <span class="mi">1</span>
          <span class="n">i</span> <span class="o">=</span> <span class="n">mp1</span>
  <span class="mi">1150</span>    <span class="n">i</span> <span class="o">=</span> <span class="n">i</span> <span class="o">-</span> <span class="mi">1</span>
@@ -1389,16 +1389,16 @@ public subroutine slnpro(v, m, n, Iyrct, y, Ixrct, Iycct, Nparm, Numgr, x, Indic
 <span class="k">            if</span> <span class="p">(</span> <span class="n">Ixrct</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">&gt;=</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
 <span class="k">               </span><span class="n">Iyrct</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="o">=</span> <span class="n">i</span>
                <span class="n">k</span> <span class="o">=</span> <span class="n">k</span> <span class="o">+</span> <span class="mi">1</span>
-            <span class="k">endif</span>
+            <span class="k">end if</span>
 <span class="k">            goto </span><span class="mi">1160</span>
          <span class="k">else</span>
 <span class="k">            if</span> <span class="p">(</span> <span class="n">Ixrct</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="o">==</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
 <span class="k">               </span><span class="n">Iyrct</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="o">=</span> <span class="n">i</span>
                <span class="n">k</span> <span class="o">=</span> <span class="n">k</span> <span class="o">+</span> <span class="mi">1</span>
-            <span class="k">endif</span>
+            <span class="k">end if</span>
 <span class="k">            goto </span><span class="mi">1150</span>
-         <span class="k">endif</span>
-<span class="k">      endif</span>
+         <span class="k">end if</span>
+<span class="k">      end if</span>
 <span class="c">!</span>
  <span class="mi">1200</span> <span class="n">Indic</span> <span class="o">=</span> <span class="mi">4</span>
 

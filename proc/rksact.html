@@ -602,7 +602,7 @@ private subroutine rksact(Ioptn, Numgr, Icntyp, Rchdwn, Rchin, Conup, Projct, Er
                <span class="n">Iact</span><span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="o">=</span> <span class="n">i</span>
                <span class="n">Actdif</span><span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="o">=</span> <span class="n">Error</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">/</span><span class="n">Projct</span>
                <span class="k">if</span> <span class="p">(</span> <span class="n">Actdif</span><span class="p">(</span><span class="n">l</span><span class="p">)</span><span class="o">&gt;</span><span class="n">Conup</span> <span class="p">)</span> <span class="n">Actdif</span><span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="o">=</span> <span class="n">Conup</span>
-            <span class="k">endif</span>
+            <span class="k">end if</span>
 <span class="k">         </span><span class="n">elseif</span> <span class="p">(</span> <span class="n">Icntyp</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">/=</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
 <span class="k">            if</span> <span class="p">(</span> <span class="n">Icntyp</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">1</span> <span class="p">)</span> <span class="k">then</span>
 <span class="c">!</span>
@@ -614,10 +614,10 @@ private subroutine rksact(Ioptn, Numgr, Icntyp, Rchdwn, Rchin, Conup, Projct, Er
                      <span class="n">l</span> <span class="o">=</span> <span class="n">l</span> <span class="o">+</span> <span class="mi">1</span>
                      <span class="n">Iact</span><span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="o">=</span> <span class="o">-</span><span class="n">i</span>
                      <span class="n">Actdif</span><span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="o">=</span> <span class="n">one</span> <span class="o">+</span> <span class="p">(</span><span class="o">-</span><span class="n">Error</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">-</span><span class="n">enorm</span><span class="p">)</span><span class="o">/</span><span class="n">Projct</span>
-                  <span class="k">endif</span>
+                  <span class="k">end if</span>
 <span class="k">                  goto </span><span class="mi">100</span>
-               <span class="k">endif</span>
-<span class="k">            endif</span>
+               <span class="k">end if</span>
+<span class="k">            end if</span>
 <span class="c">!</span>
 <span class="c">! HERE WE HAVE A TYPE 1 CONSTRAINT, OR A TYPE 2 CONSTRAINT WITH</span>
 <span class="c">! ERROR(I) &gt;= 0.0.</span>
@@ -627,9 +627,9 @@ private subroutine rksact(Ioptn, Numgr, Icntyp, Rchdwn, Rchin, Conup, Projct, Er
                <span class="n">l</span> <span class="o">=</span> <span class="n">l</span> <span class="o">+</span> <span class="mi">1</span>
                <span class="n">Iact</span><span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="o">=</span> <span class="n">i</span>
                <span class="n">Actdif</span><span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="o">=</span> <span class="n">one</span> <span class="o">+</span> <span class="p">(</span><span class="n">Error</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">-</span><span class="n">enorm</span><span class="p">)</span><span class="o">/</span><span class="n">Projct</span>
-            <span class="k">endif</span>
-<span class="k">         endif</span>
-<span class="k"> </span><span class="mi">100</span>  <span class="k">enddo</span>
+            <span class="k">end if</span>
+<span class="k">         end if</span>
+<span class="k"> </span><span class="mi">100</span>  <span class="k">end do</span>
 <span class="k">      </span><span class="n">Mactrk</span> <span class="o">=</span> <span class="n">l</span>
     <span class="k">end subroutine </span><span class="n">rksact</span>
 </pre></div>

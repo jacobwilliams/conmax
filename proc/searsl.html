@@ -125,7 +125,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 8.0% of total for procedures.">251 statements</a>
+    title=" 7.9% of total for procedures.">251 statements</a>
      </li> 
      
      
@@ -984,7 +984,7 @@ private subroutine searsl(me, Ioptn, Numgr, Nparm, Prjlim, Tol1, x, Fun, Ifun, P
 <span class="c">! WE NEVER GET A CORRECTIBLE PARPRJ.</span>
       <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Nparm</span>
          <span class="n">Parser</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
-      <span class="k">enddo</span>
+      <span class="k">end do</span>
 <span class="c">! WE NOW TRY TO COMPUTE VALUES AT POINTS P2=PROJCT, P1=P2/2.0, AND</span>
 <span class="c">! P3=2.0*P2 (BUT P3 CANNOT EXCEED PRJLIM).</span>
       <span class="n">p2</span> <span class="o">=</span> <span class="n">Projct</span>
@@ -1009,7 +1009,7 @@ private subroutine searsl(me, Ioptn, Numgr, Nparm, Prjlim, Tol1, x, Fun, Ifun, P
          <span class="k">goto </span><span class="mi">400</span>
       <span class="n">elseif</span> <span class="p">(</span> <span class="n">f1</span><span class="o">&gt;</span><span class="n">f3</span> <span class="p">)</span> <span class="k">then</span>
 <span class="k">         goto </span><span class="mi">500</span>
-      <span class="k">endif</span>
+      <span class="k">end if</span>
 <span class="c">!</span>
 <span class="c">! HERE WE WILL EXPAND THE INTERVAL TO THE LEFT, PROVIDING THAT</span>
 <span class="c">! NSRCH &lt; INITLM AND P1-P1/2.0**(NSRCH-1) &gt;= TOL4.</span>
@@ -1026,8 +1026,8 @@ private subroutine searsl(me, Ioptn, Numgr, Nparm, Prjlim, Tol1, x, Fun, Ifun, P
             <span class="n">lll</span> <span class="o">=</span> <span class="mi">5</span>
             <span class="n">pval</span> <span class="o">=</span> <span class="n">p1</span>
             <span class="k">goto </span><span class="mi">1200</span>
-         <span class="k">endif</span>
-<span class="k">      endif</span>
+         <span class="k">end if</span>
+<span class="k">      end if</span>
 <span class="c">!</span>
 <span class="c">! HERE WE CANNOT EXPAND LEFT AND WE RETURN WITH THE BEST VALUES</span>
 <span class="c">! FOUND SO FAR.</span>
@@ -1068,9 +1068,9 @@ private subroutine searsl(me, Ioptn, Numgr, Nparm, Prjlim, Tol1, x, Fun, Ifun, P
 <span class="c">!</span>
                <span class="n">p3</span> <span class="o">=</span> <span class="n">Prjlim</span>
                <span class="k">goto </span><span class="mi">600</span>
-            <span class="k">endif</span>
-<span class="k">         endif</span>
-<span class="k">      endif</span>
+            <span class="k">end if</span>
+<span class="k">         end if</span>
+<span class="k">      end if</span>
 <span class="c">!</span>
 <span class="c">! HERE WE CANNOT EXPAND RIGHT AND WE RETURN WITH THE BEST VALUES</span>
 <span class="c">! FOUND SO FAR.</span>
@@ -1153,7 +1153,7 @@ private subroutine searsl(me, Ioptn, Numgr, Nparm, Prjlim, Tol1, x, Fun, Ifun, P
 <span class="c">! THAN THE LEFT SUBINTERVAL, SO WE DECREASE RLF RELATIVE TO RRT.</span>
                   <span class="n">rlf</span> <span class="o">=</span> <span class="n">baladj</span><span class="o">*</span><span class="n">rlf</span>
                   <span class="n">rrt</span> <span class="o">=</span> <span class="n">one</span> <span class="o">-</span> <span class="n">rlf</span>
-               <span class="k">endif</span>
+               <span class="k">end if</span>
 <span class="c">!</span>
 <span class="c">! COMPUTE THE (POSSIBLY MODIFIED) MINIMUM OF THE QUADRATIC FIT.</span>
                <span class="n">p4</span> <span class="o">=</span> <span class="p">(</span><span class="n">rlf</span><span class="o">*</span><span class="n">p1</span><span class="o">+</span><span class="n">rrt</span><span class="o">*</span><span class="n">p3</span><span class="o">+</span><span class="n">p2</span><span class="p">)</span><span class="o">/</span><span class="n">two</span>
@@ -1185,7 +1185,7 @@ private subroutine searsl(me, Ioptn, Numgr, Nparm, Prjlim, Tol1, x, Fun, Ifun, P
                   <span class="k">else</span>
 <span class="k">                     </span><span class="n">pval</span> <span class="o">=</span> <span class="n">p4</span>
                      <span class="k">goto </span><span class="mi">1200</span>
-                  <span class="k">endif</span>
+                  <span class="k">end if</span>
 <span class="k">               else</span>
 <span class="c">! HERE P4 &gt; P3-TOL4 AND WE SET P4=P3-TOL4 IF P3-P2 &gt;= TOL1/2.0,</span>
 <span class="c">! AND OTHERWISE WE SET P4=P2-TOL4.</span>
@@ -1193,10 +1193,10 @@ private subroutine searsl(me, Ioptn, Numgr, Nparm, Prjlim, Tol1, x, Fun, Ifun, P
                   <span class="n">p4</span> <span class="o">=</span> <span class="n">p3</span> <span class="o">-</span> <span class="n">tol4</span>
                   <span class="n">pval</span> <span class="o">=</span> <span class="n">p4</span>
                   <span class="k">goto </span><span class="mi">1200</span>
-               <span class="k">endif</span>
-<span class="k">            endif</span>
-<span class="k">         endif</span>
-<span class="k">      endif</span>
+               <span class="k">end if</span>
+<span class="k">            end if</span>
+<span class="k">         end if</span>
+<span class="k">      end if</span>
 <span class="c">!</span>
  <span class="mi">900</span>  <span class="n">Projct</span> <span class="o">=</span> <span class="n">p2</span>
       <span class="n">Emin</span> <span class="o">=</span> <span class="n">f2</span>
@@ -1210,7 +1210,7 @@ private subroutine searsl(me, Ioptn, Numgr, Nparm, Prjlim, Tol1, x, Fun, Ifun, P
       <span class="k">if</span> <span class="p">(</span> <span class="n">p4</span><span class="o">&lt;=</span><span class="n">p2</span> <span class="p">)</span> <span class="k">then</span>
 <span class="k">         </span><span class="n">p4</span> <span class="o">=</span> <span class="p">(</span><span class="n">p2</span><span class="o">+</span><span class="n">p3</span><span class="p">)</span><span class="o">/</span><span class="n">two</span>
          <span class="k">if</span> <span class="p">(</span> <span class="n">p4</span><span class="o">&lt;=</span><span class="n">p2</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">900</span>
-      <span class="k">endif</span>
+      <span class="k">end if</span>
 <span class="k">      if</span> <span class="p">(</span> <span class="n">p4</span><span class="o">&gt;=</span><span class="n">p3</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">900</span>
       <span class="n">pval</span> <span class="o">=</span> <span class="n">p4</span>
       <span class="k">goto </span><span class="mi">1200</span>
@@ -1223,7 +1223,7 @@ private subroutine searsl(me, Ioptn, Numgr, Nparm, Prjlim, Tol1, x, Fun, Ifun, P
       <span class="k">if</span> <span class="p">(</span> <span class="n">p4</span><span class="o">&gt;=</span><span class="n">p2</span> <span class="p">)</span> <span class="k">then</span>
 <span class="k">         </span><span class="n">p4</span> <span class="o">=</span> <span class="p">(</span><span class="n">p1</span><span class="o">+</span><span class="n">p2</span><span class="p">)</span><span class="o">/</span><span class="n">two</span>
          <span class="k">if</span> <span class="p">(</span> <span class="n">p4</span><span class="o">&gt;=</span><span class="n">p2</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">900</span>
-      <span class="k">endif</span>
+      <span class="k">end if</span>
 <span class="k">      if</span> <span class="p">(</span> <span class="n">p4</span><span class="o">&lt;=</span><span class="n">p1</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">900</span>
       <span class="n">pval</span> <span class="o">=</span> <span class="n">p4</span>
 <span class="c">!</span>
@@ -1238,7 +1238,7 @@ private subroutine searsl(me, Ioptn, Numgr, Nparm, Prjlim, Tol1, x, Fun, Ifun, P
 <span class="c">! PROJECT X TO GET PARPRJ.</span>
       <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Nparm</span>
          <span class="n">Parprj</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">+</span> <span class="n">pval</span><span class="o">*</span><span class="n">x</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
-      <span class="k">enddo</span>
+      <span class="k">end do</span>
 <span class="c">!</span>
 <span class="c">! CALL CORRCT TO RETURN PARPRJ TO FEASIBILITY IF NECESSARY IF ITYPM1</span>
 <span class="c">! OR ITYPM2 IS POSITIVE.</span>
@@ -1249,7 +1249,7 @@ private subroutine searsl(me, Ioptn, Numgr, Nparm, Prjlim, Tol1, x, Fun, Ifun, P
                      <span class="n">Err1</span><span class="p">,</span><span class="n">Work</span><span class="p">(</span><span class="n">ilc10</span><span class="p">),</span><span class="n">Work</span><span class="p">(</span><span class="n">ilc29</span><span class="p">),</span><span class="n">Work</span><span class="p">(</span><span class="n">ilc08</span><span class="p">),</span>          <span class="p">&amp;</span>
                      <span class="n">Work</span><span class="p">(</span><span class="n">ilc48</span><span class="p">),</span><span class="n">Iwork</span><span class="p">(</span><span class="n">ilc21</span><span class="p">),</span><span class="n">Parprj</span><span class="p">,</span><span class="n">icorct</span><span class="p">)</span>
          <span class="k">if</span> <span class="p">(</span> <span class="n">icorct</span><span class="o">&gt;</span><span class="mi">0</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">1300</span>
-      <span class="k">endif</span>
+      <span class="k">end if</span>
 <span class="k">      call </span><span class="n">me</span><span class="p">%</span><span class="n">ercmp1</span><span class="p">(</span><span class="n">Ioptn</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">,</span><span class="n">Fun</span><span class="p">,</span><span class="n">Ifun</span><span class="p">,</span><span class="n">Pttbl</span><span class="p">,</span><span class="n">Iptb</span><span class="p">,</span><span class="n">Indm</span><span class="p">,</span><span class="n">Parprj</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span>  <span class="p">&amp;</span>
                   <span class="n">Iphse</span><span class="p">,</span><span class="n">Iwork</span><span class="p">,</span><span class="n">Liwrk</span><span class="p">,</span><span class="n">Work</span><span class="p">(</span><span class="n">ilc08</span><span class="p">),</span><span class="n">Iwork</span><span class="p">(</span><span class="n">ilc17</span><span class="p">),</span><span class="n">ipmax</span><span class="p">,</span>     <span class="p">&amp;</span>
                   <span class="n">ismax</span><span class="p">,</span><span class="n">Err1</span><span class="p">)</span>
@@ -1265,10 +1265,10 @@ private subroutine searsl(me, Ioptn, Numgr, Nparm, Prjlim, Tol1, x, Fun, Ifun, P
 <span class="k">         </span><span class="n">isave</span> <span class="o">=</span> <span class="mi">1</span>
       <span class="n">elseif</span> <span class="p">(</span> <span class="n">fval</span><span class="o">&gt;=</span><span class="n">fvlkp</span> <span class="p">)</span> <span class="k">then</span>
 <span class="k">         goto </span><span class="mi">1300</span>
-      <span class="k">endif</span>
+      <span class="k">end if</span>
 <span class="k">      do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Nparm</span>
          <span class="n">Parser</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">Parprj</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
-      <span class="k">enddo</span>
+      <span class="k">end do</span>
 <span class="k">      </span><span class="n">fvlkp</span> <span class="o">=</span> <span class="n">fval</span>
 <span class="c">! IF IPHSE &lt; 0 AND FVAL &lt;= TOLCON WE RETURN WITH THE BEST VALUES</span>
 <span class="c">! FOUND SO FAR.</span>
@@ -1277,8 +1277,8 @@ private subroutine searsl(me, Ioptn, Numgr, Nparm, Prjlim, Tol1, x, Fun, Ifun, P
 <span class="k">            </span><span class="n">Projct</span> <span class="o">=</span> <span class="n">pval</span>
             <span class="n">Emin</span> <span class="o">=</span> <span class="n">fval</span>
             <span class="k">return</span>
-<span class="k">         endif</span>
-<span class="k">      endif</span>
+<span class="k">         end if</span>
+<span class="k">      end if</span>
 <span class="c">!</span>
 <span class="c">! CARRY THE COMPUTED F VALUE BACK TO THE APPROPRIATE PART OF THE PROGRAM.</span>
  <span class="mi">1300</span> <span class="k">select case</span> <span class="p">(</span><span class="n">lll</span><span class="p">)</span>
@@ -1308,7 +1308,7 @@ private subroutine searsl(me, Ioptn, Numgr, Nparm, Prjlim, Tol1, x, Fun, Ifun, P
          <span class="k">else</span>
 <span class="k">            </span><span class="n">p3</span> <span class="o">=</span> <span class="n">Prjlim</span>
             <span class="k">goto </span><span class="mi">100</span>
-         <span class="k">endif</span>
+         <span class="k">end if</span>
 <span class="k">      case</span> <span class="p">(</span><span class="mi">2</span><span class="p">)</span>
 <span class="c">!</span>
          <span class="n">f2</span> <span class="o">=</span> <span class="n">fval</span>
@@ -1370,7 +1370,7 @@ private subroutine searsl(me, Ioptn, Numgr, Nparm, Prjlim, Tol1, x, Fun, Ifun, P
                <span class="n">f1</span> <span class="o">=</span> <span class="n">f4</span>
                <span class="n">ilf</span> <span class="o">=</span> <span class="n">ilf</span> <span class="o">+</span> <span class="mi">1</span>
                <span class="n">irt</span> <span class="o">=</span> <span class="mi">0</span>
-            <span class="k">endif</span>
+            <span class="k">end if</span>
 <span class="c">!</span>
 <span class="c">! HERE P4 &gt; P2.</span>
          <span class="n">elseif</span> <span class="p">(</span> <span class="n">f2</span><span class="o">&lt;</span><span class="n">f4</span> <span class="p">)</span> <span class="k">then</span>
@@ -1385,7 +1385,7 @@ private subroutine searsl(me, Ioptn, Numgr, Nparm, Prjlim, Tol1, x, Fun, Ifun, P
             <span class="n">f2</span> <span class="o">=</span> <span class="n">f4</span>
             <span class="n">ilf</span> <span class="o">=</span> <span class="n">ilf</span> <span class="o">+</span> <span class="mi">1</span>
             <span class="n">irt</span> <span class="o">=</span> <span class="mi">0</span>
-         <span class="k">endif</span>
+         <span class="k">end if</span>
 <span class="k">         goto </span><span class="mi">800</span>
       <span class="k">case </span><span class="n">default</span>
       <span class="k">end select</span>

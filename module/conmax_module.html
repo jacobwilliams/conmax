@@ -125,7 +125,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title="100.0% of total for modules and submodules.">3207 statements</a>
+    title="100.0% of total for modules and submodules.">3234 statements</a>
      </li> 
      
      
@@ -1050,7 +1050,7 @@ private subroutine func(me, Nparm, Numgr, Pttbl, Iptb, Indm, Param, Ipt, Indfn, 
     
   <div class="panel panel-default">
   <div class="panel-heading codesum"><span class="anchor" id="proc-iloc"></span><h3>
-private function <a href='../proc/iloc.html'>iloc</a>(Iarr, Nparm, Numgr)
+private pure function <a href='../proc/iloc.html'>iloc</a>(Iarr, Nparm, Numgr)
     
     
    
@@ -1151,7 +1151,7 @@ private function <a href='../proc/iloc.html'>iloc</a>(Iarr, Nparm, Numgr)
     
   <div class="panel panel-default">
   <div class="panel-heading codesum"><span class="anchor" id="proc-dotprd"></span><h3>
-private function <a href='../proc/dotprd.html'>dotprd</a>(Lgth, Vec1, Vec2, Nparm)
+private pure function <a href='../proc/dotprd.html'>dotprd</a>(Lgth, Vec1, Vec2, Nparm) result(dd)
     
     
    
@@ -1166,11 +1166,11 @@ private function <a href='../proc/dotprd.html'>dotprd</a>(Lgth, Vec1, Vec2, Npar
 
 
 
-<p>THIS SUBPROGRAM COMPUTES THE DOT PRODUCT OF VECTORS VEC1
- AND VEC2 OF LENGTH LGTH.
- VEC1 AND VEC2 DO NOT APPEAR IN FUNCTION ILOC SINCE THEY ARE USED ONLY
- AS INPUT NAMES FOR THIS SUBPROGRAM, AND SO THEY DON'T NEED TO HAVE
- SPACE RESERVED FOR THEM IN THE ARRAY WORK.</p>
+<p>This subprogram computes the dot product of vectors vec1
+ and vec2 of length lgth.
+ vec1 and vec2 do not appear in function iloc since they are used only
+ as input names for this subprogram, and so they don't need to have
+ space reserved for them in the array work.</p>
     
     <h4>Arguments</h4>
     
@@ -1191,8 +1191,8 @@ private function <a href='../proc/dotprd.html'>dotprd</a>(Lgth, Vec1, Vec2, Npar
   
 <tr>
   
-  <td><span class="anchor" ></span>integer</td>
-  <td></td>
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -1206,12 +1206,12 @@ private function <a href='../proc/dotprd.html'>dotprd</a>(Lgth, Vec1, Vec2, Npar
   
 <tr>
   
-  <td><span class="anchor" ></span>real(kind=wp)</td>
-  <td></td>
+  <td><span class="anchor" ></span>real(kind=wp),</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
-  <td><strong>Vec1</strong>(Nparm+1)</td><td></td>
+  <td>dimension(Nparm+1)</td><td>::</td>
+  <td><strong>Vec1</strong></td><td></td>
   
 </tr>
 
@@ -1221,12 +1221,12 @@ private function <a href='../proc/dotprd.html'>dotprd</a>(Lgth, Vec1, Vec2, Npar
   
 <tr>
   
-  <td><span class="anchor" ></span>real(kind=wp)</td>
-  <td></td>
+  <td><span class="anchor" ></span>real(kind=wp),</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
-  <td><strong>Vec2</strong>(Nparm+1)</td><td></td>
+  <td>dimension(Nparm+1)</td><td>::</td>
+  <td><strong>Vec2</strong></td><td></td>
   
 </tr>
 
@@ -1236,8 +1236,8 @@ private function <a href='../proc/dotprd.html'>dotprd</a>(Lgth, Vec1, Vec2, Npar
   
 <tr>
   
-  <td><span class="anchor" ></span>integer</td>
-  <td></td>
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -2602,8 +2602,8 @@ private subroutine <a href='../proc/bndset.html'>bndset</a>(Nparm, x, Itersl, Nu
 
 
 
-<p>THIS SUBROUTINE SETS THE BOUNDS ON THE COEFFICIENT CHANGES IN
- SLNPRO.</p>
+<p>This subroutine sets the bounds on the coefficient changes in
+  <a href="../proc/slnpro.html">slnpro</a>.</p>
     
     <h4>Arguments</h4>
     
@@ -2624,8 +2624,8 @@ private subroutine <a href='../proc/bndset.html'>bndset</a>(Nparm, x, Itersl, Nu
   
 <tr>
   
-  <td><span class="anchor" ></span>integer</td>
-  <td></td>
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -2639,11 +2639,11 @@ private subroutine <a href='../proc/bndset.html'>bndset</a>(Nparm, x, Itersl, Nu
   
 <tr>
   
-  <td><span class="anchor" ></span>real(kind=wp)</td>
-  <td></td>
+  <td><span class="anchor" ></span>real(kind=wp),</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>dimension(Nparm+1)</td><td>::</td>
   <td><strong>x</strong></td><td></td>
   
 </tr>
@@ -2654,8 +2654,8 @@ private subroutine <a href='../proc/bndset.html'>bndset</a>(Nparm, x, Itersl, Nu
   
 <tr>
   
-  <td><span class="anchor" ></span>integer</td>
-  <td></td>
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -2669,8 +2669,8 @@ private subroutine <a href='../proc/bndset.html'>bndset</a>(Nparm, x, Itersl, Nu
   
 <tr>
   
-  <td><span class="anchor" ></span>integer</td>
-  <td></td>
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -2684,8 +2684,8 @@ private subroutine <a href='../proc/bndset.html'>bndset</a>(Nparm, x, Itersl, Nu
   
 <tr>
   
-  <td><span class="anchor" ></span>real(kind=wp)</td>
-  <td></td>
+  <td><span class="anchor" ></span>real(kind=wp),</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -2699,11 +2699,11 @@ private subroutine <a href='../proc/bndset.html'>bndset</a>(Nparm, x, Itersl, Nu
   
 <tr>
   
-  <td><span class="anchor" ></span>real(kind=wp)</td>
-  <td></td>
+  <td><span class="anchor" ></span>real(kind=wp),</td>
+  <td>intent(inout),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>dimension(Nparm)</td><td>::</td>
   <td><strong>Cofbnd</strong></td><td></td>
   
 </tr>
@@ -2714,11 +2714,11 @@ private subroutine <a href='../proc/bndset.html'>bndset</a>(Nparm, x, Itersl, Nu
   
 <tr>
   
-  <td><span class="anchor" ></span>real(kind=wp)</td>
-  <td></td>
+  <td><span class="anchor" ></span>real(kind=wp),</td>
+  <td>intent(inout),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>dimension(Nparm+1)</td><td>::</td>
   <td><strong>Xkeep</strong></td><td></td>
   
 </tr>
@@ -2729,11 +2729,11 @@ private subroutine <a href='../proc/bndset.html'>bndset</a>(Nparm, x, Itersl, Nu
   
 <tr>
   
-  <td><span class="anchor" ></span>real(kind=wp)</td>
-  <td></td>
+  <td><span class="anchor" ></span>real(kind=wp),</td>
+  <td>intent(inout),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>dimension(Nparm)</td><td>::</td>
   <td><strong>Bndkp</strong></td><td></td>
   
 </tr>
@@ -3502,8 +3502,8 @@ private subroutine <a href='../proc/sjelim.html'>sjelim</a>(l, Ll, k, Ir, Is, Np
   
 <tr>
   
-  <td><span class="anchor" ></span>integer</td>
-  <td></td>
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -3517,8 +3517,8 @@ private subroutine <a href='../proc/sjelim.html'>sjelim</a>(l, Ll, k, Ir, Is, Np
   
 <tr>
   
-  <td><span class="anchor" ></span>integer</td>
-  <td></td>
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -3532,8 +3532,8 @@ private subroutine <a href='../proc/sjelim.html'>sjelim</a>(l, Ll, k, Ir, Is, Np
   
 <tr>
   
-  <td><span class="anchor" ></span>integer</td>
-  <td></td>
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -3547,8 +3547,8 @@ private subroutine <a href='../proc/sjelim.html'>sjelim</a>(l, Ll, k, Ir, Is, Np
   
 <tr>
   
-  <td><span class="anchor" ></span>integer</td>
-  <td></td>
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -3562,8 +3562,8 @@ private subroutine <a href='../proc/sjelim.html'>sjelim</a>(l, Ll, k, Ir, Is, Np
   
 <tr>
   
-  <td><span class="anchor" ></span>integer</td>
-  <td></td>
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -3577,8 +3577,8 @@ private subroutine <a href='../proc/sjelim.html'>sjelim</a>(l, Ll, k, Ir, Is, Np
   
 <tr>
   
-  <td><span class="anchor" ></span>integer</td>
-  <td></td>
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -3592,8 +3592,8 @@ private subroutine <a href='../proc/sjelim.html'>sjelim</a>(l, Ll, k, Ir, Is, Np
   
 <tr>
   
-  <td><span class="anchor" ></span>integer</td>
-  <td></td>
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -3607,8 +3607,8 @@ private subroutine <a href='../proc/sjelim.html'>sjelim</a>(l, Ll, k, Ir, Is, Np
   
 <tr>
   
-  <td><span class="anchor" ></span>real(kind=wp)</td>
-  <td></td>
+  <td><span class="anchor" ></span>real(kind=wp),</td>
+  <td>intent(inout)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -4237,8 +4237,8 @@ private subroutine <a href='../proc/ercmp1.html'>ercmp1</a>(me, Ioptn, Nparm, Nu
   
 <tr>
   
-  <td><span class="anchor" ></span>integer</td>
-  <td></td>
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -4252,8 +4252,8 @@ private subroutine <a href='../proc/ercmp1.html'>ercmp1</a>(me, Ioptn, Nparm, Nu
   
 <tr>
   
-  <td><span class="anchor" ></span>integer</td>
-  <td></td>
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -4267,8 +4267,8 @@ private subroutine <a href='../proc/ercmp1.html'>ercmp1</a>(me, Ioptn, Nparm, Nu
   
 <tr>
   
-  <td><span class="anchor" ></span>integer</td>
-  <td></td>
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -4282,12 +4282,12 @@ private subroutine <a href='../proc/ercmp1.html'>ercmp1</a>(me, Ioptn, Nparm, Nu
   
 <tr>
   
-  <td><span class="anchor" ></span>real(kind=wp)</td>
-  <td></td>
+  <td><span class="anchor" ></span>real(kind=wp),</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Fun</strong></td><td></td>
+  <td><strong>Fun</strong>(Ifun)</td><td></td>
   
 </tr>
 
@@ -4297,8 +4297,8 @@ private subroutine <a href='../proc/ercmp1.html'>ercmp1</a>(me, Ioptn, Nparm, Nu
   
 <tr>
   
-  <td><span class="anchor" ></span>integer</td>
-  <td></td>
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -4312,12 +4312,12 @@ private subroutine <a href='../proc/ercmp1.html'>ercmp1</a>(me, Ioptn, Nparm, Nu
   
 <tr>
   
-  <td><span class="anchor" ></span>real(kind=wp)</td>
-  <td></td>
+  <td><span class="anchor" ></span>real(kind=wp),</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Pttbl</strong></td><td></td>
+  <td><strong>Pttbl</strong>(Iptb,Indm)</td><td></td>
   
 </tr>
 
@@ -4327,8 +4327,8 @@ private subroutine <a href='../proc/ercmp1.html'>ercmp1</a>(me, Ioptn, Nparm, Nu
   
 <tr>
   
-  <td><span class="anchor" ></span>integer</td>
-  <td></td>
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -4342,8 +4342,8 @@ private subroutine <a href='../proc/ercmp1.html'>ercmp1</a>(me, Ioptn, Nparm, Nu
   
 <tr>
   
-  <td><span class="anchor" ></span>integer</td>
-  <td></td>
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -4357,12 +4357,12 @@ private subroutine <a href='../proc/ercmp1.html'>ercmp1</a>(me, Ioptn, Nparm, Nu
   
 <tr>
   
-  <td><span class="anchor" ></span>real(kind=wp)</td>
-  <td></td>
+  <td><span class="anchor" ></span>real(kind=wp),</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Param</strong></td><td></td>
+  <td><strong>Param</strong>(Nparm)</td><td></td>
   
 </tr>
 
@@ -4372,8 +4372,8 @@ private subroutine <a href='../proc/ercmp1.html'>ercmp1</a>(me, Ioptn, Nparm, Nu
   
 <tr>
   
-  <td><span class="anchor" ></span>integer</td>
-  <td></td>
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -4387,8 +4387,8 @@ private subroutine <a href='../proc/ercmp1.html'>ercmp1</a>(me, Ioptn, Nparm, Nu
   
 <tr>
   
-  <td><span class="anchor" ></span>integer</td>
-  <td></td>
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -4407,7 +4407,7 @@ private subroutine <a href='../proc/ercmp1.html'>ercmp1</a>(me, Ioptn, Nparm, Nu
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Iwork</strong></td><td></td>
+  <td><strong>Iwork</strong>(Liwrk)</td><td></td>
   
 </tr>
 
@@ -4417,8 +4417,8 @@ private subroutine <a href='../proc/ercmp1.html'>ercmp1</a>(me, Ioptn, Nparm, Nu
   
 <tr>
   
-  <td><span class="anchor" ></span>integer</td>
-  <td></td>
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -4437,7 +4437,7 @@ private subroutine <a href='../proc/ercmp1.html'>ercmp1</a>(me, Ioptn, Nparm, Nu
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Confun</strong></td><td></td>
+  <td><strong>Confun</strong>(Numgr,Nparm+1)</td><td></td>
   
 </tr>
 
@@ -4452,7 +4452,7 @@ private subroutine <a href='../proc/ercmp1.html'>ercmp1</a>(me, Ioptn, Nparm, Nu
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Icntyp</strong></td><td></td>
+  <td><strong>Icntyp</strong>(Numgr)</td><td></td>
   
 </tr>
 
@@ -4462,8 +4462,8 @@ private subroutine <a href='../proc/ercmp1.html'>ercmp1</a>(me, Ioptn, Nparm, Nu
   
 <tr>
   
-  <td><span class="anchor" ></span>integer</td>
-  <td></td>
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(out)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -4477,8 +4477,8 @@ private subroutine <a href='../proc/ercmp1.html'>ercmp1</a>(me, Ioptn, Nparm, Nu
   
 <tr>
   
-  <td><span class="anchor" ></span>integer</td>
-  <td></td>
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(out)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -4497,7 +4497,7 @@ private subroutine <a href='../proc/ercmp1.html'>ercmp1</a>(me, Ioptn, Nparm, Nu
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Error</strong></td><td></td>
+  <td><strong>Error</strong>(Numgr+3)</td><td></td>
   
 </tr>
 
