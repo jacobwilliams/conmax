@@ -895,10 +895,10 @@
 
 !********************************************************************************
 !>
-! THIS FUNCTION SUBPROGRAM RETURNS THE SUBSCRIPT OF THE FIRST ELEMENT OF
-! ARRAY IARR RELATIVE TO IWORK (IF THE ARRAY IS INTEGER, I.E. 13 <=
-! IARR <= 23) OR RELATIVE TO WORK (IF THE ARRAY IS FLOATING POINT, I.E.
-! 1 <= IARR <= 12 OR 24 <= IARR <= 48).
+!  This function subprogram returns the subscript of the first element of
+!  array `iarr` relative to `iwork` (if the array is integer, i.e. `13 <=
+!  iarr <= 23`) or relative to work (if the array is floating point, i.e.
+!  `1 <= iarr <= 12` or `24 <= iarr <= 48`).
 
     function iloc(Iarr,Nparm,Numgr)
 
@@ -1071,158 +1071,148 @@
     subroutine derst(me,Ioptn,Nparm,Numgr,Pttbl,Iptb,Indm,Param,&
                      Ipt,Param1,v,Kcntyp,Confun)
 
-      implicit none
+    implicit none
 
-      class(conmax_solver),intent(inout) :: me
-      real(wp) :: Confun , delt , delt2 , Param , Param1 , Pttbl ,  &
-                  up , v
-      integer :: Indm , iopone , Ioptn , ioptth , Ipt , Iptb , iptkp , j , &
-                 k , Kcntyp , l , npar1 , Nparm , Numgr
+    class(conmax_solver),intent(inout) :: me
+    integer  :: Ioptn
+    integer  :: Nparm
+    integer  :: Numgr
+    integer  :: Iptb
+    integer  :: Indm
+    integer  :: Ipt
+    real(wp),dimension(Iptb,Indm)               :: Pttbl
+    real(wp),dimension(Nparm)                   :: Param1
+    real(wp),dimension(Nparm)                   :: Param
+    real(wp),dimension(Numgr+2*Nparm+1,Nparm+2) :: v
+    integer ,dimension(Numgr)                   :: Kcntyp
+    real(wp),dimension(Numgr,Nparm+1)           :: Confun
 
-      dimension Pttbl(Iptb,Indm) , Param(Nparm) , Param1(Nparm) , &
-                v(Numgr+2*Nparm+1,Nparm+2) , Kcntyp(Numgr) , &
-                Confun(Numgr,Nparm+1)
+    real(wp) :: delt , delt2, up
+    integer :: iopone , ioptth , iptkp , j , k , l , npar1
 
-! IF THE ONES DIGIT OF IOPTN IS 0, WE CALL FNSET WITH INDFN=1 TO DO THE
-! COMPUTATIONS DIRECTLY USING FORMULAS SUPPLIED BY THE USER.
-      iopone = Ioptn - (Ioptn/10)*10
-      if ( iopone<=0 ) then
-         call me%fnset(Nparm,Numgr,Pttbl,Iptb,Indm,Param,Ipt,1,Kcntyp, &
-                       Confun)
-         return
-      else
-!
-! HERE THE ONES DIGIT OF IOPTN IS 1, AND WE APPROXIMATE THE PARTIAL
-! DERIVATIVES USING CENTERED DIFFERENCE APPROXIMATIONS.
-!
-         ioptth = (Ioptn-(Ioptn/100000)*100000)/10000
-!
-! SET PRECISION DEPENDENT CONSTANTS.
-         delt = sqrt(spcmn)
-         delt2 = delt + delt
-         if ( ioptth<=0 ) then
-!
-! HERE IOPONE=1 AND IOPTTH=0, AND WE WORK ONLY WITH CONSTRAINT IPT,
-! WHERE IPT WILL BE AN INTEGER BETWEEN 1 AND NUMGR.
-! L WILL BE THE INDEX OF THE VARIABLE WITH RESPECT TO WHICH WE ARE
-! COMPUTING THE PARTIAL DERIVATIVE.
+    ! IF THE ONES DIGIT OF IOPTN IS 0, WE CALL FNSET WITH INDFN=1 TO DO THE
+    ! COMPUTATIONS DIRECTLY USING FORMULAS SUPPLIED BY THE USER.
+    iopone = Ioptn - (Ioptn/10)*10
+    if ( iopone<=0 ) then
+        call me%fnset(Nparm,Numgr,Pttbl,Iptb,Indm,Param,Ipt,1,Kcntyp, &
+        Confun)
+        return
+    else
+        ! HERE THE ONES DIGIT OF IOPTN IS 1, AND WE APPROXIMATE THE PARTIAL
+        ! DERIVATIVES USING CENTERED DIFFERENCE APPROXIMATIONS.
+        ioptth = (Ioptn-(Ioptn/100000)*100000)/10000
+        ! SET PRECISION DEPENDENT CONSTANTS.
+        delt = sqrt(spcmn)
+        delt2 = delt + delt
+        if ( ioptth<=0 ) then
+            ! HERE IOPONE=1 AND IOPTTH=0, AND WE WORK ONLY WITH CONSTRAINT IPT,
+            ! WHERE IPT WILL BE AN INTEGER BETWEEN 1 AND NUMGR.
+            ! L WILL BE THE INDEX OF THE VARIABLE WITH RESPECT TO WHICH WE ARE
+            ! COMPUTING THE PARTIAL DERIVATIVE.
             do l = 1 , Nparm
-!
-! SET PARAM1 EQUAL TO PARAM, ECXEPT WITH ITS LTH COMPONENT INCREASED
-! BY DELT.
-               do j = 1 , Nparm
-                  Param1(j) = Param(j)
-               enddo
-               Param1(l) = Param(l) + delt
-!
-! NOW CALL FNSET WITH INDFN=0 TO PLACE THE FUNCTION IN CONSTRAINT
-! IPT EVALUATED AT POINT PARAM1 IN CONFUN(IPT,1).
-               call me%fnset(Nparm,Numgr,Pttbl,Iptb,Indm,Param1,Ipt,0, &
-                          Kcntyp,Confun)
-               up = Confun(Ipt,1)
-!
-! SET PARAM1 EQUAL TO PARAM, ECXEPT WITH ITS LTH COMOPONENT DECREASED
-! BY DELT, AND CALL FNSET AGAIN.
-               Param1(l) = Param(l) - delt
-               call me%fnset(Nparm,Numgr,Pttbl,Iptb,Indm,Param1,Ipt,0, &
-                          Kcntyp,Confun)
-!
-! NOW WE CAN COMPUTE THE CENTERED-DIFFERENCE APPROXIMATION TO THE PARTIAL
-! DERIVATIVE OF THE FUNCTION IN CONSTRAINT IPT WITH RESPECT TO THE LTH
-! VARIABLE AT THE POINT PARAM.  THIS BELONGS IN CONFUN(IPT,L+1), AND
-! WE COULD PUT IT THERE NOW IF THE USER FOLLOWED DIRECTIONS AND DID NOT
-! CHANGE CONFUN(IPT,L+1) (SINCE INDFN=0) IN LATER FNSET CALLS, BUT TO
-! BE SAFE WE TEMPORARILY STORE IT IN V(L,1).
-! NOTE THAT V IS USED ELSEWHERE IN THE PROGRAM, BUT HERE IT IS JUST A
-! WORK ARRAY, WHILE THE WORK ARRAY PARAM1 IS NOT USED ELSEWHERE IN
-! THE PROGRAM.
-               v(l,1) = (up-Confun(Ipt,1))/delt2
+                ! SET PARAM1 EQUAL TO PARAM, ECXEPT WITH ITS LTH COMPONENT INCREASED
+                ! BY DELT.
+                do j = 1 , Nparm
+                    Param1(j) = Param(j)
+                enddo
+                Param1(l) = Param(l) + delt
+                ! NOW CALL FNSET WITH INDFN=0 TO PLACE THE FUNCTION IN CONSTRAINT
+                ! IPT EVALUATED AT POINT PARAM1 IN CONFUN(IPT,1).
+                call me%fnset(Nparm,Numgr,Pttbl,Iptb,Indm,Param1,Ipt,0,Kcntyp,Confun)
+                up = Confun(Ipt,1)
+                ! SET PARAM1 EQUAL TO PARAM, ECXEPT WITH ITS LTH COMOPONENT DECREASED
+                ! BY DELT, AND CALL FNSET AGAIN.
+                Param1(l) = Param(l) - delt
+                call me%fnset(Nparm,Numgr,Pttbl,Iptb,Indm,Param1,Ipt,0,Kcntyp,Confun)
+                ! NOW WE CAN COMPUTE THE CENTERED-DIFFERENCE APPROXIMATION TO THE PARTIAL
+                ! DERIVATIVE OF THE FUNCTION IN CONSTRAINT IPT WITH RESPECT TO THE LTH
+                ! VARIABLE AT THE POINT PARAM.  THIS BELONGS IN CONFUN(IPT,L+1), AND
+                ! WE COULD PUT IT THERE NOW IF THE USER FOLLOWED DIRECTIONS AND DID NOT
+                ! CHANGE CONFUN(IPT,L+1) (SINCE INDFN=0) IN LATER FNSET CALLS, BUT TO
+                ! BE SAFE WE TEMPORARILY STORE IT IN V(L,1).
+                ! NOTE THAT V IS USED ELSEWHERE IN THE PROGRAM, BUT HERE IT IS JUST A
+                ! WORK ARRAY, WHILE THE WORK ARRAY PARAM1 IS NOT USED ELSEWHERE IN
+                ! THE PROGRAM.
+                v(l,1) = (up-Confun(Ipt,1))/delt2
             enddo
-!
-! NOW COMPUTE THE VALUE OF THE FUNCTION AT PARAM, AND THEN PUT THE
-! EARLIER-COMPUTED PARTIAL DERIVATIVES INTO CONFUN.
+            ! NOW COMPUTE THE VALUE OF THE FUNCTION AT PARAM, AND THEN PUT THE
+            ! EARLIER-COMPUTED PARTIAL DERIVATIVES INTO CONFUN.
             call me%fnset(Nparm,Numgr,Pttbl,Iptb,Indm,Param,Ipt,0,Kcntyp, &
-                       Confun)
+            Confun)
             do l = 1 , Nparm
-               Confun(Ipt,l+1) = v(l,1)
+                Confun(Ipt,l+1) = v(l,1)
             enddo
             return
-         else
-!
-! HERE IOPONE=1 AND IOPTTH=1, AND EACH TIME FNSET IS CALLED IT WILL
-! COMPUTE VALUES FOR THE FUNCTIONS IN THE LEFT SIDES OF ALL CONSTRAINTS
-! (EXCEPT THOSE WHERE FNSET SETS ICNTYP(I)=0) IF IPT=0, AND WILL COMPUTE
-! VALUES FOR THE FUNCTIONS IN THE LEFT SIDES OF ALL STANDARD (I.E. TYPE
-! -1 OR -2) CONSTRAINTS IF IPT=-1.
-! WE FIRST SAVE IPT IN CASE THE USER CHANGES IT IN A FNSET CALL;  WE WILL
-! RESTORE IT AFTER EACH FNSET CALL.
+        else
+            ! HERE IOPONE=1 AND IOPTTH=1, AND EACH TIME FNSET IS CALLED IT WILL
+            ! COMPUTE VALUES FOR THE FUNCTIONS IN THE LEFT SIDES OF ALL CONSTRAINTS
+            ! (EXCEPT THOSE WHERE FNSET SETS ICNTYP(I)=0) IF IPT=0, AND WILL COMPUTE
+            ! VALUES FOR THE FUNCTIONS IN THE LEFT SIDES OF ALL STANDARD (I.E. TYPE
+            ! -1 OR -2) CONSTRAINTS IF IPT=-1.
+            ! WE FIRST SAVE IPT IN CASE THE USER CHANGES IT IN A FNSET CALL;  WE WILL
+            ! RESTORE IT AFTER EACH FNSET CALL.
             iptkp = Ipt
             npar1 = Nparm + 1
-!
-! WE WILL COMPUTE APPROXIMATIONS TO PARTIAL DERIVATIVES FOR THOSE
-! CONSTRAINTS WHICH FNSET IS ASKED BY IPT TO COMPUTE.  TO DETERMINE WHICH
-! THESE ARE WE ZERO OUT KCNTYP;  AFTER A FNSET CALL, THE DESIRED
-! CONSTRAINTS WILL BE THE CONSTRAINTS K WITH KCNTYP(K) /= 0 IF IPT=0,
-! OR THE CONSTRAINTS K WITH KCNTYP(K) < 0 IF IPT=-1.
+            ! WE WILL COMPUTE APPROXIMATIONS TO PARTIAL DERIVATIVES FOR THOSE
+            ! CONSTRAINTS WHICH FNSET IS ASKED BY IPT TO COMPUTE.  TO DETERMINE WHICH
+            ! THESE ARE WE ZERO OUT KCNTYP;  AFTER A FNSET CALL, THE DESIRED
+            ! CONSTRAINTS WILL BE THE CONSTRAINTS K WITH KCNTYP(K) /= 0 IF IPT=0,
+            ! OR THE CONSTRAINTS K WITH KCNTYP(K) < 0 IF IPT=-1.
             do k = 1 , Numgr
-               Kcntyp(k) = 0
+                Kcntyp(k) = 0
             enddo
-!
-! NOW FOLLOW BASICALLY THE SAME PROCEDURES AS IN THE IOPTTH=0 CASE DONE
-! ABOVE.
+            ! NOW FOLLOW BASICALLY THE SAME PROCEDURES AS IN THE IOPTTH=0 CASE DONE
+            ! ABOVE.
             do l = 1 , Nparm
-               do j = 1 , Nparm
-                  Param1(j) = Param(j)
-               enddo
-               Param1(l) = Param(l) + delt
-               call me%fnset(Nparm,Numgr,Pttbl,Iptb,Indm,Param1,Ipt,0, &
-                          Kcntyp,Confun)
-               Ipt = iptkp
-               do k = 1 , Numgr
-                  if ( Ipt<0 ) then
-                     if ( Kcntyp(k)>=0 ) goto 10
-                  elseif ( Kcntyp(k)==0 ) then
-                     goto 10
-                  endif
-!
-! SAVE THE UPPER NUMBERS IN COLUMN NPARM+1 OF V.
-                  v(k,npar1) = Confun(k,1)
- 10            enddo
-!
-! REVISE PARAM1 AND CALL FNSET AGAIN.
-               Param1(l) = Param(l) - delt
-               call me%fnset(Nparm,Numgr,Pttbl,Iptb,Indm,Param1,Ipt,0, &
-                          Kcntyp,Confun)
-               Ipt = iptkp
-               do k = 1 , Numgr
-                  if ( Ipt<0 ) then
-                     if ( Kcntyp(k)>=0 ) goto 20
-                  elseif ( Kcntyp(k)==0 ) then
-                     goto 20
-                  endif
-!
-! STORE THE APPROXIMATE PARTIAL DERIVATIVES WITH RESPECT TO THE LTH
-! VARIABLE IN THE LTH COLUMN OF V.
-                  v(k,l) = (v(k,npar1)-Confun(k,1))/delt2
- 20            enddo
+                do j = 1 , Nparm
+                    Param1(j) = Param(j)
+                enddo
+                Param1(l) = Param(l) + delt
+                call me%fnset(Nparm,Numgr,Pttbl,Iptb,Indm,Param1,Ipt,0, &
+                Kcntyp,Confun)
+                Ipt = iptkp
+                do k = 1 , Numgr
+                    if ( Ipt<0 ) then
+                        if ( Kcntyp(k)>=0 ) cycle
+                    elseif ( Kcntyp(k)==0 ) then
+                        cycle
+                    endif
+                    ! SAVE THE UPPER NUMBERS IN COLUMN NPARM+1 OF V.
+                    v(k,npar1) = Confun(k,1)
+                enddo
+                ! REVISE PARAM1 AND CALL FNSET AGAIN.
+                Param1(l) = Param(l) - delt
+                call me%fnset(Nparm,Numgr,Pttbl,Iptb,Indm,Param1,Ipt,0, &
+                Kcntyp,Confun)
+                Ipt = iptkp
+                do k = 1 , Numgr
+                    if ( Ipt<0 ) then
+                        if ( Kcntyp(k)>=0 ) cycle
+                    elseif ( Kcntyp(k)==0 ) then
+                        cycle
+                    endif
+                    ! STORE THE APPROXIMATE PARTIAL DERIVATIVES WITH RESPECT TO THE LTH
+                    ! VARIABLE IN THE LTH COLUMN OF V.
+                    v(k,l) = (v(k,npar1)-Confun(k,1))/delt2
+                enddo
             enddo
-! CALL FNSET AGAIN TO COMPUTE THE VALUES OF THE FUNCTIONS AT POINT
-! PARAM, AND THEN PUT THE EARLIER-COMPUTED PARTIAL DERIVATIVES INTO
-! CONFUN.
+            ! CALL FNSET AGAIN TO COMPUTE THE VALUES OF THE FUNCTIONS AT POINT
+            ! PARAM, AND THEN PUT THE EARLIER-COMPUTED PARTIAL DERIVATIVES INTO
+            ! CONFUN.
             call me%fnset(Nparm,Numgr,Pttbl,Iptb,Indm,Param,Ipt,0,Kcntyp, &
-                       Confun)
+            Confun)
             do k = 1 , Numgr
-               if ( Ipt<0 ) then
-                  if ( Kcntyp(k)>=0 ) goto 40
-               elseif ( Kcntyp(k)==0 ) then
-                  goto 40
-               endif
-               do l = 1 , Nparm
-                  Confun(k,l+1) = v(k,l)
-               enddo
- 40         enddo
-         endif
-      endif
+                if ( Ipt<0 ) then
+                    if ( Kcntyp(k)>=0 ) cycle
+                elseif ( Kcntyp(k)==0 ) then
+                    cycle
+                endif
+                do l = 1 , Nparm
+                    Confun(k,l+1) = v(k,l)
+                enddo
+            enddo
+        endif
+    endif
 
     end subroutine derst
 !********************************************************************************
@@ -1230,165 +1220,190 @@
 !********************************************************************************
 !>
 !
-      subroutine slpcon(me,Ioptn,Nparm,Numgr,Fun,Ifun,Pttbl,Iptb,Indm,  &
-                        Tolcon,Rchin,Irk,Itypm1,Itypm2,Icntyp,Rchdwn,   &
-                        Numlim,Itersl,Prjslp,Funtbl,Iyrct,x,Mact1,Iact1,&
-                        Jcntyp,Iphse,Enchg,Iwork,Liwrk,Work,Lwrk,Parser,&
-                        Isucc,Param,Error)
+    subroutine slpcon(me,Ioptn,Nparm,Numgr,Fun,Ifun,Pttbl,Iptb,Indm,  &
+                      Tolcon,Rchin,Irk,Itypm1,Itypm2,Icntyp,Rchdwn,   &
+                      Numlim,Itersl,Prjslp,Funtbl,Iyrct,x,Mact1,Iact1,&
+                      Jcntyp,Iphse,Enchg,Iwork,Liwrk,Work,Lwrk,Parser,&
+                      Isucc,Param,Error)
 
-      implicit none
+    implicit none
 
-      class(conmax_solver),intent(inout) :: me
-      real(wp) :: bndlgt , emin , emin1 , Enchg , enorm , &
-                  Error , Fun , Funtbl , Param , Parser , &
-                  prjlim , Prjslp , Pttbl , quots , Rchdwn , Rchin
-      real(wp) ::  ss , tol1 , tol2 , Tolcon , unit ,     &
-                   Work , x
-      integer :: i , Iact1 , Icntyp , Ifun , ilc05 , ilc07 , ilc08 ,       &
-                 ilc11 , ilc13 , ilc18 , ilc19 , ilc25 , ilc35 , ilc45 ,   &
-                 ilc47 , indic , Indm , Ioptn , Iphse
-      integer :: ipmax , Iptb , Irk , ismax , Isucc , Itersl , Itypm1 ,    &
-                 Itypm2 , Iwork , Iyrct , j , Jcntyp , Liwrk , Lwrk , m ,  &
-                 Mact1 , ng3 , npar1 , Nparm , nsrch
-      integer :: Numgr , numin , Numlim
-!
-      dimension Fun(Ifun) , Pttbl(Iptb,Indm) , Icntyp(Numgr) ,          &
-                Funtbl(Numgr,Nparm+1) , Iyrct(Numgr+2*Nparm) ,          &
-                x(Nparm+1) , Iact1(Numgr) , Param(Nparm) ,              &
-                Error(Numgr+3) , Jcntyp(Numgr) , Parser(Nparm) ,        &
-                Iwork(Liwrk) , Work(Lwrk)
-!
-! SET MACHINE AND PRECISION DEPENDENT CONSTANTS.
-      tol1 = ten*ten*spcmn
-      tol2 = ten*spcmn
-      ilc05 = iloc(5,Nparm,Numgr)
-      ilc07 = iloc(7,Nparm,Numgr)
-      ilc08 = iloc(8,Nparm,Numgr)
-      ilc11 = iloc(11,Nparm,Numgr)
-      ilc13 = iloc(13,Nparm,Numgr)
-      ilc18 = iloc(18,Nparm,Numgr)
-      ilc19 = iloc(19,Nparm,Numgr)
-      ilc25 = iloc(25,Nparm,Numgr)
-      ilc35 = iloc(35,Nparm,Numgr)
-      ilc45 = iloc(45,Nparm,Numgr)
-      ilc47 = iloc(47,Nparm,Numgr)
-      numin = 0
-      Isucc = 0
-      enorm = Error(Numgr+1)
-      npar1 = Nparm + 1
-      ng3 = Numgr + 3
-! IF ITERSL=0, SET IYRCT(1)=-1 FOR USE IN SETU1 AND TO TELL SLNPRO NOT
-! TO TRY TO USE INFORMATION FROM A PREVIOUS VERTEX.
-      if ( Itersl<=0 ) Iyrct(1) = -1
-!
-! CALL BNDSET TO SET (OR RESET) THE COEFFICIENT CHANGE BOUNDS.
- 100  call bndset(Nparm,x,Itersl,numin,Prjslp,Work(ilc07),Work(ilc45),  &
-                  Work(ilc05))
-!
-! CALL SETU1 TO SET UP FOR SLNPRO AND, IF NUMIN=0, TO DETERMINE
-! WHICH CONSTRAINTS ARE ACTIVE AND STORE FUNCTION AND GRADIENT VALUES
-! FOR THEM IN FUNTBL.
-      call me%setu1(Ioptn,Numgr,Nparm,numin,Rchin,Pttbl,Iptb,Indm,Fun,Ifun,&
-                 Funtbl,Work(ilc07),Param,Icntyp,Rchdwn,Error,Mact1,    &
-                 Iact1,bndlgt,Iyrct,Iphse,Iwork,Liwrk,Work,Lwrk,        &
-                 Work(ilc08),Iwork(ilc13),Work(ilc35),m)
-!
-! SET UNIT (FOR USE IN RCHMOD) EQUAL TO THE VALUE OF BNDLGT AFTER
-! SETU1 IS CALLED WITH NUMIN=0.
-      if ( numin<=0 ) unit = bndlgt
-!
-! CALL SLNPRO TO COMPUTE A SEARCH DIRECTION X.
-      call slnpro(Work(ilc35),m,npar1,Iyrct,Work(ilc47),Iwork(ilc18),   &
-                  Iwork(ilc19),Nparm,Numgr,x,indic)
-!
-! IF INDIC > 0 THEN SLNPRO FAILED TO PRODUCE AN X, AND IF WE HAVE
-! REACHED THE SLPCON ITERATION LIMIT WE RETURN WITH THE WARNING
-! ISUCC=1.
-      if ( indic<=0 ) then
-!
-! HERE SLNPRO SUCCEEDED AND WE SET PRJSLP=1.0 INITIALLY FOR SEARSL.
-         Prjslp = one
-!
-! WE NOW WISH TO DETERMINE PRJLIM = THE SMALLER OF 1.0/SPCMN AND
-! THE LARGEST VALUE OF PRJSLP FOR WHICH THE LINEAR STANDARD CONSTRAINTS
-! ARE SATISFIED FOR THE PARAMETER VECTOR PARAM+PRJSLP*X.  THIS
-! WILL GIVE AN UPPER BOUND FOR LINE SEARCHING.  NOTE THAT IN
-! THEORY WE SHOULD HAVE PRJLIM >= 1.0 SINCE THE LINEAR STANDARD
-! CONSTRAINTS SHOULD BE SATISFIED FOR PRJSLP=0.0 AND PRJSLP=1.0, BUT
-! ROUNDOFF ERROR COULD AFFECT THIS A LITTLE.  IF THERE ARE NO
-! LINEAR STANDARD CONSTRAINTS, WE SET PRJLIM=1.0/SPCMN.
-         prjlim = big
-!*****INSERT TO MAKE SEARCHING LESS VIOLENT.
-!     PRJLIM=TWO
-!*****END INSERT
-         if ( Itypm1>0 ) then
-            do i = 1 , Numgr
-               if ( Icntyp(i)+1==0 ) then
-! WE WISH TO HAVE SUMMATION (FUNTBL(I,J+1)*(PARAM(J)+PRJSLP*X(J)))
-! + C(I) <= 0.0 FOR I=1,...,NUMGR, ICNTYP(I) = -1,
-! WHERE THE ITH CONSTRAINT APPLIED TO PARAM SAYS
-! SUMMATION (FUNTBL(I,J+1)*PARAM(J)) + C(I) <= 0.0, SO C(I) IS THE
-! CONSTANT TERM ON THE LEFT SIDE OF LINEAR CONSTRANT I.
-! THUS FOR I=1,...,NUMGR, ICNTYP(I) = -1, WE WANT PRJLIM*SS <= SSS,
-! WHERE SS = SUMMATION (FUNTBL(I,J+1)*X(J)) AND SSS = -C(I) -
-! SUMMATION (FUNTBL(I,J+1)*PARAM(J)) = -FUNTBL(I,1).
-                  ss = zero
-                  do j = 1 , Nparm
-                     ss = ss + Funtbl(i,j+1)*x(j)
-                  enddo
-! IF SS < 10.0*SPCMN THIS CONSTRAINT WILL NOT PUT A SIGNIFICANT
-! RESTRICTION ON PRJSLP.
-                  if ( ss>=tol2 ) then
-! HERE SS >= 10.0*SPCMN AND WE COMPARE SSS/SS AGIANST PRJLIM.
-                     quots = -Funtbl(i,1)/ss
-                     if ( prjlim>quots ) prjlim = quots
-                  endif
-               endif
-            enddo
-         endif
-! DO NOT ALLOW A PRJSLP SMALLER THAN TOL1.
-         if ( Prjslp<tol1 ) Prjslp = tol1
-! CALL SEARSL TO DO A LINE SEARCH IN DIRECTION X.
-         call me%searsl(Ioptn,Numgr,Nparm,prjlim,tol1,x,Fun,Ifun,Pttbl,    &
+    class(conmax_solver),intent(inout) :: me
+    integer  :: Ioptn
+    integer  :: Nparm
+    integer  :: Numgr
+    integer  :: Ifun
+    integer  :: Iptb
+    integer  :: Indm
+    integer  :: Irk
+    integer  :: Itypm1
+    integer  :: Itypm2
+    integer  :: Numlim
+    integer  :: Itersl
+    integer  :: Mact1
+    integer  :: Iphse
+    integer  :: Liwrk
+    integer  :: Lwrk
+    integer  :: Isucc
+    real(wp) :: Tolcon
+    real(wp) :: Rchin
+    real(wp) :: Rchdwn
+    real(wp) :: Prjslp
+    real(wp) :: Enchg
+    real(wp) :: Fun(Ifun)
+    real(wp) :: Pttbl(Iptb,Indm)
+    integer  :: Icntyp(Numgr)
+    integer  :: Iyrct(Numgr+2*Nparm)
+    integer  :: Iact1(Numgr)
+    integer  :: Jcntyp(Numgr)
+    integer  :: Iwork(Liwrk)
+    real(wp) :: Funtbl(Numgr,Nparm+1)
+    real(wp) :: x(Nparm+1)
+    real(wp) :: Work(Lwrk)
+    real(wp) :: Parser(Nparm)
+    real(wp) :: Param(Nparm)
+    real(wp) :: Error(Numgr+3)
+
+    real(wp) :: bndlgt , emin , emin1 , enorm , prjlim , quots , &
+                ss , tol1 , tol2 , unit
+    integer :: i , ilc05 , ilc07 , ilc08 , ilc11 , ilc13 , ilc18 , &
+               ilc19 , ilc25 , ilc35 , ilc45 , ilc47 , indic , &
+               ipmax , ismax , j , m , ng3 , npar1 , nsrch, numin
+
+    ! SET MACHINE AND PRECISION DEPENDENT CONSTANTS.
+    tol1 = ten*ten*spcmn
+    tol2 = ten*spcmn
+    ilc05 = iloc(5,Nparm,Numgr)
+    ilc07 = iloc(7,Nparm,Numgr)
+    ilc08 = iloc(8,Nparm,Numgr)
+    ilc11 = iloc(11,Nparm,Numgr)
+    ilc13 = iloc(13,Nparm,Numgr)
+    ilc18 = iloc(18,Nparm,Numgr)
+    ilc19 = iloc(19,Nparm,Numgr)
+    ilc25 = iloc(25,Nparm,Numgr)
+    ilc35 = iloc(35,Nparm,Numgr)
+    ilc45 = iloc(45,Nparm,Numgr)
+    ilc47 = iloc(47,Nparm,Numgr)
+    numin = 0
+    Isucc = 0
+    enorm = Error(Numgr+1)
+    npar1 = Nparm + 1
+    ng3 = Numgr + 3
+
+    ! IF ITERSL=0, SET IYRCT(1)=-1 FOR USE IN SETU1 AND TO TELL SLNPRO NOT
+    ! TO TRY TO USE INFORMATION FROM A PREVIOUS VERTEX.
+    if ( Itersl<=0 ) Iyrct(1) = -1
+
+    do
+
+        ! CALL BNDSET TO SET (OR RESET) THE COEFFICIENT CHANGE BOUNDS.
+        call bndset(Nparm,x,Itersl,numin,Prjslp,Work(ilc07),Work(ilc45), &
+        Work(ilc05))
+
+        ! CALL SETU1 TO SET UP FOR SLNPRO AND, IF NUMIN=0, TO DETERMINE
+        ! WHICH CONSTRAINTS ARE ACTIVE AND STORE FUNCTION AND GRADIENT VALUES
+        ! FOR THEM IN FUNTBL.
+        call me%setu1(Ioptn,Numgr,Nparm,numin,Rchin,Pttbl,Iptb,Indm,Fun,Ifun,&
+                    Funtbl,Work(ilc07),Param,Icntyp,Rchdwn,Error,Mact1,      &
+                    Iact1,bndlgt,Iyrct,Iphse,Iwork,Liwrk,Work,Lwrk,          &
+                    Work(ilc08),Iwork(ilc13),Work(ilc35),m)
+
+        ! SET UNIT (FOR USE IN RCHMOD) EQUAL TO THE VALUE OF BNDLGT AFTER
+        ! SETU1 IS CALLED WITH NUMIN=0.
+        if ( numin<=0 ) unit = bndlgt
+
+        ! CALL SLNPRO TO COMPUTE A SEARCH DIRECTION X.
+        call slnpro(Work(ilc35),m,npar1,Iyrct,Work(ilc47),Iwork(ilc18), &
+                    Iwork(ilc19),Nparm,Numgr,x,indic)
+
+        ! IF INDIC > 0 THEN SLNPRO FAILED TO PRODUCE AN X, AND IF WE HAVE
+        ! REACHED THE SLPCON ITERATION LIMIT WE RETURN WITH THE WARNING
+        ! ISUCC=1.
+        if ( indic<=0 ) then
+
+            ! HERE SLNPRO SUCCEEDED AND WE SET PRJSLP=1.0 INITIALLY FOR SEARSL.
+            Prjslp = one
+
+            ! WE NOW WISH TO DETERMINE PRJLIM = THE SMALLER OF 1.0/SPCMN AND
+            ! THE LARGEST VALUE OF PRJSLP FOR WHICH THE LINEAR STANDARD CONSTRAINTS
+            ! ARE SATISFIED FOR THE PARAMETER VECTOR PARAM+PRJSLP*X.  THIS
+            ! WILL GIVE AN UPPER BOUND FOR LINE SEARCHING.  NOTE THAT IN
+            ! THEORY WE SHOULD HAVE PRJLIM >= 1.0 SINCE THE LINEAR STANDARD
+            ! CONSTRAINTS SHOULD BE SATISFIED FOR PRJSLP=0.0 AND PRJSLP=1.0, BUT
+            ! ROUNDOFF ERROR COULD AFFECT THIS A LITTLE.  IF THERE ARE NO
+            ! LINEAR STANDARD CONSTRAINTS, WE SET PRJLIM=1.0/SPCMN.
+            prjlim = big
+            !*****INSERT TO MAKE SEARCHING LESS VIOLENT.
+            !     PRJLIM=TWO
+            !*****END INSERT
+            if ( Itypm1>0 ) then
+                do i = 1 , Numgr
+                    if ( Icntyp(i)+1==0 ) then
+                        ! WE WISH TO HAVE SUMMATION (FUNTBL(I,J+1)*(PARAM(J)+PRJSLP*X(J)))
+                        ! + C(I) <= 0.0 FOR I=1,...,NUMGR, ICNTYP(I) = -1,
+                        ! WHERE THE ITH CONSTRAINT APPLIED TO PARAM SAYS
+                        ! SUMMATION (FUNTBL(I,J+1)*PARAM(J)) + C(I) <= 0.0, SO C(I) IS THE
+                        ! CONSTANT TERM ON THE LEFT SIDE OF LINEAR CONSTRANT I.
+                        ! THUS FOR I=1,...,NUMGR, ICNTYP(I) = -1, WE WANT PRJLIM*SS <= SSS,
+                        ! WHERE SS = SUMMATION (FUNTBL(I,J+1)*X(J)) AND SSS = -C(I) -
+                        ! SUMMATION (FUNTBL(I,J+1)*PARAM(J)) = -FUNTBL(I,1).
+                        ss = zero
+                        do j = 1 , Nparm
+                            ss = ss + Funtbl(i,j+1)*x(j)
+                        enddo
+                        ! IF SS < 10.0*SPCMN THIS CONSTRAINT WILL NOT PUT A SIGNIFICANT
+                        ! RESTRICTION ON PRJSLP.
+                        if ( ss>=tol2 ) then
+                            ! HERE SS >= 10.0*SPCMN AND WE COMPARE SSS/SS AGIANST PRJLIM.
+                            quots = -Funtbl(i,1)/ss
+                            if ( prjlim>quots ) prjlim = quots
+                        endif
+                    endif
+                enddo
+            endif
+            ! DO NOT ALLOW A PRJSLP SMALLER THAN TOL1.
+            if ( Prjslp<tol1 ) Prjslp = tol1
+            ! CALL SEARSL TO DO A LINE SEARCH IN DIRECTION X.
+            call me%searsl(Ioptn,Numgr,Nparm,prjlim,tol1,x,Fun,Ifun,Pttbl, &
                         Iptb,Indm,Param,Error,Rchdwn,Mact1,Iact1,Iphse,    &
                         unit,Tolcon,Rchin,Itypm1,Itypm2,Iwork,Liwrk,Work,  &
                         Lwrk,Work(ilc11),Work(ilc25),Prjslp,emin,emin1,    &
                         Parser,nsrch)
-!
-! COMPUTE THE ERROR NORM CHANGE ENCHG.
-         Enchg = emin - enorm
-!
-! IF WE HAVE AN IMPROVEMENT IN THE ERROR NORM ENORM OF MORE THAN TOL1
-! WE UPDATE PARAM AND ERROR AND RETURN WITH ISUCC=0, INDICATING SUCCESS.
-! OTHERWISE WE CHECK TO SEE IF WE HAVE REACHED THE SLPCON ITERATION
-! LIMIT, AND IF SO WE RETURN WITH ISUCC=1, INDICATING FAILURE.
-         if ( Enchg+tol1<0 ) then
-!
-! HERE WE HAD AN IMPROVEMENT IN THE ERROR NORM ENORM OF MORE THAN TOL1.
-            do j = 1 , Nparm
-               Param(j) = Parser(j)
-            enddo
-            call me%ercmp1(Ioptn,Nparm,Numgr,Fun,Ifun,Pttbl,Iptb,Indm,     &
-                        Param,1,Iphse,Iwork,Liwrk,Work(ilc08),Icntyp,   &
-                        ipmax,ismax,Error)
-            return
-         endif
-      endif
-!
-! HERE WE DID NOT OBTAIN AN IMPROVED ERROR NORM SO WE RETURN WITH THE
-! WARNING ISUCC=1 IF WE HAVE DONE NUMLIN ITERATIONS IN SLPCON.
-      if ( numin<Numlim ) then
-!
-! HERE WE DID NOT OBTAIN AN IMPROVED ERROR NORM BUT WE HAVE NOT YET DONE
-! NUMLIM ITERATIONS IN SLPCON SO WE INCREMENT NUMIN, SET IYRCT(1)=-1 TO
-! TELL SLNPRO NOT TO TRY TO USE INFORMATION FROM THE PREVIOUS FAILED
-! VERTEX, AND GO BACK TO CALL BNDSET AND TRY ANOTHER ITERATION WITH
-! A DIFFERENT TRUST REGION.
-         numin = numin + 1
-         Iyrct(1) = -1
-         goto 100
-      endif
-      Isucc = 1
+
+            ! COMPUTE THE ERROR NORM CHANGE ENCHG.
+            Enchg = emin - enorm
+
+            ! IF WE HAVE AN IMPROVEMENT IN THE ERROR NORM ENORM OF MORE THAN TOL1
+            ! WE UPDATE PARAM AND ERROR AND RETURN WITH ISUCC=0, INDICATING SUCCESS.
+            ! OTHERWISE WE CHECK TO SEE IF WE HAVE REACHED THE SLPCON ITERATION
+            ! LIMIT, AND IF SO WE RETURN WITH ISUCC=1, INDICATING FAILURE.
+            if ( Enchg+tol1<0 ) then
+                ! HERE WE HAD AN IMPROVEMENT IN THE ERROR NORM ENORM OF MORE THAN TOL1.
+                do j = 1 , Nparm
+                    Param(j) = Parser(j)
+                enddo
+                call me%ercmp1(Ioptn,Nparm,Numgr,Fun,Ifun,Pttbl,Iptb,Indm,   &
+                               Param,1,Iphse,Iwork,Liwrk,Work(ilc08),Icntyp, &
+                               ipmax,ismax,Error)
+                return
+            endif
+        endif
+
+        ! HERE WE DID NOT OBTAIN AN IMPROVED ERROR NORM SO WE RETURN WITH THE
+        ! WARNING ISUCC=1 IF WE HAVE DONE NUMLIN ITERATIONS IN SLPCON.
+        if ( numin<Numlim ) then
+            ! HERE WE DID NOT OBTAIN AN IMPROVED ERROR NORM BUT WE HAVE NOT YET DONE
+            ! NUMLIM ITERATIONS IN SLPCON SO WE INCREMENT NUMIN, SET IYRCT(1)=-1 TO
+            ! TELL SLNPRO NOT TO TRY TO USE INFORMATION FROM THE PREVIOUS FAILED
+            ! VERTEX, AND GO BACK TO CALL BNDSET AND TRY ANOTHER ITERATION WITH
+            ! A DIFFERENT TRUST REGION.
+            numin = numin + 1
+            Iyrct(1) = -1
+            cycle
+        endif
+        exit
+    end do
+    Isucc = 1
 
     end subroutine slpcon
 !********************************************************************************
@@ -1566,9 +1581,9 @@
 
       class(conmax_solver),intent(inout) :: me
       real(wp) :: actlim , bndfud , Bndlgt , Cofbnd , Confun , enorm , &
-                  Error , four , Fun , Funtbl , grdlgt , one , Param , &
+                  Error , Fun , Funtbl , grdlgt , Param , &
                   Pttbl , Rchdwn , Rchin , rchind , rt , stfudg , sum
-      real(wp) :: ten , two , v , Work , zero
+      real(wp) :: v , Work
       integer :: i , Iact , Iact1 , Icntyp , Ifun , ii , ilc22 , ilc24 , &
                  Indm , Ioptn , ioptth , Iphse , ipt , Iptb , &
                  Iwork , Iyrct , j , jj , k
@@ -1581,15 +1596,6 @@
                 Iyrct(Numgr+2*Nparm) , Icntyp(Numgr) ,                   &
                 Confun(Numgr,Nparm+1) , Iwork(Liwrk) , Work(Lwrk)
 
-! SET MACHINE AND PRECISION CONSTANTS FOR SETU1.
-!     NWRIT=output_unit
-      one = 1.0d0
-      zero = one - one
-      two = one + one
-      four = two + two
-      ten = four + four + two
-! END OF SETTING MACHINE AND PRECISION DEPENDENT CONSTANTS FOR SETU1.
-!
       ilc22 = iloc(22,Nparm,Numgr)
       ilc24 = iloc(24,Nparm,Numgr)
       npar1 = Nparm + 1

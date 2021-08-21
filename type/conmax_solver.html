@@ -125,7 +125,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title="<p>100.0% of total for derived types.</p>Including implementation: 1675 statements, 100.0% of total for derived types.">18 statements</a>
+    title="<p>100.0% of total for derived types.</p>Including implementation: 1714 statements, 100.0% of total for derived types.">18 statements</a>
      </li> 
      
      
@@ -3145,7 +3145,7 @@ private subroutine <a href='../proc/slpcon.html'>slpcon</a>(me, Ioptn, Nparm, Nu
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Fun</strong></td><td></td>
+  <td><strong>Fun</strong>(Ifun)</td><td></td>
   
 </tr>
 
@@ -3175,7 +3175,7 @@ private subroutine <a href='../proc/slpcon.html'>slpcon</a>(me, Ioptn, Nparm, Nu
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Pttbl</strong></td><td></td>
+  <td><strong>Pttbl</strong>(Iptb,Indm)</td><td></td>
   
 </tr>
 
@@ -3295,7 +3295,7 @@ private subroutine <a href='../proc/slpcon.html'>slpcon</a>(me, Ioptn, Nparm, Nu
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Icntyp</strong></td><td></td>
+  <td><strong>Icntyp</strong>(Numgr)</td><td></td>
   
 </tr>
 
@@ -3370,7 +3370,7 @@ private subroutine <a href='../proc/slpcon.html'>slpcon</a>(me, Ioptn, Nparm, Nu
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Funtbl</strong></td><td></td>
+  <td><strong>Funtbl</strong>(Numgr,Nparm+1)</td><td></td>
   
 </tr>
 
@@ -3385,7 +3385,7 @@ private subroutine <a href='../proc/slpcon.html'>slpcon</a>(me, Ioptn, Nparm, Nu
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Iyrct</strong></td><td></td>
+  <td><strong>Iyrct</strong>(Numgr+2*Nparm)</td><td></td>
   
 </tr>
 
@@ -3400,7 +3400,7 @@ private subroutine <a href='../proc/slpcon.html'>slpcon</a>(me, Ioptn, Nparm, Nu
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>x</strong></td><td></td>
+  <td><strong>x</strong>(Nparm+1)</td><td></td>
   
 </tr>
 
@@ -3430,7 +3430,7 @@ private subroutine <a href='../proc/slpcon.html'>slpcon</a>(me, Ioptn, Nparm, Nu
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Iact1</strong></td><td></td>
+  <td><strong>Iact1</strong>(Numgr)</td><td></td>
   
 </tr>
 
@@ -3445,7 +3445,7 @@ private subroutine <a href='../proc/slpcon.html'>slpcon</a>(me, Ioptn, Nparm, Nu
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Jcntyp</strong></td><td></td>
+  <td><strong>Jcntyp</strong>(Numgr)</td><td></td>
   
 </tr>
 
@@ -3490,7 +3490,7 @@ private subroutine <a href='../proc/slpcon.html'>slpcon</a>(me, Ioptn, Nparm, Nu
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Iwork</strong></td><td></td>
+  <td><strong>Iwork</strong>(Liwrk)</td><td></td>
   
 </tr>
 
@@ -3520,7 +3520,7 @@ private subroutine <a href='../proc/slpcon.html'>slpcon</a>(me, Ioptn, Nparm, Nu
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Work</strong></td><td></td>
+  <td><strong>Work</strong>(Lwrk)</td><td></td>
   
 </tr>
 
@@ -3550,7 +3550,7 @@ private subroutine <a href='../proc/slpcon.html'>slpcon</a>(me, Ioptn, Nparm, Nu
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Parser</strong></td><td></td>
+  <td><strong>Parser</strong>(Nparm)</td><td></td>
   
 </tr>
 
@@ -3580,7 +3580,7 @@ private subroutine <a href='../proc/slpcon.html'>slpcon</a>(me, Ioptn, Nparm, Nu
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Param</strong></td><td></td>
+  <td><strong>Param</strong>(Nparm)</td><td></td>
   
 </tr>
 
@@ -3595,7 +3595,7 @@ private subroutine <a href='../proc/slpcon.html'>slpcon</a>(me, Ioptn, Nparm, Nu
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Error</strong></td><td></td>
+  <td><strong>Error</strong>(Numgr+3)</td><td></td>
   
 </tr>
 
@@ -5306,11 +5306,11 @@ private subroutine <a href='../proc/derst.html'>derst</a>(me, Ioptn, Nparm, Numg
   
 <tr>
   
-  <td><span class="anchor" ></span>real(kind=wp)</td>
+  <td><span class="anchor" ></span>real(kind=wp),</td>
   <td></td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>dimension(Iptb,Indm)</td><td>::</td>
   <td><strong>Pttbl</strong></td><td></td>
   
 </tr>
@@ -5351,11 +5351,11 @@ private subroutine <a href='../proc/derst.html'>derst</a>(me, Ioptn, Nparm, Numg
   
 <tr>
   
-  <td><span class="anchor" ></span>real(kind=wp)</td>
+  <td><span class="anchor" ></span>real(kind=wp),</td>
   <td></td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>dimension(Nparm)</td><td>::</td>
   <td><strong>Param</strong></td><td></td>
   
 </tr>
@@ -5381,11 +5381,11 @@ private subroutine <a href='../proc/derst.html'>derst</a>(me, Ioptn, Nparm, Numg
   
 <tr>
   
-  <td><span class="anchor" ></span>real(kind=wp)</td>
+  <td><span class="anchor" ></span>real(kind=wp),</td>
   <td></td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>dimension(Nparm)</td><td>::</td>
   <td><strong>Param1</strong></td><td></td>
   
 </tr>
@@ -5396,11 +5396,11 @@ private subroutine <a href='../proc/derst.html'>derst</a>(me, Ioptn, Nparm, Numg
   
 <tr>
   
-  <td><span class="anchor" ></span>real(kind=wp)</td>
+  <td><span class="anchor" ></span>real(kind=wp),</td>
   <td></td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>dimension(Numgr+2*Nparm+1,Nparm+2)</td><td>::</td>
   <td><strong>v</strong></td><td></td>
   
 </tr>
@@ -5411,11 +5411,11 @@ private subroutine <a href='../proc/derst.html'>derst</a>(me, Ioptn, Nparm, Numg
   
 <tr>
   
-  <td><span class="anchor" ></span>integer</td>
+  <td><span class="anchor" ></span>integer,</td>
   <td></td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>dimension(Numgr)</td><td>::</td>
   <td><strong>Kcntyp</strong></td><td></td>
   
 </tr>
@@ -5426,11 +5426,11 @@ private subroutine <a href='../proc/derst.html'>derst</a>(me, Ioptn, Nparm, Numg
   
 <tr>
   
-  <td><span class="anchor" ></span>real(kind=wp)</td>
+  <td><span class="anchor" ></span>real(kind=wp),</td>
   <td></td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>dimension(Numgr,Nparm+1)</td><td>::</td>
   <td><strong>Confun</strong></td><td></td>
   
 </tr>

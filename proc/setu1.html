@@ -125,7 +125,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 5.7% of total for procedures.">179 statements</a>
+    title=" 5.5% of total for procedures.">174 statements</a>
      </li> 
      
      
@@ -853,9 +853,9 @@ private subroutine setu1(me, Ioptn, Numgr, Nparm, Numin, Rchin, Pttbl, Iptb, Ind
 
 <span class="k">      class</span><span class="p">(</span><span class="n">conmax_solver</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span> <span class="kd">::</span> <span class="n">me</span>
       <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">actlim</span> <span class="p">,</span> <span class="n">bndfud</span> <span class="p">,</span> <span class="n">Bndlgt</span> <span class="p">,</span> <span class="n">Cofbnd</span> <span class="p">,</span> <span class="n">Confun</span> <span class="p">,</span> <span class="n">enorm</span> <span class="p">,</span> <span class="p">&amp;</span>
-                  <span class="n">Error</span> <span class="p">,</span> <span class="n">four</span> <span class="p">,</span> <span class="n">Fun</span> <span class="p">,</span> <span class="n">Funtbl</span> <span class="p">,</span> <span class="n">grdlgt</span> <span class="p">,</span> <span class="n">one</span> <span class="p">,</span> <span class="n">Param</span> <span class="p">,</span> <span class="p">&amp;</span>
+                  <span class="n">Error</span> <span class="p">,</span> <span class="n">Fun</span> <span class="p">,</span> <span class="n">Funtbl</span> <span class="p">,</span> <span class="n">grdlgt</span> <span class="p">,</span> <span class="n">Param</span> <span class="p">,</span> <span class="p">&amp;</span>
                   <span class="n">Pttbl</span> <span class="p">,</span> <span class="n">Rchdwn</span> <span class="p">,</span> <span class="n">Rchin</span> <span class="p">,</span> <span class="n">rchind</span> <span class="p">,</span> <span class="n">rt</span> <span class="p">,</span> <span class="n">stfudg</span> <span class="p">,</span> <span class="nb">sum</span>
-<span class="nb">      </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">ten</span> <span class="p">,</span> <span class="n">two</span> <span class="p">,</span> <span class="n">v</span> <span class="p">,</span> <span class="n">Work</span> <span class="p">,</span> <span class="n">zero</span>
+<span class="nb">      </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">v</span> <span class="p">,</span> <span class="n">Work</span>
       <span class="kt">integer</span> <span class="kd">::</span> <span class="n">i</span> <span class="p">,</span> <span class="n">Iact</span> <span class="p">,</span> <span class="n">Iact1</span> <span class="p">,</span> <span class="n">Icntyp</span> <span class="p">,</span> <span class="n">Ifun</span> <span class="p">,</span> <span class="n">ii</span> <span class="p">,</span> <span class="n">ilc22</span> <span class="p">,</span> <span class="n">ilc24</span> <span class="p">,</span> <span class="p">&amp;</span>
                  <span class="n">Indm</span> <span class="p">,</span> <span class="n">Ioptn</span> <span class="p">,</span> <span class="n">ioptth</span> <span class="p">,</span> <span class="n">Iphse</span> <span class="p">,</span> <span class="n">ipt</span> <span class="p">,</span> <span class="n">Iptb</span> <span class="p">,</span> <span class="p">&amp;</span>
                  <span class="n">Iwork</span> <span class="p">,</span> <span class="n">Iyrct</span> <span class="p">,</span> <span class="n">j</span> <span class="p">,</span> <span class="n">jj</span> <span class="p">,</span> <span class="n">k</span>
@@ -868,15 +868,6 @@ private subroutine setu1(me, Ioptn, Numgr, Nparm, Numin, Rchin, Pttbl, Iptb, Ind
                 <span class="n">Iyrct</span><span class="p">(</span><span class="n">Numgr</span><span class="o">+</span><span class="mi">2</span><span class="o">*</span><span class="n">Nparm</span><span class="p">)</span> <span class="p">,</span> <span class="n">Icntyp</span><span class="p">(</span><span class="n">Numgr</span><span class="p">)</span> <span class="p">,</span>                   <span class="p">&amp;</span>
                 <span class="n">Confun</span><span class="p">(</span><span class="n">Numgr</span><span class="p">,</span><span class="n">Nparm</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="p">,</span> <span class="n">Iwork</span><span class="p">(</span><span class="n">Liwrk</span><span class="p">)</span> <span class="p">,</span> <span class="n">Work</span><span class="p">(</span><span class="n">Lwrk</span><span class="p">)</span>
 
-<span class="c">! SET MACHINE AND PRECISION CONSTANTS FOR SETU1.</span>
-<span class="c">!     NWRIT=output_unit</span>
-      <span class="n">one</span> <span class="o">=</span> <span class="mf">1.0d0</span>
-      <span class="n">zero</span> <span class="o">=</span> <span class="n">one</span> <span class="o">-</span> <span class="n">one</span>
-      <span class="n">two</span> <span class="o">=</span> <span class="n">one</span> <span class="o">+</span> <span class="n">one</span>
-      <span class="n">four</span> <span class="o">=</span> <span class="n">two</span> <span class="o">+</span> <span class="n">two</span>
-      <span class="n">ten</span> <span class="o">=</span> <span class="n">four</span> <span class="o">+</span> <span class="n">four</span> <span class="o">+</span> <span class="n">two</span>
-<span class="c">! END OF SETTING MACHINE AND PRECISION DEPENDENT CONSTANTS FOR SETU1.</span>
-<span class="c">!</span>
       <span class="n">ilc22</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">22</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
       <span class="n">ilc24</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">24</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
       <span class="n">npar1</span> <span class="o">=</span> <span class="n">Nparm</span> <span class="o">+</span> <span class="mi">1</span>
