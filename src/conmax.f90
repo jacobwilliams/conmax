@@ -4966,136 +4966,141 @@
 
 !********************************************************************************
 !>
-! THIS SUBROUTINE INCREASES RCHDWN OR RCHIN IF IT APPEARS SOME
-! CONSTRAINTS WHICH SHOULD HAVE BEEN DECLARED ACTIVE WERE NOT SO
-! DECLARED.
+!  This subroutine increases rchdwn or rchin if it appears some
+!  constraints which should have been declared active were not so
+!  declared.
 
-      subroutine rchmod(Numgr,Error,Err1,Icntyp,Mact,Iact,Ipmax,Ismax,  &
-                        Unit,Irch,Rchdwn,Rchin)
+    subroutine rchmod(Numgr,Error,Err1,Icntyp,Mact,Iact,Ipmax,Ismax, &
+                      Unit,Irch,Rchdwn,Rchin)
 
-      implicit none
+    implicit none
 
-      real(wp) :: ei , eipmax , enorm , epact , Err1 , Error , &
-                  fudge , rch1 , rchd1 , Rchdwn , Rchin , &
-                  rchtop , Unit
-      integer :: i , Iact , Icntyp , ipact , Ipmax , Irch , Ismax , l , &
-                 Mact , Numgr
+    integer,intent(in)     :: Numgr
+    integer,intent(in)     :: Iact(Numgr)
+    integer,intent(in)     :: Icntyp(Numgr)
+    integer,intent(in)     :: Ipmax
+    integer,intent(in)     :: Irch
+    integer,intent(in)     :: Ismax
+    integer,intent(in)     :: Mact
+    real(wp),intent(in)    :: Err1(Numgr+3)
+    real(wp),intent(in)    :: Error(Numgr+3)
+    real(wp),intent(inout) :: Rchdwn
+    real(wp),intent(inout) :: Rchin
+    real(wp),intent(in)    :: Unit
 
-      dimension Error(Numgr+3) , Err1(Numgr+3) , Icntyp(Numgr) , &
-                Iact(Numgr)
+    real(wp) :: ei , eipmax , enorm , epact , rch1 , rchd1
+    integer  :: i , ipact , l
 
-! SET MACHINE AND PRECISION DEPENDENT CONSTANTS.
-      fudge = one + one/ten
-      rchtop = one/spcmn
-      enorm = Error(Numgr+1)
-!
-      if ( Irch<0 ) then
-!
-!
-! HERE IRCH=-1 AND WE CONSIDER CHANGING RCHIN.
-!
-! SEE IF CONSTRAINT ISMAX IS IN THE ACTIVE SET, AND RETURN IF IT IS.
-! NOTE THAT ISMAX > 0 SINCE WE WOULD NOT HAVE CALLED RCHMOD WITH
-! IRCH=-1 IF THERE WERE NO STANDARD CONSTRAINTS.
-         do l = 1 , Mact
+    real(wp),parameter :: fudge = one + one/ten
+    real(wp),parameter :: rchtop = one/spcmn
+
+    ! SET MACHINE AND PRECISION DEPENDENT CONSTANTS.
+    enorm = Error(Numgr+1)
+
+    if ( Irch<0 ) then
+
+        ! HERE IRCH=-1 AND WE CONSIDER CHANGING RCHIN.
+
+        ! SEE IF CONSTRAINT ISMAX IS IN THE ACTIVE SET, AND RETURN IF IT IS.
+        ! NOTE THAT ISMAX > 0 SINCE WE WOULD NOT HAVE CALLED RCHMOD WITH
+        ! IRCH=-1 IF THERE WERE NO STANDARD CONSTRAINTS.
+        do l = 1 , Mact
             i = abs(Iact(l))
             if ( i==Ismax ) return
-         end do
-!
-! RETURN IF RCHIN >= RCHTOP.
-         if ( Rchin<rchtop ) then
-!
-! SET THE PROSPECTIVE NEW RCHIN.  NOTE THAT WITHOUT THE FUDGE FACTOR,
-! RCH1 WOULD HAVE BEEN JUST BARELY LARGE ENOUGH TO HAVE CAUSED
-! CONSTRAINT ISMAX TO BE DECLARED ACTIVE WHEN THE OLD ACTIVE SET WAS
-! DETERMINED.  (NOTE THAT RCHIN MAY HAVE ALREADY BEEN INCREASED SINCE
-! THEN.  NOTE ALSO THAT ERROR(ISMAX) < 0.0, ELSE CONSTRAINT ISMAX
-! WOULD HAVE BEEN DECLARED ACTIVE.)
+        end do
+
+        ! RETURN IF RCHIN >= RCHTOP.
+        if ( Rchin<rchtop ) then
+
+            ! SET THE PROSPECTIVE NEW RCHIN.  NOTE THAT WITHOUT THE FUDGE FACTOR,
+            ! RCH1 WOULD HAVE BEEN JUST BARELY LARGE ENOUGH TO HAVE CAUSED
+            ! CONSTRAINT ISMAX TO BE DECLARED ACTIVE WHEN THE OLD ACTIVE SET WAS
+            ! DETERMINED.  (NOTE THAT RCHIN MAY HAVE ALREADY BEEN INCREASED SINCE
+            ! THEN.  NOTE ALSO THAT ERROR(ISMAX) < 0.0, ELSE CONSTRAINT ISMAX
+            ! WOULD HAVE BEEN DECLARED ACTIVE.)
             rch1 = fudge*(-Error(Ismax))/Unit
-!
-! IF RCH1 > RCHIN WE REPLACE RCHIN BY MIN(RICH1,RCHTOP).
+
+            ! IF RCH1 > RCHIN WE REPLACE RCHIN BY MIN(RICH1,RCHTOP).
             if ( rch1>Rchin ) then
-               Rchin = rch1
-               if ( Rchin>rchtop ) Rchin = rchtop
+                Rchin = rch1
+                if ( Rchin>rchtop ) Rchin = rchtop
             end if
-         end if
-         return
-      else
-!
-!
-! HERE IRCH=1 AND WE CONSIDER CHANGING RCHDWN.
-!
-! SEE IF CONSTRAINT IPMAX IS IN THE ACTIVE SET, AND RETURN IF IT IS.
-! NOTE THAT IPMAX > 0 SINCE THERE WILL BE AT LEAST ONE PRIMARY
-! CONSTRAINT AT THIS STAGE (EVEN IF THERE WERE NONE IN THE ORIGINAL
-! PROBLEM).
-         do l = 1 , Mact
+
+        end if
+
+        return
+
+    else
+
+        ! HERE IRCH=1 AND WE CONSIDER CHANGING RCHDWN.
+
+        ! SEE IF CONSTRAINT IPMAX IS IN THE ACTIVE SET, AND RETURN IF IT IS.
+        ! NOTE THAT IPMAX > 0 SINCE THERE WILL BE AT LEAST ONE PRIMARY
+        ! CONSTRAINT AT THIS STAGE (EVEN IF THERE WERE NONE IN THE ORIGINAL
+        ! PROBLEM).
+        do l = 1 , Mact
             i = abs(Iact(l))
             if ( i==Ipmax ) return
-         end do
-!
-! RETURN IF RCHDWN >= RCHTOP.
-         if ( Rchdwn>=rchtop ) return
-!
-! WE WILL CONSIDER CHANGING RCHDWN IF THE NEW PRIMARY ERROR NORM WITH
-! ONLY THE OLD ACTIVE CONSTRAINTS CONSIDERED IS LESS THAN THE OLD
-! PRIMARY ERROR NORM, AND THIS WILL CERTAINLY BE THE CASE IF THE NEW
-! PRIMARY ERROR NORM IS LESS THAN THE OLD PRIMARY ERROR NORM.
-         if ( Err1(Numgr+1)>=enorm ) then
-!
-! COMPUTE EPACT, THE NEW PRIMARY ERROR NORM WITH ONLY THE OLD ACTIVE
-! CONSTRAINTS CONSIDERED.
+        end do
+
+        ! RETURN IF RCHDWN >= RCHTOP.
+        if ( Rchdwn>=rchtop ) return
+
+        ! WE WILL CONSIDER CHANGING RCHDWN IF THE NEW PRIMARY ERROR NORM WITH
+        ! ONLY THE OLD ACTIVE CONSTRAINTS CONSIDERED IS LESS THAN THE OLD
+        ! PRIMARY ERROR NORM, AND THIS WILL CERTAINLY BE THE CASE IF THE NEW
+        ! PRIMARY ERROR NORM IS LESS THAN THE OLD PRIMARY ERROR NORM.
+        if ( Err1(Numgr+1)>=enorm ) then
+            ! COMPUTE EPACT, THE NEW PRIMARY ERROR NORM WITH ONLY THE OLD ACTIVE
+            ! CONSTRAINTS CONSIDERED.
             ipact = 0
             do l = 1 , Mact
-               i = abs(Iact(l))
-               if ( Icntyp(i)<1 ) goto 20
-               if ( Icntyp(i)==1 ) then
-! HERE CONSTRAINT I WAS A PRIMARY ACTIVE CONSTRAINT.
-                  ei = Err1(i)
-               else
-                  ei = abs(Err1(i))
-               end if
-               if ( ipact<=0 ) then
-                  ipact = 1
-                  epact = ei
-               elseif ( ei>epact ) then
-                  epact = ei
-               end if
- 20         end do
-!
-! WE WILL RETURN IF EPACT IS >= THE OLD PRIMARY ERROR NORM, WHICH
-! WOULD INDICATE THAT THE STEP WAS TOO INACCURATE TO BE TRUSTED TO
-! USE IN MODIFYING RCHDWN.
-         end if
-!
-! COMPUTE EIPMAX AS THE OLD ERROR AT CONSTRAINT IPMAX (IF ICNTYP(IPMAX)
-! =1) OR THE OLD ABSOLUTE ERROR AT CONSTRAINT IPMAX (IF ICNTYP(IPMAX)
-! =2).  NOTE THAT HERE ICNTYP(IPMAX) MUST BE 1 OR 2 SINCE ERCMP1
-! COMPUTED IPMAX AS THE INDEX OF THE PRIMARY CONSTRAINT WHERE THE
-! MAXIMUM PRIMARY CONSTRAINT ERROR (I.E. VALUE) WAS ACHIEVED.
-         if ( Icntyp(Ipmax)<=1 ) then
+                i = abs(Iact(l))
+                if ( Icntyp(i)<1 ) cycle
+                if ( Icntyp(i)==1 ) then
+                    ! HERE CONSTRAINT I WAS A PRIMARY ACTIVE CONSTRAINT.
+                    ei = Err1(i)
+                else
+                    ei = abs(Err1(i))
+                end if
+                if ( ipact<=0 ) then
+                    ipact = 1
+                    epact = ei
+                elseif ( ei>epact ) then
+                    epact = ei
+                end if
+            end do
+            ! WE WILL RETURN IF EPACT IS >= THE OLD PRIMARY ERROR NORM, WHICH
+            ! WOULD INDICATE THAT THE STEP WAS TOO INACCURATE TO BE TRUSTED TO
+            ! USE IN MODIFYING RCHDWN.
+        end if
+
+        ! COMPUTE EIPMAX AS THE OLD ERROR AT CONSTRAINT IPMAX (IF ICNTYP(IPMAX)
+        ! =1) OR THE OLD ABSOLUTE ERROR AT CONSTRAINT IPMAX (IF ICNTYP(IPMAX)
+        ! =2).  NOTE THAT HERE ICNTYP(IPMAX) MUST BE 1 OR 2 SINCE ERCMP1
+        ! COMPUTED IPMAX AS THE INDEX OF THE PRIMARY CONSTRAINT WHERE THE
+        ! MAXIMUM PRIMARY CONSTRAINT ERROR (I.E. VALUE) WAS ACHIEVED.
+        if ( Icntyp(Ipmax)<=1 ) then
             eipmax = Error(Ipmax)
-         else
+        else
             eipmax = abs(Error(Ipmax))
-         end if
-!
-! SET THE PROSPECTIVE NEW RCHDWN.  NOTE THAT WITHOUT THE FUDGE FACTOR,
-! RCHD1 WOULD HAVE JUST BARELY BEEN LARGE ENOUGH TO HAVE CAUSED
-! CONSTRAINT IPMAX TO BE DECLARED ACTIVE WHEN THE OLD ACTIVE SET WAS
-! DETERMINED.  (NOTE THAT RCHDWN MAY HAVE ALREADY BEEN INCREASED
-! SINCE THEN.)
-         rchd1 = fudge*(enorm-eipmax)/Unit
-!
-! IF RCHD1 > RCHDWN WE REPLACE RCHDWN BY MIN (RCHD1, RCHTOP).
-         if ( rchd1<=Rchdwn ) return
-         Rchdwn = rchd1
-         if ( Rchdwn>rchtop ) Rchdwn = rchtop
-      end if
-!1700 WRITE(NWRIT,1800)RCHDWN
-!1800 FORMAT(23H ***RCHDWN INCREASED TO,E24.14)
-      return
-!2500 WRITE(NWRIT,2600)RCHIN
-!2600 FORMAT(22H ***RCHIN INCREASED TO,E24.14)
+        end if
+
+        ! SET THE PROSPECTIVE NEW RCHDWN.  NOTE THAT WITHOUT THE FUDGE FACTOR,
+        ! RCHD1 WOULD HAVE JUST BARELY BEEN LARGE ENOUGH TO HAVE CAUSED
+        ! CONSTRAINT IPMAX TO BE DECLARED ACTIVE WHEN THE OLD ACTIVE SET WAS
+        ! DETERMINED.  (NOTE THAT RCHDWN MAY HAVE ALREADY BEEN INCREASED
+        ! SINCE THEN.)
+        rchd1 = fudge*(enorm-eipmax)/Unit
+
+        ! IF RCHD1 > RCHDWN WE REPLACE RCHDWN BY MIN (RCHD1, RCHTOP).
+        if ( rchd1<=Rchdwn ) return
+        Rchdwn = rchd1
+        if ( Rchdwn>rchtop ) Rchdwn = rchtop
+    end if
+
+    ! WRITE(NWRIT,'(A,E24.14)') '***RCHDWN INCREASED TO', RCHDWN
+    ! WRITE(NWRIT,'(A,E24.14)') '***RCHIN INCREASED TO ', RCHIN
 
     end subroutine rchmod
 !********************************************************************************
