@@ -2672,17 +2672,17 @@
 
 !********************************************************************************
 !>
-!  THIS SUBROUTINE USES A MODIFIED QUADRATIC FITTING PROCESS TO
-!  SEARCH FOR THE MINIMUM OF A FUNCTION F.  IT REQURES AN INITIAL
-!  GUESS IN PROJCT, A TOLERANCE TOL1 ON THE SEARCH INTERVAL LENGTH,
-!  AN UPPER BOUND PRJLIM ON THE MINIMIZING POINT (WHICH SHOULD BE SET
-!  VERY LARGE IF NO UPPER BOUND IS DESIRED), AND A WAY TO COMPUTE F(X)
-!  FOR A GIVEN X.  THE SUBROUTINE WILL PRINT A WARNING AND RETURN IF
-!  IT WOULD NEED TO COMPUTE F MORE THAN INITLM TIMES IN THE INITIALIZATION
-!  OR MORE THAN NADD ADDITIONAL TIMES IN THE MAIN PART OF THE PROGRAM.
-!  WHEN THE SUBROUTINE RETURNS, IT WILL HAVE PUT THE MINIMUM LOCATION IN
-!  PROJCT, THE MINIMUM F VALUE IN EMIN, THE F VALUE FOR THE INITIAL
-!  PROJCT IN EMIN1, AND THE NUMBER OF TIMES IT COMPUTED F IN NSRCH.
+!  This subroutine uses a modified quadratic fitting process to
+!  search for the minimum of a function f.  it requres an initial
+!  guess in projct, a tolerance tol1 on the search interval length,
+!  an upper bound prjlim on the minimizing point (which should be set
+!  very large if no upper bound is desired), and a way to compute f(x)
+!  for a given x.  the subroutine will print a warning and return if
+!  it would need to compute f more than initlm times in the initialization
+!  or more than nadd additional times in the main part of the program.
+!  when the subroutine returns, it will have put the minimum location in
+!  projct, the minimum f value in emin, the f value for the initial
+!  projct in emin1, and the number of times it computed f in nsrch.
 
     subroutine searsl(me,Ioptn,Numgr,Nparm,Prjlim,Tol1,x,Fun,Ifun,Pttbl, &
                       Iptb,Indm,Param,Error,Rchdwn,Mact,Iact,Iphse,   &
@@ -3340,355 +3340,340 @@
 !********************************************************************************
 !>
 !
-      subroutine rkcon(me,Ioptn,Nparm,Numgr,Fun,Ifun,Pttbl,Iptb,Indm,   &
-                       Tolcon,Rchin,Iter,Irk,Ityp2,Ityp1,Itypm1,Itypm2, &
-                       Icntyp,Projct,Rchdwn,Nstep,Iphse,Enchg,Enc1,Pmat,&
-                       Funtbl,Iwork,Liwrk,Work,Lwrk,Iact,Actdif,Parprj, &
-                       Parser,Xrk,Err1,Confun,Isucc,Param,Error)
+    subroutine rkcon(me,Ioptn,Nparm,Numgr,Fun,Ifun,Pttbl,Iptb,Indm,   &
+                     Tolcon,Rchin,Iter,Irk,Ityp2,Ityp1,Itypm1,Itypm2, &
+                     Icntyp,Projct,Rchdwn,Nstep,Iphse,Enchg,Enc1,Pmat,&
+                     Funtbl,Iwork,Liwrk,Work,Lwrk,Iact,Actdif,Parprj, &
+                     Parser,Xrk,Err1,Confun,Isucc,Param,Error)
 
-      implicit none
+    implicit none
 
-      class(conmax_solver),intent(inout) :: me
-      real(wp) Actdif , Confun , conup , emin , emin1 , Enc1 ,   &
-             Enchg , enorm , Err1 , Error , Fun , Funtbl , &
-             Param , Parprj , Parser , pe , Pmat
-      real(wp) prden , prjbig , prjlim , Projct , prosea , Pttbl , qt ,   &
-               quots , Rchdwn , Rchin , s , ss ,    &
-               steplm , Tolcon
-      real(wp)  unit , wdist , Work , Xrk
-      integer i , Iact , Icntyp , icorct , ifrkpr , Ifun , ilc06 ,      &
-              ilc10 , ilc15 , ilc21 , ilc22 , ilc24 , ilc27 , ilc30 ,   &
-              ilc31 , ilc33 , ilc35 , ilc36 , ilc37 , ilc38
-      integer ilc40 , ilc43 , ilc48 , Indm , Ioptn , ioptth ,    &
-              Iphse , ipmax , ipt , Iptb , Irk , ismax , Isucc , Iter , &
-              Ityp1 , Ityp2 , Itypm1 , Itypm2 , iwarn
-      integer Iwork , j , jflag , l , limfl , Liwrk , Lwrk , mactrk ,   &
-              ncor , nfail , nmaj , nmin , npar1 , Nparm , nsrch ,      &
-              Nstep , Numgr
+    class(conmax_solver),intent(inout) :: me
+    real(wp) :: Actdif , Confun , conup , emin , emin1 , Enc1 ,   &
+                Enchg , enorm , Err1 , Error , Fun , Funtbl , &
+                Param , Parprj , Parser , pe , Pmat
+    real(wp) :: prjbig , prjlim , Projct , prosea , Pttbl , qt ,   &
+                quots , Rchdwn , Rchin , s , ss ,    &
+                steplm , Tolcon
+    real(wp)  :: unit , wdist , Work , Xrk
+    integer i , Iact , Icntyp , icorct , ifrkpr , Ifun , ilc06 ,      &
+            ilc10 , ilc15 , ilc21 , ilc22 , ilc24 , ilc27 , ilc30 ,   &
+            ilc31 , ilc33 , ilc35 , ilc36 , ilc37 , ilc38
+    integer ilc40 , ilc43 , ilc48 , Indm , Ioptn , ioptth ,    &
+            Iphse , ipmax , ipt , Iptb , Irk , ismax , Isucc , Iter , &
+            Ityp1 , Ityp2 , Itypm1 , Itypm2 , iwarn
+    integer Iwork , j , jflag , l , limfl , Liwrk , Lwrk , mactrk ,   &
+            ncor , nfail , nmaj , nmin , npar1 , Nparm , nsrch ,      &
+            Nstep , Numgr
 
-      dimension Fun(Ifun) , Pttbl(Iptb,Indm) , Icntyp(Numgr) ,          &
-                Param(Nparm) , Error(Numgr+3) , Pmat(Nparm+1,Numgr) ,   &
-                Funtbl(Numgr,Nparm+1) , Iwork(Liwrk) , Work(Lwrk) ,     &
-                Iact(Numgr) , Actdif(Numgr) , Parprj(Nparm) ,           &
-                Parser(Nparm) , Xrk(Nparm+1) , Err1(Numgr+3) ,          &
-                Confun(Numgr,Nparm+1)
+    dimension Fun(Ifun) , Pttbl(Iptb,Indm) , Icntyp(Numgr) ,          &
+              Param(Nparm) , Error(Numgr+3) , Pmat(Nparm+1,Numgr) ,   &
+              Funtbl(Numgr,Nparm+1) , Iwork(Liwrk) , Work(Lwrk) ,     &
+              Iact(Numgr) , Actdif(Numgr) , Parprj(Nparm) ,           &
+              Parser(Nparm) , Xrk(Nparm+1) , Err1(Numgr+3) ,          &
+              Confun(Numgr,Nparm+1)
 
     real(wp),parameter :: qthi = (one+two)/four
     real(wp),parameter :: qtlo = one/four
     real(wp),parameter :: tol1 = ten*ten*spcmn
     real(wp),parameter :: tol2 = ten*spcmn
+    real(wp),parameter :: prden = sqrt(sqrt(spcmn))
 
-      ioptth = (Ioptn-(Ioptn/100000)*100000)/10000
-      steplm = Tolcon/ten
-      ilc06 = iloc(6,Nparm,Numgr)
-      ilc10 = iloc(10,Nparm,Numgr)
-      ilc15 = iloc(15,Nparm,Numgr)
-      ilc21 = iloc(21,Nparm,Numgr)
-      ilc22 = iloc(22,Nparm,Numgr)
-      ilc24 = iloc(24,Nparm,Numgr)
-      ilc27 = iloc(27,Nparm,Numgr)
-      ilc30 = iloc(30,Nparm,Numgr)
-      ilc31 = iloc(31,Nparm,Numgr)
-      ilc33 = iloc(33,Nparm,Numgr)
-      ilc35 = iloc(35,Nparm,Numgr)
-      ilc36 = iloc(36,Nparm,Numgr)
-      ilc37 = iloc(37,Nparm,Numgr)
-      ilc38 = iloc(38,Nparm,Numgr)
-      ilc40 = iloc(40,Nparm,Numgr)
-      ilc43 = iloc(43,Nparm,Numgr)
-      ilc48 = iloc(48,Nparm,Numgr)
-      Isucc = 0
-      iwarn = 0
-      nfail = 0
-      conup = one
-! LIMFL IS A SAFETY VALVE TO CATCH BLUNDERS; WE SET IT HIGH ENOUGH
-! THAT IT WILL NOMALLY NOT COME INTO PLAY.
-      limfl = 20
-      enorm = Error(Numgr+1)
-      npar1 = Nparm + 1
-      prden = sqrt(sqrt(spcmn))
-      prjbig = one/spcmn
-      if ( Ityp2>0 ) prjbig = enorm
-!
-! THE NEXT GROUP OF STATEMENTS SETS AN INITIAL VALUE FOR PROJCT.
-!
-      if ( Iter>0 ) then
-         if ( Irk<=1 ) then
-!
-! HERE ITER > 0 AND IRK=1, AND WE BUILD ON THE PREVIOUS SUCCESSFUL
-! RK ITERATION, WHICH REDUCED THE ERROR NORM.  COMPUTE THE RATIO QT,
-! WHICH WOULD BE 1.0 IF RUNGE-KUTTA WERE EXACT AND NO CORRECTION STEP
-! WERE NEEDED.
+    ioptth = (Ioptn-(Ioptn/100000)*100000)/10000
+    steplm = Tolcon/ten
+    ilc06 = iloc(6,Nparm,Numgr)
+    ilc10 = iloc(10,Nparm,Numgr)
+    ilc15 = iloc(15,Nparm,Numgr)
+    ilc21 = iloc(21,Nparm,Numgr)
+    ilc22 = iloc(22,Nparm,Numgr)
+    ilc24 = iloc(24,Nparm,Numgr)
+    ilc27 = iloc(27,Nparm,Numgr)
+    ilc30 = iloc(30,Nparm,Numgr)
+    ilc31 = iloc(31,Nparm,Numgr)
+    ilc33 = iloc(33,Nparm,Numgr)
+    ilc35 = iloc(35,Nparm,Numgr)
+    ilc36 = iloc(36,Nparm,Numgr)
+    ilc37 = iloc(37,Nparm,Numgr)
+    ilc38 = iloc(38,Nparm,Numgr)
+    ilc40 = iloc(40,Nparm,Numgr)
+    ilc43 = iloc(43,Nparm,Numgr)
+    ilc48 = iloc(48,Nparm,Numgr)
+    Isucc = 0
+    iwarn = 0
+    nfail = 0
+    conup = one
+
+    ! LIMFL IS A SAFETY VALVE TO CATCH BLUNDERS; WE SET IT HIGH ENOUGH
+    ! THAT IT WILL NOMALLY NOT COME INTO PLAY.
+    limfl = 20
+    enorm = Error(Numgr+1)
+    npar1 = Nparm + 1
+    prjbig = one/spcmn
+    if ( Ityp2>0 ) prjbig = enorm
+
+    ! THE NEXT GROUP OF STATEMENTS SETS AN INITIAL VALUE FOR PROJCT.
+
+    if ( Iter>0 ) then
+        if ( Irk<=1 ) then
+            ! HERE ITER > 0 AND IRK=1, AND WE BUILD ON THE PREVIOUS SUCCESSFUL
+            ! RK ITERATION, WHICH REDUCED THE ERROR NORM.  COMPUTE THE RATIO QT,
+            ! WHICH WOULD BE 1.0 IF RUNGE-KUTTA WERE EXACT AND NO CORRECTION STEP
+            ! WERE NEEDED.
             qt = -Enc1/Projct
-!
             if ( qt>=qthi ) then
-!
-! HERE QT >= QTHI, SO WE INCREASE PROJCT BY A FACTOR OF 2.0.
-               Projct = two*Projct
-!
-! IF QTLO < QT < QTHI WE LEAVE PROJCT THE SAME, WHILE IF QT <=
-! QTLO WE DIVIDE PROJCT BY 4.0.
+                ! HERE QT >= QTHI, SO WE INCREASE PROJCT BY A FACTOR OF 2.0.
+                Projct = two*Projct
+                ! IF QTLO < QT < QTHI WE LEAVE PROJCT THE SAME, WHILE IF QT <=
+                ! QTLO WE DIVIDE PROJCT BY 4.0.
             elseif ( qt<=qtlo ) then
-               Projct = Projct/four
+                Projct = Projct/four
             end if
             goto 100
-         end if
-      end if
-!
-! HERE ITER=0, OR ELSE ITER > 0 AND IRK=2, AND WE INITIALIZE PROJCT.
-      if ( Iphse+1<0 ) then
-!
-! HERE ITER=0 OR IRK=2, AND IPHSE=-2, SO WE ARE ATTEMPTING TO GAIN TYPE -2
-! FEASIBILITY, AND WE SET THE INITIAL PROJCT TO ENOR3,
-! WHICH WILL BE > TOLCON.  NOTE THAT ENOR3 IS NOW IN ERROR(NUMGR+1).
-         Projct = enorm
-      elseif ( Iphse+1/=0 ) then
-!
-! HERE ITER=0 OR IRK=2, AND IPHSE=0, SO WE ARE IN THE MAIN ITERATIONS,
-! AND WE FIRST TRY PROJCT=1.0.
-         Projct = one
-!
-! CHECK TO SEE WHETHER ABS(ENORM) IS VERY
-! LARGE RELATIVE TO THE INITIAL PROJCT.  IF ABS(ENORM) >
-! PROJCT/PRDEN, WE REPLACE THE INITIAL PROJCT BY PRDEN*ABS(ENORM)
-! SO THAT IF WE ARE SUCCESSFUL IN REDUCING ENORM TO ENORM - PROJCT,
-! THIS QUANTITY WILL DIFFER FROM ENORM IN AT LEAST SOME SIGNIFICANT
-! DIGITS AND THE PROGRAM WILL HAVE A CHANCE TO CONTINUE.
-         pe = prden*abs(enorm)
-         if ( pe>Projct ) Projct = pe
-!
-! IF ITYP2 > 0 WE REDUCE THE INITIAL PROJCT TO ENORM (IF NECESSARY),
-! WHICH WILL BE THE GREATEST DECREASE IN ENORM WE CAN HOPE FOR SINCE
-! THERE WILL BE TYPE 2 CONSTRAINTS.
-         if ( Ityp2>0 ) then
+        end if
+    end if
+
+    ! HERE ITER=0, OR ELSE ITER > 0 AND IRK=2, AND WE INITIALIZE PROJCT.
+    if ( Iphse+1<0 ) then
+        ! HERE ITER=0 OR IRK=2, AND IPHSE=-2, SO WE ARE ATTEMPTING TO GAIN TYPE -2
+        ! FEASIBILITY, AND WE SET THE INITIAL PROJCT TO ENOR3,
+        ! WHICH WILL BE > TOLCON.  NOTE THAT ENOR3 IS NOW IN ERROR(NUMGR+1).
+        Projct = enorm
+    elseif ( Iphse+1/=0 ) then
+
+        ! HERE ITER=0 OR IRK=2, AND IPHSE=0, SO WE ARE IN THE MAIN ITERATIONS,
+        ! AND WE FIRST TRY PROJCT=1.0.
+        Projct = one
+
+        ! CHECK TO SEE WHETHER ABS(ENORM) IS VERY
+        ! LARGE RELATIVE TO THE INITIAL PROJCT.  IF ABS(ENORM) >
+        ! PROJCT/PRDEN, WE REPLACE THE INITIAL PROJCT BY PRDEN*ABS(ENORM)
+        ! SO THAT IF WE ARE SUCCESSFUL IN REDUCING ENORM TO ENORM - PROJCT,
+        ! THIS QUANTITY WILL DIFFER FROM ENORM IN AT LEAST SOME SIGNIFICANT
+        ! DIGITS AND THE PROGRAM WILL HAVE A CHANCE TO CONTINUE.
+        pe = prden*abs(enorm)
+        if ( pe>Projct ) Projct = pe
+        ! IF ITYP2 > 0 WE REDUCE THE INITIAL PROJCT TO ENORM (IF NECESSARY),
+        ! WHICH WILL BE THE GREATEST DECREASE IN ENORM WE CAN HOPE FOR SINCE
+        ! THERE WILL BE TYPE 2 CONSTRAINTS.
+        if ( Ityp2>0 ) then
             if ( enorm<Projct ) Projct = enorm
-         end if
-      end if
-!
-! WE DO NOT WISH FOR PROJCT TO BE SET BELOW 100.0*SPCMN
-      if ( Projct<ten*ten*spcmn ) Projct = ten*ten*spcmn
-!
-! WE DO NOT WANT PROJCT TO BE BIGGER THAN PRJBIG OR SMALLER THAN
-! STEPLM.
- 100  if ( Projct>prjbig ) Projct = prjbig
-      if ( Projct<steplm ) then
-         iwarn = 1
-         Projct = steplm
-      end if
-!
-! CALL RKSACT TO PUT THE (SIGNED) INDICES OF THE ACTIVE CONSTRAINTS IN
-! IACT AND THEIR NUMBER IN MACTRK.
-      call rksact(Ioptn,Numgr,Icntyp,Rchdwn,Rchin,conup,Projct,Error,   &
-                  mactrk,Actdif,Iact)
-!
-! SET UNIT FOR USE IN RCHMOD.  UNIT WILL BE THE VALUE OF PROJCT WHEN
-! RKSACT WAS LAST CALLED.
-      unit = Projct
-!
-! CALL PMTST TO SET UP PMAT.
-      call me%pmtst(Ioptn,Numgr,Nparm,Param,Icntyp,mactrk,Iact,Pttbl,Iptb, &
-                 Indm,Actdif,Iphse,Iwork,Liwrk,Work,Lwrk,Confun,Pmat)
-!
-! COPY PMAT TRANSPOSE INTO FUNTBL FOR POSSIBLE LATER USE.
-      do j = 1 , npar1
-         do i = 1 , mactrk
+        end if
+    end if
+
+    ! WE DO NOT WISH FOR PROJCT TO BE SET BELOW 100.0*SPCMN
+    if ( Projct<ten*ten*spcmn ) Projct = ten*ten*spcmn
+
+    ! WE DO NOT WANT PROJCT TO BE BIGGER THAN PRJBIG OR SMALLER THAN
+    ! STEPLM.
+100 if ( Projct>prjbig ) Projct = prjbig
+    if ( Projct<steplm ) then
+        iwarn = 1
+        Projct = steplm
+    end if
+
+    ! CALL RKSACT TO PUT THE (SIGNED) INDICES OF THE ACTIVE CONSTRAINTS IN
+    ! IACT AND THEIR NUMBER IN MACTRK.
+    call rksact(Ioptn,Numgr,Icntyp,Rchdwn,Rchin,conup,Projct,Error, &
+                mactrk,Actdif,Iact)
+
+    ! SET UNIT FOR USE IN RCHMOD.  UNIT WILL BE THE VALUE OF PROJCT WHEN
+    ! RKSACT WAS LAST CALLED.
+    unit = Projct
+
+    ! CALL PMTST TO SET UP PMAT.
+    call me%pmtst(Ioptn,Numgr,Nparm,Param,Icntyp,mactrk,Iact,Pttbl,Iptb, &
+                  Indm,Actdif,Iphse,Iwork,Liwrk,Work,Lwrk,Confun,Pmat)
+
+    ! COPY PMAT TRANSPOSE INTO FUNTBL FOR POSSIBLE LATER USE.
+    do j = 1 , npar1
+        do i = 1 , mactrk
             Funtbl(i,j) = Pmat(j,i)
-         end do
-      end do
-!
-!
-! STATEMENTS ABOVE THIS POINT WILL NOT BE EXECUTED AGAIN IN THIS CALL
-! TO RKCON.
-!
-! INCREMENT NFAIL, WHICH COUNTS THE NUMBER OF WOLFE CALLS IN THIS CALL TO
-! RKCON.
- 200  nfail = nfail + 1
-!
-! CALL WOLFE WITH ISTRT=0 TO SOLVE THE LEAST DISTANCE QP PROBLEM FROM
-! SCRATCH.
-      call wolfe(Nparm,mactrk,Pmat,0,s,ncor,Iwork(ilc15),Iwork,Liwrk,   &
-                 Work,Lwrk,Work(ilc33),Work(ilc06),Work(ilc31),         &
-                 Work(ilc30),Nparm,Numgr,Work(ilc40),Work(ilc36),wdist, &
-                 nmaj,nmin,jflag)
-!
-! IF WOLFE FAILS, WE MAY TRY AGAIN WITH A SMALLER PROJCT.
-!
-      if ( jflag<=0 ) then
-!
-! END OF GROUP OF STATEMENTS TO REDUCE PROJCT (IF POSSIBLE) TO HANDLE
-! A FAILURE OF SOME KIND.
-!
-! DO AN RK STEP.
-         call me%rkpar(Ioptn,Numgr,Nparm,Icntyp,mactrk,Iact,Actdif,Projct, &
-                    Param,Fun,Ifun,Pttbl,Iptb,Indm,Work(ilc36),Pmat,    &
-                    ncor,s,Itypm1,Itypm2,unit,Tolcon,Rchin,Nstep,Error, &
-                    Iphse,Iwork,Liwrk,Work,Lwrk,Confun,Work(ilc37),     &
-                    Work(ilc38),Work(ilc43),Parprj,ifrkpr)
-         if ( ifrkpr<=0 ) then
-!
-! HERE RKPAR SUCCEEDED.  IF THERE ARE ANY STANDARD CONSTRAINTS WE CALL
-! CORRCT TO MOVE BACK INTO THE FEASIBLE REGION IF NECESSARY.
+        end do
+    end do
+
+    ! STATEMENTS ABOVE THIS POINT WILL NOT BE EXECUTED AGAIN IN THIS CALL
+    ! TO RKCON.
+
+    ! INCREMENT NFAIL, WHICH COUNTS THE NUMBER OF WOLFE CALLS IN THIS CALL TO
+    ! RKCON.
+200 nfail = nfail + 1
+
+    ! CALL WOLFE WITH ISTRT=0 TO SOLVE THE LEAST DISTANCE QP PROBLEM FROM
+    ! SCRATCH.
+    call wolfe(Nparm,mactrk,Pmat,0,s,ncor,Iwork(ilc15),Iwork,Liwrk,   &
+               Work,Lwrk,Work(ilc33),Work(ilc06),Work(ilc31),         &
+               Work(ilc30),Nparm,Numgr,Work(ilc40),Work(ilc36),wdist, &
+               nmaj,nmin,jflag)
+
+    ! IF WOLFE FAILS, WE MAY TRY AGAIN WITH A SMALLER PROJCT.
+
+    if ( jflag<=0 ) then
+        ! END OF GROUP OF STATEMENTS TO REDUCE PROJCT (IF POSSIBLE) TO HANDLE
+        ! A FAILURE OF SOME KIND.
+
+        ! DO AN RK STEP.
+        call me%rkpar(Ioptn,Numgr,Nparm,Icntyp,mactrk,Iact,Actdif,Projct, &
+                      Param,Fun,Ifun,Pttbl,Iptb,Indm,Work(ilc36),Pmat,    &
+                      ncor,s,Itypm1,Itypm2,unit,Tolcon,Rchin,Nstep,Error, &
+                      Iphse,Iwork,Liwrk,Work,Lwrk,Confun,Work(ilc37),     &
+                      Work(ilc38),Work(ilc43),Parprj,ifrkpr)
+        if ( ifrkpr<=0 ) then
+            ! HERE RKPAR SUCCEEDED.  IF THERE ARE ANY STANDARD CONSTRAINTS WE CALL
+            ! CORRCT TO MOVE BACK INTO THE FEASIBLE REGION IF NECESSARY.
             if ( Itypm1+Itypm2<=0 ) goto 500
             call me%corrct(Ioptn,Nparm,Numgr,Fun,Ifun,Pttbl,Iptb,Indm,     &
-                        Icntyp,unit,Tolcon,Rchin,Error,mactrk,Iact,     &
-                        Projct,Iphse,Iwork,Liwrk,Work,Lwrk,Work(ilc27), &
-                        Err1,Work(ilc10),Pmat,Confun,Work(ilc48),       &
-                        Iwork(ilc21),Parprj,icorct)
+                           Icntyp,unit,Tolcon,Rchin,Error,mactrk,Iact,     &
+                           Projct,Iphse,Iwork,Liwrk,Work,Lwrk,Work(ilc27), &
+                           Err1,Work(ilc10),Pmat,Confun,Work(ilc48),       &
+                           Iwork(ilc21),Parprj,icorct)
             if ( icorct<=0 ) goto 500
-         end if
-      end if
-!
-! THE NEXT GROUP OF STATEMENTS IS TO REDUCE PROJCT (IF POSSIBLE) IN CASE
-! OF A FAILURE OF SOME KIND.
-!
- 300  if ( nfail<limfl ) then
-!
-! PREPARE TO TRY ANOTHER ITERATION IN RKCON BY
-! REDUCING PROJCT, AND MAKING SURE PROJCT IS NOT TOO SMALL.
-         Projct = Projct/(four+four)
-         if ( Projct>=steplm ) goto 400
-         if ( iwarn<=0 ) then
+        end if
+    end if
+
+    ! THE NEXT GROUP OF STATEMENTS IS TO REDUCE PROJCT (IF POSSIBLE) IN CASE
+    ! OF A FAILURE OF SOME KIND.
+
+300 if ( nfail<limfl ) then
+        ! PREPARE TO TRY ANOTHER ITERATION IN RKCON BY
+        ! REDUCING PROJCT, AND MAKING SURE PROJCT IS NOT TOO SMALL.
+        Projct = Projct/(four+four)
+        if ( Projct>=steplm ) goto 400
+        if ( iwarn<=0 ) then
             iwarn = 1
             Projct = steplm
             goto 400
-         end if
-      end if
-!
-! HERE RKCON COULD NOT REDUCE THE ERROR NORM AND WE RETURN WITH THE
-! WARNING ISUCC=1.
-      Isucc = 1
-      return
-!
-! NOW RESET ACTDIF FOR THIS PROJCT.
- 400  do l = 1 , mactrk
-         i = abs(Iact(l))
-         if ( Icntyp(i)<0 ) then
-!
+        end if
+    end if
+
+    ! HERE RKCON COULD NOT REDUCE THE ERROR NORM AND WE RETURN WITH THE
+    ! WARNING ISUCC=1.
+    Isucc = 1
+    return
+
+    ! NOW RESET ACTDIF FOR THIS PROJCT.
+400 do l = 1 , mactrk
+        i = abs(Iact(l))
+        if ( Icntyp(i)<0 ) then
             if ( Icntyp(i)+1<0 ) then
-!
-! HERE WE HAVE AN ACTIVE TYPE -2 CONSTRAINT, AND WE SET ACTDIF(L)=
-! MIN (CONUP, ERROR(I)/PROJCT).
-               Actdif(l) = Error(i)/Projct
-               if ( Actdif(l)>conup ) Actdif(l) = conup
+                ! HERE WE HAVE AN ACTIVE TYPE -2 CONSTRAINT, AND WE SET ACTDIF(L)=
+                ! MIN (CONUP, ERROR(I)/PROJCT).
+                Actdif(l) = Error(i)/Projct
+                if ( Actdif(l)>conup ) Actdif(l) = conup
             else
-!
-! HERE WE HAVE AN ACTIVE TYPE -1 CONSTRAINT.
-               Actdif(l) = Error(i)/Projct
+                ! HERE WE HAVE AN ACTIVE TYPE -1 CONSTRAINT.
+                Actdif(l) = Error(i)/Projct
             end if
-         elseif ( Icntyp(i)==0 ) then
-!
-! ICNTYP(I)=0 SHOULD NOT OCCUR HERE SINCE CONSTRAINT I WAS DECLARED
-! TO BE ACTIVE IN RKSACT, BUT WE ACCOUNT FOR IT ANYWAY AS A PRECAUTION.
+        elseif ( Icntyp(i)==0 ) then
+            ! ICNTYP(I)=0 SHOULD NOT OCCUR HERE SINCE CONSTRAINT I WAS DECLARED
+            ! TO BE ACTIVE IN RKSACT, BUT WE ACCOUNT FOR IT ANYWAY AS A PRECAUTION.
             Actdif(i) = zero
-!
-         elseif ( Icntyp(i)<=1 ) then
-!
-! HERE WE HAVE AN ACTIVE TYPE 1 CONSTRAINT.
+        elseif ( Icntyp(i)<=1 ) then
+            ! HERE WE HAVE AN ACTIVE TYPE 1 CONSTRAINT.
             Actdif(l) = one + (Error(i)-enorm)/Projct
-         else
-!
-! HERE WE HAVE AN ACTIVE TYPE 2 CONSTRAINT.
+        else
+            ! HERE WE HAVE AN ACTIVE TYPE 2 CONSTRAINT.
             Actdif(l) = one + (abs(Error(i))-enorm)/Projct
-         end if
-      end do
-!
-! COPY THE FIRST NPARM ROWS OF PMAT FROM OLD PMAT TRANSPOSE STORED
-! IN FUNTBL, THEN APPEND ACTDIF AS THE LAST ROW.
-      do j = 1 , mactrk
-         do i = 1 , Nparm
+        end if
+    end do
+
+    ! COPY THE FIRST NPARM ROWS OF PMAT FROM OLD PMAT TRANSPOSE STORED
+    ! IN FUNTBL, THEN APPEND ACTDIF AS THE LAST ROW.
+    do j = 1 , mactrk
+        do i = 1 , Nparm
             Pmat(i,j) = Funtbl(j,i)
-         end do
-         Pmat(npar1,j) = Actdif(j)
-      end do
-      goto 200
-!
-! PUT THE SEARCH DIRECTION VECTOR PARPRJ - PARAM INTO XRK.
- 500  do j = 1 , Nparm
-         Xrk(j) = Parprj(j) - Param(j)
-      end do
-!
-! CALL SEARSL TO DO A LINE SEARCH IN DIRECTION XRK AND PUT THE RESULTING
-! VECTOR IN PARSER.  START WITH A PROJECTION FACTOR PROSEA=1.0.
-! PARPRJ WILL BE USED TEMPORARILY AS A WORK VECTOR IN SEARSL.
-      prosea = one
-!
-! WE NOW WISH TO DETERMINE PRJLIM = THE SMALLER OF 1.0/SPCMN AND
-! THE LARGEST VALUE OF PROSEA FOR WHICH THE LINEAR STANDARD CONSTRAINTS
-! ARE SATISFIED FOR THE PARAMETER VECTOR PARAM+PROSEA*XRK.  THIS
-! WILL GIVE AN UPPER BOUND FOR LINE SEARCHING.  NOTE THAT IN
-! THEORY WE SHOULD HAVE PRJLIM >= 1.0 SINCE THE LINEAR STANDARD
-! CONSTRAINTS SHOULD BE SATISFIED FOR PROSEA=0.0 AND PROSEA=1.0, BUT
-! ROUNDOFF ERROR COULD AFFECT THIS A LITTLE.  IF THERE ARE NO
-! LINEAR STANDARD CONSTRAINTS, WE SET PRJLIM=1.0/SPCMN.
-      prjlim = one/spcmn
-!*****INSERT TO MAKE SEARCHING LESS VIOLENT.
-!     PRJLIM=TWO
-!*****END INSERT
-      if ( Itypm1>0 ) then
-! HERE WE HAVE AT LEAST ONE TYPE -1 CONSTRAINT, AND IF IOPTTH=1 WE
-! CALL DERST TO PUT ALL THE STANDARD CONSTRAINT VALUES AND GRADIENTS
-! INTO CONFUN(.,.).
-         if ( ioptth>0 ) then
-! WE SET IPT=-1 TO TELL DERST TO COMPUTE STANDARD CONSTRAINTS ONLY.
+        end do
+        Pmat(npar1,j) = Actdif(j)
+    end do
+    goto 200
+
+    ! PUT THE SEARCH DIRECTION VECTOR PARPRJ - PARAM INTO XRK.
+500 do j = 1 , Nparm
+        Xrk(j) = Parprj(j) - Param(j)
+    end do
+
+    ! CALL SEARSL TO DO A LINE SEARCH IN DIRECTION XRK AND PUT THE RESULTING
+    ! VECTOR IN PARSER.  START WITH A PROJECTION FACTOR PROSEA=1.0.
+    ! PARPRJ WILL BE USED TEMPORARILY AS A WORK VECTOR IN SEARSL.
+    prosea = one
+
+    ! WE NOW WISH TO DETERMINE PRJLIM = THE SMALLER OF 1.0/SPCMN AND
+    ! THE LARGEST VALUE OF PROSEA FOR WHICH THE LINEAR STANDARD CONSTRAINTS
+    ! ARE SATISFIED FOR THE PARAMETER VECTOR PARAM+PROSEA*XRK.  THIS
+    ! WILL GIVE AN UPPER BOUND FOR LINE SEARCHING.  NOTE THAT IN
+    ! THEORY WE SHOULD HAVE PRJLIM >= 1.0 SINCE THE LINEAR STANDARD
+    ! CONSTRAINTS SHOULD BE SATISFIED FOR PROSEA=0.0 AND PROSEA=1.0, BUT
+    ! ROUNDOFF ERROR COULD AFFECT THIS A LITTLE.  IF THERE ARE NO
+    ! LINEAR STANDARD CONSTRAINTS, WE SET PRJLIM=1.0/SPCMN.
+    prjlim = one/spcmn
+    !*****INSERT TO MAKE SEARCHING LESS VIOLENT.
+    !     PRJLIM=TWO
+    !*****END INSERT
+    if ( Itypm1>0 ) then
+        ! HERE WE HAVE AT LEAST ONE TYPE -1 CONSTRAINT, AND IF IOPTTH=1 WE
+        ! CALL DERST TO PUT ALL THE STANDARD CONSTRAINT VALUES AND GRADIENTS
+        ! INTO CONFUN(.,.).
+        if ( ioptth>0 ) then
+            ! WE SET IPT=-1 TO TELL DERST TO COMPUTE STANDARD CONSTRAINTS ONLY.
             ipt = -1
-            call me%derst(Ioptn,Nparm,Numgr,Pttbl,Iptb,Indm,Param,ipt,     &
+            call me%derst(Ioptn,Nparm,Numgr,Pttbl,Iptb,Indm,Param,ipt, &
                           Work(ilc24),Work(ilc35),Iwork(ilc22),Confun)
-         end if
-         do i = 1 , Numgr
+        end if
+        do i = 1 , Numgr
             if ( Icntyp(i)+1==0 ) then
-               ipt = i
-! HERE WE HAVE A TYPE -1 CONSTRAINT AND IF IOPTTH=0 WE CALL DERST
-! TO PUT THE CONSTRAINT VALUE AND GRADIENT INTO CONFUN(IPT,.).
-               if ( ioptth<=0 ) call me%derst(Ioptn,Nparm,Numgr,Pttbl,Iptb,&
-                                              Indm,Param,ipt,Work(ilc24),Work(ilc35),&
-                                              Iwork(ilc22),Confun)
-!
-! WE WISH TO HAVE SUMMATION (CONFUN(IPT,J+1)*(PARAM(J)+PROSEA*XRK(J)))
-! + C(IPT) <= 0.0 FOR IPT=1,...,NUMGR, ICNTYP(IPT) = -1,
-! WHERE THE IPTTH CONSTRAINT APPLIED TO PARAM SAYS
-! SUMMATION (CONFUN(IPT,J+1)*PARAM(J)) + C(IPT) <= 0.0, SO C(IPT) IS
-! THE CONSTANT TERM IN THE LEFT SIDE OF LINEAR CONSTRAINT IPT.
-! THUS FOR I=1PT,...,NUMGR, ICNTYP(IPT) = -1, WE WANT PRJLIM*SS <=
-! SSS, WHERE SS = SUMMATION (CONFUN(IPT,J+1)*XRK(J)) AND SSS = -C(IPT) -
-! SUMMATION (CONFUN(IPT,J+1)*PARAM(J)) = -CONFUN(IPT,1).
-               ss = zero
-               do j = 1 , Nparm
-                  ss = ss + Confun(i,j+1)*Xrk(j)
-               end do
-! IF SS < 10.0*SPCMN THIS CONSTRAINT WILL NOT PUT A SIGNIFICANT
-! RESTRICTION ON PROSEA.
-               if ( ss>=tol2 ) then
-! HERE SS >= 10.0*SPCMN AND WE COMPARE SSS/SS AGIANST PRJLIM.
-                  quots = -Confun(i,1)/ss
-                  if ( prjlim>quots ) prjlim = quots
-               end if
+                ipt = i
+                ! HERE WE HAVE A TYPE -1 CONSTRAINT AND IF IOPTTH=0 WE CALL DERST
+                ! TO PUT THE CONSTRAINT VALUE AND GRADIENT INTO CONFUN(IPT,.).
+                if ( ioptth<=0 ) call me%derst(Ioptn,Nparm,Numgr,Pttbl,Iptb,&
+                                               Indm,Param,ipt,Work(ilc24),Work(ilc35),&
+                                               Iwork(ilc22),Confun)
+
+                ! WE WISH TO HAVE SUMMATION (CONFUN(IPT,J+1)*(PARAM(J)+PROSEA*XRK(J)))
+                ! + C(IPT) <= 0.0 FOR IPT=1,...,NUMGR, ICNTYP(IPT) = -1,
+                ! WHERE THE IPTTH CONSTRAINT APPLIED TO PARAM SAYS
+                ! SUMMATION (CONFUN(IPT,J+1)*PARAM(J)) + C(IPT) <= 0.0, SO C(IPT) IS
+                ! THE CONSTANT TERM IN THE LEFT SIDE OF LINEAR CONSTRAINT IPT.
+                ! THUS FOR I=1PT,...,NUMGR, ICNTYP(IPT) = -1, WE WANT PRJLIM*SS <=
+                ! SSS, WHERE SS = SUMMATION (CONFUN(IPT,J+1)*XRK(J)) AND SSS = -C(IPT) -
+                ! SUMMATION (CONFUN(IPT,J+1)*PARAM(J)) = -CONFUN(IPT,1).
+                ss = zero
+                do j = 1 , Nparm
+                    ss = ss + Confun(i,j+1)*Xrk(j)
+                end do
+                ! IF SS < 10.0*SPCMN THIS CONSTRAINT WILL NOT PUT A SIGNIFICANT
+                ! RESTRICTION ON PROSEA.
+                if ( ss>=tol2 ) then
+                    ! HERE SS >= 10.0*SPCMN AND WE COMPARE SSS/SS AGIANST PRJLIM.
+                    quots = -Confun(i,1)/ss
+                    if ( prjlim>quots ) prjlim = quots
+                end if
             end if
-         end do
-      end if
-!
-      call me%searsl(Ioptn,Numgr,Nparm,prjlim,tol1,Xrk,Fun,Ifun,Pttbl,Iptb,&
-                     Indm,Param,Error,Rchdwn,mactrk,Iact,Iphse,unit,Tolcon,&
-                     Rchin,Itypm1,Itypm2,Iwork,Liwrk,Work,Lwrk,Err1,Parprj,&
-                     prosea,emin,emin1,Parser,nsrch)
-!
-! COMPUTE THE PRINCIPAL ERROR NORM CHANGE ENCHG.  ALSO COMPUTE ENC1, THE
-! CHANGE IN THE PRINCIPAL ERROR NORM WITHOUT THE LINE SEARCH.
-      Enchg = emin - enorm
-      Enc1 = emin1 - enorm
-!
-! IF WE OBTAINED MORE THAN A TOL1 REDUCTION IN ENORM WE UPDATE
-! PARAM AND CALL ERCMP1 TO UPDATE ERROR, AND RETURN WITH ISUCC=0
-! INDICATING SUCCESS.
-! OTHERWISE WE CHECK TO SEE IF WE HAVE REACHED THE RKCON ITERATION
-! LIMIT, AND IF SO WE RETURN WITH ISUCC=1, INDICATING FAILURE.
-      if ( Enchg+tol1>=0 ) goto 300
-!
-      do j = 1 , Nparm
-         Param(j) = Parser(j)
-      end do
-      call me%ercmp1(Ioptn,Nparm,Numgr,Fun,Ifun,Pttbl,Iptb,Indm,Param,1, &
-                  Iphse,Iwork,Liwrk,Confun,Icntyp,ipmax,ismax,Error)
-      end subroutine rkcon
+        end do
+    end if
+
+    call me%searsl(Ioptn,Numgr,Nparm,prjlim,tol1,Xrk,Fun,Ifun,Pttbl,Iptb,&
+                   Indm,Param,Error,Rchdwn,mactrk,Iact,Iphse,unit,Tolcon,&
+                   Rchin,Itypm1,Itypm2,Iwork,Liwrk,Work,Lwrk,Err1,Parprj,&
+                   prosea,emin,emin1,Parser,nsrch)
+
+    ! COMPUTE THE PRINCIPAL ERROR NORM CHANGE ENCHG.  ALSO COMPUTE ENC1, THE
+    ! CHANGE IN THE PRINCIPAL ERROR NORM WITHOUT THE LINE SEARCH.
+    Enchg = emin - enorm
+    Enc1 = emin1 - enorm
+
+    ! IF WE OBTAINED MORE THAN A TOL1 REDUCTION IN ENORM WE UPDATE
+    ! PARAM AND CALL ERCMP1 TO UPDATE ERROR, AND RETURN WITH ISUCC=0
+    ! INDICATING SUCCESS.
+    ! OTHERWISE WE CHECK TO SEE IF WE HAVE REACHED THE RKCON ITERATION
+    ! LIMIT, AND IF SO WE RETURN WITH ISUCC=1, INDICATING FAILURE.
+    if ( Enchg+tol1>=0 ) goto 300
+
+    do j = 1 , Nparm
+        Param(j) = Parser(j)
+    end do
+    call me%ercmp1(Ioptn,Nparm,Numgr,Fun,Ifun,Pttbl,Iptb,Indm,Param,1, &
+                   Iphse,Iwork,Liwrk,Confun,Icntyp,ipmax,ismax,Error)
+
+    end subroutine rkcon
 !********************************************************************************
 
 !********************************************************************************
@@ -3939,9 +3924,9 @@
     real(wp) :: Wvec(Nparm)
 
     real(wp) :: p6, wdist, proj1
-    integer icorct , ilc06 , ilc10 , ilc11 , ilc15 , ilc21 , ilc27 , &
-            ilc30 , ilc31 , ilc33 , ilc40 , ilc48 , j , jflag , nmaj , &
-            nmin , npar1 , nstcnt
+    integer :: icorct , ilc06 , ilc10 , ilc11 , ilc15 , ilc21 , ilc27 , &
+               ilc30 , ilc31 , ilc33 , ilc40 , ilc48 , j , jflag , nmaj , &
+               nmin , npar1 , nstcnt
 
     ! SET MACHINE AND PRECISION DEPENDENT CONSTANTS FOR RKPAR.
     ilc06 = iloc(6,Nparm,Numgr)
@@ -4095,239 +4080,240 @@
 
 !********************************************************************************
 !>
-! THIS SUBROUTINE DETERMINES WHETHER PARPRJ VIOLATES ANY TYPE -2
-! OR TYPE -1 (I.E. STANDARD) CONSTRAINTS BY MORE THAN TOLCON, AND IF
-! SO IT ATTEMPTS TO CORRECT BACK TO THE FEASIBLE REGION.  IF IT IS
-! SUCCESSFUL IT SETS ICORCT=0 AND REPLACES PARPRJ BY THE CORRECTED
-! VECTOR.  IF IT IS NOT SUCCESSFUL IT SETS ICORCT=1 AND LEAVES PARPRJ
-! UNCHANGED.  IF NO CORRECTION WAS NEEDED IT SETS ICORCT=-1 AND LEAVES
-! PARPRJ UNCHANGED.
+!  This subroutine determines whether parprj violates any type -2
+!  or type -1 (i.e. standard) constraints by more than tolcon, and if
+!  so it attempts to correct back to the feasible region.  if it is
+!  successful it sets icorct=0 and replaces parprj by the corrected
+!  vector.  if it is not successful it sets icorct=1 and leaves parprj
+!  unchanged.  if no correction was needed it sets icorct=-1 and leaves
+!  parprj unchanged.
 
-      subroutine corrct(me,Ioptn,Nparm,Numgr,Fun,Ifun,Pttbl,Iptb,Indm,     &
-                        Icntyp,Unit,Tolcon,Rchin,Error,Mact,Iact,Projct,&
-                        Iphse,Iwork,Liwrk,Work,Lwrk,Parwrk,Err1,Dvec,   &
-                        Pmat,Confun,Zwork,Jcntyp,Parprj,Icorct)
+    subroutine corrct(me,Ioptn,Nparm,Numgr,Fun,Ifun,Pttbl,Iptb,Indm,  &
+                      Icntyp,Unit,Tolcon,Rchin,Error,Mact,Iact,Projct,&
+                      Iphse,Iwork,Liwrk,Work,Lwrk,Parwrk,Err1,Dvec,   &
+                      Pmat,Confun,Zwork,Jcntyp,Parprj,Icorct)
 
-      implicit none
+    implicit none
 
-      class(conmax_solver),intent(inout) :: me
-      real(wp) Confun , Dvec , emin , eold , Err1 , Error , f1 ,   &
-             Fun , gain , p1 , Parprj , Parwrk , Pmat , procor ,  &
-             Projct , Pttbl , rchdwn , Rchin
-      real(wp) s , Tolcon , Unit , wdist , Work , Zwork
-      integer i , Iact , Icntyp , Icorct , Ifun , ilc06 , ilc16 ,       &
-              ilc22 , ilc24 , ilc30 , ilc31 , ilc33 , ilc35 , ilc41 ,   &
-              Indm , Ioptn , ioptth , Iphse , ipmax
-      integer ipt , Iptb , ismax , isrcr , Iwork , j , Jcntyp , jflag , &
-              k , l , Liwrk , Lwrk , Mact , ncor , newtit , newtlm ,    &
-              nmaj , nmin , npar1 , Nparm
-      integer Numgr
-!
-      dimension Fun(Ifun) , Pttbl(Iptb,Indm) , Icntyp(Numgr) ,          &
-                Parprj(Nparm) , Parwrk(Nparm) , Err1(Numgr+3) ,         &
-                Dvec(Nparm) , Pmat(Nparm+1,Numgr) , Jcntyp(Numgr) ,     &
-                Confun(Numgr,Nparm+1) , Zwork(Nparm) , Error(Numgr+3) , &
-                Iact(Numgr) , Iwork(Liwrk) , Work(Lwrk)
-!
-! SET MACHINE AND PRECISION DEPENDENT CONSTANTS.
-      ilc06 = iloc(6,Nparm,Numgr)
-      ilc16 = iloc(16,Nparm,Numgr)
-      ilc22 = iloc(22,Nparm,Numgr)
-      ilc24 = iloc(24,Nparm,Numgr)
-      ilc30 = iloc(30,Nparm,Numgr)
-      ilc31 = iloc(31,Nparm,Numgr)
-      ilc33 = iloc(33,Nparm,Numgr)
-      ilc35 = iloc(35,Nparm,Numgr)
-      ilc41 = iloc(41,Nparm,Numgr)
-      ioptth = (Ioptn-(Ioptn/100000)*100000)/10000
-      npar1 = Nparm + 1
-      newtit = 0
-! SET THE LIMIT NEWTLM ON THE NUMBER OF QUASI-NEWTON STEPS (I.E. CALLS
-! TO SEARCR), AND IF NEWTLM > 1 SET THE PARAMETER GAIN SUCH THAT NO
-! FURTHER NEWTON STEPS WILL BE TRIED UNLESS THE LAST STEP REDUCED THE
-! MAXIMUM STANDARD ERROR BY A FACTOR OF GAIN OR BETTER.
-      newtlm = 3
-      gain = one/(ten*ten)
-! FOR NOW, SET JCNTYP(I)=0 IF ICNTYP(I) > 0 AND SET JCNTYP(I)
-! =ICNTYP(I) OTHERWISE TO DIRECT ERCMP1 TO COMPUTE THE ERRORS FOR THE
-! STANDARD CONSTRAINTS ONLY.
-      do i = 1 , Numgr
-         if ( Icntyp(i)<=0 ) then
+    class(conmax_solver),intent(inout) :: me
+    real(wp) :: Confun , Dvec , emin , eold , Err1 , Error , f1 ,   &
+                Fun , gain , p1 , Parprj , Parwrk , Pmat , procor ,  &
+                Projct , Pttbl , rchdwn , Rchin
+    real(wp) :: s , Tolcon , Unit , wdist , Work , Zwork
+    integer :: i , Iact , Icntyp , Icorct , Ifun , ilc06 , ilc16 ,       &
+               ilc22 , ilc24 , ilc30 , ilc31 , ilc33 , ilc35 , ilc41 ,   &
+               Indm , Ioptn , ioptth , Iphse , ipmax
+    integer :: ipt , Iptb , ismax , isrcr , Iwork , j , Jcntyp , jflag , &
+               k , l , Liwrk , Lwrk , Mact , ncor , newtit , newtlm ,    &
+               nmaj , nmin , npar1 , Nparm
+    integer :: Numgr
+
+    dimension Fun(Ifun) , Pttbl(Iptb,Indm) , Icntyp(Numgr) ,          &
+              Parprj(Nparm) , Parwrk(Nparm) , Err1(Numgr+3) ,         &
+              Dvec(Nparm) , Pmat(Nparm+1,Numgr) , Jcntyp(Numgr) ,     &
+              Confun(Numgr,Nparm+1) , Zwork(Nparm) , Error(Numgr+3) , &
+              Iact(Numgr) , Iwork(Liwrk) , Work(Lwrk)
+
+    ! SET MACHINE AND PRECISION DEPENDENT CONSTANTS.
+    ilc06 = iloc(6,Nparm,Numgr)
+    ilc16 = iloc(16,Nparm,Numgr)
+    ilc22 = iloc(22,Nparm,Numgr)
+    ilc24 = iloc(24,Nparm,Numgr)
+    ilc30 = iloc(30,Nparm,Numgr)
+    ilc31 = iloc(31,Nparm,Numgr)
+    ilc33 = iloc(33,Nparm,Numgr)
+    ilc35 = iloc(35,Nparm,Numgr)
+    ilc41 = iloc(41,Nparm,Numgr)
+    ioptth = (Ioptn-(Ioptn/100000)*100000)/10000
+    npar1 = Nparm + 1
+    newtit = 0
+    ! SET THE LIMIT NEWTLM ON THE NUMBER OF QUASI-NEWTON STEPS (I.E. CALLS
+    ! TO SEARCR), AND IF NEWTLM > 1 SET THE PARAMETER GAIN SUCH THAT NO
+    ! FURTHER NEWTON STEPS WILL BE TRIED UNLESS THE LAST STEP REDUCED THE
+    ! MAXIMUM STANDARD ERROR BY A FACTOR OF GAIN OR BETTER.
+    newtlm = 3
+    gain = one/(ten*ten)
+    ! FOR NOW, SET JCNTYP(I)=0 IF ICNTYP(I) > 0 AND SET JCNTYP(I)
+    ! =ICNTYP(I) OTHERWISE TO DIRECT ERCMP1 TO COMPUTE THE ERRORS FOR THE
+    ! STANDARD CONSTRAINTS ONLY.
+    do i = 1 , Numgr
+        if ( Icntyp(i)<=0 ) then
             Jcntyp(i) = Icntyp(i)
-         else
+        else
             Jcntyp(i) = 0
-         end if
-      end do
-! PUT PARPRJ IN PARWRK FOR USE IN ERCMP1 AND FNSET.
-      do j = 1 , Nparm
-         Parwrk(j) = Parprj(j)
-      end do
-! CALL ERCMP1 WITH ICNUSE=1 TO COMPUTE THE STANDARD ERRORS.
-! WE TAKE IPHSE=-3 AS A KLUDGE TO TELL ERCMP1 TO COMPUTE ONLY STANDARD
-! ERRORS IF THE TEN THOUSANDS DIGIT OF IOPTN IS 1, THUS SAVING ERCMP1
-! THE WORK OF SCANNING ICNTYP.
-      call me%ercmp1(Ioptn,Nparm,Numgr,Fun,Ifun,Pttbl,Iptb,Indm,Parwrk,1,  &
-                     -3,Iwork,Liwrk,Confun,Jcntyp,ipmax,ismax,Err1)
-!
-! IF THE TYPE -2 AND TYPE -1 ERROR NORMS ARE BOTH <= TOLCON
-! WE RETURN WITH ICORCT=-1.
-! NOTE THAT IN THEORY THE TYPE -1 CONSTRAINTS SHOULD BE NO PROBLEM,
-! BUT OCCASIONALLY THEY ARE VIOLATED DUE TO ROUNDOFF ERROR OR
-! PROBLEMS IN WOLFE, SO WE CHECK THEM TO BE SAFE.
-      if ( Err1(Numgr+3)>Tolcon ) then
-!
-! HERE THE TYPE -2 ERROR NORM IS > TOLCON AND WE CALL RCHMOD WITH
-! IRCH=-1 TO SEE IF RCHIN SHOULD BE INCREASED.
-         call rchmod(Numgr,Error,Err1,Icntyp,Mact,Iact,ipmax,ismax,Unit,&
-                     -1,rchdwn,Rchin)
-      elseif ( Err1(Numgr+2)<=Tolcon ) then
-         Icorct = -1
-         return
-      end if
-!
-! PUT PARPRJ INTO THE WORK VECTOR ZWORK SO PARPRJ ITSELF WILL REMAIN
-! UNCHANGED UNLESS CORRCT IS SUCCESSFUL IN CORRECTING BACK INTO THE
-! FEASIBLE REGION.
-      do j = 1 , Nparm
-         Zwork(j) = Parprj(j)
-      end do
-! COMPUTE EOLD = MAX(ERR1(NUMGR+2),ERR1(NUMGR+3)).  NOTE THAT EOLD IS
-! POSITIVE SINCE OTHERWISE WE WOULD HAVE RETURNED ABOVE (ASSUMING
-! TOLCON >= 0.0).  THUS IF ONLY ONE TYPE OF STANDARD CONSTRAINT IS
-! PRESENT, THE FACT THAT ERR1(NUMGR+2) OR ERR1(NUMGR+3) IS ZERO WILL
-! DO NO HARM.
-      eold = Err1(Numgr+3)
-      if ( Err1(Numgr+2)>eold ) eold = Err1(Numgr+2)
-!
-! STATEMENTS ABOVE THIS POINT WILL NOT BE EXECUTED AGAIN IN THIS CALL
-! TO CORRCT.
-! NOW WE SET UP PMAT FOR USE IN WOLFE TO TRY TO COMPUTE A VECTOR DVEC
-! POINTING BACK INTO THE FEASIBLE REGION.
-! IF IOPTTH=1 WE CALL DERST ONCE TO PUT THE STANDARD
-! GRADIENTS IN CONFUN.
- 100  if ( ioptth>0 ) then
-! WE SET IPT=-1 TO TELL DERST TO COMPUTE STANDARD CONSTRAINTS ONLY.
-         ipt = -1
-         call me%derst(Ioptn,Nparm,Numgr,Pttbl,Iptb,Indm,Parwrk,ipt, &
-                       Work(ilc24),Work(ilc35),Iwork(ilc22),Confun)
-      end if
-!
-      l = 0
-      do i = 1 , Numgr
-         if ( Icntyp(i)+1<0 ) then
-!
-! HERE ICNTYP(I)=-2 AND WE WILL INCLUDE CONSTRAINT I IF AND ONLY IF
-! ERR1(I) >= -RCHIN*PROJCT.  WHEN ICNTYP(I)=-1 WE HAVE A LINEAR
-! STANDARD CONSTRAINT AND IT WILL ALWAYS BE INCLUDED.
-            if ( Err1(i)+Rchin*Projct<0 ) goto 200
-         elseif ( Icntyp(i)+1/=0 ) then
-            goto 200
-         end if
-!
-         if ( ioptth<=0 ) then
-!
-! HERE IOPTTH=0 AND WE HAVE NOT YET PLACED THE GRADIENT OF THE LEFT
-! SIDE OF CONSTRAINT I IN CONFUN(I,.) SO WE DO IT NOW.
-            ipt = i
-            call me%derst(Ioptn,Nparm,Numgr,Pttbl,Iptb,Indm,Parwrk,ipt,    &
+        end if
+    end do
+    ! PUT PARPRJ IN PARWRK FOR USE IN ERCMP1 AND FNSET.
+    do j = 1 , Nparm
+        Parwrk(j) = Parprj(j)
+    end do
+    ! CALL ERCMP1 WITH ICNUSE=1 TO COMPUTE THE STANDARD ERRORS.
+    ! WE TAKE IPHSE=-3 AS A KLUDGE TO TELL ERCMP1 TO COMPUTE ONLY STANDARD
+    ! ERRORS IF THE TEN THOUSANDS DIGIT OF IOPTN IS 1, THUS SAVING ERCMP1
+    ! THE WORK OF SCANNING ICNTYP.
+    call me%ercmp1(Ioptn,Nparm,Numgr,Fun,Ifun,Pttbl,Iptb,Indm,Parwrk,1,  &
+                   -3,Iwork,Liwrk,Confun,Jcntyp,ipmax,ismax,Err1)
+
+    ! IF THE TYPE -2 AND TYPE -1 ERROR NORMS ARE BOTH <= TOLCON
+    ! WE RETURN WITH ICORCT=-1.
+    ! NOTE THAT IN THEORY THE TYPE -1 CONSTRAINTS SHOULD BE NO PROBLEM,
+    ! BUT OCCASIONALLY THEY ARE VIOLATED DUE TO ROUNDOFF ERROR OR
+    ! PROBLEMS IN WOLFE, SO WE CHECK THEM TO BE SAFE.
+    if ( Err1(Numgr+3)>Tolcon ) then
+        ! HERE THE TYPE -2 ERROR NORM IS > TOLCON AND WE CALL RCHMOD WITH
+        ! IRCH=-1 TO SEE IF RCHIN SHOULD BE INCREASED.
+        call rchmod(Numgr,Error,Err1,Icntyp,Mact,Iact,ipmax,ismax,Unit,&
+                    -1,rchdwn,Rchin)
+    elseif ( Err1(Numgr+2)<=Tolcon ) then
+        Icorct = -1
+        return
+    end if
+
+    ! PUT PARPRJ INTO THE WORK VECTOR ZWORK SO PARPRJ ITSELF WILL REMAIN
+    ! UNCHANGED UNLESS CORRCT IS SUCCESSFUL IN CORRECTING BACK INTO THE
+    ! FEASIBLE REGION.
+    do j = 1 , Nparm
+        Zwork(j) = Parprj(j)
+    end do
+    ! COMPUTE EOLD = MAX(ERR1(NUMGR+2),ERR1(NUMGR+3)).  NOTE THAT EOLD IS
+    ! POSITIVE SINCE OTHERWISE WE WOULD HAVE RETURNED ABOVE (ASSUMING
+    ! TOLCON >= 0.0).  THUS IF ONLY ONE TYPE OF STANDARD CONSTRAINT IS
+    ! PRESENT, THE FACT THAT ERR1(NUMGR+2) OR ERR1(NUMGR+3) IS ZERO WILL
+    ! DO NO HARM.
+    eold = Err1(Numgr+3)
+    if ( Err1(Numgr+2)>eold ) eold = Err1(Numgr+2)
+
+    ! STATEMENTS ABOVE THIS POINT WILL NOT BE EXECUTED AGAIN IN THIS CALL
+    ! TO CORRCT.
+
+    main_loop: do
+
+        ! NOW WE SET UP PMAT FOR USE IN WOLFE TO TRY TO COMPUTE A VECTOR DVEC
+        ! POINTING BACK INTO THE FEASIBLE REGION.
+        ! IF IOPTTH=1 WE CALL DERST ONCE TO PUT THE STANDARD
+        ! GRADIENTS IN CONFUN.
+        if ( ioptth>0 ) then
+            ! WE SET IPT=-1 TO TELL DERST TO COMPUTE STANDARD CONSTRAINTS ONLY.
+            ipt = -1
+            call me%derst(Ioptn,Nparm,Numgr,Pttbl,Iptb,Indm,Parwrk,ipt, &
                           Work(ilc24),Work(ilc35),Iwork(ilc22),Confun)
-         end if
-!
-         l = l + 1
-! PUT THE GRADIENT OF THE LEFT SIDE OF CONSTRAINT I IN PMAT(1,L),...,
-! PMAT(NPARM,L).
-         do k = 1 , Nparm
-            Pmat(k,l) = Confun(i,k+1)
-         end do
-!
-! SET ROW NPARM+1 OF PMAT.  WE WILL USUALLY SET PMAT(NPARM+1,L)=
-! ERR1(I), SO THE WOLFE CONSTRAINT WILL BE GRADIENT(I).DVEC + ERR1(I)
-! <= 0.0, I.E. (-GRADIENT(I)).DVEC >= ERR1(I).  THE EXCEPTION
-! OCCURS WHEN ICNTYP(I)=-1 AND ERR1(I) < 0.0, IN WHICH CASE WE
-! REPLACE ERR1(I) BY ERR1(I)/2.0, IN ORDER TO INSURE THAT EVEN IF PROCOR
-! TAKES ON ITS MAXIMUM ALLOWED VALUE OF 2.0, NO LINEAR STANDARD
-! CONSTRAINT WITH NEGATIVE VALUE WILL BECOME POSITIVE VALUED (IGNORING
-! ROUNDOFF ERROR).  NOTE THAT IF WE DENOTE CONSTRAINT I BY G(I)  <=
-! 0.0, THEN OUR INEQUALITIES BECOME (GRAD G)(I).DVEC <= -G(I) (OR
-! -G(I)/2.0), SO A SOLUTION DVEC IS A SOLUTION OF (GRAD G)(I).DVEC =
-! -G(I) - EPS(I) WHERE EPS(I) = -(GRAD G)(I).DVEC - G(I) = -(GRAD G)(I).
-! DVEC - G(I)/2.0 - G(I)/2.0 >= 0.0.  NOW WITH H(I) = G(I) + EPS(I)
-! WE HAVE (GRAD H)(I).DVEC = -H(I), SO IF THIS SYSTEM IS SQUARE THEN
-! PROCOR=1.0 GIVES A NEWTON STEP FOR SOLVING H(I)=0.0, I.E. G(I) =
-! -EPS(I) <= 0.0.  THUS WE HAVE A KIND OF GENERALIZED NEWTON METHOD.
-         if ( Icntyp(i)+1==0 ) then
-            if ( Err1(i)<0 ) then
-               Pmat(npar1,l) = Err1(i)/two
-               goto 200
+        end if
+
+        l = 0
+        do i = 1 , Numgr
+            if ( Icntyp(i)+1<0 ) then
+                ! HERE ICNTYP(I)=-2 AND WE WILL INCLUDE CONSTRAINT I IF AND ONLY IF
+                ! ERR1(I) >= -RCHIN*PROJCT.  WHEN ICNTYP(I)=-1 WE HAVE A LINEAR
+                ! STANDARD CONSTRAINT AND IT WILL ALWAYS BE INCLUDED.
+                if ( Err1(i)+Rchin*Projct<0 ) cycle
+            elseif ( Icntyp(i)+1/=0 ) then
+                cycle
             end if
-         end if
-         Pmat(npar1,l) = Err1(i)
- 200  end do
-!
-! CALL WOLFE WITH ISTRT=0 TO COMPUTE DVEC FROM SCRATCH.
-      call wolfe(Nparm,l,Pmat,0,s,ncor,Iwork(ilc16),Iwork,Liwrk,Work,   &
-                 Lwrk,Work(ilc33),Work(ilc06),Work(ilc31),Work(ilc30),  &
-                 Nparm,Numgr,Work(ilc41),Dvec,wdist,nmaj,nmin,jflag)
-      if ( jflag<=0 ) then
-!
-! IN SEARCR AND MULLER WE WILL COMPUTE THE ERROR NORM FOR TYPE -2 AND
-! TYPE -1 CONSTRAINTS, SO WE LUMP THESE TOGETHER BY SETTING
-! JCNTYP(I)=-2 IF IT WAS -1.
-         do i = 1 , Numgr
-            if ( Jcntyp(i)+1==0 ) Jcntyp(i) = -2
-         end do
-! CALL SEARCR TO TRY TO FIND PROCOR SO THAT WITH PARAMETER VECTOR
-! (OLD) ZWORK + PROCOR*DVEC WE WILL HAVE EMIN = MAX(ERR1(NUMGR+2),
-! ERR1(NUMGR+3)) <= TOLCON.  IF SEARCR SUCCEEDS IT WILL RETURN WITH
-! ISRCR=0, WHILE IF IT FAILS IT WILL RETURN WITH ISRCR=1.  IN BOTH
-! CASES ZWORK WILL BE THE SAME AS BEFORE THE CALL TO SEARCR.
-         call me%searcr(Ioptn,Nparm,Numgr,Dvec,Fun,Ifun,Pttbl,Iptb,Indm,   &
-                        Zwork,Tolcon,Iphse,Iwork,Liwrk,Work,Lwrk,Parwrk,   &
-                        Err1,p1,f1,procor,emin,isrcr)
-         if ( isrcr<=0 ) then
-!
-!
-! HERE THE MAXIMUM STANDARD CONSTRAINT ERROR IS SMALLER
-! THAN -TOLCON.  SINCE OVERCORRECTION MAY ADVERSELY AFFECT CONVERGENCE,
-! WE CALL MULLER TO TRY TO GET THE MAXIMUM STANDARD CONSTRAINT
-! ERROR INTO THE CLOSED INTERVAL (-TOLCON, TOLCON) BY FURTHER
-! MODIFYING PROCOR.
-            if ( emin+Tolcon<0 ) call me%muller(Ioptn,Nparm,Numgr,Dvec,Fun,&
-                 Ifun,Pttbl,Iptb,Indm,Zwork,Tolcon,Iphse,Iwork,Liwrk,   &
-                 Work,Lwrk,Parwrk,Err1,p1,f1,procor,emin)
-!
-! NOW COMPUTE PARPRJ = ZWORK + PROCOR*DVEC, SET ICORCT=0, AND RETURN.
-            do j = 1 , Nparm
-               Parprj(j) = Zwork(j) + procor*Dvec(j)
+
+            if ( ioptth<=0 ) then
+                ! HERE IOPTTH=0 AND WE HAVE NOT YET PLACED THE GRADIENT OF THE LEFT
+                ! SIDE OF CONSTRAINT I IN CONFUN(I,.) SO WE DO IT NOW.
+                ipt = i
+                call me%derst(Ioptn,Nparm,Numgr,Pttbl,Iptb,Indm,Parwrk,ipt, &
+                              Work(ilc24),Work(ilc35),Iwork(ilc22),Confun)
+            end if
+
+            l = l + 1
+            ! PUT THE GRADIENT OF THE LEFT SIDE OF CONSTRAINT I IN PMAT(1,L),...,
+            ! PMAT(NPARM,L).
+            do k = 1 , Nparm
+                Pmat(k,l) = Confun(i,k+1)
             end do
-            Icorct = 0
-            return
-         else
-            newtit = newtit + 1
-            if ( newtit<newtlm ) then
-               if ( emin<=gain*eold ) then
-! HERE WE UPDATE ZWORK, EOLD, PARWRK, AND ERR1, AND TRY ANOTHER NEWTON
-! STEP WITH SEARCR.
-                  eold = emin
-                  do j = 1 , Nparm
-                     Zwork(j) = Zwork(j) + procor*Dvec(j)
-                     Parwrk(j) = Zwork(j)
-                  end do
-! WE TAKE IPHSE=-3 AS A KLUDGE TO TELL ERCMP1 TO COMPUTE ONLY STANDARD
-! ERRORS IF THE TEN THOUSANDS DIGIT OF IOPTN IS 1, THUS SAVING ERCMP1 THE
-! WORK OF SCANNING ICNTYP.
-                  call me%ercmp1(Ioptn,Nparm,Numgr,Fun,Ifun,Pttbl,Iptb,    &
-                              Indm,Parwrk,1,-3,Iwork,Liwrk,Confun,      &
-                              Jcntyp,ipmax,ismax,Err1)
-                  goto 100
-               end if
+
+            ! SET ROW NPARM+1 OF PMAT.  WE WILL USUALLY SET PMAT(NPARM+1,L)=
+            ! ERR1(I), SO THE WOLFE CONSTRAINT WILL BE GRADIENT(I).DVEC + ERR1(I)
+            ! <= 0.0, I.E. (-GRADIENT(I)).DVEC >= ERR1(I).  THE EXCEPTION
+            ! OCCURS WHEN ICNTYP(I)=-1 AND ERR1(I) < 0.0, IN WHICH CASE WE
+            ! REPLACE ERR1(I) BY ERR1(I)/2.0, IN ORDER TO INSURE THAT EVEN IF PROCOR
+            ! TAKES ON ITS MAXIMUM ALLOWED VALUE OF 2.0, NO LINEAR STANDARD
+            ! CONSTRAINT WITH NEGATIVE VALUE WILL BECOME POSITIVE VALUED (IGNORING
+            ! ROUNDOFF ERROR).  NOTE THAT IF WE DENOTE CONSTRAINT I BY G(I)  <=
+            ! 0.0, THEN OUR INEQUALITIES BECOME (GRAD G)(I).DVEC <= -G(I) (OR
+            ! -G(I)/2.0), SO A SOLUTION DVEC IS A SOLUTION OF (GRAD G)(I).DVEC =
+            ! -G(I) - EPS(I) WHERE EPS(I) = -(GRAD G)(I).DVEC - G(I) = -(GRAD G)(I).
+            ! DVEC - G(I)/2.0 - G(I)/2.0 >= 0.0.  NOW WITH H(I) = G(I) + EPS(I)
+            ! WE HAVE (GRAD H)(I).DVEC = -H(I), SO IF THIS SYSTEM IS SQUARE THEN
+            ! PROCOR=1.0 GIVES A NEWTON STEP FOR SOLVING H(I)=0.0, I.E. G(I) =
+            ! -EPS(I) <= 0.0.  THUS WE HAVE A KIND OF GENERALIZED NEWTON METHOD.
+            if ( Icntyp(i)+1==0 ) then
+                if ( Err1(i)<0 ) then
+                    Pmat(npar1,l) = Err1(i)/two
+                    cycle
+                end if
             end if
-         end if
-      end if
-!
-! HERE WE WERE UNABLE TO OBTAIN A FEASIBLE PARPRJ AND WE RETURN WITH
-! THE WARNING ICORCT=1.
-      Icorct = 1
+            Pmat(npar1,l) = Err1(i)
+        end do
+
+        ! CALL WOLFE WITH ISTRT=0 TO COMPUTE DVEC FROM SCRATCH.
+        call wolfe(Nparm,l,Pmat,0,s,ncor,Iwork(ilc16),Iwork,Liwrk,Work,   &
+                   Lwrk,Work(ilc33),Work(ilc06),Work(ilc31),Work(ilc30),  &
+                   Nparm,Numgr,Work(ilc41),Dvec,wdist,nmaj,nmin,jflag)
+        if ( jflag<=0 ) then
+
+            ! IN SEARCR AND MULLER WE WILL COMPUTE THE ERROR NORM FOR TYPE -2 AND
+            ! TYPE -1 CONSTRAINTS, SO WE LUMP THESE TOGETHER BY SETTING
+            ! JCNTYP(I)=-2 IF IT WAS -1.
+            do i = 1 , Numgr
+                if ( Jcntyp(i)+1==0 ) Jcntyp(i) = -2
+            end do
+            ! CALL SEARCR TO TRY TO FIND PROCOR SO THAT WITH PARAMETER VECTOR
+            ! (OLD) ZWORK + PROCOR*DVEC WE WILL HAVE EMIN = MAX(ERR1(NUMGR+2),
+            ! ERR1(NUMGR+3)) <= TOLCON.  IF SEARCR SUCCEEDS IT WILL RETURN WITH
+            ! ISRCR=0, WHILE IF IT FAILS IT WILL RETURN WITH ISRCR=1.  IN BOTH
+            ! CASES ZWORK WILL BE THE SAME AS BEFORE THE CALL TO SEARCR.
+            call me%searcr(Ioptn,Nparm,Numgr,Dvec,Fun,Ifun,Pttbl,Iptb,Indm,   &
+                           Zwork,Tolcon,Iphse,Iwork,Liwrk,Work,Lwrk,Parwrk,   &
+                           Err1,p1,f1,procor,emin,isrcr)
+            if ( isrcr<=0 ) then
+                ! HERE THE MAXIMUM STANDARD CONSTRAINT ERROR IS SMALLER
+                ! THAN -TOLCON.  SINCE OVERCORRECTION MAY ADVERSELY AFFECT CONVERGENCE,
+                ! WE CALL MULLER TO TRY TO GET THE MAXIMUM STANDARD CONSTRAINT
+                ! ERROR INTO THE CLOSED INTERVAL (-TOLCON, TOLCON) BY FURTHER
+                ! MODIFYING PROCOR.
+                if ( emin+Tolcon<0 ) call me%muller(Ioptn,Nparm,Numgr,Dvec,Fun,&
+                                                    Ifun,Pttbl,Iptb,Indm,Zwork,Tolcon,Iphse,Iwork,Liwrk, &
+                                                    Work,Lwrk,Parwrk,Err1,p1,f1,procor,emin)
+
+                ! NOW COMPUTE PARPRJ = ZWORK + PROCOR*DVEC, SET ICORCT=0, AND RETURN.
+                do j = 1 , Nparm
+                    Parprj(j) = Zwork(j) + procor*Dvec(j)
+                end do
+                Icorct = 0
+                return
+            else
+                newtit = newtit + 1
+                if ( newtit<newtlm ) then
+                    if ( emin<=gain*eold ) then
+                        ! HERE WE UPDATE ZWORK, EOLD, PARWRK, AND ERR1, AND TRY ANOTHER NEWTON
+                        ! STEP WITH SEARCR.
+                        eold = emin
+                        do j = 1 , Nparm
+                            Zwork(j) = Zwork(j) + procor*Dvec(j)
+                            Parwrk(j) = Zwork(j)
+                        end do
+                        ! WE TAKE IPHSE=-3 AS A KLUDGE TO TELL ERCMP1 TO COMPUTE ONLY STANDARD
+                        ! ERRORS IF THE TEN THOUSANDS DIGIT OF IOPTN IS 1, THUS SAVING ERCMP1 THE
+                        ! WORK OF SCANNING ICNTYP.
+                        call me%ercmp1(Ioptn,Nparm,Numgr,Fun,Ifun,Pttbl,Iptb, &
+                                       Indm,Parwrk,1,-3,Iwork,Liwrk,Confun,   &
+                                       Jcntyp,ipmax,ismax,Err1)
+                        cycle main_loop
+                    end if
+                end if
+            end if
+        end if
+
+        exit ! done
+    end do main_loop
+
+    ! HERE WE WERE UNABLE TO OBTAIN A FEASIBLE PARPRJ AND WE RETURN WITH
+    ! THE WARNING ICORCT=1.
+    Icorct = 1
 
     end subroutine corrct
 !********************************************************************************

@@ -125,7 +125,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title="<p>100.0% of total for derived types.</p>Including implementation: 1782 statements, 100.0% of total for derived types.">18 statements</a>
+    title="<p>100.0% of total for derived types.</p>Including implementation: 1785 statements, 100.0% of total for derived types.">18 statements</a>
      </li> 
      
      
@@ -1289,17 +1289,17 @@ private subroutine <a href='../proc/searsl.html'>searsl</a>(me, Ioptn, Numgr, Np
 
 
 
-<p>THIS SUBROUTINE USES A MODIFIED QUADRATIC FITTING PROCESS TO
-  SEARCH FOR THE MINIMUM OF A FUNCTION F.  IT REQURES AN INITIAL
-  GUESS IN PROJCT, A TOLERANCE TOL1 ON THE SEARCH INTERVAL LENGTH,
-  AN UPPER BOUND PRJLIM ON THE MINIMIZING POINT (WHICH SHOULD BE SET
-  VERY LARGE IF NO UPPER BOUND IS DESIRED), AND A WAY TO COMPUTE F(X)
-  FOR A GIVEN X.  THE SUBROUTINE WILL PRINT A WARNING AND RETURN IF
-  IT WOULD NEED TO COMPUTE F MORE THAN INITLM TIMES IN THE INITIALIZATION
-  OR MORE THAN NADD ADDITIONAL TIMES IN THE MAIN PART OF THE PROGRAM.
-  WHEN THE SUBROUTINE RETURNS, IT WILL HAVE PUT THE MINIMUM LOCATION IN
-  PROJCT, THE MINIMUM F VALUE IN EMIN, THE F VALUE FOR THE INITIAL
-  PROJCT IN EMIN1, AND THE NUMBER OF TIMES IT COMPUTED F IN NSRCH.</p>
+<p>This subroutine uses a modified quadratic fitting process to
+  search for the minimum of a function f.  it requres an initial
+  guess in projct, a tolerance tol1 on the search interval length,
+  an upper bound prjlim on the minimizing point (which should be set
+  very large if no upper bound is desired), and a way to compute f(x)
+  for a given x.  the subroutine will print a warning and return if
+  it would need to compute f more than initlm times in the initialization
+  or more than nadd additional times in the main part of the program.
+  when the subroutine returns, it will have put the minimum location in
+  projct, the minimum f value in emin, the f value for the initial
+  projct in emin1, and the number of times it computed f in nsrch.</p>
     
     <h4>Arguments</h4>
     
@@ -3641,13 +3641,13 @@ private subroutine <a href='../proc/corrct.html'>corrct</a>(me, Ioptn, Nparm, Nu
 
 
 
-<p>THIS SUBROUTINE DETERMINES WHETHER PARPRJ VIOLATES ANY TYPE -2
- OR TYPE -1 (I.E. STANDARD) CONSTRAINTS BY MORE THAN TOLCON, AND IF
- SO IT ATTEMPTS TO CORRECT BACK TO THE FEASIBLE REGION.  IF IT IS
- SUCCESSFUL IT SETS ICORCT=0 AND REPLACES PARPRJ BY THE CORRECTED
- VECTOR.  IF IT IS NOT SUCCESSFUL IT SETS ICORCT=1 AND LEAVES PARPRJ
- UNCHANGED.  IF NO CORRECTION WAS NEEDED IT SETS ICORCT=-1 AND LEAVES
- PARPRJ UNCHANGED.</p>
+<p>This subroutine determines whether parprj violates any type -2
+  or type -1 (i.e. standard) constraints by more than tolcon, and if
+  so it attempts to correct back to the feasible region.  if it is
+  successful it sets icorct=0 and replaces parprj by the corrected
+  vector.  if it is not successful it sets icorct=1 and leaves parprj
+  unchanged.  if no correction was needed it sets icorct=-1 and leaves
+  parprj unchanged.</p>
     
     <h4>Arguments</h4>
     
