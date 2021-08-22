@@ -1076,7 +1076,7 @@
     implicit none
 
     class(conmax_solver),intent(inout) :: me
-    integer  :: Ioptn
+    integer,intent(in)  :: Ioptn
     integer  :: Nparm
     integer  :: Numgr
     integer  :: Iptb
@@ -2693,12 +2693,12 @@
       implicit none
 
       class(conmax_solver),intent(inout) :: me
-      real(wp) :: baladj , balfct , Emin , Emin1 , Err1 , &
+      real(wp) :: Emin , Emin1 , Err1 , &
                   Error , f1 , f2 , f3 , f4 , Fun , fval , fvlkp , &
                   p1 , p2 , p3
       real(wp) :: p4 , Param , Parprj , Parser , Prjlim , Projct , Pttbl ,   &
-                  pval , Rchdwn , Rchin , rlf , rrt , s1 , s2 ,&
-                  Tol1 , tol4 , Tolcon , tolden
+                  pval , Rchdwn , Rchin , rlf , rrt , s1 , s2 , tol4, &
+                  Tol1 , Tolcon
       real(wp) :: Unit , Work , x
       integer :: Iact , icorct , Ifun , ilc08 , ilc10 , ilc17 , ilc21 , &
                  ilc27 , ilc29 , ilc48 , ilf , Indm , initlm , &
@@ -2711,11 +2711,11 @@
                 Error(Numgr+3) , Iact(Numgr) , Parser(Nparm) , &
                 Iwork(Liwrk) , Work(Lwrk)
 
-! SET MACHINE AND PRECISION DEPENDENT CONSTANTS FOR SEARSL.
-      tolden = ten*spcmn
+    real(wp),parameter :: tolden = ten*spcmn
+    real(wp),parameter :: balfct = ten
+    real(wp),parameter :: baladj = (ten-one)/ten
+
       tol4 = Tol1/four
-      balfct = ten
-      baladj = (ten-one)/ten
       ilc08 = iloc(8,Nparm,Numgr)
       ilc10 = iloc(10,Nparm,Numgr)
       ilc17 = iloc(17,Nparm,Numgr)
@@ -2723,7 +2723,7 @@
       ilc27 = iloc(27,Nparm,Numgr)
       ilc29 = iloc(29,Nparm,Numgr)
       ilc48 = iloc(48,Nparm,Numgr)
-!
+
 ! THE INITIAL PROJCT CAN BE INCREASED (OR DECREASED) BY A FACTOR OF
 ! 2.0**((INITLM-1)*INITLM-2)/2) (ASSUMING WE TAKE INITLM >= 3, AS
 ! WE SHOULD).  WE TAKE INITLM=6 SINCE A FACTOR OF 1024 SEEMS SUFFICIENT.
@@ -3345,7 +3345,7 @@
                        Icntyp,Projct,Rchdwn,Nstep,Iphse,Enchg,Enc1,Pmat,&
                        Funtbl,Iwork,Liwrk,Work,Lwrk,Iact,Actdif,Parprj, &
                        Parser,Xrk,Err1,Confun,Isucc,Param,Error)
-!
+
       implicit none
 
       class(conmax_solver),intent(inout) :: me
@@ -3353,8 +3353,8 @@
              Enchg , enorm , Err1 , Error , Fun , Funtbl , &
              Param , Parprj , Parser , pe , Pmat
       real(wp) prden , prjbig , prjlim , Projct , prosea , Pttbl , qt ,   &
-             qthi , qtlo , quots , Rchdwn , Rchin , s , ss ,    &
-             steplm , tol1 , tol2 , Tolcon
+               quots , Rchdwn , Rchin , s , ss ,    &
+               steplm , Tolcon
       real(wp)  unit , wdist , Work , Xrk
       integer i , Iact , Icntyp , icorct , ifrkpr , Ifun , ilc06 ,      &
               ilc10 , ilc15 , ilc21 , ilc22 , ilc24 , ilc27 , ilc30 ,   &
@@ -3365,19 +3365,19 @@
       integer Iwork , j , jflag , l , limfl , Liwrk , Lwrk , mactrk ,   &
               ncor , nfail , nmaj , nmin , npar1 , Nparm , nsrch ,      &
               Nstep , Numgr
-!
+
       dimension Fun(Ifun) , Pttbl(Iptb,Indm) , Icntyp(Numgr) ,          &
                 Param(Nparm) , Error(Numgr+3) , Pmat(Nparm+1,Numgr) ,   &
                 Funtbl(Numgr,Nparm+1) , Iwork(Liwrk) , Work(Lwrk) ,     &
                 Iact(Numgr) , Actdif(Numgr) , Parprj(Nparm) ,           &
                 Parser(Nparm) , Xrk(Nparm+1) , Err1(Numgr+3) ,          &
                 Confun(Numgr,Nparm+1)
-!
-! SET MACHINE AND PRECISION DEPENDENT PARAMETERS.
-      qthi = (one+two)/four
-      qtlo = one/four
-      tol1 = ten*ten*spcmn
-      tol2 = ten*spcmn
+
+    real(wp),parameter :: qthi = (one+two)/four
+    real(wp),parameter :: qtlo = one/four
+    real(wp),parameter :: tol1 = ten*ten*spcmn
+    real(wp),parameter :: tol2 = ten*spcmn
+
       ioptth = (Ioptn-(Ioptn/100000)*100000)/10000
       steplm = Tolcon/ten
       ilc06 = iloc(6,Nparm,Numgr)
@@ -3686,365 +3686,409 @@
       do j = 1 , Nparm
          Param(j) = Parser(j)
       end do
-      call me%ercmp1(Ioptn,Nparm,Numgr,Fun,Ifun,Pttbl,Iptb,Indm,Param,1,   &
+      call me%ercmp1(Ioptn,Nparm,Numgr,Fun,Ifun,Pttbl,Iptb,Indm,Param,1, &
                   Iphse,Iwork,Liwrk,Confun,Icntyp,ipmax,ismax,Error)
-      end
+      end subroutine rkcon
 !********************************************************************************
 
 !********************************************************************************
 !>
-! THIS SUBROUTINE PUTS THE (SIGNED) INDICES OF THE MACTRK
-! ACTIVE CONSTRAINTS IN IACT.  IT ALSO SETS THE RIGHT SIDE VECTOR
-! ACTDIF FOR THE WOLFE SUBPROBLEM.
+! This subroutine puts the (signed) indices of the mactrk
+! active constraints in iact.  it also sets the right side vector
+! actdif for the wolfe subproblem.
 
-      subroutine rksact(Ioptn,Numgr,Icntyp,Rchdwn,Rchin,Conup,Projct,   &
-                        Error,Mactrk,Actdif,Iact)
-!
-      implicit none
+    subroutine rksact(Ioptn,Numgr,Icntyp,Rchdwn,Rchin,Conup,Projct, &
+                      Error,Mactrk,Actdif,Iact)
 
-      real(wp) Actdif , Conup , elow , enorm , Error , Projct ,     &
-             Rchdwn , Rchin , rchind
-      integer i , Iact , Icntyp , Ioptn , l , Mactrk , Numgr
-!
-      dimension Error(Numgr+3) , Iact(Numgr) , Actdif(Numgr) ,          &
-                Icntyp(Numgr)
-!
-! SET MACHINE AND PRECISION DEPENDENT CONSTANTS FOR RKSACT.
-!     NWRIT=output_unit
-      enorm = Error(Numgr+1)
-      elow = enorm - Rchdwn*Projct
-      rchind = Rchin*Projct
-!
-! DETERMINE THE NUMBER MACTRK OF ACTIVE CONSTRAINTS, THEIR INDICATOR
-! IACT, AND THE VECTOR ACTDIF OF RIGHT SIDES FOR THE WOLFE SUBPROBLEM.
-      l = 0
-      do i = 1 , Numgr
-         if ( Icntyp(i)<0 ) then
-!
+    implicit none
+
+    integer,intent(in) :: Ioptn
+    integer,intent(in) :: Numgr
+    real(wp),intent(in) :: Rchdwn
+    real(wp),intent(in) :: Rchin
+    real(wp),intent(in) :: Conup
+    real(wp),intent(in) :: Projct
+    real(wp),intent(in) :: Error(Numgr+3)
+    real(wp) :: Actdif(Numgr)
+    integer :: Iact(Numgr)
+    integer,intent(in)  :: Icntyp(Numgr)
+    integer,intent(out) :: Mactrk
+
+    real(wp) :: elow , enorm , rchind
+    integer :: i , l
+
+    ! SET MACHINE AND PRECISION DEPENDENT CONSTANTS FOR RKSACT.
+    enorm = Error(Numgr+1)
+    elow = enorm - Rchdwn*Projct
+    rchind = Rchin*Projct
+
+    ! DETERMINE THE NUMBER MACTRK OF ACTIVE CONSTRAINTS, THEIR INDICATOR
+    ! IACT, AND THE VECTOR ACTDIF OF RIGHT SIDES FOR THE WOLFE SUBPROBLEM.
+    l = 0
+    do i = 1 , Numgr
+        if ( Icntyp(i)<0 ) then
             if ( Icntyp(i)+1>=0 ) then
-!
-! HERE WE HAVE A TYPE -1 CONSTRAINT, WHICH WILL AUTOMATICALLY BE
-! DECLARED TO BE ACTIVE.
-               l = l + 1
-               Iact(l) = i
-               Actdif(l) = Error(i)/Projct
-!
-! HERE WE HAVE A TYPE -2 CONSTRAINT, WHICH WILL BE DECLARED TO BE
-! ACTIVE IFF ERROR(I) >= -RCHIND.
+                ! HERE WE HAVE A TYPE -1 CONSTRAINT, WHICH WILL AUTOMATICALLY BE
+                ! DECLARED TO BE ACTIVE.
+                l = l + 1
+                Iact(l) = i
+                Actdif(l) = Error(i)/Projct
+                ! HERE WE HAVE A TYPE -2 CONSTRAINT, WHICH WILL BE DECLARED TO BE
+                ! ACTIVE IFF ERROR(I) >= -RCHIND.
             elseif ( Error(i)+rchind>=0 ) then
-!
-! HERE WE HAVE AN ACTIVE TYPE -2 CONSTRAINT, AND WE SET ACTDIF(L)=
-! MIN (CONUP, ERROR(I)/PROJCT).
-               l = l + 1
-               Iact(l) = i
-               Actdif(l) = Error(i)/Projct
-               if ( Actdif(l)>Conup ) Actdif(l) = Conup
+                ! HERE WE HAVE AN ACTIVE TYPE -2 CONSTRAINT, AND WE SET ACTDIF(L)=
+                ! MIN (CONUP, ERROR(I)/PROJCT).
+                l = l + 1
+                Iact(l) = i
+                Actdif(l) = Error(i)/Projct
+                if ( Actdif(l)>Conup ) Actdif(l) = Conup
             end if
-         elseif ( Icntyp(i)/=0 ) then
+        elseif ( Icntyp(i)/=0 ) then
             if ( Icntyp(i)>1 ) then
-!
-! HERE WE HAVE A TYPE 2 CONSTRAINT.
-               if ( Error(i)<0 ) then
-                  if ( -Error(i)>=elow ) then
-!
-! HERE WE HAVE A -ACTIVE TYPE 2 CONSTRAINT.
-                     l = l + 1
-                     Iact(l) = -i
-                     Actdif(l) = one + (-Error(i)-enorm)/Projct
-                  end if
-                  goto 100
-               end if
+                ! HERE WE HAVE A TYPE 2 CONSTRAINT.
+                if ( Error(i)<0 ) then
+                    if ( -Error(i)>=elow ) then
+                        ! HERE WE HAVE A -ACTIVE TYPE 2 CONSTRAINT.
+                        l = l + 1
+                        Iact(l) = -i
+                        Actdif(l) = one + (-Error(i)-enorm)/Projct
+                    end if
+                    cycle
+                end if
             end if
-!
-! HERE WE HAVE A TYPE 1 CONSTRAINT, OR A TYPE 2 CONSTRAINT WITH
-! ERROR(I) >= 0.0.
+            ! HERE WE HAVE A TYPE 1 CONSTRAINT, OR A TYPE 2 CONSTRAINT WITH
+            ! ERROR(I) >= 0.0.
             if ( Error(i)>=elow ) then
-!
-! HERE WE HAVE AN ACTIVE TYPE 1 CONSTRAINT OR A +ACTIVE TYPE 2 CONSTRAINT.
-               l = l + 1
-               Iact(l) = i
-               Actdif(l) = one + (Error(i)-enorm)/Projct
+                ! HERE WE HAVE AN ACTIVE TYPE 1 CONSTRAINT OR A +ACTIVE TYPE 2 CONSTRAINT.
+                l = l + 1
+                Iact(l) = i
+                Actdif(l) = one + (Error(i)-enorm)/Projct
             end if
-         end if
- 100  end do
-      Mactrk = l
+        end if
+    end do
+
+    Mactrk = l
+
     end subroutine rksact
 !********************************************************************************
 
 !********************************************************************************
 !>
-! THIS SUBROUTINE SETS UP THE (NPARM+1) BY MACTRK MATRIX PMAT.
-! FOR 1 <= J <= MACTRK, THE TOP NPARM ELEMENTS OF COLUMN J OF PMAT
-! WILL CONTAIN THE NEGATIVE OF THE GRADIENT OF ACTIVE CONSTRAINT J (IF
-! CONSTRAINT J IS OF TYPE 2, I.E. OF THE FORM ABS(F(X) - F(PARWRK,X))
-! <= W, THE LEFT SIDE WILL BE TREATED AS F(X) - F(PARWRK,X) IF THIS
-! QUANTITY IS NONNEGATIVE AND WILL BE TREATED AS F(PARWRK,X) - F(X)
-! OTHERWISE). THE (NPARM+1)ST ROW OF PMAT WILL CONTAIN ACTDIF, THE
-! RIGHT SIDE OF THE INEQUALITIES GRADIENT.VECTOR >= ACTDIF.
+! This subroutine sets up the (nparm+1) by mactrk matrix pmat.
+! for 1 <= j <= mactrk, the top nparm elements of column j of pmat
+! will contain the negative of the gradient of active constraint j (if
+! constraint j is of type 2, i.e. of the form abs(f(x) - f(parwrk,x))
+! <= w, the left side will be treated as f(x) - f(parwrk,x) if this
+! quantity is nonnegative and will be treated as f(parwrk,x) - f(x)
+! otherwise). the (nparm+1)st row of pmat will contain actdif, the
+! right side of the inequalities gradient.vector >= actdif.
 
-      subroutine pmtst(me,Ioptn,Numgr,Nparm,Param,Icntyp,Mactrk,Iact,Pttbl,&
-                       Iptb,Indm,Actdif,Iphse,Iwork,Liwrk,Work,Lwrk,    &
-                       Confun,Pmat)
-!
-      implicit none
+    subroutine pmtst(me,Ioptn,Numgr,Nparm,Param,Icntyp,Mactrk,Iact,Pttbl, &
+                     Iptb,Indm,Actdif,Iphse,Iwork,Liwrk,Work,Lwrk, &
+                     Confun,Pmat)
 
-      class(conmax_solver),intent(inout) :: me
-      real(wp) Actdif , Confun , Param , Pmat , Pttbl , Work
-      integer i , Iact , Icntyp , ii , ilc22 , ilc24 , ilc35 ,   &
-              Indm , Ioptn , ioptth , Iphse , ipt , Iptb , Iwork , j ,  &
-              l , Liwrk , Lwrk , Mactrk
-      integer npar1 , Nparm , Numgr
-!
-      dimension Param(Nparm) , Iact(Numgr) , Pttbl(Iptb,Indm) ,         &
-                Icntyp(Numgr) , Confun(Numgr,Nparm+1) , Actdif(Numgr) , &
-                Pmat(Nparm+1,Numgr) , Iwork(Liwrk) , Work(Lwrk)
+    implicit none
 
-! SET MACHINE AND PRECISION DEPENDENT CONSTANTS FOR PMTST.
-      ilc22 = iloc(22,Nparm,Numgr)
-      ilc24 = iloc(24,Nparm,Numgr)
-      ilc35 = iloc(35,Nparm,Numgr)
-      ioptth = (Ioptn-(Ioptn/100000)*100000)/10000
-      npar1 = Nparm + 1
-!
-      if ( ioptth<=0 ) goto 300
-!
-! HERE IOPTTH=1 AND WE CALL DERST TO PUT GRADIENT VALUES INTO CONFUN.
-! IF IPHSE < 0 OR NO ICNTYP(L) IS POSITIVE, SET IPT=-1 TO TELL DERST
-! TO COMPUTE STANDARD CONSTRAINTS ONLY, WHILE OTHERWISE SET IPT=0 TO
-! TELL DERST TO COMPUTE ALL CONSTRAINTS.
-      if ( Iphse>=0 ) then
-         do l = 1 , Numgr
-            if ( Icntyp(l)>0 ) goto 100
-         end do
-      end if
-      ipt = -1
-      goto 200
- 100  ipt = 0
- 200  call me%derst(Ioptn,Nparm,Numgr,Pttbl,Iptb,Indm,Param,ipt,Work(ilc24),&
-                    Work(ilc35),Iwork(ilc22),Confun)
-!
- 300  do i = 1 , Mactrk
-         ii = Iact(i)
-         ipt = abs(ii)
-!
-! HERE IOPTTH=0 AND WE HAVE NOT YET PLACED THE GRADIENT IN CONFUN, SO WE
-! CALL DERST TO DO SO NOW.  DERST WILL ALSO COMPUTE THE
-! CONSTRAINT VALUES, WHICH WILL NOT BE NEEDED HERE, BUT EXPECTING USERS TO
-! WRITE FNSET SO THAT GRADIENT CALCULATIONS WILL NOT NEED FUNCTION VALUE
-! CALCULATION RESULTS WOULD BE TOO MUCH OF A PROGRAMMING TRAP.
-         if ( ioptth<=0 ) call me%derst(Ioptn,Nparm,Numgr,Pttbl,Iptb,Indm, &
-                                     Param,ipt,Work(ilc24),Work(ilc35), &
-                                     Iwork(ilc22),Confun)
-!
-! NOW THE GRADIENT FOR CONSTRAINT IPT IS IN CONFUN(IPT,.), AND WE PUT IT
-! OR ITS NEGATIVE INTO PMAT.
-! IF ICNTYP(IPT) <= 1 WE PROCEED AS IF WE HAD A -ACTIVE CONSTRAINT IN
-! THE ICNTYP(IPT)=2 CASE.  IN ALL CASES WE PUT THE NEGATIVE OF THE
-! CONSTRAINT GRADIENT INTO COLUMN I OF PMAT.
-         if ( Icntyp(ipt)>1 ) then
-!
-! HERE ICNTYP(IPT)=2.
+    class(conmax_solver),intent(inout) :: me
+    integer,intent(in) :: Indm
+    integer,intent(in) :: Ioptn
+    integer,intent(in) :: Iphse
+    integer,intent(in) :: Iptb
+    integer,intent(in) :: Liwrk
+    integer,intent(in) :: Lwrk
+    integer,intent(in) :: Mactrk
+    integer,intent(in) :: Nparm
+    integer,intent(in) :: Numgr
+    integer :: Iwork(Liwrk)
+    integer :: Iact(Numgr)
+    integer :: Icntyp(Numgr)
+    real(wp),intent(in) :: Actdif(Numgr)
+    real(wp) :: Confun(Numgr,Nparm+1)
+    real(wp) :: Param(Nparm)
+    real(wp) :: Pmat(Nparm+1,Numgr)
+    real(wp) :: Pttbl(Iptb,Indm)
+    real(wp) :: Work(Lwrk)
+
+    integer :: i , ii , ilc22 , ilc24 , ilc35 , ioptth , ipt , j , l
+    integer :: npar1
+
+    ! SET MACHINE AND PRECISION DEPENDENT CONSTANTS FOR PMTST.
+    ilc22 = iloc(22,Nparm,Numgr)
+    ilc24 = iloc(24,Nparm,Numgr)
+    ilc35 = iloc(35,Nparm,Numgr)
+    ioptth = (Ioptn-(Ioptn/100000)*100000)/10000
+    npar1 = Nparm + 1
+
+    if ( ioptth>0 ) then
+        ! HERE IOPTTH=1 AND WE CALL DERST TO PUT GRADIENT VALUES INTO CONFUN.
+        ! IF IPHSE < 0 OR NO ICNTYP(L) IS POSITIVE, SET IPT=-1 TO TELL DERST
+        ! TO COMPUTE STANDARD CONSTRAINTS ONLY, WHILE OTHERWISE SET IPT=0 TO
+        ! TELL DERST TO COMPUTE ALL CONSTRAINTS.
+        ipt = -1
+        if ( Iphse>=0 ) then
+            do l = 1 , Numgr
+                if ( Icntyp(l)>0 ) then
+                    ipt = 0
+                    exit
+                end if
+            end do
+        end if
+        call me%derst(Ioptn,Nparm,Numgr,Pttbl,Iptb,Indm,Param,ipt,Work(ilc24),&
+                      Work(ilc35),Iwork(ilc22),Confun)
+    end if
+
+    do i = 1 , Mactrk
+        ii = Iact(i)
+        ipt = abs(ii)
+
+        ! HERE IOPTTH=0 AND WE HAVE NOT YET PLACED THE GRADIENT IN CONFUN, SO WE
+        ! CALL DERST TO DO SO NOW.  DERST WILL ALSO COMPUTE THE
+        ! CONSTRAINT VALUES, WHICH WILL NOT BE NEEDED HERE, BUT EXPECTING USERS TO
+        ! WRITE FNSET SO THAT GRADIENT CALCULATIONS WILL NOT NEED FUNCTION VALUE
+        ! CALCULATION RESULTS WOULD BE TOO MUCH OF A PROGRAMMING TRAP.
+        if ( ioptth<=0 ) call me%derst(Ioptn,Nparm,Numgr,Pttbl,Iptb,Indm, &
+                                       Param,ipt,Work(ilc24),Work(ilc35), &
+                                       Iwork(ilc22),Confun)
+
+        ! NOW THE GRADIENT FOR CONSTRAINT IPT IS IN CONFUN(IPT,.), AND WE PUT IT
+        ! OR ITS NEGATIVE INTO PMAT.
+        ! IF ICNTYP(IPT) <= 1 WE PROCEED AS IF WE HAD A -ACTIVE CONSTRAINT IN
+        ! THE ICNTYP(IPT)=2 CASE.  IN ALL CASES WE PUT THE NEGATIVE OF THE
+        ! CONSTRAINT GRADIENT INTO COLUMN I OF PMAT.
+        if ( Icntyp(ipt)>1 ) then
+            ! HERE ICNTYP(IPT)=2.
             if ( ii>0 ) then
-!
-! HERE WE HAVE A +ACTIVE CONSTRAINT AT POINT IPT.
-! THE CONSTRAINT GRADIENT IS IN -CONFUN(IPT,.) SINCE THE LEFT SIDE OF
-! CONSTRAINT I IS F(X)-F(PARWRK,X) AND DERST COMPUTES THE
-! GRADIENT OF F(PARWRK,X).  THUS WE PUT CONFUN(IPT,.) IN COLUMN I OF PMAT.
-               do j = 1 , Nparm
-                  Pmat(j,i) = Confun(ipt,j+1)
-               end do
-               goto 400
+                ! HERE WE HAVE A +ACTIVE CONSTRAINT AT POINT IPT.
+                ! THE CONSTRAINT GRADIENT IS IN -CONFUN(IPT,.) SINCE THE LEFT SIDE OF
+                ! CONSTRAINT I IS F(X)-F(PARWRK,X) AND DERST COMPUTES THE
+                ! GRADIENT OF F(PARWRK,X).  THUS WE PUT CONFUN(IPT,.) IN COLUMN I OF PMAT.
+                do j = 1 , Nparm
+                    Pmat(j,i) = Confun(ipt,j+1)
+                end do
+                cycle
             end if
-         end if
-!
-! HERE WE HAVE A -ACTIVE TYPE 2 CONSTRAINT AT POINT -II OR AN ACTIVE
-! CONSTRAINT OF TYPE -2, -1, OR 1 AT POINT II.
-         do j = 1 , Nparm
+        end if
+
+        ! HERE WE HAVE A -ACTIVE TYPE 2 CONSTRAINT AT POINT -II OR AN ACTIVE
+        ! CONSTRAINT OF TYPE -2, -1, OR 1 AT POINT II.
+        do j = 1 , Nparm
             Pmat(j,i) = -Confun(ipt,j+1)
-         end do
- 400  end do
-!
-! PUT ACTDIF IN THE LAST ROW OF PMAT.
-      do i = 1 , Mactrk
-         Pmat(npar1,i) = Actdif(i)
-      end do
+        end do
+    end do
+
+    ! PUT ACTDIF IN THE LAST ROW OF PMAT.
+    do i = 1 , Mactrk
+        Pmat(npar1,i) = Actdif(i)
+    end do
 
     end subroutine pmtst
 !********************************************************************************
 
 !********************************************************************************
 !>
-! THIS SUBROUTINE COMPUTES A PARAMETER VECTOR PARPRJ USING FOURTH
-! ORDER RUNGE KUTTA WITH H=-PROJCT.  H IS NEGATIVE SINCE WE WANT
-! TO APPROXIMATE THE PARAMETERS RESULTING FROM DECREASING W BY
-! ABS(H).  IF WE DO NSTEP STEPS THEN H=-PROJCT/NSTEP.
+!  This subroutine computes a parameter vector parprj using fourth
+!  order runge kutta with h=-projct.  h is negative since we want
+!  to approximate the parameters resulting from decreasing w by
+!  abs(h).  if we do nstep steps then h=-projct/nstep.
 
-      subroutine rkpar(me,Ioptn,Numgr,Nparm,Icntyp,Mactrk,Iact,Actdif,     &
-                       Projct,Param,Fun,Ifun,Pttbl,Iptb,Indm,Vder,Pmat, &
-                       Ncor,s,Itypm1,Itypm2,Unit,Tolcon,Rchin,Nstep,    &
-                       Error,Iphse,Iwork,Liwrk,Work,Lwrk,Confun,Vdern,  &
-                       Vders,Wvec,Parprj,Ifrkpr)
-!
-      implicit none
+    subroutine rkpar(me,Ioptn,Numgr,Nparm,Icntyp,Mactrk,Iact,Actdif,  &
+                     Projct,Param,Fun,Ifun,Pttbl,Iptb,Indm,Vder,Pmat, &
+                     Ncor,s,Itypm1,Itypm2,Unit,Tolcon,Rchin,Nstep,    &
+                     Error,Iphse,Iwork,Liwrk,Work,Lwrk,Confun,Vdern,  &
+                     Vders,Wvec,Parprj,Ifrkpr)
 
-      class(conmax_solver),intent(inout) :: me
-      real(wp) Actdif , Confun , Error , Fun , p6 , Param , Parprj ,&
-             Pmat , proj1 , Projct , Pttbl , Rchin , s , Tolcon , &
-             Unit , Vder , Vdern , Vders
-      real(wp) wdist , Work , Wvec
-      integer Iact , Icntyp , icorct , Ifrkpr , Ifun , ilc06 , ilc10 ,  &
-              ilc11 , ilc15 , ilc21 , ilc27 , ilc30 , ilc31 , ilc33 ,   &
-              ilc40 , ilc48 , Indm , Ioptn , Iphse
-      integer Iptb , Itypm1 , Itypm2 , Iwork , j , jflag , Liwrk ,      &
-              Lwrk , Mactrk , Ncor , nmaj , nmin , npar1 , Nparm ,      &
-              nstcnt , Nstep , Numgr
-!
-      dimension Param(Nparm) , Fun(Ifun) , Pttbl(Iptb,Indm) ,           &
-                Vder(Nparm) , Parprj(Nparm) , Vders(Nparm) , Wvec(Nparm)&
-                , Vdern(Nparm) , Icntyp(Numgr) , Error(Numgr+3) ,       &
-                Iact(Numgr) , Actdif(Numgr) , Confun(Numgr,Nparm+1) ,   &
-                Pmat(Nparm+1,Numgr) , Iwork(Liwrk) , Work(Lwrk)
+    implicit none
 
-! SET MACHINE AND PRECISION DEPENDENT CONSTANTS FOR RKPAR.
-      ilc06 = iloc(6,Nparm,Numgr)
-      ilc10 = iloc(10,Nparm,Numgr)
-      ilc11 = iloc(11,Nparm,Numgr)
-      ilc15 = iloc(15,Nparm,Numgr)
-      ilc21 = iloc(21,Nparm,Numgr)
-      ilc27 = iloc(27,Nparm,Numgr)
-      ilc30 = iloc(30,Nparm,Numgr)
-      ilc31 = iloc(31,Nparm,Numgr)
-      ilc33 = iloc(33,Nparm,Numgr)
-      ilc40 = iloc(40,Nparm,Numgr)
-      ilc48 = iloc(48,Nparm,Numgr)
-! IFRKPR=0 IS A SIGNAL THAT THE SUBROUTINE OPERATED NORMALLY.
-      Ifrkpr = 0
-      proj1 = Projct/Nstep
-      p6 = proj1/(two+two+two)
-      npar1 = Nparm + 1
-      nstcnt = 1
-! PARPRJ WILL BE USED AS THE BASE POINT FOR THE NEXT RK STEP DURING THE
-! OPERATION OF THIS SUBROUTINE.
-      do j = 1 , Nparm
-         Parprj(j) = Param(j)
-         Vdern(j) = Vder(j)
-      end do
-!
-! NOTE THAT HERE H*VDERN IS THE K1 OF THE USUAL RUNGE-KUTTA FORMULAE.
-! SET THE WORK VECTOR WVEC = PARPRJ-PROJ1*VDERN/2.0, THEN CALL PMTST
-! AND WOLFE TO GET THE VECTOR (AGAIN CALLED VDERN) OF DERIVATIVE VALUES.
-! THEN H*VDERN WILL BE THE K2 OF THE USUAL RUNGE-KUTTA FORMULAE.
-! WE WILL ACCUMULATE K1/H + 2.0*K2/H + 2.0*K3/H IN VDERS, AND ADD IN
-! K4/H AT THE END.
- 100  do j = 1 , Nparm
-         Vders(j) = Vdern(j)
-         Wvec(j) = Parprj(j) - proj1*Vdern(j)/two
-      end do
-! IF THERE ARE ANY STANDARD CONSTRAINTS, WE CORRECT BACK INTO THE
-! FEASIBLE REGION IF POSSIBLE BEFORE CALLING PMTST.
-      if ( Itypm1+Itypm2>0 ) then
-         call me%corrct(Ioptn,Nparm,Numgr,Fun,Ifun,Pttbl,Iptb,Indm,Icntyp, &
-                     Unit,Tolcon,Rchin,Error,Mactrk,Iact,Projct,Iphse,  &
-                     Iwork,Liwrk,Work,Lwrk,Work(ilc27),Work(ilc11),     &
-                     Work(ilc10),Pmat,Confun,Work(ilc48),Iwork(ilc21),  &
-                     Wvec,icorct)
-         if ( icorct>0 ) goto 200
-      end if
-      call me%pmtst(Ioptn,Numgr,Nparm,Wvec,Icntyp,Mactrk,Iact,Pttbl,Iptb,  &
-                 Indm,Actdif,Iphse,Iwork,Liwrk,Work,Lwrk,Confun,Pmat)
-      call wolfe(Nparm,Mactrk,Pmat,1,s,Ncor,Iwork(ilc15),Iwork,Liwrk,   &
-                 Work,Lwrk,Work(ilc33),Work(ilc06),Work(ilc31),         &
-                 Work(ilc30),Nparm,Numgr,Work(ilc40),Vdern,wdist,nmaj,  &
-                 nmin,jflag)
-! IF WOLFE FAILED, SO WILL THIS SUBROUTINE.
-      if ( jflag<=0 ) then
-!
-! NOW VDERN REPRESENTS K2/H.  SET WVEC = PARPRJ-PROJ1*VDERN/2.0 AND
-! COMPUTE THE NEW VDERN, WHICH WILL REPRESENT K3/H.
-         do j = 1 , Nparm
-            Vders(j) = Vders(j) + two*Vdern(j)
-            Wvec(j) = Parprj(j) - proj1*Vdern(j)/two
-         end do
-! IF THERE ARE ANY STANDARD CONSTRAINTS, WE CORRECT BACK INTO THE
-! FEASIBLE REGION IF POSSIBLE BEFORE CALLING PMTST.
-         if ( Itypm1+Itypm2<=0 ) goto 300
-         call me%corrct(Ioptn,Nparm,Numgr,Fun,Ifun,Pttbl,Iptb,Indm,Icntyp, &
-                     Unit,Tolcon,Rchin,Error,Mactrk,Iact,Projct,Iphse,  &
-                     Iwork,Liwrk,Work,Lwrk,Work(ilc27),Work(ilc11),     &
-                     Work(ilc10),Pmat,Confun,Work(ilc48),Iwork(ilc21),  &
-                     Wvec,icorct)
-         if ( icorct<=0 ) goto 300
-      end if
-!
- 200  Ifrkpr = 1
-!     WRITE(NWRIT,250)
-! 250 FORMAT(22H *****RKPAR HAS FAILED)
-      return
- 300  call me%pmtst(Ioptn,Numgr,Nparm,Wvec,Icntyp,Mactrk,Iact,Pttbl,Iptb,  &
-                 Indm,Actdif,Iphse,Iwork,Liwrk,Work,Lwrk,Confun,Pmat)
-      call wolfe(Nparm,Mactrk,Pmat,1,s,Ncor,Iwork(ilc15),Iwork,Liwrk,   &
-                 Work,Lwrk,Work(ilc33),Work(ilc06),Work(ilc31),         &
-                 Work(ilc30),Nparm,Numgr,Work(ilc40),Vdern,wdist,nmaj,  &
-                 nmin,jflag)
-      if ( jflag>0 ) goto 200
-!
-! NOW VDERN REPRESENTS K3/H.  SET WVEC = PARPRJ-PROJ1*VDERN AND
-! COMPUTE THE NEW VDERN, WHICH WILL REPRESENT K4/H.
-      do j = 1 , Nparm
-         Vders(j) = Vders(j) + two*Vdern(j)
-         Wvec(j) = Parprj(j) - proj1*Vdern(j)
-      end do
-! IF THERE ARE ANY STANDARD CONSTRAINTS, WE CORRECT BACK INTO THE
-! FEASIBLE REGION IF POSSIBLE BEFORE CALLING PMTST.
-      if ( Itypm1+Itypm2>0 ) then
-         call me%corrct(Ioptn,Nparm,Numgr,Fun,Ifun,Pttbl,Iptb,Indm,Icntyp, &
-                     Unit,Tolcon,Rchin,Error,Mactrk,Iact,Projct,Iphse,  &
-                     Iwork,Liwrk,Work,Lwrk,Work(ilc27),Work(ilc11),     &
-                     Work(ilc10),Pmat,Confun,Work(ilc48),Iwork(ilc21),  &
-                     Wvec,icorct)
-         if ( icorct>0 ) goto 200
-      end if
-      call me%pmtst(Ioptn,Numgr,Nparm,Wvec,Icntyp,Mactrk,Iact,Pttbl,Iptb,  &
-                 Indm,Actdif,Iphse,Iwork,Liwrk,Work,Lwrk,Confun,Pmat)
-      call wolfe(Nparm,Mactrk,Pmat,1,s,Ncor,Iwork(ilc15),Iwork,Liwrk,   &
-                 Work,Lwrk,Work(ilc33),Work(ilc06),Work(ilc31),         &
-                 Work(ilc30),Nparm,Numgr,Work(ilc40),Vdern,wdist,nmaj,  &
-                 nmin,jflag)
-      if ( jflag>0 ) goto 200
-!
-! NOW VDERN REPRESENTS K4/H, SO VDERS + VDERN WILL REPRESENT (K1 +
-! 2.0*K2 + 2.0*K3 + K4)/H.  PUT THE NEW PARAMETER VECTOR IN PARPRJ.
-      do j = 1 , Nparm
-         Parprj(j) = Parprj(j) - p6*(Vders(j)+Vdern(j))
-      end do
-      if ( nstcnt<Nstep ) then
-!
-! HERE NSTCNT < NSTEP AND WE SET UP FOR THE NEXT RK STEP.
-! AFTER WE HAVE DONE THIS STEP, VDERN WILL REPRESENT THE VDER1 FOR THE
-! NEXT STEP.  PARPRJ ALREADY IS THE BASE POINT FOR THE NEXT STEP.
-         nstcnt = nstcnt + 1
-! IF THERE ARE ANY STANDARD CONSTRAINTS, WE CORRECT BACK INTO THE
-! FEASIBLE REGION IF POSSIBLE BEFORE CALLING PMTST.
-         if ( Itypm1+Itypm2>0 ) then
-            call me%corrct(Ioptn,Nparm,Numgr,Fun,Ifun,Pttbl,Iptb,Indm,     &
-                        Icntyp,Unit,Tolcon,Rchin,Error,Mactrk,Iact,     &
-                        Projct,Iphse,Iwork,Liwrk,Work,Lwrk,Work(ilc27), &
-                        Work(ilc11),Work(ilc10),Pmat,Confun,Work(ilc48),&
-                        Iwork(ilc21),Parprj,icorct)
-            if ( icorct>0 ) goto 200
-         end if
-         call me%pmtst(Ioptn,Numgr,Nparm,Parprj,Icntyp,Mactrk,Iact,Pttbl,  &
-                    Iptb,Indm,Actdif,Iphse,Iwork,Liwrk,Work,Lwrk,Confun,&
-                    Pmat)
-         call wolfe(Nparm,Mactrk,Pmat,1,s,Ncor,Iwork(ilc15),Iwork,Liwrk,&
-                    Work,Lwrk,Work(ilc33),Work(ilc06),Work(ilc31),      &
-                    Work(ilc30),Nparm,Numgr,Work(ilc40),Vdern,wdist,    &
-                    nmaj,nmin,jflag)
-         if ( jflag>0 ) goto 200
-         goto 100
-      else
-         return
-      end if
+    class(conmax_solver),intent(inout) :: me
+
+    integer,intent(in)  :: Ifun
+    integer,intent(in)  :: Indm
+    integer,intent(in)  :: Iptb
+    integer,intent(in)  :: Liwrk
+    integer ,intent(in) :: Lwrk
+    integer,intent(in)  :: Nparm
+    integer,intent(in)  :: Numgr
+    integer  :: Ifrkpr
+    integer  :: Ioptn
+    integer  :: Iphse
+    integer  :: Itypm1
+    integer  :: Itypm2
+    integer  :: Mactrk
+    integer  :: Ncor
+    integer  :: Nstep
+    real(wp) :: Projct
+    real(wp) :: Rchin
+    real(wp) :: s
+    real(wp) :: Tolcon
+    real(wp) :: Unit
+    real(wp) :: Actdif(Numgr)
+    real(wp) :: Confun(Numgr,Nparm+1)
+    real(wp) :: Error(Numgr+3)
+    real(wp) :: Fun(Ifun)
+    integer  :: Iact(Numgr)
+    integer  :: Icntyp(Numgr)
+    integer  :: Iwork(Liwrk)
+    real(wp) :: Param(Nparm)
+    real(wp) :: Parprj(Nparm)
+    real(wp) :: Pmat(Nparm+1,Numgr)
+    real(wp) :: Pttbl(Iptb,Indm)
+    real(wp) :: Vder(Nparm)
+    real(wp) :: Vdern(Nparm)
+    real(wp) :: Vders(Nparm)
+    real(wp) :: Work(Lwrk)
+    real(wp) :: Wvec(Nparm)
+
+    real(wp) :: p6, wdist, proj1
+    integer icorct , ilc06 , ilc10 , ilc11 , ilc15 , ilc21 , ilc27 , &
+            ilc30 , ilc31 , ilc33 , ilc40 , ilc48 , j , jflag , nmaj , &
+            nmin , npar1 , nstcnt
+
+    ! SET MACHINE AND PRECISION DEPENDENT CONSTANTS FOR RKPAR.
+    ilc06 = iloc(6,Nparm,Numgr)
+    ilc10 = iloc(10,Nparm,Numgr)
+    ilc11 = iloc(11,Nparm,Numgr)
+    ilc15 = iloc(15,Nparm,Numgr)
+    ilc21 = iloc(21,Nparm,Numgr)
+    ilc27 = iloc(27,Nparm,Numgr)
+    ilc30 = iloc(30,Nparm,Numgr)
+    ilc31 = iloc(31,Nparm,Numgr)
+    ilc33 = iloc(33,Nparm,Numgr)
+    ilc40 = iloc(40,Nparm,Numgr)
+    ilc48 = iloc(48,Nparm,Numgr)
+
+    ! IFRKPR=0 IS A SIGNAL THAT THE SUBROUTINE OPERATED NORMALLY.
+    Ifrkpr = 0
+    proj1 = Projct/Nstep
+    p6 = proj1/(two+two+two)
+    npar1 = Nparm + 1
+    nstcnt = 1
+    ! PARPRJ WILL BE USED AS THE BASE POINT FOR THE NEXT RK STEP DURING THE
+    ! OPERATION OF THIS SUBROUTINE.
+    do j = 1 , Nparm
+        Parprj(j) = Param(j)
+        Vdern(j) = Vder(j)
+    end do
+
+    main : block
+
+        do
+            ! NOTE THAT HERE H*VDERN IS THE K1 OF THE USUAL RUNGE-KUTTA FORMULAE.
+            ! SET THE WORK VECTOR WVEC = PARPRJ-PROJ1*VDERN/2.0, THEN CALL PMTST
+            ! AND WOLFE TO GET THE VECTOR (AGAIN CALLED VDERN) OF DERIVATIVE VALUES.
+            ! THEN H*VDERN WILL BE THE K2 OF THE USUAL RUNGE-KUTTA FORMULAE.
+            ! WE WILL ACCUMULATE K1/H + 2.0*K2/H + 2.0*K3/H IN VDERS, AND ADD IN
+            ! K4/H AT THE END.
+            do j = 1 , Nparm
+                Vders(j) = Vdern(j)
+                Wvec(j) = Parprj(j) - proj1*Vdern(j)/two
+            end do
+            ! IF THERE ARE ANY STANDARD CONSTRAINTS, WE CORRECT BACK INTO THE
+            ! FEASIBLE REGION IF POSSIBLE BEFORE CALLING PMTST.
+            if ( Itypm1+Itypm2>0 ) then
+                call me%corrct(Ioptn,Nparm,Numgr,Fun,Ifun,Pttbl,Iptb,Indm,Icntyp, &
+                               Unit,Tolcon,Rchin,Error,Mactrk,Iact,Projct,Iphse,  &
+                               Iwork,Liwrk,Work,Lwrk,Work(ilc27),Work(ilc11),     &
+                               Work(ilc10),Pmat,Confun,Work(ilc48),Iwork(ilc21),  &
+                               Wvec,icorct)
+                if ( icorct>0 ) exit main ! failure
+            end if
+            call me%pmtst(Ioptn,Numgr,Nparm,Wvec,Icntyp,Mactrk,Iact,Pttbl,Iptb, &
+                          Indm,Actdif,Iphse,Iwork,Liwrk,Work,Lwrk,Confun,Pmat)
+            call wolfe(Nparm,Mactrk,Pmat,1,s,Ncor,Iwork(ilc15),Iwork,Liwrk,  &
+                       Work,Lwrk,Work(ilc33),Work(ilc06),Work(ilc31),        &
+                       Work(ilc30),Nparm,Numgr,Work(ilc40),Vdern,wdist,nmaj, &
+                       nmin,jflag)
+            ! IF WOLFE FAILED, SO WILL THIS SUBROUTINE.
+            if ( jflag<=0 ) then
+                ! NOW VDERN REPRESENTS K2/H.  SET WVEC = PARPRJ-PROJ1*VDERN/2.0 AND
+                ! COMPUTE THE NEW VDERN, WHICH WILL REPRESENT K3/H.
+                do j = 1 , Nparm
+                    Vders(j) = Vders(j) + two*Vdern(j)
+                    Wvec(j) = Parprj(j) - proj1*Vdern(j)/two
+                end do
+                ! IF THERE ARE ANY STANDARD CONSTRAINTS, WE CORRECT BACK INTO THE
+                ! FEASIBLE REGION IF POSSIBLE BEFORE CALLING PMTST.
+                if ( Itypm1+Itypm2>0 ) exit main ! failure
+                call me%corrct(Ioptn,Nparm,Numgr,Fun,Ifun,Pttbl,Iptb,Indm,Icntyp, &
+                               Unit,Tolcon,Rchin,Error,Mactrk,Iact,Projct,Iphse,  &
+                               Iwork,Liwrk,Work,Lwrk,Work(ilc27),Work(ilc11),     &
+                               Work(ilc10),Pmat,Confun,Work(ilc48),Iwork(ilc21),  &
+                               Wvec,icorct)
+                if ( icorct>0 ) exit main ! failure
+            end if
+
+            call me%pmtst(Ioptn,Numgr,Nparm,Wvec,Icntyp,Mactrk,Iact,Pttbl,Iptb,  &
+                          Indm,Actdif,Iphse,Iwork,Liwrk,Work,Lwrk,Confun,Pmat)
+            call wolfe(Nparm,Mactrk,Pmat,1,s,Ncor,Iwork(ilc15),Iwork,Liwrk,   &
+                       Work,Lwrk,Work(ilc33),Work(ilc06),Work(ilc31),         &
+                       Work(ilc30),Nparm,Numgr,Work(ilc40),Vdern,wdist,nmaj,  &
+                       nmin,jflag)
+            if ( jflag>0 ) exit main ! failure
+
+            ! NOW VDERN REPRESENTS K3/H.  SET WVEC = PARPRJ-PROJ1*VDERN AND
+            ! COMPUTE THE NEW VDERN, WHICH WILL REPRESENT K4/H.
+            do j = 1 , Nparm
+                Vders(j) = Vders(j) + two*Vdern(j)
+                Wvec(j) = Parprj(j) - proj1*Vdern(j)
+            end do
+            ! IF THERE ARE ANY STANDARD CONSTRAINTS, WE CORRECT BACK INTO THE
+            ! FEASIBLE REGION IF POSSIBLE BEFORE CALLING PMTST.
+            if ( Itypm1+Itypm2>0 ) then
+                call me%corrct(Ioptn,Nparm,Numgr,Fun,Ifun,Pttbl,Iptb,Indm,Icntyp, &
+                               Unit,Tolcon,Rchin,Error,Mactrk,Iact,Projct,Iphse,  &
+                               Iwork,Liwrk,Work,Lwrk,Work(ilc27),Work(ilc11),     &
+                               Work(ilc10),Pmat,Confun,Work(ilc48),Iwork(ilc21),  &
+                               Wvec,icorct)
+                if ( icorct>0 ) exit main ! failure
+            end if
+            call me%pmtst(Ioptn,Numgr,Nparm,Wvec,Icntyp,Mactrk,Iact,Pttbl,Iptb,  &
+                          Indm,Actdif,Iphse,Iwork,Liwrk,Work,Lwrk,Confun,Pmat)
+            call wolfe(Nparm,Mactrk,Pmat,1,s,Ncor,Iwork(ilc15),Iwork,Liwrk,   &
+                       Work,Lwrk,Work(ilc33),Work(ilc06),Work(ilc31),         &
+                       Work(ilc30),Nparm,Numgr,Work(ilc40),Vdern,wdist,nmaj,  &
+                       nmin,jflag)
+            if ( jflag>0 ) exit main ! failure
+
+            ! NOW VDERN REPRESENTS K4/H, SO VDERS + VDERN WILL REPRESENT (K1 +
+            ! 2.0*K2 + 2.0*K3 + K4)/H.  PUT THE NEW PARAMETER VECTOR IN PARPRJ.
+            do j = 1 , Nparm
+                Parprj(j) = Parprj(j) - p6*(Vders(j)+Vdern(j))
+            end do
+            if ( nstcnt<Nstep ) then
+                ! HERE NSTCNT < NSTEP AND WE SET UP FOR THE NEXT RK STEP.
+                ! AFTER WE HAVE DONE THIS STEP, VDERN WILL REPRESENT THE VDER1 FOR THE
+                ! NEXT STEP.  PARPRJ ALREADY IS THE BASE POINT FOR THE NEXT STEP.
+                nstcnt = nstcnt + 1
+                ! IF THERE ARE ANY STANDARD CONSTRAINTS, WE CORRECT BACK INTO THE
+                ! FEASIBLE REGION IF POSSIBLE BEFORE CALLING PMTST.
+                if ( Itypm1+Itypm2>0 ) then
+                    call me%corrct(Ioptn,Nparm,Numgr,Fun,Ifun,Pttbl,Iptb,Indm,     &
+                                   Icntyp,Unit,Tolcon,Rchin,Error,Mactrk,Iact,     &
+                                   Projct,Iphse,Iwork,Liwrk,Work,Lwrk,Work(ilc27), &
+                                   Work(ilc11),Work(ilc10),Pmat,Confun,Work(ilc48),&
+                                   Iwork(ilc21),Parprj,icorct)
+                    if ( icorct>0 ) exit main ! failure
+                end if
+                call me%pmtst(Ioptn,Numgr,Nparm,Parprj,Icntyp,Mactrk,Iact,Pttbl,  &
+                              Iptb,Indm,Actdif,Iphse,Iwork,Liwrk,Work,Lwrk,Confun,&
+                              Pmat)
+                call wolfe(Nparm,Mactrk,Pmat,1,s,Ncor,Iwork(ilc15),Iwork,Liwrk,&
+                           Work,Lwrk,Work(ilc33),Work(ilc06),Work(ilc31),      &
+                           Work(ilc30),Nparm,Numgr,Work(ilc40),Vdern,wdist,    &
+                           nmaj,nmin,jflag)
+                if ( jflag>0 ) exit main ! failure
+            else
+                exit ! done
+            end if
+
+        end do
+
+        return ! success
+    end block main
+
+    ! failure
+    Ifrkpr = 1
+    ! WRITE(NWRIT,'(A)') '*****RKPAR HAS FAILED'
 
     end subroutine rkpar
 !********************************************************************************
