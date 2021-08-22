@@ -125,7 +125,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 7.9% of total for procedures.">251 statements</a>
+    title=" 7.7% of total for procedures.">251 statements</a>
      </li> 
      
      
@@ -937,12 +937,12 @@ private subroutine searsl(me, Ioptn, Numgr, Nparm, Prjlim, Tol1, x, Fun, Ifun, P
       <span class="k">implicit none</span>
 
 <span class="k">      class</span><span class="p">(</span><span class="n">conmax_solver</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span> <span class="kd">::</span> <span class="n">me</span>
-      <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">baladj</span> <span class="p">,</span> <span class="n">balfct</span> <span class="p">,</span> <span class="n">Emin</span> <span class="p">,</span> <span class="n">Emin1</span> <span class="p">,</span> <span class="n">Err1</span> <span class="p">,</span> <span class="p">&amp;</span>
+      <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Emin</span> <span class="p">,</span> <span class="n">Emin1</span> <span class="p">,</span> <span class="n">Err1</span> <span class="p">,</span> <span class="p">&amp;</span>
                   <span class="n">Error</span> <span class="p">,</span> <span class="n">f1</span> <span class="p">,</span> <span class="n">f2</span> <span class="p">,</span> <span class="n">f3</span> <span class="p">,</span> <span class="n">f4</span> <span class="p">,</span> <span class="n">Fun</span> <span class="p">,</span> <span class="n">fval</span> <span class="p">,</span> <span class="n">fvlkp</span> <span class="p">,</span> <span class="p">&amp;</span>
                   <span class="n">p1</span> <span class="p">,</span> <span class="n">p2</span> <span class="p">,</span> <span class="n">p3</span>
       <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">p4</span> <span class="p">,</span> <span class="n">Param</span> <span class="p">,</span> <span class="n">Parprj</span> <span class="p">,</span> <span class="n">Parser</span> <span class="p">,</span> <span class="n">Prjlim</span> <span class="p">,</span> <span class="n">Projct</span> <span class="p">,</span> <span class="n">Pttbl</span> <span class="p">,</span>   <span class="p">&amp;</span>
-                  <span class="n">pval</span> <span class="p">,</span> <span class="n">Rchdwn</span> <span class="p">,</span> <span class="n">Rchin</span> <span class="p">,</span> <span class="n">rlf</span> <span class="p">,</span> <span class="n">rrt</span> <span class="p">,</span> <span class="n">s1</span> <span class="p">,</span> <span class="n">s2</span> <span class="p">,&amp;</span>
-                  <span class="n">Tol1</span> <span class="p">,</span> <span class="n">tol4</span> <span class="p">,</span> <span class="n">Tolcon</span> <span class="p">,</span> <span class="n">tolden</span>
+                  <span class="n">pval</span> <span class="p">,</span> <span class="n">Rchdwn</span> <span class="p">,</span> <span class="n">Rchin</span> <span class="p">,</span> <span class="n">rlf</span> <span class="p">,</span> <span class="n">rrt</span> <span class="p">,</span> <span class="n">s1</span> <span class="p">,</span> <span class="n">s2</span> <span class="p">,</span> <span class="n">tol4</span><span class="p">,</span> <span class="p">&amp;</span>
+                  <span class="n">Tol1</span> <span class="p">,</span> <span class="n">Tolcon</span>
       <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Unit</span> <span class="p">,</span> <span class="n">Work</span> <span class="p">,</span> <span class="n">x</span>
       <span class="kt">integer</span> <span class="kd">::</span> <span class="n">Iact</span> <span class="p">,</span> <span class="n">icorct</span> <span class="p">,</span> <span class="n">Ifun</span> <span class="p">,</span> <span class="n">ilc08</span> <span class="p">,</span> <span class="n">ilc10</span> <span class="p">,</span> <span class="n">ilc17</span> <span class="p">,</span> <span class="n">ilc21</span> <span class="p">,</span> <span class="p">&amp;</span>
                  <span class="n">ilc27</span> <span class="p">,</span> <span class="n">ilc29</span> <span class="p">,</span> <span class="n">ilc48</span> <span class="p">,</span> <span class="n">ilf</span> <span class="p">,</span> <span class="n">Indm</span> <span class="p">,</span> <span class="n">initlm</span> <span class="p">,</span> <span class="p">&amp;</span>
@@ -955,11 +955,11 @@ private subroutine searsl(me, Ioptn, Numgr, Nparm, Prjlim, Tol1, x, Fun, Ifun, P
                 <span class="n">Error</span><span class="p">(</span><span class="n">Numgr</span><span class="o">+</span><span class="mi">3</span><span class="p">)</span> <span class="p">,</span> <span class="n">Iact</span><span class="p">(</span><span class="n">Numgr</span><span class="p">)</span> <span class="p">,</span> <span class="n">Parser</span><span class="p">(</span><span class="n">Nparm</span><span class="p">)</span> <span class="p">,</span> <span class="p">&amp;</span>
                 <span class="n">Iwork</span><span class="p">(</span><span class="n">Liwrk</span><span class="p">)</span> <span class="p">,</span> <span class="n">Work</span><span class="p">(</span><span class="n">Lwrk</span><span class="p">)</span>
 
-<span class="c">! SET MACHINE AND PRECISION DEPENDENT CONSTANTS FOR SEARSL.</span>
-      <span class="n">tolden</span> <span class="o">=</span> <span class="n">ten</span><span class="o">*</span><span class="n">spcmn</span>
+    <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">parameter</span> <span class="kd">::</span> <span class="n">tolden</span> <span class="o">=</span> <span class="n">ten</span><span class="o">*</span><span class="n">spcmn</span>
+    <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">parameter</span> <span class="kd">::</span> <span class="n">balfct</span> <span class="o">=</span> <span class="n">ten</span>
+    <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">parameter</span> <span class="kd">::</span> <span class="n">baladj</span> <span class="o">=</span> <span class="p">(</span><span class="n">ten</span><span class="o">-</span><span class="n">one</span><span class="p">)</span><span class="o">/</span><span class="n">ten</span>
+
       <span class="n">tol4</span> <span class="o">=</span> <span class="n">Tol1</span><span class="o">/</span><span class="n">four</span>
-      <span class="n">balfct</span> <span class="o">=</span> <span class="n">ten</span>
-      <span class="n">baladj</span> <span class="o">=</span> <span class="p">(</span><span class="n">ten</span><span class="o">-</span><span class="n">one</span><span class="p">)</span><span class="o">/</span><span class="n">ten</span>
       <span class="n">ilc08</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
       <span class="n">ilc10</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
       <span class="n">ilc17</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">17</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
@@ -967,7 +967,7 @@ private subroutine searsl(me, Ioptn, Numgr, Nparm, Prjlim, Tol1, x, Fun, Ifun, P
       <span class="n">ilc27</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">27</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
       <span class="n">ilc29</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">29</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
       <span class="n">ilc48</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">48</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
-<span class="c">!</span>
+
 <span class="c">! THE INITIAL PROJCT CAN BE INCREASED (OR DECREASED) BY A FACTOR OF</span>
 <span class="c">! 2.0**((INITLM-1)*INITLM-2)/2) (ASSUMING WE TAKE INITLM &gt;= 3, AS</span>
 <span class="c">! WE SHOULD).  WE TAKE INITLM=6 SINCE A FACTOR OF 1024 SEEMS SUFFICIENT.</span>

@@ -125,7 +125,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title="100.0% of total for modules and submodules.">3234 statements</a>
+    title="100.0% of total for modules and submodules.">3298 statements</a>
      </li> 
      
      
@@ -1838,8 +1838,8 @@ private subroutine <a href='../proc/derst.html'>derst</a>(me, Ioptn, Nparm, Numg
   
 <tr>
   
-  <td><span class="anchor" ></span>integer</td>
-  <td></td>
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -5166,9 +5166,9 @@ private subroutine <a href='../proc/rksact.html'>rksact</a>(Ioptn, Numgr, Icntyp
 
 
 
-<p>THIS SUBROUTINE PUTS THE (SIGNED) INDICES OF THE MACTRK
- ACTIVE CONSTRAINTS IN IACT.  IT ALSO SETS THE RIGHT SIDE VECTOR
- ACTDIF FOR THE WOLFE SUBPROBLEM.</p>
+<p>This subroutine puts the (signed) indices of the mactrk
+ active constraints in iact.  it also sets the right side vector
+ actdif for the wolfe subproblem.</p>
     
     <h4>Arguments</h4>
     
@@ -5189,8 +5189,8 @@ private subroutine <a href='../proc/rksact.html'>rksact</a>(Ioptn, Numgr, Icntyp
   
 <tr>
   
-  <td><span class="anchor" ></span>integer</td>
-  <td></td>
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -5204,8 +5204,8 @@ private subroutine <a href='../proc/rksact.html'>rksact</a>(Ioptn, Numgr, Icntyp
   
 <tr>
   
-  <td><span class="anchor" ></span>integer</td>
-  <td></td>
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -5219,12 +5219,12 @@ private subroutine <a href='../proc/rksact.html'>rksact</a>(Ioptn, Numgr, Icntyp
   
 <tr>
   
-  <td><span class="anchor" ></span>integer</td>
-  <td></td>
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Icntyp</strong></td><td></td>
+  <td><strong>Icntyp</strong>(Numgr)</td><td></td>
   
 </tr>
 
@@ -5234,8 +5234,8 @@ private subroutine <a href='../proc/rksact.html'>rksact</a>(Ioptn, Numgr, Icntyp
   
 <tr>
   
-  <td><span class="anchor" ></span>real(kind=wp)</td>
-  <td></td>
+  <td><span class="anchor" ></span>real(kind=wp),</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -5249,8 +5249,8 @@ private subroutine <a href='../proc/rksact.html'>rksact</a>(Ioptn, Numgr, Icntyp
   
 <tr>
   
-  <td><span class="anchor" ></span>real(kind=wp)</td>
-  <td></td>
+  <td><span class="anchor" ></span>real(kind=wp),</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -5264,8 +5264,8 @@ private subroutine <a href='../proc/rksact.html'>rksact</a>(Ioptn, Numgr, Icntyp
   
 <tr>
   
-  <td><span class="anchor" ></span>real(kind=wp)</td>
-  <td></td>
+  <td><span class="anchor" ></span>real(kind=wp),</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -5279,8 +5279,8 @@ private subroutine <a href='../proc/rksact.html'>rksact</a>(Ioptn, Numgr, Icntyp
   
 <tr>
   
-  <td><span class="anchor" ></span>real(kind=wp)</td>
-  <td></td>
+  <td><span class="anchor" ></span>real(kind=wp),</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -5294,12 +5294,12 @@ private subroutine <a href='../proc/rksact.html'>rksact</a>(Ioptn, Numgr, Icntyp
   
 <tr>
   
-  <td><span class="anchor" ></span>real(kind=wp)</td>
-  <td></td>
+  <td><span class="anchor" ></span>real(kind=wp),</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Error</strong></td><td></td>
+  <td><strong>Error</strong>(Numgr+3)</td><td></td>
   
 </tr>
 
@@ -5309,8 +5309,8 @@ private subroutine <a href='../proc/rksact.html'>rksact</a>(Ioptn, Numgr, Icntyp
   
 <tr>
   
-  <td><span class="anchor" ></span>integer</td>
-  <td></td>
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(out)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -5329,7 +5329,7 @@ private subroutine <a href='../proc/rksact.html'>rksact</a>(Ioptn, Numgr, Icntyp
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Actdif</strong></td><td></td>
+  <td><strong>Actdif</strong>(Numgr)</td><td></td>
   
 </tr>
 
@@ -5344,7 +5344,7 @@ private subroutine <a href='../proc/rksact.html'>rksact</a>(Ioptn, Numgr, Icntyp
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Iact</strong></td><td></td>
+  <td><strong>Iact</strong>(Numgr)</td><td></td>
   
 </tr>
 
@@ -5377,14 +5377,14 @@ private subroutine <a href='../proc/pmtst.html'>pmtst</a>(me, Ioptn, Numgr, Npar
 
 
 
-<p>THIS SUBROUTINE SETS UP THE (NPARM+1) BY MACTRK MATRIX PMAT.
- FOR 1 &lt;= J &lt;= MACTRK, THE TOP NPARM ELEMENTS OF COLUMN J OF PMAT
- WILL CONTAIN THE NEGATIVE OF THE GRADIENT OF ACTIVE CONSTRAINT J (IF
- CONSTRAINT J IS OF TYPE 2, I.E. OF THE FORM ABS(F(X) - F(PARWRK,X))
- &lt;= W, THE LEFT SIDE WILL BE TREATED AS F(X) - F(PARWRK,X) IF THIS
- QUANTITY IS NONNEGATIVE AND WILL BE TREATED AS F(PARWRK,X) - F(X)
- OTHERWISE). THE (NPARM+1)ST ROW OF PMAT WILL CONTAIN ACTDIF, THE
- RIGHT SIDE OF THE INEQUALITIES GRADIENT.VECTOR &gt;= ACTDIF.</p>
+<p>This subroutine sets up the (nparm+1) by mactrk matrix pmat.
+ for 1 &lt;= j &lt;= mactrk, the top nparm elements of column j of pmat
+ will contain the negative of the gradient of active constraint j (if
+ constraint j is of type 2, i.e. of the form abs(f(x) - f(parwrk,x))
+ &lt;= w, the left side will be treated as f(x) - f(parwrk,x) if this
+ quantity is nonnegative and will be treated as f(parwrk,x) - f(x)
+ otherwise). the (nparm+1)st row of pmat will contain actdif, the
+ right side of the inequalities gradient.vector &gt;= actdif.</p>
     
     <h4>Arguments</h4>
     
@@ -5420,8 +5420,8 @@ private subroutine <a href='../proc/pmtst.html'>pmtst</a>(me, Ioptn, Numgr, Npar
   
 <tr>
   
-  <td><span class="anchor" ></span>integer</td>
-  <td></td>
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -5435,8 +5435,8 @@ private subroutine <a href='../proc/pmtst.html'>pmtst</a>(me, Ioptn, Numgr, Npar
   
 <tr>
   
-  <td><span class="anchor" ></span>integer</td>
-  <td></td>
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -5450,8 +5450,8 @@ private subroutine <a href='../proc/pmtst.html'>pmtst</a>(me, Ioptn, Numgr, Npar
   
 <tr>
   
-  <td><span class="anchor" ></span>integer</td>
-  <td></td>
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -5470,7 +5470,7 @@ private subroutine <a href='../proc/pmtst.html'>pmtst</a>(me, Ioptn, Numgr, Npar
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Param</strong></td><td></td>
+  <td><strong>Param</strong>(Nparm)</td><td></td>
   
 </tr>
 
@@ -5485,7 +5485,7 @@ private subroutine <a href='../proc/pmtst.html'>pmtst</a>(me, Ioptn, Numgr, Npar
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Icntyp</strong></td><td></td>
+  <td><strong>Icntyp</strong>(Numgr)</td><td></td>
   
 </tr>
 
@@ -5495,8 +5495,8 @@ private subroutine <a href='../proc/pmtst.html'>pmtst</a>(me, Ioptn, Numgr, Npar
   
 <tr>
   
-  <td><span class="anchor" ></span>integer</td>
-  <td></td>
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -5515,7 +5515,7 @@ private subroutine <a href='../proc/pmtst.html'>pmtst</a>(me, Ioptn, Numgr, Npar
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Iact</strong></td><td></td>
+  <td><strong>Iact</strong>(Numgr)</td><td></td>
   
 </tr>
 
@@ -5530,7 +5530,7 @@ private subroutine <a href='../proc/pmtst.html'>pmtst</a>(me, Ioptn, Numgr, Npar
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Pttbl</strong></td><td></td>
+  <td><strong>Pttbl</strong>(Iptb,Indm)</td><td></td>
   
 </tr>
 
@@ -5540,8 +5540,8 @@ private subroutine <a href='../proc/pmtst.html'>pmtst</a>(me, Ioptn, Numgr, Npar
   
 <tr>
   
-  <td><span class="anchor" ></span>integer</td>
-  <td></td>
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -5555,8 +5555,8 @@ private subroutine <a href='../proc/pmtst.html'>pmtst</a>(me, Ioptn, Numgr, Npar
   
 <tr>
   
-  <td><span class="anchor" ></span>integer</td>
-  <td></td>
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -5570,12 +5570,12 @@ private subroutine <a href='../proc/pmtst.html'>pmtst</a>(me, Ioptn, Numgr, Npar
   
 <tr>
   
-  <td><span class="anchor" ></span>real(kind=wp)</td>
-  <td></td>
+  <td><span class="anchor" ></span>real(kind=wp),</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Actdif</strong></td><td></td>
+  <td><strong>Actdif</strong>(Numgr)</td><td></td>
   
 </tr>
 
@@ -5585,8 +5585,8 @@ private subroutine <a href='../proc/pmtst.html'>pmtst</a>(me, Ioptn, Numgr, Npar
   
 <tr>
   
-  <td><span class="anchor" ></span>integer</td>
-  <td></td>
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -5605,7 +5605,7 @@ private subroutine <a href='../proc/pmtst.html'>pmtst</a>(me, Ioptn, Numgr, Npar
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Iwork</strong></td><td></td>
+  <td><strong>Iwork</strong>(Liwrk)</td><td></td>
   
 </tr>
 
@@ -5615,8 +5615,8 @@ private subroutine <a href='../proc/pmtst.html'>pmtst</a>(me, Ioptn, Numgr, Npar
   
 <tr>
   
-  <td><span class="anchor" ></span>integer</td>
-  <td></td>
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -5635,7 +5635,7 @@ private subroutine <a href='../proc/pmtst.html'>pmtst</a>(me, Ioptn, Numgr, Npar
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Work</strong></td><td></td>
+  <td><strong>Work</strong>(Lwrk)</td><td></td>
   
 </tr>
 
@@ -5645,8 +5645,8 @@ private subroutine <a href='../proc/pmtst.html'>pmtst</a>(me, Ioptn, Numgr, Npar
   
 <tr>
   
-  <td><span class="anchor" ></span>integer</td>
-  <td></td>
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -5665,7 +5665,7 @@ private subroutine <a href='../proc/pmtst.html'>pmtst</a>(me, Ioptn, Numgr, Npar
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Confun</strong></td><td></td>
+  <td><strong>Confun</strong>(Numgr,Nparm+1)</td><td></td>
   
 </tr>
 
@@ -5680,7 +5680,7 @@ private subroutine <a href='../proc/pmtst.html'>pmtst</a>(me, Ioptn, Numgr, Npar
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Pmat</strong></td><td></td>
+  <td><strong>Pmat</strong>(Nparm+1,Numgr)</td><td></td>
   
 </tr>
 
@@ -5713,10 +5713,10 @@ private subroutine <a href='../proc/rkpar.html'>rkpar</a>(me, Ioptn, Numgr, Npar
 
 
 
-<p>THIS SUBROUTINE COMPUTES A PARAMETER VECTOR PARPRJ USING FOURTH
- ORDER RUNGE KUTTA WITH H=-PROJCT.  H IS NEGATIVE SINCE WE WANT
- TO APPROXIMATE THE PARAMETERS RESULTING FROM DECREASING W BY
- ABS(H).  IF WE DO NSTEP STEPS THEN H=-PROJCT/NSTEP.</p>
+<p>This subroutine computes a parameter vector parprj using fourth
+  order runge kutta with h=-projct.  h is negative since we want
+  to approximate the parameters resulting from decreasing w by
+  abs(h).  if we do nstep steps then h=-projct/nstep.</p>
     
     <h4>Arguments</h4>
     
@@ -5767,8 +5767,8 @@ private subroutine <a href='../proc/rkpar.html'>rkpar</a>(me, Ioptn, Numgr, Npar
   
 <tr>
   
-  <td><span class="anchor" ></span>integer</td>
-  <td></td>
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -5782,8 +5782,8 @@ private subroutine <a href='../proc/rkpar.html'>rkpar</a>(me, Ioptn, Numgr, Npar
   
 <tr>
   
-  <td><span class="anchor" ></span>integer</td>
-  <td></td>
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -5802,7 +5802,7 @@ private subroutine <a href='../proc/rkpar.html'>rkpar</a>(me, Ioptn, Numgr, Npar
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Icntyp</strong></td><td></td>
+  <td><strong>Icntyp</strong>(Numgr)</td><td></td>
   
 </tr>
 
@@ -5832,7 +5832,7 @@ private subroutine <a href='../proc/rkpar.html'>rkpar</a>(me, Ioptn, Numgr, Npar
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Iact</strong></td><td></td>
+  <td><strong>Iact</strong>(Numgr)</td><td></td>
   
 </tr>
 
@@ -5847,7 +5847,7 @@ private subroutine <a href='../proc/rkpar.html'>rkpar</a>(me, Ioptn, Numgr, Npar
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Actdif</strong></td><td></td>
+  <td><strong>Actdif</strong>(Numgr)</td><td></td>
   
 </tr>
 
@@ -5877,7 +5877,7 @@ private subroutine <a href='../proc/rkpar.html'>rkpar</a>(me, Ioptn, Numgr, Npar
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Param</strong></td><td></td>
+  <td><strong>Param</strong>(Nparm)</td><td></td>
   
 </tr>
 
@@ -5892,7 +5892,7 @@ private subroutine <a href='../proc/rkpar.html'>rkpar</a>(me, Ioptn, Numgr, Npar
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Fun</strong></td><td></td>
+  <td><strong>Fun</strong>(Ifun)</td><td></td>
   
 </tr>
 
@@ -5902,8 +5902,8 @@ private subroutine <a href='../proc/rkpar.html'>rkpar</a>(me, Ioptn, Numgr, Npar
   
 <tr>
   
-  <td><span class="anchor" ></span>integer</td>
-  <td></td>
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -5922,7 +5922,7 @@ private subroutine <a href='../proc/rkpar.html'>rkpar</a>(me, Ioptn, Numgr, Npar
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Pttbl</strong></td><td></td>
+  <td><strong>Pttbl</strong>(Iptb,Indm)</td><td></td>
   
 </tr>
 
@@ -5932,8 +5932,8 @@ private subroutine <a href='../proc/rkpar.html'>rkpar</a>(me, Ioptn, Numgr, Npar
   
 <tr>
   
-  <td><span class="anchor" ></span>integer</td>
-  <td></td>
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -5947,8 +5947,8 @@ private subroutine <a href='../proc/rkpar.html'>rkpar</a>(me, Ioptn, Numgr, Npar
   
 <tr>
   
-  <td><span class="anchor" ></span>integer</td>
-  <td></td>
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -5967,7 +5967,7 @@ private subroutine <a href='../proc/rkpar.html'>rkpar</a>(me, Ioptn, Numgr, Npar
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Vder</strong></td><td></td>
+  <td><strong>Vder</strong>(Nparm)</td><td></td>
   
 </tr>
 
@@ -5982,7 +5982,7 @@ private subroutine <a href='../proc/rkpar.html'>rkpar</a>(me, Ioptn, Numgr, Npar
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Pmat</strong></td><td></td>
+  <td><strong>Pmat</strong>(Nparm+1,Numgr)</td><td></td>
   
 </tr>
 
@@ -6117,7 +6117,7 @@ private subroutine <a href='../proc/rkpar.html'>rkpar</a>(me, Ioptn, Numgr, Npar
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Error</strong></td><td></td>
+  <td><strong>Error</strong>(Numgr+3)</td><td></td>
   
 </tr>
 
@@ -6147,7 +6147,7 @@ private subroutine <a href='../proc/rkpar.html'>rkpar</a>(me, Ioptn, Numgr, Npar
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Iwork</strong></td><td></td>
+  <td><strong>Iwork</strong>(Liwrk)</td><td></td>
   
 </tr>
 
@@ -6157,8 +6157,8 @@ private subroutine <a href='../proc/rkpar.html'>rkpar</a>(me, Ioptn, Numgr, Npar
   
 <tr>
   
-  <td><span class="anchor" ></span>integer</td>
-  <td></td>
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -6177,7 +6177,7 @@ private subroutine <a href='../proc/rkpar.html'>rkpar</a>(me, Ioptn, Numgr, Npar
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Work</strong></td><td></td>
+  <td><strong>Work</strong>(Lwrk)</td><td></td>
   
 </tr>
 
@@ -6187,8 +6187,8 @@ private subroutine <a href='../proc/rkpar.html'>rkpar</a>(me, Ioptn, Numgr, Npar
   
 <tr>
   
-  <td><span class="anchor" ></span>integer</td>
-  <td></td>
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -6207,7 +6207,7 @@ private subroutine <a href='../proc/rkpar.html'>rkpar</a>(me, Ioptn, Numgr, Npar
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Confun</strong></td><td></td>
+  <td><strong>Confun</strong>(Numgr,Nparm+1)</td><td></td>
   
 </tr>
 
@@ -6222,7 +6222,7 @@ private subroutine <a href='../proc/rkpar.html'>rkpar</a>(me, Ioptn, Numgr, Npar
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Vdern</strong></td><td></td>
+  <td><strong>Vdern</strong>(Nparm)</td><td></td>
   
 </tr>
 
@@ -6237,7 +6237,7 @@ private subroutine <a href='../proc/rkpar.html'>rkpar</a>(me, Ioptn, Numgr, Npar
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Vders</strong></td><td></td>
+  <td><strong>Vders</strong>(Nparm)</td><td></td>
   
 </tr>
 
@@ -6252,7 +6252,7 @@ private subroutine <a href='../proc/rkpar.html'>rkpar</a>(me, Ioptn, Numgr, Npar
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Wvec</strong></td><td></td>
+  <td><strong>Wvec</strong>(Nparm)</td><td></td>
   
 </tr>
 
@@ -6267,7 +6267,7 @@ private subroutine <a href='../proc/rkpar.html'>rkpar</a>(me, Ioptn, Numgr, Npar
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Parprj</strong></td><td></td>
+  <td><strong>Parprj</strong>(Nparm)</td><td></td>
   
 </tr>
 
