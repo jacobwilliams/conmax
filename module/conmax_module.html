@@ -125,7 +125,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title="100.0% of total for modules and submodules.">3301 statements</a>
+    title="100.0% of total for modules and submodules.">3311 statements</a>
      </li> 
      
      
@@ -7652,9 +7652,9 @@ private subroutine <a href='../proc/rchmod.html'>rchmod</a>(Numgr, Error, Err1, 
 
 
 
-<p>THIS SUBROUTINE INCREASES RCHDWN OR RCHIN IF IT APPEARS SOME
- CONSTRAINTS WHICH SHOULD HAVE BEEN DECLARED ACTIVE WERE NOT SO
- DECLARED.</p>
+<p>This subroutine increases rchdwn or rchin if it appears some
+  constraints which should have been declared active were not so
+  declared.</p>
     
     <h4>Arguments</h4>
     
@@ -7675,8 +7675,8 @@ private subroutine <a href='../proc/rchmod.html'>rchmod</a>(Numgr, Error, Err1, 
   
 <tr>
   
-  <td><span class="anchor" ></span>integer</td>
-  <td></td>
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -7690,12 +7690,12 @@ private subroutine <a href='../proc/rchmod.html'>rchmod</a>(Numgr, Error, Err1, 
   
 <tr>
   
-  <td><span class="anchor" ></span>real(kind=wp)</td>
-  <td></td>
+  <td><span class="anchor" ></span>real(kind=wp),</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Error</strong></td><td></td>
+  <td><strong>Error</strong>(Numgr+3)</td><td></td>
   
 </tr>
 
@@ -7705,12 +7705,12 @@ private subroutine <a href='../proc/rchmod.html'>rchmod</a>(Numgr, Error, Err1, 
   
 <tr>
   
-  <td><span class="anchor" ></span>real(kind=wp)</td>
-  <td></td>
+  <td><span class="anchor" ></span>real(kind=wp),</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Err1</strong></td><td></td>
+  <td><strong>Err1</strong>(Numgr+3)</td><td></td>
   
 </tr>
 
@@ -7720,12 +7720,12 @@ private subroutine <a href='../proc/rchmod.html'>rchmod</a>(Numgr, Error, Err1, 
   
 <tr>
   
-  <td><span class="anchor" ></span>integer</td>
-  <td></td>
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Icntyp</strong></td><td></td>
+  <td><strong>Icntyp</strong>(Numgr)</td><td></td>
   
 </tr>
 
@@ -7735,8 +7735,8 @@ private subroutine <a href='../proc/rchmod.html'>rchmod</a>(Numgr, Error, Err1, 
   
 <tr>
   
-  <td><span class="anchor" ></span>integer</td>
-  <td></td>
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -7750,12 +7750,12 @@ private subroutine <a href='../proc/rchmod.html'>rchmod</a>(Numgr, Error, Err1, 
   
 <tr>
   
-  <td><span class="anchor" ></span>integer</td>
-  <td></td>
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Iact</strong></td><td></td>
+  <td><strong>Iact</strong>(Numgr)</td><td></td>
   
 </tr>
 
@@ -7765,8 +7765,8 @@ private subroutine <a href='../proc/rchmod.html'>rchmod</a>(Numgr, Error, Err1, 
   
 <tr>
   
-  <td><span class="anchor" ></span>integer</td>
-  <td></td>
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -7780,8 +7780,8 @@ private subroutine <a href='../proc/rchmod.html'>rchmod</a>(Numgr, Error, Err1, 
   
 <tr>
   
-  <td><span class="anchor" ></span>integer</td>
-  <td></td>
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -7795,8 +7795,8 @@ private subroutine <a href='../proc/rchmod.html'>rchmod</a>(Numgr, Error, Err1, 
   
 <tr>
   
-  <td><span class="anchor" ></span>real(kind=wp)</td>
-  <td></td>
+  <td><span class="anchor" ></span>real(kind=wp),</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -7810,8 +7810,8 @@ private subroutine <a href='../proc/rchmod.html'>rchmod</a>(Numgr, Error, Err1, 
   
 <tr>
   
-  <td><span class="anchor" ></span>integer</td>
-  <td></td>
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -7825,8 +7825,8 @@ private subroutine <a href='../proc/rchmod.html'>rchmod</a>(Numgr, Error, Err1, 
   
 <tr>
   
-  <td><span class="anchor" ></span>real(kind=wp)</td>
-  <td></td>
+  <td><span class="anchor" ></span>real(kind=wp),</td>
+  <td>intent(inout)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -7840,8 +7840,8 @@ private subroutine <a href='../proc/rchmod.html'>rchmod</a>(Numgr, Error, Err1, 
   
 <tr>
   
-  <td><span class="anchor" ></span>real(kind=wp)</td>
-  <td></td>
+  <td><span class="anchor" ></span>real(kind=wp),</td>
+  <td>intent(inout)</td>
   <td></td>
   
   <td></td><td>::</td>

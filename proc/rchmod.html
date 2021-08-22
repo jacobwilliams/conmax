@@ -125,7 +125,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 1.8% of total for procedures.">57 statements</a>
+    title=" 2.1% of total for procedures.">67 statements</a>
      </li> 
      
      
@@ -208,9 +208,9 @@ private subroutine rchmod(Numgr, Error, Err1, Icntyp, Mact, Iact, Ipmax, Ismax, 
 
 
     
-    <p>THIS SUBROUTINE INCREASES RCHDWN OR RCHIN IF IT APPEARS SOME
- CONSTRAINTS WHICH SHOULD HAVE BEEN DECLARED ACTIVE WERE NOT SO
- DECLARED.</p>
+    <p>This subroutine increases rchdwn or rchin if it appears some
+  constraints which should have been declared active were not so
+  declared.</p>
     
 
     <h3>Arguments</h3>
@@ -231,8 +231,8 @@ private subroutine rchmod(Numgr, Error, Err1, Icntyp, Mact, Iact, Ipmax, Ismax, 
   
 <tr>
   
-  <td><span class="anchor" id="variable-numgr~17"></span>integer</td>
-  <td></td>
+  <td><span class="anchor" id="variable-numgr~17"></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -246,12 +246,12 @@ private subroutine rchmod(Numgr, Error, Err1, Icntyp, Mact, Iact, Ipmax, Ismax, 
   
 <tr>
   
-  <td><span class="anchor" id="variable-error~9"></span>real(kind=wp)</td>
-  <td></td>
+  <td><span class="anchor" id="variable-error~9"></span>real(kind=wp),</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Error</strong></td><td></td>
+  <td><strong>Error</strong>(Numgr+3)</td><td></td>
   
 </tr>
 
@@ -261,12 +261,12 @@ private subroutine rchmod(Numgr, Error, Err1, Icntyp, Mact, Iact, Ipmax, Ismax, 
   
 <tr>
   
-  <td><span class="anchor" id="variable-err1~6"></span>real(kind=wp)</td>
-  <td></td>
+  <td><span class="anchor" id="variable-err1~6"></span>real(kind=wp),</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Err1</strong></td><td></td>
+  <td><strong>Err1</strong>(Numgr+3)</td><td></td>
   
 </tr>
 
@@ -276,12 +276,12 @@ private subroutine rchmod(Numgr, Error, Err1, Icntyp, Mact, Iact, Ipmax, Ismax, 
   
 <tr>
   
-  <td><span class="anchor" id="variable-icntyp~10"></span>integer</td>
-  <td></td>
+  <td><span class="anchor" id="variable-icntyp~10"></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Icntyp</strong></td><td></td>
+  <td><strong>Icntyp</strong>(Numgr)</td><td></td>
   
 </tr>
 
@@ -291,8 +291,8 @@ private subroutine rchmod(Numgr, Error, Err1, Icntyp, Mact, Iact, Ipmax, Ismax, 
   
 <tr>
   
-  <td><span class="anchor" id="variable-mact~3"></span>integer</td>
-  <td></td>
+  <td><span class="anchor" id="variable-mact~3"></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -306,12 +306,12 @@ private subroutine rchmod(Numgr, Error, Err1, Icntyp, Mact, Iact, Ipmax, Ismax, 
   
 <tr>
   
-  <td><span class="anchor" id="variable-iact~8"></span>integer</td>
-  <td></td>
+  <td><span class="anchor" id="variable-iact~8"></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Iact</strong></td><td></td>
+  <td><strong>Iact</strong>(Numgr)</td><td></td>
   
 </tr>
 
@@ -321,8 +321,8 @@ private subroutine rchmod(Numgr, Error, Err1, Icntyp, Mact, Iact, Ipmax, Ismax, 
   
 <tr>
   
-  <td><span class="anchor" id="variable-ipmax~2"></span>integer</td>
-  <td></td>
+  <td><span class="anchor" id="variable-ipmax~2"></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -336,8 +336,8 @@ private subroutine rchmod(Numgr, Error, Err1, Icntyp, Mact, Iact, Ipmax, Ismax, 
   
 <tr>
   
-  <td><span class="anchor" id="variable-ismax~2"></span>integer</td>
-  <td></td>
+  <td><span class="anchor" id="variable-ismax~2"></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -351,8 +351,8 @@ private subroutine rchmod(Numgr, Error, Err1, Icntyp, Mact, Iact, Ipmax, Ismax, 
   
 <tr>
   
-  <td><span class="anchor" id="variable-unit~4"></span>real(kind=wp)</td>
-  <td></td>
+  <td><span class="anchor" id="variable-unit~4"></span>real(kind=wp),</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -366,8 +366,8 @@ private subroutine rchmod(Numgr, Error, Err1, Icntyp, Mact, Iact, Ipmax, Ismax, 
   
 <tr>
   
-  <td><span class="anchor" id="variable-irch"></span>integer</td>
-  <td></td>
+  <td><span class="anchor" id="variable-irch"></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -381,8 +381,8 @@ private subroutine rchmod(Numgr, Error, Err1, Icntyp, Mact, Iact, Ipmax, Ismax, 
   
 <tr>
   
-  <td><span class="anchor" id="variable-rchdwn~6"></span>real(kind=wp)</td>
-  <td></td>
+  <td><span class="anchor" id="variable-rchdwn~6"></span>real(kind=wp),</td>
+  <td>intent(inout)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -396,8 +396,8 @@ private subroutine rchmod(Numgr, Error, Err1, Icntyp, Mact, Iact, Ipmax, Ismax, 
   
 <tr>
   
-  <td><span class="anchor" id="variable-rchin~8"></span>real(kind=wp)</td>
-  <td></td>
+  <td><span class="anchor" id="variable-rchin~8"></span>real(kind=wp),</td>
+  <td>intent(inout)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -437,33 +437,33 @@ private subroutine rchmod(Numgr, Error, Err1, Icntyp, Mact, Iact, Ipmax, Ismax, 
 <polygon fill="none" stroke="black" points="144,-45 90,-45 90,-21 144,-21 144,-45"/>
 <text text-anchor="middle" x="117" y="-30.6" font-family="Helvetica,sans-Serif" font-size="10.50">rchmod</text>
 </g>
-<!-- proc~searsl -->
-<g id="proc~~rchmod~~CalledByGraph_node2" class="node">
-<title>proc~searsl</title>
-<g id="a_proc~~rchmod~~CalledByGraph_node2"><a xlink:href=".././proc/searsl.html" xlink:title="searsl">
-<polygon fill="#d9534f" stroke="#d9534f" points="54,-66 0,-66 0,-42 54,-42 54,-66"/>
-<text text-anchor="middle" x="27" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">searsl</text>
-</a>
-</g>
-</g>
-<!-- proc~searsl&#45;&gt;proc~rchmod -->
-<g id="proc~~rchmod~~CalledByGraph_edge2" class="edge">
-<title>proc~searsl&#45;&gt;proc~rchmod</title>
-<path fill="none" stroke="#000000" d="M54.4,-47.7C62.48,-45.77 71.51,-43.62 80.1,-41.57"/>
-<polygon fill="#000000" stroke="#000000" points="81,-44.95 89.92,-39.22 79.38,-38.14 81,-44.95"/>
-</g>
 <!-- proc~corrct -->
-<g id="proc~~rchmod~~CalledByGraph_node3" class="node">
+<g id="proc~~rchmod~~CalledByGraph_node2" class="node">
 <title>proc~corrct</title>
-<g id="a_proc~~rchmod~~CalledByGraph_node3"><a xlink:href=".././proc/corrct.html" xlink:title="corrct">
-<polygon fill="#d9534f" stroke="#d9534f" points="54,-24 0,-24 0,0 54,0 54,-24"/>
-<text text-anchor="middle" x="27" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">corrct</text>
+<g id="a_proc~~rchmod~~CalledByGraph_node2"><a xlink:href=".././proc/corrct.html" xlink:title="corrct">
+<polygon fill="#d9534f" stroke="#d9534f" points="54,-66 0,-66 0,-42 54,-42 54,-66"/>
+<text text-anchor="middle" x="27" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">corrct</text>
 </a>
 </g>
 </g>
 <!-- proc~corrct&#45;&gt;proc~rchmod -->
 <g id="proc~~rchmod~~CalledByGraph_edge1" class="edge">
 <title>proc~corrct&#45;&gt;proc~rchmod</title>
+<path fill="none" stroke="#000000" d="M54.4,-47.7C62.48,-45.77 71.51,-43.62 80.1,-41.57"/>
+<polygon fill="#000000" stroke="#000000" points="81,-44.95 89.92,-39.22 79.38,-38.14 81,-44.95"/>
+</g>
+<!-- proc~searsl -->
+<g id="proc~~rchmod~~CalledByGraph_node3" class="node">
+<title>proc~searsl</title>
+<g id="a_proc~~rchmod~~CalledByGraph_node3"><a xlink:href=".././proc/searsl.html" xlink:title="searsl">
+<polygon fill="#d9534f" stroke="#d9534f" points="54,-24 0,-24 0,0 54,0 54,-24"/>
+<text text-anchor="middle" x="27" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">searsl</text>
+</a>
+</g>
+</g>
+<!-- proc~searsl&#45;&gt;proc~rchmod -->
+<g id="proc~~rchmod~~CalledByGraph_edge2" class="edge">
+<title>proc~searsl&#45;&gt;proc~rchmod</title>
 <path fill="none" stroke="#000000" d="M54.4,-18.3C62.48,-20.23 71.51,-22.38 80.1,-24.43"/>
 <polygon fill="#000000" stroke="#000000" points="79.38,-27.86 89.92,-26.78 81,-21.05 79.38,-27.86"/>
 </g>
@@ -590,132 +590,137 @@ private subroutine rchmod(Numgr, Error, Err1, Icntyp, Mact, Iact, Ipmax, Ismax, 
     
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="highlight"><pre><span></span>      <span class="k">subroutine </span><span class="n">rchmod</span><span class="p">(</span><span class="n">Numgr</span><span class="p">,</span><span class="n">Error</span><span class="p">,</span><span class="n">Err1</span><span class="p">,</span><span class="n">Icntyp</span><span class="p">,</span><span class="n">Mact</span><span class="p">,</span><span class="n">Iact</span><span class="p">,</span><span class="n">Ipmax</span><span class="p">,</span><span class="n">Ismax</span><span class="p">,</span>  <span class="p">&amp;</span>
-                        <span class="n">Unit</span><span class="p">,</span><span class="n">Irch</span><span class="p">,</span><span class="n">Rchdwn</span><span class="p">,</span><span class="n">Rchin</span><span class="p">)</span>
+    <div class="highlight"><pre><span></span>    <span class="k">subroutine </span><span class="n">rchmod</span><span class="p">(</span><span class="n">Numgr</span><span class="p">,</span><span class="n">Error</span><span class="p">,</span><span class="n">Err1</span><span class="p">,</span><span class="n">Icntyp</span><span class="p">,</span><span class="n">Mact</span><span class="p">,</span><span class="n">Iact</span><span class="p">,</span><span class="n">Ipmax</span><span class="p">,</span><span class="n">Ismax</span><span class="p">,</span> <span class="p">&amp;</span>
+                      <span class="n">Unit</span><span class="p">,</span><span class="n">Irch</span><span class="p">,</span><span class="n">Rchdwn</span><span class="p">,</span><span class="n">Rchin</span><span class="p">)</span>
 
-      <span class="k">implicit none</span>
+    <span class="k">implicit none</span>
 
-<span class="k">      </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">ei</span> <span class="p">,</span> <span class="n">eipmax</span> <span class="p">,</span> <span class="n">enorm</span> <span class="p">,</span> <span class="n">epact</span> <span class="p">,</span> <span class="n">Err1</span> <span class="p">,</span> <span class="n">Error</span> <span class="p">,</span> <span class="p">&amp;</span>
-                  <span class="n">fudge</span> <span class="p">,</span> <span class="n">rch1</span> <span class="p">,</span> <span class="n">rchd1</span> <span class="p">,</span> <span class="n">Rchdwn</span> <span class="p">,</span> <span class="n">Rchin</span> <span class="p">,</span> <span class="p">&amp;</span>
-                  <span class="n">rchtop</span> <span class="p">,</span> <span class="n">Unit</span>
-      <span class="kt">integer</span> <span class="kd">::</span> <span class="n">i</span> <span class="p">,</span> <span class="n">Iact</span> <span class="p">,</span> <span class="n">Icntyp</span> <span class="p">,</span> <span class="n">ipact</span> <span class="p">,</span> <span class="n">Ipmax</span> <span class="p">,</span> <span class="n">Irch</span> <span class="p">,</span> <span class="n">Ismax</span> <span class="p">,</span> <span class="n">l</span> <span class="p">,</span> <span class="p">&amp;</span>
-                 <span class="n">Mact</span> <span class="p">,</span> <span class="n">Numgr</span>
+<span class="k">    </span><span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>     <span class="kd">::</span> <span class="n">Numgr</span>
+    <span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>     <span class="kd">::</span> <span class="n">Iact</span><span class="p">(</span><span class="n">Numgr</span><span class="p">)</span>
+    <span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>     <span class="kd">::</span> <span class="n">Icntyp</span><span class="p">(</span><span class="n">Numgr</span><span class="p">)</span>
+    <span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>     <span class="kd">::</span> <span class="n">Ipmax</span>
+    <span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>     <span class="kd">::</span> <span class="n">Irch</span>
+    <span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>     <span class="kd">::</span> <span class="n">Ismax</span>
+    <span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>     <span class="kd">::</span> <span class="n">Mact</span>
+    <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>    <span class="kd">::</span> <span class="n">Err1</span><span class="p">(</span><span class="n">Numgr</span><span class="o">+</span><span class="mi">3</span><span class="p">)</span>
+    <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>    <span class="kd">::</span> <span class="n">Error</span><span class="p">(</span><span class="n">Numgr</span><span class="o">+</span><span class="mi">3</span><span class="p">)</span>
+    <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Rchdwn</span>
+    <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Rchin</span>
+    <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>    <span class="kd">::</span> <span class="n">Unit</span>
 
-      <span class="k">dimension </span><span class="n">Error</span><span class="p">(</span><span class="n">Numgr</span><span class="o">+</span><span class="mi">3</span><span class="p">)</span> <span class="p">,</span> <span class="n">Err1</span><span class="p">(</span><span class="n">Numgr</span><span class="o">+</span><span class="mi">3</span><span class="p">)</span> <span class="p">,</span> <span class="n">Icntyp</span><span class="p">(</span><span class="n">Numgr</span><span class="p">)</span> <span class="p">,</span> <span class="p">&amp;</span>
-                <span class="n">Iact</span><span class="p">(</span><span class="n">Numgr</span><span class="p">)</span>
+    <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">ei</span> <span class="p">,</span> <span class="n">eipmax</span> <span class="p">,</span> <span class="n">enorm</span> <span class="p">,</span> <span class="n">epact</span> <span class="p">,</span> <span class="n">rch1</span> <span class="p">,</span> <span class="n">rchd1</span>
+    <span class="kt">integer</span>  <span class="kd">::</span> <span class="n">i</span> <span class="p">,</span> <span class="n">ipact</span> <span class="p">,</span> <span class="n">l</span>
 
-<span class="c">! SET MACHINE AND PRECISION DEPENDENT CONSTANTS.</span>
-      <span class="n">fudge</span> <span class="o">=</span> <span class="n">one</span> <span class="o">+</span> <span class="n">one</span><span class="o">/</span><span class="n">ten</span>
-      <span class="n">rchtop</span> <span class="o">=</span> <span class="n">one</span><span class="o">/</span><span class="n">spcmn</span>
-      <span class="n">enorm</span> <span class="o">=</span> <span class="n">Error</span><span class="p">(</span><span class="n">Numgr</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
-<span class="c">!</span>
-      <span class="k">if</span> <span class="p">(</span> <span class="n">Irch</span><span class="o">&lt;</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
-<span class="c">!</span>
-<span class="c">!</span>
-<span class="c">! HERE IRCH=-1 AND WE CONSIDER CHANGING RCHIN.</span>
-<span class="c">!</span>
-<span class="c">! SEE IF CONSTRAINT ISMAX IS IN THE ACTIVE SET, AND RETURN IF IT IS.</span>
-<span class="c">! NOTE THAT ISMAX &gt; 0 SINCE WE WOULD NOT HAVE CALLED RCHMOD WITH</span>
-<span class="c">! IRCH=-1 IF THERE WERE NO STANDARD CONSTRAINTS.</span>
-         <span class="k">do </span><span class="n">l</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Mact</span>
+    <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">parameter</span> <span class="kd">::</span> <span class="n">fudge</span> <span class="o">=</span> <span class="n">one</span> <span class="o">+</span> <span class="n">one</span><span class="o">/</span><span class="n">ten</span>
+    <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">parameter</span> <span class="kd">::</span> <span class="n">rchtop</span> <span class="o">=</span> <span class="n">one</span><span class="o">/</span><span class="n">spcmn</span>
+
+    <span class="c">! SET MACHINE AND PRECISION DEPENDENT CONSTANTS.</span>
+    <span class="n">enorm</span> <span class="o">=</span> <span class="n">Error</span><span class="p">(</span><span class="n">Numgr</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="p">(</span> <span class="n">Irch</span><span class="o">&lt;</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
+
+        <span class="c">! HERE IRCH=-1 AND WE CONSIDER CHANGING RCHIN.</span>
+
+        <span class="c">! SEE IF CONSTRAINT ISMAX IS IN THE ACTIVE SET, AND RETURN IF IT IS.</span>
+        <span class="c">! NOTE THAT ISMAX &gt; 0 SINCE WE WOULD NOT HAVE CALLED RCHMOD WITH</span>
+        <span class="c">! IRCH=-1 IF THERE WERE NO STANDARD CONSTRAINTS.</span>
+        <span class="k">do </span><span class="n">l</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Mact</span>
             <span class="n">i</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">Iact</span><span class="p">(</span><span class="n">l</span><span class="p">))</span>
             <span class="k">if</span> <span class="p">(</span> <span class="n">i</span><span class="o">==</span><span class="n">Ismax</span> <span class="p">)</span> <span class="k">return</span>
-<span class="k">         end do</span>
-<span class="c">!</span>
-<span class="c">! RETURN IF RCHIN &gt;= RCHTOP.</span>
-         <span class="k">if</span> <span class="p">(</span> <span class="n">Rchin</span><span class="o">&lt;</span><span class="n">rchtop</span> <span class="p">)</span> <span class="k">then</span>
-<span class="c">!</span>
-<span class="c">! SET THE PROSPECTIVE NEW RCHIN.  NOTE THAT WITHOUT THE FUDGE FACTOR,</span>
-<span class="c">! RCH1 WOULD HAVE BEEN JUST BARELY LARGE ENOUGH TO HAVE CAUSED</span>
-<span class="c">! CONSTRAINT ISMAX TO BE DECLARED ACTIVE WHEN THE OLD ACTIVE SET WAS</span>
-<span class="c">! DETERMINED.  (NOTE THAT RCHIN MAY HAVE ALREADY BEEN INCREASED SINCE</span>
-<span class="c">! THEN.  NOTE ALSO THAT ERROR(ISMAX) &lt; 0.0, ELSE CONSTRAINT ISMAX</span>
-<span class="c">! WOULD HAVE BEEN DECLARED ACTIVE.)</span>
+<span class="k">        end do</span>
+
+        <span class="c">! RETURN IF RCHIN &gt;= RCHTOP.</span>
+        <span class="k">if</span> <span class="p">(</span> <span class="n">Rchin</span><span class="o">&lt;</span><span class="n">rchtop</span> <span class="p">)</span> <span class="k">then</span>
+
+            <span class="c">! SET THE PROSPECTIVE NEW RCHIN.  NOTE THAT WITHOUT THE FUDGE FACTOR,</span>
+            <span class="c">! RCH1 WOULD HAVE BEEN JUST BARELY LARGE ENOUGH TO HAVE CAUSED</span>
+            <span class="c">! CONSTRAINT ISMAX TO BE DECLARED ACTIVE WHEN THE OLD ACTIVE SET WAS</span>
+            <span class="c">! DETERMINED.  (NOTE THAT RCHIN MAY HAVE ALREADY BEEN INCREASED SINCE</span>
+            <span class="c">! THEN.  NOTE ALSO THAT ERROR(ISMAX) &lt; 0.0, ELSE CONSTRAINT ISMAX</span>
+            <span class="c">! WOULD HAVE BEEN DECLARED ACTIVE.)</span>
             <span class="n">rch1</span> <span class="o">=</span> <span class="n">fudge</span><span class="o">*</span><span class="p">(</span><span class="o">-</span><span class="n">Error</span><span class="p">(</span><span class="n">Ismax</span><span class="p">))</span><span class="o">/</span><span class="n">Unit</span>
-<span class="c">!</span>
-<span class="c">! IF RCH1 &gt; RCHIN WE REPLACE RCHIN BY MIN(RICH1,RCHTOP).</span>
+
+            <span class="c">! IF RCH1 &gt; RCHIN WE REPLACE RCHIN BY MIN(RICH1,RCHTOP).</span>
             <span class="k">if</span> <span class="p">(</span> <span class="n">rch1</span><span class="o">&gt;</span><span class="n">Rchin</span> <span class="p">)</span> <span class="k">then</span>
-<span class="k">               </span><span class="n">Rchin</span> <span class="o">=</span> <span class="n">rch1</span>
-               <span class="k">if</span> <span class="p">(</span> <span class="n">Rchin</span><span class="o">&gt;</span><span class="n">rchtop</span> <span class="p">)</span> <span class="n">Rchin</span> <span class="o">=</span> <span class="n">rchtop</span>
+<span class="k">                </span><span class="n">Rchin</span> <span class="o">=</span> <span class="n">rch1</span>
+                <span class="k">if</span> <span class="p">(</span> <span class="n">Rchin</span><span class="o">&gt;</span><span class="n">rchtop</span> <span class="p">)</span> <span class="n">Rchin</span> <span class="o">=</span> <span class="n">rchtop</span>
             <span class="k">end if</span>
-<span class="k">         end if</span>
-<span class="k">         return</span>
-<span class="k">      else</span>
-<span class="c">!</span>
-<span class="c">!</span>
-<span class="c">! HERE IRCH=1 AND WE CONSIDER CHANGING RCHDWN.</span>
-<span class="c">!</span>
-<span class="c">! SEE IF CONSTRAINT IPMAX IS IN THE ACTIVE SET, AND RETURN IF IT IS.</span>
-<span class="c">! NOTE THAT IPMAX &gt; 0 SINCE THERE WILL BE AT LEAST ONE PRIMARY</span>
-<span class="c">! CONSTRAINT AT THIS STAGE (EVEN IF THERE WERE NONE IN THE ORIGINAL</span>
-<span class="c">! PROBLEM).</span>
-         <span class="k">do </span><span class="n">l</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Mact</span>
+
+<span class="k">        end if</span>
+
+<span class="k">        return</span>
+
+<span class="k">    else</span>
+
+        <span class="c">! HERE IRCH=1 AND WE CONSIDER CHANGING RCHDWN.</span>
+
+        <span class="c">! SEE IF CONSTRAINT IPMAX IS IN THE ACTIVE SET, AND RETURN IF IT IS.</span>
+        <span class="c">! NOTE THAT IPMAX &gt; 0 SINCE THERE WILL BE AT LEAST ONE PRIMARY</span>
+        <span class="c">! CONSTRAINT AT THIS STAGE (EVEN IF THERE WERE NONE IN THE ORIGINAL</span>
+        <span class="c">! PROBLEM).</span>
+        <span class="k">do </span><span class="n">l</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Mact</span>
             <span class="n">i</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">Iact</span><span class="p">(</span><span class="n">l</span><span class="p">))</span>
             <span class="k">if</span> <span class="p">(</span> <span class="n">i</span><span class="o">==</span><span class="n">Ipmax</span> <span class="p">)</span> <span class="k">return</span>
-<span class="k">         end do</span>
-<span class="c">!</span>
-<span class="c">! RETURN IF RCHDWN &gt;= RCHTOP.</span>
-         <span class="k">if</span> <span class="p">(</span> <span class="n">Rchdwn</span><span class="o">&gt;=</span><span class="n">rchtop</span> <span class="p">)</span> <span class="k">return</span>
-<span class="c">!</span>
-<span class="c">! WE WILL CONSIDER CHANGING RCHDWN IF THE NEW PRIMARY ERROR NORM WITH</span>
-<span class="c">! ONLY THE OLD ACTIVE CONSTRAINTS CONSIDERED IS LESS THAN THE OLD</span>
-<span class="c">! PRIMARY ERROR NORM, AND THIS WILL CERTAINLY BE THE CASE IF THE NEW</span>
-<span class="c">! PRIMARY ERROR NORM IS LESS THAN THE OLD PRIMARY ERROR NORM.</span>
-         <span class="k">if</span> <span class="p">(</span> <span class="n">Err1</span><span class="p">(</span><span class="n">Numgr</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">&gt;=</span><span class="n">enorm</span> <span class="p">)</span> <span class="k">then</span>
-<span class="c">!</span>
-<span class="c">! COMPUTE EPACT, THE NEW PRIMARY ERROR NORM WITH ONLY THE OLD ACTIVE</span>
-<span class="c">! CONSTRAINTS CONSIDERED.</span>
+<span class="k">        end do</span>
+
+        <span class="c">! RETURN IF RCHDWN &gt;= RCHTOP.</span>
+        <span class="k">if</span> <span class="p">(</span> <span class="n">Rchdwn</span><span class="o">&gt;=</span><span class="n">rchtop</span> <span class="p">)</span> <span class="k">return</span>
+
+        <span class="c">! WE WILL CONSIDER CHANGING RCHDWN IF THE NEW PRIMARY ERROR NORM WITH</span>
+        <span class="c">! ONLY THE OLD ACTIVE CONSTRAINTS CONSIDERED IS LESS THAN THE OLD</span>
+        <span class="c">! PRIMARY ERROR NORM, AND THIS WILL CERTAINLY BE THE CASE IF THE NEW</span>
+        <span class="c">! PRIMARY ERROR NORM IS LESS THAN THE OLD PRIMARY ERROR NORM.</span>
+        <span class="k">if</span> <span class="p">(</span> <span class="n">Err1</span><span class="p">(</span><span class="n">Numgr</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">&gt;=</span><span class="n">enorm</span> <span class="p">)</span> <span class="k">then</span>
+            <span class="c">! COMPUTE EPACT, THE NEW PRIMARY ERROR NORM WITH ONLY THE OLD ACTIVE</span>
+            <span class="c">! CONSTRAINTS CONSIDERED.</span>
             <span class="n">ipact</span> <span class="o">=</span> <span class="mi">0</span>
             <span class="k">do </span><span class="n">l</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Mact</span>
-               <span class="n">i</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">Iact</span><span class="p">(</span><span class="n">l</span><span class="p">))</span>
-               <span class="k">if</span> <span class="p">(</span> <span class="n">Icntyp</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">&lt;</span><span class="mi">1</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">20</span>
-               <span class="k">if</span> <span class="p">(</span> <span class="n">Icntyp</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">==</span><span class="mi">1</span> <span class="p">)</span> <span class="k">then</span>
-<span class="c">! HERE CONSTRAINT I WAS A PRIMARY ACTIVE CONSTRAINT.</span>
-                  <span class="n">ei</span> <span class="o">=</span> <span class="n">Err1</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-               <span class="k">else</span>
-<span class="k">                  </span><span class="n">ei</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">Err1</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
-               <span class="k">end if</span>
-<span class="k">               if</span> <span class="p">(</span> <span class="n">ipact</span><span class="o">&lt;=</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
-<span class="k">                  </span><span class="n">ipact</span> <span class="o">=</span> <span class="mi">1</span>
-                  <span class="n">epact</span> <span class="o">=</span> <span class="n">ei</span>
-               <span class="n">elseif</span> <span class="p">(</span> <span class="n">ei</span><span class="o">&gt;</span><span class="n">epact</span> <span class="p">)</span> <span class="k">then</span>
-<span class="k">                  </span><span class="n">epact</span> <span class="o">=</span> <span class="n">ei</span>
-               <span class="k">end if</span>
-<span class="k"> </span><span class="mi">20</span>         <span class="k">end do</span>
-<span class="c">!</span>
-<span class="c">! WE WILL RETURN IF EPACT IS &gt;= THE OLD PRIMARY ERROR NORM, WHICH</span>
-<span class="c">! WOULD INDICATE THAT THE STEP WAS TOO INACCURATE TO BE TRUSTED TO</span>
-<span class="c">! USE IN MODIFYING RCHDWN.</span>
-         <span class="k">end if</span>
-<span class="c">!</span>
-<span class="c">! COMPUTE EIPMAX AS THE OLD ERROR AT CONSTRAINT IPMAX (IF ICNTYP(IPMAX)</span>
-<span class="c">! =1) OR THE OLD ABSOLUTE ERROR AT CONSTRAINT IPMAX (IF ICNTYP(IPMAX)</span>
-<span class="c">! =2).  NOTE THAT HERE ICNTYP(IPMAX) MUST BE 1 OR 2 SINCE ERCMP1</span>
-<span class="c">! COMPUTED IPMAX AS THE INDEX OF THE PRIMARY CONSTRAINT WHERE THE</span>
-<span class="c">! MAXIMUM PRIMARY CONSTRAINT ERROR (I.E. VALUE) WAS ACHIEVED.</span>
-         <span class="k">if</span> <span class="p">(</span> <span class="n">Icntyp</span><span class="p">(</span><span class="n">Ipmax</span><span class="p">)</span><span class="o">&lt;=</span><span class="mi">1</span> <span class="p">)</span> <span class="k">then</span>
+                <span class="n">i</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">Iact</span><span class="p">(</span><span class="n">l</span><span class="p">))</span>
+                <span class="k">if</span> <span class="p">(</span> <span class="n">Icntyp</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">&lt;</span><span class="mi">1</span> <span class="p">)</span> <span class="k">cycle</span>
+<span class="k">                if</span> <span class="p">(</span> <span class="n">Icntyp</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">==</span><span class="mi">1</span> <span class="p">)</span> <span class="k">then</span>
+                    <span class="c">! HERE CONSTRAINT I WAS A PRIMARY ACTIVE CONSTRAINT.</span>
+                    <span class="n">ei</span> <span class="o">=</span> <span class="n">Err1</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+                <span class="k">else</span>
+<span class="k">                    </span><span class="n">ei</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">Err1</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+                <span class="k">end if</span>
+<span class="k">                if</span> <span class="p">(</span> <span class="n">ipact</span><span class="o">&lt;=</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
+<span class="k">                    </span><span class="n">ipact</span> <span class="o">=</span> <span class="mi">1</span>
+                    <span class="n">epact</span> <span class="o">=</span> <span class="n">ei</span>
+                <span class="n">elseif</span> <span class="p">(</span> <span class="n">ei</span><span class="o">&gt;</span><span class="n">epact</span> <span class="p">)</span> <span class="k">then</span>
+<span class="k">                    </span><span class="n">epact</span> <span class="o">=</span> <span class="n">ei</span>
+                <span class="k">end if</span>
+<span class="k">            end do</span>
+            <span class="c">! WE WILL RETURN IF EPACT IS &gt;= THE OLD PRIMARY ERROR NORM, WHICH</span>
+            <span class="c">! WOULD INDICATE THAT THE STEP WAS TOO INACCURATE TO BE TRUSTED TO</span>
+            <span class="c">! USE IN MODIFYING RCHDWN.</span>
+        <span class="k">end if</span>
+
+        <span class="c">! COMPUTE EIPMAX AS THE OLD ERROR AT CONSTRAINT IPMAX (IF ICNTYP(IPMAX)</span>
+        <span class="c">! =1) OR THE OLD ABSOLUTE ERROR AT CONSTRAINT IPMAX (IF ICNTYP(IPMAX)</span>
+        <span class="c">! =2).  NOTE THAT HERE ICNTYP(IPMAX) MUST BE 1 OR 2 SINCE ERCMP1</span>
+        <span class="c">! COMPUTED IPMAX AS THE INDEX OF THE PRIMARY CONSTRAINT WHERE THE</span>
+        <span class="c">! MAXIMUM PRIMARY CONSTRAINT ERROR (I.E. VALUE) WAS ACHIEVED.</span>
+        <span class="k">if</span> <span class="p">(</span> <span class="n">Icntyp</span><span class="p">(</span><span class="n">Ipmax</span><span class="p">)</span><span class="o">&lt;=</span><span class="mi">1</span> <span class="p">)</span> <span class="k">then</span>
 <span class="k">            </span><span class="n">eipmax</span> <span class="o">=</span> <span class="n">Error</span><span class="p">(</span><span class="n">Ipmax</span><span class="p">)</span>
-         <span class="k">else</span>
+        <span class="k">else</span>
 <span class="k">            </span><span class="n">eipmax</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">Error</span><span class="p">(</span><span class="n">Ipmax</span><span class="p">))</span>
-         <span class="k">end if</span>
-<span class="c">!</span>
-<span class="c">! SET THE PROSPECTIVE NEW RCHDWN.  NOTE THAT WITHOUT THE FUDGE FACTOR,</span>
-<span class="c">! RCHD1 WOULD HAVE JUST BARELY BEEN LARGE ENOUGH TO HAVE CAUSED</span>
-<span class="c">! CONSTRAINT IPMAX TO BE DECLARED ACTIVE WHEN THE OLD ACTIVE SET WAS</span>
-<span class="c">! DETERMINED.  (NOTE THAT RCHDWN MAY HAVE ALREADY BEEN INCREASED</span>
-<span class="c">! SINCE THEN.)</span>
-         <span class="n">rchd1</span> <span class="o">=</span> <span class="n">fudge</span><span class="o">*</span><span class="p">(</span><span class="n">enorm</span><span class="o">-</span><span class="n">eipmax</span><span class="p">)</span><span class="o">/</span><span class="n">Unit</span>
-<span class="c">!</span>
-<span class="c">! IF RCHD1 &gt; RCHDWN WE REPLACE RCHDWN BY MIN (RCHD1, RCHTOP).</span>
-         <span class="k">if</span> <span class="p">(</span> <span class="n">rchd1</span><span class="o">&lt;=</span><span class="n">Rchdwn</span> <span class="p">)</span> <span class="k">return</span>
-<span class="k">         </span><span class="n">Rchdwn</span> <span class="o">=</span> <span class="n">rchd1</span>
-         <span class="k">if</span> <span class="p">(</span> <span class="n">Rchdwn</span><span class="o">&gt;</span><span class="n">rchtop</span> <span class="p">)</span> <span class="n">Rchdwn</span> <span class="o">=</span> <span class="n">rchtop</span>
-      <span class="k">end if</span>
-<span class="c">!1700 WRITE(NWRIT,1800)RCHDWN</span>
-<span class="c">!1800 FORMAT(23H ***RCHDWN INCREASED TO,E24.14)</span>
-      <span class="k">return</span>
-<span class="c">!2500 WRITE(NWRIT,2600)RCHIN</span>
-<span class="c">!2600 FORMAT(22H ***RCHIN INCREASED TO,E24.14)</span>
+        <span class="k">end if</span>
+
+        <span class="c">! SET THE PROSPECTIVE NEW RCHDWN.  NOTE THAT WITHOUT THE FUDGE FACTOR,</span>
+        <span class="c">! RCHD1 WOULD HAVE JUST BARELY BEEN LARGE ENOUGH TO HAVE CAUSED</span>
+        <span class="c">! CONSTRAINT IPMAX TO BE DECLARED ACTIVE WHEN THE OLD ACTIVE SET WAS</span>
+        <span class="c">! DETERMINED.  (NOTE THAT RCHDWN MAY HAVE ALREADY BEEN INCREASED</span>
+        <span class="c">! SINCE THEN.)</span>
+        <span class="n">rchd1</span> <span class="o">=</span> <span class="n">fudge</span><span class="o">*</span><span class="p">(</span><span class="n">enorm</span><span class="o">-</span><span class="n">eipmax</span><span class="p">)</span><span class="o">/</span><span class="n">Unit</span>
+
+        <span class="c">! IF RCHD1 &gt; RCHDWN WE REPLACE RCHDWN BY MIN (RCHD1, RCHTOP).</span>
+        <span class="k">if</span> <span class="p">(</span> <span class="n">rchd1</span><span class="o">&lt;=</span><span class="n">Rchdwn</span> <span class="p">)</span> <span class="k">return</span>
+<span class="k">        </span><span class="n">Rchdwn</span> <span class="o">=</span> <span class="n">rchd1</span>
+        <span class="k">if</span> <span class="p">(</span> <span class="n">Rchdwn</span><span class="o">&gt;</span><span class="n">rchtop</span> <span class="p">)</span> <span class="n">Rchdwn</span> <span class="o">=</span> <span class="n">rchtop</span>
+    <span class="k">end if</span>
+
+    <span class="c">! WRITE(NWRIT,&#39;(A,E24.14)&#39;) &#39;***RCHDWN INCREASED TO&#39;, RCHDWN</span>
+    <span class="c">! WRITE(NWRIT,&#39;(A,E24.14)&#39;) &#39;***RCHIN INCREASED TO &#39;, RCHIN</span>
 
     <span class="k">end subroutine </span><span class="n">rchmod</span>
 </pre></div>
