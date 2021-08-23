@@ -125,7 +125,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title="100.0% of total for modules and submodules.">3311 statements</a>
+    title="100.0% of total for modules and submodules.">3335 statements</a>
      </li> 
      
      
@@ -1167,10 +1167,10 @@ private pure function <a href='../proc/dotprd.html'>dotprd</a>(Lgth, Vec1, Vec2,
 
 
 <p>This subprogram computes the dot product of vectors vec1
- and vec2 of length lgth.
- vec1 and vec2 do not appear in function iloc since they are used only
- as input names for this subprogram, and so they don't need to have
- space reserved for them in the array work.</p>
+  and vec2 of length lgth.
+  vec1 and vec2 do not appear in function iloc since they are used only
+  as input names for this subprogram, and so they don't need to have
+  space reserved for them in the array work.</p>
     
     <h4>Arguments</h4>
     
@@ -8717,21 +8717,21 @@ private subroutine <a href='../proc/house.html'>house</a>(n, Ncor, Picor, r, Kpi
 
 
 
-<p>GIVEN NCOR N DIMENSIONAL VECTORS AS COLUMNS OF THE N BY NCOR
- MATRIX PICOR AND AN N DIMENSIONAL VECTOR R, THIS SUBROUTINE USES
- HOUSEHOLDER TRANSFORMATIONS TO FIND THE BEST LEAST SQUARES SOLUTION
- VEC TO THE LINEAR SYSTEM OF EQUATIONS PICOR*VEC = R, WHERE VEC
- IS AN NCOR DIMENSIONAL VECTOR.  IF THE RANK OF PICOR IS
- (COMPUTATIONALLY) 0, THE SUBROUTINE WILL RETURN WITH THE FAILURE
- WARNING IHOUSE=1, OTHERWISE IT WILL RETURN WITH IHOUSE=0.  IF THE
- RANK IS &gt; 0 BUT &lt; NCOR, THEN (NCOR - RANK) OF THE COMPONENTS
- OF VEC WILL BE SET TO 0.0.  THE ARAYS PICOR AND R WILL NOT BE
- CHANGED BY THIS SUBROUTINE.  THE SUBROUTINE WILL ATTEMPT UP TO
- NUMREF ITERATIVE REFINEMENTS OF THE SOLUTION, WHERE THE USER CAN
- SET NUMREF AS ANY NONNEGATIVE INTEGER, BUT TO GET THE MOST OUT OF
- THE ITERATIVE REFINEMENT PROCESS, THE COMPUTATION OF THE RESIDUAL
- SUMM NEAR THE END OF THIS SUBROUTINE SHOULD BE DONE IN HIGHER
- PRECISION THAN THE OTHER COMPUTATIONS IN THE SUBROUTINE.</p>
+<p>Given ncor n dimensional vectors as columns of the n by ncor
+  matrix picor and an n dimensional vector r, this subroutine uses
+  householder transformations to find the best least squares solution
+  vec to the linear system of equations picor*vec = r, where vec
+  is an ncor dimensional vector.  if the rank of picor is
+  (computationally) 0, the subroutine will return with the failure
+  warning ihouse=1, otherwise it will return with ihouse=0.  if the
+  rank is &gt; 0 but &lt; ncor, then (ncor - rank) of the components
+  of vec will be set to 0.0.  the arays picor and r will not be
+  changed by this subroutine.  the subroutine will attempt up to
+  numref iterative refinements of the solution, where the user can
+  set numref as any nonnegative integer, but to get the most out of
+  the iterative refinement process, the computation of the residual
+  summ near the end of this subroutine should be done in higher
+  precision than the other computations in the subroutine.</p>
     
     <h4>Arguments</h4>
     
@@ -8752,8 +8752,8 @@ private subroutine <a href='../proc/house.html'>house</a>(n, Ncor, Picor, r, Kpi
   
 <tr>
   
-  <td><span class="anchor" ></span>integer</td>
-  <td></td>
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -8767,8 +8767,8 @@ private subroutine <a href='../proc/house.html'>house</a>(n, Ncor, Picor, r, Kpi
   
 <tr>
   
-  <td><span class="anchor" ></span>integer</td>
-  <td></td>
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -8787,7 +8787,7 @@ private subroutine <a href='../proc/house.html'>house</a>(n, Ncor, Picor, r, Kpi
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Picor</strong></td><td></td>
+  <td><strong>Picor</strong>(Nparm+1,Nparm+1)</td><td></td>
   
 </tr>
 
@@ -8802,7 +8802,7 @@ private subroutine <a href='../proc/house.html'>house</a>(n, Ncor, Picor, r, Kpi
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>r</strong></td><td></td>
+  <td><strong>r</strong>(Nparm+1)</td><td></td>
   
 </tr>
 
@@ -8817,7 +8817,7 @@ private subroutine <a href='../proc/house.html'>house</a>(n, Ncor, Picor, r, Kpi
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Kpivot</strong></td><td></td>
+  <td><strong>Kpivot</strong>(Nparm+1)</td><td></td>
   
 </tr>
 
@@ -8827,8 +8827,8 @@ private subroutine <a href='../proc/house.html'>house</a>(n, Ncor, Picor, r, Kpi
   
 <tr>
   
-  <td><span class="anchor" ></span>integer</td>
-  <td></td>
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -8847,7 +8847,7 @@ private subroutine <a href='../proc/house.html'>house</a>(n, Ncor, Picor, r, Kpi
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Aa</strong></td><td></td>
+  <td><strong>Aa</strong>(Nparm+1,Nparm+1)</td><td></td>
   
 </tr>
 
@@ -8862,7 +8862,7 @@ private subroutine <a href='../proc/house.html'>house</a>(n, Ncor, Picor, r, Kpi
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Beta</strong></td><td></td>
+  <td><strong>Beta</strong>(Nparm+1)</td><td></td>
   
 </tr>
 
@@ -8877,7 +8877,7 @@ private subroutine <a href='../proc/house.html'>house</a>(n, Ncor, Picor, r, Kpi
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>d</strong></td><td></td>
+  <td><strong>d</strong>(Nparm+1)</td><td></td>
   
 </tr>
 
@@ -8892,7 +8892,7 @@ private subroutine <a href='../proc/house.html'>house</a>(n, Ncor, Picor, r, Kpi
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Save</strong></td><td></td>
+  <td><strong>Save</strong>(Nparm+1)</td><td></td>
   
 </tr>
 
@@ -8907,7 +8907,7 @@ private subroutine <a href='../proc/house.html'>house</a>(n, Ncor, Picor, r, Kpi
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>b</strong></td><td></td>
+  <td><strong>b</strong>(Nparm+1)</td><td></td>
   
 </tr>
 
@@ -8922,7 +8922,7 @@ private subroutine <a href='../proc/house.html'>house</a>(n, Ncor, Picor, r, Kpi
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Vec</strong></td><td></td>
+  <td><strong>Vec</strong>(Nparm+1)</td><td></td>
   
 </tr>
 
@@ -8932,8 +8932,8 @@ private subroutine <a href='../proc/house.html'>house</a>(n, Ncor, Picor, r, Kpi
   
 <tr>
   
-  <td><span class="anchor" ></span>integer</td>
-  <td></td>
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(out)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -8970,13 +8970,13 @@ private subroutine <a href='../proc/refwl.html'>refwl</a>(Ndm, Ncor, Icor, Pmat,
 
 
 
-<p>THIS SUBROUTINE ATTEMPTS TO REFINE THE NDM DIMENSIONAL VECTOR WPT
- PRODUCED BY WOLFE BY DIRECTLY SOLVING THE SYSTEM
- SUMMATION(PMAT(I,J)*WPT(I), I=1,...,NDM) = -PMAT(NDM+1,J) FOR J =
- ICOR(L), L=1,...,NCOR.
- NRESL RESOLVENTS ARE CHOSEN BY TOTAL PIVOTING.  IF NRESL &lt; NDM THEN
- THE REMAINING NDM-NRESL ELEMENTS OF WPT ARE KEPT FORM THE OLD WPT.
- ITRLM STEPS OF ITERATIVE REFINEMENT ARE ATTEMPTED AT THE END.</p>
+<p>This subroutine attempts to refine the ndm dimensional vector wpt
+  produced by wolfe by directly solving the system
+  summation(pmat(i,j)*wpt(i), i=1,...,ndm) = -pmat(ndm+1,j) for j =
+  icor(l), l=1,...,ncor.
+  nresl resolvents are chosen by total pivoting.  if nresl &lt; ndm then
+  the remaining ndm-nresl elements of wpt are kept form the old wpt.
+  itrlm steps of iterative refinement are attempted at the end.</p>
     
     <h4>Arguments</h4>
     
@@ -8997,8 +8997,8 @@ private subroutine <a href='../proc/refwl.html'>refwl</a>(Ndm, Ncor, Icor, Pmat,
   
 <tr>
   
-  <td><span class="anchor" ></span>integer</td>
-  <td></td>
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -9012,8 +9012,8 @@ private subroutine <a href='../proc/refwl.html'>refwl</a>(Ndm, Ncor, Icor, Pmat,
   
 <tr>
   
-  <td><span class="anchor" ></span>integer</td>
-  <td></td>
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -9032,7 +9032,7 @@ private subroutine <a href='../proc/refwl.html'>refwl</a>(Ndm, Ncor, Icor, Pmat,
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Icor</strong></td><td></td>
+  <td><strong>Icor</strong>(Nparm+1)</td><td></td>
   
 </tr>
 
@@ -9047,7 +9047,7 @@ private subroutine <a href='../proc/refwl.html'>refwl</a>(Ndm, Ncor, Icor, Pmat,
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Pmat</strong></td><td></td>
+  <td><strong>Pmat</strong>(Nparm+1,Numgr)</td><td></td>
   
 </tr>
 
@@ -9062,7 +9062,7 @@ private subroutine <a href='../proc/refwl.html'>refwl</a>(Ndm, Ncor, Icor, Pmat,
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Pmat1</strong></td><td></td>
+  <td><strong>Pmat1</strong>(Nparm+1,Numgr)</td><td></td>
   
 </tr>
 
@@ -9072,8 +9072,8 @@ private subroutine <a href='../proc/refwl.html'>refwl</a>(Ndm, Ncor, Icor, Pmat,
   
 <tr>
   
-  <td><span class="anchor" ></span>integer</td>
-  <td></td>
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -9087,8 +9087,8 @@ private subroutine <a href='../proc/refwl.html'>refwl</a>(Ndm, Ncor, Icor, Pmat,
   
 <tr>
   
-  <td><span class="anchor" ></span>integer</td>
-  <td></td>
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -9107,7 +9107,7 @@ private subroutine <a href='../proc/refwl.html'>refwl</a>(Ndm, Ncor, Icor, Pmat,
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Ixrct</strong></td><td></td>
+  <td><strong>Ixrct</strong>(2*Nparm)</td><td></td>
   
 </tr>
 
@@ -9122,7 +9122,7 @@ private subroutine <a href='../proc/refwl.html'>refwl</a>(Ndm, Ncor, Icor, Pmat,
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Save</strong></td><td></td>
+  <td><strong>Save</strong>(Nparm)</td><td></td>
   
 </tr>
 
@@ -9137,7 +9137,7 @@ private subroutine <a href='../proc/refwl.html'>refwl</a>(Ndm, Ncor, Icor, Pmat,
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Wpt</strong></td><td></td>
+  <td><strong>Wpt</strong>(Nparm+1)</td><td></td>
   
 </tr>
 

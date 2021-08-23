@@ -125,7 +125,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title="100.0% of total for source files.">3311 statements</a>
+    title="100.0% of total for source files.">3335 statements</a>
      </li> 
      
      
@@ -5758,7 +5758,7 @@
 <a id="ln-5496" name="ln-5496"></a>        <span class="c">! and recheck the maximum constraint violation.</span>
 <a id="ln-5497" name="ln-5497"></a>        <span class="n">iref</span> <span class="o">=</span> <span class="n">iref</span> <span class="o">+</span> <span class="mi">1</span>
 <a id="ln-5498" name="ln-5498"></a>        <span class="k">call </span><span class="n">refwl</span><span class="p">(</span><span class="n">ndm</span><span class="p">,</span><span class="n">ncor</span><span class="p">,</span><span class="n">icor</span><span class="p">,</span><span class="n">pmat</span><span class="p">,</span><span class="n">pmat1</span><span class="p">,</span><span class="n">nparm</span><span class="p">,</span><span class="n">numgr</span><span class="p">,</span><span class="n">iwork</span><span class="p">(</span><span class="n">ilc18</span><span class="p">),</span>  <span class="p">&amp;</span>
-<a id="ln-5499" name="ln-5499"></a>        <span class="n">work</span><span class="p">(</span><span class="n">ilc34</span><span class="p">),</span><span class="n">wpt</span><span class="p">)</span>
+<a id="ln-5499" name="ln-5499"></a>                   <span class="n">work</span><span class="p">(</span><span class="n">ilc34</span><span class="p">),</span><span class="n">wpt</span><span class="p">)</span>
 <a id="ln-5500" name="ln-5500"></a>        <span class="k">goto </span><span class="mi">800</span>
 <a id="ln-5501" name="ln-5501"></a>    <span class="k">end if</span>
 <a id="ln-5502" name="ln-5502"></a>
@@ -6150,545 +6150,552 @@
 <a id="ln-5888" name="ln-5888"></a>
 <a id="ln-5889" name="ln-5889"></a><span class="c">!********************************************************************************</span>
 <a id="ln-5890" name="ln-5890"></a><span class="c">!&gt;</span>
-<a id="ln-5891" name="ln-5891"></a><span class="c">! GIVEN NCOR N DIMENSIONAL VECTORS AS COLUMNS OF THE N BY NCOR</span>
-<a id="ln-5892" name="ln-5892"></a><span class="c">! MATRIX PICOR AND AN N DIMENSIONAL VECTOR R, THIS SUBROUTINE USES</span>
-<a id="ln-5893" name="ln-5893"></a><span class="c">! HOUSEHOLDER TRANSFORMATIONS TO FIND THE BEST LEAST SQUARES SOLUTION</span>
-<a id="ln-5894" name="ln-5894"></a><span class="c">! VEC TO THE LINEAR SYSTEM OF EQUATIONS PICOR*VEC = R, WHERE VEC</span>
-<a id="ln-5895" name="ln-5895"></a><span class="c">! IS AN NCOR DIMENSIONAL VECTOR.  IF THE RANK OF PICOR IS</span>
-<a id="ln-5896" name="ln-5896"></a><span class="c">! (COMPUTATIONALLY) 0, THE SUBROUTINE WILL RETURN WITH THE FAILURE</span>
-<a id="ln-5897" name="ln-5897"></a><span class="c">! WARNING IHOUSE=1, OTHERWISE IT WILL RETURN WITH IHOUSE=0.  IF THE</span>
-<a id="ln-5898" name="ln-5898"></a><span class="c">! RANK IS &gt; 0 BUT &lt; NCOR, THEN (NCOR - RANK) OF THE COMPONENTS</span>
-<a id="ln-5899" name="ln-5899"></a><span class="c">! OF VEC WILL BE SET TO 0.0.  THE ARAYS PICOR AND R WILL NOT BE</span>
-<a id="ln-5900" name="ln-5900"></a><span class="c">! CHANGED BY THIS SUBROUTINE.  THE SUBROUTINE WILL ATTEMPT UP TO</span>
-<a id="ln-5901" name="ln-5901"></a><span class="c">! NUMREF ITERATIVE REFINEMENTS OF THE SOLUTION, WHERE THE USER CAN</span>
-<a id="ln-5902" name="ln-5902"></a><span class="c">! SET NUMREF AS ANY NONNEGATIVE INTEGER, BUT TO GET THE MOST OUT OF</span>
-<a id="ln-5903" name="ln-5903"></a><span class="c">! THE ITERATIVE REFINEMENT PROCESS, THE COMPUTATION OF THE RESIDUAL</span>
-<a id="ln-5904" name="ln-5904"></a><span class="c">! SUMM NEAR THE END OF THIS SUBROUTINE SHOULD BE DONE IN HIGHER</span>
-<a id="ln-5905" name="ln-5905"></a><span class="c">! PRECISION THAN THE OTHER COMPUTATIONS IN THE SUBROUTINE.</span>
+<a id="ln-5891" name="ln-5891"></a><span class="c">!  Given ncor n dimensional vectors as columns of the n by ncor</span>
+<a id="ln-5892" name="ln-5892"></a><span class="c">!  matrix picor and an n dimensional vector r, this subroutine uses</span>
+<a id="ln-5893" name="ln-5893"></a><span class="c">!  householder transformations to find the best least squares solution</span>
+<a id="ln-5894" name="ln-5894"></a><span class="c">!  vec to the linear system of equations picor*vec = r, where vec</span>
+<a id="ln-5895" name="ln-5895"></a><span class="c">!  is an ncor dimensional vector.  if the rank of picor is</span>
+<a id="ln-5896" name="ln-5896"></a><span class="c">!  (computationally) 0, the subroutine will return with the failure</span>
+<a id="ln-5897" name="ln-5897"></a><span class="c">!  warning ihouse=1, otherwise it will return with ihouse=0.  if the</span>
+<a id="ln-5898" name="ln-5898"></a><span class="c">!  rank is &gt; 0 but &lt; ncor, then (ncor - rank) of the components</span>
+<a id="ln-5899" name="ln-5899"></a><span class="c">!  of vec will be set to 0.0.  the arays picor and r will not be</span>
+<a id="ln-5900" name="ln-5900"></a><span class="c">!  changed by this subroutine.  the subroutine will attempt up to</span>
+<a id="ln-5901" name="ln-5901"></a><span class="c">!  numref iterative refinements of the solution, where the user can</span>
+<a id="ln-5902" name="ln-5902"></a><span class="c">!  set numref as any nonnegative integer, but to get the most out of</span>
+<a id="ln-5903" name="ln-5903"></a><span class="c">!  the iterative refinement process, the computation of the residual</span>
+<a id="ln-5904" name="ln-5904"></a><span class="c">!  summ near the end of this subroutine should be done in higher</span>
+<a id="ln-5905" name="ln-5905"></a><span class="c">!  precision than the other computations in the subroutine.</span>
 <a id="ln-5906" name="ln-5906"></a>
 <a id="ln-5907" name="ln-5907"></a>    <span class="k">subroutine </span><span class="n">house</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">Ncor</span><span class="p">,</span><span class="n">Picor</span><span class="p">,</span><span class="n">r</span><span class="p">,</span><span class="n">Kpivot</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Aa</span><span class="p">,</span><span class="n">Beta</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="k">Save</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">Vec</span><span class="p">,</span><span class="n">Ihouse</span><span class="p">)</span>
 <a id="ln-5908" name="ln-5908"></a>
-<a id="ln-5909" name="ln-5909"></a>      <span class="k">implicit none</span>
+<a id="ln-5909" name="ln-5909"></a>    <span class="k">implicit none</span>
 <a id="ln-5910" name="ln-5910"></a>
-<a id="ln-5911" name="ln-5911"></a><span class="k">      </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="n">Aa</span> <span class="p">,</span> <span class="n">aakk</span> <span class="p">,</span> <span class="nb">amax</span> <span class="p">,</span> <span class="n">b</span> <span class="p">,</span> <span class="n">Beta</span> <span class="p">,</span> <span class="n">d</span> <span class="p">,</span>    <span class="p">&amp;</span>
-<a id="ln-5912" name="ln-5912"></a>             <span class="n">Picor</span> <span class="p">,</span> <span class="n">r</span> <span class="p">,</span> <span class="k">Save</span> <span class="p">,</span> <span class="n">sqdk</span> <span class="p">,</span> <span class="n">store</span> <span class="p">,</span> <span class="nb">sum</span> <span class="p">,</span> <span class="n">summ</span> <span class="p">,</span>     <span class="p">&amp;</span>
-<a id="ln-5913" name="ln-5913"></a>             <span class="n">test</span> <span class="p">,</span> <span class="n">testt</span>
-<a id="ln-5914" name="ln-5914"></a>      <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="n">tolsq</span> <span class="p">,</span> <span class="n">Vec</span>
-<a id="ln-5915" name="ln-5915"></a>      <span class="kt">integer </span><span class="n">i</span> <span class="p">,</span> <span class="n">ia</span> <span class="p">,</span> <span class="n">icount</span> <span class="p">,</span> <span class="n">Ihouse</span> <span class="p">,</span> <span class="n">ii</span> <span class="p">,</span> <span class="n">j</span> <span class="p">,</span> <span class="n">jj</span> <span class="p">,</span> <span class="n">k</span> <span class="p">,</span> <span class="n">kchnge</span> <span class="p">,</span> <span class="n">kk</span> <span class="p">,&amp;</span>
-<a id="ln-5916" name="ln-5916"></a>              <span class="n">kp</span> <span class="p">,</span> <span class="n">Kpivot</span> <span class="p">,</span> <span class="n">krank</span> <span class="p">,</span> <span class="n">kt</span> <span class="p">,</span> <span class="n">n</span> <span class="p">,</span> <span class="n">Ncor</span> <span class="p">,</span> <span class="n">nmref1</span> <span class="p">,</span> <span class="n">nmref2</span> <span class="p">,</span>   <span class="p">&amp;</span>
-<a id="ln-5917" name="ln-5917"></a>              <span class="n">Nparm</span> <span class="p">,</span> <span class="n">numref</span>
-<a id="ln-5918" name="ln-5918"></a>
-<a id="ln-5919" name="ln-5919"></a>      <span class="k">dimension </span><span class="n">Vec</span><span class="p">(</span><span class="n">Nparm</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="p">,</span> <span class="n">Aa</span><span class="p">(</span><span class="n">Nparm</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="n">Nparm</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="p">,</span> <span class="n">Beta</span><span class="p">(</span><span class="n">Nparm</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="p">,</span>    <span class="p">&amp;</span>
-<a id="ln-5920" name="ln-5920"></a>                <span class="n">d</span><span class="p">(</span><span class="n">Nparm</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="p">,</span> <span class="n">Kpivot</span><span class="p">(</span><span class="n">Nparm</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="p">,</span> <span class="k">Save</span><span class="p">(</span><span class="n">Nparm</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="p">,</span>          <span class="p">&amp;</span>
-<a id="ln-5921" name="ln-5921"></a>                <span class="n">b</span><span class="p">(</span><span class="n">Nparm</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="p">,</span> <span class="n">Picor</span><span class="p">(</span><span class="n">Nparm</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="n">Nparm</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="p">,</span> <span class="n">r</span><span class="p">(</span><span class="n">Nparm</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
-<a id="ln-5922" name="ln-5922"></a><span class="c">!</span>
-<a id="ln-5923" name="ln-5923"></a><span class="c">! COMPUTE MACHINE AND PRECISION DEPENDENT CONSTANTS.</span>
-<a id="ln-5924" name="ln-5924"></a>      <span class="n">tolsq</span> <span class="o">=</span> <span class="p">(</span><span class="n">ten</span><span class="o">*</span><span class="n">ten</span><span class="o">*</span><span class="n">spcmn</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span>
-<a id="ln-5925" name="ln-5925"></a>      <span class="n">Ihouse</span> <span class="o">=</span> <span class="mi">0</span>
-<a id="ln-5926" name="ln-5926"></a><span class="c">! SET NUMREF = THE LIMIT ON THE NUMBER OF ITERATIVE REFINEMENT STEPS.</span>
-<a id="ln-5927" name="ln-5927"></a>      <span class="n">numref</span> <span class="o">=</span> <span class="mi">1</span>
-<a id="ln-5928" name="ln-5928"></a>      <span class="n">nmref1</span> <span class="o">=</span> <span class="n">numref</span> <span class="o">+</span> <span class="mi">1</span>
-<a id="ln-5929" name="ln-5929"></a>      <span class="n">nmref2</span> <span class="o">=</span> <span class="n">numref</span> <span class="o">+</span> <span class="mi">2</span>
-<a id="ln-5930" name="ln-5930"></a><span class="c">! SET KRANK = MIN(N,NCOR).  THIS MAY BE REDUCED LATER.</span>
-<a id="ln-5931" name="ln-5931"></a>      <span class="n">krank</span> <span class="o">=</span> <span class="n">Ncor</span>
-<a id="ln-5932" name="ln-5932"></a>      <span class="k">if</span> <span class="p">(</span> <span class="n">n</span><span class="o">&lt;</span><span class="n">Ncor</span> <span class="p">)</span> <span class="n">krank</span> <span class="o">=</span> <span class="n">n</span>
-<a id="ln-5933" name="ln-5933"></a><span class="c">! INITIALLY SET KPIVOT.  AFTER ALL COLUMN INTERCHANGES ARE DONE</span>
-<a id="ln-5934" name="ln-5934"></a><span class="c">! KPIVOT(J) WILL BE THE ORIGINAL POSITION OF THE COLUMN WHERE THE</span>
-<a id="ln-5935" name="ln-5935"></a><span class="c">! JTH PIVOT WAS DONE.  THIS COLUMN WILL BE MOVED TO COLUMN J.</span>
-<a id="ln-5936" name="ln-5936"></a>      <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Ncor</span>
-<a id="ln-5937" name="ln-5937"></a>         <span class="n">Kpivot</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">j</span>
-<a id="ln-5938" name="ln-5938"></a>      <span class="k">end do</span>
-<a id="ln-5939" name="ln-5939"></a><span class="c">! COPY R INTO B AND PICOR INTO AA, BUT IN THE PROCESS REPLACE ANY NUMBERS</span>
-<a id="ln-5940" name="ln-5940"></a><span class="c">! WITH ABSOLUTE VALUE LESS THAN SPCMN BY ZERO TO AVOID UNDERFLOWS.</span>
-<a id="ln-5941" name="ln-5941"></a>      <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">n</span>
-<a id="ln-5942" name="ln-5942"></a>         <span class="k">if</span> <span class="p">(</span> <span class="nb">abs</span><span class="p">(</span><span class="n">r</span><span class="p">(</span><span class="n">i</span><span class="p">))</span><span class="o">&lt;</span><span class="n">spcmn</span> <span class="p">)</span> <span class="k">then</span>
-<a id="ln-5943" name="ln-5943"></a><span class="k">            </span><span class="n">b</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="n">zero</span>
-<a id="ln-5944" name="ln-5944"></a>         <span class="k">else</span>
-<a id="ln-5945" name="ln-5945"></a><span class="k">            </span><span class="n">b</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="n">r</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-<a id="ln-5946" name="ln-5946"></a>         <span class="k">end if</span>
-<a id="ln-5947" name="ln-5947"></a><span class="k">      end do</span>
-<a id="ln-5948" name="ln-5948"></a><span class="k">      do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Ncor</span>
-<a id="ln-5949" name="ln-5949"></a>         <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">n</span>
-<a id="ln-5950" name="ln-5950"></a>            <span class="k">if</span> <span class="p">(</span> <span class="nb">abs</span><span class="p">(</span><span class="n">Picor</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">))</span><span class="o">&lt;</span><span class="n">spcmn</span> <span class="p">)</span> <span class="k">then</span>
-<a id="ln-5951" name="ln-5951"></a><span class="k">               </span><span class="n">Aa</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">zero</span>
-<a id="ln-5952" name="ln-5952"></a>            <span class="k">else</span>
-<a id="ln-5953" name="ln-5953"></a><span class="k">               </span><span class="n">Aa</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">Picor</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span>
-<a id="ln-5954" name="ln-5954"></a>            <span class="k">end if</span>
-<a id="ln-5955" name="ln-5955"></a><span class="k">         end do</span>
-<a id="ln-5956" name="ln-5956"></a><span class="k">      end do</span>
-<a id="ln-5957" name="ln-5957"></a><span class="k">      do </span><span class="n">k</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Ncor</span>
-<a id="ln-5958" name="ln-5958"></a>         <span class="k">if</span> <span class="p">(</span> <span class="n">k</span><span class="o">&gt;</span><span class="n">n</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">100</span>
-<a id="ln-5959" name="ln-5959"></a>         <span class="n">d</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="o">=</span> <span class="n">zero</span>
-<a id="ln-5960" name="ln-5960"></a>         <span class="n">kchnge</span> <span class="o">=</span> <span class="n">k</span>
-<a id="ln-5961" name="ln-5961"></a>         <span class="k">do </span><span class="n">jj</span> <span class="o">=</span> <span class="n">k</span> <span class="p">,</span> <span class="n">Ncor</span>
-<a id="ln-5962" name="ln-5962"></a>            <span class="nb">sum</span> <span class="o">=</span> <span class="n">zero</span>
-<a id="ln-5963" name="ln-5963"></a>            <span class="k">do </span><span class="n">ia</span> <span class="o">=</span> <span class="n">k</span> <span class="p">,</span> <span class="n">n</span>
-<a id="ln-5964" name="ln-5964"></a>               <span class="k">if</span> <span class="p">(</span> <span class="nb">abs</span><span class="p">(</span><span class="n">Aa</span><span class="p">(</span><span class="n">ia</span><span class="p">,</span><span class="n">jj</span><span class="p">))</span><span class="o">&gt;</span><span class="n">spcmn</span> <span class="p">)</span> <span class="nb">sum</span> <span class="o">=</span> <span class="nb">sum</span> <span class="o">+</span> <span class="n">Aa</span><span class="p">(</span><span class="n">ia</span><span class="p">,</span><span class="n">jj</span><span class="p">)</span><span class="o">*</span><span class="n">Aa</span><span class="p">(</span><span class="n">ia</span><span class="p">,</span><span class="n">jj</span><span class="p">)</span>
-<a id="ln-5965" name="ln-5965"></a>            <span class="k">end do</span>
-<a id="ln-5966" name="ln-5966"></a><span class="k">            if</span> <span class="p">(</span> <span class="n">d</span><span class="p">(</span><span class="n">k</span><span class="p">)</span><span class="o">&lt;</span><span class="nb">sum</span> <span class="p">)</span> <span class="k">then</span>
-<a id="ln-5967" name="ln-5967"></a><span class="k">               </span><span class="n">kchnge</span> <span class="o">=</span> <span class="n">jj</span>
-<a id="ln-5968" name="ln-5968"></a>               <span class="n">d</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="o">=</span> <span class="nb">sum</span>
-<a id="ln-5969" name="ln-5969"></a><span class="nb">            </span><span class="k">end if</span>
-<a id="ln-5970" name="ln-5970"></a><span class="k">         end do</span>
-<a id="ln-5971" name="ln-5971"></a><span class="c">!</span>
-<a id="ln-5972" name="ln-5972"></a><span class="c">!  KCHNGE CONTAINS THE INDEX OF THE COLUMN OF GREATEST</span>
-<a id="ln-5973" name="ln-5973"></a><span class="c">!  LENGTH BETWEEN K AND NCOR (FROM POSITION K TO THE BOTTOM).</span>
-<a id="ln-5974" name="ln-5974"></a><span class="c">! IF K=1 AND D(K) &lt; TOLSQ WE RETURN WITH THE FAILURE WARNING</span>
-<a id="ln-5975" name="ln-5975"></a><span class="c">! IHOUSE=1.</span>
-<a id="ln-5976" name="ln-5976"></a>         <span class="k">if</span> <span class="p">(</span> <span class="n">k</span><span class="o">&lt;=</span><span class="mi">1</span> <span class="p">)</span> <span class="k">then</span>
-<a id="ln-5977" name="ln-5977"></a><span class="k">            if</span> <span class="p">(</span> <span class="n">d</span><span class="p">(</span><span class="n">k</span><span class="p">)</span><span class="o">&lt;</span><span class="n">tolsq</span> <span class="p">)</span> <span class="k">then</span>
-<a id="ln-5978" name="ln-5978"></a><span class="k">               </span><span class="n">Ihouse</span> <span class="o">=</span> <span class="mi">1</span>
-<a id="ln-5979" name="ln-5979"></a>               <span class="k">return</span>
-<a id="ln-5980" name="ln-5980"></a><span class="k">            end if</span>
-<a id="ln-5981" name="ln-5981"></a><span class="k">         end if</span>
-<a id="ln-5982" name="ln-5982"></a><span class="c">!</span>
-<a id="ln-5983" name="ln-5983"></a>         <span class="k">if</span> <span class="p">(</span> <span class="n">kchnge</span><span class="o">/=</span><span class="n">k</span> <span class="p">)</span> <span class="k">then</span>
-<a id="ln-5984" name="ln-5984"></a><span class="c">!</span>
-<a id="ln-5985" name="ln-5985"></a><span class="c">!  START COLUMN INTERCHANGE.</span>
-<a id="ln-5986" name="ln-5986"></a><span class="c">!</span>
-<a id="ln-5987" name="ln-5987"></a>            <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">n</span>
-<a id="ln-5988" name="ln-5988"></a>               <span class="n">store</span> <span class="o">=</span> <span class="n">Aa</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">kchnge</span><span class="p">)</span>
-<a id="ln-5989" name="ln-5989"></a>               <span class="n">Aa</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">kchnge</span><span class="p">)</span> <span class="o">=</span> <span class="n">Aa</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">k</span><span class="p">)</span>
-<a id="ln-5990" name="ln-5990"></a>               <span class="n">Aa</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">k</span><span class="p">)</span> <span class="o">=</span> <span class="n">store</span>
-<a id="ln-5991" name="ln-5991"></a>            <span class="k">end do</span>
-<a id="ln-5992" name="ln-5992"></a><span class="k">            </span><span class="n">kk</span> <span class="o">=</span> <span class="n">Kpivot</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
-<a id="ln-5993" name="ln-5993"></a>            <span class="n">Kpivot</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="o">=</span> <span class="n">Kpivot</span><span class="p">(</span><span class="n">kchnge</span><span class="p">)</span>
-<a id="ln-5994" name="ln-5994"></a>            <span class="n">Kpivot</span><span class="p">(</span><span class="n">kchnge</span><span class="p">)</span> <span class="o">=</span> <span class="n">kk</span>
-<a id="ln-5995" name="ln-5995"></a>         <span class="k">end if</span>
-<a id="ln-5996" name="ln-5996"></a><span class="k">         if</span> <span class="p">(</span> <span class="n">k</span><span class="o">/=</span><span class="mi">1</span> <span class="p">)</span> <span class="k">then</span>
-<a id="ln-5997" name="ln-5997"></a><span class="k">            </span><span class="nb">amax</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">d</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
-<a id="ln-5998" name="ln-5998"></a>            <span class="n">test</span> <span class="o">=</span> <span class="p">(</span><span class="kt">real</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="n">wp</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">ten</span><span class="o">*</span><span class="n">ten</span><span class="o">*</span><span class="n">spcmn</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="nb">amax</span><span class="o">*</span><span class="nb">amax</span><span class="p">)</span>
-<a id="ln-5999" name="ln-5999"></a>            <span class="k">if</span> <span class="p">(</span> <span class="nb">abs</span><span class="p">(</span><span class="n">d</span><span class="p">(</span><span class="n">k</span><span class="p">))</span><span class="o">&lt;=</span><span class="n">test</span> <span class="p">)</span> <span class="k">then</span>
-<a id="ln-6000" name="ln-6000"></a><span class="c">!</span>
-<a id="ln-6001" name="ln-6001"></a><span class="c">! HERE THE LENGTH OF THE BEST OF COLUMNS K THROUGH NCOR (FROM K DOWN)</span>
-<a id="ln-6002" name="ln-6002"></a><span class="c">! WAS TOO SMALL, AND WE REDUCE KRANK TO K-1 AND LEAVE THIS LOOP.</span>
-<a id="ln-6003" name="ln-6003"></a>               <span class="n">d</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="o">=</span> <span class="nb">sqrt</span><span class="p">(</span><span class="n">d</span><span class="p">(</span><span class="n">k</span><span class="p">))</span>
-<a id="ln-6004" name="ln-6004"></a>               <span class="n">krank</span> <span class="o">=</span> <span class="n">k</span> <span class="o">-</span> <span class="mi">1</span>
-<a id="ln-6005" name="ln-6005"></a>               <span class="k">goto </span><span class="mi">100</span>
-<a id="ln-6006" name="ln-6006"></a>            <span class="k">end if</span>
-<a id="ln-6007" name="ln-6007"></a><span class="k">         end if</span>
-<a id="ln-6008" name="ln-6008"></a><span class="c">!</span>
-<a id="ln-6009" name="ln-6009"></a><span class="c">!</span>
-<a id="ln-6010" name="ln-6010"></a><span class="c">! NOW COMPUTE THE SCALAR BETA(K) AND THE N-K+1 DIMENSIONAL VECTOR</span>
-<a id="ln-6011" name="ln-6011"></a><span class="c">! GNU(K) (TO BE PLACED IN AA(K,K),...,AA(N,K)) FOR I(K) - BETA(K)*</span>
-<a id="ln-6012" name="ln-6012"></a><span class="c">! GNU(K)*(GNU(K) TRANSPOSE), WHICH IS THE ACTIVE PART OF THE</span>
-<a id="ln-6013" name="ln-6013"></a><span class="c">! HOUSEHOLDER TRANSFORMATION PH(K) = DIAG(I(K-1), ACTIVE PART).  THIS</span>
-<a id="ln-6014" name="ln-6014"></a><span class="c">! IS A SYMMETRIC ORTHOGONAL MATRIX WHICH WHEN MULTIPLIED TIMES AA WILL</span>
-<a id="ln-6015" name="ln-6015"></a><span class="c">! ZERO OUT AA(K+1,K),...,AA(N,K) AND CHANGE AA(K,K) TO -SGN(OLD</span>
-<a id="ln-6016" name="ln-6016"></a><span class="c">! AA(K,K))*SQDK, WHERE SQDK = LENGTH OF OLD (AA(K,K),...,AA(N,K)) AND</span>
-<a id="ln-6017" name="ln-6017"></a><span class="c">! WE REDEFINE THE SGN FUNCTION TO HAVE VALUE 1.0 IF ITS ARGUMENT IS</span>
-<a id="ln-6018" name="ln-6018"></a><span class="c">! 0.0.  WE WILL HAVE BETA(K) = 1.0/(SQDK**2 + ABS(OLD AA(K,K))*SQDK)</span>
-<a id="ln-6019" name="ln-6019"></a><span class="c">! AND GNU(K) = (OLD AA(K,K) + SGN(OLD AA(K,K))*SQDK, OLD AA(K+1,K),...,</span>
-<a id="ln-6020" name="ln-6020"></a><span class="c">! OLD AA(N,K)).  WE WILL ALSO REPLACE D(K) BY THE NEW AA(K,K) (WHICH</span>
-<a id="ln-6021" name="ln-6021"></a><span class="c">! WILL NOT ACTUALLY BE WRITTEN INTO AA) FOR LATER USE.</span>
-<a id="ln-6022" name="ln-6022"></a>         <span class="n">aakk</span> <span class="o">=</span> <span class="n">Aa</span><span class="p">(</span><span class="n">k</span><span class="p">,</span><span class="n">k</span><span class="p">)</span>
-<a id="ln-6023" name="ln-6023"></a>         <span class="n">sqdk</span> <span class="o">=</span> <span class="nb">sqrt</span><span class="p">(</span><span class="n">d</span><span class="p">(</span><span class="n">k</span><span class="p">))</span>
-<a id="ln-6024" name="ln-6024"></a>         <span class="k">if</span> <span class="p">(</span> <span class="n">aakk</span><span class="o">&lt;</span><span class="n">zero</span> <span class="p">)</span> <span class="k">then</span>
-<a id="ln-6025" name="ln-6025"></a><span class="k">            </span><span class="n">Beta</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="o">=</span> <span class="n">one</span><span class="o">/</span><span class="p">(</span><span class="n">d</span><span class="p">(</span><span class="n">k</span><span class="p">)</span><span class="o">-</span><span class="n">aakk</span><span class="o">*</span><span class="n">sqdk</span><span class="p">)</span>
-<a id="ln-6026" name="ln-6026"></a>            <span class="n">Aa</span><span class="p">(</span><span class="n">k</span><span class="p">,</span><span class="n">k</span><span class="p">)</span> <span class="o">=</span> <span class="o">-</span><span class="n">sqdk</span> <span class="o">+</span> <span class="n">aakk</span>
-<a id="ln-6027" name="ln-6027"></a>            <span class="n">d</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="o">=</span> <span class="n">sqdk</span>
-<a id="ln-6028" name="ln-6028"></a>         <span class="k">else</span>
-<a id="ln-6029" name="ln-6029"></a><span class="k">            </span><span class="n">Beta</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="o">=</span> <span class="n">one</span><span class="o">/</span><span class="p">(</span><span class="n">d</span><span class="p">(</span><span class="n">k</span><span class="p">)</span><span class="o">+</span><span class="n">aakk</span><span class="o">*</span><span class="n">sqdk</span><span class="p">)</span>
-<a id="ln-6030" name="ln-6030"></a>            <span class="n">Aa</span><span class="p">(</span><span class="n">k</span><span class="p">,</span><span class="n">k</span><span class="p">)</span> <span class="o">=</span> <span class="n">sqdk</span> <span class="o">+</span> <span class="n">aakk</span>
-<a id="ln-6031" name="ln-6031"></a>            <span class="n">d</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="o">=</span> <span class="o">-</span><span class="n">sqdk</span>
-<a id="ln-6032" name="ln-6032"></a>         <span class="k">end if</span>
-<a id="ln-6033" name="ln-6033"></a><span class="k">         </span><span class="n">kt</span> <span class="o">=</span> <span class="n">k</span> <span class="o">+</span> <span class="mi">1</span>
-<a id="ln-6034" name="ln-6034"></a>         <span class="k">if</span> <span class="p">(</span> <span class="n">k</span><span class="o">/=</span><span class="n">Ncor</span> <span class="p">)</span> <span class="k">then</span>
-<a id="ln-6035" name="ln-6035"></a><span class="c">!</span>
-<a id="ln-6036" name="ln-6036"></a><span class="c">! HERE K &lt; NCOR AND WE MULTIPLY COLUMNS K+1,...,NCOR OF AA BY THE</span>
-<a id="ln-6037" name="ln-6037"></a><span class="c">! HOUSEHOLDER TRANSFORMATION PH(K), WHICH WILL CHANGE ONLY POSITIONS</span>
-<a id="ln-6038" name="ln-6038"></a><span class="c">! K THROUGH THE BOTTOM OF THESE COLUMNS.  THIS IS DONE BY, FOR J =</span>
-<a id="ln-6039" name="ln-6039"></a><span class="c">! K+1,...,NCOR, REPLACING COLUMN J (FROM K DOWN) BY COLUMN J (FROM K DOWN)</span>
-<a id="ln-6040" name="ln-6040"></a><span class="c">! - GNU(K)*(GNU(K).COLUMN J (FROM K DOWN))*BETA(K).</span>
-<a id="ln-6041" name="ln-6041"></a>            <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="n">kt</span> <span class="p">,</span> <span class="n">Ncor</span>
-<a id="ln-6042" name="ln-6042"></a>               <span class="k">Save</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">zero</span>
-<a id="ln-6043" name="ln-6043"></a>               <span class="k">do </span><span class="n">ia</span> <span class="o">=</span> <span class="n">k</span> <span class="p">,</span> <span class="n">n</span>
-<a id="ln-6044" name="ln-6044"></a>                  <span class="k">Save</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="k">Save</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">+</span> <span class="n">Aa</span><span class="p">(</span><span class="n">ia</span><span class="p">,</span><span class="n">k</span><span class="p">)</span><span class="o">*</span><span class="n">Aa</span><span class="p">(</span><span class="n">ia</span><span class="p">,</span><span class="n">j</span><span class="p">)</span>
-<a id="ln-6045" name="ln-6045"></a>               <span class="k">end do</span>
-<a id="ln-6046" name="ln-6046"></a><span class="k">               do </span><span class="n">i</span> <span class="o">=</span> <span class="n">k</span> <span class="p">,</span> <span class="n">n</span>
-<a id="ln-6047" name="ln-6047"></a>                  <span class="n">Aa</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">Aa</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span> <span class="o">-</span> <span class="n">Aa</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">k</span><span class="p">)</span><span class="o">*</span><span class="k">Save</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="o">*</span><span class="n">Beta</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
-<a id="ln-6048" name="ln-6048"></a>               <span class="k">end do</span>
-<a id="ln-6049" name="ln-6049"></a><span class="k">            end do</span>
-<a id="ln-6050" name="ln-6050"></a><span class="k">         end if</span>
-<a id="ln-6051" name="ln-6051"></a><span class="k">      end do</span>
-<a id="ln-6052" name="ln-6052"></a><span class="c">!</span>
-<a id="ln-6053" name="ln-6053"></a> <span class="mi">100</span>  <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">krank</span>
-<a id="ln-6054" name="ln-6054"></a><span class="c">! IF I &lt;= MIN(KRANK,NCOR-1), DIVIDE ROW I OF AA FROM COLUMN I+1</span>
-<a id="ln-6055" name="ln-6055"></a><span class="c">! THROUGH COLUMN NCOR BY THE NEW AA(I,I) (WHICH IS NOT ACTUALLY</span>
-<a id="ln-6056" name="ln-6056"></a><span class="c">! WRITTEN INTO AA(I,I), BUT IS STORED IN D(I)).</span>
-<a id="ln-6057" name="ln-6057"></a>         <span class="n">ii</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span>
-<a id="ln-6058" name="ln-6058"></a>         <span class="k">if</span> <span class="p">(</span> <span class="n">i</span><span class="o">==</span><span class="n">Ncor</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">200</span>
-<a id="ln-6059" name="ln-6059"></a>         <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="n">ii</span> <span class="p">,</span> <span class="n">Ncor</span>
-<a id="ln-6060" name="ln-6060"></a>            <span class="n">Aa</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">Aa</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span><span class="o">/</span><span class="n">d</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-<a id="ln-6061" name="ln-6061"></a>         <span class="k">end do</span>
-<a id="ln-6062" name="ln-6062"></a><span class="k">      end do</span>
-<a id="ln-6063" name="ln-6063"></a><span class="c">!</span>
-<a id="ln-6064" name="ln-6064"></a><span class="c">! NOW ALL THE DIAGONAL ELEMENTS OF AA (ALTHOUGH NOT WRITTEN IN)</span>
-<a id="ln-6065" name="ln-6065"></a><span class="c">! ARE 1.0 AND ALL OFF DIAGONAL ELEMENTS OF AA ARE LESS THAN OR</span>
-<a id="ln-6066" name="ln-6066"></a><span class="c">! EQUAL TO 1.0.</span>
-<a id="ln-6067" name="ln-6067"></a><span class="c">!</span>
-<a id="ln-6068" name="ln-6068"></a><span class="c">! INITIALIZE THE ITERATIVE REFINEMENT COUNTER ICOUNT AND ZERO OUT VEC</span>
-<a id="ln-6069" name="ln-6069"></a><span class="c">! INITIALLY.  THE VEC VALUES NOT CORRESPONDING TO THE FIRST KRANK</span>
-<a id="ln-6070" name="ln-6070"></a><span class="c">! COLUMNS (MODULO EARLIER COLUMN INTERCHANGES) WILL REMAIN AT 0.0.</span>
-<a id="ln-6071" name="ln-6071"></a> <span class="mi">200</span>  <span class="n">icount</span> <span class="o">=</span> <span class="mi">1</span>
-<a id="ln-6072" name="ln-6072"></a>      <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Ncor</span>
-<a id="ln-6073" name="ln-6073"></a>         <span class="n">Vec</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="n">zero</span>
-<a id="ln-6074" name="ln-6074"></a>      <span class="k">end do</span>
-<a id="ln-6075" name="ln-6075"></a><span class="c">!</span>
-<a id="ln-6076" name="ln-6076"></a><span class="c">! PREMULTIPLY B BY THE HOUSEHOLDER TRANSFORMATIONS PH(1),...,</span>
-<a id="ln-6077" name="ln-6077"></a><span class="c">! PH(KRANK).  RECALL THAT GNU(I) IS STILL IN AA(I,I),...,AA(N,I)</span>
-<a id="ln-6078" name="ln-6078"></a><span class="c">! FOR I=1,...,KRANK.</span>
-<a id="ln-6079" name="ln-6079"></a><span class="c">!</span>
-<a id="ln-6080" name="ln-6080"></a> <span class="mi">300</span>  <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">krank</span>
-<a id="ln-6081" name="ln-6081"></a>         <span class="nb">sum</span> <span class="o">=</span> <span class="n">zero</span>
-<a id="ln-6082" name="ln-6082"></a>         <span class="k">do </span><span class="n">ia</span> <span class="o">=</span> <span class="n">i</span> <span class="p">,</span> <span class="n">n</span>
-<a id="ln-6083" name="ln-6083"></a>            <span class="nb">sum</span> <span class="o">=</span> <span class="nb">sum</span> <span class="o">+</span> <span class="n">Aa</span><span class="p">(</span><span class="n">ia</span><span class="p">,</span><span class="n">i</span><span class="p">)</span><span class="o">*</span><span class="n">b</span><span class="p">(</span><span class="n">ia</span><span class="p">)</span>
-<a id="ln-6084" name="ln-6084"></a>         <span class="k">end do</span>
-<a id="ln-6085" name="ln-6085"></a><span class="k">         </span><span class="nb">sum</span> <span class="o">=</span> <span class="nb">sum</span><span class="o">*</span><span class="n">Beta</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-<a id="ln-6086" name="ln-6086"></a>         <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="n">i</span> <span class="p">,</span> <span class="n">n</span>
-<a id="ln-6087" name="ln-6087"></a>            <span class="n">b</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">b</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">-</span> <span class="n">Aa</span><span class="p">(</span><span class="n">j</span><span class="p">,</span><span class="n">i</span><span class="p">)</span><span class="o">*</span><span class="nb">sum</span>
-<a id="ln-6088" name="ln-6088"></a><span class="nb">         </span><span class="k">end do</span>
-<a id="ln-6089" name="ln-6089"></a><span class="k">      end do</span>
-<a id="ln-6090" name="ln-6090"></a><span class="c">!</span>
-<a id="ln-6091" name="ln-6091"></a><span class="c">! NOW ONLY USE THE FIRST KRANK TERMS OF B, AS WE CANT DO ANYTHING ABOUT</span>
-<a id="ln-6092" name="ln-6092"></a><span class="c">! THE OTHERS, WHOSE SQUARE ROOT OF SUM OF SQUARES WILL GIVE THE LEAST</span>
-<a id="ln-6093" name="ln-6093"></a><span class="c">! SQUARES DISTANCE.</span>
-<a id="ln-6094" name="ln-6094"></a><span class="c">! DIVIDE B(I) BY D(I) FOR I=1,...,KRANK AS WE DID THIS TO ROW I OF AA.</span>
-<a id="ln-6095" name="ln-6095"></a><span class="c">!</span>
-<a id="ln-6096" name="ln-6096"></a>      <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">krank</span>
-<a id="ln-6097" name="ln-6097"></a>         <span class="n">b</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="n">b</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">/</span><span class="n">d</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-<a id="ln-6098" name="ln-6098"></a>      <span class="k">end do</span>
-<a id="ln-6099" name="ln-6099"></a><span class="c">!</span>
-<a id="ln-6100" name="ln-6100"></a><span class="c">! THE PROBLEM HAS NOW BEEN REDUCED TO SOLVING (UPPER LEFT KRANK BY</span>
-<a id="ln-6101" name="ln-6101"></a><span class="c">! KRANK PART OF AA)*(FIRST KRANK TERMS OF VEC, MODULO COLUMN</span>
-<a id="ln-6102" name="ln-6102"></a><span class="c">! INTERCHANGE UNSCRAMBLING) = (FIRST KRANK TERMS OF B).  ALTHOUGH THE</span>
-<a id="ln-6103" name="ln-6103"></a><span class="c">! DIAGONAL AND BELOW DIAGONAL TERMS OF THE COEFFICIENT MATRIX HAVE NOT</span>
-<a id="ln-6104" name="ln-6104"></a><span class="c">! BEEN WRITTEN IN, THE SYSTEM IS UPPER TRIANGULAR WITH DIAGONAL ELEMENTS</span>
-<a id="ln-6105" name="ln-6105"></a><span class="c">! ALL EQUAL TO 1.0, SO WE SOLVE BY BACK SUBSTITUTION.  WE FIRST PUT</span>
-<a id="ln-6106" name="ln-6106"></a><span class="c">! THE SOLUTION TO THIS SYSTEM IN B(1),...,B(KRANK) AND SORT IT OUT</span>
-<a id="ln-6107" name="ln-6107"></a><span class="c">! LATER.  IF ICOUNT &gt; 1 THE SOLUTION IS AN ITERATIVE CORRECTION TO</span>
-<a id="ln-6108" name="ln-6108"></a><span class="c">! VEC RATHER THAN VEC ITSELF.</span>
-<a id="ln-6109" name="ln-6109"></a>      <span class="k">do </span><span class="n">ii</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">krank</span>
-<a id="ln-6110" name="ln-6110"></a>         <span class="n">i</span> <span class="o">=</span> <span class="n">krank</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">ii</span>
-<a id="ln-6111" name="ln-6111"></a>         <span class="n">kk</span> <span class="o">=</span> <span class="n">i</span> <span class="o">-</span> <span class="mi">1</span>
-<a id="ln-6112" name="ln-6112"></a>         <span class="k">if</span> <span class="p">(</span> <span class="n">i</span><span class="o">/=</span><span class="mi">1</span> <span class="p">)</span> <span class="k">then</span>
-<a id="ln-6113" name="ln-6113"></a><span class="c">! HERE WE ALREADY HAVE B(I) (WHERE I  &gt; 1) AND WE SUBTRACT AA(J,I)*</span>
-<a id="ln-6114" name="ln-6114"></a><span class="c">! B(I) FROM B(J) FOR J = 1,...,I-1.</span>
-<a id="ln-6115" name="ln-6115"></a>            <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">kk</span>
-<a id="ln-6116" name="ln-6116"></a>               <span class="n">b</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">b</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">-</span> <span class="n">Aa</span><span class="p">(</span><span class="n">j</span><span class="p">,</span><span class="n">i</span><span class="p">)</span><span class="o">*</span><span class="n">b</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-<a id="ln-6117" name="ln-6117"></a>            <span class="k">end do</span>
-<a id="ln-6118" name="ln-6118"></a><span class="k">         end if</span>
-<a id="ln-6119" name="ln-6119"></a><span class="k">      end do</span>
-<a id="ln-6120" name="ln-6120"></a><span class="c">!</span>
-<a id="ln-6121" name="ln-6121"></a><span class="c">!  TEST FOR CONVERGENCE.</span>
-<a id="ln-6122" name="ln-6122"></a><span class="c">!  FIRST TEST, TOO MANY ITERATIONS.</span>
-<a id="ln-6123" name="ln-6123"></a><span class="c">!  SECOND TEST, SEE IF VEC IS DECREASING.</span>
-<a id="ln-6124" name="ln-6124"></a><span class="c">!</span>
-<a id="ln-6125" name="ln-6125"></a><span class="c">! COMPUTE THE LENGTH SQUARED OF THE FIRST TOP 1 THROUGH KRANK PART OF</span>
-<a id="ln-6126" name="ln-6126"></a><span class="c">! B, WHICH WILL BE THE RESIDUAL VECTOR IF ICOUNT &gt; 1.</span>
-<a id="ln-6127" name="ln-6127"></a>      <span class="nb">sum</span> <span class="o">=</span> <span class="n">zero</span>
-<a id="ln-6128" name="ln-6128"></a>      <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">krank</span>
-<a id="ln-6129" name="ln-6129"></a>         <span class="k">if</span> <span class="p">(</span> <span class="nb">abs</span><span class="p">(</span><span class="n">b</span><span class="p">(</span><span class="n">i</span><span class="p">))</span><span class="o">&gt;</span><span class="n">spcmn</span> <span class="p">)</span> <span class="nb">sum</span> <span class="o">=</span> <span class="nb">sum</span> <span class="o">+</span> <span class="n">b</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">*</span><span class="n">b</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-<a id="ln-6130" name="ln-6130"></a>      <span class="k">end do</span>
-<a id="ln-6131" name="ln-6131"></a><span class="k">      if</span> <span class="p">(</span> <span class="n">icount</span><span class="o">==</span><span class="mi">1</span> <span class="p">)</span> <span class="k">then</span>
-<a id="ln-6132" name="ln-6132"></a><span class="k">         </span><span class="n">testt</span> <span class="o">=</span> <span class="nb">sum</span>
-<a id="ln-6133" name="ln-6133"></a><span class="nb">      </span><span class="n">elseif</span> <span class="p">(</span> <span class="nb">sum</span><span class="o">&gt;</span><span class="n">test</span><span class="o">/</span><span class="n">two</span> <span class="p">)</span> <span class="k">then</span>
-<a id="ln-6134" name="ln-6134"></a><span class="k">         </span><span class="n">icount</span> <span class="o">=</span> <span class="n">nmref2</span>
-<a id="ln-6135" name="ln-6135"></a>      <span class="k">end if</span>
-<a id="ln-6136" name="ln-6136"></a><span class="k">      </span><span class="n">test</span> <span class="o">=</span> <span class="nb">sum</span>
-<a id="ln-6137" name="ln-6137"></a><span class="c">!</span>
-<a id="ln-6138" name="ln-6138"></a><span class="c">! COMPUTE THE VEC VALUES, WHICH WILL BE ACTUAL VEC VALUES IF ICOUNT=1</span>
-<a id="ln-6139" name="ln-6139"></a><span class="c">! AND CORRECTIONS TO VEC VALUES IF ICOUNT &gt; 1.  WE GET THESE BY</span>
-<a id="ln-6140" name="ln-6140"></a><span class="c">! UNSCRAMBLING THE B VALUES AND ADDING THEM TO THE APPROPRIATE OLD VEC</span>
-<a id="ln-6141" name="ln-6141"></a><span class="c">! VALUES (WHICH WILL BE 0.0 IF ICOUNT=1).</span>
-<a id="ln-6142" name="ln-6142"></a>      <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">krank</span>
-<a id="ln-6143" name="ln-6143"></a>         <span class="n">kp</span> <span class="o">=</span> <span class="n">Kpivot</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-<a id="ln-6144" name="ln-6144"></a>         <span class="n">Vec</span><span class="p">(</span><span class="n">kp</span><span class="p">)</span> <span class="o">=</span> <span class="n">b</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">+</span> <span class="n">Vec</span><span class="p">(</span><span class="n">kp</span><span class="p">)</span>
-<a id="ln-6145" name="ln-6145"></a>      <span class="k">end do</span>
-<a id="ln-6146" name="ln-6146"></a><span class="c">!</span>
-<a id="ln-6147" name="ln-6147"></a><span class="c">! CALCULATE THE RESIDUAL R - ACOEF*VEC.  RECALL THAT ACOEF AND R</span>
-<a id="ln-6148" name="ln-6148"></a><span class="c">! CONTAIN THE ORIGINAL COEFFICIENT AND RIGHT SIDE ARRAYS RESPECTIVELY.</span>
-<a id="ln-6149" name="ln-6149"></a><span class="c">! TO GET THE MOST OUT OF ITERATIVE REFINEMENT THIS COMPUTATION SHOULD</span>
-<a id="ln-6150" name="ln-6150"></a><span class="c">! PROBABLY BE DONE IN HIGHER PRECISION, IN WHICH CASE IT MAY BE</span>
-<a id="ln-6151" name="ln-6151"></a><span class="c">! FRUITFUL TO ALSO SET NUMREF LARGER AT THE BEGINNING OF THIS</span>
-<a id="ln-6152" name="ln-6152"></a><span class="c">! SUBROUTINE.</span>
-<a id="ln-6153" name="ln-6153"></a>      <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">n</span>
-<a id="ln-6154" name="ln-6154"></a>         <span class="n">summ</span> <span class="o">=</span> <span class="n">zero</span>
-<a id="ln-6155" name="ln-6155"></a>         <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Ncor</span>
-<a id="ln-6156" name="ln-6156"></a>            <span class="k">if</span> <span class="p">(</span> <span class="nb">abs</span><span class="p">(</span><span class="n">Picor</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">))</span><span class="o">&gt;=</span><span class="n">spcmn</span> <span class="p">)</span> <span class="n">summ</span> <span class="o">=</span> <span class="n">summ</span> <span class="o">+</span> <span class="n">Picor</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span>      <span class="p">&amp;</span>
-<a id="ln-6157" name="ln-6157"></a>                 <span class="o">*</span><span class="n">Vec</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
-<a id="ln-6158" name="ln-6158"></a>         <span class="k">end do</span>
-<a id="ln-6159" name="ln-6159"></a><span class="k">         </span><span class="n">b</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="n">r</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">-</span> <span class="n">summ</span>
-<a id="ln-6160" name="ln-6160"></a>      <span class="k">end do</span>
-<a id="ln-6161" name="ln-6161"></a><span class="c">!</span>
-<a id="ln-6162" name="ln-6162"></a><span class="c">!  THIRD TEST, WAS THE CORRECTION SIGNIFICANT.</span>
-<a id="ln-6163" name="ln-6163"></a><span class="c">!</span>
-<a id="ln-6164" name="ln-6164"></a>      <span class="k">if</span> <span class="p">(</span> <span class="n">test</span><span class="o">&gt;=</span><span class="n">spcmn</span><span class="o">*</span><span class="n">testt</span> <span class="p">)</span> <span class="k">then</span>
-<a id="ln-6165" name="ln-6165"></a><span class="k">         if</span> <span class="p">(</span> <span class="n">icount</span><span class="o">/=</span><span class="n">nmref1</span> <span class="p">)</span> <span class="k">then</span>
-<a id="ln-6166" name="ln-6166"></a><span class="k">            if</span> <span class="p">(</span> <span class="n">icount</span><span class="o">&lt;</span><span class="n">nmref2</span> <span class="p">)</span> <span class="k">then</span>
-<a id="ln-6167" name="ln-6167"></a><span class="k">               </span><span class="n">icount</span> <span class="o">=</span> <span class="n">icount</span> <span class="o">+</span> <span class="mi">1</span>
-<a id="ln-6168" name="ln-6168"></a>               <span class="k">goto </span><span class="mi">300</span>
-<a id="ln-6169" name="ln-6169"></a>            <span class="k">end if</span>
-<a id="ln-6170" name="ln-6170"></a><span class="k">         end if</span>
-<a id="ln-6171" name="ln-6171"></a><span class="k">      end if</span>
+<a id="ln-5911" name="ln-5911"></a><span class="k">    </span><span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>  <span class="kd">::</span> <span class="n">Nparm</span>
+<a id="ln-5912" name="ln-5912"></a>    <span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Ihouse</span>
+<a id="ln-5913" name="ln-5913"></a>    <span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>  <span class="kd">::</span> <span class="n">n</span>
+<a id="ln-5914" name="ln-5914"></a>    <span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>  <span class="kd">::</span> <span class="n">Ncor</span>
+<a id="ln-5915" name="ln-5915"></a>    <span class="kt">integer</span>  <span class="kd">::</span> <span class="n">Kpivot</span><span class="p">(</span><span class="n">Nparm</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+<a id="ln-5916" name="ln-5916"></a>    <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Aa</span><span class="p">(</span><span class="n">Nparm</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="n">Nparm</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+<a id="ln-5917" name="ln-5917"></a>    <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">b</span><span class="p">(</span><span class="n">Nparm</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+<a id="ln-5918" name="ln-5918"></a>    <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Beta</span><span class="p">(</span><span class="n">Nparm</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+<a id="ln-5919" name="ln-5919"></a>    <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">d</span><span class="p">(</span><span class="n">Nparm</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+<a id="ln-5920" name="ln-5920"></a>    <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Picor</span><span class="p">(</span><span class="n">Nparm</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="n">Nparm</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+<a id="ln-5921" name="ln-5921"></a>    <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">r</span><span class="p">(</span><span class="n">Nparm</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+<a id="ln-5922" name="ln-5922"></a>    <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="k">Save</span><span class="p">(</span><span class="n">Nparm</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+<a id="ln-5923" name="ln-5923"></a>    <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Vec</span><span class="p">(</span><span class="n">Nparm</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+<a id="ln-5924" name="ln-5924"></a>
+<a id="ln-5925" name="ln-5925"></a>    <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">aakk</span> <span class="p">,</span> <span class="nb">amax</span> <span class="p">,</span> <span class="n">sqdk</span> <span class="p">,</span> <span class="n">store</span> <span class="p">,</span> <span class="nb">sum</span> <span class="p">,</span> <span class="n">summ</span> <span class="p">,</span> <span class="n">test</span> <span class="p">,</span> <span class="n">testt</span>
+<a id="ln-5926" name="ln-5926"></a>    <span class="kt">integer</span> <span class="kd">::</span> <span class="n">i</span> <span class="p">,</span> <span class="n">ia</span> <span class="p">,</span> <span class="n">icount</span> <span class="p">,</span> <span class="n">ii</span> <span class="p">,</span> <span class="n">j</span> <span class="p">,</span> <span class="n">jj</span> <span class="p">,</span> <span class="n">k</span> <span class="p">,</span> <span class="n">kchnge</span> <span class="p">,</span> <span class="n">kk</span> <span class="p">,</span> <span class="p">&amp;</span>
+<a id="ln-5927" name="ln-5927"></a>               <span class="n">kp</span> <span class="p">,</span> <span class="n">krank</span> <span class="p">,</span> <span class="n">kt</span>
+<a id="ln-5928" name="ln-5928"></a>
+<a id="ln-5929" name="ln-5929"></a>    <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">parameter</span> <span class="kd">::</span> <span class="n">tolsq</span> <span class="o">=</span> <span class="p">(</span><span class="n">ten</span><span class="o">*</span><span class="n">ten</span><span class="o">*</span><span class="n">spcmn</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span>
+<a id="ln-5930" name="ln-5930"></a>    <span class="kt">integer</span><span class="p">,</span><span class="k">parameter</span> <span class="kd">::</span> <span class="n">numref</span> <span class="o">=</span> <span class="mi">1</span> <span class="c">!! Set numref = the limit on the number of iterative refinement steps.</span>
+<a id="ln-5931" name="ln-5931"></a>    <span class="kt">integer</span><span class="p">,</span><span class="k">parameter</span> <span class="kd">::</span> <span class="n">nmref1</span> <span class="o">=</span> <span class="n">numref</span> <span class="o">+</span> <span class="mi">1</span>
+<a id="ln-5932" name="ln-5932"></a>    <span class="kt">integer</span><span class="p">,</span><span class="k">parameter</span> <span class="kd">::</span> <span class="n">nmref2</span> <span class="o">=</span> <span class="n">numref</span> <span class="o">+</span> <span class="mi">2</span>
+<a id="ln-5933" name="ln-5933"></a>
+<a id="ln-5934" name="ln-5934"></a>    <span class="c">! COMPUTE MACHINE AND PRECISION DEPENDENT CONSTANTS.</span>
+<a id="ln-5935" name="ln-5935"></a>    <span class="n">Ihouse</span> <span class="o">=</span> <span class="mi">0</span>
+<a id="ln-5936" name="ln-5936"></a>
+<a id="ln-5937" name="ln-5937"></a>    <span class="c">! SET KRANK = MIN(N,NCOR).  THIS MAY BE REDUCED LATER.</span>
+<a id="ln-5938" name="ln-5938"></a>    <span class="n">krank</span> <span class="o">=</span> <span class="n">Ncor</span>
+<a id="ln-5939" name="ln-5939"></a>    <span class="k">if</span> <span class="p">(</span> <span class="n">n</span><span class="o">&lt;</span><span class="n">Ncor</span> <span class="p">)</span> <span class="n">krank</span> <span class="o">=</span> <span class="n">n</span>
+<a id="ln-5940" name="ln-5940"></a>    <span class="c">! INITIALLY SET KPIVOT.  AFTER ALL COLUMN INTERCHANGES ARE DONE</span>
+<a id="ln-5941" name="ln-5941"></a>    <span class="c">! KPIVOT(J) WILL BE THE ORIGINAL POSITION OF THE COLUMN WHERE THE</span>
+<a id="ln-5942" name="ln-5942"></a>    <span class="c">! JTH PIVOT WAS DONE.  THIS COLUMN WILL BE MOVED TO COLUMN J.</span>
+<a id="ln-5943" name="ln-5943"></a>    <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Ncor</span>
+<a id="ln-5944" name="ln-5944"></a>        <span class="n">Kpivot</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">j</span>
+<a id="ln-5945" name="ln-5945"></a>    <span class="k">end do</span>
+<a id="ln-5946" name="ln-5946"></a>    <span class="c">! COPY R INTO B AND PICOR INTO AA, BUT IN THE PROCESS REPLACE ANY NUMBERS</span>
+<a id="ln-5947" name="ln-5947"></a>    <span class="c">! WITH ABSOLUTE VALUE LESS THAN SPCMN BY ZERO TO AVOID UNDERFLOWS.</span>
+<a id="ln-5948" name="ln-5948"></a>    <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">n</span>
+<a id="ln-5949" name="ln-5949"></a>        <span class="k">if</span> <span class="p">(</span> <span class="nb">abs</span><span class="p">(</span><span class="n">r</span><span class="p">(</span><span class="n">i</span><span class="p">))</span><span class="o">&lt;</span><span class="n">spcmn</span> <span class="p">)</span> <span class="k">then</span>
+<a id="ln-5950" name="ln-5950"></a><span class="k">            </span><span class="n">b</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="n">zero</span>
+<a id="ln-5951" name="ln-5951"></a>        <span class="k">else</span>
+<a id="ln-5952" name="ln-5952"></a><span class="k">            </span><span class="n">b</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="n">r</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+<a id="ln-5953" name="ln-5953"></a>        <span class="k">end if</span>
+<a id="ln-5954" name="ln-5954"></a><span class="k">    end do</span>
+<a id="ln-5955" name="ln-5955"></a><span class="k">    do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Ncor</span>
+<a id="ln-5956" name="ln-5956"></a>        <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">n</span>
+<a id="ln-5957" name="ln-5957"></a>            <span class="k">if</span> <span class="p">(</span> <span class="nb">abs</span><span class="p">(</span><span class="n">Picor</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">))</span><span class="o">&lt;</span><span class="n">spcmn</span> <span class="p">)</span> <span class="k">then</span>
+<a id="ln-5958" name="ln-5958"></a><span class="k">               </span><span class="n">Aa</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">zero</span>
+<a id="ln-5959" name="ln-5959"></a>            <span class="k">else</span>
+<a id="ln-5960" name="ln-5960"></a><span class="k">               </span><span class="n">Aa</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">Picor</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span>
+<a id="ln-5961" name="ln-5961"></a>            <span class="k">end if</span>
+<a id="ln-5962" name="ln-5962"></a><span class="k">        end do</span>
+<a id="ln-5963" name="ln-5963"></a><span class="k">    end do</span>
+<a id="ln-5964" name="ln-5964"></a><span class="k">    do </span><span class="n">k</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Ncor</span>
+<a id="ln-5965" name="ln-5965"></a>        <span class="k">if</span> <span class="p">(</span> <span class="n">k</span><span class="o">&gt;</span><span class="n">n</span> <span class="p">)</span> <span class="k">exit</span>
+<a id="ln-5966" name="ln-5966"></a><span class="k">        </span><span class="n">d</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="o">=</span> <span class="n">zero</span>
+<a id="ln-5967" name="ln-5967"></a>        <span class="n">kchnge</span> <span class="o">=</span> <span class="n">k</span>
+<a id="ln-5968" name="ln-5968"></a>        <span class="k">do </span><span class="n">jj</span> <span class="o">=</span> <span class="n">k</span> <span class="p">,</span> <span class="n">Ncor</span>
+<a id="ln-5969" name="ln-5969"></a>            <span class="nb">sum</span> <span class="o">=</span> <span class="n">zero</span>
+<a id="ln-5970" name="ln-5970"></a>            <span class="k">do </span><span class="n">ia</span> <span class="o">=</span> <span class="n">k</span> <span class="p">,</span> <span class="n">n</span>
+<a id="ln-5971" name="ln-5971"></a>                <span class="k">if</span> <span class="p">(</span> <span class="nb">abs</span><span class="p">(</span><span class="n">Aa</span><span class="p">(</span><span class="n">ia</span><span class="p">,</span><span class="n">jj</span><span class="p">))</span><span class="o">&gt;</span><span class="n">spcmn</span> <span class="p">)</span> <span class="nb">sum</span> <span class="o">=</span> <span class="nb">sum</span> <span class="o">+</span> <span class="n">Aa</span><span class="p">(</span><span class="n">ia</span><span class="p">,</span><span class="n">jj</span><span class="p">)</span><span class="o">*</span><span class="n">Aa</span><span class="p">(</span><span class="n">ia</span><span class="p">,</span><span class="n">jj</span><span class="p">)</span>
+<a id="ln-5972" name="ln-5972"></a>            <span class="k">end do</span>
+<a id="ln-5973" name="ln-5973"></a><span class="k">            if</span> <span class="p">(</span> <span class="n">d</span><span class="p">(</span><span class="n">k</span><span class="p">)</span><span class="o">&lt;</span><span class="nb">sum</span> <span class="p">)</span> <span class="k">then</span>
+<a id="ln-5974" name="ln-5974"></a><span class="k">                </span><span class="n">kchnge</span> <span class="o">=</span> <span class="n">jj</span>
+<a id="ln-5975" name="ln-5975"></a>                <span class="n">d</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="o">=</span> <span class="nb">sum</span>
+<a id="ln-5976" name="ln-5976"></a><span class="nb">            </span><span class="k">end if</span>
+<a id="ln-5977" name="ln-5977"></a><span class="k">        end do</span>
+<a id="ln-5978" name="ln-5978"></a>
+<a id="ln-5979" name="ln-5979"></a>        <span class="c">!  KCHNGE CONTAINS THE INDEX OF THE COLUMN OF GREATEST</span>
+<a id="ln-5980" name="ln-5980"></a>        <span class="c">!  LENGTH BETWEEN K AND NCOR (FROM POSITION K TO THE BOTTOM).</span>
+<a id="ln-5981" name="ln-5981"></a>        <span class="c">! IF K=1 AND D(K) &lt; TOLSQ WE RETURN WITH THE FAILURE WARNING</span>
+<a id="ln-5982" name="ln-5982"></a>        <span class="c">! IHOUSE=1.</span>
+<a id="ln-5983" name="ln-5983"></a>        <span class="k">if</span> <span class="p">(</span> <span class="n">k</span><span class="o">&lt;=</span><span class="mi">1</span> <span class="p">)</span> <span class="k">then</span>
+<a id="ln-5984" name="ln-5984"></a><span class="k">            if</span> <span class="p">(</span> <span class="n">d</span><span class="p">(</span><span class="n">k</span><span class="p">)</span><span class="o">&lt;</span><span class="n">tolsq</span> <span class="p">)</span> <span class="k">then</span>
+<a id="ln-5985" name="ln-5985"></a><span class="k">                </span><span class="n">Ihouse</span> <span class="o">=</span> <span class="mi">1</span>
+<a id="ln-5986" name="ln-5986"></a>                <span class="k">return</span>
+<a id="ln-5987" name="ln-5987"></a><span class="k">            end if</span>
+<a id="ln-5988" name="ln-5988"></a><span class="k">        end if</span>
+<a id="ln-5989" name="ln-5989"></a>
+<a id="ln-5990" name="ln-5990"></a><span class="k">        if</span> <span class="p">(</span> <span class="n">kchnge</span><span class="o">/=</span><span class="n">k</span> <span class="p">)</span> <span class="k">then</span>
+<a id="ln-5991" name="ln-5991"></a>            <span class="c">!  START COLUMN INTERCHANGE.</span>
+<a id="ln-5992" name="ln-5992"></a>            <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">n</span>
+<a id="ln-5993" name="ln-5993"></a>                <span class="n">store</span> <span class="o">=</span> <span class="n">Aa</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">kchnge</span><span class="p">)</span>
+<a id="ln-5994" name="ln-5994"></a>                <span class="n">Aa</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">kchnge</span><span class="p">)</span> <span class="o">=</span> <span class="n">Aa</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">k</span><span class="p">)</span>
+<a id="ln-5995" name="ln-5995"></a>                <span class="n">Aa</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">k</span><span class="p">)</span> <span class="o">=</span> <span class="n">store</span>
+<a id="ln-5996" name="ln-5996"></a>            <span class="k">end do</span>
+<a id="ln-5997" name="ln-5997"></a><span class="k">            </span><span class="n">kk</span> <span class="o">=</span> <span class="n">Kpivot</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+<a id="ln-5998" name="ln-5998"></a>            <span class="n">Kpivot</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="o">=</span> <span class="n">Kpivot</span><span class="p">(</span><span class="n">kchnge</span><span class="p">)</span>
+<a id="ln-5999" name="ln-5999"></a>            <span class="n">Kpivot</span><span class="p">(</span><span class="n">kchnge</span><span class="p">)</span> <span class="o">=</span> <span class="n">kk</span>
+<a id="ln-6000" name="ln-6000"></a>        <span class="k">end if</span>
+<a id="ln-6001" name="ln-6001"></a><span class="k">        if</span> <span class="p">(</span> <span class="n">k</span><span class="o">/=</span><span class="mi">1</span> <span class="p">)</span> <span class="k">then</span>
+<a id="ln-6002" name="ln-6002"></a><span class="k">            </span><span class="nb">amax</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">d</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+<a id="ln-6003" name="ln-6003"></a>            <span class="n">test</span> <span class="o">=</span> <span class="p">(</span><span class="kt">real</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="n">wp</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">ten</span><span class="o">*</span><span class="n">ten</span><span class="o">*</span><span class="n">spcmn</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="nb">amax</span><span class="o">*</span><span class="nb">amax</span><span class="p">)</span>
+<a id="ln-6004" name="ln-6004"></a>            <span class="k">if</span> <span class="p">(</span> <span class="nb">abs</span><span class="p">(</span><span class="n">d</span><span class="p">(</span><span class="n">k</span><span class="p">))</span><span class="o">&lt;=</span><span class="n">test</span> <span class="p">)</span> <span class="k">then</span>
+<a id="ln-6005" name="ln-6005"></a>                <span class="c">! HERE THE LENGTH OF THE BEST OF COLUMNS K THROUGH NCOR (FROM K DOWN)</span>
+<a id="ln-6006" name="ln-6006"></a>                <span class="c">! WAS TOO SMALL, AND WE REDUCE KRANK TO K-1 AND LEAVE THIS LOOP.</span>
+<a id="ln-6007" name="ln-6007"></a>                <span class="n">d</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="o">=</span> <span class="nb">sqrt</span><span class="p">(</span><span class="n">d</span><span class="p">(</span><span class="n">k</span><span class="p">))</span>
+<a id="ln-6008" name="ln-6008"></a>                <span class="n">krank</span> <span class="o">=</span> <span class="n">k</span> <span class="o">-</span> <span class="mi">1</span>
+<a id="ln-6009" name="ln-6009"></a>                <span class="k">exit</span>
+<a id="ln-6010" name="ln-6010"></a><span class="k">            end if</span>
+<a id="ln-6011" name="ln-6011"></a><span class="k">        end if</span>
+<a id="ln-6012" name="ln-6012"></a>
+<a id="ln-6013" name="ln-6013"></a>        <span class="c">! NOW COMPUTE THE SCALAR BETA(K) AND THE N-K+1 DIMENSIONAL VECTOR</span>
+<a id="ln-6014" name="ln-6014"></a>        <span class="c">! GNU(K) (TO BE PLACED IN AA(K,K),...,AA(N,K)) FOR I(K) - BETA(K)*</span>
+<a id="ln-6015" name="ln-6015"></a>        <span class="c">! GNU(K)*(GNU(K) TRANSPOSE), WHICH IS THE ACTIVE PART OF THE</span>
+<a id="ln-6016" name="ln-6016"></a>        <span class="c">! HOUSEHOLDER TRANSFORMATION PH(K) = DIAG(I(K-1), ACTIVE PART).  THIS</span>
+<a id="ln-6017" name="ln-6017"></a>        <span class="c">! IS A SYMMETRIC ORTHOGONAL MATRIX WHICH WHEN MULTIPLIED TIMES AA WILL</span>
+<a id="ln-6018" name="ln-6018"></a>        <span class="c">! ZERO OUT AA(K+1,K),...,AA(N,K) AND CHANGE AA(K,K) TO -SGN(OLD</span>
+<a id="ln-6019" name="ln-6019"></a>        <span class="c">! AA(K,K))*SQDK, WHERE SQDK = LENGTH OF OLD (AA(K,K),...,AA(N,K)) AND</span>
+<a id="ln-6020" name="ln-6020"></a>        <span class="c">! WE REDEFINE THE SGN FUNCTION TO HAVE VALUE 1.0 IF ITS ARGUMENT IS</span>
+<a id="ln-6021" name="ln-6021"></a>        <span class="c">! 0.0.  WE WILL HAVE BETA(K) = 1.0/(SQDK**2 + ABS(OLD AA(K,K))*SQDK)</span>
+<a id="ln-6022" name="ln-6022"></a>        <span class="c">! AND GNU(K) = (OLD AA(K,K) + SGN(OLD AA(K,K))*SQDK, OLD AA(K+1,K),...,</span>
+<a id="ln-6023" name="ln-6023"></a>        <span class="c">! OLD AA(N,K)).  WE WILL ALSO REPLACE D(K) BY THE NEW AA(K,K) (WHICH</span>
+<a id="ln-6024" name="ln-6024"></a>        <span class="c">! WILL NOT ACTUALLY BE WRITTEN INTO AA) FOR LATER USE.</span>
+<a id="ln-6025" name="ln-6025"></a>        <span class="n">aakk</span> <span class="o">=</span> <span class="n">Aa</span><span class="p">(</span><span class="n">k</span><span class="p">,</span><span class="n">k</span><span class="p">)</span>
+<a id="ln-6026" name="ln-6026"></a>        <span class="n">sqdk</span> <span class="o">=</span> <span class="nb">sqrt</span><span class="p">(</span><span class="n">d</span><span class="p">(</span><span class="n">k</span><span class="p">))</span>
+<a id="ln-6027" name="ln-6027"></a>        <span class="k">if</span> <span class="p">(</span> <span class="n">aakk</span><span class="o">&lt;</span><span class="n">zero</span> <span class="p">)</span> <span class="k">then</span>
+<a id="ln-6028" name="ln-6028"></a><span class="k">            </span><span class="n">Beta</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="o">=</span> <span class="n">one</span><span class="o">/</span><span class="p">(</span><span class="n">d</span><span class="p">(</span><span class="n">k</span><span class="p">)</span><span class="o">-</span><span class="n">aakk</span><span class="o">*</span><span class="n">sqdk</span><span class="p">)</span>
+<a id="ln-6029" name="ln-6029"></a>            <span class="n">Aa</span><span class="p">(</span><span class="n">k</span><span class="p">,</span><span class="n">k</span><span class="p">)</span> <span class="o">=</span> <span class="o">-</span><span class="n">sqdk</span> <span class="o">+</span> <span class="n">aakk</span>
+<a id="ln-6030" name="ln-6030"></a>            <span class="n">d</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="o">=</span> <span class="n">sqdk</span>
+<a id="ln-6031" name="ln-6031"></a>        <span class="k">else</span>
+<a id="ln-6032" name="ln-6032"></a><span class="k">            </span><span class="n">Beta</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="o">=</span> <span class="n">one</span><span class="o">/</span><span class="p">(</span><span class="n">d</span><span class="p">(</span><span class="n">k</span><span class="p">)</span><span class="o">+</span><span class="n">aakk</span><span class="o">*</span><span class="n">sqdk</span><span class="p">)</span>
+<a id="ln-6033" name="ln-6033"></a>            <span class="n">Aa</span><span class="p">(</span><span class="n">k</span><span class="p">,</span><span class="n">k</span><span class="p">)</span> <span class="o">=</span> <span class="n">sqdk</span> <span class="o">+</span> <span class="n">aakk</span>
+<a id="ln-6034" name="ln-6034"></a>            <span class="n">d</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="o">=</span> <span class="o">-</span><span class="n">sqdk</span>
+<a id="ln-6035" name="ln-6035"></a>        <span class="k">end if</span>
+<a id="ln-6036" name="ln-6036"></a><span class="k">        </span><span class="n">kt</span> <span class="o">=</span> <span class="n">k</span> <span class="o">+</span> <span class="mi">1</span>
+<a id="ln-6037" name="ln-6037"></a>        <span class="k">if</span> <span class="p">(</span> <span class="n">k</span><span class="o">/=</span><span class="n">Ncor</span> <span class="p">)</span> <span class="k">then</span>
+<a id="ln-6038" name="ln-6038"></a>            <span class="c">! HERE K &lt; NCOR AND WE MULTIPLY COLUMNS K+1,...,NCOR OF AA BY THE</span>
+<a id="ln-6039" name="ln-6039"></a>            <span class="c">! HOUSEHOLDER TRANSFORMATION PH(K), WHICH WILL CHANGE ONLY POSITIONS</span>
+<a id="ln-6040" name="ln-6040"></a>            <span class="c">! K THROUGH THE BOTTOM OF THESE COLUMNS.  THIS IS DONE BY, FOR J =</span>
+<a id="ln-6041" name="ln-6041"></a>            <span class="c">! K+1,...,NCOR, REPLACING COLUMN J (FROM K DOWN) BY COLUMN J (FROM K DOWN)</span>
+<a id="ln-6042" name="ln-6042"></a>            <span class="c">! - GNU(K)*(GNU(K).COLUMN J (FROM K DOWN))*BETA(K).</span>
+<a id="ln-6043" name="ln-6043"></a>            <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="n">kt</span> <span class="p">,</span> <span class="n">Ncor</span>
+<a id="ln-6044" name="ln-6044"></a>                <span class="k">Save</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">zero</span>
+<a id="ln-6045" name="ln-6045"></a>                <span class="k">do </span><span class="n">ia</span> <span class="o">=</span> <span class="n">k</span> <span class="p">,</span> <span class="n">n</span>
+<a id="ln-6046" name="ln-6046"></a>                    <span class="k">Save</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="k">Save</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">+</span> <span class="n">Aa</span><span class="p">(</span><span class="n">ia</span><span class="p">,</span><span class="n">k</span><span class="p">)</span><span class="o">*</span><span class="n">Aa</span><span class="p">(</span><span class="n">ia</span><span class="p">,</span><span class="n">j</span><span class="p">)</span>
+<a id="ln-6047" name="ln-6047"></a>                <span class="k">end do</span>
+<a id="ln-6048" name="ln-6048"></a><span class="k">                do </span><span class="n">i</span> <span class="o">=</span> <span class="n">k</span> <span class="p">,</span> <span class="n">n</span>
+<a id="ln-6049" name="ln-6049"></a>                    <span class="n">Aa</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">Aa</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span> <span class="o">-</span> <span class="n">Aa</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">k</span><span class="p">)</span><span class="o">*</span><span class="k">Save</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="o">*</span><span class="n">Beta</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+<a id="ln-6050" name="ln-6050"></a>                <span class="k">end do</span>
+<a id="ln-6051" name="ln-6051"></a><span class="k">            end do</span>
+<a id="ln-6052" name="ln-6052"></a><span class="k">        end if</span>
+<a id="ln-6053" name="ln-6053"></a><span class="k">    end do</span>
+<a id="ln-6054" name="ln-6054"></a>
+<a id="ln-6055" name="ln-6055"></a><span class="k">    do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">krank</span>
+<a id="ln-6056" name="ln-6056"></a>        <span class="c">! IF I &lt;= MIN(KRANK,NCOR-1), DIVIDE ROW I OF AA FROM COLUMN I+1</span>
+<a id="ln-6057" name="ln-6057"></a>        <span class="c">! THROUGH COLUMN NCOR BY THE NEW AA(I,I) (WHICH IS NOT ACTUALLY</span>
+<a id="ln-6058" name="ln-6058"></a>        <span class="c">! WRITTEN INTO AA(I,I), BUT IS STORED IN D(I)).</span>
+<a id="ln-6059" name="ln-6059"></a>        <span class="n">ii</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span>
+<a id="ln-6060" name="ln-6060"></a>        <span class="k">if</span> <span class="p">(</span> <span class="n">i</span><span class="o">==</span><span class="n">Ncor</span> <span class="p">)</span> <span class="k">exit</span>
+<a id="ln-6061" name="ln-6061"></a><span class="k">        do </span><span class="n">j</span> <span class="o">=</span> <span class="n">ii</span> <span class="p">,</span> <span class="n">Ncor</span>
+<a id="ln-6062" name="ln-6062"></a>            <span class="n">Aa</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">Aa</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span><span class="o">/</span><span class="n">d</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+<a id="ln-6063" name="ln-6063"></a>        <span class="k">end do</span>
+<a id="ln-6064" name="ln-6064"></a><span class="k">    end do</span>
+<a id="ln-6065" name="ln-6065"></a>
+<a id="ln-6066" name="ln-6066"></a>    <span class="c">! NOW ALL THE DIAGONAL ELEMENTS OF AA (ALTHOUGH NOT WRITTEN IN)</span>
+<a id="ln-6067" name="ln-6067"></a>    <span class="c">! ARE 1.0 AND ALL OFF DIAGONAL ELEMENTS OF AA ARE LESS THAN OR</span>
+<a id="ln-6068" name="ln-6068"></a>    <span class="c">! EQUAL TO 1.0.</span>
+<a id="ln-6069" name="ln-6069"></a>
+<a id="ln-6070" name="ln-6070"></a>    <span class="c">! INITIALIZE THE ITERATIVE REFINEMENT COUNTER ICOUNT AND ZERO OUT VEC</span>
+<a id="ln-6071" name="ln-6071"></a>    <span class="c">! INITIALLY.  THE VEC VALUES NOT CORRESPONDING TO THE FIRST KRANK</span>
+<a id="ln-6072" name="ln-6072"></a>    <span class="c">! COLUMNS (MODULO EARLIER COLUMN INTERCHANGES) WILL REMAIN AT 0.0.</span>
+<a id="ln-6073" name="ln-6073"></a>    <span class="n">icount</span> <span class="o">=</span> <span class="mi">1</span>
+<a id="ln-6074" name="ln-6074"></a>    <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Ncor</span>
+<a id="ln-6075" name="ln-6075"></a>        <span class="n">Vec</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="n">zero</span>
+<a id="ln-6076" name="ln-6076"></a>    <span class="k">end do</span>
+<a id="ln-6077" name="ln-6077"></a>
+<a id="ln-6078" name="ln-6078"></a><span class="k">    </span><span class="n">iteration</span> <span class="p">:</span>  <span class="k">do</span>
+<a id="ln-6079" name="ln-6079"></a>
+<a id="ln-6080" name="ln-6080"></a>        <span class="c">! PREMULTIPLY B BY THE HOUSEHOLDER TRANSFORMATIONS PH(1),...,</span>
+<a id="ln-6081" name="ln-6081"></a>        <span class="c">! PH(KRANK).  RECALL THAT GNU(I) IS STILL IN AA(I,I),...,AA(N,I)</span>
+<a id="ln-6082" name="ln-6082"></a>        <span class="c">! FOR I=1,...,KRANK.</span>
+<a id="ln-6083" name="ln-6083"></a>        <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">krank</span>
+<a id="ln-6084" name="ln-6084"></a>            <span class="nb">sum</span> <span class="o">=</span> <span class="n">zero</span>
+<a id="ln-6085" name="ln-6085"></a>            <span class="k">do </span><span class="n">ia</span> <span class="o">=</span> <span class="n">i</span> <span class="p">,</span> <span class="n">n</span>
+<a id="ln-6086" name="ln-6086"></a>                <span class="nb">sum</span> <span class="o">=</span> <span class="nb">sum</span> <span class="o">+</span> <span class="n">Aa</span><span class="p">(</span><span class="n">ia</span><span class="p">,</span><span class="n">i</span><span class="p">)</span><span class="o">*</span><span class="n">b</span><span class="p">(</span><span class="n">ia</span><span class="p">)</span>
+<a id="ln-6087" name="ln-6087"></a>            <span class="k">end do</span>
+<a id="ln-6088" name="ln-6088"></a><span class="k">            </span><span class="nb">sum</span> <span class="o">=</span> <span class="nb">sum</span><span class="o">*</span><span class="n">Beta</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+<a id="ln-6089" name="ln-6089"></a>            <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="n">i</span> <span class="p">,</span> <span class="n">n</span>
+<a id="ln-6090" name="ln-6090"></a>                <span class="n">b</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">b</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">-</span> <span class="n">Aa</span><span class="p">(</span><span class="n">j</span><span class="p">,</span><span class="n">i</span><span class="p">)</span><span class="o">*</span><span class="nb">sum</span>
+<a id="ln-6091" name="ln-6091"></a><span class="nb">            </span><span class="k">end do</span>
+<a id="ln-6092" name="ln-6092"></a><span class="k">        end do</span>
+<a id="ln-6093" name="ln-6093"></a>
+<a id="ln-6094" name="ln-6094"></a>        <span class="c">! NOW ONLY USE THE FIRST KRANK TERMS OF B, AS WE CANT DO ANYTHING ABOUT</span>
+<a id="ln-6095" name="ln-6095"></a>        <span class="c">! THE OTHERS, WHOSE SQUARE ROOT OF SUM OF SQUARES WILL GIVE THE LEAST</span>
+<a id="ln-6096" name="ln-6096"></a>        <span class="c">! SQUARES DISTANCE.</span>
+<a id="ln-6097" name="ln-6097"></a>        <span class="c">! DIVIDE B(I) BY D(I) FOR I=1,...,KRANK AS WE DID THIS TO ROW I OF AA.</span>
+<a id="ln-6098" name="ln-6098"></a>        <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">krank</span>
+<a id="ln-6099" name="ln-6099"></a>            <span class="n">b</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="n">b</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">/</span><span class="n">d</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+<a id="ln-6100" name="ln-6100"></a>        <span class="k">end do</span>
+<a id="ln-6101" name="ln-6101"></a>
+<a id="ln-6102" name="ln-6102"></a>        <span class="c">! THE PROBLEM HAS NOW BEEN REDUCED TO SOLVING (UPPER LEFT KRANK BY</span>
+<a id="ln-6103" name="ln-6103"></a>        <span class="c">! KRANK PART OF AA)*(FIRST KRANK TERMS OF VEC, MODULO COLUMN</span>
+<a id="ln-6104" name="ln-6104"></a>        <span class="c">! INTERCHANGE UNSCRAMBLING) = (FIRST KRANK TERMS OF B).  ALTHOUGH THE</span>
+<a id="ln-6105" name="ln-6105"></a>        <span class="c">! DIAGONAL AND BELOW DIAGONAL TERMS OF THE COEFFICIENT MATRIX HAVE NOT</span>
+<a id="ln-6106" name="ln-6106"></a>        <span class="c">! BEEN WRITTEN IN, THE SYSTEM IS UPPER TRIANGULAR WITH DIAGONAL ELEMENTS</span>
+<a id="ln-6107" name="ln-6107"></a>        <span class="c">! ALL EQUAL TO 1.0, SO WE SOLVE BY BACK SUBSTITUTION.  WE FIRST PUT</span>
+<a id="ln-6108" name="ln-6108"></a>        <span class="c">! THE SOLUTION TO THIS SYSTEM IN B(1),...,B(KRANK) AND SORT IT OUT</span>
+<a id="ln-6109" name="ln-6109"></a>        <span class="c">! LATER.  IF ICOUNT &gt; 1 THE SOLUTION IS AN ITERATIVE CORRECTION TO</span>
+<a id="ln-6110" name="ln-6110"></a>        <span class="c">! VEC RATHER THAN VEC ITSELF.</span>
+<a id="ln-6111" name="ln-6111"></a>        <span class="k">do </span><span class="n">ii</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">krank</span>
+<a id="ln-6112" name="ln-6112"></a>            <span class="n">i</span> <span class="o">=</span> <span class="n">krank</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">ii</span>
+<a id="ln-6113" name="ln-6113"></a>            <span class="n">kk</span> <span class="o">=</span> <span class="n">i</span> <span class="o">-</span> <span class="mi">1</span>
+<a id="ln-6114" name="ln-6114"></a>            <span class="k">if</span> <span class="p">(</span> <span class="n">i</span><span class="o">/=</span><span class="mi">1</span> <span class="p">)</span> <span class="k">then</span>
+<a id="ln-6115" name="ln-6115"></a>                <span class="c">! HERE WE ALREADY HAVE B(I) (WHERE I  &gt; 1) AND WE SUBTRACT AA(J,I)*</span>
+<a id="ln-6116" name="ln-6116"></a>                <span class="c">! B(I) FROM B(J) FOR J = 1,...,I-1.</span>
+<a id="ln-6117" name="ln-6117"></a>                <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">kk</span>
+<a id="ln-6118" name="ln-6118"></a>                    <span class="n">b</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">b</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">-</span> <span class="n">Aa</span><span class="p">(</span><span class="n">j</span><span class="p">,</span><span class="n">i</span><span class="p">)</span><span class="o">*</span><span class="n">b</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+<a id="ln-6119" name="ln-6119"></a>                <span class="k">end do</span>
+<a id="ln-6120" name="ln-6120"></a><span class="k">            end if</span>
+<a id="ln-6121" name="ln-6121"></a><span class="k">        end do</span>
+<a id="ln-6122" name="ln-6122"></a>
+<a id="ln-6123" name="ln-6123"></a>        <span class="c">!  TEST FOR CONVERGENCE.</span>
+<a id="ln-6124" name="ln-6124"></a>        <span class="c">!  FIRST TEST, TOO MANY ITERATIONS.</span>
+<a id="ln-6125" name="ln-6125"></a>        <span class="c">!  SECOND TEST, SEE IF VEC IS DECREASING.</span>
+<a id="ln-6126" name="ln-6126"></a>
+<a id="ln-6127" name="ln-6127"></a>        <span class="c">! COMPUTE THE LENGTH SQUARED OF THE FIRST TOP 1 THROUGH KRANK PART OF</span>
+<a id="ln-6128" name="ln-6128"></a>        <span class="c">! B, WHICH WILL BE THE RESIDUAL VECTOR IF ICOUNT &gt; 1.</span>
+<a id="ln-6129" name="ln-6129"></a>        <span class="nb">sum</span> <span class="o">=</span> <span class="n">zero</span>
+<a id="ln-6130" name="ln-6130"></a>        <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">krank</span>
+<a id="ln-6131" name="ln-6131"></a>            <span class="k">if</span> <span class="p">(</span> <span class="nb">abs</span><span class="p">(</span><span class="n">b</span><span class="p">(</span><span class="n">i</span><span class="p">))</span><span class="o">&gt;</span><span class="n">spcmn</span> <span class="p">)</span> <span class="nb">sum</span> <span class="o">=</span> <span class="nb">sum</span> <span class="o">+</span> <span class="n">b</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">*</span><span class="n">b</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+<a id="ln-6132" name="ln-6132"></a>        <span class="k">end do</span>
+<a id="ln-6133" name="ln-6133"></a><span class="k">        if</span> <span class="p">(</span> <span class="n">icount</span><span class="o">==</span><span class="mi">1</span> <span class="p">)</span> <span class="k">then</span>
+<a id="ln-6134" name="ln-6134"></a><span class="k">            </span><span class="n">testt</span> <span class="o">=</span> <span class="nb">sum</span>
+<a id="ln-6135" name="ln-6135"></a><span class="nb">        </span><span class="n">elseif</span> <span class="p">(</span> <span class="nb">sum</span><span class="o">&gt;</span><span class="n">test</span><span class="o">/</span><span class="n">two</span> <span class="p">)</span> <span class="k">then</span>
+<a id="ln-6136" name="ln-6136"></a><span class="k">            </span><span class="n">icount</span> <span class="o">=</span> <span class="n">nmref2</span>
+<a id="ln-6137" name="ln-6137"></a>        <span class="k">end if</span>
+<a id="ln-6138" name="ln-6138"></a><span class="k">        </span><span class="n">test</span> <span class="o">=</span> <span class="nb">sum</span>
+<a id="ln-6139" name="ln-6139"></a>
+<a id="ln-6140" name="ln-6140"></a>        <span class="c">! COMPUTE THE VEC VALUES, WHICH WILL BE ACTUAL VEC VALUES IF ICOUNT=1</span>
+<a id="ln-6141" name="ln-6141"></a>        <span class="c">! AND CORRECTIONS TO VEC VALUES IF ICOUNT &gt; 1.  WE GET THESE BY</span>
+<a id="ln-6142" name="ln-6142"></a>        <span class="c">! UNSCRAMBLING THE B VALUES AND ADDING THEM TO THE APPROPRIATE OLD VEC</span>
+<a id="ln-6143" name="ln-6143"></a>        <span class="c">! VALUES (WHICH WILL BE 0.0 IF ICOUNT=1).</span>
+<a id="ln-6144" name="ln-6144"></a>        <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">krank</span>
+<a id="ln-6145" name="ln-6145"></a>            <span class="n">kp</span> <span class="o">=</span> <span class="n">Kpivot</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+<a id="ln-6146" name="ln-6146"></a>            <span class="n">Vec</span><span class="p">(</span><span class="n">kp</span><span class="p">)</span> <span class="o">=</span> <span class="n">b</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">+</span> <span class="n">Vec</span><span class="p">(</span><span class="n">kp</span><span class="p">)</span>
+<a id="ln-6147" name="ln-6147"></a>        <span class="k">end do</span>
+<a id="ln-6148" name="ln-6148"></a>
+<a id="ln-6149" name="ln-6149"></a>        <span class="c">! CALCULATE THE RESIDUAL R - ACOEF*VEC.  RECALL THAT ACOEF AND R</span>
+<a id="ln-6150" name="ln-6150"></a>        <span class="c">! CONTAIN THE ORIGINAL COEFFICIENT AND RIGHT SIDE ARRAYS RESPECTIVELY.</span>
+<a id="ln-6151" name="ln-6151"></a>        <span class="c">! TO GET THE MOST OUT OF ITERATIVE REFINEMENT THIS COMPUTATION SHOULD</span>
+<a id="ln-6152" name="ln-6152"></a>        <span class="c">! PROBABLY BE DONE IN HIGHER PRECISION, IN WHICH CASE IT MAY BE</span>
+<a id="ln-6153" name="ln-6153"></a>        <span class="c">! FRUITFUL TO ALSO SET NUMREF LARGER AT THE BEGINNING OF THIS</span>
+<a id="ln-6154" name="ln-6154"></a>        <span class="c">! SUBROUTINE.</span>
+<a id="ln-6155" name="ln-6155"></a>        <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">n</span>
+<a id="ln-6156" name="ln-6156"></a>            <span class="n">summ</span> <span class="o">=</span> <span class="n">zero</span>
+<a id="ln-6157" name="ln-6157"></a>            <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Ncor</span>
+<a id="ln-6158" name="ln-6158"></a>                <span class="k">if</span> <span class="p">(</span> <span class="nb">abs</span><span class="p">(</span><span class="n">Picor</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">))</span><span class="o">&gt;=</span><span class="n">spcmn</span> <span class="p">)</span> <span class="n">summ</span> <span class="o">=</span> <span class="n">summ</span> <span class="o">+</span> <span class="n">Picor</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span><span class="o">*</span><span class="n">Vec</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+<a id="ln-6159" name="ln-6159"></a>            <span class="k">end do</span>
+<a id="ln-6160" name="ln-6160"></a><span class="k">            </span><span class="n">b</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="n">r</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">-</span> <span class="n">summ</span>
+<a id="ln-6161" name="ln-6161"></a>        <span class="k">end do</span>
+<a id="ln-6162" name="ln-6162"></a>
+<a id="ln-6163" name="ln-6163"></a>        <span class="c">!  THIRD TEST, WAS THE CORRECTION SIGNIFICANT.</span>
+<a id="ln-6164" name="ln-6164"></a>        <span class="k">if</span> <span class="p">(</span> <span class="n">test</span><span class="o">&gt;=</span><span class="n">spcmn</span><span class="o">*</span><span class="n">testt</span> <span class="p">)</span> <span class="k">then</span>
+<a id="ln-6165" name="ln-6165"></a><span class="k">            if</span> <span class="p">(</span> <span class="n">icount</span><span class="o">/=</span><span class="n">nmref1</span> <span class="p">)</span> <span class="k">then</span>
+<a id="ln-6166" name="ln-6166"></a><span class="k">                if</span> <span class="p">(</span> <span class="n">icount</span><span class="o">&lt;</span><span class="n">nmref2</span> <span class="p">)</span> <span class="k">then</span>
+<a id="ln-6167" name="ln-6167"></a><span class="k">                    </span><span class="n">icount</span> <span class="o">=</span> <span class="n">icount</span> <span class="o">+</span> <span class="mi">1</span>
+<a id="ln-6168" name="ln-6168"></a>                    <span class="k">cycle </span><span class="n">iteration</span>
+<a id="ln-6169" name="ln-6169"></a>                <span class="k">end if</span>
+<a id="ln-6170" name="ln-6170"></a><span class="k">            end if</span>
+<a id="ln-6171" name="ln-6171"></a><span class="k">        end if</span>
 <a id="ln-6172" name="ln-6172"></a>
-<a id="ln-6173" name="ln-6173"></a><span class="k">    end subroutine </span><span class="n">house</span>
-<a id="ln-6174" name="ln-6174"></a><span class="c">!********************************************************************************</span>
-<a id="ln-6175" name="ln-6175"></a>
-<a id="ln-6176" name="ln-6176"></a><span class="c">!********************************************************************************</span>
-<a id="ln-6177" name="ln-6177"></a><span class="c">!&gt;</span>
-<a id="ln-6178" name="ln-6178"></a><span class="c">! This subprogram computes the dot product of vectors vec1</span>
-<a id="ln-6179" name="ln-6179"></a><span class="c">! and vec2 of length lgth.</span>
-<a id="ln-6180" name="ln-6180"></a><span class="c">! vec1 and vec2 do not appear in function iloc since they are used only</span>
-<a id="ln-6181" name="ln-6181"></a><span class="c">! as input names for this subprogram, and so they don&#39;t need to have</span>
-<a id="ln-6182" name="ln-6182"></a><span class="c">! space reserved for them in the array work.</span>
-<a id="ln-6183" name="ln-6183"></a>
-<a id="ln-6184" name="ln-6184"></a>    <span class="k">pure function </span><span class="n">dotprd</span><span class="p">(</span><span class="n">Lgth</span><span class="p">,</span><span class="n">Vec1</span><span class="p">,</span><span class="n">Vec2</span><span class="p">,</span><span class="n">Nparm</span><span class="p">)</span> <span class="k">result</span><span class="p">(</span><span class="n">dd</span><span class="p">)</span>
-<a id="ln-6185" name="ln-6185"></a>
-<a id="ln-6186" name="ln-6186"></a>    <span class="k">implicit none</span>
+<a id="ln-6173" name="ln-6173"></a><span class="k">        exit </span><span class="n">iteration</span>  <span class="c">! done</span>
+<a id="ln-6174" name="ln-6174"></a>
+<a id="ln-6175" name="ln-6175"></a>    <span class="k">end do </span><span class="n">iteration</span>
+<a id="ln-6176" name="ln-6176"></a>
+<a id="ln-6177" name="ln-6177"></a>    <span class="k">end subroutine </span><span class="n">house</span>
+<a id="ln-6178" name="ln-6178"></a><span class="c">!********************************************************************************</span>
+<a id="ln-6179" name="ln-6179"></a>
+<a id="ln-6180" name="ln-6180"></a><span class="c">!********************************************************************************</span>
+<a id="ln-6181" name="ln-6181"></a><span class="c">!&gt;</span>
+<a id="ln-6182" name="ln-6182"></a><span class="c">!  This subprogram computes the dot product of vectors vec1</span>
+<a id="ln-6183" name="ln-6183"></a><span class="c">!  and vec2 of length lgth.</span>
+<a id="ln-6184" name="ln-6184"></a><span class="c">!  vec1 and vec2 do not appear in function iloc since they are used only</span>
+<a id="ln-6185" name="ln-6185"></a><span class="c">!  as input names for this subprogram, and so they don&#39;t need to have</span>
+<a id="ln-6186" name="ln-6186"></a><span class="c">!  space reserved for them in the array work.</span>
 <a id="ln-6187" name="ln-6187"></a>
-<a id="ln-6188" name="ln-6188"></a><span class="k">    </span><span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Lgth</span>
-<a id="ln-6189" name="ln-6189"></a>    <span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Nparm</span>
-<a id="ln-6190" name="ln-6190"></a>    <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="n">Nparm</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Vec1</span>
-<a id="ln-6191" name="ln-6191"></a>    <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="n">Nparm</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Vec2</span>
-<a id="ln-6192" name="ln-6192"></a>    <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">dd</span>
-<a id="ln-6193" name="ln-6193"></a>
-<a id="ln-6194" name="ln-6194"></a>    <span class="kt">integer</span> <span class="kd">::</span> <span class="n">j</span>
-<a id="ln-6195" name="ln-6195"></a>
-<a id="ln-6196" name="ln-6196"></a>    <span class="n">dd</span> <span class="o">=</span> <span class="n">Vec1</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">Vec2</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-<a id="ln-6197" name="ln-6197"></a>    <span class="k">if</span> <span class="p">(</span> <span class="n">Lgth</span><span class="o">&gt;</span><span class="mi">1</span> <span class="p">)</span> <span class="k">then</span>
-<a id="ln-6198" name="ln-6198"></a><span class="k">        do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">2</span> <span class="p">,</span> <span class="n">Lgth</span>
-<a id="ln-6199" name="ln-6199"></a>            <span class="n">dd</span> <span class="o">=</span> <span class="n">dd</span> <span class="o">+</span> <span class="n">Vec1</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="o">*</span><span class="n">Vec2</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
-<a id="ln-6200" name="ln-6200"></a>        <span class="k">end do</span>
-<a id="ln-6201" name="ln-6201"></a><span class="k">    end if</span>
-<a id="ln-6202" name="ln-6202"></a>
-<a id="ln-6203" name="ln-6203"></a><span class="k">    end function </span><span class="n">dotprd</span>
-<a id="ln-6204" name="ln-6204"></a><span class="c">!********************************************************************************</span>
-<a id="ln-6205" name="ln-6205"></a>
-<a id="ln-6206" name="ln-6206"></a><span class="c">!********************************************************************************</span>
-<a id="ln-6207" name="ln-6207"></a><span class="c">!&gt;</span>
-<a id="ln-6208" name="ln-6208"></a><span class="c">! THIS SUBROUTINE ATTEMPTS TO REFINE THE NDM DIMENSIONAL VECTOR WPT</span>
-<a id="ln-6209" name="ln-6209"></a><span class="c">! PRODUCED BY WOLFE BY DIRECTLY SOLVING THE SYSTEM</span>
-<a id="ln-6210" name="ln-6210"></a><span class="c">! SUMMATION(PMAT(I,J)*WPT(I), I=1,...,NDM) = -PMAT(NDM+1,J) FOR J =</span>
-<a id="ln-6211" name="ln-6211"></a><span class="c">! ICOR(L), L=1,...,NCOR.</span>
-<a id="ln-6212" name="ln-6212"></a><span class="c">! NRESL RESOLVENTS ARE CHOSEN BY TOTAL PIVOTING.  IF NRESL &lt; NDM THEN</span>
-<a id="ln-6213" name="ln-6213"></a><span class="c">! THE REMAINING NDM-NRESL ELEMENTS OF WPT ARE KEPT FORM THE OLD WPT.</span>
-<a id="ln-6214" name="ln-6214"></a><span class="c">! ITRLM STEPS OF ITERATIVE REFINEMENT ARE ATTEMPTED AT THE END.</span>
-<a id="ln-6215" name="ln-6215"></a>
-<a id="ln-6216" name="ln-6216"></a>    <span class="k">subroutine </span><span class="n">refwl</span><span class="p">(</span><span class="n">Ndm</span><span class="p">,</span><span class="n">Ncor</span><span class="p">,</span><span class="n">Icor</span><span class="p">,</span><span class="n">Pmat</span><span class="p">,</span><span class="n">Pmat1</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">,</span><span class="n">Ixrct</span><span class="p">,</span><span class="k">Save</span><span class="p">,</span><span class="n">Wpt</span><span class="p">)</span>
-<a id="ln-6217" name="ln-6217"></a>
-<a id="ln-6218" name="ln-6218"></a>      <span class="k">implicit none</span>
+<a id="ln-6188" name="ln-6188"></a>    <span class="k">pure function </span><span class="n">dotprd</span><span class="p">(</span><span class="n">Lgth</span><span class="p">,</span><span class="n">Vec1</span><span class="p">,</span><span class="n">Vec2</span><span class="p">,</span><span class="n">Nparm</span><span class="p">)</span> <span class="k">result</span><span class="p">(</span><span class="n">dd</span><span class="p">)</span>
+<a id="ln-6189" name="ln-6189"></a>
+<a id="ln-6190" name="ln-6190"></a>    <span class="k">implicit none</span>
+<a id="ln-6191" name="ln-6191"></a>
+<a id="ln-6192" name="ln-6192"></a><span class="k">    </span><span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Lgth</span>
+<a id="ln-6193" name="ln-6193"></a>    <span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Nparm</span>
+<a id="ln-6194" name="ln-6194"></a>    <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="n">Nparm</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Vec1</span>
+<a id="ln-6195" name="ln-6195"></a>    <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="n">Nparm</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Vec2</span>
+<a id="ln-6196" name="ln-6196"></a>    <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">dd</span>
+<a id="ln-6197" name="ln-6197"></a>
+<a id="ln-6198" name="ln-6198"></a>    <span class="kt">integer</span> <span class="kd">::</span> <span class="n">j</span>
+<a id="ln-6199" name="ln-6199"></a>
+<a id="ln-6200" name="ln-6200"></a>    <span class="n">dd</span> <span class="o">=</span> <span class="n">Vec1</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">Vec2</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<a id="ln-6201" name="ln-6201"></a>    <span class="k">if</span> <span class="p">(</span> <span class="n">Lgth</span><span class="o">&gt;</span><span class="mi">1</span> <span class="p">)</span> <span class="k">then</span>
+<a id="ln-6202" name="ln-6202"></a><span class="k">        do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">2</span> <span class="p">,</span> <span class="n">Lgth</span>
+<a id="ln-6203" name="ln-6203"></a>            <span class="n">dd</span> <span class="o">=</span> <span class="n">dd</span> <span class="o">+</span> <span class="n">Vec1</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="o">*</span><span class="n">Vec2</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+<a id="ln-6204" name="ln-6204"></a>        <span class="k">end do</span>
+<a id="ln-6205" name="ln-6205"></a><span class="k">    end if</span>
+<a id="ln-6206" name="ln-6206"></a>
+<a id="ln-6207" name="ln-6207"></a><span class="k">    end function </span><span class="n">dotprd</span>
+<a id="ln-6208" name="ln-6208"></a><span class="c">!********************************************************************************</span>
+<a id="ln-6209" name="ln-6209"></a>
+<a id="ln-6210" name="ln-6210"></a><span class="c">!********************************************************************************</span>
+<a id="ln-6211" name="ln-6211"></a><span class="c">!&gt;</span>
+<a id="ln-6212" name="ln-6212"></a><span class="c">!  This subroutine attempts to refine the ndm dimensional vector wpt</span>
+<a id="ln-6213" name="ln-6213"></a><span class="c">!  produced by wolfe by directly solving the system</span>
+<a id="ln-6214" name="ln-6214"></a><span class="c">!  summation(pmat(i,j)*wpt(i), i=1,...,ndm) = -pmat(ndm+1,j) for j =</span>
+<a id="ln-6215" name="ln-6215"></a><span class="c">!  icor(l), l=1,...,ncor.</span>
+<a id="ln-6216" name="ln-6216"></a><span class="c">!  nresl resolvents are chosen by total pivoting.  if nresl &lt; ndm then</span>
+<a id="ln-6217" name="ln-6217"></a><span class="c">!  the remaining ndm-nresl elements of wpt are kept form the old wpt.</span>
+<a id="ln-6218" name="ln-6218"></a><span class="c">!  itrlm steps of iterative refinement are attempted at the end.</span>
 <a id="ln-6219" name="ln-6219"></a>
-<a id="ln-6220" name="ln-6220"></a><span class="k">      </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">aa</span> <span class="p">,</span> <span class="nb">amax</span> <span class="p">,</span> <span class="n">fact</span> <span class="p">,</span> <span class="n">Pmat</span> <span class="p">,</span> <span class="n">Pmat1</span> <span class="p">,</span> <span class="k">Save</span> <span class="p">,</span>  <span class="p">&amp;</span>
-<a id="ln-6221" name="ln-6221"></a>                  <span class="n">tole</span> <span class="p">,</span> <span class="n">Wpt</span> <span class="p">,</span> <span class="n">wrst</span> <span class="p">,</span> <span class="n">wrsto</span>
-<a id="ln-6222" name="ln-6222"></a>      <span class="kt">integer</span> <span class="kd">::</span> <span class="n">i</span> <span class="p">,</span> <span class="n">Icor</span> <span class="p">,</span> <span class="n">imax</span> <span class="p">,</span> <span class="n">itrct</span> <span class="p">,</span> <span class="n">itrlm</span> <span class="p">,</span> <span class="n">Ixrct</span> <span class="p">,</span> <span class="n">j</span> <span class="p">,</span> <span class="n">jmax</span> <span class="p">,</span>      <span class="p">&amp;</span>
-<a id="ln-6223" name="ln-6223"></a>                 <span class="n">jstrt</span> <span class="p">,</span> <span class="n">k</span> <span class="p">,</span> <span class="n">kcol</span> <span class="p">,</span> <span class="n">kk</span> <span class="p">,</span> <span class="n">kp1</span> <span class="p">,</span> <span class="n">l</span> <span class="p">,</span> <span class="n">maxrs</span> <span class="p">,</span> <span class="n">n</span> <span class="p">,</span> <span class="n">Ncor</span> <span class="p">,</span> <span class="n">Ndm</span> <span class="p">,&amp;</span>
-<a id="ln-6224" name="ln-6224"></a>                 <span class="n">Nparm</span> <span class="p">,</span> <span class="n">nresl</span>
-<a id="ln-6225" name="ln-6225"></a>      <span class="kt">integer</span> <span class="kd">::</span> <span class="n">Numgr</span>
-<a id="ln-6226" name="ln-6226"></a>
-<a id="ln-6227" name="ln-6227"></a>      <span class="k">dimension </span><span class="n">Icor</span><span class="p">(</span><span class="n">Nparm</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="p">,</span> <span class="n">Pmat</span><span class="p">(</span><span class="n">Nparm</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span> <span class="p">,</span>                   <span class="p">&amp;</span>
-<a id="ln-6228" name="ln-6228"></a>                <span class="n">Pmat1</span><span class="p">(</span><span class="n">Nparm</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span> <span class="p">,</span> <span class="n">Wpt</span><span class="p">(</span><span class="n">Nparm</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="p">,</span> <span class="n">Ixrct</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">Nparm</span><span class="p">)</span> <span class="p">,</span>  <span class="p">&amp;</span>
-<a id="ln-6229" name="ln-6229"></a>                <span class="k">Save</span><span class="p">(</span><span class="n">Nparm</span><span class="p">)</span>
-<a id="ln-6230" name="ln-6230"></a><span class="c">!</span>
-<a id="ln-6231" name="ln-6231"></a><span class="c">! COMPUTE MACHINE AND PRECISION DEPENDENT CONSTANTS.</span>
-<a id="ln-6232" name="ln-6232"></a><span class="c">!     NWRIT=output_unit</span>
-<a id="ln-6233" name="ln-6233"></a>      <span class="n">tole</span> <span class="o">=</span> <span class="n">spcmn</span>
-<a id="ln-6234" name="ln-6234"></a>      <span class="n">itrlm</span> <span class="o">=</span> <span class="mi">2</span>
-<a id="ln-6235" name="ln-6235"></a>      <span class="n">itrct</span> <span class="o">=</span> <span class="mi">0</span>
-<a id="ln-6236" name="ln-6236"></a>      <span class="n">nresl</span> <span class="o">=</span> <span class="mi">0</span>
-<a id="ln-6237" name="ln-6237"></a>      <span class="n">n</span> <span class="o">=</span> <span class="n">Ndm</span> <span class="o">+</span> <span class="mi">1</span>
-<a id="ln-6238" name="ln-6238"></a><span class="c">! IF NCOR=0 WE HAVE NOTHING TO DO SO WE RETURN.</span>
-<a id="ln-6239" name="ln-6239"></a>      <span class="k">if</span> <span class="p">(</span> <span class="n">Ncor</span><span class="o">&gt;</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
-<a id="ln-6240" name="ln-6240"></a><span class="c">!</span>
-<a id="ln-6241" name="ln-6241"></a><span class="c">! COPY COLUMN ICOR(L) OF PMAT WITH THE SIGN OF THE LAST ELEMENT REVERSED</span>
-<a id="ln-6242" name="ln-6242"></a><span class="c">! INTO COLUMN L OF THE WORK MATRIX PMAT1 FOR L=1,...,NCOR.</span>
-<a id="ln-6243" name="ln-6243"></a>         <span class="k">do </span><span class="n">l</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Ncor</span>
-<a id="ln-6244" name="ln-6244"></a>            <span class="n">j</span> <span class="o">=</span> <span class="n">Icor</span><span class="p">(</span><span class="n">l</span><span class="p">)</span>
-<a id="ln-6245" name="ln-6245"></a>            <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Ndm</span>
-<a id="ln-6246" name="ln-6246"></a>               <span class="n">Pmat1</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">l</span><span class="p">)</span> <span class="o">=</span> <span class="n">Pmat</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span>
-<a id="ln-6247" name="ln-6247"></a>            <span class="k">end do</span>
-<a id="ln-6248" name="ln-6248"></a><span class="k">            </span><span class="n">Pmat1</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">l</span><span class="p">)</span> <span class="o">=</span> <span class="o">-</span><span class="n">Pmat</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">j</span><span class="p">)</span>
-<a id="ln-6249" name="ln-6249"></a>         <span class="k">end do</span>
-<a id="ln-6250" name="ln-6250"></a><span class="c">!</span>
-<a id="ln-6251" name="ln-6251"></a><span class="c">!</span>
-<a id="ln-6252" name="ln-6252"></a><span class="c">! NOW COLUMN REDUCE PMAT1.  NOTE THAT PMAT1 IS THE TRANSPOSE OF THE USUAL</span>
-<a id="ln-6253" name="ln-6253"></a><span class="c">! AUGMENTED MATRIX FOR SOLVING A LINEAR SYSTEM OF EQUATONS.</span>
-<a id="ln-6254" name="ln-6254"></a><span class="c">! THERE WILL BE AT MOST MAXRS = MIN(NDM,NCOR) RESOLVENTS.</span>
-<a id="ln-6255" name="ln-6255"></a>         <span class="n">maxrs</span> <span class="o">=</span> <span class="n">Ncor</span>
-<a id="ln-6256" name="ln-6256"></a>         <span class="k">if</span> <span class="p">(</span> <span class="n">Ndm</span><span class="o">&lt;</span><span class="n">maxrs</span> <span class="p">)</span> <span class="n">maxrs</span> <span class="o">=</span> <span class="n">Ndm</span>
-<a id="ln-6257" name="ln-6257"></a>         <span class="k">do </span><span class="n">k</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">maxrs</span>
-<a id="ln-6258" name="ln-6258"></a><span class="c">!</span>
-<a id="ln-6259" name="ln-6259"></a><span class="c">! SEARCH FOR THE INDICES IMAX AND JMAX WITH 1 &lt;= IMAX &lt;= NDM, 1 &lt;=</span>
-<a id="ln-6260" name="ln-6260"></a><span class="c">! JMAX &lt;= NCOR, PMAT1(IMAX,JMAX) IS NOT IN THE ROW OR COLUMN OF ANY</span>
-<a id="ln-6261" name="ln-6261"></a><span class="c">! OTHER RESOLVENT (I.E. PIVOT), AND ABS(PMAT1(IMAX,JMAX)) IS MAXIMIZED.</span>
-<a id="ln-6262" name="ln-6262"></a><span class="c">! WE USE THE VECTOR IXRCT TO SAVE THE RESOLVENT POSITIONS TO SAVE SPACE.</span>
-<a id="ln-6263" name="ln-6263"></a>            <span class="n">jstrt</span> <span class="o">=</span> <span class="mi">0</span>
-<a id="ln-6264" name="ln-6264"></a>            <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Ncor</span>
-<a id="ln-6265" name="ln-6265"></a>               <span class="k">if</span> <span class="p">(</span> <span class="n">nresl</span><span class="o">&gt;</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
-<a id="ln-6266" name="ln-6266"></a><span class="k">                  do </span><span class="n">l</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">nresl</span>
-<a id="ln-6267" name="ln-6267"></a>                     <span class="k">if</span> <span class="p">(</span> <span class="n">j</span><span class="o">==</span><span class="n">Ixrct</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">l</span><span class="p">)</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">20</span>
-<a id="ln-6268" name="ln-6268"></a>                  <span class="k">end do</span>
-<a id="ln-6269" name="ln-6269"></a><span class="k">               end if</span>
-<a id="ln-6270" name="ln-6270"></a><span class="c">! HERE THERE IS NO EARLIER RESOLVENT IN COLUMN J.</span>
-<a id="ln-6271" name="ln-6271"></a>               <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Ndm</span>
-<a id="ln-6272" name="ln-6272"></a>                  <span class="k">if</span> <span class="p">(</span> <span class="n">nresl</span><span class="o">&gt;</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
-<a id="ln-6273" name="ln-6273"></a><span class="k">                     do </span><span class="n">l</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">nresl</span>
-<a id="ln-6274" name="ln-6274"></a>                        <span class="k">if</span> <span class="p">(</span> <span class="n">i</span><span class="o">==</span><span class="n">Ixrct</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">l</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">10</span>
-<a id="ln-6275" name="ln-6275"></a>                     <span class="k">end do</span>
-<a id="ln-6276" name="ln-6276"></a><span class="k">                  end if</span>
-<a id="ln-6277" name="ln-6277"></a><span class="c">! HERE THERE IS NO EARLIER RESOLVENT IN ROW I.</span>
-<a id="ln-6278" name="ln-6278"></a>                  <span class="n">aa</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">Pmat1</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">))</span>
-<a id="ln-6279" name="ln-6279"></a>                  <span class="k">if</span> <span class="p">(</span> <span class="n">jstrt</span><span class="o">&lt;=</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
-<a id="ln-6280" name="ln-6280"></a><span class="k">                     </span><span class="n">jstrt</span> <span class="o">=</span> <span class="mi">1</span>
-<a id="ln-6281" name="ln-6281"></a>                  <span class="n">elseif</span> <span class="p">(</span> <span class="n">aa</span><span class="o">&lt;=</span><span class="nb">amax</span> <span class="p">)</span> <span class="k">then</span>
-<a id="ln-6282" name="ln-6282"></a><span class="k">                     goto </span><span class="mi">10</span>
-<a id="ln-6283" name="ln-6283"></a>                  <span class="k">end if</span>
-<a id="ln-6284" name="ln-6284"></a><span class="k">                  </span><span class="nb">amax</span> <span class="o">=</span> <span class="n">aa</span>
-<a id="ln-6285" name="ln-6285"></a>                  <span class="n">imax</span> <span class="o">=</span> <span class="n">i</span>
-<a id="ln-6286" name="ln-6286"></a>                  <span class="n">jmax</span> <span class="o">=</span> <span class="n">j</span>
-<a id="ln-6287" name="ln-6287"></a> <span class="mi">10</span>            <span class="k">end do</span>
-<a id="ln-6288" name="ln-6288"></a><span class="k"> </span><span class="mi">20</span>         <span class="k">end do</span>
-<a id="ln-6289" name="ln-6289"></a><span class="c">! IF THE ABSOLUTE VALUE OF THIS RESOLVENT IS VERY SMALL WE DO NOT ATTEMPT</span>
-<a id="ln-6290" name="ln-6290"></a><span class="c">! ANY FURTHER COLUMN OPERATIONS.</span>
-<a id="ln-6291" name="ln-6291"></a>            <span class="k">if</span> <span class="p">(</span> <span class="nb">amax</span><span class="o">&lt;</span><span class="n">tole</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">50</span>
-<a id="ln-6292" name="ln-6292"></a><span class="c">! INCREMENT NRESL AND PUT THE LOCATION OF THE NRESLTH RESOLVENT IN</span>
-<a id="ln-6293" name="ln-6293"></a><span class="c">! (IXRCT(2*L-1),IXRCT(2*L)).</span>
-<a id="ln-6294" name="ln-6294"></a>            <span class="n">nresl</span> <span class="o">=</span> <span class="n">nresl</span> <span class="o">+</span> <span class="mi">1</span>
-<a id="ln-6295" name="ln-6295"></a>            <span class="n">Ixrct</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">nresl</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="n">imax</span>
-<a id="ln-6296" name="ln-6296"></a>            <span class="n">Ixrct</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">nresl</span><span class="p">)</span> <span class="o">=</span> <span class="n">jmax</span>
-<a id="ln-6297" name="ln-6297"></a><span class="c">!</span>
-<a id="ln-6298" name="ln-6298"></a><span class="c">! NOW ELIMINATE WPT(IMAX) FROM THOSE COLUMNS WHICH DO NOT CONTAIN ANY OF</span>
-<a id="ln-6299" name="ln-6299"></a><span class="c">! THE RESOLVENTS FOUND SO FAR (INCLUDING THE PRESENT RESOLVENT).</span>
-<a id="ln-6300" name="ln-6300"></a>            <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Ncor</span>
-<a id="ln-6301" name="ln-6301"></a>               <span class="k">do </span><span class="n">l</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">nresl</span>
-<a id="ln-6302" name="ln-6302"></a>                  <span class="k">if</span> <span class="p">(</span> <span class="n">j</span><span class="o">==</span><span class="n">Ixrct</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">l</span><span class="p">)</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">40</span>
-<a id="ln-6303" name="ln-6303"></a>               <span class="k">end do</span>
-<a id="ln-6304" name="ln-6304"></a><span class="c">! HERE COLUMN J DOES NOT CONTAIN ANY OF THE RESOLVENTS FOUND SO FAR, AND</span>
-<a id="ln-6305" name="ln-6305"></a><span class="c">! WE COMPUTE THE FACTOR FOR THE COLUMN OPERATION NEEDED TO ZERO OUT</span>
-<a id="ln-6306" name="ln-6306"></a><span class="c">! PMAT1(IMAX,J) (ALTHOUGH WE DO NOT ACTUALLY WRITE IN THE ZERO).</span>
-<a id="ln-6307" name="ln-6307"></a>               <span class="n">fact</span> <span class="o">=</span> <span class="n">Pmat1</span><span class="p">(</span><span class="n">imax</span><span class="p">,</span><span class="n">j</span><span class="p">)</span><span class="o">/</span><span class="n">Pmat1</span><span class="p">(</span><span class="n">imax</span><span class="p">,</span><span class="n">jmax</span><span class="p">)</span>
-<a id="ln-6308" name="ln-6308"></a><span class="c">! NOW DO THE OPERATION IN COLUMN J FOR ALL ROWS NOT CONTAINING A</span>
-<a id="ln-6309" name="ln-6309"></a><span class="c">! RESOLVENT.  THE ELEMENTS IN THIS COLUMN IN THE ROWS WHICH CONTAIN AN</span>
-<a id="ln-6310" name="ln-6310"></a><span class="c">! EARLIER (OR PRESENT) RESOLVENT WILL NOT BE NEEDED LATER.</span>
-<a id="ln-6311" name="ln-6311"></a>               <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">n</span>
-<a id="ln-6312" name="ln-6312"></a>                  <span class="k">do </span><span class="n">l</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">nresl</span>
-<a id="ln-6313" name="ln-6313"></a>                     <span class="k">if</span> <span class="p">(</span> <span class="n">i</span><span class="o">==</span><span class="n">Ixrct</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">l</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">30</span>
-<a id="ln-6314" name="ln-6314"></a>                  <span class="k">end do</span>
-<a id="ln-6315" name="ln-6315"></a><span class="k">                  </span><span class="n">Pmat1</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">Pmat1</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span> <span class="o">-</span> <span class="n">fact</span><span class="o">*</span><span class="n">Pmat1</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">jmax</span><span class="p">)</span>
-<a id="ln-6316" name="ln-6316"></a> <span class="mi">30</span>            <span class="k">end do</span>
-<a id="ln-6317" name="ln-6317"></a><span class="k"> </span><span class="mi">40</span>         <span class="k">end do</span>
-<a id="ln-6318" name="ln-6318"></a><span class="k">         end do</span>
-<a id="ln-6319" name="ln-6319"></a><span class="c">! END OF COLUMN REDUCTION OF PMAT1.</span>
-<a id="ln-6320" name="ln-6320"></a><span class="c">!</span>
-<a id="ln-6321" name="ln-6321"></a><span class="c">!</span>
-<a id="ln-6322" name="ln-6322"></a><span class="c">! IF NRESL=0 THEN ALL THE ELEMENTS IN PMAT1 FOR 1 &lt;= I &lt;= NDM AND</span>
-<a id="ln-6323" name="ln-6323"></a><span class="c">! 1 &lt;= J &lt;= NCOR WERE VERY SMALL IN ABSOLUTE VALUE, AND THERE IS</span>
-<a id="ln-6324" name="ln-6324"></a><span class="c">! NOTHING WE CAN DO, SO WE RETURN.</span>
-<a id="ln-6325" name="ln-6325"></a> <span class="mi">50</span>      <span class="k">if</span> <span class="p">(</span> <span class="n">nresl</span><span class="o">&gt;</span><span class="mi">0</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">200</span>
-<a id="ln-6326" name="ln-6326"></a>      <span class="k">end if</span>
-<a id="ln-6327" name="ln-6327"></a><span class="c">!</span>
-<a id="ln-6328" name="ln-6328"></a> <span class="mi">100</span>  <span class="k">return</span>
-<a id="ln-6329" name="ln-6329"></a><span class="c">!</span>
-<a id="ln-6330" name="ln-6330"></a><span class="c">!</span>
-<a id="ln-6331" name="ln-6331"></a><span class="c">! NOW DO BACK SUBSTITUTION TO COMPUTE, FOR K=NRESL,...,1,</span>
-<a id="ln-6332" name="ln-6332"></a><span class="c">! WPT(IXRCT(2*K-1)) = (PMAT1(NDM+1,IXRCT(2*K)) - SUMMATION(</span>
-<a id="ln-6333" name="ln-6333"></a><span class="c">! PMAT1(I,IXRCT(2*K))*WPT(I), FOR I = 1,...,NDM, I /= IXRCT(2*L-1)</span>
-<a id="ln-6334" name="ln-6334"></a><span class="c">! FOR ANY L=1,...,K))/PMAT1(IXRCT(2*K-1),IXRCT(2*K)).  IF WE ARE IN AN</span>
-<a id="ln-6335" name="ln-6335"></a><span class="c">! ITERATIVE REFINEMENT STEP WE WISH TO CONSIDER WPT(I) (WHICH IS THEN</span>
-<a id="ln-6336" name="ln-6336"></a><span class="c">! JUST A CORRECTION TO WPT(I)) = 0.0 IF I CORRESPONDS TO NO RESOLVENT</span>
-<a id="ln-6337" name="ln-6337"></a><span class="c">! (SINCE THE VALUE OF SUCH WPT(I) IN SAVE SHOULD NOT CHANGE) SO WE OMIT</span>
-<a id="ln-6338" name="ln-6338"></a><span class="c">! THE CORRESPONDING TERMS IN THE SUMMATION ABOVE.</span>
-<a id="ln-6339" name="ln-6339"></a> <span class="mi">200</span>  <span class="k">do </span><span class="n">kk</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">nresl</span>
-<a id="ln-6340" name="ln-6340"></a>         <span class="n">k</span> <span class="o">=</span> <span class="n">nresl</span> <span class="o">-</span> <span class="n">kk</span> <span class="o">+</span> <span class="mi">1</span>
-<a id="ln-6341" name="ln-6341"></a>         <span class="n">imax</span> <span class="o">=</span> <span class="n">Ixrct</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">k</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-<a id="ln-6342" name="ln-6342"></a>         <span class="n">jmax</span> <span class="o">=</span> <span class="n">Ixrct</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">k</span><span class="p">)</span>
-<a id="ln-6343" name="ln-6343"></a>         <span class="n">Wpt</span><span class="p">(</span><span class="n">imax</span><span class="p">)</span> <span class="o">=</span> <span class="n">Pmat1</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">jmax</span><span class="p">)</span>
-<a id="ln-6344" name="ln-6344"></a>         <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Ndm</span>
-<a id="ln-6345" name="ln-6345"></a>            <span class="k">do </span><span class="n">l</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">k</span>
-<a id="ln-6346" name="ln-6346"></a>               <span class="k">if</span> <span class="p">(</span> <span class="n">i</span><span class="o">==</span><span class="n">Ixrct</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">l</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">250</span>
-<a id="ln-6347" name="ln-6347"></a>            <span class="k">end do</span>
-<a id="ln-6348" name="ln-6348"></a><span class="c">! HERE ROW I CONTAINS NO EARLIER (OR PRESENT) RESOLVENTS.</span>
-<a id="ln-6349" name="ln-6349"></a>            <span class="k">if</span> <span class="p">(</span> <span class="n">itrct</span><span class="o">&gt;</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
-<a id="ln-6350" name="ln-6350"></a><span class="k">               if</span> <span class="p">(</span> <span class="n">k</span><span class="o">&lt;</span><span class="n">nresl</span> <span class="p">)</span> <span class="k">then</span>
-<a id="ln-6351" name="ln-6351"></a><span class="c">! HERE WE ARE DOING ITERATIVE REFINEMENT, K &lt; NRESL, AND I /=</span>
-<a id="ln-6352" name="ln-6352"></a><span class="c">! IXRCT(2*L-1) FOR L=1,...,K.  WE WILL USE THE TERM CORRESPONDING TO</span>
-<a id="ln-6353" name="ln-6353"></a><span class="c">! WPT(I) IFF I = IXRCT(2*L-1) FOR SOME L = K+1,...,NRESL.</span>
-<a id="ln-6354" name="ln-6354"></a>                  <span class="n">kp1</span> <span class="o">=</span> <span class="n">k</span> <span class="o">+</span> <span class="mi">1</span>
-<a id="ln-6355" name="ln-6355"></a>                  <span class="k">do </span><span class="n">l</span> <span class="o">=</span> <span class="n">kp1</span> <span class="p">,</span> <span class="n">nresl</span>
-<a id="ln-6356" name="ln-6356"></a>                     <span class="k">if</span> <span class="p">(</span> <span class="n">i</span><span class="o">==</span><span class="n">Ixrct</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">l</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">220</span>
-<a id="ln-6357" name="ln-6357"></a>                  <span class="k">end do</span>
-<a id="ln-6358" name="ln-6358"></a><span class="k">               end if</span>
-<a id="ln-6359" name="ln-6359"></a><span class="k">               goto </span><span class="mi">250</span>
-<a id="ln-6360" name="ln-6360"></a>            <span class="k">end if</span>
-<a id="ln-6361" name="ln-6361"></a><span class="k"> </span><span class="mi">220</span>        <span class="n">Wpt</span><span class="p">(</span><span class="n">imax</span><span class="p">)</span> <span class="o">=</span> <span class="n">Wpt</span><span class="p">(</span><span class="n">imax</span><span class="p">)</span> <span class="o">-</span> <span class="n">Pmat1</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">jmax</span><span class="p">)</span><span class="o">*</span><span class="n">Wpt</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-<a id="ln-6362" name="ln-6362"></a> <span class="mi">250</span>     <span class="k">end do</span>
-<a id="ln-6363" name="ln-6363"></a><span class="k">         </span><span class="n">Wpt</span><span class="p">(</span><span class="n">imax</span><span class="p">)</span> <span class="o">=</span> <span class="n">Wpt</span><span class="p">(</span><span class="n">imax</span><span class="p">)</span><span class="o">/</span><span class="n">Pmat1</span><span class="p">(</span><span class="n">imax</span><span class="p">,</span><span class="n">jmax</span><span class="p">)</span>
-<a id="ln-6364" name="ln-6364"></a>      <span class="k">end do</span>
-<a id="ln-6365" name="ln-6365"></a><span class="c">! END OF BACK SUBSTITUTION.</span>
-<a id="ln-6366" name="ln-6366"></a><span class="c">!</span>
-<a id="ln-6367" name="ln-6367"></a><span class="c">!</span>
-<a id="ln-6368" name="ln-6368"></a><span class="c">! IF ITRCT IS POSITIVE THEN WPT WILL CONTAIN ONLY AN ITERATIVE</span>
-<a id="ln-6369" name="ln-6369"></a><span class="c">! REFINEMENT CORRECTION IN THOSE POSITIONS CORRESPONDING TO RESOLVENTS</span>
-<a id="ln-6370" name="ln-6370"></a><span class="c">! AND WE ADD THIS TO SAVE TO GET THE TRUE WPT.</span>
-<a id="ln-6371" name="ln-6371"></a>      <span class="k">if</span> <span class="p">(</span> <span class="n">itrct</span><span class="o">&gt;</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
-<a id="ln-6372" name="ln-6372"></a><span class="k">         do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Ndm</span>
-<a id="ln-6373" name="ln-6373"></a>            <span class="k">do </span><span class="n">l</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">nresl</span>
-<a id="ln-6374" name="ln-6374"></a>               <span class="k">if</span> <span class="p">(</span> <span class="n">i</span><span class="o">==</span><span class="n">Ixrct</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">l</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">260</span>
-<a id="ln-6375" name="ln-6375"></a>            <span class="k">end do</span>
-<a id="ln-6376" name="ln-6376"></a><span class="k">            goto </span><span class="mi">300</span>
-<a id="ln-6377" name="ln-6377"></a> <span class="mi">260</span>        <span class="n">Wpt</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="n">Wpt</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">+</span> <span class="k">Save</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-<a id="ln-6378" name="ln-6378"></a> <span class="mi">300</span>     <span class="k">end do</span>
-<a id="ln-6379" name="ln-6379"></a><span class="k">      end if</span>
-<a id="ln-6380" name="ln-6380"></a><span class="c">!</span>
-<a id="ln-6381" name="ln-6381"></a><span class="c">!</span>
-<a id="ln-6382" name="ln-6382"></a><span class="c">! NOW COMPUTE THE RESIDUAL AND PUT IT INTO PMAT1(NDM+1,.).</span>
-<a id="ln-6383" name="ln-6383"></a>      <span class="k">do </span><span class="n">k</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Ncor</span>
-<a id="ln-6384" name="ln-6384"></a><span class="c">! COMPUTE THE COLUMN INDEX KCOL IN PMAT CORRESPONDING TO COLUMN K IN</span>
-<a id="ln-6385" name="ln-6385"></a><span class="c">! PMAT1.</span>
-<a id="ln-6386" name="ln-6386"></a>         <span class="n">kcol</span> <span class="o">=</span> <span class="n">Icor</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
-<a id="ln-6387" name="ln-6387"></a>         <span class="n">Pmat1</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">k</span><span class="p">)</span> <span class="o">=</span> <span class="o">-</span><span class="n">Pmat</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">kcol</span><span class="p">)</span>
-<a id="ln-6388" name="ln-6388"></a>         <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Ndm</span>
-<a id="ln-6389" name="ln-6389"></a>            <span class="n">Pmat1</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">k</span><span class="p">)</span> <span class="o">=</span> <span class="n">Pmat1</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">k</span><span class="p">)</span> <span class="o">-</span> <span class="n">Pmat</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">kcol</span><span class="p">)</span><span class="o">*</span><span class="n">Wpt</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-<a id="ln-6390" name="ln-6390"></a>         <span class="k">end do</span>
-<a id="ln-6391" name="ln-6391"></a><span class="k">      end do</span>
-<a id="ln-6392" name="ln-6392"></a><span class="c">!</span>
-<a id="ln-6393" name="ln-6393"></a><span class="c">! COMPUTE THE WORST ABSOLUTE VALUE OF THE RESIDUAL ELEMENTS.</span>
-<a id="ln-6394" name="ln-6394"></a>      <span class="k">do </span><span class="n">k</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Ncor</span>
-<a id="ln-6395" name="ln-6395"></a>         <span class="n">aa</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">Pmat1</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">k</span><span class="p">))</span>
-<a id="ln-6396" name="ln-6396"></a>         <span class="k">if</span> <span class="p">(</span> <span class="n">k</span><span class="o">&gt;</span><span class="mi">1</span> <span class="p">)</span> <span class="k">then</span>
-<a id="ln-6397" name="ln-6397"></a><span class="k">            if</span> <span class="p">(</span> <span class="n">aa</span><span class="o">&lt;=</span><span class="n">wrst</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">400</span>
-<a id="ln-6398" name="ln-6398"></a>         <span class="k">end if</span>
-<a id="ln-6399" name="ln-6399"></a><span class="k">         </span><span class="n">wrst</span> <span class="o">=</span> <span class="n">aa</span>
-<a id="ln-6400" name="ln-6400"></a> <span class="mi">400</span>  <span class="k">end do</span>
-<a id="ln-6401" name="ln-6401"></a><span class="c">!</span>
-<a id="ln-6402" name="ln-6402"></a>      <span class="k">if</span> <span class="p">(</span> <span class="n">itrct</span><span class="o">&lt;=</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
-<a id="ln-6403" name="ln-6403"></a><span class="k">         </span><span class="n">wrsto</span> <span class="o">=</span> <span class="n">wrst</span>
-<a id="ln-6404" name="ln-6404"></a>      <span class="n">elseif</span> <span class="p">(</span> <span class="n">wrst</span><span class="o">&gt;</span><span class="n">wrsto</span> <span class="p">)</span> <span class="k">then</span>
-<a id="ln-6405" name="ln-6405"></a><span class="c">! HERE ITRCT &gt; 0 AND WRST &gt; WRSTO, SO WE GO BACK TO THE PREVIOUS</span>
-<a id="ln-6406" name="ln-6406"></a><span class="c">! WPT AND RETURN.</span>
-<a id="ln-6407" name="ln-6407"></a>         <span class="n">wrst</span> <span class="o">=</span> <span class="n">wrsto</span>
-<a id="ln-6408" name="ln-6408"></a>         <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Ndm</span>
-<a id="ln-6409" name="ln-6409"></a>            <span class="n">Wpt</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="k">Save</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-<a id="ln-6410" name="ln-6410"></a>         <span class="k">end do</span>
-<a id="ln-6411" name="ln-6411"></a><span class="k">         return</span>
-<a id="ln-6412" name="ln-6412"></a><span class="k">      end if</span>
-<a id="ln-6413" name="ln-6413"></a><span class="c">!</span>
-<a id="ln-6414" name="ln-6414"></a>      <span class="k">if</span> <span class="p">(</span> <span class="n">itrct</span><span class="o">&gt;=</span><span class="n">itrlm</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">100</span>
-<a id="ln-6415" name="ln-6415"></a><span class="c">! HERE ITRCT &lt; ITRLM AND WE INCREMENT ITRCT AND SET UP FOR THE ITRCTTH</span>
-<a id="ln-6416" name="ln-6416"></a><span class="c">! ITERATIVE REFINEMENT STEP.</span>
-<a id="ln-6417" name="ln-6417"></a>      <span class="n">itrct</span> <span class="o">=</span> <span class="n">itrct</span> <span class="o">+</span> <span class="mi">1</span>
-<a id="ln-6418" name="ln-6418"></a><span class="c">! COPY WPT INTO SAVE.</span>
-<a id="ln-6419" name="ln-6419"></a>      <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Ndm</span>
-<a id="ln-6420" name="ln-6420"></a>         <span class="k">Save</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="n">Wpt</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-<a id="ln-6421" name="ln-6421"></a>      <span class="k">end do</span>
-<a id="ln-6422" name="ln-6422"></a><span class="k">      goto </span><span class="mi">200</span>
-<a id="ln-6423" name="ln-6423"></a>
-<a id="ln-6424" name="ln-6424"></a>    <span class="k">end subroutine </span><span class="n">refwl</span>
-<a id="ln-6425" name="ln-6425"></a><span class="c">!********************************************************************************</span>
-<a id="ln-6426" name="ln-6426"></a>
-<a id="ln-6427" name="ln-6427"></a><span class="c">!********************************************************************************</span>
-<a id="ln-6428" name="ln-6428"></a>    <span class="k">end module </span><span class="n">conmax_module</span>
-<a id="ln-6429" name="ln-6429"></a><span class="c">!********************************************************************************</span>
+<a id="ln-6220" name="ln-6220"></a>    <span class="k">subroutine </span><span class="n">refwl</span><span class="p">(</span><span class="n">Ndm</span><span class="p">,</span><span class="n">Ncor</span><span class="p">,</span><span class="n">Icor</span><span class="p">,</span><span class="n">Pmat</span><span class="p">,</span><span class="n">Pmat1</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">,</span><span class="n">Ixrct</span><span class="p">,</span><span class="k">Save</span><span class="p">,</span><span class="n">Wpt</span><span class="p">)</span>
+<a id="ln-6221" name="ln-6221"></a>
+<a id="ln-6222" name="ln-6222"></a>    <span class="k">implicit none</span>
+<a id="ln-6223" name="ln-6223"></a>
+<a id="ln-6224" name="ln-6224"></a><span class="k">    </span><span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Nparm</span>
+<a id="ln-6225" name="ln-6225"></a>    <span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Numgr</span>
+<a id="ln-6226" name="ln-6226"></a>    <span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Ncor</span>
+<a id="ln-6227" name="ln-6227"></a>    <span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Ndm</span>
+<a id="ln-6228" name="ln-6228"></a>    <span class="kt">integer</span> <span class="kd">::</span> <span class="n">Icor</span><span class="p">(</span><span class="n">Nparm</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+<a id="ln-6229" name="ln-6229"></a>    <span class="kt">integer</span> <span class="kd">::</span> <span class="n">Ixrct</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">Nparm</span><span class="p">)</span>
+<a id="ln-6230" name="ln-6230"></a>    <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Pmat1</span><span class="p">(</span><span class="n">Nparm</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
+<a id="ln-6231" name="ln-6231"></a>    <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Pmat</span><span class="p">(</span><span class="n">Nparm</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
+<a id="ln-6232" name="ln-6232"></a>    <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="k">Save</span><span class="p">(</span><span class="n">Nparm</span><span class="p">)</span>
+<a id="ln-6233" name="ln-6233"></a>    <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Wpt</span><span class="p">(</span><span class="n">Nparm</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+<a id="ln-6234" name="ln-6234"></a>
+<a id="ln-6235" name="ln-6235"></a>    <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">aa</span> <span class="p">,</span> <span class="nb">amax</span> <span class="p">,</span> <span class="n">fact</span> <span class="p">,</span> <span class="n">wrst</span> <span class="p">,</span> <span class="n">wrsto</span>
+<a id="ln-6236" name="ln-6236"></a>    <span class="kt">integer</span> <span class="kd">::</span> <span class="n">i</span> <span class="p">,</span> <span class="n">imax</span> <span class="p">,</span> <span class="n">itrct</span> <span class="p">,</span> <span class="n">itrlm</span> <span class="p">,</span> <span class="n">j</span> <span class="p">,</span> <span class="n">jmax</span> <span class="p">,</span> <span class="n">jstrt</span> <span class="p">,</span> <span class="p">&amp;</span>
+<a id="ln-6237" name="ln-6237"></a>               <span class="n">k</span> <span class="p">,</span> <span class="n">kcol</span> <span class="p">,</span> <span class="n">kk</span> <span class="p">,</span> <span class="n">kp1</span> <span class="p">,</span> <span class="n">l</span> <span class="p">,</span> <span class="n">maxrs</span> <span class="p">,</span> <span class="n">n</span> <span class="p">,</span> <span class="n">nresl</span>
+<a id="ln-6238" name="ln-6238"></a>
+<a id="ln-6239" name="ln-6239"></a>    <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">parameter</span> <span class="kd">::</span> <span class="n">tole</span> <span class="o">=</span> <span class="n">spcmn</span>
+<a id="ln-6240" name="ln-6240"></a>
+<a id="ln-6241" name="ln-6241"></a>    <span class="c">! COMPUTE MACHINE AND PRECISION DEPENDENT CONSTANTS.</span>
+<a id="ln-6242" name="ln-6242"></a>    <span class="n">itrlm</span> <span class="o">=</span> <span class="mi">2</span>
+<a id="ln-6243" name="ln-6243"></a>    <span class="n">itrct</span> <span class="o">=</span> <span class="mi">0</span>
+<a id="ln-6244" name="ln-6244"></a>    <span class="n">nresl</span> <span class="o">=</span> <span class="mi">0</span>
+<a id="ln-6245" name="ln-6245"></a>    <span class="n">n</span> <span class="o">=</span> <span class="n">Ndm</span> <span class="o">+</span> <span class="mi">1</span>
+<a id="ln-6246" name="ln-6246"></a>
+<a id="ln-6247" name="ln-6247"></a>    <span class="c">! IF NCOR=0 WE HAVE NOTHING TO DO SO WE RETURN.</span>
+<a id="ln-6248" name="ln-6248"></a>    <span class="k">if</span> <span class="p">(</span> <span class="n">Ncor</span><span class="o">&gt;</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
+<a id="ln-6249" name="ln-6249"></a>
+<a id="ln-6250" name="ln-6250"></a>        <span class="c">! COPY COLUMN ICOR(L) OF PMAT WITH THE SIGN OF THE LAST ELEMENT REVERSED</span>
+<a id="ln-6251" name="ln-6251"></a>        <span class="c">! INTO COLUMN L OF THE WORK MATRIX PMAT1 FOR L=1,...,NCOR.</span>
+<a id="ln-6252" name="ln-6252"></a>        <span class="k">do </span><span class="n">l</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Ncor</span>
+<a id="ln-6253" name="ln-6253"></a>            <span class="n">j</span> <span class="o">=</span> <span class="n">Icor</span><span class="p">(</span><span class="n">l</span><span class="p">)</span>
+<a id="ln-6254" name="ln-6254"></a>            <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Ndm</span>
+<a id="ln-6255" name="ln-6255"></a>                <span class="n">Pmat1</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">l</span><span class="p">)</span> <span class="o">=</span> <span class="n">Pmat</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span>
+<a id="ln-6256" name="ln-6256"></a>            <span class="k">end do</span>
+<a id="ln-6257" name="ln-6257"></a><span class="k">            </span><span class="n">Pmat1</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">l</span><span class="p">)</span> <span class="o">=</span> <span class="o">-</span><span class="n">Pmat</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">j</span><span class="p">)</span>
+<a id="ln-6258" name="ln-6258"></a>        <span class="k">end do</span>
+<a id="ln-6259" name="ln-6259"></a>
+<a id="ln-6260" name="ln-6260"></a>        <span class="c">! NOW COLUMN REDUCE PMAT1.  NOTE THAT PMAT1 IS THE TRANSPOSE OF THE USUAL</span>
+<a id="ln-6261" name="ln-6261"></a>        <span class="c">! AUGMENTED MATRIX FOR SOLVING A LINEAR SYSTEM OF EQUATONS.</span>
+<a id="ln-6262" name="ln-6262"></a>        <span class="c">! THERE WILL BE AT MOST MAXRS = MIN(NDM,NCOR) RESOLVENTS.</span>
+<a id="ln-6263" name="ln-6263"></a>        <span class="n">maxrs</span> <span class="o">=</span> <span class="n">Ncor</span>
+<a id="ln-6264" name="ln-6264"></a>        <span class="k">if</span> <span class="p">(</span> <span class="n">Ndm</span><span class="o">&lt;</span><span class="n">maxrs</span> <span class="p">)</span> <span class="n">maxrs</span> <span class="o">=</span> <span class="n">Ndm</span>
+<a id="ln-6265" name="ln-6265"></a>        <span class="k">do </span><span class="n">k</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">maxrs</span>
+<a id="ln-6266" name="ln-6266"></a>            <span class="c">! SEARCH FOR THE INDICES IMAX AND JMAX WITH 1 &lt;= IMAX &lt;= NDM, 1 &lt;=</span>
+<a id="ln-6267" name="ln-6267"></a>            <span class="c">! JMAX &lt;= NCOR, PMAT1(IMAX,JMAX) IS NOT IN THE ROW OR COLUMN OF ANY</span>
+<a id="ln-6268" name="ln-6268"></a>            <span class="c">! OTHER RESOLVENT (I.E. PIVOT), AND ABS(PMAT1(IMAX,JMAX)) IS MAXIMIZED.</span>
+<a id="ln-6269" name="ln-6269"></a>            <span class="c">! WE USE THE VECTOR IXRCT TO SAVE THE RESOLVENT POSITIONS TO SAVE SPACE.</span>
+<a id="ln-6270" name="ln-6270"></a>            <span class="n">jstrt</span> <span class="o">=</span> <span class="mi">0</span>
+<a id="ln-6271" name="ln-6271"></a>            <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Ncor</span>
+<a id="ln-6272" name="ln-6272"></a>                <span class="k">if</span> <span class="p">(</span> <span class="n">nresl</span><span class="o">&gt;</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
+<a id="ln-6273" name="ln-6273"></a><span class="k">                    do </span><span class="n">l</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">nresl</span>
+<a id="ln-6274" name="ln-6274"></a>                        <span class="k">if</span> <span class="p">(</span> <span class="n">j</span><span class="o">==</span><span class="n">Ixrct</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">l</span><span class="p">)</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">20</span>
+<a id="ln-6275" name="ln-6275"></a>                    <span class="k">end do</span>
+<a id="ln-6276" name="ln-6276"></a><span class="k">                end if</span>
+<a id="ln-6277" name="ln-6277"></a>                <span class="c">! HERE THERE IS NO EARLIER RESOLVENT IN COLUMN J.</span>
+<a id="ln-6278" name="ln-6278"></a>                <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Ndm</span>
+<a id="ln-6279" name="ln-6279"></a>                    <span class="k">if</span> <span class="p">(</span> <span class="n">nresl</span><span class="o">&gt;</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
+<a id="ln-6280" name="ln-6280"></a><span class="k">                        do </span><span class="n">l</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">nresl</span>
+<a id="ln-6281" name="ln-6281"></a>                            <span class="k">if</span> <span class="p">(</span> <span class="n">i</span><span class="o">==</span><span class="n">Ixrct</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">l</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">10</span>
+<a id="ln-6282" name="ln-6282"></a>                        <span class="k">end do</span>
+<a id="ln-6283" name="ln-6283"></a><span class="k">                    end if</span>
+<a id="ln-6284" name="ln-6284"></a>                    <span class="c">! HERE THERE IS NO EARLIER RESOLVENT IN ROW I.</span>
+<a id="ln-6285" name="ln-6285"></a>                    <span class="n">aa</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">Pmat1</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">))</span>
+<a id="ln-6286" name="ln-6286"></a>                    <span class="k">if</span> <span class="p">(</span> <span class="n">jstrt</span><span class="o">&lt;=</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
+<a id="ln-6287" name="ln-6287"></a><span class="k">                        </span><span class="n">jstrt</span> <span class="o">=</span> <span class="mi">1</span>
+<a id="ln-6288" name="ln-6288"></a>                    <span class="n">elseif</span> <span class="p">(</span> <span class="n">aa</span><span class="o">&lt;=</span><span class="nb">amax</span> <span class="p">)</span> <span class="k">then</span>
+<a id="ln-6289" name="ln-6289"></a><span class="k">                        goto </span><span class="mi">10</span>
+<a id="ln-6290" name="ln-6290"></a>                    <span class="k">end if</span>
+<a id="ln-6291" name="ln-6291"></a><span class="k">                    </span><span class="nb">amax</span> <span class="o">=</span> <span class="n">aa</span>
+<a id="ln-6292" name="ln-6292"></a>                    <span class="n">imax</span> <span class="o">=</span> <span class="n">i</span>
+<a id="ln-6293" name="ln-6293"></a>                    <span class="n">jmax</span> <span class="o">=</span> <span class="n">j</span>
+<a id="ln-6294" name="ln-6294"></a><span class="mi">10</span>              <span class="k">end do</span>
+<a id="ln-6295" name="ln-6295"></a><span class="mi">20</span>          <span class="k">end do</span>
+<a id="ln-6296" name="ln-6296"></a>            <span class="c">! IF THE ABSOLUTE VALUE OF THIS RESOLVENT IS VERY SMALL WE DO NOT ATTEMPT</span>
+<a id="ln-6297" name="ln-6297"></a>            <span class="c">! ANY FURTHER COLUMN OPERATIONS.</span>
+<a id="ln-6298" name="ln-6298"></a>            <span class="k">if</span> <span class="p">(</span> <span class="nb">amax</span><span class="o">&lt;</span><span class="n">tole</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">50</span>
+<a id="ln-6299" name="ln-6299"></a>            <span class="c">! INCREMENT NRESL AND PUT THE LOCATION OF THE NRESLTH RESOLVENT IN</span>
+<a id="ln-6300" name="ln-6300"></a>            <span class="c">! (IXRCT(2*L-1),IXRCT(2*L)).</span>
+<a id="ln-6301" name="ln-6301"></a>            <span class="n">nresl</span> <span class="o">=</span> <span class="n">nresl</span> <span class="o">+</span> <span class="mi">1</span>
+<a id="ln-6302" name="ln-6302"></a>            <span class="n">Ixrct</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">nresl</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="n">imax</span>
+<a id="ln-6303" name="ln-6303"></a>            <span class="n">Ixrct</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">nresl</span><span class="p">)</span> <span class="o">=</span> <span class="n">jmax</span>
+<a id="ln-6304" name="ln-6304"></a>
+<a id="ln-6305" name="ln-6305"></a>            <span class="c">! NOW ELIMINATE WPT(IMAX) FROM THOSE COLUMNS WHICH DO NOT CONTAIN ANY OF</span>
+<a id="ln-6306" name="ln-6306"></a>            <span class="c">! THE RESOLVENTS FOUND SO FAR (INCLUDING THE PRESENT RESOLVENT).</span>
+<a id="ln-6307" name="ln-6307"></a>            <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Ncor</span>
+<a id="ln-6308" name="ln-6308"></a>                <span class="k">do </span><span class="n">l</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">nresl</span>
+<a id="ln-6309" name="ln-6309"></a>                    <span class="k">if</span> <span class="p">(</span> <span class="n">j</span><span class="o">==</span><span class="n">Ixrct</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">l</span><span class="p">)</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">40</span>
+<a id="ln-6310" name="ln-6310"></a>                <span class="k">end do</span>
+<a id="ln-6311" name="ln-6311"></a>                <span class="c">! HERE COLUMN J DOES NOT CONTAIN ANY OF THE RESOLVENTS FOUND SO FAR, AND</span>
+<a id="ln-6312" name="ln-6312"></a>                <span class="c">! WE COMPUTE THE FACTOR FOR THE COLUMN OPERATION NEEDED TO ZERO OUT</span>
+<a id="ln-6313" name="ln-6313"></a>                <span class="c">! PMAT1(IMAX,J) (ALTHOUGH WE DO NOT ACTUALLY WRITE IN THE ZERO).</span>
+<a id="ln-6314" name="ln-6314"></a>                <span class="n">fact</span> <span class="o">=</span> <span class="n">Pmat1</span><span class="p">(</span><span class="n">imax</span><span class="p">,</span><span class="n">j</span><span class="p">)</span><span class="o">/</span><span class="n">Pmat1</span><span class="p">(</span><span class="n">imax</span><span class="p">,</span><span class="n">jmax</span><span class="p">)</span>
+<a id="ln-6315" name="ln-6315"></a>                <span class="c">! NOW DO THE OPERATION IN COLUMN J FOR ALL ROWS NOT CONTAINING A</span>
+<a id="ln-6316" name="ln-6316"></a>                <span class="c">! RESOLVENT.  THE ELEMENTS IN THIS COLUMN IN THE ROWS WHICH CONTAIN AN</span>
+<a id="ln-6317" name="ln-6317"></a>                <span class="c">! EARLIER (OR PRESENT) RESOLVENT WILL NOT BE NEEDED LATER.</span>
+<a id="ln-6318" name="ln-6318"></a>                <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">n</span>
+<a id="ln-6319" name="ln-6319"></a>                    <span class="k">do </span><span class="n">l</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">nresl</span>
+<a id="ln-6320" name="ln-6320"></a>                        <span class="k">if</span> <span class="p">(</span> <span class="n">i</span><span class="o">==</span><span class="n">Ixrct</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">l</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">30</span>
+<a id="ln-6321" name="ln-6321"></a>                    <span class="k">end do</span>
+<a id="ln-6322" name="ln-6322"></a><span class="k">                    </span><span class="n">Pmat1</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">Pmat1</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span> <span class="o">-</span> <span class="n">fact</span><span class="o">*</span><span class="n">Pmat1</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">jmax</span><span class="p">)</span>
+<a id="ln-6323" name="ln-6323"></a><span class="mi">30</span>              <span class="k">end do</span>
+<a id="ln-6324" name="ln-6324"></a><span class="mi">40</span>          <span class="k">end do</span>
+<a id="ln-6325" name="ln-6325"></a><span class="k">        end do</span>
+<a id="ln-6326" name="ln-6326"></a>        <span class="c">! END OF COLUMN REDUCTION OF PMAT1.</span>
+<a id="ln-6327" name="ln-6327"></a>
+<a id="ln-6328" name="ln-6328"></a>        <span class="c">! IF NRESL=0 THEN ALL THE ELEMENTS IN PMAT1 FOR 1 &lt;= I &lt;= NDM AND</span>
+<a id="ln-6329" name="ln-6329"></a>        <span class="c">! 1 &lt;= J &lt;= NCOR WERE VERY SMALL IN ABSOLUTE VALUE, AND THERE IS</span>
+<a id="ln-6330" name="ln-6330"></a>        <span class="c">! NOTHING WE CAN DO, SO WE RETURN.</span>
+<a id="ln-6331" name="ln-6331"></a><span class="mi">50</span>      <span class="k">if</span> <span class="p">(</span> <span class="n">nresl</span><span class="o">&gt;</span><span class="mi">0</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">200</span>
+<a id="ln-6332" name="ln-6332"></a>    <span class="k">end if</span>
+<a id="ln-6333" name="ln-6333"></a>
+<a id="ln-6334" name="ln-6334"></a><span class="k">    return</span>
+<a id="ln-6335" name="ln-6335"></a>
+<a id="ln-6336" name="ln-6336"></a>    <span class="c">! NOW DO BACK SUBSTITUTION TO COMPUTE, FOR K=NRESL,...,1,</span>
+<a id="ln-6337" name="ln-6337"></a>    <span class="c">! WPT(IXRCT(2*K-1)) = (PMAT1(NDM+1,IXRCT(2*K)) - SUMMATION(</span>
+<a id="ln-6338" name="ln-6338"></a>    <span class="c">! PMAT1(I,IXRCT(2*K))*WPT(I), FOR I = 1,...,NDM, I /= IXRCT(2*L-1)</span>
+<a id="ln-6339" name="ln-6339"></a>    <span class="c">! FOR ANY L=1,...,K))/PMAT1(IXRCT(2*K-1),IXRCT(2*K)).  IF WE ARE IN AN</span>
+<a id="ln-6340" name="ln-6340"></a>    <span class="c">! ITERATIVE REFINEMENT STEP WE WISH TO CONSIDER WPT(I) (WHICH IS THEN</span>
+<a id="ln-6341" name="ln-6341"></a>    <span class="c">! JUST A CORRECTION TO WPT(I)) = 0.0 IF I CORRESPONDS TO NO RESOLVENT</span>
+<a id="ln-6342" name="ln-6342"></a>    <span class="c">! (SINCE THE VALUE OF SUCH WPT(I) IN SAVE SHOULD NOT CHANGE) SO WE OMIT</span>
+<a id="ln-6343" name="ln-6343"></a>    <span class="c">! THE CORRESPONDING TERMS IN THE SUMMATION ABOVE.</span>
+<a id="ln-6344" name="ln-6344"></a><span class="mi">200</span> <span class="k">do</span>
+<a id="ln-6345" name="ln-6345"></a><span class="k">        do </span><span class="n">kk</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">nresl</span>
+<a id="ln-6346" name="ln-6346"></a>            <span class="n">k</span> <span class="o">=</span> <span class="n">nresl</span> <span class="o">-</span> <span class="n">kk</span> <span class="o">+</span> <span class="mi">1</span>
+<a id="ln-6347" name="ln-6347"></a>            <span class="n">imax</span> <span class="o">=</span> <span class="n">Ixrct</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">k</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+<a id="ln-6348" name="ln-6348"></a>            <span class="n">jmax</span> <span class="o">=</span> <span class="n">Ixrct</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">k</span><span class="p">)</span>
+<a id="ln-6349" name="ln-6349"></a>            <span class="n">Wpt</span><span class="p">(</span><span class="n">imax</span><span class="p">)</span> <span class="o">=</span> <span class="n">Pmat1</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">jmax</span><span class="p">)</span>
+<a id="ln-6350" name="ln-6350"></a>            <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Ndm</span>
+<a id="ln-6351" name="ln-6351"></a>                <span class="k">do </span><span class="n">l</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">k</span>
+<a id="ln-6352" name="ln-6352"></a>                    <span class="k">if</span> <span class="p">(</span> <span class="n">i</span><span class="o">==</span><span class="n">Ixrct</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">l</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">250</span>
+<a id="ln-6353" name="ln-6353"></a>                <span class="k">end do</span>
+<a id="ln-6354" name="ln-6354"></a>                <span class="c">! HERE ROW I CONTAINS NO EARLIER (OR PRESENT) RESOLVENTS.</span>
+<a id="ln-6355" name="ln-6355"></a>                <span class="k">if</span> <span class="p">(</span> <span class="n">itrct</span><span class="o">&gt;</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
+<a id="ln-6356" name="ln-6356"></a><span class="k">                    if</span> <span class="p">(</span> <span class="n">k</span><span class="o">&lt;</span><span class="n">nresl</span> <span class="p">)</span> <span class="k">then</span>
+<a id="ln-6357" name="ln-6357"></a>                        <span class="c">! HERE WE ARE DOING ITERATIVE REFINEMENT, K &lt; NRESL, AND I /=</span>
+<a id="ln-6358" name="ln-6358"></a>                        <span class="c">! IXRCT(2*L-1) FOR L=1,...,K.  WE WILL USE THE TERM CORRESPONDING TO</span>
+<a id="ln-6359" name="ln-6359"></a>                        <span class="c">! WPT(I) IFF I = IXRCT(2*L-1) FOR SOME L = K+1,...,NRESL.</span>
+<a id="ln-6360" name="ln-6360"></a>                        <span class="n">kp1</span> <span class="o">=</span> <span class="n">k</span> <span class="o">+</span> <span class="mi">1</span>
+<a id="ln-6361" name="ln-6361"></a>                        <span class="k">do </span><span class="n">l</span> <span class="o">=</span> <span class="n">kp1</span> <span class="p">,</span> <span class="n">nresl</span>
+<a id="ln-6362" name="ln-6362"></a>                            <span class="k">if</span> <span class="p">(</span> <span class="n">i</span><span class="o">==</span><span class="n">Ixrct</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">l</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">220</span>
+<a id="ln-6363" name="ln-6363"></a>                        <span class="k">end do</span>
+<a id="ln-6364" name="ln-6364"></a><span class="k">                    end if</span>
+<a id="ln-6365" name="ln-6365"></a><span class="k">                    goto </span><span class="mi">250</span>
+<a id="ln-6366" name="ln-6366"></a>                <span class="k">end if</span>
+<a id="ln-6367" name="ln-6367"></a><span class="k">    </span><span class="mi">220</span>         <span class="n">Wpt</span><span class="p">(</span><span class="n">imax</span><span class="p">)</span> <span class="o">=</span> <span class="n">Wpt</span><span class="p">(</span><span class="n">imax</span><span class="p">)</span> <span class="o">-</span> <span class="n">Pmat1</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">jmax</span><span class="p">)</span><span class="o">*</span><span class="n">Wpt</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+<a id="ln-6368" name="ln-6368"></a>    <span class="mi">250</span>     <span class="k">end do</span>
+<a id="ln-6369" name="ln-6369"></a><span class="k">            </span><span class="n">Wpt</span><span class="p">(</span><span class="n">imax</span><span class="p">)</span> <span class="o">=</span> <span class="n">Wpt</span><span class="p">(</span><span class="n">imax</span><span class="p">)</span><span class="o">/</span><span class="n">Pmat1</span><span class="p">(</span><span class="n">imax</span><span class="p">,</span><span class="n">jmax</span><span class="p">)</span>
+<a id="ln-6370" name="ln-6370"></a>        <span class="k">end do</span>
+<a id="ln-6371" name="ln-6371"></a>        <span class="c">! END OF BACK SUBSTITUTION.</span>
+<a id="ln-6372" name="ln-6372"></a>
+<a id="ln-6373" name="ln-6373"></a>        <span class="c">! IF ITRCT IS POSITIVE THEN WPT WILL CONTAIN ONLY AN ITERATIVE</span>
+<a id="ln-6374" name="ln-6374"></a>        <span class="c">! REFINEMENT CORRECTION IN THOSE POSITIONS CORRESPONDING TO RESOLVENTS</span>
+<a id="ln-6375" name="ln-6375"></a>        <span class="c">! AND WE ADD THIS TO SAVE TO GET THE TRUE WPT.</span>
+<a id="ln-6376" name="ln-6376"></a>        <span class="k">if</span> <span class="p">(</span> <span class="n">itrct</span><span class="o">&gt;</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
+<a id="ln-6377" name="ln-6377"></a><span class="k">            do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Ndm</span>
+<a id="ln-6378" name="ln-6378"></a>                <span class="k">do </span><span class="n">l</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">nresl</span>
+<a id="ln-6379" name="ln-6379"></a>                    <span class="k">if</span> <span class="p">(</span> <span class="n">i</span><span class="o">==</span><span class="n">Ixrct</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">l</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">)</span> <span class="k">then</span>
+<a id="ln-6380" name="ln-6380"></a><span class="k">                        </span><span class="n">Wpt</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="n">Wpt</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">+</span> <span class="k">Save</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+<a id="ln-6381" name="ln-6381"></a>                        <span class="k">exit</span>
+<a id="ln-6382" name="ln-6382"></a><span class="k">                    end if</span>
+<a id="ln-6383" name="ln-6383"></a><span class="k">                end do</span>
+<a id="ln-6384" name="ln-6384"></a><span class="k">            end do</span>
+<a id="ln-6385" name="ln-6385"></a><span class="k">        end if</span>
+<a id="ln-6386" name="ln-6386"></a>
+<a id="ln-6387" name="ln-6387"></a>        <span class="c">! NOW COMPUTE THE RESIDUAL AND PUT IT INTO PMAT1(NDM+1,.).</span>
+<a id="ln-6388" name="ln-6388"></a>        <span class="k">do </span><span class="n">k</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Ncor</span>
+<a id="ln-6389" name="ln-6389"></a>            <span class="c">! COMPUTE THE COLUMN INDEX KCOL IN PMAT CORRESPONDING TO COLUMN K IN</span>
+<a id="ln-6390" name="ln-6390"></a>            <span class="c">! PMAT1.</span>
+<a id="ln-6391" name="ln-6391"></a>            <span class="n">kcol</span> <span class="o">=</span> <span class="n">Icor</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+<a id="ln-6392" name="ln-6392"></a>            <span class="n">Pmat1</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">k</span><span class="p">)</span> <span class="o">=</span> <span class="o">-</span><span class="n">Pmat</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">kcol</span><span class="p">)</span>
+<a id="ln-6393" name="ln-6393"></a>            <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Ndm</span>
+<a id="ln-6394" name="ln-6394"></a>                <span class="n">Pmat1</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">k</span><span class="p">)</span> <span class="o">=</span> <span class="n">Pmat1</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">k</span><span class="p">)</span> <span class="o">-</span> <span class="n">Pmat</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">kcol</span><span class="p">)</span><span class="o">*</span><span class="n">Wpt</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+<a id="ln-6395" name="ln-6395"></a>            <span class="k">end do</span>
+<a id="ln-6396" name="ln-6396"></a><span class="k">        end do</span>
+<a id="ln-6397" name="ln-6397"></a>
+<a id="ln-6398" name="ln-6398"></a>        <span class="c">! COMPUTE THE WORST ABSOLUTE VALUE OF THE RESIDUAL ELEMENTS.</span>
+<a id="ln-6399" name="ln-6399"></a>        <span class="k">do </span><span class="n">k</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Ncor</span>
+<a id="ln-6400" name="ln-6400"></a>            <span class="n">aa</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">Pmat1</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">k</span><span class="p">))</span>
+<a id="ln-6401" name="ln-6401"></a>            <span class="k">if</span> <span class="p">(</span> <span class="n">k</span><span class="o">&gt;</span><span class="mi">1</span> <span class="p">)</span> <span class="k">then</span>
+<a id="ln-6402" name="ln-6402"></a><span class="k">                if</span> <span class="p">(</span> <span class="n">aa</span><span class="o">&lt;=</span><span class="n">wrst</span> <span class="p">)</span> <span class="k">cycle</span>
+<a id="ln-6403" name="ln-6403"></a><span class="k">            end if</span>
+<a id="ln-6404" name="ln-6404"></a><span class="k">            </span><span class="n">wrst</span> <span class="o">=</span> <span class="n">aa</span>
+<a id="ln-6405" name="ln-6405"></a>        <span class="k">end do</span>
+<a id="ln-6406" name="ln-6406"></a>
+<a id="ln-6407" name="ln-6407"></a><span class="k">        if</span> <span class="p">(</span> <span class="n">itrct</span><span class="o">&lt;=</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
+<a id="ln-6408" name="ln-6408"></a><span class="k">            </span><span class="n">wrsto</span> <span class="o">=</span> <span class="n">wrst</span>
+<a id="ln-6409" name="ln-6409"></a>        <span class="n">elseif</span> <span class="p">(</span> <span class="n">wrst</span><span class="o">&gt;</span><span class="n">wrsto</span> <span class="p">)</span> <span class="k">then</span>
+<a id="ln-6410" name="ln-6410"></a>            <span class="c">! HERE ITRCT &gt; 0 AND WRST &gt; WRSTO, SO WE GO BACK TO THE PREVIOUS</span>
+<a id="ln-6411" name="ln-6411"></a>            <span class="c">! WPT AND RETURN.</span>
+<a id="ln-6412" name="ln-6412"></a>            <span class="n">wrst</span> <span class="o">=</span> <span class="n">wrsto</span>
+<a id="ln-6413" name="ln-6413"></a>            <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Ndm</span>
+<a id="ln-6414" name="ln-6414"></a>                <span class="n">Wpt</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="k">Save</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+<a id="ln-6415" name="ln-6415"></a>            <span class="k">end do</span>
+<a id="ln-6416" name="ln-6416"></a><span class="k">            return</span>
+<a id="ln-6417" name="ln-6417"></a><span class="k">        end if</span>
+<a id="ln-6418" name="ln-6418"></a>
+<a id="ln-6419" name="ln-6419"></a><span class="k">        if</span> <span class="p">(</span> <span class="n">itrct</span><span class="o">&gt;=</span><span class="n">itrlm</span> <span class="p">)</span> <span class="k">return</span>
+<a id="ln-6420" name="ln-6420"></a>
+<a id="ln-6421" name="ln-6421"></a>        <span class="c">! HERE ITRCT &lt; ITRLM AND WE INCREMENT ITRCT AND SET UP FOR THE ITRCTTH</span>
+<a id="ln-6422" name="ln-6422"></a>        <span class="c">! ITERATIVE REFINEMENT STEP.</span>
+<a id="ln-6423" name="ln-6423"></a>        <span class="n">itrct</span> <span class="o">=</span> <span class="n">itrct</span> <span class="o">+</span> <span class="mi">1</span>
+<a id="ln-6424" name="ln-6424"></a>        <span class="c">! COPY WPT INTO SAVE.</span>
+<a id="ln-6425" name="ln-6425"></a>        <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Ndm</span>
+<a id="ln-6426" name="ln-6426"></a>            <span class="k">Save</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="n">Wpt</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+<a id="ln-6427" name="ln-6427"></a>        <span class="k">end do</span>
+<a id="ln-6428" name="ln-6428"></a>
+<a id="ln-6429" name="ln-6429"></a><span class="k">    end do</span>
+<a id="ln-6430" name="ln-6430"></a>
+<a id="ln-6431" name="ln-6431"></a><span class="k">    end subroutine </span><span class="n">refwl</span>
+<a id="ln-6432" name="ln-6432"></a><span class="c">!********************************************************************************</span>
+<a id="ln-6433" name="ln-6433"></a>
+<a id="ln-6434" name="ln-6434"></a><span class="c">!********************************************************************************</span>
+<a id="ln-6435" name="ln-6435"></a>    <span class="k">end module </span><span class="n">conmax_module</span>
+<a id="ln-6436" name="ln-6436"></a><span class="c">!********************************************************************************</span>
 </pre></div>
 
     </section>

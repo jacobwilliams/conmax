@@ -5497,7 +5497,7 @@
         ! and recheck the maximum constraint violation.
         iref = iref + 1
         call refwl(ndm,ncor,icor,pmat,pmat1,nparm,numgr,iwork(ilc18),  &
-        work(ilc34),wpt)
+                   work(ilc34),wpt)
         goto 800
     end if
 
@@ -5889,298 +5889,302 @@
 
 !********************************************************************************
 !>
-! GIVEN NCOR N DIMENSIONAL VECTORS AS COLUMNS OF THE N BY NCOR
-! MATRIX PICOR AND AN N DIMENSIONAL VECTOR R, THIS SUBROUTINE USES
-! HOUSEHOLDER TRANSFORMATIONS TO FIND THE BEST LEAST SQUARES SOLUTION
-! VEC TO THE LINEAR SYSTEM OF EQUATIONS PICOR*VEC = R, WHERE VEC
-! IS AN NCOR DIMENSIONAL VECTOR.  IF THE RANK OF PICOR IS
-! (COMPUTATIONALLY) 0, THE SUBROUTINE WILL RETURN WITH THE FAILURE
-! WARNING IHOUSE=1, OTHERWISE IT WILL RETURN WITH IHOUSE=0.  IF THE
-! RANK IS > 0 BUT < NCOR, THEN (NCOR - RANK) OF THE COMPONENTS
-! OF VEC WILL BE SET TO 0.0.  THE ARAYS PICOR AND R WILL NOT BE
-! CHANGED BY THIS SUBROUTINE.  THE SUBROUTINE WILL ATTEMPT UP TO
-! NUMREF ITERATIVE REFINEMENTS OF THE SOLUTION, WHERE THE USER CAN
-! SET NUMREF AS ANY NONNEGATIVE INTEGER, BUT TO GET THE MOST OUT OF
-! THE ITERATIVE REFINEMENT PROCESS, THE COMPUTATION OF THE RESIDUAL
-! SUMM NEAR THE END OF THIS SUBROUTINE SHOULD BE DONE IN HIGHER
-! PRECISION THAN THE OTHER COMPUTATIONS IN THE SUBROUTINE.
+!  Given ncor n dimensional vectors as columns of the n by ncor
+!  matrix picor and an n dimensional vector r, this subroutine uses
+!  householder transformations to find the best least squares solution
+!  vec to the linear system of equations picor*vec = r, where vec
+!  is an ncor dimensional vector.  if the rank of picor is
+!  (computationally) 0, the subroutine will return with the failure
+!  warning ihouse=1, otherwise it will return with ihouse=0.  if the
+!  rank is > 0 but < ncor, then (ncor - rank) of the components
+!  of vec will be set to 0.0.  the arays picor and r will not be
+!  changed by this subroutine.  the subroutine will attempt up to
+!  numref iterative refinements of the solution, where the user can
+!  set numref as any nonnegative integer, but to get the most out of
+!  the iterative refinement process, the computation of the residual
+!  summ near the end of this subroutine should be done in higher
+!  precision than the other computations in the subroutine.
 
     subroutine house(n,Ncor,Picor,r,Kpivot,Nparm,Aa,Beta,d,Save,b,Vec,Ihouse)
 
-      implicit none
+    implicit none
 
-      real(wp) Aa , aakk , amax , b , Beta , d ,    &
-             Picor , r , Save , sqdk , store , sum , summ ,     &
-             test , testt
-      real(wp) tolsq , Vec
-      integer i , ia , icount , Ihouse , ii , j , jj , k , kchnge , kk ,&
-              kp , Kpivot , krank , kt , n , Ncor , nmref1 , nmref2 ,   &
-              Nparm , numref
+    integer,intent(in)  :: Nparm
+    integer,intent(out) :: Ihouse
+    integer,intent(in)  :: n
+    integer,intent(in)  :: Ncor
+    integer  :: Kpivot(Nparm+1)
+    real(wp) :: Aa(Nparm+1,Nparm+1)
+    real(wp) :: b(Nparm+1)
+    real(wp) :: Beta(Nparm+1)
+    real(wp) :: d(Nparm+1)
+    real(wp) :: Picor(Nparm+1,Nparm+1)
+    real(wp) :: r(Nparm+1)
+    real(wp) :: Save(Nparm+1)
+    real(wp) :: Vec(Nparm+1)
 
-      dimension Vec(Nparm+1) , Aa(Nparm+1,Nparm+1) , Beta(Nparm+1) ,    &
-                d(Nparm+1) , Kpivot(Nparm+1) , Save(Nparm+1) ,          &
-                b(Nparm+1) , Picor(Nparm+1,Nparm+1) , r(Nparm+1)
-!
-! COMPUTE MACHINE AND PRECISION DEPENDENT CONSTANTS.
-      tolsq = (ten*ten*spcmn)**2
-      Ihouse = 0
-! SET NUMREF = THE LIMIT ON THE NUMBER OF ITERATIVE REFINEMENT STEPS.
-      numref = 1
-      nmref1 = numref + 1
-      nmref2 = numref + 2
-! SET KRANK = MIN(N,NCOR).  THIS MAY BE REDUCED LATER.
-      krank = Ncor
-      if ( n<Ncor ) krank = n
-! INITIALLY SET KPIVOT.  AFTER ALL COLUMN INTERCHANGES ARE DONE
-! KPIVOT(J) WILL BE THE ORIGINAL POSITION OF THE COLUMN WHERE THE
-! JTH PIVOT WAS DONE.  THIS COLUMN WILL BE MOVED TO COLUMN J.
-      do j = 1 , Ncor
-         Kpivot(j) = j
-      end do
-! COPY R INTO B AND PICOR INTO AA, BUT IN THE PROCESS REPLACE ANY NUMBERS
-! WITH ABSOLUTE VALUE LESS THAN SPCMN BY ZERO TO AVOID UNDERFLOWS.
-      do i = 1 , n
-         if ( abs(r(i))<spcmn ) then
+    real(wp) :: aakk , amax , sqdk , store , sum , summ , test , testt
+    integer :: i , ia , icount , ii , j , jj , k , kchnge , kk , &
+               kp , krank , kt
+
+    real(wp),parameter :: tolsq = (ten*ten*spcmn)**2
+    integer,parameter :: numref = 1 !! Set numref = the limit on the number of iterative refinement steps.
+    integer,parameter :: nmref1 = numref + 1
+    integer,parameter :: nmref2 = numref + 2
+
+    ! COMPUTE MACHINE AND PRECISION DEPENDENT CONSTANTS.
+    Ihouse = 0
+
+    ! SET KRANK = MIN(N,NCOR).  THIS MAY BE REDUCED LATER.
+    krank = Ncor
+    if ( n<Ncor ) krank = n
+    ! INITIALLY SET KPIVOT.  AFTER ALL COLUMN INTERCHANGES ARE DONE
+    ! KPIVOT(J) WILL BE THE ORIGINAL POSITION OF THE COLUMN WHERE THE
+    ! JTH PIVOT WAS DONE.  THIS COLUMN WILL BE MOVED TO COLUMN J.
+    do j = 1 , Ncor
+        Kpivot(j) = j
+    end do
+    ! COPY R INTO B AND PICOR INTO AA, BUT IN THE PROCESS REPLACE ANY NUMBERS
+    ! WITH ABSOLUTE VALUE LESS THAN SPCMN BY ZERO TO AVOID UNDERFLOWS.
+    do i = 1 , n
+        if ( abs(r(i))<spcmn ) then
             b(i) = zero
-         else
+        else
             b(i) = r(i)
-         end if
-      end do
-      do j = 1 , Ncor
-         do i = 1 , n
+        end if
+    end do
+    do j = 1 , Ncor
+        do i = 1 , n
             if ( abs(Picor(i,j))<spcmn ) then
                Aa(i,j) = zero
             else
                Aa(i,j) = Picor(i,j)
             end if
-         end do
-      end do
-      do k = 1 , Ncor
-         if ( k>n ) goto 100
-         d(k) = zero
-         kchnge = k
-         do jj = k , Ncor
+        end do
+    end do
+    do k = 1 , Ncor
+        if ( k>n ) exit
+        d(k) = zero
+        kchnge = k
+        do jj = k , Ncor
             sum = zero
             do ia = k , n
-               if ( abs(Aa(ia,jj))>spcmn ) sum = sum + Aa(ia,jj)*Aa(ia,jj)
+                if ( abs(Aa(ia,jj))>spcmn ) sum = sum + Aa(ia,jj)*Aa(ia,jj)
             end do
             if ( d(k)<sum ) then
-               kchnge = jj
-               d(k) = sum
+                kchnge = jj
+                d(k) = sum
             end if
-         end do
-!
-!  KCHNGE CONTAINS THE INDEX OF THE COLUMN OF GREATEST
-!  LENGTH BETWEEN K AND NCOR (FROM POSITION K TO THE BOTTOM).
-! IF K=1 AND D(K) < TOLSQ WE RETURN WITH THE FAILURE WARNING
-! IHOUSE=1.
-         if ( k<=1 ) then
+        end do
+
+        !  KCHNGE CONTAINS THE INDEX OF THE COLUMN OF GREATEST
+        !  LENGTH BETWEEN K AND NCOR (FROM POSITION K TO THE BOTTOM).
+        ! IF K=1 AND D(K) < TOLSQ WE RETURN WITH THE FAILURE WARNING
+        ! IHOUSE=1.
+        if ( k<=1 ) then
             if ( d(k)<tolsq ) then
-               Ihouse = 1
-               return
+                Ihouse = 1
+                return
             end if
-         end if
-!
-         if ( kchnge/=k ) then
-!
-!  START COLUMN INTERCHANGE.
-!
+        end if
+
+        if ( kchnge/=k ) then
+            !  START COLUMN INTERCHANGE.
             do i = 1 , n
-               store = Aa(i,kchnge)
-               Aa(i,kchnge) = Aa(i,k)
-               Aa(i,k) = store
+                store = Aa(i,kchnge)
+                Aa(i,kchnge) = Aa(i,k)
+                Aa(i,k) = store
             end do
             kk = Kpivot(k)
             Kpivot(k) = Kpivot(kchnge)
             Kpivot(kchnge) = kk
-         end if
-         if ( k/=1 ) then
+        end if
+        if ( k/=1 ) then
             amax = abs(d(1))
             test = (real(n-k+1,wp)*(ten*ten*spcmn)**2)*(amax*amax)
             if ( abs(d(k))<=test ) then
-!
-! HERE THE LENGTH OF THE BEST OF COLUMNS K THROUGH NCOR (FROM K DOWN)
-! WAS TOO SMALL, AND WE REDUCE KRANK TO K-1 AND LEAVE THIS LOOP.
-               d(k) = sqrt(d(k))
-               krank = k - 1
-               goto 100
+                ! HERE THE LENGTH OF THE BEST OF COLUMNS K THROUGH NCOR (FROM K DOWN)
+                ! WAS TOO SMALL, AND WE REDUCE KRANK TO K-1 AND LEAVE THIS LOOP.
+                d(k) = sqrt(d(k))
+                krank = k - 1
+                exit
             end if
-         end if
-!
-!
-! NOW COMPUTE THE SCALAR BETA(K) AND THE N-K+1 DIMENSIONAL VECTOR
-! GNU(K) (TO BE PLACED IN AA(K,K),...,AA(N,K)) FOR I(K) - BETA(K)*
-! GNU(K)*(GNU(K) TRANSPOSE), WHICH IS THE ACTIVE PART OF THE
-! HOUSEHOLDER TRANSFORMATION PH(K) = DIAG(I(K-1), ACTIVE PART).  THIS
-! IS A SYMMETRIC ORTHOGONAL MATRIX WHICH WHEN MULTIPLIED TIMES AA WILL
-! ZERO OUT AA(K+1,K),...,AA(N,K) AND CHANGE AA(K,K) TO -SGN(OLD
-! AA(K,K))*SQDK, WHERE SQDK = LENGTH OF OLD (AA(K,K),...,AA(N,K)) AND
-! WE REDEFINE THE SGN FUNCTION TO HAVE VALUE 1.0 IF ITS ARGUMENT IS
-! 0.0.  WE WILL HAVE BETA(K) = 1.0/(SQDK**2 + ABS(OLD AA(K,K))*SQDK)
-! AND GNU(K) = (OLD AA(K,K) + SGN(OLD AA(K,K))*SQDK, OLD AA(K+1,K),...,
-! OLD AA(N,K)).  WE WILL ALSO REPLACE D(K) BY THE NEW AA(K,K) (WHICH
-! WILL NOT ACTUALLY BE WRITTEN INTO AA) FOR LATER USE.
-         aakk = Aa(k,k)
-         sqdk = sqrt(d(k))
-         if ( aakk<zero ) then
+        end if
+
+        ! NOW COMPUTE THE SCALAR BETA(K) AND THE N-K+1 DIMENSIONAL VECTOR
+        ! GNU(K) (TO BE PLACED IN AA(K,K),...,AA(N,K)) FOR I(K) - BETA(K)*
+        ! GNU(K)*(GNU(K) TRANSPOSE), WHICH IS THE ACTIVE PART OF THE
+        ! HOUSEHOLDER TRANSFORMATION PH(K) = DIAG(I(K-1), ACTIVE PART).  THIS
+        ! IS A SYMMETRIC ORTHOGONAL MATRIX WHICH WHEN MULTIPLIED TIMES AA WILL
+        ! ZERO OUT AA(K+1,K),...,AA(N,K) AND CHANGE AA(K,K) TO -SGN(OLD
+        ! AA(K,K))*SQDK, WHERE SQDK = LENGTH OF OLD (AA(K,K),...,AA(N,K)) AND
+        ! WE REDEFINE THE SGN FUNCTION TO HAVE VALUE 1.0 IF ITS ARGUMENT IS
+        ! 0.0.  WE WILL HAVE BETA(K) = 1.0/(SQDK**2 + ABS(OLD AA(K,K))*SQDK)
+        ! AND GNU(K) = (OLD AA(K,K) + SGN(OLD AA(K,K))*SQDK, OLD AA(K+1,K),...,
+        ! OLD AA(N,K)).  WE WILL ALSO REPLACE D(K) BY THE NEW AA(K,K) (WHICH
+        ! WILL NOT ACTUALLY BE WRITTEN INTO AA) FOR LATER USE.
+        aakk = Aa(k,k)
+        sqdk = sqrt(d(k))
+        if ( aakk<zero ) then
             Beta(k) = one/(d(k)-aakk*sqdk)
             Aa(k,k) = -sqdk + aakk
             d(k) = sqdk
-         else
+        else
             Beta(k) = one/(d(k)+aakk*sqdk)
             Aa(k,k) = sqdk + aakk
             d(k) = -sqdk
-         end if
-         kt = k + 1
-         if ( k/=Ncor ) then
-!
-! HERE K < NCOR AND WE MULTIPLY COLUMNS K+1,...,NCOR OF AA BY THE
-! HOUSEHOLDER TRANSFORMATION PH(K), WHICH WILL CHANGE ONLY POSITIONS
-! K THROUGH THE BOTTOM OF THESE COLUMNS.  THIS IS DONE BY, FOR J =
-! K+1,...,NCOR, REPLACING COLUMN J (FROM K DOWN) BY COLUMN J (FROM K DOWN)
-! - GNU(K)*(GNU(K).COLUMN J (FROM K DOWN))*BETA(K).
+        end if
+        kt = k + 1
+        if ( k/=Ncor ) then
+            ! HERE K < NCOR AND WE MULTIPLY COLUMNS K+1,...,NCOR OF AA BY THE
+            ! HOUSEHOLDER TRANSFORMATION PH(K), WHICH WILL CHANGE ONLY POSITIONS
+            ! K THROUGH THE BOTTOM OF THESE COLUMNS.  THIS IS DONE BY, FOR J =
+            ! K+1,...,NCOR, REPLACING COLUMN J (FROM K DOWN) BY COLUMN J (FROM K DOWN)
+            ! - GNU(K)*(GNU(K).COLUMN J (FROM K DOWN))*BETA(K).
             do j = kt , Ncor
-               Save(j) = zero
-               do ia = k , n
-                  Save(j) = Save(j) + Aa(ia,k)*Aa(ia,j)
-               end do
-               do i = k , n
-                  Aa(i,j) = Aa(i,j) - Aa(i,k)*Save(j)*Beta(k)
-               end do
+                Save(j) = zero
+                do ia = k , n
+                    Save(j) = Save(j) + Aa(ia,k)*Aa(ia,j)
+                end do
+                do i = k , n
+                    Aa(i,j) = Aa(i,j) - Aa(i,k)*Save(j)*Beta(k)
+                end do
             end do
-         end if
-      end do
-!
- 100  do i = 1 , krank
-! IF I <= MIN(KRANK,NCOR-1), DIVIDE ROW I OF AA FROM COLUMN I+1
-! THROUGH COLUMN NCOR BY THE NEW AA(I,I) (WHICH IS NOT ACTUALLY
-! WRITTEN INTO AA(I,I), BUT IS STORED IN D(I)).
-         ii = i + 1
-         if ( i==Ncor ) goto 200
-         do j = ii , Ncor
+        end if
+    end do
+
+    do i = 1 , krank
+        ! IF I <= MIN(KRANK,NCOR-1), DIVIDE ROW I OF AA FROM COLUMN I+1
+        ! THROUGH COLUMN NCOR BY THE NEW AA(I,I) (WHICH IS NOT ACTUALLY
+        ! WRITTEN INTO AA(I,I), BUT IS STORED IN D(I)).
+        ii = i + 1
+        if ( i==Ncor ) exit
+        do j = ii , Ncor
             Aa(i,j) = Aa(i,j)/d(i)
-         end do
-      end do
-!
-! NOW ALL THE DIAGONAL ELEMENTS OF AA (ALTHOUGH NOT WRITTEN IN)
-! ARE 1.0 AND ALL OFF DIAGONAL ELEMENTS OF AA ARE LESS THAN OR
-! EQUAL TO 1.0.
-!
-! INITIALIZE THE ITERATIVE REFINEMENT COUNTER ICOUNT AND ZERO OUT VEC
-! INITIALLY.  THE VEC VALUES NOT CORRESPONDING TO THE FIRST KRANK
-! COLUMNS (MODULO EARLIER COLUMN INTERCHANGES) WILL REMAIN AT 0.0.
- 200  icount = 1
-      do i = 1 , Ncor
-         Vec(i) = zero
-      end do
-!
-! PREMULTIPLY B BY THE HOUSEHOLDER TRANSFORMATIONS PH(1),...,
-! PH(KRANK).  RECALL THAT GNU(I) IS STILL IN AA(I,I),...,AA(N,I)
-! FOR I=1,...,KRANK.
-!
- 300  do i = 1 , krank
-         sum = zero
-         do ia = i , n
-            sum = sum + Aa(ia,i)*b(ia)
-         end do
-         sum = sum*Beta(i)
-         do j = i , n
-            b(j) = b(j) - Aa(j,i)*sum
-         end do
-      end do
-!
-! NOW ONLY USE THE FIRST KRANK TERMS OF B, AS WE CANT DO ANYTHING ABOUT
-! THE OTHERS, WHOSE SQUARE ROOT OF SUM OF SQUARES WILL GIVE THE LEAST
-! SQUARES DISTANCE.
-! DIVIDE B(I) BY D(I) FOR I=1,...,KRANK AS WE DID THIS TO ROW I OF AA.
-!
-      do i = 1 , krank
-         b(i) = b(i)/d(i)
-      end do
-!
-! THE PROBLEM HAS NOW BEEN REDUCED TO SOLVING (UPPER LEFT KRANK BY
-! KRANK PART OF AA)*(FIRST KRANK TERMS OF VEC, MODULO COLUMN
-! INTERCHANGE UNSCRAMBLING) = (FIRST KRANK TERMS OF B).  ALTHOUGH THE
-! DIAGONAL AND BELOW DIAGONAL TERMS OF THE COEFFICIENT MATRIX HAVE NOT
-! BEEN WRITTEN IN, THE SYSTEM IS UPPER TRIANGULAR WITH DIAGONAL ELEMENTS
-! ALL EQUAL TO 1.0, SO WE SOLVE BY BACK SUBSTITUTION.  WE FIRST PUT
-! THE SOLUTION TO THIS SYSTEM IN B(1),...,B(KRANK) AND SORT IT OUT
-! LATER.  IF ICOUNT > 1 THE SOLUTION IS AN ITERATIVE CORRECTION TO
-! VEC RATHER THAN VEC ITSELF.
-      do ii = 1 , krank
-         i = krank + 1 - ii
-         kk = i - 1
-         if ( i/=1 ) then
-! HERE WE ALREADY HAVE B(I) (WHERE I  > 1) AND WE SUBTRACT AA(J,I)*
-! B(I) FROM B(J) FOR J = 1,...,I-1.
-            do j = 1 , kk
-               b(j) = b(j) - Aa(j,i)*b(i)
+        end do
+    end do
+
+    ! NOW ALL THE DIAGONAL ELEMENTS OF AA (ALTHOUGH NOT WRITTEN IN)
+    ! ARE 1.0 AND ALL OFF DIAGONAL ELEMENTS OF AA ARE LESS THAN OR
+    ! EQUAL TO 1.0.
+
+    ! INITIALIZE THE ITERATIVE REFINEMENT COUNTER ICOUNT AND ZERO OUT VEC
+    ! INITIALLY.  THE VEC VALUES NOT CORRESPONDING TO THE FIRST KRANK
+    ! COLUMNS (MODULO EARLIER COLUMN INTERCHANGES) WILL REMAIN AT 0.0.
+    icount = 1
+    do i = 1 , Ncor
+        Vec(i) = zero
+    end do
+
+    iteration :  do
+
+        ! PREMULTIPLY B BY THE HOUSEHOLDER TRANSFORMATIONS PH(1),...,
+        ! PH(KRANK).  RECALL THAT GNU(I) IS STILL IN AA(I,I),...,AA(N,I)
+        ! FOR I=1,...,KRANK.
+        do i = 1 , krank
+            sum = zero
+            do ia = i , n
+                sum = sum + Aa(ia,i)*b(ia)
             end do
-         end if
-      end do
-!
-!  TEST FOR CONVERGENCE.
-!  FIRST TEST, TOO MANY ITERATIONS.
-!  SECOND TEST, SEE IF VEC IS DECREASING.
-!
-! COMPUTE THE LENGTH SQUARED OF THE FIRST TOP 1 THROUGH KRANK PART OF
-! B, WHICH WILL BE THE RESIDUAL VECTOR IF ICOUNT > 1.
-      sum = zero
-      do i = 1 , krank
-         if ( abs(b(i))>spcmn ) sum = sum + b(i)*b(i)
-      end do
-      if ( icount==1 ) then
-         testt = sum
-      elseif ( sum>test/two ) then
-         icount = nmref2
-      end if
-      test = sum
-!
-! COMPUTE THE VEC VALUES, WHICH WILL BE ACTUAL VEC VALUES IF ICOUNT=1
-! AND CORRECTIONS TO VEC VALUES IF ICOUNT > 1.  WE GET THESE BY
-! UNSCRAMBLING THE B VALUES AND ADDING THEM TO THE APPROPRIATE OLD VEC
-! VALUES (WHICH WILL BE 0.0 IF ICOUNT=1).
-      do i = 1 , krank
-         kp = Kpivot(i)
-         Vec(kp) = b(i) + Vec(kp)
-      end do
-!
-! CALCULATE THE RESIDUAL R - ACOEF*VEC.  RECALL THAT ACOEF AND R
-! CONTAIN THE ORIGINAL COEFFICIENT AND RIGHT SIDE ARRAYS RESPECTIVELY.
-! TO GET THE MOST OUT OF ITERATIVE REFINEMENT THIS COMPUTATION SHOULD
-! PROBABLY BE DONE IN HIGHER PRECISION, IN WHICH CASE IT MAY BE
-! FRUITFUL TO ALSO SET NUMREF LARGER AT THE BEGINNING OF THIS
-! SUBROUTINE.
-      do i = 1 , n
-         summ = zero
-         do j = 1 , Ncor
-            if ( abs(Picor(i,j))>=spcmn ) summ = summ + Picor(i,j)      &
-                 *Vec(j)
-         end do
-         b(i) = r(i) - summ
-      end do
-!
-!  THIRD TEST, WAS THE CORRECTION SIGNIFICANT.
-!
-      if ( test>=spcmn*testt ) then
-         if ( icount/=nmref1 ) then
-            if ( icount<nmref2 ) then
-               icount = icount + 1
-               goto 300
+            sum = sum*Beta(i)
+            do j = i , n
+                b(j) = b(j) - Aa(j,i)*sum
+            end do
+        end do
+
+        ! NOW ONLY USE THE FIRST KRANK TERMS OF B, AS WE CANT DO ANYTHING ABOUT
+        ! THE OTHERS, WHOSE SQUARE ROOT OF SUM OF SQUARES WILL GIVE THE LEAST
+        ! SQUARES DISTANCE.
+        ! DIVIDE B(I) BY D(I) FOR I=1,...,KRANK AS WE DID THIS TO ROW I OF AA.
+        do i = 1 , krank
+            b(i) = b(i)/d(i)
+        end do
+
+        ! THE PROBLEM HAS NOW BEEN REDUCED TO SOLVING (UPPER LEFT KRANK BY
+        ! KRANK PART OF AA)*(FIRST KRANK TERMS OF VEC, MODULO COLUMN
+        ! INTERCHANGE UNSCRAMBLING) = (FIRST KRANK TERMS OF B).  ALTHOUGH THE
+        ! DIAGONAL AND BELOW DIAGONAL TERMS OF THE COEFFICIENT MATRIX HAVE NOT
+        ! BEEN WRITTEN IN, THE SYSTEM IS UPPER TRIANGULAR WITH DIAGONAL ELEMENTS
+        ! ALL EQUAL TO 1.0, SO WE SOLVE BY BACK SUBSTITUTION.  WE FIRST PUT
+        ! THE SOLUTION TO THIS SYSTEM IN B(1),...,B(KRANK) AND SORT IT OUT
+        ! LATER.  IF ICOUNT > 1 THE SOLUTION IS AN ITERATIVE CORRECTION TO
+        ! VEC RATHER THAN VEC ITSELF.
+        do ii = 1 , krank
+            i = krank + 1 - ii
+            kk = i - 1
+            if ( i/=1 ) then
+                ! HERE WE ALREADY HAVE B(I) (WHERE I  > 1) AND WE SUBTRACT AA(J,I)*
+                ! B(I) FROM B(J) FOR J = 1,...,I-1.
+                do j = 1 , kk
+                    b(j) = b(j) - Aa(j,i)*b(i)
+                end do
             end if
-         end if
-      end if
+        end do
+
+        !  TEST FOR CONVERGENCE.
+        !  FIRST TEST, TOO MANY ITERATIONS.
+        !  SECOND TEST, SEE IF VEC IS DECREASING.
+
+        ! COMPUTE THE LENGTH SQUARED OF THE FIRST TOP 1 THROUGH KRANK PART OF
+        ! B, WHICH WILL BE THE RESIDUAL VECTOR IF ICOUNT > 1.
+        sum = zero
+        do i = 1 , krank
+            if ( abs(b(i))>spcmn ) sum = sum + b(i)*b(i)
+        end do
+        if ( icount==1 ) then
+            testt = sum
+        elseif ( sum>test/two ) then
+            icount = nmref2
+        end if
+        test = sum
+
+        ! COMPUTE THE VEC VALUES, WHICH WILL BE ACTUAL VEC VALUES IF ICOUNT=1
+        ! AND CORRECTIONS TO VEC VALUES IF ICOUNT > 1.  WE GET THESE BY
+        ! UNSCRAMBLING THE B VALUES AND ADDING THEM TO THE APPROPRIATE OLD VEC
+        ! VALUES (WHICH WILL BE 0.0 IF ICOUNT=1).
+        do i = 1 , krank
+            kp = Kpivot(i)
+            Vec(kp) = b(i) + Vec(kp)
+        end do
+
+        ! CALCULATE THE RESIDUAL R - ACOEF*VEC.  RECALL THAT ACOEF AND R
+        ! CONTAIN THE ORIGINAL COEFFICIENT AND RIGHT SIDE ARRAYS RESPECTIVELY.
+        ! TO GET THE MOST OUT OF ITERATIVE REFINEMENT THIS COMPUTATION SHOULD
+        ! PROBABLY BE DONE IN HIGHER PRECISION, IN WHICH CASE IT MAY BE
+        ! FRUITFUL TO ALSO SET NUMREF LARGER AT THE BEGINNING OF THIS
+        ! SUBROUTINE.
+        do i = 1 , n
+            summ = zero
+            do j = 1 , Ncor
+                if ( abs(Picor(i,j))>=spcmn ) summ = summ + Picor(i,j)*Vec(j)
+            end do
+            b(i) = r(i) - summ
+        end do
+
+        !  THIRD TEST, WAS THE CORRECTION SIGNIFICANT.
+        if ( test>=spcmn*testt ) then
+            if ( icount/=nmref1 ) then
+                if ( icount<nmref2 ) then
+                    icount = icount + 1
+                    cycle iteration
+                end if
+            end if
+        end if
+
+        exit iteration  ! done
+
+    end do iteration
 
     end subroutine house
 !********************************************************************************
 
 !********************************************************************************
 !>
-! This subprogram computes the dot product of vectors vec1
-! and vec2 of length lgth.
-! vec1 and vec2 do not appear in function iloc since they are used only
-! as input names for this subprogram, and so they don't need to have
-! space reserved for them in the array work.
+!  This subprogram computes the dot product of vectors vec1
+!  and vec2 of length lgth.
+!  vec1 and vec2 do not appear in function iloc since they are used only
+!  as input names for this subprogram, and so they don't need to have
+!  space reserved for them in the array work.
 
     pure function dotprd(Lgth,Vec1,Vec2,Nparm) result(dd)
 
@@ -6206,221 +6210,224 @@
 
 !********************************************************************************
 !>
-! THIS SUBROUTINE ATTEMPTS TO REFINE THE NDM DIMENSIONAL VECTOR WPT
-! PRODUCED BY WOLFE BY DIRECTLY SOLVING THE SYSTEM
-! SUMMATION(PMAT(I,J)*WPT(I), I=1,...,NDM) = -PMAT(NDM+1,J) FOR J =
-! ICOR(L), L=1,...,NCOR.
-! NRESL RESOLVENTS ARE CHOSEN BY TOTAL PIVOTING.  IF NRESL < NDM THEN
-! THE REMAINING NDM-NRESL ELEMENTS OF WPT ARE KEPT FORM THE OLD WPT.
-! ITRLM STEPS OF ITERATIVE REFINEMENT ARE ATTEMPTED AT THE END.
+!  This subroutine attempts to refine the ndm dimensional vector wpt
+!  produced by wolfe by directly solving the system
+!  summation(pmat(i,j)*wpt(i), i=1,...,ndm) = -pmat(ndm+1,j) for j =
+!  icor(l), l=1,...,ncor.
+!  nresl resolvents are chosen by total pivoting.  if nresl < ndm then
+!  the remaining ndm-nresl elements of wpt are kept form the old wpt.
+!  itrlm steps of iterative refinement are attempted at the end.
 
     subroutine refwl(Ndm,Ncor,Icor,Pmat,Pmat1,Nparm,Numgr,Ixrct,Save,Wpt)
 
-      implicit none
+    implicit none
 
-      real(wp) :: aa , amax , fact , Pmat , Pmat1 , Save ,  &
-                  tole , Wpt , wrst , wrsto
-      integer :: i , Icor , imax , itrct , itrlm , Ixrct , j , jmax ,      &
-                 jstrt , k , kcol , kk , kp1 , l , maxrs , n , Ncor , Ndm ,&
-                 Nparm , nresl
-      integer :: Numgr
+    integer,intent(in) :: Nparm
+    integer,intent(in) :: Numgr
+    integer,intent(in) :: Ncor
+    integer,intent(in) :: Ndm
+    integer :: Icor(Nparm+1)
+    integer :: Ixrct(2*Nparm)
+    real(wp) :: Pmat1(Nparm+1,Numgr)
+    real(wp) :: Pmat(Nparm+1,Numgr)
+    real(wp) :: Save(Nparm)
+    real(wp) :: Wpt(Nparm+1)
 
-      dimension Icor(Nparm+1) , Pmat(Nparm+1,Numgr) ,                   &
-                Pmat1(Nparm+1,Numgr) , Wpt(Nparm+1) , Ixrct(2*Nparm) ,  &
-                Save(Nparm)
-!
-! COMPUTE MACHINE AND PRECISION DEPENDENT CONSTANTS.
-!     NWRIT=output_unit
-      tole = spcmn
-      itrlm = 2
-      itrct = 0
-      nresl = 0
-      n = Ndm + 1
-! IF NCOR=0 WE HAVE NOTHING TO DO SO WE RETURN.
-      if ( Ncor>0 ) then
-!
-! COPY COLUMN ICOR(L) OF PMAT WITH THE SIGN OF THE LAST ELEMENT REVERSED
-! INTO COLUMN L OF THE WORK MATRIX PMAT1 FOR L=1,...,NCOR.
-         do l = 1 , Ncor
+    real(wp) :: aa , amax , fact , wrst , wrsto
+    integer :: i , imax , itrct , itrlm , j , jmax , jstrt , &
+               k , kcol , kk , kp1 , l , maxrs , n , nresl
+
+    real(wp),parameter :: tole = spcmn
+
+    ! COMPUTE MACHINE AND PRECISION DEPENDENT CONSTANTS.
+    itrlm = 2
+    itrct = 0
+    nresl = 0
+    n = Ndm + 1
+
+    ! IF NCOR=0 WE HAVE NOTHING TO DO SO WE RETURN.
+    if ( Ncor>0 ) then
+
+        ! COPY COLUMN ICOR(L) OF PMAT WITH THE SIGN OF THE LAST ELEMENT REVERSED
+        ! INTO COLUMN L OF THE WORK MATRIX PMAT1 FOR L=1,...,NCOR.
+        do l = 1 , Ncor
             j = Icor(l)
             do i = 1 , Ndm
-               Pmat1(i,l) = Pmat(i,j)
+                Pmat1(i,l) = Pmat(i,j)
             end do
             Pmat1(n,l) = -Pmat(n,j)
-         end do
-!
-!
-! NOW COLUMN REDUCE PMAT1.  NOTE THAT PMAT1 IS THE TRANSPOSE OF THE USUAL
-! AUGMENTED MATRIX FOR SOLVING A LINEAR SYSTEM OF EQUATONS.
-! THERE WILL BE AT MOST MAXRS = MIN(NDM,NCOR) RESOLVENTS.
-         maxrs = Ncor
-         if ( Ndm<maxrs ) maxrs = Ndm
-         do k = 1 , maxrs
-!
-! SEARCH FOR THE INDICES IMAX AND JMAX WITH 1 <= IMAX <= NDM, 1 <=
-! JMAX <= NCOR, PMAT1(IMAX,JMAX) IS NOT IN THE ROW OR COLUMN OF ANY
-! OTHER RESOLVENT (I.E. PIVOT), AND ABS(PMAT1(IMAX,JMAX)) IS MAXIMIZED.
-! WE USE THE VECTOR IXRCT TO SAVE THE RESOLVENT POSITIONS TO SAVE SPACE.
+        end do
+
+        ! NOW COLUMN REDUCE PMAT1.  NOTE THAT PMAT1 IS THE TRANSPOSE OF THE USUAL
+        ! AUGMENTED MATRIX FOR SOLVING A LINEAR SYSTEM OF EQUATONS.
+        ! THERE WILL BE AT MOST MAXRS = MIN(NDM,NCOR) RESOLVENTS.
+        maxrs = Ncor
+        if ( Ndm<maxrs ) maxrs = Ndm
+        do k = 1 , maxrs
+            ! SEARCH FOR THE INDICES IMAX AND JMAX WITH 1 <= IMAX <= NDM, 1 <=
+            ! JMAX <= NCOR, PMAT1(IMAX,JMAX) IS NOT IN THE ROW OR COLUMN OF ANY
+            ! OTHER RESOLVENT (I.E. PIVOT), AND ABS(PMAT1(IMAX,JMAX)) IS MAXIMIZED.
+            ! WE USE THE VECTOR IXRCT TO SAVE THE RESOLVENT POSITIONS TO SAVE SPACE.
             jstrt = 0
             do j = 1 , Ncor
-               if ( nresl>0 ) then
-                  do l = 1 , nresl
-                     if ( j==Ixrct(2*l) ) goto 20
-                  end do
-               end if
-! HERE THERE IS NO EARLIER RESOLVENT IN COLUMN J.
-               do i = 1 , Ndm
-                  if ( nresl>0 ) then
-                     do l = 1 , nresl
-                        if ( i==Ixrct(2*l-1) ) goto 10
-                     end do
-                  end if
-! HERE THERE IS NO EARLIER RESOLVENT IN ROW I.
-                  aa = abs(Pmat1(i,j))
-                  if ( jstrt<=0 ) then
-                     jstrt = 1
-                  elseif ( aa<=amax ) then
-                     goto 10
-                  end if
-                  amax = aa
-                  imax = i
-                  jmax = j
- 10            end do
- 20         end do
-! IF THE ABSOLUTE VALUE OF THIS RESOLVENT IS VERY SMALL WE DO NOT ATTEMPT
-! ANY FURTHER COLUMN OPERATIONS.
+                if ( nresl>0 ) then
+                    do l = 1 , nresl
+                        if ( j==Ixrct(2*l) ) goto 20
+                    end do
+                end if
+                ! HERE THERE IS NO EARLIER RESOLVENT IN COLUMN J.
+                do i = 1 , Ndm
+                    if ( nresl>0 ) then
+                        do l = 1 , nresl
+                            if ( i==Ixrct(2*l-1) ) goto 10
+                        end do
+                    end if
+                    ! HERE THERE IS NO EARLIER RESOLVENT IN ROW I.
+                    aa = abs(Pmat1(i,j))
+                    if ( jstrt<=0 ) then
+                        jstrt = 1
+                    elseif ( aa<=amax ) then
+                        goto 10
+                    end if
+                    amax = aa
+                    imax = i
+                    jmax = j
+10              end do
+20          end do
+            ! IF THE ABSOLUTE VALUE OF THIS RESOLVENT IS VERY SMALL WE DO NOT ATTEMPT
+            ! ANY FURTHER COLUMN OPERATIONS.
             if ( amax<tole ) goto 50
-! INCREMENT NRESL AND PUT THE LOCATION OF THE NRESLTH RESOLVENT IN
-! (IXRCT(2*L-1),IXRCT(2*L)).
+            ! INCREMENT NRESL AND PUT THE LOCATION OF THE NRESLTH RESOLVENT IN
+            ! (IXRCT(2*L-1),IXRCT(2*L)).
             nresl = nresl + 1
             Ixrct(2*nresl-1) = imax
             Ixrct(2*nresl) = jmax
-!
-! NOW ELIMINATE WPT(IMAX) FROM THOSE COLUMNS WHICH DO NOT CONTAIN ANY OF
-! THE RESOLVENTS FOUND SO FAR (INCLUDING THE PRESENT RESOLVENT).
+
+            ! NOW ELIMINATE WPT(IMAX) FROM THOSE COLUMNS WHICH DO NOT CONTAIN ANY OF
+            ! THE RESOLVENTS FOUND SO FAR (INCLUDING THE PRESENT RESOLVENT).
             do j = 1 , Ncor
-               do l = 1 , nresl
-                  if ( j==Ixrct(2*l) ) goto 40
-               end do
-! HERE COLUMN J DOES NOT CONTAIN ANY OF THE RESOLVENTS FOUND SO FAR, AND
-! WE COMPUTE THE FACTOR FOR THE COLUMN OPERATION NEEDED TO ZERO OUT
-! PMAT1(IMAX,J) (ALTHOUGH WE DO NOT ACTUALLY WRITE IN THE ZERO).
-               fact = Pmat1(imax,j)/Pmat1(imax,jmax)
-! NOW DO THE OPERATION IN COLUMN J FOR ALL ROWS NOT CONTAINING A
-! RESOLVENT.  THE ELEMENTS IN THIS COLUMN IN THE ROWS WHICH CONTAIN AN
-! EARLIER (OR PRESENT) RESOLVENT WILL NOT BE NEEDED LATER.
-               do i = 1 , n
-                  do l = 1 , nresl
-                     if ( i==Ixrct(2*l-1) ) goto 30
-                  end do
-                  Pmat1(i,j) = Pmat1(i,j) - fact*Pmat1(i,jmax)
- 30            end do
- 40         end do
-         end do
-! END OF COLUMN REDUCTION OF PMAT1.
-!
-!
-! IF NRESL=0 THEN ALL THE ELEMENTS IN PMAT1 FOR 1 <= I <= NDM AND
-! 1 <= J <= NCOR WERE VERY SMALL IN ABSOLUTE VALUE, AND THERE IS
-! NOTHING WE CAN DO, SO WE RETURN.
- 50      if ( nresl>0 ) goto 200
-      end if
-!
- 100  return
-!
-!
-! NOW DO BACK SUBSTITUTION TO COMPUTE, FOR K=NRESL,...,1,
-! WPT(IXRCT(2*K-1)) = (PMAT1(NDM+1,IXRCT(2*K)) - SUMMATION(
-! PMAT1(I,IXRCT(2*K))*WPT(I), FOR I = 1,...,NDM, I /= IXRCT(2*L-1)
-! FOR ANY L=1,...,K))/PMAT1(IXRCT(2*K-1),IXRCT(2*K)).  IF WE ARE IN AN
-! ITERATIVE REFINEMENT STEP WE WISH TO CONSIDER WPT(I) (WHICH IS THEN
-! JUST A CORRECTION TO WPT(I)) = 0.0 IF I CORRESPONDS TO NO RESOLVENT
-! (SINCE THE VALUE OF SUCH WPT(I) IN SAVE SHOULD NOT CHANGE) SO WE OMIT
-! THE CORRESPONDING TERMS IN THE SUMMATION ABOVE.
- 200  do kk = 1 , nresl
-         k = nresl - kk + 1
-         imax = Ixrct(2*k-1)
-         jmax = Ixrct(2*k)
-         Wpt(imax) = Pmat1(n,jmax)
-         do i = 1 , Ndm
-            do l = 1 , k
-               if ( i==Ixrct(2*l-1) ) goto 250
+                do l = 1 , nresl
+                    if ( j==Ixrct(2*l) ) goto 40
+                end do
+                ! HERE COLUMN J DOES NOT CONTAIN ANY OF THE RESOLVENTS FOUND SO FAR, AND
+                ! WE COMPUTE THE FACTOR FOR THE COLUMN OPERATION NEEDED TO ZERO OUT
+                ! PMAT1(IMAX,J) (ALTHOUGH WE DO NOT ACTUALLY WRITE IN THE ZERO).
+                fact = Pmat1(imax,j)/Pmat1(imax,jmax)
+                ! NOW DO THE OPERATION IN COLUMN J FOR ALL ROWS NOT CONTAINING A
+                ! RESOLVENT.  THE ELEMENTS IN THIS COLUMN IN THE ROWS WHICH CONTAIN AN
+                ! EARLIER (OR PRESENT) RESOLVENT WILL NOT BE NEEDED LATER.
+                do i = 1 , n
+                    do l = 1 , nresl
+                        if ( i==Ixrct(2*l-1) ) goto 30
+                    end do
+                    Pmat1(i,j) = Pmat1(i,j) - fact*Pmat1(i,jmax)
+30              end do
+40          end do
+        end do
+        ! END OF COLUMN REDUCTION OF PMAT1.
+
+        ! IF NRESL=0 THEN ALL THE ELEMENTS IN PMAT1 FOR 1 <= I <= NDM AND
+        ! 1 <= J <= NCOR WERE VERY SMALL IN ABSOLUTE VALUE, AND THERE IS
+        ! NOTHING WE CAN DO, SO WE RETURN.
+50      if ( nresl>0 ) goto 200
+    end if
+
+    return
+
+    ! NOW DO BACK SUBSTITUTION TO COMPUTE, FOR K=NRESL,...,1,
+    ! WPT(IXRCT(2*K-1)) = (PMAT1(NDM+1,IXRCT(2*K)) - SUMMATION(
+    ! PMAT1(I,IXRCT(2*K))*WPT(I), FOR I = 1,...,NDM, I /= IXRCT(2*L-1)
+    ! FOR ANY L=1,...,K))/PMAT1(IXRCT(2*K-1),IXRCT(2*K)).  IF WE ARE IN AN
+    ! ITERATIVE REFINEMENT STEP WE WISH TO CONSIDER WPT(I) (WHICH IS THEN
+    ! JUST A CORRECTION TO WPT(I)) = 0.0 IF I CORRESPONDS TO NO RESOLVENT
+    ! (SINCE THE VALUE OF SUCH WPT(I) IN SAVE SHOULD NOT CHANGE) SO WE OMIT
+    ! THE CORRESPONDING TERMS IN THE SUMMATION ABOVE.
+200 do
+        do kk = 1 , nresl
+            k = nresl - kk + 1
+            imax = Ixrct(2*k-1)
+            jmax = Ixrct(2*k)
+            Wpt(imax) = Pmat1(n,jmax)
+            do i = 1 , Ndm
+                do l = 1 , k
+                    if ( i==Ixrct(2*l-1) ) goto 250
+                end do
+                ! HERE ROW I CONTAINS NO EARLIER (OR PRESENT) RESOLVENTS.
+                if ( itrct>0 ) then
+                    if ( k<nresl ) then
+                        ! HERE WE ARE DOING ITERATIVE REFINEMENT, K < NRESL, AND I /=
+                        ! IXRCT(2*L-1) FOR L=1,...,K.  WE WILL USE THE TERM CORRESPONDING TO
+                        ! WPT(I) IFF I = IXRCT(2*L-1) FOR SOME L = K+1,...,NRESL.
+                        kp1 = k + 1
+                        do l = kp1 , nresl
+                            if ( i==Ixrct(2*l-1) ) goto 220
+                        end do
+                    end if
+                    goto 250
+                end if
+    220         Wpt(imax) = Wpt(imax) - Pmat1(i,jmax)*Wpt(i)
+    250     end do
+            Wpt(imax) = Wpt(imax)/Pmat1(imax,jmax)
+        end do
+        ! END OF BACK SUBSTITUTION.
+
+        ! IF ITRCT IS POSITIVE THEN WPT WILL CONTAIN ONLY AN ITERATIVE
+        ! REFINEMENT CORRECTION IN THOSE POSITIONS CORRESPONDING TO RESOLVENTS
+        ! AND WE ADD THIS TO SAVE TO GET THE TRUE WPT.
+        if ( itrct>0 ) then
+            do i = 1 , Ndm
+                do l = 1 , nresl
+                    if ( i==Ixrct(2*l-1) ) then
+                        Wpt(i) = Wpt(i) + Save(i)
+                        exit
+                    end if
+                end do
             end do
-! HERE ROW I CONTAINS NO EARLIER (OR PRESENT) RESOLVENTS.
-            if ( itrct>0 ) then
-               if ( k<nresl ) then
-! HERE WE ARE DOING ITERATIVE REFINEMENT, K < NRESL, AND I /=
-! IXRCT(2*L-1) FOR L=1,...,K.  WE WILL USE THE TERM CORRESPONDING TO
-! WPT(I) IFF I = IXRCT(2*L-1) FOR SOME L = K+1,...,NRESL.
-                  kp1 = k + 1
-                  do l = kp1 , nresl
-                     if ( i==Ixrct(2*l-1) ) goto 220
-                  end do
-               end if
-               goto 250
+        end if
+
+        ! NOW COMPUTE THE RESIDUAL AND PUT IT INTO PMAT1(NDM+1,.).
+        do k = 1 , Ncor
+            ! COMPUTE THE COLUMN INDEX KCOL IN PMAT CORRESPONDING TO COLUMN K IN
+            ! PMAT1.
+            kcol = Icor(k)
+            Pmat1(n,k) = -Pmat(n,kcol)
+            do i = 1 , Ndm
+                Pmat1(n,k) = Pmat1(n,k) - Pmat(i,kcol)*Wpt(i)
+            end do
+        end do
+
+        ! COMPUTE THE WORST ABSOLUTE VALUE OF THE RESIDUAL ELEMENTS.
+        do k = 1 , Ncor
+            aa = abs(Pmat1(n,k))
+            if ( k>1 ) then
+                if ( aa<=wrst ) cycle
             end if
- 220        Wpt(imax) = Wpt(imax) - Pmat1(i,jmax)*Wpt(i)
- 250     end do
-         Wpt(imax) = Wpt(imax)/Pmat1(imax,jmax)
-      end do
-! END OF BACK SUBSTITUTION.
-!
-!
-! IF ITRCT IS POSITIVE THEN WPT WILL CONTAIN ONLY AN ITERATIVE
-! REFINEMENT CORRECTION IN THOSE POSITIONS CORRESPONDING TO RESOLVENTS
-! AND WE ADD THIS TO SAVE TO GET THE TRUE WPT.
-      if ( itrct>0 ) then
-         do i = 1 , Ndm
-            do l = 1 , nresl
-               if ( i==Ixrct(2*l-1) ) goto 260
+            wrst = aa
+        end do
+
+        if ( itrct<=0 ) then
+            wrsto = wrst
+        elseif ( wrst>wrsto ) then
+            ! HERE ITRCT > 0 AND WRST > WRSTO, SO WE GO BACK TO THE PREVIOUS
+            ! WPT AND RETURN.
+            wrst = wrsto
+            do i = 1 , Ndm
+                Wpt(i) = Save(i)
             end do
-            goto 300
- 260        Wpt(i) = Wpt(i) + Save(i)
- 300     end do
-      end if
-!
-!
-! NOW COMPUTE THE RESIDUAL AND PUT IT INTO PMAT1(NDM+1,.).
-      do k = 1 , Ncor
-! COMPUTE THE COLUMN INDEX KCOL IN PMAT CORRESPONDING TO COLUMN K IN
-! PMAT1.
-         kcol = Icor(k)
-         Pmat1(n,k) = -Pmat(n,kcol)
-         do i = 1 , Ndm
-            Pmat1(n,k) = Pmat1(n,k) - Pmat(i,kcol)*Wpt(i)
-         end do
-      end do
-!
-! COMPUTE THE WORST ABSOLUTE VALUE OF THE RESIDUAL ELEMENTS.
-      do k = 1 , Ncor
-         aa = abs(Pmat1(n,k))
-         if ( k>1 ) then
-            if ( aa<=wrst ) goto 400
-         end if
-         wrst = aa
- 400  end do
-!
-      if ( itrct<=0 ) then
-         wrsto = wrst
-      elseif ( wrst>wrsto ) then
-! HERE ITRCT > 0 AND WRST > WRSTO, SO WE GO BACK TO THE PREVIOUS
-! WPT AND RETURN.
-         wrst = wrsto
-         do i = 1 , Ndm
-            Wpt(i) = Save(i)
-         end do
-         return
-      end if
-!
-      if ( itrct>=itrlm ) goto 100
-! HERE ITRCT < ITRLM AND WE INCREMENT ITRCT AND SET UP FOR THE ITRCTTH
-! ITERATIVE REFINEMENT STEP.
-      itrct = itrct + 1
-! COPY WPT INTO SAVE.
-      do i = 1 , Ndm
-         Save(i) = Wpt(i)
-      end do
-      goto 200
+            return
+        end if
+
+        if ( itrct>=itrlm ) return
+
+        ! HERE ITRCT < ITRLM AND WE INCREMENT ITRCT AND SET UP FOR THE ITRCTTH
+        ! ITERATIVE REFINEMENT STEP.
+        itrct = itrct + 1
+        ! COPY WPT INTO SAVE.
+        do i = 1 , Ndm
+            Save(i) = Wpt(i)
+        end do
+
+    end do
 
     end subroutine refwl
 !********************************************************************************
