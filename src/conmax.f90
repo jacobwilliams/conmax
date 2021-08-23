@@ -4320,354 +4320,345 @@
 
 !********************************************************************************
 !>
-!  THIS SUBROUTINE USES A MODIFIED QUADRATIC FITTING PROCESS TO SEARCH
-!  FOR A PROJECTION FACTOR PROCOR FOR WHICH THE MAXIMUM OF THE LEFT
-!  SIDES OF THE TYPE -2 AND -1 CONSTRAINTS EVALUATED AT ZWORK + PROCOR*DVEC
-!  IS <= TOLCON.  NOTE THAT WHEN CORRCT CALLS THIS SUBROUTINE IT WILL
-!  HAVE LUMPED THE TYPE -1 CONSTRAINTS IN WITH THE TYPE -2 CONSTRAINTS
-!  USING JCNTYP, WHICH IS CARRIED THROUGH THIS SUBROUTINE INTO SUBROUTINE
-!  ERCMP1 IN IWORK.  IF SEARCR IS ABLE TO FORCE THIS MAXIMUM <= TOLCON
-!  IT WILL RETURN WITH ISRCR=0, WITH THE MINIMUM VALUE FOUND FOR THE
-!  MAXIMUM IN EMIN, WITH THE CORRESPONDING PROJECTION FACTOR IN PROCOR,
-!  WITH THE NUMBER OF TIMES THE MAXIMUM WAS COMPUTED IN NSRCH, AND WITH THE
-!  CLOSEST POINT FOUND TO THE LEFT WITH THE MAXIMUM > TOLCON IN (P1,F1).
-!  THE SUBROUTINE WILL BEGIN BY COMPUTING THE MAXIMA FOR PROCOR = 1.0,
-!  0.5, AND 2.0, AND IF NONE OF THESE MAXIMA IS <= TOLCON AND IT IS
-!  NOT THE CASE THAT THE MAXIMUM AT 1.0 IS <= THE OTHER TWO MAXIMA
-!  THE SUBROUTINE WILL RETURN WITH THE WARNING ISRCR=1. THE SUBROUTINE
-!  WILL ALSO RETURN WITH ISRCR=1 IF IT WOULD NEED TO COMPUTE F MORE THAN
-!  LIMSCR TIMES, OR THE SEARCH INTERVAL LENGTH DROPS BELOW TOL1, OR THE
-!  QUADRATIC FIT BECOMES TOO FLAT.  EVEN IN THE EVENT OF A RETURN WITH
-!  ISRCR=1, EMIN, PROCOR, AND NSRCH WILL BE AS ABOVE.
+!  This subroutine uses a modified quadratic fitting process to search
+!  for a projection factor procor for which the maximum of the left
+!  sides of the type -2 and -1 constraints evaluated at zwork + procor*dvec
+!  is <= tolcon.  note that when corrct calls this subroutine it will
+!  have lumped the type -1 constraints in with the type -2 constraints
+!  using jcntyp, which is carried through this subroutine into subroutine
+!  ercmp1 in iwork.  if searcr is able to force this maximum <= tolcon
+!  it will return with isrcr=0, with the minimum value found for the
+!  maximum in emin, with the corresponding projection factor in procor,
+!  with the number of times the maximum was computed in nsrch, and with the
+!  closest point found to the left with the maximum > tolcon in (p1,f1).
+!  the subroutine will begin by computing the maxima for procor = 1.0,
+!  0.5, and 2.0, and if none of these maxima is <= tolcon and it is
+!  not the case that the maximum at 1.0 is <= the other two maxima
+!  the subroutine will return with the warning isrcr=1. the subroutine
+!  will also return with isrcr=1 if it would need to compute f more than
+!  limscr times, or the search interval length drops below tol1, or the
+!  quadratic fit becomes too flat.  even in the event of a return with
+!  isrcr=1, emin, procor, and nsrch will be as above.
 
-      subroutine searcr(me,Ioptn,Nparm,Numgr,Dvec,Fun,Ifun,Pttbl,Iptb,Indm,&
-                        Zwork,Tolcon,Iphse,Iwork,Liwrk,Work,Lwrk,Parwrk,&
-                        Err1,p1,f1,Procor,Emin,Isrcr)
+    subroutine searcr(me,Ioptn,Nparm,Numgr,Dvec,Fun,Ifun,Pttbl,Iptb,Indm,&
+                      Zwork,Tolcon,Iphse,Iwork,Liwrk,Work,Lwrk,Parwrk,&
+                      Err1,p1,f1,Procor,Emin,Isrcr)
 
-      implicit none
+    implicit none
 
-      class(conmax_solver),intent(inout) :: me
-      real(wp) :: baladj , balfct , Dvec , Emin , Err1 , f1 , f1kp ,&
-                  f2 , f3 , f4 , Fun , fval , p1 , p2 , p3 , &
-                  p4 , Parwrk
-      real(wp) :: Procor , progr , Pttbl , pval , rlf , rrt , s1 , s2 , &
-                  tol1 , tol4 , Tolcon , tolden , Work , &
-                  Zwork
-      integer :: iaddl , iext , Ifun , ilc08 , ilc21 , ilf , Indm , &
-                 Ioptn , Iphse , ipmax , Iptb , irt , ismax , Isrcr , &
-                 Iwork , j , limscr , Liwrk , lll
-      integer :: Lwrk , Nparm , nsrch , Numgr
-!
-      dimension Fun(Ifun) , Pttbl(Iptb,Indm) , Parwrk(Nparm) , &
-                Err1(Numgr+3) , Zwork(Nparm) , Dvec(Nparm) , &
-                Iwork(Liwrk) , Work(Lwrk)
+    class(conmax_solver),intent(inout) :: me
+    real(wp) :: Dvec , Emin , Err1 , f1 , f1kp ,&
+                f2 , f3 , f4 , Fun , fval , p1 , p2 , p3 , &
+                p4 , Parwrk
+    real(wp) :: Procor , progr , Pttbl , pval , rlf , rrt , s1 , s2 , &
+                Tolcon , Work , &
+                Zwork
+    integer :: iaddl , iext , Ifun , ilc08 , ilc21 , ilf , Indm , &
+                Ioptn , Iphse , ipmax , Iptb , irt , ismax , Isrcr , &
+                Iwork , j , limscr , Liwrk , lll
+    integer :: Lwrk , Nparm , nsrch , Numgr
 
-! SET MACHINE AND PRECISION DEPENDENT CONSTANTS.
-      tolden = ten*spcmn
-      tol1 = ten*ten*spcmn
-      tol4 = tol1/four
-      balfct = ten
-      baladj = (ten-one)/ten
-      ilc08 = iloc(8,Nparm,Numgr)
-      ilc21 = iloc(21,Nparm,Numgr)
-      limscr = 6
-      Procor = one
-      p1 = zero
-      f1 = Err1(Numgr+3)
-      f1kp = f1
-      Isrcr = 0
-      nsrch = 0
-      ilf = 0
-      irt = 0
-! IF AFTER LIMSCR ITERATIONS HAVE BEEN DONE (WHERE LIMSCR >= 4) THE
-! BEST VALUE FOUND IS <= PROGR WE WILL (ONCE ONLY) BUMP LIMSCR UP BY
-! IADDL, SINCE THERE WOULD SEEM TO BE A GOOD CHANCE THAT THIS WILL
-! PRODUCE SUCCESS.
-! SETTING IEXT=1 HERE WILL DISABLE THE BUMPING PROCEDURE.
-      iext = 0
-      iaddl = 6
-      progr = ten*ten*ten*Tolcon
-! WE NOW TRY TO COMPUTE VALUES AT POINTS P2=PROCOR, P1=P2/2.0, AND
-! P3=2.0*P2.
-      p2 = Procor
-! SET LLL=2 AS THE THREAD THROUGH THE MINOTAURS CAVERN AND JUMP
-! DOWN TO PUT F(P2) IN F2.  WE WILL JUMP BACK AFTER ALL SUCH JUMPS
-! UNLESS LIMSCR WOULD BE EXCEEDED.
-      lll = 2
-      pval = p2
-      goto 400
- 100  Emin = f3
-      Procor = two
-      goto 800
-!
-! IF THE SEARCH INTERVAL LENGTH IS LESS THAN TOL1 WE HAVE FAILED.
- 200  if ( p3-p1>=tol1 ) then
-!
-! COMPUTE S1 = THE ABSOLUTE VALUE OF THE SLOPE OF THE LINE THROUGH
-! (P1,F1) AND (P2,F2), AND S2 = THE (ABSOLUTE VALUE OF THE) SLOPE
-! OF THE LINE THROUGH (P2,F2) AND (P3,F3).
-         s1 = (f1-f2)/(p2-p1)
-         s2 = (f3-f2)/(p3-p2)
-! IF S1+S2 IS VERY SMALL WE HAVE FAILED.
-         if ( s1+s2>=tolden ) then
-!
+    dimension Fun(Ifun) , Pttbl(Iptb,Indm) , Parwrk(Nparm) , &
+              Err1(Numgr+3) , Zwork(Nparm) , Dvec(Nparm) , &
+              Iwork(Liwrk) , Work(Lwrk)
+
+    real(wp),parameter :: tolden = ten*spcmn
+    real(wp),parameter :: tol1 = ten*ten*spcmn
+    real(wp),parameter :: tol4 = tol1/four
+    real(wp),parameter :: balfct = ten
+    real(wp),parameter :: baladj = (ten-one)/ten
+
+    ! SET MACHINE AND PRECISION DEPENDENT CONSTANTS.
+    ilc08 = iloc(8,Nparm,Numgr)
+    ilc21 = iloc(21,Nparm,Numgr)
+    limscr = 6
+    Procor = one
+    p1 = zero
+    f1 = Err1(Numgr+3)
+    f1kp = f1
+    Isrcr = 0
+    nsrch = 0
+    ilf = 0
+    irt = 0
+    ! IF AFTER LIMSCR ITERATIONS HAVE BEEN DONE (WHERE LIMSCR >= 4) THE
+    ! BEST VALUE FOUND IS <= PROGR WE WILL (ONCE ONLY) BUMP LIMSCR UP BY
+    ! IADDL, SINCE THERE WOULD SEEM TO BE A GOOD CHANCE THAT THIS WILL
+    ! PRODUCE SUCCESS.
+    ! SETTING IEXT=1 HERE WILL DISABLE THE BUMPING PROCEDURE.
+    iext = 0
+    iaddl = 6
+    progr = ten*ten*ten*Tolcon
+    ! WE NOW TRY TO COMPUTE VALUES AT POINTS P2=PROCOR, P1=P2/2.0, AND
+    ! P3=2.0*P2.
+    p2 = Procor
+    ! SET LLL=2 AS THE THREAD THROUGH THE MINOTAURS CAVERN AND JUMP
+    ! DOWN TO PUT F(P2) IN F2.  WE WILL JUMP BACK AFTER ALL SUCH JUMPS
+    ! UNLESS LIMSCR WOULD BE EXCEEDED.
+    lll = 2
+    pval = p2
+    goto 400
+
+100 Emin = f3
+    Procor = two
+    goto 800
+
+    ! IF THE SEARCH INTERVAL LENGTH IS LESS THAN TOL1 WE HAVE FAILED.
+200 if ( p3-p1>=tol1 ) then
+
+        ! COMPUTE S1 = THE ABSOLUTE VALUE OF THE SLOPE OF THE LINE THROUGH
+        ! (P1,F1) AND (P2,F2), AND S2 = THE (ABSOLUTE VALUE OF THE) SLOPE
+        ! OF THE LINE THROUGH (P2,F2) AND (P3,F3).
+        s1 = (f1-f2)/(p2-p1)
+        s2 = (f3-f2)/(p3-p2)
+        ! IF S1+S2 IS VERY SMALL WE HAVE FAILED.
+        if ( s1+s2>=tolden ) then
+
             rlf = s2/(s1+s2)
             rrt = one - rlf
-! THE MINIMUM OF THE QUADRATIC POLYNOMIAL PASSING THROUGH
-! (P1,F1), (P2,F2), AND (P3,F3) WILL OCCUR AT (RLF*P1+
-! RRT*P3+P2)/2.0.  NOTE THAT THE THREE POINTS CANNOT BE
-! COLLNEAR, ELSE WE WOULD HAVE TERMINATED ABOVE.  SINCE THE
-! MINIMUM OCCURS AT THE AVERAGE OF P2 AND A CONVEX COMBINATION
-! OF P1 AND P3, IT WILL BE AT LEAST AS CLOSE TO P2 AS TO THE
-! ENDPOINT ON THE SAME SIDE.
+            ! THE MINIMUM OF THE QUADRATIC POLYNOMIAL PASSING THROUGH
+            ! (P1,F1), (P2,F2), AND (P3,F3) WILL OCCUR AT (RLF*P1+
+            ! RRT*P3+P2)/2.0.  NOTE THAT THE THREE POINTS CANNOT BE
+            ! COLLNEAR, ELSE WE WOULD HAVE TERMINATED ABOVE.  SINCE THE
+            ! MINIMUM OCCURS AT THE AVERAGE OF P2 AND A CONVEX COMBINATION
+            ! OF P1 AND P3, IT WILL BE AT LEAST AS CLOSE TO P2 AS TO THE
+            ! ENDPOINT ON THE SAME SIDE.
             if ( ilf>1 ) then
-! HERE THE LEFT ENDPOINT WAS DROPPED AT THE LAST ILF > 1
-! ITERATIONS, SO TO PREVENT A LONG STRING OF SUCH OCCURRENCES
-! WITH LITTLE REDUCTION OF P3-P1 WE WILL SHIFT THE NEW POINT
-! TO THE RIGHT BY DECREASING RLF RELATIVE TO RRT.
-               rlf = rlf/two**(ilf-1)
-               rrt = one - rlf
+                ! HERE THE LEFT ENDPOINT WAS DROPPED AT THE LAST ILF > 1
+                ! ITERATIONS, SO TO PREVENT A LONG STRING OF SUCH OCCURRENCES
+                ! WITH LITTLE REDUCTION OF P3-P1 WE WILL SHIFT THE NEW POINT
+                ! TO THE RIGHT BY DECREASING RLF RELATIVE TO RRT.
+                rlf = rlf/two**(ilf-1)
+                rrt = one - rlf
             else if ( irt>1 ) then
-! HERE THE RIGHT ENDPOINT WAS DROPPED AT THE LAST IRT > 1
-! ITERATIONS, AND WE WILL SHIFT THE NEW POINT TO THE LEFT.
-               rrt = rrt/two**(irt-1)
-               rlf = one - rrt
-! HERE WE HAVE NOT JUST HAD A STRING OF TWO OR MORE MOVES IN
-! THE SAME DIRECTION, BUT IF THE SUBINTERVALS ARE OUT OF
-! BALANCE BY MORE THAN A FACTOR OF BALFCT, WE SHIFT THE NEW
-! POINT SLIGHTLY IN THE DIRECTION OF THE LONGER INTERVAL.  THE
-! IDEA HERE IS THAT THE TWO CLOSE POINTS ARE PROBABLY NEAR THE
-! SOLUTION, AND IF WE CAN BRACKET THE SOLUTION WE MAY BE ABLE TO
-! CUT OFF THE MAJOR PORTION OF THE LONGER SUBINTERVAL.
+                ! HERE THE RIGHT ENDPOINT WAS DROPPED AT THE LAST IRT > 1
+                ! ITERATIONS, AND WE WILL SHIFT THE NEW POINT TO THE LEFT.
+                rrt = rrt/two**(irt-1)
+                rlf = one - rrt
+                ! HERE WE HAVE NOT JUST HAD A STRING OF TWO OR MORE MOVES IN
+                ! THE SAME DIRECTION, BUT IF THE SUBINTERVALS ARE OUT OF
+                ! BALANCE BY MORE THAN A FACTOR OF BALFCT, WE SHIFT THE NEW
+                ! POINT SLIGHTLY IN THE DIRECTION OF THE LONGER INTERVAL.  THE
+                ! IDEA HERE IS THAT THE TWO CLOSE POINTS ARE PROBABLY NEAR THE
+                ! SOLUTION, AND IF WE CAN BRACKET THE SOLUTION WE MAY BE ABLE TO
+                ! CUT OFF THE MAJOR PORTION OF THE LONGER SUBINTERVAL.
             else if ( p2-p1>balfct*(p3-p2) ) then
-! HERE THE LEFT SUBINTERVAL IS MORE THAN BALFCT TIMES LONGER THAN
-! THE RIGHT SUBINTERVAL, SO WE DECREASE RRT RRELATIVE TO RLF.
-               rrt = baladj*rrt
-               rlf = one - rrt
+                ! HERE THE LEFT SUBINTERVAL IS MORE THAN BALFCT TIMES LONGER THAN
+                ! THE RIGHT SUBINTERVAL, SO WE DECREASE RRT RRELATIVE TO RLF.
+                rrt = baladj*rrt
+                rlf = one - rrt
             else if ( p3-p2>balfct*(p2-p1) ) then
-! HERE THE RIGHT SUBINTERVAL IS MORE THAN BALFCT TIMES LONGER
-! THAN THE LEFT SUBINTERVAL, SO WE DECREASE RLF RELATIVE TO RRT.
-               rlf = baladj*rlf
-               rrt = one - rlf
+                ! HERE THE RIGHT SUBINTERVAL IS MORE THAN BALFCT TIMES LONGER
+                ! THAN THE LEFT SUBINTERVAL, SO WE DECREASE RLF RELATIVE TO RRT.
+                rlf = baladj*rlf
+                rrt = one - rlf
             end if
-!
-! COMPUTE THE (POSSIBLY MODIFIED) MINIMUM OF THE QUADRATIC FIT.
+
+            ! COMPUTE THE (POSSIBLY MODIFIED) MINIMUM OF THE QUADRATIC FIT.
             p4 = (rlf*p1+rrt*p3+p2)/two
-!
-! THE NEXT SECTION (FROM HERE TO STATEMENT 2800) MODIFIES P4, IF
-! NECESSARY, TO GET P1+TOL4 <= P2,P4 <= P3-TOL4 AND ABS(P4-P2) >=
-! TOL4.  THIS SECTION IS LESS COMPLICATED THAN THE CORRESPONDING SECTION
-! IN SEARSL BECAUSE ALL PS LIE BETWEEN 0.5 AND 2.0, SO WEIRD ROUNDOFF
-! EFFECTS ARE LESS LIKELY.
-! IF ABS(P4-P2) < TOL4 WE REDEFINE P4 BY MOVING TOL4 FROM
-! P2 INTO THE LONGER SUBINTERVAL.  NOTE THAT THE LENGTH OF THIS
-! SUBINTERVAL MUST BE AT LEAST TOL1/2.0 = 2.0*TOL4, ELSE WE
-! WOULD HAVE TERMINATED EARLIER.
+
+            ! THE NEXT SECTION (FROM HERE TO STATEMENT 2800) MODIFIES P4, IF
+            ! NECESSARY, TO GET P1+TOL4 <= P2,P4 <= P3-TOL4 AND ABS(P4-P2) >=
+            ! TOL4.  THIS SECTION IS LESS COMPLICATED THAN THE CORRESPONDING SECTION
+            ! IN SEARSL BECAUSE ALL PS LIE BETWEEN 0.5 AND 2.0, SO WEIRD ROUNDOFF
+            ! EFFECTS ARE LESS LIKELY.
+            ! IF ABS(P4-P2) < TOL4 WE REDEFINE P4 BY MOVING TOL4 FROM
+            ! P2 INTO THE LONGER SUBINTERVAL.  NOTE THAT THE LENGTH OF THIS
+            ! SUBINTERVAL MUST BE AT LEAST TOL1/2.0 = 2.0*TOL4, ELSE WE
+            ! WOULD HAVE TERMINATED EARLIER.
             if ( abs(p4-p2)<tol4 ) then
-               if ( p3-p2<=(p2-p1) ) then
-                  p4 = p2 - tol4
-!
-! NOW JUMP DOWN TO PUT F(P4) IN F4.
-                  pval = p4
-               else
-                  p4 = p2 + tol4
-                  pval = p4
-               end if
-! HERE WE HAD ABS(P4-P2) >= TOL4 AND WE MAKE SURE THAT P1+TOL4
-! <= P4 <= P3-TOL4.
+                if ( p3-p2<=(p2-p1) ) then
+                    p4 = p2 - tol4
+                    ! NOW JUMP DOWN TO PUT F(P4) IN F4.
+                    pval = p4
+                else
+                    p4 = p2 + tol4
+                    pval = p4
+                end if
+                ! HERE WE HAD ABS(P4-P2) >= TOL4 AND WE MAKE SURE THAT P1+TOL4
+                ! <= P4 <= P3-TOL4.
             else if ( p4<=(p3-tol4) ) then
-               if ( p4>=(p1+tol4) ) then
-                  pval = p4
-! HERE P4 < P1+TOL4 AND WE SET P4=P1+TOL4 IF P2-P1 >= TOL1/2.0
-! AND OTHERWISE WE SET P4=P2+TOL4.
-               else if ( p2-p1<tol1/two ) then
-                  p4 = p2 + tol4
-                  pval = p4
-               else
-                  p4 = p1 + tol4
-                  pval = p4
-               end if
-! HERE P4 > P3-TOL4 AND WE SET P4=P3-TOL4 IF P3-P2 >= TOL1/2.0,
-! AND OTHERWISE WE SET P4=P2-TOL4.
+                if ( p4>=(p1+tol4) ) then
+                    pval = p4
+                    ! HERE P4 < P1+TOL4 AND WE SET P4=P1+TOL4 IF P2-P1 >= TOL1/2.0
+                    ! AND OTHERWISE WE SET P4=P2+TOL4.
+                else if ( p2-p1<tol1/two ) then
+                    p4 = p2 + tol4
+                    pval = p4
+                else
+                    p4 = p1 + tol4
+                    pval = p4
+                end if
+                ! HERE P4 > P3-TOL4 AND WE SET P4=P3-TOL4 IF P3-P2 >= TOL1/2.0,
+                ! AND OTHERWISE WE SET P4=P2-TOL4.
             else if ( p3-p2<tol1/two ) then
-               p4 = p2 - tol4
-               pval = p4
+                p4 = p2 - tol4
+                pval = p4
             else
-               p4 = p3 - tol4
-               pval = p4
+                p4 = p3 - tol4
+                pval = p4
             end if
             goto 400
-         end if
-      end if
-!
- 300  Emin = f2
-      Procor = p2
-      goto 800
-!
-! WE INCREMENT NSRCH SINCE WE ARE ABOUT TO COMPUTE F.
- 400  nsrch = nsrch + 1
-!
-!
-! THIS IS WHERE WE COMPUTE THE MAXIMUM FVAL = F(PVAL) OF THE LEFT SIDES
-! OF THE TYPE -2 AND TYPE -1 CONSTRAINTS.
-!
-! PROJECT DVEC TO GET PARWRK.
-      do j = 1 , Nparm
-         Parwrk(j) = Zwork(j) + pval*Dvec(j)
-      end do
-! WE TAKE IPHSE=-3 AS A KLUDGE TO TELL ERCMP1 TO COMPUTE ONLY STANDARD
-! ERRORS IF THE TEN THOUSANDS DIGIT OF IOPTN IS 1, THUS SAVING ERCMP1
-! THE WORK OF SCANNING ICNTYP.
-      call me%ercmp1(Ioptn,Nparm,Numgr,Fun,Ifun,Pttbl,Iptb,Indm,Parwrk,1,  &
-                  -3,Iwork,Liwrk,Work(ilc08),Iwork(ilc21),ipmax,ismax,  &
-                  Err1)
-      fval = Err1(Numgr+3)
-!
-      if ( fval<=Tolcon ) then
-!
-! HERE FVAL <= TOLCON AND WE RETURN AFTER SETTING PROCOR, EMIN, P1,
-! AND F1.
-         Procor = pval
-         Emin = fval
-! IF LLL=1 TAKE P1=0.0 AND F1=F1KP, IF LLL=2 LEAVE P1 AND F1 ALONE (THEY
-! WILL BE 0.0 AND FIKP RESPECTIVELY), IF LLL=3 TAKE P1=P2 AND F1=F2,
-! IF LLL=4 AND P2 < P4 TAKE P1=P2 AND F1=F2, AND IF LLL=4 AND
-! P2 >= P4 LEAVE P1 AND F1 ALONE.  IN ALL CASES (P1,F1) WILL BE THE
-! POINT WITH P1 THE NEAREST VALUE LEFT OF PROCOR CONSIDERED AND WE WILL
-! HAVE F1 > TOLCON.
-         select case (lll)
-         case (2)
-         case (3)
+        end if
+    end if
+
+300 Emin = f2
+    Procor = p2
+    goto 800
+
+    ! WE INCREMENT NSRCH SINCE WE ARE ABOUT TO COMPUTE F.
+400 nsrch = nsrch + 1
+
+    ! THIS IS WHERE WE COMPUTE THE MAXIMUM FVAL = F(PVAL) OF THE LEFT SIDES
+    ! OF THE TYPE -2 AND TYPE -1 CONSTRAINTS.
+
+    ! PROJECT DVEC TO GET PARWRK.
+    do j = 1 , Nparm
+        Parwrk(j) = Zwork(j) + pval*Dvec(j)
+    end do
+    ! WE TAKE IPHSE=-3 AS A KLUDGE TO TELL ERCMP1 TO COMPUTE ONLY STANDARD
+    ! ERRORS IF THE TEN THOUSANDS DIGIT OF IOPTN IS 1, THUS SAVING ERCMP1
+    ! THE WORK OF SCANNING ICNTYP.
+    call me%ercmp1(Ioptn,Nparm,Numgr,Fun,Ifun,Pttbl,Iptb,Indm,Parwrk,1,  &
+                   -3,Iwork,Liwrk,Work(ilc08),Iwork(ilc21),ipmax,ismax,  &
+                   Err1)
+    fval = Err1(Numgr+3)
+
+    if ( fval<=Tolcon ) then
+        ! HERE FVAL <= TOLCON AND WE RETURN AFTER SETTING PROCOR, EMIN, P1,
+        ! AND F1.
+        Procor = pval
+        Emin = fval
+        ! IF LLL=1 TAKE P1=0.0 AND F1=F1KP, IF LLL=2 LEAVE P1 AND F1 ALONE (THEY
+        ! WILL BE 0.0 AND FIKP RESPECTIVELY), IF LLL=3 TAKE P1=P2 AND F1=F2,
+        ! IF LLL=4 AND P2 < P4 TAKE P1=P2 AND F1=F2, AND IF LLL=4 AND
+        ! P2 >= P4 LEAVE P1 AND F1 ALONE.  IN ALL CASES (P1,F1) WILL BE THE
+        ! POINT WITH P1 THE NEAREST VALUE LEFT OF PROCOR CONSIDERED AND WE WILL
+        ! HAVE F1 > TOLCON.
+        select case (lll)
+        case (2)
+        case (3)
             goto 500
-         case (4)
+        case (4)
             if ( p2<p4 ) goto 500
-         case default
+        case default
             p1 = zero
             f1 = f1kp
-         end select
-         return
-      else
-!
-! HERE FVAL > TOLCON AND WE SEE IF LIMSCR ITERATIONS IN SEARCR HAVE
-! BEEN DONE.  IF SO WE SET THE FAILURE WARNING ISRCR=1 AND RETURN
-! UNLESS WE CHOOSE TO INCREASE LIMSCR.
-         if ( nsrch<limscr ) goto 900
-!
-! HERE WE HAVE DONE LIMSCR ITERATIONS.
-         if ( iext>0 ) goto 700
-         if ( fval<=progr ) goto 600
-         if ( f2>progr ) goto 700
-         goto 600
-      end if
- 500  p1 = p2
-      f1 = f2
-      return
-! HERE WE HAVE NOT BUMPED LIMSCR EARLIER, LIMSCR >= 4, AND
-! MIN(FVAL,F2) <= PROGR, SO WE BUMP LIMSCR.
- 600  iext = 1
-      limscr = limscr + iaddl
-      goto 900
-!
-!11000 WRITE(NWRIT,11500)
-!11500 FORMAT(30H *****WARNING*****WARNING*****,
-!    *30H TOO MANY ITERATIONS IN SEARCR)
-!
-! HERE WE HAVE FAILED AND WE SET EMIN AND PROCOR FOR OUTPUT, SET ISRCR=1,
-! AND RETURN.
- 700  if ( fval>f2 ) goto 300
-      Emin = fval
-      Procor = pval
-!
- 800  Isrcr = 1
-      return
-!
-! HERE WE WILL CARRY THE COMPUTED F VALUE BACK TO THE APPROPRIATE PART
-! OF THE PROGRAM.
- 900  select case (lll)
-      case (1)
-!
-         f1 = fval
-         p3 = two*p2
-! HERE SET LLL=3 AND PUT F(P3) IN F3.
-         lll = 3
-         pval = p3
-         goto 400
-      case (2)
-!
-         f2 = fval
-         p1 = p2/two
-! SET LLL=1 AND PUT F(P1) IN F1.
-         lll = 1
-         pval = p1
-         goto 400
-      case (3)
-!
-         f3 = fval
-!
-! WE NOW HAVE FOUND P1, P2, AND P3 WITH CORRESPONDING VALUES
-! F1, F2, AND F3, AND WE CHECK WHETHER F2 <= MIN(F1,F3).
-         if ( f2<=f1 ) then
-!
-! HERE F2 <= F1.  IF F2 <= F3 WE ARE DONE INITIALIZING.
+        end select
+        return
+    else
+        ! HERE FVAL > TOLCON AND WE SEE IF LIMSCR ITERATIONS IN SEARCR HAVE
+        ! BEEN DONE.  IF SO WE SET THE FAILURE WARNING ISRCR=1 AND RETURN
+        ! UNLESS WE CHOOSE TO INCREASE LIMSCR.
+        if ( nsrch<limscr ) goto 900
+        ! HERE WE HAVE DONE LIMSCR ITERATIONS.
+        if ( iext>0 )      goto 700
+        if ( fval<=progr ) goto 600
+        if ( f2>progr )    goto 700
+        goto 600
+    end if
+500 p1 = p2
+    f1 = f2
+    return
+
+    ! HERE WE HAVE NOT BUMPED LIMSCR EARLIER, LIMSCR >= 4, AND
+    ! MIN(FVAL,F2) <= PROGR, SO WE BUMP LIMSCR.
+    600  iext = 1
+    limscr = limscr + iaddl
+    goto 900
+
+    ! WRITE(NWRIT,'(A)') '*****WARNING*****WARNING*****
+    ! WRITE(NWRIT,'(A)') 'TOO MANY ITERATIONS IN SEARCR'
+
+    ! HERE WE HAVE FAILED AND WE SET EMIN AND PROCOR FOR OUTPUT, SET ISRCR=1,
+    ! AND RETURN.
+700 if ( fval>f2 ) goto 300
+    Emin = fval
+    Procor = pval
+
+800 Isrcr = 1
+    return
+
+    ! HERE WE WILL CARRY THE COMPUTED F VALUE BACK TO THE APPROPRIATE PART
+    ! OF THE PROGRAM.
+900 select case (lll)
+    case (1)
+        f1 = fval
+        p3 = two*p2
+        ! HERE SET LLL=3 AND PUT F(P3) IN F3.
+        lll = 3
+        pval = p3
+        goto 400
+    case (2)
+        f2 = fval
+        p1 = p2/two
+        ! SET LLL=1 AND PUT F(P1) IN F1.
+        lll = 1
+        pval = p1
+        goto 400
+    case (3)
+        f3 = fval
+        ! WE NOW HAVE FOUND P1, P2, AND P3 WITH CORRESPONDING VALUES
+        ! F1, F2, AND F3, AND WE CHECK WHETHER F2 <= MIN(F1,F3).
+        if ( f2<=f1 ) then
+            ! HERE F2 <= F1.  IF F2 <= F3 WE ARE DONE INITIALIZING.
             if ( f2>f3 ) goto 100
-! END OF INITIALIZATION.
-!
-! ASSUMING THAT P3-P1 >= TOL1, WE NOW HAVE POINTS P1, P2, P3 WITH
-! P1 <= P2-TOL4, P2 <= P3-TOL4, F1=F(P1) >= F2=F(P2), AND F3=F(P3)
-! >= F2.  THESE CONDITIONS WILL BE MAINTAINED THROUGHOUT THE PROGRAM.
-! SET LLL=4, WHERE IT WILL REMAIN FROM NOW ON.
+            ! END OF INITIALIZATION.
+            ! ASSUMING THAT P3-P1 >= TOL1, WE NOW HAVE POINTS P1, P2, P3 WITH
+            ! P1 <= P2-TOL4, P2 <= P3-TOL4, F1=F(P1) >= F2=F(P2), AND F3=F(P3)
+            ! >= F2.  THESE CONDITIONS WILL BE MAINTAINED THROUGHOUT THE PROGRAM.
+            ! SET LLL=4, WHERE IT WILL REMAIN FROM NOW ON.
             lll = 4
             goto 200
-         else
+        else
             if ( f1>f3 ) goto 100
             Emin = f1
             Procor = one/two
             goto 800
-         end if
-      case (4)
-!
-         f4 = fval
-!
-! NOW WE DROP EITHER P1 OR P3 AND RELABEL THE REMAINING POINTS (IF
-! NECESSARY) SO THAT F(P2) <= F(P1) AND F(P2) <= F(P3).
-! IF NOW THE LEFTMOST OF THE TWO MIDDLE POINTS IS LOWER THAN THE
-! RIGHTMOST OF THE TWO MIDDLE POINTS WE DROP P3, AND SET ILF=0
-! AND INCREMENT IRT TO INDICATE THE RIGHT END POINT HAS BEEN DROPPED.
-! OTHERWISE WE DROP P1, SET IRT=0 AND INCREMENT ILF.  IN ALL CASES
-! WE THEN RESHUFFLE THE VALUES INTO P1, P2, P3, F1, F2, F3 AND TRY
-! TO DO ANOTHER ITERATION.
-         if ( p4<p2 ) then
-! HERE P4 < P2.
+        end if
+    case (4)
+        f4 = fval
+        ! NOW WE DROP EITHER P1 OR P3 AND RELABEL THE REMAINING POINTS (IF
+        ! NECESSARY) SO THAT F(P2) <= F(P1) AND F(P2) <= F(P3).
+        ! IF NOW THE LEFTMOST OF THE TWO MIDDLE POINTS IS LOWER THAN THE
+        ! RIGHTMOST OF THE TWO MIDDLE POINTS WE DROP P3, AND SET ILF=0
+        ! AND INCREMENT IRT TO INDICATE THE RIGHT END POINT HAS BEEN DROPPED.
+        ! OTHERWISE WE DROP P1, SET IRT=0 AND INCREMENT ILF.  IN ALL CASES
+        ! WE THEN RESHUFFLE THE VALUES INTO P1, P2, P3, F1, F2, F3 AND TRY
+        ! TO DO ANOTHER ITERATION.
+        if ( p4<p2 ) then
+            ! HERE P4 < P2.
             if ( f4<f2 ) then
-               p3 = p2
-               f3 = f2
-               p2 = p4
-               f2 = f4
-               ilf = 0
-               irt = irt + 1
+                p3 = p2
+                f3 = f2
+                p2 = p4
+                f2 = f4
+                ilf = 0
+                irt = irt + 1
             else
-               p1 = p4
-               f1 = f4
-               ilf = ilf + 1
-               irt = 0
+                p1 = p4
+                f1 = f4
+                ilf = ilf + 1
+                irt = 0
             end if
-! HERE P4 > P2.
-         else if ( f2<f4 ) then
+            ! HERE P4 > P2.
+        else if ( f2<f4 ) then
             p3 = p4
             f3 = f4
             ilf = 0
             irt = irt + 1
-         else
+        else
             p1 = p2
             f1 = f2
             p2 = p4
             f2 = f4
             ilf = ilf + 1
             irt = 0
-         end if
-         goto 200
-      case default
-      end select
+        end if
+        goto 200
+    case default
+
+    end select
+
     end subroutine searcr
 !********************************************************************************
 
