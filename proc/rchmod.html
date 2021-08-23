@@ -686,7 +686,7 @@ private subroutine rchmod(Numgr, Error, Err1, Icntyp, Mact, Iact, Ipmax, Ismax, 
 <span class="k">                if</span> <span class="p">(</span> <span class="n">ipact</span><span class="o">&lt;=</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
 <span class="k">                    </span><span class="n">ipact</span> <span class="o">=</span> <span class="mi">1</span>
                     <span class="n">epact</span> <span class="o">=</span> <span class="n">ei</span>
-                <span class="n">elseif</span> <span class="p">(</span> <span class="n">ei</span><span class="o">&gt;</span><span class="n">epact</span> <span class="p">)</span> <span class="k">then</span>
+                <span class="k">else if</span> <span class="p">(</span> <span class="n">ei</span><span class="o">&gt;</span><span class="n">epact</span> <span class="p">)</span> <span class="k">then</span>
 <span class="k">                    </span><span class="n">epact</span> <span class="o">=</span> <span class="n">ei</span>
                 <span class="k">end if</span>
 <span class="k">            end do</span>

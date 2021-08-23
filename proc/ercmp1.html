@@ -723,7 +723,7 @@ private subroutine ercmp1(me, Ioptn, Nparm, Numgr, Fun, Ifun, Pttbl, Iptb, Indm,
                 <span class="c">! COMPUTED BY FNSET.  THIS WILL ALSO BE TRUE IN ALL SUBROUTINES OTHER</span>
                 <span class="c">! THAN CONMAX.  IF ICNTYP(I)=0 WE WILL SET ERROR(I)=0.0 AND WILL NOT</span>
                 <span class="c">! NEED TO CALL FNSET.</span>
-            <span class="n">elseif</span> <span class="p">(</span> <span class="n">Icntyp</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">/=</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
+            <span class="k">else if</span> <span class="p">(</span> <span class="n">Icntyp</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">/=</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
                 <span class="c">! CALL FNSET WITH INDFN=0 TO COMPUTE CONFUN(I,1).  THE COMPUTED KCNTYP</span>
                 <span class="c">! WILL NOT BE USED.</span>
                 <span class="k">call </span><span class="n">me</span><span class="p">%</span><span class="n">fnset</span><span class="p">(</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">,</span><span class="n">Pttbl</span><span class="p">,</span><span class="n">Iptb</span><span class="p">,</span><span class="n">Indm</span><span class="p">,</span><span class="n">Param</span><span class="p">,</span><span class="n">ipt</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">Iwork</span><span class="p">(</span><span class="n">ilc22</span><span class="p">),</span><span class="n">Confun</span><span class="p">)</span>
@@ -807,7 +807,7 @@ private subroutine ercmp1(me, Ioptn, Nparm, Numgr, Fun, Ifun, Pttbl, Iptb, Indm,
 <span class="k">                </span><span class="n">im1</span> <span class="o">=</span> <span class="n">i</span>
                 <span class="n">enor2</span> <span class="o">=</span> <span class="n">ei</span>
             <span class="k">end if</span>
-<span class="k">        </span><span class="n">elseif</span> <span class="p">(</span> <span class="n">Icntyp</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">/=</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
+<span class="k">        else if</span> <span class="p">(</span> <span class="n">Icntyp</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">/=</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
             <span class="c">! HERE ICNTYP(I) &gt; 0.  IF ICNTYP(I)=2 REPLACE EI BY ABS(EI).  IF THIS</span>
             <span class="c">! IS THE FIRST I FOUND WITH ICNTYP(I) &gt; 0 WE RESET IPMAX TO I AND PUT</span>
             <span class="c">! EI IN ENORM, AND OTHERWISE RESET IPMAX AND PUT EI IN ENORM IF AND ONLY</span>
@@ -826,13 +826,13 @@ private subroutine ercmp1(me, Ioptn, Nparm, Numgr, Fun, Ifun, Pttbl, Iptb, Indm,
         <span class="c">! HERE THERE ARE STANDARD NONLINEAR CONSTRAINTS BUT NO STANDARD LINEAR</span>
         <span class="c">! CONSTRAINTS.</span>
         <span class="k">if</span> <span class="p">(</span> <span class="n">im2</span><span class="o">&gt;</span><span class="mi">0</span> <span class="p">)</span> <span class="n">Ismax</span> <span class="o">=</span> <span class="n">im2</span>
-    <span class="n">elseif</span> <span class="p">(</span> <span class="n">im2</span><span class="o">&lt;=</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
+    <span class="k">else if</span> <span class="p">(</span> <span class="n">im2</span><span class="o">&lt;=</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
         <span class="c">! HERE THERE ARE STANDARD LINEAR CONSTRAINTS BUT NO STANDARD NONLINEAR</span>
         <span class="c">! CONSTRAINTS.</span>
         <span class="n">Ismax</span> <span class="o">=</span> <span class="n">im1</span>
         <span class="c">! HERE THERE ARE BOTH STANDARD LINEAR CONSTRAINTS AND STANDARD NONLINEAR</span>
         <span class="c">! CONSTRAINTS.</span>
-    <span class="n">elseif</span> <span class="p">(</span> <span class="n">enor3</span><span class="o">&lt;</span><span class="n">enor2</span> <span class="p">)</span> <span class="k">then</span>
+    <span class="k">else if</span> <span class="p">(</span> <span class="n">enor3</span><span class="o">&lt;</span><span class="n">enor2</span> <span class="p">)</span> <span class="k">then</span>
 <span class="k">        </span><span class="n">Ismax</span> <span class="o">=</span> <span class="n">im1</span>
     <span class="k">else</span>
 <span class="k">        </span><span class="n">Ismax</span> <span class="o">=</span> <span class="n">im2</span>
@@ -852,7 +852,7 @@ private subroutine ercmp1(me, Ioptn, Nparm, Numgr, Fun, Ifun, Pttbl, Iptb, Indm,
 <span class="k">    </span><span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">i</span>
     <span class="k">if</span> <span class="p">(</span> <span class="n">Icntyp</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">==</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
 <span class="k">        </span><span class="n">Error</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="n">zero</span>
-    <span class="n">elseif</span> <span class="p">(</span> <span class="n">Icntyp</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">1</span> <span class="p">)</span> <span class="k">then</span>
+    <span class="k">else if</span> <span class="p">(</span> <span class="n">Icntyp</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">1</span> <span class="p">)</span> <span class="k">then</span>
 <span class="k">        </span><span class="n">Error</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="n">Fun</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">-</span> <span class="n">Confun</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
     <span class="k">else</span>
 <span class="k">        </span><span class="n">Error</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="n">Confun</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>

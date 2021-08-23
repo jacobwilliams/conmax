@@ -548,7 +548,7 @@ private subroutine bndset(Nparm, x, Itersl, Numin, Prjslp, Cofbnd, Xkeep, Bndkp)
 
 <span class="k">        if</span> <span class="p">(</span> <span class="n">Itersl</span><span class="o">&lt;</span><span class="mi">1</span> <span class="p">)</span> <span class="k">then</span>
 
-<span class="k">        </span><span class="n">elseif</span> <span class="p">(</span> <span class="n">Itersl</span><span class="o">==</span><span class="mi">1</span> <span class="p">)</span> <span class="k">then</span>
+<span class="k">        else if</span> <span class="p">(</span> <span class="n">Itersl</span><span class="o">==</span><span class="mi">1</span> <span class="p">)</span> <span class="k">then</span>
             <span class="c">! HERE NUMIN=0 AND ITERSL=1, SO THE LAST BNDSET CALL RESULTED IN</span>
             <span class="c">! THE FIRST SUCCESSFUL PRINCIPAL ERROR NORM IMPROVEMENT,</span>
             <span class="c">! AND SO WE SAVE COFBND IN BNDKP AND X IN XKEEP.  WE WILL NOT</span>
@@ -587,7 +587,7 @@ private subroutine bndset(Nparm, x, Itersl, Numin, Prjslp, Cofbnd, Xkeep, Bndkp)
                                 <span class="k">exit </span><span class="n">Cofbnd_block</span>
                             <span class="k">end if</span>
 <span class="k">                        end if</span>
-<span class="k">                    </span><span class="n">elseif</span> <span class="p">(</span> <span class="n">Xkeep</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="o">&gt;=</span><span class="n">chlm2</span><span class="o">*</span><span class="n">Bndkp</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="p">)</span> <span class="k">then</span>
+<span class="k">                    else if</span> <span class="p">(</span> <span class="n">Xkeep</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="o">&gt;=</span><span class="n">chlm2</span><span class="o">*</span><span class="n">Bndkp</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="p">)</span> <span class="k">then</span>
 <span class="k">                        </span><span class="n">Cofbnd</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">fact2</span><span class="o">*</span><span class="n">Cofbnd</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
                         <span class="k">exit </span><span class="n">Cofbnd_block</span>
                     <span class="k">end if</span>
@@ -597,10 +597,10 @@ private subroutine bndset(Nparm, x, Itersl, Numin, Prjslp, Cofbnd, Xkeep, Bndkp)
 <span class="k">                        if</span> <span class="p">(</span> <span class="n">x</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="o">+</span><span class="n">chlm1</span><span class="o">*</span><span class="n">Cofbnd</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="o">&lt;=</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
 <span class="k">                            if</span> <span class="p">(</span> <span class="n">Xkeep</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="o">&lt;</span><span class="n">chlm1</span><span class="o">*</span><span class="n">Bndkp</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="p">)</span> <span class="k">exit </span><span class="n">Cofbnd_block</span>
                             <span class="c">! HERE WE HAVE ABS(X(J)) &lt; CHLM1*COFBND(J).</span>
-                        <span class="n">elseif</span> <span class="p">(</span> <span class="nb">abs</span><span class="p">(</span><span class="n">Xkeep</span><span class="p">(</span><span class="n">j</span><span class="p">))</span><span class="o">&gt;=</span><span class="n">chlm1</span><span class="o">*</span><span class="n">Bndkp</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="p">)</span> <span class="k">then</span>
+                        <span class="k">else if</span> <span class="p">(</span> <span class="nb">abs</span><span class="p">(</span><span class="n">Xkeep</span><span class="p">(</span><span class="n">j</span><span class="p">))</span><span class="o">&gt;=</span><span class="n">chlm1</span><span class="o">*</span><span class="n">Bndkp</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="p">)</span> <span class="k">then</span>
 <span class="k">                            exit </span><span class="n">Cofbnd_block</span>
                         <span class="k">end if</span>
-<span class="k">                    </span><span class="n">elseif</span> <span class="p">(</span> <span class="n">Xkeep</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="o">+</span><span class="n">chlm1</span><span class="o">*</span><span class="n">Bndkp</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
+<span class="k">                    else if</span> <span class="p">(</span> <span class="n">Xkeep</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="o">+</span><span class="n">chlm1</span><span class="o">*</span><span class="n">Bndkp</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
 <span class="k">                        exit </span><span class="n">Cofbnd_block</span>
                     <span class="k">end if</span>
                     <span class="c">! TIGHTEN THE BOUND.</span>
@@ -629,7 +629,7 @@ private subroutine bndset(Nparm, x, Itersl, Numin, Prjslp, Cofbnd, Xkeep, Bndkp)
         <span class="n">Cofbnd</span> <span class="o">=</span> <span class="n">bnd</span>
         <span class="k">return</span>
 
-<span class="k">    </span><span class="n">elseif</span> <span class="p">(</span> <span class="n">Numin</span><span class="o">==</span><span class="mi">1</span> <span class="p">)</span> <span class="k">then</span>
+<span class="k">    else if</span> <span class="p">(</span> <span class="n">Numin</span><span class="o">==</span><span class="mi">1</span> <span class="p">)</span> <span class="k">then</span>
         <span class="c">! HERE NUMIN=1 SO THE LAST BNDSET CALL RESULTED IN FAILURE TO</span>
         <span class="c">! IMPROVE THE PRINCIPAL ERROR NORM, AND WE SET FACT3=</span>
         <span class="c">! FACT3A AND TIGHTEN THE BOUNDS.</span>

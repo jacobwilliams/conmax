@@ -774,33 +774,33 @@ private subroutine searsl(me, Ioptn, Numgr, Nparm, Prjlim, Tol1, x, Fun, Ifun, P
 <polygon fill="none" stroke="black" points="54,-45 0,-45 0,-21 54,-21 54,-45"/>
 <text text-anchor="middle" x="27" y="-30.6" font-family="Helvetica,sans-Serif" font-size="10.50">searsl</text>
 </g>
-<!-- proc~rchmod -->
-<g id="proc~~searsl~~CallsGraph_node2" class="node">
-<title>proc~rchmod</title>
-<g id="a_proc~~searsl~~CallsGraph_node2"><a xlink:href=".././proc/rchmod.html" xlink:title="rchmod">
-<polygon fill="#d9534f" stroke="#d9534f" points="144,-66 90,-66 90,-42 144,-42 144,-66"/>
-<text text-anchor="middle" x="117" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">rchmod</text>
-</a>
-</g>
-</g>
-<!-- proc~searsl&#45;&gt;proc~rchmod -->
-<g id="proc~~searsl~~CallsGraph_edge1" class="edge">
-<title>proc~searsl&#45;&gt;proc~rchmod</title>
-<path fill="none" stroke="#000000" d="M54.4,-39.3C62.48,-41.23 71.51,-43.38 80.1,-45.43"/>
-<polygon fill="#000000" stroke="#000000" points="79.38,-48.86 89.92,-47.78 81,-42.05 79.38,-48.86"/>
-</g>
 <!-- proc~iloc -->
-<g id="proc~~searsl~~CallsGraph_node3" class="node">
+<g id="proc~~searsl~~CallsGraph_node2" class="node">
 <title>proc~iloc</title>
-<g id="a_proc~~searsl~~CallsGraph_node3"><a xlink:href=".././proc/iloc.html" xlink:title="iloc">
-<polygon fill="#d94e8f" stroke="#d94e8f" points="144,-24 90,-24 90,0 144,0 144,-24"/>
-<text text-anchor="middle" x="117" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">iloc</text>
+<g id="a_proc~~searsl~~CallsGraph_node2"><a xlink:href=".././proc/iloc.html" xlink:title="iloc">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="144,-66 90,-66 90,-42 144,-42 144,-66"/>
+<text text-anchor="middle" x="117" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">iloc</text>
 </a>
 </g>
 </g>
 <!-- proc~searsl&#45;&gt;proc~iloc -->
-<g id="proc~~searsl~~CallsGraph_edge2" class="edge">
+<g id="proc~~searsl~~CallsGraph_edge1" class="edge">
 <title>proc~searsl&#45;&gt;proc~iloc</title>
+<path fill="none" stroke="#000000" d="M54.4,-39.3C62.48,-41.23 71.51,-43.38 80.1,-45.43"/>
+<polygon fill="#000000" stroke="#000000" points="79.38,-48.86 89.92,-47.78 81,-42.05 79.38,-48.86"/>
+</g>
+<!-- proc~rchmod -->
+<g id="proc~~searsl~~CallsGraph_node3" class="node">
+<title>proc~rchmod</title>
+<g id="a_proc~~searsl~~CallsGraph_node3"><a xlink:href=".././proc/rchmod.html" xlink:title="rchmod">
+<polygon fill="#d9534f" stroke="#d9534f" points="144,-24 90,-24 90,0 144,0 144,-24"/>
+<text text-anchor="middle" x="117" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">rchmod</text>
+</a>
+</g>
+</g>
+<!-- proc~searsl&#45;&gt;proc~rchmod -->
+<g id="proc~~searsl~~CallsGraph_edge2" class="edge">
+<title>proc~searsl&#45;&gt;proc~rchmod</title>
 <path fill="none" stroke="#000000" d="M54.4,-26.7C62.48,-24.77 71.51,-22.62 80.1,-20.57"/>
 <polygon fill="#000000" stroke="#000000" points="81,-23.95 89.92,-18.22 79.38,-17.14 81,-23.95"/>
 </g>
@@ -1007,7 +1007,7 @@ private subroutine searsl(me, Ioptn, Numgr, Nparm, Prjlim, Tol1, x, Fun, Ifun, P
 <span class="c">! THE F COMPUTATION, WE ARE DONE INITIALIZING.</span>
          <span class="k">if</span> <span class="p">(</span> <span class="n">f2</span><span class="o">&gt;</span><span class="n">f3</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">500</span>
          <span class="k">goto </span><span class="mi">400</span>
-      <span class="n">elseif</span> <span class="p">(</span> <span class="n">f1</span><span class="o">&gt;</span><span class="n">f3</span> <span class="p">)</span> <span class="k">then</span>
+      <span class="k">else if</span> <span class="p">(</span> <span class="n">f1</span><span class="o">&gt;</span><span class="n">f3</span> <span class="p">)</span> <span class="k">then</span>
 <span class="k">         goto </span><span class="mi">500</span>
       <span class="k">end if</span>
 <span class="c">!</span>
@@ -1127,7 +1127,7 @@ private subroutine searsl(me, Ioptn, Numgr, Nparm, Prjlim, Tol1, x, Fun, Ifun, P
 <span class="c">! TO THE RIGHT BY DECREASING RLF RELATIVE TO RRT.</span>
                   <span class="n">rlf</span> <span class="o">=</span> <span class="n">rlf</span><span class="o">/</span><span class="n">two</span><span class="o">**</span><span class="p">(</span><span class="n">ilf</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
                   <span class="n">rrt</span> <span class="o">=</span> <span class="n">one</span> <span class="o">-</span> <span class="n">rlf</span>
-               <span class="n">elseif</span> <span class="p">(</span> <span class="n">irt</span><span class="o">&gt;</span><span class="mi">1</span> <span class="p">)</span> <span class="k">then</span>
+               <span class="k">else if</span> <span class="p">(</span> <span class="n">irt</span><span class="o">&gt;</span><span class="mi">1</span> <span class="p">)</span> <span class="k">then</span>
 <span class="c">!</span>
 <span class="c">! HERE THE RIGHT ENDPOINT WAS DROPPED AT THE LAST IRT &gt; 1</span>
 <span class="c">! ITERATIONS, AND WE WILL SHIFT THE NEW POINT TO THE LEFT.</span>
@@ -1141,13 +1141,13 @@ private subroutine searsl(me, Ioptn, Numgr, Nparm, Prjlim, Tol1, x, Fun, Ifun, P
 <span class="c">! IDEA HERE IS THAT THE TWO CLOSE POINTS ARE PROBABLY NEAR THE</span>
 <span class="c">! SOLUTION, AND IF WE CAN BRACKET THE SOLUTION WE MAY BE ABLE TO</span>
 <span class="c">! CUT OFF THE MAJOR PORTION OF THE LONGER SUBINTERVAL.</span>
-               <span class="n">elseif</span> <span class="p">(</span> <span class="n">p2</span><span class="o">-</span><span class="n">p1</span><span class="o">&gt;</span><span class="n">balfct</span><span class="o">*</span><span class="p">(</span><span class="n">p3</span><span class="o">-</span><span class="n">p2</span><span class="p">)</span> <span class="p">)</span> <span class="k">then</span>
+               <span class="k">else if</span> <span class="p">(</span> <span class="n">p2</span><span class="o">-</span><span class="n">p1</span><span class="o">&gt;</span><span class="n">balfct</span><span class="o">*</span><span class="p">(</span><span class="n">p3</span><span class="o">-</span><span class="n">p2</span><span class="p">)</span> <span class="p">)</span> <span class="k">then</span>
 <span class="c">!</span>
 <span class="c">! HERE THE LEFT SUBINTERVAL IS MORE THAN BALFCT TIMES LONGER THAN</span>
 <span class="c">! THE RIGHT SUBINTERVAL, SO WE DECREASE RRT RRELATIVE TO RLF.</span>
                   <span class="n">rrt</span> <span class="o">=</span> <span class="n">baladj</span><span class="o">*</span><span class="n">rrt</span>
                   <span class="n">rlf</span> <span class="o">=</span> <span class="n">one</span> <span class="o">-</span> <span class="n">rrt</span>
-               <span class="n">elseif</span> <span class="p">(</span> <span class="n">p3</span><span class="o">-</span><span class="n">p2</span><span class="o">&gt;</span><span class="n">balfct</span><span class="o">*</span><span class="p">(</span><span class="n">p2</span><span class="o">-</span><span class="n">p1</span><span class="p">)</span> <span class="p">)</span> <span class="k">then</span>
+               <span class="k">else if</span> <span class="p">(</span> <span class="n">p3</span><span class="o">-</span><span class="n">p2</span><span class="o">&gt;</span><span class="n">balfct</span><span class="o">*</span><span class="p">(</span><span class="n">p2</span><span class="o">-</span><span class="n">p1</span><span class="p">)</span> <span class="p">)</span> <span class="k">then</span>
 <span class="c">!</span>
 <span class="c">! HERE THE RIGHT SUBINTERVAL IS MORE THAN BALFCT TIMES LONGER</span>
 <span class="c">! THAN THE LEFT SUBINTERVAL, SO WE DECREASE RLF RELATIVE TO RRT.</span>
@@ -1172,7 +1172,7 @@ private subroutine searsl(me, Ioptn, Numgr, Nparm, Prjlim, Tol1, x, Fun, Ifun, P
                   <span class="k">goto </span><span class="mi">1100</span>
 <span class="c">! HERE WE HAD ABS(P4-P2) &gt;= TOL4 AND WE MAKE SURE THAT P1+TOL4</span>
 <span class="c">! &lt;= P4 &lt;= P3-TOL4.</span>
-               <span class="n">elseif</span> <span class="p">(</span> <span class="n">p4</span><span class="o">&lt;=</span><span class="p">(</span><span class="n">p3</span><span class="o">-</span><span class="n">tol4</span><span class="p">)</span> <span class="p">)</span> <span class="k">then</span>
+               <span class="k">else if</span> <span class="p">(</span> <span class="n">p4</span><span class="o">&lt;=</span><span class="p">(</span><span class="n">p3</span><span class="o">-</span><span class="n">tol4</span><span class="p">)</span> <span class="p">)</span> <span class="k">then</span>
 <span class="k">                  if</span> <span class="p">(</span> <span class="n">p4</span><span class="o">&lt;</span><span class="p">(</span><span class="n">p1</span><span class="o">+</span><span class="n">tol4</span><span class="p">)</span> <span class="p">)</span> <span class="k">then</span>
 <span class="c">! HERE P4 &lt; P1+TOL4 AND WE SET P4=P1+TOL4 IF P2-P1 &gt;= TOL1/2.0</span>
 <span class="c">! AND OTHERWISE WE SET P4=P2+TOL4.</span>
@@ -1263,7 +1263,7 @@ private subroutine searsl(me, Ioptn, Numgr, Nparm, Prjlim, Tol1, x, Fun, Ifun, P
 <span class="c">! WE WILL SAVE THE BEST PARPRJ FOUND IN THIS SEARSL CALL IN PARSER.</span>
       <span class="k">if</span> <span class="p">(</span> <span class="n">isave</span><span class="o">&lt;=</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
 <span class="k">         </span><span class="n">isave</span> <span class="o">=</span> <span class="mi">1</span>
-      <span class="n">elseif</span> <span class="p">(</span> <span class="n">fval</span><span class="o">&gt;=</span><span class="n">fvlkp</span> <span class="p">)</span> <span class="k">then</span>
+      <span class="k">else if</span> <span class="p">(</span> <span class="n">fval</span><span class="o">&gt;=</span><span class="n">fvlkp</span> <span class="p">)</span> <span class="k">then</span>
 <span class="k">         goto </span><span class="mi">1300</span>
       <span class="k">end if</span>
 <span class="k">      do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Nparm</span>
@@ -1373,7 +1373,7 @@ private subroutine searsl(me, Ioptn, Numgr, Nparm, Prjlim, Tol1, x, Fun, Ifun, P
             <span class="k">end if</span>
 <span class="c">!</span>
 <span class="c">! HERE P4 &gt; P2.</span>
-         <span class="n">elseif</span> <span class="p">(</span> <span class="n">f2</span><span class="o">&lt;</span><span class="n">f4</span> <span class="p">)</span> <span class="k">then</span>
+         <span class="k">else if</span> <span class="p">(</span> <span class="n">f2</span><span class="o">&lt;</span><span class="n">f4</span> <span class="p">)</span> <span class="k">then</span>
 <span class="k">            </span><span class="n">p3</span> <span class="o">=</span> <span class="n">p4</span>
             <span class="n">f3</span> <span class="o">=</span> <span class="n">f4</span>
             <span class="n">ilf</span> <span class="o">=</span> <span class="mi">0</span>

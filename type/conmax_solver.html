@@ -125,7 +125,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title="<p>100.0% of total for derived types.</p>Including implementation: 1785 statements, 100.0% of total for derived types.">18 statements</a>
+    title="<p>100.0% of total for derived types.</p>Including implementation: 1805 statements, 100.0% of total for derived types.">18 statements</a>
      </li> 
      
      
@@ -876,18 +876,18 @@ private subroutine <a href='../proc/muller.html'>muller</a>(me, Ioptn, Nparm, Nu
 
 
 
-<p>IN THIS SUBROUTINE WE ARE GIVEN A BASE VECTOR ZWORK, A DIRECTION
- VECTOR DVEC, A SCALAR PROCOR WITH EMIN = F(PROCOR) = (THE MAXIMUM TYPE
- -2 AND -1 ERROR WITH PARAMETERS ZWORK + PROCOR*DVEC) &lt; -TOLCON, AND
- A SCALAR P1 WITH P1 &lt; PROCOR AND F1 = F(P1) &gt; TOLCON.  WE DO
- A REVISED MULLERS METHOD APPROACH (WITH A SOLUTION CONTAINED IN A
- SHRINKING INTERVAL) TO ATTEMPT TO ADJUST PROCOR SO THAT -TOLCON  &lt;=
- F(PROCOR) &lt;= TOLCON, BUT IF WE ARE NOT SUCCESSFUL WE RETURN WITH THE
- LEFTMOST PROCOR FOUND SATISFYING EMIN = F(PROCOR) &lt; -TOLCON ON THE
- THEORY THAT OVERCORRECTION IS BETTER THAN NO CORRECTION.  NOTE THAT WHEN
- CORRCT CALLS THIS SUBROUTINE IT WILL HAVE LUMPED THE TYPE -1 CONSTRAINTS
- IN WITH THE TYPE -2 CONSTRAINTS USING JCNTYP, WHICH IS CARRIED THROUGH
- THIS SUBROUTINE INTO SUBROUTINE ERCMP1 IN IWORK.</p>
+<p>In this subroutine we are given a base vector zwork, a direction
+  vector dvec, a scalar procor with emin = f(procor) = (the maximum type
+  -2 and -1 error with parameters zwork + procor*dvec) &lt; -tolcon, and
+  a scalar p1 with p1 &lt; procor and f1 = f(p1) &gt; tolcon.  we do
+  a revised mullers method approach (with a solution contained in a
+  shrinking interval) to attempt to adjust procor so that -tolcon  &lt;=
+  f(procor) &lt;= tolcon, but if we are not successful we return with the
+  leftmost procor found satisfying emin = f(procor) &lt; -tolcon on the
+  theory that overcorrection is better than no correction.  note that when
+  corrct calls this subroutine it will have lumped the type -1 constraints
+  in with the type -2 constraints using jcntyp, which is carried through
+  this subroutine into subroutine ercmp1 in iwork.</p>
     
     <h4>Arguments</h4>
     
@@ -938,8 +938,8 @@ private subroutine <a href='../proc/muller.html'>muller</a>(me, Ioptn, Nparm, Nu
   
 <tr>
   
-  <td><span class="anchor" ></span>integer</td>
-  <td></td>
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -953,8 +953,8 @@ private subroutine <a href='../proc/muller.html'>muller</a>(me, Ioptn, Nparm, Nu
   
 <tr>
   
-  <td><span class="anchor" ></span>integer</td>
-  <td></td>
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -973,7 +973,7 @@ private subroutine <a href='../proc/muller.html'>muller</a>(me, Ioptn, Nparm, Nu
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Dvec</strong></td><td></td>
+  <td><strong>Dvec</strong>(Nparm)</td><td></td>
   
 </tr>
 
@@ -988,7 +988,7 @@ private subroutine <a href='../proc/muller.html'>muller</a>(me, Ioptn, Nparm, Nu
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Fun</strong></td><td></td>
+  <td><strong>Fun</strong>(Ifun)</td><td></td>
   
 </tr>
 
@@ -998,8 +998,8 @@ private subroutine <a href='../proc/muller.html'>muller</a>(me, Ioptn, Nparm, Nu
   
 <tr>
   
-  <td><span class="anchor" ></span>integer</td>
-  <td></td>
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -1018,7 +1018,7 @@ private subroutine <a href='../proc/muller.html'>muller</a>(me, Ioptn, Nparm, Nu
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Pttbl</strong></td><td></td>
+  <td><strong>Pttbl</strong>(Iptb,Indm)</td><td></td>
   
 </tr>
 
@@ -1028,8 +1028,8 @@ private subroutine <a href='../proc/muller.html'>muller</a>(me, Ioptn, Nparm, Nu
   
 <tr>
   
-  <td><span class="anchor" ></span>integer</td>
-  <td></td>
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -1043,8 +1043,8 @@ private subroutine <a href='../proc/muller.html'>muller</a>(me, Ioptn, Nparm, Nu
   
 <tr>
   
-  <td><span class="anchor" ></span>integer</td>
-  <td></td>
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -1063,7 +1063,7 @@ private subroutine <a href='../proc/muller.html'>muller</a>(me, Ioptn, Nparm, Nu
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Zwork</strong></td><td></td>
+  <td><strong>Zwork</strong>(Nparm)</td><td></td>
   
 </tr>
 
@@ -1108,7 +1108,7 @@ private subroutine <a href='../proc/muller.html'>muller</a>(me, Ioptn, Nparm, Nu
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Iwork</strong></td><td></td>
+  <td><strong>Iwork</strong>(Liwrk)</td><td></td>
   
 </tr>
 
@@ -1138,7 +1138,7 @@ private subroutine <a href='../proc/muller.html'>muller</a>(me, Ioptn, Nparm, Nu
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Work</strong></td><td></td>
+  <td><strong>Work</strong>(Lwrk)</td><td></td>
   
 </tr>
 
@@ -1148,8 +1148,8 @@ private subroutine <a href='../proc/muller.html'>muller</a>(me, Ioptn, Nparm, Nu
   
 <tr>
   
-  <td><span class="anchor" ></span>integer</td>
-  <td></td>
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -1168,7 +1168,7 @@ private subroutine <a href='../proc/muller.html'>muller</a>(me, Ioptn, Nparm, Nu
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Parwrk</strong></td><td></td>
+  <td><strong>Parwrk</strong>(Nparm)</td><td></td>
   
 </tr>
 
@@ -1183,7 +1183,7 @@ private subroutine <a href='../proc/muller.html'>muller</a>(me, Ioptn, Nparm, Nu
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Err1</strong></td><td></td>
+  <td><strong>Err1</strong>(Numgr+3)</td><td></td>
   
 </tr>
 

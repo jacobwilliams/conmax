@@ -125,7 +125,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title="12.2% of total for procedures.">400 statements</a>
+    title="12.1% of total for procedures.">400 statements</a>
      </li> 
      
      
@@ -894,7 +894,7 @@ public subroutine slnpro(v, m, n, Iyrct, y, Ixrct, Iycct, Nparm, Numgr, x, Indic
          <span class="k">goto </span><span class="mi">100</span>
 <span class="c">! WE HAVE NOT FOUND A SUITABLE RESOLVENT IN ROWS IYRCT(I1),</span>
 <span class="c">! ...IYRCT(I2).  IF I2 &lt; M WE SEARCH THE REST OF COLUMN J.</span>
-      <span class="n">elseif</span> <span class="p">(</span> <span class="n">i2</span><span class="o">&lt;</span><span class="n">m</span> <span class="p">)</span> <span class="k">then</span>
+      <span class="k">else if</span> <span class="p">(</span> <span class="n">i2</span><span class="o">&lt;</span><span class="n">m</span> <span class="p">)</span> <span class="k">then</span>
 <span class="k">         </span><span class="n">i1</span> <span class="o">=</span> <span class="n">i2</span> <span class="o">+</span> <span class="mi">1</span>
          <span class="n">i2</span> <span class="o">=</span> <span class="n">m</span>
          <span class="k">goto </span><span class="mi">300</span>
@@ -902,7 +902,7 @@ public subroutine slnpro(v, m, n, Iyrct, y, Ixrct, Iycct, Nparm, Numgr, x, Indic
 <span class="c">! VALUE &gt; REA3.  IF IFAIL=0 WE SET INDIC=-3 AND TRY AGAIN</span>
 <span class="c">! WITH REA3 REDUCED.  IF THIS HAS ALREADY BEEN TRIED WE SET</span>
 <span class="c">! INDIC=1 AND RETURN.</span>
-      <span class="n">elseif</span> <span class="p">(</span> <span class="n">ifail</span><span class="o">&lt;=</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
+      <span class="k">else if</span> <span class="p">(</span> <span class="n">ifail</span><span class="o">&lt;=</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
 <span class="k">         </span><span class="n">ifail</span> <span class="o">=</span> <span class="mi">1</span>
          <span class="n">Indic</span> <span class="o">=</span> <span class="o">-</span><span class="mi">3</span>
          <span class="n">rea3</span> <span class="o">=</span> <span class="n">rea1</span>
@@ -976,7 +976,7 @@ public subroutine slnpro(v, m, n, Iyrct, y, Ixrct, Iycct, Nparm, Numgr, x, Indic
 <span class="k">            end do</span>
 <span class="k">         end if</span>
 <span class="k">         goto </span><span class="mi">900</span>
-      <span class="n">elseif</span> <span class="p">(</span> <span class="n">v</span><span class="p">(</span><span class="n">mp1</span><span class="p">,</span><span class="n">jj</span><span class="p">)</span><span class="o">+</span><span class="n">rea1</span><span class="o">&gt;=</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
+      <span class="k">else if</span> <span class="p">(</span> <span class="n">v</span><span class="p">(</span><span class="n">mp1</span><span class="p">,</span><span class="n">jj</span><span class="p">)</span><span class="o">+</span><span class="n">rea1</span><span class="o">&gt;=</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
 <span class="k">         goto </span><span class="mi">600</span>
       <span class="k">end if</span>
 <span class="c">!</span>
@@ -1051,7 +1051,7 @@ public subroutine slnpro(v, m, n, Iyrct, y, Ixrct, Iycct, Nparm, Numgr, x, Indic
             <span class="k">goto </span><span class="mi">800</span>
          <span class="k">end if</span>
 <span class="c">!</span>
-      <span class="n">elseif</span> <span class="p">(</span> <span class="n">inamp</span><span class="o">&lt;=</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
+      <span class="k">else if</span> <span class="p">(</span> <span class="n">inamp</span><span class="o">&lt;=</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
 <span class="c">! AT THIS POINT INAMP IS POSITIVE IFF THERE WAS AT LEAST ONE</span>
 <span class="c">! ELEMENT &gt; REA IN COLUMN JJ.  IF THERE WERE NONE, WE</span>
 <span class="c">! TEMPORARILY RELAX REA AND TRY AGAIN.</span>
@@ -1083,7 +1083,7 @@ public subroutine slnpro(v, m, n, Iyrct, y, Ixrct, Iycct, Nparm, Numgr, x, Indic
 <span class="c">! OR V(M+1,J) &lt; 0.0.AND.J &lt; JJ.</span>
                <span class="k">if</span> <span class="p">(</span> <span class="n">v</span><span class="p">(</span><span class="n">mp1</span><span class="p">,</span><span class="n">j</span><span class="p">)</span><span class="o">&lt;</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
 <span class="k">                  if</span> <span class="p">(</span> <span class="n">j</span><span class="o">&gt;=</span><span class="n">jj</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">860</span>
-               <span class="n">elseif</span> <span class="p">(</span> <span class="n">v</span><span class="p">(</span><span class="n">mp1</span><span class="p">,</span><span class="n">j</span><span class="p">)</span><span class="o">&gt;</span><span class="n">rea</span> <span class="p">)</span> <span class="k">then</span>
+               <span class="k">else if</span> <span class="p">(</span> <span class="n">v</span><span class="p">(</span><span class="n">mp1</span><span class="p">,</span><span class="n">j</span><span class="p">)</span><span class="o">&gt;</span><span class="n">rea</span> <span class="p">)</span> <span class="k">then</span>
 <span class="k">                  goto </span><span class="mi">860</span>
                <span class="k">end if</span>
 <span class="c">! WE WILL BE STUCK IN COLUMN J IFF THERE IS AN INDEX ID FOR</span>
@@ -1191,7 +1191,7 @@ public subroutine slnpro(v, m, n, Iyrct, y, Ixrct, Iycct, Nparm, Numgr, x, Indic
             <span class="k">goto </span><span class="mi">1000</span>
 <span class="c">! RELAX REA AND LOOK FOR NEGATIVE ELEMENTS WITH SMALLER</span>
 <span class="c">! ABSOLUTE VALUE.</span>
-         <span class="n">elseif</span> <span class="p">(</span> <span class="n">irlax</span><span class="o">&lt;=</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
+         <span class="k">else if</span> <span class="p">(</span> <span class="n">irlax</span><span class="o">&lt;=</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
 <span class="k">            </span><span class="n">irlax</span> <span class="o">=</span> <span class="mi">1</span>
             <span class="n">Indic</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
             <span class="n">rea</span> <span class="o">=</span> <span class="n">rea1</span>
@@ -1203,7 +1203,7 @@ public subroutine slnpro(v, m, n, Iyrct, y, Ixrct, Iycct, Nparm, Numgr, x, Indic
 <span class="k">         end if</span>
 <span class="c">! KKK=0 HERE IFF NONE OF THE COST COEFFICIENTS ARE</span>
 <span class="c">! SIGNIFICANTLY NEGATIVE.</span>
-      <span class="n">elseif</span> <span class="p">(</span> <span class="n">kkk</span><span class="o">/=</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
+      <span class="k">else if</span> <span class="p">(</span> <span class="n">kkk</span><span class="o">/=</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
 <span class="c">! CHECK TO SEE IF V(MP1,KEEP1) IS VERY SMALL IN ABSOLUTE</span>
 <span class="c">! VALUE OR NEGATIVE.  THIS INDICATES DEGENERACY.</span>
          <span class="k">if</span> <span class="p">(</span> <span class="n">v</span><span class="p">(</span><span class="n">mp1</span><span class="p">,</span><span class="n">keep1</span><span class="p">)</span><span class="o">&lt;=</span><span class="n">rea</span> <span class="p">)</span> <span class="k">then</span>
@@ -1292,7 +1292,7 @@ public subroutine slnpro(v, m, n, Iyrct, y, Ixrct, Iycct, Nparm, Numgr, x, Indic
 <span class="k">                                 end if</span>
 <span class="k">                              end do</span>
 <span class="k">                              if</span> <span class="p">(</span> <span class="n">lrknt</span><span class="o">&lt;</span><span class="n">mxrkn</span> <span class="p">)</span> <span class="k">then</span>
-<span class="k">                              </span><span class="n">elseif</span> <span class="p">(</span> <span class="n">lrknt</span><span class="o">==</span><span class="n">mxrkn</span> <span class="p">)</span> <span class="k">then</span>
+<span class="k">                              else if</span> <span class="p">(</span> <span class="n">lrknt</span><span class="o">==</span><span class="n">mxrkn</span> <span class="p">)</span> <span class="k">then</span>
 <span class="k">                                 if</span> <span class="p">(</span> <span class="n">v</span><span class="p">(</span><span class="n">id</span><span class="p">,</span><span class="n">j</span><span class="p">)</span><span class="o">&gt;=</span><span class="nb">amin</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">1102</span>
                               <span class="k">else</span>
 <span class="k">                                 goto </span><span class="mi">1102</span>
