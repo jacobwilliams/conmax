@@ -3298,29 +3298,56 @@ contains
         implicit none
 
         class(conmax_solver), intent(inout) :: me
-        real(wp) :: Actdif, Confun, conup, emin, emin1, Enc1, &
-                    Enchg, enorm, Err1, Error, Fun, Funtbl, &
-                    Param, Parprj, Parser, pe, Pmat
-        real(wp) :: prjbig, prjlim, Projct, prosea, Pttbl, qt, &
-                    quots, Rchdwn, Rchin, s, ss, &
-                    steplm, Tolcon
-        real(wp)  :: unit, wdist, Work, Xrk
-        integer i, Iact, Icntyp, icorct, ifrkpr, Ifun, ilc06, &
-            ilc10, ilc15, ilc21, ilc22, ilc24, ilc27, ilc30, &
-            ilc31, ilc33, ilc35, ilc36, ilc37, ilc38
-        integer ilc40, ilc43, ilc48, Indm, Ioptn, ioptth, &
-            Iphse, ipmax, ipt, Iptb, Irk, ismax, Isucc, Iter, &
-            Ityp1, Ityp2, Itypm1, Itypm2, iwarn
-        integer Iwork, j, jflag, l, limfl, Liwrk, Lwrk, mactrk, &
-            ncor, nfail, nmaj, nmin, npar1, Nparm, nsrch, &
-            Nstep, Numgr
+        integer, intent(in) :: Ifun
+        integer, intent(in) :: Iptb
+        integer, intent(in) :: Liwrk
+        integer, intent(in) :: Lwrk
+        integer, intent(in) :: Nparm
+        integer, intent(in) :: Numgr
+        integer :: Indm
+        integer :: Ioptn
+        integer :: Iphse
+        integer :: Irk
+        integer :: Isucc
+        integer :: Iter
+        integer :: Ityp1
+        integer :: Ityp2
+        integer :: Itypm1
+        integer :: Itypm2
+        integer :: Nstep
+        real(wp) :: Enc1
+        real(wp) :: Enchg
+        real(wp) :: Projct
+        real(wp) :: Rchdwn
+        real(wp) :: Rchin
+        real(wp) :: Tolcon
+        integer :: Iact(Numgr)
+        integer :: Icntyp(Numgr)
+        integer :: Iwork(Liwrk)
+        real(wp) :: Actdif(Numgr)
+        real(wp) :: Confun(Numgr, Nparm + 1)
+        real(wp) :: Err1(Numgr + 3)
+        real(wp) :: Error(Numgr + 3)
+        real(wp) :: Fun(Ifun)
+        real(wp) :: Funtbl(Numgr, Nparm + 1)
+        real(wp) :: Param(Nparm)
+        real(wp) :: Parprj(Nparm)
+        real(wp) :: Parser(Nparm)
+        real(wp) :: Pmat(Nparm + 1, Numgr)
+        real(wp) :: Pttbl(Iptb, Indm)
+        real(wp) :: Work(Lwrk)
+        real(wp) :: Xrk(Nparm + 1)
 
-        dimension Fun(Ifun), Pttbl(Iptb, Indm), Icntyp(Numgr), &
-            Param(Nparm), Error(Numgr + 3), Pmat(Nparm + 1, Numgr), &
-            Funtbl(Numgr, Nparm + 1), Iwork(Liwrk), Work(Lwrk), &
-            Iact(Numgr), Actdif(Numgr), Parprj(Nparm), &
-            Parser(Nparm), Xrk(Nparm + 1), Err1(Numgr + 3), &
-            Confun(Numgr, Nparm + 1)
+        real(wp) :: conup, emin, emin1, enorm, pe, &
+                    prjbig, prjlim, prosea, qt, &
+                    quots, s, ss, steplm, unit, wdist
+        integer :: i, icorct, ifrkpr, ilc06, &
+                   ilc10, ilc15, ilc21, ilc22, ilc24, ilc27, ilc30, &
+                   ilc31, ilc33, ilc35, ilc36, ilc37, ilc38, &
+                   ilc40, ilc43, ilc48, ioptth, &
+                   ipmax, ipt, ismax, iwarn, &
+                   j, jflag, l, limfl, mactrk, &
+                   ncor, nfail, nmaj, nmin, npar1, nsrch
 
         real(wp), parameter :: qthi = (one + two)/four
         real(wp), parameter :: qtlo = one/four
