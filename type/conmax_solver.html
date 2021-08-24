@@ -1898,8 +1898,8 @@ subroutine func(me, Nparm, Numgr, Pttbl, Iptb, Indm, Param, Ipt, Indfn, Icntyp, 
   
 <tr>
   
-  <td><span class="anchor" ></span>integer</td>
-  <td></td>
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -1913,8 +1913,8 @@ subroutine func(me, Nparm, Numgr, Pttbl, Iptb, Indm, Param, Ipt, Indfn, Icntyp, 
   
 <tr>
   
-  <td><span class="anchor" ></span>integer</td>
-  <td></td>
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -1928,12 +1928,12 @@ subroutine func(me, Nparm, Numgr, Pttbl, Iptb, Indm, Param, Ipt, Indfn, Icntyp, 
   
 <tr>
   
-  <td><span class="anchor" ></span>real(kind=wp)</td>
-  <td></td>
+  <td><span class="anchor" ></span>real(kind=wp),</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
-  <td><strong>Pttbl</strong>(Iptb,Indm)</td><td></td>
+  <td>dimension(Iptb, Indm)</td><td>::</td>
+  <td><strong>Pttbl</strong></td><td></td>
   
 </tr>
 
@@ -1943,8 +1943,8 @@ subroutine func(me, Nparm, Numgr, Pttbl, Iptb, Indm, Param, Ipt, Indfn, Icntyp, 
   
 <tr>
   
-  <td><span class="anchor" ></span>integer</td>
-  <td></td>
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -1958,8 +1958,8 @@ subroutine func(me, Nparm, Numgr, Pttbl, Iptb, Indm, Param, Ipt, Indfn, Icntyp, 
   
 <tr>
   
-  <td><span class="anchor" ></span>integer</td>
-  <td></td>
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -1973,12 +1973,12 @@ subroutine func(me, Nparm, Numgr, Pttbl, Iptb, Indm, Param, Ipt, Indfn, Icntyp, 
   
 <tr>
   
-  <td><span class="anchor" ></span>real(kind=wp)</td>
-  <td></td>
+  <td><span class="anchor" ></span>real(kind=wp),</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
-  <td><strong>Param</strong>(Nparm)</td><td></td>
+  <td>dimension(Nparm)</td><td>::</td>
+  <td><strong>Param</strong></td><td></td>
   
 </tr>
 
@@ -1988,8 +1988,8 @@ subroutine func(me, Nparm, Numgr, Pttbl, Iptb, Indm, Param, Ipt, Indfn, Icntyp, 
   
 <tr>
   
-  <td><span class="anchor" ></span>integer</td>
-  <td></td>
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -2003,8 +2003,8 @@ subroutine func(me, Nparm, Numgr, Pttbl, Iptb, Indm, Param, Ipt, Indfn, Icntyp, 
   
 <tr>
   
-  <td><span class="anchor" ></span>integer</td>
-  <td></td>
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -2018,12 +2018,12 @@ subroutine func(me, Nparm, Numgr, Pttbl, Iptb, Indm, Param, Ipt, Indfn, Icntyp, 
   
 <tr>
   
-  <td><span class="anchor" ></span>integer</td>
-  <td></td>
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
-  <td><strong>Icntyp</strong>(Numgr)</td><td></td>
+  <td>dimension(Numgr)</td><td>::</td>
+  <td><strong>Icntyp</strong></td><td></td>
   
 </tr>
 
@@ -2033,12 +2033,12 @@ subroutine func(me, Nparm, Numgr, Pttbl, Iptb, Indm, Param, Ipt, Indfn, Icntyp, 
   
 <tr>
   
-  <td><span class="anchor" ></span>real(kind=wp)</td>
-  <td></td>
+  <td><span class="anchor" ></span>real(kind=wp),</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
-  <td><strong>Confun</strong>(Numgr,Nparm+1)</td><td></td>
+  <td>dimension(Numgr,Nparm+1)</td><td>::</td>
+  <td><strong>Confun</strong></td><td></td>
   
 </tr>
 

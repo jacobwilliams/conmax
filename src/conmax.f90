@@ -89,17 +89,17 @@ module conmax_module
         !!    need not be computed).
             import :: wp, conmax_solver
             implicit none
-            class(conmax_solver), intent(inout) :: me
-            integer  :: Nparm
-            integer  :: Numgr
-            integer  :: Iptb
-            integer  :: Indm
-            real(wp) :: Pttbl(Iptb, Indm)
-            real(wp) :: Param(Nparm)
-            integer  :: Ipt
-            integer  :: Indfn
-            integer  :: Icntyp(Numgr)
-            real(wp) :: Confun(Numgr, Nparm + 1)
+            class(conmax_solver), intent(inout)             :: me
+            integer, intent(in)                             :: Nparm
+            integer, intent(in)                             :: Numgr
+            integer, intent(in)                             :: Iptb
+            integer, intent(in)                             :: Indm
+            real(wp), dimension(Iptb, Indm), intent(in)     :: Pttbl
+            real(wp), dimension(Nparm), intent(in)          :: Param
+            integer, intent(in)                             :: Ipt
+            integer, intent(in)                             :: Indfn
+            integer, dimension(Numgr), intent(out)          :: Icntyp
+            real(wp), dimension(Numgr,Nparm+1), intent(out) :: Confun
         end subroutine func
     end interface
 

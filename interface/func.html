@@ -242,8 +242,8 @@ private subroutine func(me, Nparm, Numgr, Pttbl, Iptb, Indm, Param, Ipt, Indfn, 
   
 <tr>
   
-  <td><span class="anchor" id="variable-nparm"></span>integer</td>
-  <td></td>
+  <td><span class="anchor" id="variable-nparm"></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -257,8 +257,8 @@ private subroutine func(me, Nparm, Numgr, Pttbl, Iptb, Indm, Param, Ipt, Indfn, 
   
 <tr>
   
-  <td><span class="anchor" id="variable-numgr"></span>integer</td>
-  <td></td>
+  <td><span class="anchor" id="variable-numgr"></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -272,12 +272,12 @@ private subroutine func(me, Nparm, Numgr, Pttbl, Iptb, Indm, Param, Ipt, Indfn, 
   
 <tr>
   
-  <td><span class="anchor" id="variable-pttbl"></span>real(kind=wp)</td>
-  <td></td>
+  <td><span class="anchor" id="variable-pttbl"></span>real(kind=wp),</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
-  <td><strong>Pttbl</strong>(Iptb,Indm)</td><td></td>
+  <td>dimension(Iptb, Indm)</td><td>::</td>
+  <td><strong>Pttbl</strong></td><td></td>
   
 </tr>
 
@@ -287,8 +287,8 @@ private subroutine func(me, Nparm, Numgr, Pttbl, Iptb, Indm, Param, Ipt, Indfn, 
   
 <tr>
   
-  <td><span class="anchor" id="variable-iptb"></span>integer</td>
-  <td></td>
+  <td><span class="anchor" id="variable-iptb"></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -302,8 +302,8 @@ private subroutine func(me, Nparm, Numgr, Pttbl, Iptb, Indm, Param, Ipt, Indfn, 
   
 <tr>
   
-  <td><span class="anchor" id="variable-indm"></span>integer</td>
-  <td></td>
+  <td><span class="anchor" id="variable-indm"></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -317,12 +317,12 @@ private subroutine func(me, Nparm, Numgr, Pttbl, Iptb, Indm, Param, Ipt, Indfn, 
   
 <tr>
   
-  <td><span class="anchor" id="variable-param"></span>real(kind=wp)</td>
-  <td></td>
+  <td><span class="anchor" id="variable-param"></span>real(kind=wp),</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
-  <td><strong>Param</strong>(Nparm)</td><td></td>
+  <td>dimension(Nparm)</td><td>::</td>
+  <td><strong>Param</strong></td><td></td>
   
 </tr>
 
@@ -332,8 +332,8 @@ private subroutine func(me, Nparm, Numgr, Pttbl, Iptb, Indm, Param, Ipt, Indfn, 
   
 <tr>
   
-  <td><span class="anchor" id="variable-ipt"></span>integer</td>
-  <td></td>
+  <td><span class="anchor" id="variable-ipt"></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -347,8 +347,8 @@ private subroutine func(me, Nparm, Numgr, Pttbl, Iptb, Indm, Param, Ipt, Indfn, 
   
 <tr>
   
-  <td><span class="anchor" id="variable-indfn"></span>integer</td>
-  <td></td>
+  <td><span class="anchor" id="variable-indfn"></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -362,12 +362,12 @@ private subroutine func(me, Nparm, Numgr, Pttbl, Iptb, Indm, Param, Ipt, Indfn, 
   
 <tr>
   
-  <td><span class="anchor" id="variable-icntyp"></span>integer</td>
-  <td></td>
+  <td><span class="anchor" id="variable-icntyp"></span>integer,</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
-  <td><strong>Icntyp</strong>(Numgr)</td><td></td>
+  <td>dimension(Numgr)</td><td>::</td>
+  <td><strong>Icntyp</strong></td><td></td>
   
 </tr>
 
@@ -377,12 +377,12 @@ private subroutine func(me, Nparm, Numgr, Pttbl, Iptb, Indm, Param, Ipt, Indfn, 
   
 <tr>
   
-  <td><span class="anchor" id="variable-confun"></span>real(kind=wp)</td>
-  <td></td>
+  <td><span class="anchor" id="variable-confun"></span>real(kind=wp),</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
-  <td><strong>Confun</strong>(Numgr,Nparm+1)</td><td></td>
+  <td>dimension(Numgr,Nparm+1)</td><td>::</td>
+  <td><strong>Confun</strong></td><td></td>
   
 </tr>
 
