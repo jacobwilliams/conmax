@@ -792,21 +792,21 @@
         ! PRINCIPAL ERROR NORM ENORM = ERROR(NUMGR+1) BY MORE THAN 100.0*B**(-ITT)
         ! THEN IT WILL LEAVE PARAM AND ERROR UNCHANGED.
         call me%slpcon(Ioptn,Nparm,Numgr,Fun,Ifun,Pttbl,Iptb,Indm,tolcon, &
-                        rchin,irk,itypm1,itypm2,Iwork(ilc17),rchdwn,numlim,&
-                        itersl,prjslp,Work(ilc12),Iwork(ilc20),Work(ilc44),&
-                        mact1,Iwork(ilc14),Iwork(ilc21),iphse,enchg,Iwork, &
-                        Liwrk,Work,Lwrk,Work(ilc26),isucc,Param,Error)
+                       rchin,irk,itypm1,itypm2,Iwork(ilc17),rchdwn,numlim,&
+                       itersl,prjslp,Work(ilc12),Iwork(ilc20),Work(ilc44),&
+                       mact1,Iwork(ilc14),Iwork(ilc21),iphse,enchg,Iwork, &
+                       Liwrk,Work,Lwrk,Work(ilc26),isucc,Param,Error)
     else
         ! HERE IRK IS 1 OR 2 AND WE DO AN RK STEP.  IF RKCON CANNOT REDUCE THE
         ! PRINCIPAL ERROR NORM ENORM = ERROR(NUMGR+1) BY MORE THAN 100.0*B**(-ITT)
         ! THEN IT WILL LEAVE PARAM AND ERROR UNCHANGED.
         call me%rkcon(Ioptn,Nparm,Numgr,Fun,Ifun,Pttbl,Iptb,Indm,tolcon,  &
-                        rchin,Iter,irk,ityp2,ityp1,itypm1,itypm2,           &
-                        Iwork(ilc17),projct,rchdwn,nstep,iphse,enchg,enc1,  &
-                        Work(ilc29),Work(ilc12),Iwork,Liwrk,Work,Lwrk,      &
-                        Iwork(ilc13),Work(ilc02),Work(ilc25),Work(ilc26),   &
-                        Work(ilc46),Work(ilc11),Work(ilc08),isucc,Param,    &
-                        Error)
+                      rchin,Iter,irk,ityp2,ityp1,itypm1,itypm2,           &
+                      Iwork(ilc17),projct,rchdwn,nstep,iphse,enchg,enc1,  &
+                      Work(ilc29),Work(ilc12),Iwork,Liwrk,Work,Lwrk,      &
+                      Iwork(ilc13),Work(ilc02),Work(ilc25),Work(ilc26),   &
+                      Work(ilc46),Work(ilc11),Work(ilc08),isucc,Param,    &
+                      Error)
     end if
 
     if ( isucc<=0 ) then
@@ -1211,12 +1211,14 @@
     implicit none
 
     class(conmax_solver),intent(inout) :: me
+    integer,intent(in) :: Nparm
+    integer,intent(in) :: Numgr
+    integer,intent(in) :: Ifun
+    integer,intent(in) :: Iptb
+    integer,intent(in) :: Indm
+    integer,intent(in) :: Liwrk
+    integer,intent(in) :: Lwrk
     integer  :: Ioptn
-    integer  :: Nparm
-    integer  :: Numgr
-    integer  :: Ifun
-    integer  :: Iptb
-    integer  :: Indm
     integer  :: Irk
     integer  :: Itypm1
     integer  :: Itypm2
@@ -1224,8 +1226,6 @@
     integer  :: Itersl
     integer  :: Mact1
     integer  :: Iphse
-    integer  :: Liwrk
-    integer  :: Lwrk
     integer  :: Isucc
     real(wp) :: Tolcon
     real(wp) :: Rchin
@@ -1285,10 +1285,10 @@
         ! CALL SETU1 TO SET UP FOR SLNPRO AND, IF NUMIN=0, TO DETERMINE
         ! WHICH CONSTRAINTS ARE ACTIVE AND STORE FUNCTION AND GRADIENT VALUES
         ! FOR THEM IN FUNTBL.
-        call me%setu1(Ioptn,Numgr,Nparm,numin,Rchin,Pttbl,Iptb,Indm,Fun,Ifun,&
-                    Funtbl,Work(ilc07),Param,Icntyp,Rchdwn,Error,Mact1,      &
-                    Iact1,bndlgt,Iyrct,Iphse,Iwork,Liwrk,Work,Lwrk,          &
-                    Work(ilc08),Iwork(ilc13),Work(ilc35),m)
+        call me%setu1(Ioptn,Numgr,Nparm,numin,Rchin,Pttbl,Iptb,Indm,Fun,Ifun, &
+                      Funtbl,Work(ilc07),Param,Icntyp,Rchdwn,Error,Mact1,     &
+                      Iact1,bndlgt,Iyrct,Iphse,Iwork,Liwrk,Work,Lwrk,         &
+                      Work(ilc08),Iwork(ilc13),Work(ilc35),m)
 
         ! SET UNIT (FOR USE IN RCHMOD) EQUAL TO THE VALUE OF BNDLGT AFTER
         ! SETU1 IS CALLED WITH NUMIN=0.
@@ -1346,11 +1346,11 @@
             ! DO NOT ALLOW A PRJSLP SMALLER THAN TOL1.
             if ( Prjslp<tol1 ) Prjslp = tol1
             ! CALL SEARSL TO DO A LINE SEARCH IN DIRECTION X.
-            call me%searsl(Ioptn,Numgr,Nparm,prjlim,tol1,x,Fun,Ifun,Pttbl, &
-                        Iptb,Indm,Param,Error,Rchdwn,Mact1,Iact1,Iphse,    &
-                        unit,Tolcon,Rchin,Itypm1,Itypm2,Iwork,Liwrk,Work,  &
-                        Lwrk,Work(ilc11),Work(ilc25),Prjslp,emin,emin1,    &
-                        Parser,nsrch)
+            call me%searsl(Ioptn,Numgr,Nparm,prjlim,tol1,x,Fun,Ifun,Pttbl,   &
+                           Iptb,Indm,Param,Error,Rchdwn,Mact1,Iact1,Iphse,   &
+                           unit,Tolcon,Rchin,Itypm1,Itypm2,Iwork,Liwrk,Work, &
+                           Lwrk,Work(ilc11),Work(ilc25),Prjslp,emin,emin1,   &
+                           Parser,nsrch)
 
             ! COMPUTE THE ERROR NORM CHANGE ENCHG.
             Enchg = emin - enorm
@@ -2664,467 +2664,448 @@
 !  projct, the minimum f value in emin, the f value for the initial
 !  projct in emin1, and the number of times it computed f in nsrch.
 
-    subroutine searsl(me,Ioptn,Numgr,Nparm,Prjlim,Tol1,x,Fun,Ifun,Pttbl, &
-                      Iptb,Indm,Param,Error,Rchdwn,Mact,Iact,Iphse,   &
-                      Unit,Tolcon,Rchin,Itypm1,Itypm2,Iwork,Liwrk,    &
-                      Work,Lwrk,Err1,Parprj,Projct,Emin,Emin1,Parser, &
+    subroutine searsl(me, Ioptn, Numgr, Nparm, Prjlim, Tol1, x, Fun, Ifun, Pttbl, &
+                      Iptb, Indm, Param, Error, Rchdwn, Mact, Iact, Iphse, &
+                      Unit, Tolcon, Rchin, Itypm1, Itypm2, Iwork, Liwrk, &
+                      Work, Lwrk, Err1, Parprj, Projct, Emin, Emin1, Parser, &
                       Nsrch)
 
-      implicit none
+    implicit none
 
-      class(conmax_solver),intent(inout) :: me
-      real(wp) :: Emin , Emin1 , Err1 , &
-                  Error , f1 , f2 , f3 , f4 , Fun , fval , fvlkp , &
-                  p1 , p2 , p3
-      real(wp) :: p4 , Param , Parprj , Parser , Prjlim , Projct , Pttbl ,   &
-                  pval , Rchdwn , Rchin , rlf , rrt , s1 , s2 , tol4, &
-                  Tol1 , Tolcon
-      real(wp) :: Unit , Work , x
-      integer :: Iact , icorct , Ifun , ilc08 , ilc10 , ilc17 , ilc21 , &
-                 ilc27 , ilc29 , ilc48 , ilf , Indm , initlm , &
-                 Ioptn , Iphse , ipmax , Iptb , irt , isave
-      integer :: ismax , Itypm1 , Itypm2 , iupbar , Iwork , j , lims1 , &
-                 Liwrk , lll , Lwrk , Mact , nadd , Nparm , Nsrch , Numgr
+    class(conmax_solver), intent(inout) :: me
+    real(wp) :: Emin, Emin1, Err1, &
+                Error, f1, f2, f3, f4, Fun, fval, fvlkp, &
+                p1, p2, p3
+    real(wp) :: p4, Param, Parprj, Parser, Prjlim, Projct, Pttbl, &
+                pval, Rchdwn, Rchin, rlf, rrt, s1, s2, tol4, &
+                Tol1, Tolcon
+    real(wp) :: Unit, Work, x
+    integer :: Iact, icorct, Ifun, ilc08, ilc10, ilc17, ilc21, &
+               ilc27, ilc29, ilc48, ilf, Indm, initlm, &
+               Ioptn, Iphse, ipmax, Iptb, irt, isave
+    integer :: ismax, Itypm1, Itypm2, iupbar, Iwork, j, lims1, &
+               Liwrk, lll, Lwrk, Mact, nadd, Nparm, Nsrch, Numgr
 
-      dimension Fun(Ifun) , Pttbl(Iptb,Indm) , Param(Nparm) ,  &
-                Err1(Numgr+3) , Parprj(Nparm) , x(Nparm+1) ,   &
-                Error(Numgr+3) , Iact(Numgr) , Parser(Nparm) , &
-                Iwork(Liwrk) , Work(Lwrk)
+    dimension Fun(Ifun), Pttbl(Iptb, Indm), Param(Nparm), &
+                Err1(Numgr + 3), Parprj(Nparm), x(Nparm + 1), &
+                Error(Numgr + 3), Iact(Numgr), Parser(Nparm), &
+                Iwork(Liwrk), Work(Lwrk)
 
-    real(wp),parameter :: tolden = ten*spcmn
-    real(wp),parameter :: balfct = ten
-    real(wp),parameter :: baladj = (ten-one)/ten
+    real(wp), parameter :: tolden = ten*spcmn
+    real(wp), parameter :: balfct = ten
+    real(wp), parameter :: baladj = (ten - one)/ten
 
-      tol4 = Tol1/four
-      ilc08 = iloc(8,Nparm,Numgr)
-      ilc10 = iloc(10,Nparm,Numgr)
-      ilc17 = iloc(17,Nparm,Numgr)
-      ilc21 = iloc(21,Nparm,Numgr)
-      ilc27 = iloc(27,Nparm,Numgr)
-      ilc29 = iloc(29,Nparm,Numgr)
-      ilc48 = iloc(48,Nparm,Numgr)
+    tol4 = Tol1/four
+    ilc08 = iloc(8, Nparm, Numgr)
+    ilc10 = iloc(10, Nparm, Numgr)
+    ilc17 = iloc(17, Nparm, Numgr)
+    ilc21 = iloc(21, Nparm, Numgr)
+    ilc27 = iloc(27, Nparm, Numgr)
+    ilc29 = iloc(29, Nparm, Numgr)
+    ilc48 = iloc(48, Nparm, Numgr)
 
-! THE INITIAL PROJCT CAN BE INCREASED (OR DECREASED) BY A FACTOR OF
-! 2.0**((INITLM-1)*INITLM-2)/2) (ASSUMING WE TAKE INITLM >= 3, AS
-! WE SHOULD).  WE TAKE INITLM=6 SINCE A FACTOR OF 1024 SEEMS SUFFICIENT.
-      initlm = 6
-! NADD=4 SEEMS TO BE SUFFICIENT SINCE THIS NUMBER OF ITERATIONS PAST THE
-! INITIALIZATION SEEMS TO ONLY RARELY BE EXCEEDED.
-      nadd = 4
-      Nsrch = 0
-      ilf = 0
-      irt = 0
-      iupbar = 0
-      isave = 0
-! INITIALLY PUT PARAM IN PARSER SO THERE WILL BE SOMETHING THERE IF
-! WE NEVER GET A CORRECTIBLE PARPRJ.
-      do j = 1 , Nparm
-         Parser(j) = Param(j)
-      end do
-! WE NOW TRY TO COMPUTE VALUES AT POINTS P2=PROJCT, P1=P2/2.0, AND
-! P3=2.0*P2 (BUT P3 CANNOT EXCEED PRJLIM).
-      p2 = Projct
-! SET LLL=2 AS THE THREAD THROUGH THE MINOTAURS CAVERN AND JUMP
-! DOWN TO PUT F(P2) IN F2.  WE WILL JUMP BACK AFTER ALL SUCH JUMPS
-      lll = 2
-      pval = p2
-      goto 1200
-! HERE SET LLL=3 AND PUT F(P3) IN F3.
- 100  lll = 3
-      pval = p3
-      goto 1200
-!
-! WE NOW HAVE FOUND P1, P2, AND P3 WITH CORRESPONDING VALUES
-! F1, F2, AND F3.  WE EXPAND THE INTERVAL IF NECESSARY TO TRY
-! TO FIND NEW VALUES WITH F2 <= MIN(F1,F3).
- 200  if ( f2<=f1 ) then
-!
-! HERE F2 <= F1.  IF F2 <= F3 AND WE HAVE NOT HAD ALL FAILURES OF
-! THE F COMPUTATION, WE ARE DONE INITIALIZING.
-         if ( f2>f3 ) goto 500
-         goto 400
-      else if ( f1>f3 ) then
-         goto 500
-      end if
-!
-! HERE WE WILL EXPAND THE INTERVAL TO THE LEFT, PROVIDING THAT
-! NSRCH < INITLM AND P1-P1/2.0**(NSRCH-1) >= TOL4.
- 300  if ( Nsrch<initlm ) then
-         if ( p1-p1/two**(Nsrch-1)>=tol4 ) then
-!
-! EXPAND LEFT.
+    ! THE INITIAL PROJCT CAN BE INCREASED (OR DECREASED) BY A FACTOR OF
+    ! 2.0**((INITLM-1)*INITLM-2)/2) (ASSUMING WE TAKE INITLM >= 3, AS
+    ! WE SHOULD).  WE TAKE INITLM=6 SINCE A FACTOR OF 1024 SEEMS SUFFICIENT.
+    initlm = 6
+    ! NADD=4 SEEMS TO BE SUFFICIENT SINCE THIS NUMBER OF ITERATIONS PAST THE
+    ! INITIALIZATION SEEMS TO ONLY RARELY BE EXCEEDED.
+    nadd = 4
+    Nsrch = 0
+    ilf = 0
+    irt = 0
+    iupbar = 0
+    isave = 0
+    ! INITIALLY PUT PARAM IN PARSER SO THERE WILL BE SOMETHING THERE IF
+    ! WE NEVER GET A CORRECTIBLE PARPRJ.
+    do j = 1, Nparm
+        Parser(j) = Param(j)
+    end do
+    ! WE NOW TRY TO COMPUTE VALUES AT POINTS P2=PROJCT, P1=P2/2.0, AND
+    ! P3=2.0*P2 (BUT P3 CANNOT EXCEED PRJLIM).
+    p2 = Projct
+    ! SET LLL=2 AS THE THREAD THROUGH THE MINOTAURS CAVERN AND JUMP
+    ! DOWN TO PUT F(P2) IN F2.  WE WILL JUMP BACK AFTER ALL SUCH JUMPS
+    lll = 2
+    pval = p2
+    goto 1200
+
+    ! HERE SET LLL=3 AND PUT F(P3) IN F3.
+100 lll = 3
+    pval = p3
+    goto 1200
+
+    ! WE NOW HAVE FOUND P1, P2, AND P3 WITH CORRESPONDING VALUES
+    ! F1, F2, AND F3.  WE EXPAND THE INTERVAL IF NECESSARY TO TRY
+    ! TO FIND NEW VALUES WITH F2 <= MIN(F1,F3).
+200 if (f2 <= f1) then
+        ! HERE F2 <= F1.  IF F2 <= F3 AND WE HAVE NOT HAD ALL FAILURES OF
+        ! THE F COMPUTATION, WE ARE DONE INITIALIZING.
+        if (f2 > f3) goto 500
+        goto 400
+    else if (f1 > f3) then
+        goto 500
+    end if
+
+    ! HERE WE WILL EXPAND THE INTERVAL TO THE LEFT, PROVIDING THAT
+    ! NSRCH < INITLM AND P1-P1/2.0**(NSRCH-1) >= TOL4.
+300 if (Nsrch < initlm) then
+        if (p1 - p1/two**(Nsrch - 1) >= tol4) then
+            ! EXPAND LEFT.
             p3 = p2
             f3 = f2
             p2 = p1
             f2 = f1
-            p1 = p1/two**(Nsrch-1)
-! SET LLL=5 AND PUT F(P1) IN F1.
+            p1 = p1/two**(Nsrch - 1)
+            ! SET LLL=5 AND PUT F(P1) IN F1.
             lll = 5
             pval = p1
             goto 1200
-         end if
-      end if
-!
-! HERE WE CANNOT EXPAND LEFT AND WE RETURN WITH THE BEST VALUES
-! FOUND SO FAR.
-      Projct = p1
-      Emin = f1
-      return
-!
-! HERE WE CHECK TO SEE IF THE F COMPUTATION HAS FAILED EVERY TIME
-! (INDICATED BY F1=F2=F3=BIG), AND IF SO WE TRY TO EXPAND LEFT.
-! IF NOT, WE ARE DONE WITH THE INITIALIZATION.
- 400  if ( f1<big ) goto 700
-      if ( f2<big ) goto 700
-      if ( f3>=big ) goto 300
-      goto 700
-!
-! HERE F3 < MIN(F1,F2) AND WE EXPAND THE INTERVAL TO THE RIGHT IF
-! NSRCH < INITLM AND IUPBAR=0.
- 500  if ( Nsrch<initlm ) then
-         if ( iupbar<=0 ) then
-!
-! EXPAND RIGHT.
+        end if
+    end if
+
+    ! HERE WE CANNOT EXPAND LEFT AND WE RETURN WITH THE BEST VALUES
+    ! FOUND SO FAR.
+    Projct = p1
+    Emin = f1
+    return
+
+    ! HERE WE CHECK TO SEE IF THE F COMPUTATION HAS FAILED EVERY TIME
+    ! (INDICATED BY F1=F2=F3=BIG), AND IF SO WE TRY TO EXPAND LEFT.
+    ! IF NOT, WE ARE DONE WITH THE INITIALIZATION.
+400 if (f1 < big) goto 700
+    if (f2 < big) goto 700
+    if (f3 >= big) goto 300
+    goto 700
+
+    ! HERE F3 < MIN(F1,F2) AND WE EXPAND THE INTERVAL TO THE RIGHT IF
+    ! NSRCH < INITLM AND IUPBAR=0.
+500 if (Nsrch < initlm) then
+        if (iupbar <= 0) then
+            ! EXPAND RIGHT.
             p1 = p2
             f1 = f2
             p2 = p3
             f2 = f3
-            p3 = two**(Nsrch-1)*p2
-! IF P3 > PRJLIM, SET IUPBAR=1 AS AN INDICATOR WE CANNOT LATER
-! EXPAND THE INTERVAL TO THE RIGHT.  THEN IF PRJLIM >= P2+TOL4
-! REPLACE P3 BY PRJLIM, AND OTHERWISE RETURN WITH THE BEST VALUES
-! FOUND SO FAR.
-            if ( p3<=Prjlim ) goto 600
+            p3 = two**(Nsrch - 1)*p2
+            ! IF P3 > PRJLIM, SET IUPBAR=1 AS AN INDICATOR WE CANNOT LATER
+            ! EXPAND THE INTERVAL TO THE RIGHT.  THEN IF PRJLIM >= P2+TOL4
+            ! REPLACE P3 BY PRJLIM, AND OTHERWISE RETURN WITH THE BEST VALUES
+            ! FOUND SO FAR.
+            if (p3 <= Prjlim) goto 600
             iupbar = 1
-            if ( Prjlim-p2<tol4 ) then
-               Projct = p2
-               Emin = f2
-               return
+            if (Prjlim - p2 < tol4) then
+                Projct = p2
+                Emin = f2
+                return
             else
-!
-               p3 = Prjlim
-               goto 600
+                p3 = Prjlim
+                goto 600
             end if
-         end if
-      end if
-!
-! HERE WE CANNOT EXPAND RIGHT AND WE RETURN WITH THE BEST VALUES
-! FOUND SO FAR.
-      Projct = p3
-      Emin = f3
-      return
-!
-! SET LLL=6 AND PUT F(P3) IN F3.
- 600  lll = 6
-      pval = p3
-      goto 1200
-! END OF INITIALIZATION.
-!
-! ASSUMING THAT P3-P1 >= TOL1, WE NOW HAVE POINTS P1, P2, P3 WITH
-! P1 <= P2-TOL4, P2 <= P3-TOL4, F1=F(P1) >= F2=F(P2), AND F3=F(P3)
-! >= F2.  THESE CONDITIONS WILL BE MAINTAINED THROUGHOUT THE PROGRAM.
-! SET LLL=7, WHERE IT WILL REMAIN FROM NOW ON.
- 700  lll = 7
-!
-! RESET LIMS1 SO THAT AT MOST NADD MORE COMPUTATIONS OF F WILL BE DONE.
-      lims1 = Nsrch + nadd
-!
-! IF WE HAVE COMPUTED F LIMS1 TIMES, WE PUT P2 IN PROJCT, PUT F2 IN
-! EMIN, AND RETURN.
- 800  if ( Nsrch<lims1 ) then
-!
-! IF THE SEARCH INTERVAL LENGTH IS LESS THAN TOL1 WE PUT P2 IN
-! PROJCT, PUT F2 IN EMIN, AND RETURN.
-         if ( p3-p1>=Tol1 ) then
-!
-! COMPUTE S1 = THE ABSOLUTE VALUE OF THE SLOPE OF THE LINE THROUGH
-! (P1,F1) AND (P2,F2), AND S2 = THE (ABSOLUTE VALUE OF THE) SLOPE
-! OF THE LINE THROUGH (P2,F2) AND (P3,F3).
-!***MOD  CONSIDER INCREASING TOL1 TO 10**4*SPCMN
-            s1 = (f1-f2)/(p2-p1)
-            s2 = (f3-f2)/(p3-p2)
-! IF S1+S2 IS VERY SMALL WE RETURN WITH THE BEST VALUES FOUND SO FAR.
-            if ( s1+s2>=tolden ) then
-!
-               rlf = s2/(s1+s2)
-               rrt = one - rlf
-! THE MINIMUM OF THE QUADRATIC POLYNOMIAL PASSING THROUGH
-! (P1,F1), (P2,F2), AND (P3,F3) WILL OCCUR AT (RLF*P1+
-! RRT*P3+P2)/2.0.  NOTE THAT THE THREE POINTS CANNOT BE
-! COLLNEAR, ELSE WE WOULD HAVE TERMINATED ABOVE.  SINCE THE
-! MINIMUM OCCURS AT THE AVERAGE OF P2 AND A CONVEX COMBINATION
-! OF P1 AND P3, IT WILL BE AT LEAST AS CLOSE TO P2 AS TO THE
-! ENDPOINT ON THE SAME SIDE.
-               if ( ilf>1 ) then
-!
-! HERE THE LEFT ENDPOINT WAS DROPPED AT THE LAST ILF > 1
-! ITERATIONS, SO TO PREVENT A LONG STRING OF SUCH OCCURRENCES
-! WITH LITTLE REDUCTION OF P3-P1 WE WILL SHIFT THE NEW POINT
-! TO THE RIGHT BY DECREASING RLF RELATIVE TO RRT.
-                  rlf = rlf/two**(ilf-1)
-                  rrt = one - rlf
-               else if ( irt>1 ) then
-!
-! HERE THE RIGHT ENDPOINT WAS DROPPED AT THE LAST IRT > 1
-! ITERATIONS, AND WE WILL SHIFT THE NEW POINT TO THE LEFT.
-                  rrt = rrt/two**(irt-1)
-                  rlf = one - rrt
-!
-! HERE WE HAVE NOT JUST HAD A STRING OF TWO OR MORE MOVES IN
-! THE SAME DIRECTION, BUT IF THE SUBINTERVALS ARE OUT OF
-! BALANCE BY MORE THAN A FACTOR OF BALFCT, WE SHIFT THE NEW
-! POINT SLIGHTLY IN THE DIRECTION OF THE LONGER INTERVAL.  THE
-! IDEA HERE IS THAT THE TWO CLOSE POINTS ARE PROBABLY NEAR THE
-! SOLUTION, AND IF WE CAN BRACKET THE SOLUTION WE MAY BE ABLE TO
-! CUT OFF THE MAJOR PORTION OF THE LONGER SUBINTERVAL.
-               else if ( p2-p1>balfct*(p3-p2) ) then
-!
-! HERE THE LEFT SUBINTERVAL IS MORE THAN BALFCT TIMES LONGER THAN
-! THE RIGHT SUBINTERVAL, SO WE DECREASE RRT RRELATIVE TO RLF.
-                  rrt = baladj*rrt
-                  rlf = one - rrt
-               else if ( p3-p2>balfct*(p2-p1) ) then
-!
-! HERE THE RIGHT SUBINTERVAL IS MORE THAN BALFCT TIMES LONGER
-! THAN THE LEFT SUBINTERVAL, SO WE DECREASE RLF RELATIVE TO RRT.
-                  rlf = baladj*rlf
-                  rrt = one - rlf
-               end if
-!
-! COMPUTE THE (POSSIBLY MODIFIED) MINIMUM OF THE QUADRATIC FIT.
-               p4 = (rlf*p1+rrt*p3+p2)/two
-!
-! THE NEXT SECTION (FROM HERE TO STATEMENT 2800) MODIFIES P4 IF NECESSARY
-! TO GET P1+TOL4 <= P2,P4 <= P3-TOL4 AND ABS(P4-P2) >= TOL4.  IN
-! THE UNLIKELY EVENT THIS IS NOT POSSIBLE WE SET PROJCT=P2, EMIN=F2
-! AND RETURN.
-!
-! IF ABS(P4-P2) < TOL4 WE REDEFINE P4 BY MOVING TOL4 FROM
-! P2 INTO THE LONGER SUBINTERVAL.  NOTE THAT THE LENGTH OF THIS
-! SUBINTERVAL MUST BE AT LEAST TOL1/2.0 = 2.0*TOL4, ELSE WE
-! WOULD HAVE TERMINATED EARLIER.
-               if ( abs(p4-p2)<tol4 ) then
-                  if ( p3-p2>(p2-p1) ) goto 1000
-                  goto 1100
-! HERE WE HAD ABS(P4-P2) >= TOL4 AND WE MAKE SURE THAT P1+TOL4
-! <= P4 <= P3-TOL4.
-               else if ( p4<=(p3-tol4) ) then
-                  if ( p4<(p1+tol4) ) then
-! HERE P4 < P1+TOL4 AND WE SET P4=P1+TOL4 IF P2-P1 >= TOL1/2.0
-! AND OTHERWISE WE SET P4=P2+TOL4.
-                     if ( p2-p1<Tol1/two ) goto 1000
-                     p4 = p1 + tol4
-!
-! NOW JUMP DOWN TO PUT F(P4) IN F4.
-                     pval = p4
-                     goto 1200
-                  else
-                     pval = p4
-                     goto 1200
-                  end if
-               else
-! HERE P4 > P3-TOL4 AND WE SET P4=P3-TOL4 IF P3-P2 >= TOL1/2.0,
-! AND OTHERWISE WE SET P4=P2-TOL4.
-                  if ( p3-p2<Tol1/two ) goto 1100
-                  p4 = p3 - tol4
-                  pval = p4
-                  goto 1200
-               end if
+        end if
+    end if
+
+    ! HERE WE CANNOT EXPAND RIGHT AND WE RETURN WITH THE BEST VALUES
+    ! FOUND SO FAR.
+    Projct = p3
+    Emin = f3
+    return
+
+    ! SET LLL=6 AND PUT F(P3) IN F3.
+600 lll = 6
+    pval = p3
+    goto 1200
+    ! END OF INITIALIZATION.
+
+    ! ASSUMING THAT P3-P1 >= TOL1, WE NOW HAVE POINTS P1, P2, P3 WITH
+    ! P1 <= P2-TOL4, P2 <= P3-TOL4, F1=F(P1) >= F2=F(P2), AND F3=F(P3)
+    ! >= F2.  THESE CONDITIONS WILL BE MAINTAINED THROUGHOUT THE PROGRAM.
+    ! SET LLL=7, WHERE IT WILL REMAIN FROM NOW ON.
+700 lll = 7
+
+    ! RESET LIMS1 SO THAT AT MOST NADD MORE COMPUTATIONS OF F WILL BE DONE.
+    lims1 = Nsrch + nadd
+
+    ! IF WE HAVE COMPUTED F LIMS1 TIMES, WE PUT P2 IN PROJCT, PUT F2 IN
+    ! EMIN, AND RETURN.
+800 if (Nsrch < lims1) then
+
+        ! IF THE SEARCH INTERVAL LENGTH IS LESS THAN TOL1 WE PUT P2 IN
+        ! PROJCT, PUT F2 IN EMIN, AND RETURN.
+        if (p3 - p1 >= Tol1) then
+            ! COMPUTE S1 = THE ABSOLUTE VALUE OF THE SLOPE OF THE LINE THROUGH
+            ! (P1,F1) AND (P2,F2), AND S2 = THE (ABSOLUTE VALUE OF THE) SLOPE
+            ! OF THE LINE THROUGH (P2,F2) AND (P3,F3).
+            !***MOD  CONSIDER INCREASING TOL1 TO 10**4*SPCMN
+            s1 = (f1 - f2)/(p2 - p1)
+            s2 = (f3 - f2)/(p3 - p2)
+            ! IF S1+S2 IS VERY SMALL WE RETURN WITH THE BEST VALUES FOUND SO FAR.
+            if (s1 + s2 >= tolden) then
+                rlf = s2/(s1 + s2)
+                rrt = one - rlf
+                ! THE MINIMUM OF THE QUADRATIC POLYNOMIAL PASSING THROUGH
+                ! (P1,F1), (P2,F2), AND (P3,F3) WILL OCCUR AT (RLF*P1+
+                ! RRT*P3+P2)/2.0.  NOTE THAT THE THREE POINTS CANNOT BE
+                ! COLLNEAR, ELSE WE WOULD HAVE TERMINATED ABOVE.  SINCE THE
+                ! MINIMUM OCCURS AT THE AVERAGE OF P2 AND A CONVEX COMBINATION
+                ! OF P1 AND P3, IT WILL BE AT LEAST AS CLOSE TO P2 AS TO THE
+                ! ENDPOINT ON THE SAME SIDE.
+                if (ilf > 1) then
+                    ! HERE THE LEFT ENDPOINT WAS DROPPED AT THE LAST ILF > 1
+                    ! ITERATIONS, SO TO PREVENT A LONG STRING OF SUCH OCCURRENCES
+                    ! WITH LITTLE REDUCTION OF P3-P1 WE WILL SHIFT THE NEW POINT
+                    ! TO THE RIGHT BY DECREASING RLF RELATIVE TO RRT.
+                    rlf = rlf/two**(ilf - 1)
+                    rrt = one - rlf
+                else if (irt > 1) then
+                    ! HERE THE RIGHT ENDPOINT WAS DROPPED AT THE LAST IRT > 1
+                    ! ITERATIONS, AND WE WILL SHIFT THE NEW POINT TO THE LEFT.
+                    rrt = rrt/two**(irt - 1)
+                    rlf = one - rrt
+                    ! HERE WE HAVE NOT JUST HAD A STRING OF TWO OR MORE MOVES IN
+                    ! THE SAME DIRECTION, BUT IF THE SUBINTERVALS ARE OUT OF
+                    ! BALANCE BY MORE THAN A FACTOR OF BALFCT, WE SHIFT THE NEW
+                    ! POINT SLIGHTLY IN THE DIRECTION OF THE LONGER INTERVAL.  THE
+                    ! IDEA HERE IS THAT THE TWO CLOSE POINTS ARE PROBABLY NEAR THE
+                    ! SOLUTION, AND IF WE CAN BRACKET THE SOLUTION WE MAY BE ABLE TO
+                    ! CUT OFF THE MAJOR PORTION OF THE LONGER SUBINTERVAL.
+                else if (p2 - p1 > balfct*(p3 - p2)) then
+                    ! HERE THE LEFT SUBINTERVAL IS MORE THAN BALFCT TIMES LONGER THAN
+                    ! THE RIGHT SUBINTERVAL, SO WE DECREASE RRT RRELATIVE TO RLF.
+                    rrt = baladj*rrt
+                    rlf = one - rrt
+                else if (p3 - p2 > balfct*(p2 - p1)) then
+                    ! HERE THE RIGHT SUBINTERVAL IS MORE THAN BALFCT TIMES LONGER
+                    ! THAN THE LEFT SUBINTERVAL, SO WE DECREASE RLF RELATIVE TO RRT.
+                    rlf = baladj*rlf
+                    rrt = one - rlf
+                end if
+
+                ! COMPUTE THE (POSSIBLY MODIFIED) MINIMUM OF THE QUADRATIC FIT.
+                p4 = (rlf*p1 + rrt*p3 + p2)/two
+
+                ! THE NEXT SECTION (FROM HERE TO STATEMENT 2800) MODIFIES P4 IF NECESSARY
+                ! TO GET P1+TOL4 <= P2,P4 <= P3-TOL4 AND ABS(P4-P2) >= TOL4.  IN
+                ! THE UNLIKELY EVENT THIS IS NOT POSSIBLE WE SET PROJCT=P2, EMIN=F2
+                ! AND RETURN.
+
+                ! IF ABS(P4-P2) < TOL4 WE REDEFINE P4 BY MOVING TOL4 FROM
+                ! P2 INTO THE LONGER SUBINTERVAL.  NOTE THAT THE LENGTH OF THIS
+                ! SUBINTERVAL MUST BE AT LEAST TOL1/2.0 = 2.0*TOL4, ELSE WE
+                ! WOULD HAVE TERMINATED EARLIER.
+                if (abs(p4 - p2) < tol4) then
+                    if (p3 - p2 > (p2 - p1)) goto 1000
+                    goto 1100
+                    ! HERE WE HAD ABS(P4-P2) >= TOL4 AND WE MAKE SURE THAT P1+TOL4
+                    ! <= P4 <= P3-TOL4.
+                else if (p4 <= (p3 - tol4)) then
+                    if (p4 < (p1 + tol4)) then
+                        ! HERE P4 < P1+TOL4 AND WE SET P4=P1+TOL4 IF P2-P1 >= TOL1/2.0
+                        ! AND OTHERWISE WE SET P4=P2+TOL4.
+                        if (p2 - p1 < Tol1/two) goto 1000
+                        p4 = p1 + tol4
+                        ! NOW JUMP DOWN TO PUT F(P4) IN F4.
+                        pval = p4
+                        goto 1200
+                    else
+                        pval = p4
+                        goto 1200
+                    end if
+                else
+                    ! HERE P4 > P3-TOL4 AND WE SET P4=P3-TOL4 IF P3-P2 >= TOL1/2.0,
+                    ! AND OTHERWISE WE SET P4=P2-TOL4.
+                    if (p3 - p2 < Tol1/two) goto 1100
+                    p4 = p3 - tol4
+                    pval = p4
+                    goto 1200
+                end if
             end if
-         end if
-      end if
-!
- 900  Projct = p2
-      Emin = f2
-      return
- 1000 p4 = p2 + tol4
-! IF TOL4 WAS SMALL ENOUGH RELATIVE TO P2 THAT THE MACHINE THINKS P4
-! STILL EQUALS P2, WHICH IS MORE LIKELY IF P2 IS LARGE, THIS COULD RESULT
-! IN A DIVIDE FAULT LATER.  TO AVOID THIS, WE REDEFINE P4 AS THE AVERAGE
-! OF P2 AND P3 IF NECESSARY.  IF WE STILL DONT HAVE P4 STRICTLY BETWEEN
-! P2 AND P3, WE TERMINATE THE SEARCH.
-      if ( p4<=p2 ) then
-         p4 = (p2+p3)/two
-         if ( p4<=p2 ) goto 900
-      end if
-      if ( p4>=p3 ) goto 900
-      pval = p4
-      goto 1200
- 1100 p4 = p2 - tol4
-! IF TOL4 WAS SMALL ENOUGH RELATIVE TO P2 THAT THE MACHINE THINKS P4
-! STILL EQUALS P2, WHICH IS MORE LIKELY IF P2 IS LARGE, THIS COULD RESULT
-! IN A DIVIDE FAULT LATER.  TO AVOID THIS, WE REDEFINE P4 AS THE AVERAGE
-! OF P1 AND P2 IF NECESSARY.  IF WE STILL DONT HAVE P4 STRICTLY BETWEEN
-! P1 AND P2, WE TERMINATE THE SEARCH.
-      if ( p4>=p2 ) then
-         p4 = (p1+p2)/two
-         if ( p4>=p2 ) goto 900
-      end if
-      if ( p4<=p1 ) goto 900
-      pval = p4
-!
-! INCREMENT NSRCH SINCE WE ARE ABOUT TO COMPUTE F.
- 1200 Nsrch = Nsrch + 1
-!
-!
-! THIS IS WHERE THE USER MUST SUPPLY A ROUTINE TO COMPUTE
-! FVAL=F(PVAL).  IF THE PROCEDURE FAILS, SET FVAL=BIG.
-!
-      fval = big
-! PROJECT X TO GET PARPRJ.
-      do j = 1 , Nparm
-         Parprj(j) = Param(j) + pval*x(j)
-      end do
-!
-! CALL CORRCT TO RETURN PARPRJ TO FEASIBILITY IF NECESSARY IF ITYPM1
-! OR ITYPM2 IS POSITIVE.
-      if ( Itypm1+Itypm2>0 ) then
-         call me%corrct(Ioptn,Nparm,Numgr,Fun,Ifun,Pttbl,Iptb,Indm,        &
-                     Iwork(ilc17),Unit,Tolcon,Rchin,Error,Mact,Iact,    &
-                     Projct,Iphse,Iwork,Liwrk,Work,Lwrk,Work(ilc27),    &
-                     Err1,Work(ilc10),Work(ilc29),Work(ilc08),          &
-                     Work(ilc48),Iwork(ilc21),Parprj,icorct)
-         if ( icorct>0 ) goto 1300
-      end if
-      call me%ercmp1(Ioptn,Nparm,Numgr,Fun,Ifun,Pttbl,Iptb,Indm,Parprj,1,  &
-                  Iphse,Iwork,Liwrk,Work(ilc08),Iwork(ilc17),ipmax,     &
-                  ismax,Err1)
-      fval = Err1(Numgr+1)
-!
-! IF NSRCH=1, INDICATING THAT WE ARE COMPUTING F WITH THE INITIAL PROJCT,
-! CALL RCHMOD WITH IRCH=1 TO INCREASE RCHDWN FOR THE NEXT SETU1 OR
-! RKSACT CALL IF NECESSARY.
-      if ( Nsrch<=1 ) call rchmod(Numgr,Error,Err1,Iwork(ilc17),Mact,   &
-                                  Iact,ipmax,ismax,Unit,1,Rchdwn,Rchin)
-! WE WILL SAVE THE BEST PARPRJ FOUND IN THIS SEARSL CALL IN PARSER.
-      if ( isave<=0 ) then
-         isave = 1
-      else if ( fval>=fvlkp ) then
-         goto 1300
-      end if
-      do j = 1 , Nparm
-         Parser(j) = Parprj(j)
-      end do
-      fvlkp = fval
-! IF IPHSE < 0 AND FVAL <= TOLCON WE RETURN WITH THE BEST VALUES
-! FOUND SO FAR.
-      if ( Iphse<0 ) then
-         if ( fval<=Tolcon ) then
+        end if
+    end if
+
+900 Projct = p2
+    Emin = f2
+    return
+
+1000 p4 = p2 + tol4
+    ! IF TOL4 WAS SMALL ENOUGH RELATIVE TO P2 THAT THE MACHINE THINKS P4
+    ! STILL EQUALS P2, WHICH IS MORE LIKELY IF P2 IS LARGE, THIS COULD RESULT
+    ! IN A DIVIDE FAULT LATER.  TO AVOID THIS, WE REDEFINE P4 AS THE AVERAGE
+    ! OF P2 AND P3 IF NECESSARY.  IF WE STILL DONT HAVE P4 STRICTLY BETWEEN
+    ! P2 AND P3, WE TERMINATE THE SEARCH.
+    if (p4 <= p2) then
+        p4 = (p2 + p3)/two
+        if (p4 <= p2) goto 900
+    end if
+    if (p4 >= p3) goto 900
+    pval = p4
+    goto 1200
+
+1100 p4 = p2 - tol4
+    ! IF TOL4 WAS SMALL ENOUGH RELATIVE TO P2 THAT THE MACHINE THINKS P4
+    ! STILL EQUALS P2, WHICH IS MORE LIKELY IF P2 IS LARGE, THIS COULD RESULT
+    ! IN A DIVIDE FAULT LATER.  TO AVOID THIS, WE REDEFINE P4 AS THE AVERAGE
+    ! OF P1 AND P2 IF NECESSARY.  IF WE STILL DONT HAVE P4 STRICTLY BETWEEN
+    ! P1 AND P2, WE TERMINATE THE SEARCH.
+    if (p4 >= p2) then
+        p4 = (p1 + p2)/two
+        if (p4 >= p2) goto 900
+    end if
+    if (p4 <= p1) goto 900
+    pval = p4
+
+    ! INCREMENT NSRCH SINCE WE ARE ABOUT TO COMPUTE F.
+1200 Nsrch = Nsrch + 1
+
+    ! THIS IS WHERE THE USER MUST SUPPLY A ROUTINE TO COMPUTE
+    ! FVAL=F(PVAL).  IF THE PROCEDURE FAILS, SET FVAL=BIG.
+
+    fval = big
+    ! PROJECT X TO GET PARPRJ.
+    do j = 1, Nparm
+        Parprj(j) = Param(j) + pval*x(j)
+    end do
+
+    ! CALL CORRCT TO RETURN PARPRJ TO FEASIBILITY IF NECESSARY IF ITYPM1
+    ! OR ITYPM2 IS POSITIVE.
+    if (Itypm1 + Itypm2 > 0) then
+        call me%corrct(Ioptn, Nparm, Numgr, Fun, Ifun, Pttbl, Iptb, Indm, &
+                       Iwork(ilc17), Unit, Tolcon, Rchin, Error, Mact, Iact, &
+                       Projct, Iphse, Iwork, Liwrk, Work, Lwrk, Work(ilc27), &
+                       Err1, Work(ilc10), Work(ilc29), Work(ilc08), &
+                       Work(ilc48), Iwork(ilc21), Parprj, icorct)
+        if (icorct > 0) goto 1300
+    end if
+    call me%ercmp1(Ioptn, Nparm, Numgr, Fun, Ifun, Pttbl, Iptb, Indm, Parprj, 1, &
+                   Iphse, Iwork, Liwrk, Work(ilc08), Iwork(ilc17), ipmax, &
+                   ismax, Err1)
+    fval = Err1(Numgr + 1)
+
+    ! IF NSRCH=1, INDICATING THAT WE ARE COMPUTING F WITH THE INITIAL PROJCT,
+    ! CALL RCHMOD WITH IRCH=1 TO INCREASE RCHDWN FOR THE NEXT SETU1 OR
+    ! RKSACT CALL IF NECESSARY.
+    if (Nsrch <= 1) call rchmod(Numgr, Error, Err1, Iwork(ilc17), Mact, &
+                                Iact, ipmax, ismax, Unit, 1, Rchdwn, Rchin)
+    ! WE WILL SAVE THE BEST PARPRJ FOUND IN THIS SEARSL CALL IN PARSER.
+    if (isave <= 0) then
+        isave = 1
+    else if (fval >= fvlkp) then
+        goto 1300
+    end if
+    do j = 1, Nparm
+        Parser(j) = Parprj(j)
+    end do
+    fvlkp = fval
+    ! IF IPHSE < 0 AND FVAL <= TOLCON WE RETURN WITH THE BEST VALUES
+    ! FOUND SO FAR.
+    if (Iphse < 0) then
+        if (fval <= Tolcon) then
             Projct = pval
             Emin = fval
             return
-         end if
-      end if
-!
-! CARRY THE COMPUTED F VALUE BACK TO THE APPROPRIATE PART OF THE PROGRAM.
- 1300 select case (lll)
-      case (1)
-!
-         f1 = fval
-         p3 = two*p2
-! IF P3 > PRJLIM, SET IUPBAR=1 AS AN INDICATOR WE CANNOT LATER
-! EXPAND THE INTERVAL TO THE RIGHT.  THEN IF PRJLIM >= P2+TOL4
-! REPLACE P3 BY PRJLIM, AND OTHERWISE EXPAND THE INTERVAL TO THE
-! LEFT TO GET THE DESIRED THIRD POINT.
-         if ( p3<=Prjlim ) goto 100
-         iupbar = 1
-         if ( Prjlim-p2<tol4 ) then
-!
-! EXPAND LEFT TO GET THE INITIAL THIRD POINT SINCE THERE IS NO ROOM
-! TO EXPAND RIGHT.
+        end if
+    end if
+
+    ! CARRY THE COMPUTED F VALUE BACK TO THE APPROPRIATE PART OF THE PROGRAM.
+1300 select case (lll)
+    case (1)
+        f1 = fval
+        p3 = two*p2
+        ! IF P3 > PRJLIM, SET IUPBAR=1 AS AN INDICATOR WE CANNOT LATER
+        ! EXPAND THE INTERVAL TO THE RIGHT.  THEN IF PRJLIM >= P2+TOL4
+        ! REPLACE P3 BY PRJLIM, AND OTHERWISE EXPAND THE INTERVAL TO THE
+        ! LEFT TO GET THE DESIRED THIRD POINT.
+        if (p3 <= Prjlim) goto 100
+        iupbar = 1
+        if (Prjlim - p2 < tol4) then
+            ! EXPAND LEFT TO GET THE INITIAL THIRD POINT SINCE THERE IS NO ROOM
+            ! TO EXPAND RIGHT.
             p3 = p2
             f3 = f2
             p2 = p1
             f2 = f1
             p1 = p1/two
-! SET LLL=4 AND PUT F(P1) IN F1.
+            ! SET LLL=4 AND PUT F(P1) IN F1.
             lll = 4
             pval = p1
             goto 1200
-         else
+        else
             p3 = Prjlim
             goto 100
-         end if
-      case (2)
-!
-         f2 = fval
-! SET EMIN1 = THE VALUE OF F USING THE GIVEN PROJECTION FACTOR PROJCT.
-         Emin1 = fval
-         p1 = p2/two
-! SET LLL=1 AND PUT F(P1) IN F1.
-         lll = 1
-         pval = p1
-         goto 1200
-      case (3)
-!
-         f3 = fval
-         goto 200
-      case (4)
-!
-         f1 = fval
-         goto 200
-      case (5)
-         f1 = fval
-!
-! HERE F2 <= F3 AND WE HAVE JUST EXPANDED LEFT.  IF F2 > F1 WE
-! TRY TO EXPAND LEFT AGAIN, OTHERWISE WE CHECK TO SEE IF WE ARE DONE
-! INITIALIZING.
-         if ( f2>f1 ) goto 300
-         goto 400
-      case (6)
-         f3 = fval
-!
-! HERE F2 < F1 AND WE HAVE JUST EXPANDED RIGHT.  IF F2 <= F3
-! WE ARE DONE INITIALIZING, OTHERWISE WE TRY TO EXPAND RIGHT AGAIN.
-         if ( f2>f3 ) goto 500
-         goto 700
-      case (7)
-!
-         f4 = fval
-!
-! NOW WE DROP EITHER P1 OR P3 AND RELABEL THE REMAINING POINTS SO
-! THAT F(P2) <= F(P1) AND F(P2) <= F(P3).
-!
-! IF NOW THE LEFTMOST OF THE TWO MIDDLE POINTS IS LOWER THAN THE
-! RIGHTMOST OF THE TWO MIDDLE POINTS WE DROP P3, AND SET ILF=0
-! AND INCREMENT IRT TO INDICATE THE RIGHT END POINT HAS BEEN DROPPED.
-! OTHERWISE WE DROP P1, SET IRT=0 AND INCREMENT ILF.  IN ALL CASES
-! WE THEN RESHUFFLE THE VALUES INTO P1, P2, P3, F1, F2, F3 AND TRY
-! TO DO ANOTHER ITERATION.
-         if ( p4<p2 ) then
-!
-! HERE P4 < P2.
-            if ( f4<f2 ) then
-               p3 = p2
-               f3 = f2
-               p2 = p4
-               f2 = f4
-               ilf = 0
-               irt = irt + 1
+        end if
+    case (2)
+        f2 = fval
+        ! SET EMIN1 = THE VALUE OF F USING THE GIVEN PROJECTION FACTOR PROJCT.
+        Emin1 = fval
+        p1 = p2/two
+        ! SET LLL=1 AND PUT F(P1) IN F1.
+        lll = 1
+        pval = p1
+        goto 1200
+    case (3)
+        f3 = fval
+        goto 200
+    case (4)
+        f1 = fval
+        goto 200
+    case (5)
+        f1 = fval
+        ! HERE F2 <= F3 AND WE HAVE JUST EXPANDED LEFT.  IF F2 > F1 WE
+        ! TRY TO EXPAND LEFT AGAIN, OTHERWISE WE CHECK TO SEE IF WE ARE DONE
+        ! INITIALIZING.
+        if (f2 > f1) goto 300
+        goto 400
+    case (6)
+        f3 = fval
+        ! HERE F2 < F1 AND WE HAVE JUST EXPANDED RIGHT.  IF F2 <= F3
+        ! WE ARE DONE INITIALIZING, OTHERWISE WE TRY TO EXPAND RIGHT AGAIN.
+        if (f2 > f3) goto 500
+        goto 700
+    case (7)
+        f4 = fval
+        ! NOW WE DROP EITHER P1 OR P3 AND RELABEL THE REMAINING POINTS SO
+        ! THAT F(P2) <= F(P1) AND F(P2) <= F(P3).
+
+        ! IF NOW THE LEFTMOST OF THE TWO MIDDLE POINTS IS LOWER THAN THE
+        ! RIGHTMOST OF THE TWO MIDDLE POINTS WE DROP P3, AND SET ILF=0
+        ! AND INCREMENT IRT TO INDICATE THE RIGHT END POINT HAS BEEN DROPPED.
+        ! OTHERWISE WE DROP P1, SET IRT=0 AND INCREMENT ILF.  IN ALL CASES
+        ! WE THEN RESHUFFLE THE VALUES INTO P1, P2, P3, F1, F2, F3 AND TRY
+        ! TO DO ANOTHER ITERATION.
+        if (p4 < p2) then
+            ! HERE P4 < P2.
+            if (f4 < f2) then
+                p3 = p2
+                f3 = f2
+                p2 = p4
+                f2 = f4
+                ilf = 0
+                irt = irt + 1
             else
-               p1 = p4
-               f1 = f4
-               ilf = ilf + 1
-               irt = 0
+                p1 = p4
+                f1 = f4
+                ilf = ilf + 1
+                irt = 0
             end if
-!
-! HERE P4 > P2.
-         else if ( f2<f4 ) then
+        ! HERE P4 > P2.
+        else if (f2 < f4) then
             p3 = p4
             f3 = f4
             ilf = 0
             irt = irt + 1
-         else
+        else
             p1 = p2
             f1 = f2
             p2 = p4
             f2 = f4
             ilf = ilf + 1
             irt = 0
-         end if
-         goto 800
-      case default
-      end select
+        end if
+        goto 800
+    case default
+
+    end select
+
     end subroutine searsl
 !********************************************************************************
 
