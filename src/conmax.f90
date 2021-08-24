@@ -1913,119 +1913,123 @@ contains
 
         implicit none
 
+        integer,intent(in) :: Nparm
+        integer,intent(in) :: Numgr
+        integer  :: m
+        integer  :: n
+        integer  :: Indic
+        integer  :: Iyrct(Numgr + 2*Nparm)
+        integer  :: Ixrct(Numgr + 2*Nparm)
+        integer  :: Iycct(Nparm + 1)
+        real(wp) :: x(Nparm + 1)
+        real(wp) :: y(Numgr + 2*Nparm)
+        real(wp) :: v(Numgr + 2*Nparm + 1, Nparm + 2)
+
         real(wp) :: absv, amax, amin, ampr2, amprv, bmpr2, bmprv, &
-                    dist, dist1, rea, rea1, rea2, &
-                    rea3, reakp, rowq, rtcol
-        real(wp) :: temp, v, x, y
+                    dist, dist1, rea, rea1, rea2, rea3, reakp, rowq, &
+                    rtcol, temp
         integer :: i, i1, i10, i2, i20, iback, id, ifail, ii, &
-                   inamp, Indic, indst, irlax, irow, itemp, Ixrct, &
-                   ixrj, Iycct, iycj, Iyrct
-        integer :: iyri, iytmp, j, jj, k, keep, keep1, kkk, kpmp1, &
-                   kpmp2, ktjor, l, limjor, ll, lrknt, m, mp1, &
-                   mxrkn, n, np1
-        integer :: Nparm, Numgr
+                   inamp, indst, irlax, irow, itemp, ixrj, iycj, &
+                   iyri, iytmp, j, jj, k, keep, keep1, kkk, kpmp1, &
+                   kpmp2, ktjor, l, limjor, ll, lrknt, mp1, mxrkn, np1
 
-        dimension v(Numgr + 2*Nparm + 1, Nparm + 2), Iyrct(Numgr + 2*Nparm), &
-            x(Nparm + 1), y(Numgr + 2*Nparm), Ixrct(Numgr + 2*Nparm), &
-            Iycct(Nparm + 1)
+        ! SET MACHINE DEPENDENT PARAMETERS FOR SUBROUTINE SLNPRO.
+        ! SET SPCMN=B**(-ITT), WHERE B IS THE BASE AND ITT IS THE NUMBER
+        ! OF BASE B DIGITS IN THE MANTISSA.  SPCMN IS THE MINIMUM
+        ! RELATIVE SPACING ABS((X1-X2)/X2) BETWEEN TWO SUCCESSIVE
+        ! FLOATING POINT NUMBERS, SO IT IS THE SPACING BETWEEN TWO
+        ! SUCCESSIVE FLOATING POINT NUMBERS IN THE CLOSED INTERVAL
+        ! (0.1,1.0).  WE ALSO HAVE SPCMN=10.0**(-ITT*(LOG10)(B))=
+        ! 10.0**(-TNMAN), WHERE TNMAN IS THE BASE 10 EQUIVALENT OF
+        ! THE LENGTH OF THE MANTISSA.
 
-! SET MACHINE DEPENDENT PARAMETERS FOR SUBROUTINE SLNPRO.
-! SET SPCMN=B**(-ITT), WHERE B IS THE BASE AND ITT IS THE NUMBER
-! OF BASE B DIGITS IN THE MANTISSA.  SPCMN IS THE MINIMUM
-! RELATIVE SPACING ABS((X1-X2)/X2) BETWEEN TWO SUCCESSIVE
-! FLOATING POINT NUMBERS, SO IT IS THE SPACING BETWEEN TWO
-! SUCCESSIVE FLOATING POINT NUMBERS IN THE CLOSED INTERVAL
-! (0.1,1.0).  WE ALSO HAVE SPCMN=10.0**(-ITT*(LOG10)(B))=
-! 10.0**(-TNMAN), WHERE TNMAN IS THE BASE 10 EQUIVALENT OF
-! THE LENGTH OF THE MANTISSA.
-
-! SET REA (ROUND OFF ERROR ADJUSTMENT) =
-! MAX(10.0**(-8),100.0*SPCMN).  THUS REA=10.0**(-EXREA),
-! WHERE EXREA=MIN(8,TNMAN-2).
-! DIVISION BY NUMBERS <= REA IN ABSOLUTE VALUE WILL NOT BE
-! PERMITTED.
+        ! SET REA (ROUND OFF ERROR ADJUSTMENT) =
+        ! MAX(10.0**(-8),100.0*SPCMN).  THUS REA=10.0**(-EXREA),
+        ! WHERE EXREA=MIN(8,TNMAN-2).
+        ! DIVISION BY NUMBERS <= REA IN ABSOLUTE VALUE WILL NOT BE
+        ! PERMITTED.
         rea = ten*ten*spcmn
         if (rea < ten**(-8)) rea = ten**(-8)
-! SET REA1=10.0*SPCMN.  THUS REA1=10.0**(-(TNMAN-1)).
-! NUMBERS IN ROW M+1 OR COLUMN N+1 WHICH ARE <= REA1 IN
-! ABSOLUTE VALUE WILL BE TREATED AS ZEROES.  SLNPRO ASSUMES
-! THAT 0.0 < REA1 <= REA.
+        ! SET REA1=10.0*SPCMN.  THUS REA1=10.0**(-(TNMAN-1)).
+        ! NUMBERS IN ROW M+1 OR COLUMN N+1 WHICH ARE <= REA1 IN
+        ! ABSOLUTE VALUE WILL BE TREATED AS ZEROES.  SLNPRO ASSUMES
+        ! THAT 0.0 < REA1 <= REA.
         rea1 = ten*spcmn
-! END OF INITIAL SETTING OF MACHINE DEPENDENT PARAMETERS FOR
-! SLNPRO.  THESE PARAMETERS MAY BE ADJUSTED BY A COMMAND FROM
-! THE CALLING PROGRAM.
-!
+        ! END OF INITIAL SETTING OF MACHINE DEPENDENT PARAMETERS FOR
+        ! SLNPRO.  THESE PARAMETERS MAY BE ADJUSTED BY A COMMAND FROM
+        ! THE CALLING PROGRAM.
+
         Indic = 0
         limjor = 300
-! M BEING NEGATIVE IS A SIGNAL TO INCREASE REA AND REA1,
-! THUS TREATING MORE NUMBERS WITH SMALL ABSOLUTE VALUES AS
-! ZEROES.  THIS MAY GIVE THIS ROUTINE A BETTER CHANCE TO
-! SUCCEED, BUT MAY ALSO CAUSE LARGER ERRORS.
+        ! M BEING NEGATIVE IS A SIGNAL TO INCREASE REA AND REA1,
+        ! THUS TREATING MORE NUMBERS WITH SMALL ABSOLUTE VALUES AS
+        ! ZEROES.  THIS MAY GIVE THIS ROUTINE A BETTER CHANCE TO
+        ! SUCCEED, BUT MAY ALSO CAUSE LARGER ERRORS.
         if (m < 0) then
-! RESET M.
+            ! RESET M.
             m = -m
             rea = sqrt(rea)
             rea1 = sqrt(rea1)
             Indic = -2
         end if
-! N BEING NEGATIVE IS A SIGNAL TO DECREASE REA AND REA1 TO TRY
-! FOR MORE ACCURACY.  AMONG OTHER THINGS, THIS MAKES IT MORE
-! LIKELY THAT THE PREVIOUS VERTEX WILL BE RETAINED IN PHASE 1
-! BELOW, BUT IT ALSO COULD INCREASE ROUND OFF ERROR.
+        ! N BEING NEGATIVE IS A SIGNAL TO DECREASE REA AND REA1 TO TRY
+        ! FOR MORE ACCURACY.  AMONG OTHER THINGS, THIS MAKES IT MORE
+        ! LIKELY THAT THE PREVIOUS VERTEX WILL BE RETAINED IN PHASE 1
+        ! BELOW, BUT IT ALSO COULD INCREASE ROUND OFF ERROR.
         if (n < 0) then
-! RESET N.
+            ! RESET N.
             n = -n
             rea = rea1
             rea1 = rea1/(ten*ten)
             Indic = -4
         end if
-! PRESERVE REA IN CASE IT MUST BE TEMPORARILY RELAXED.
-! IRLAX=0 INDICATES REA IS NOT RELAXED AT THIS STAGE.
+        ! PRESERVE REA IN CASE IT MUST BE TEMPORARILY RELAXED.
+        ! IRLAX=0 INDICATES REA IS NOT RELAXED AT THIS STAGE.
         reakp = rea
         irlax = 0
-! IN COLUMN N+1, NUMBERS <= REA2 IN ABSOLUTE VALUE WILL BE
-! TREATED AS ZEROES.
+        ! IN COLUMN N+1, NUMBERS <= REA2 IN ABSOLUTE VALUE WILL BE
+        ! TREATED AS ZEROES.
         rea2 = rea1
         np1 = n + 1
         mp1 = m + 1
         ktjor = 0
         iback = 0
-! SET V(MP1,NP1)=0.0 SO THE DESCRIPTIONS IN AND FOLLOWING THE
-! PROLOGUE WILL AGREE.
+        ! SET V(MP1,NP1)=0.0 SO THE DESCRIPTIONS IN AND FOLLOWING THE
+        ! PROLOGUE WILL AGREE.
         v(mp1, np1) = zero
-! THE ONLY REASON FOR THE FOLLOWING THREE STATEMENTS IS TO
-! AVOID THE ERROR MESSAGE ON SOME MACHINES THAT THESE
-! VARIABLES HAVE NOT BEEN ASSIGNED A VALUE.  THEY WILL BE
-! REASSIGNED A VALUE BEFORE THE PROGRAM REACHES A SPOT WHERE
-! THEY WILL ACTUALLY BE USED.
+        ! THE ONLY REASON FOR THE FOLLOWING THREE STATEMENTS IS TO
+        ! AVOID THE ERROR MESSAGE ON SOME MACHINES THAT THESE
+        ! VARIABLES HAVE NOT BEEN ASSIGNED A VALUE.  THEY WILL BE
+        ! REASSIGNED A VALUE BEFORE THE PROGRAM REACHES A SPOT WHERE
+        ! THEY WILL ACTUALLY BE USED.
         dist = one
         amprv = one
         ampr2 = one
-! SET IXRCT.  IXRCT(I)=0 MEANS SOME Y IS IN ROW I, WHILE
-! IXRCT(I)=K/=0 MEANS X(K) IS IN ROW I.
+        ! SET IXRCT.  IXRCT(I)=0 MEANS SOME Y IS IN ROW I, WHILE
+        ! IXRCT(I)=K/=0 MEANS X(K) IS IN ROW I.
         do i = 1, m
             Ixrct(i) = 0
         end do
-!
-! EXCHANGE THE XS AT THE TOP OF THE TABLE FOR YS.
-! IF IYRCT(1) IS NONPOSITIVE, WE SET IYRCT AND CHOOSE THE
-! LARGEST POSSIBLE RESOLVENTS FOR THE EXCHANGES.  IF
-! IYRCT(1) IS POSITIVE, IYRCT WILL HAVE BEEN PREVIOUSLY SET
-! AND WE TRY TO EXCHANGE IN ROWS IYRCT(1),...,IYRCT(N),
-! STILL EMPLOYING A PIVOTING STRATEGY, BUT IF WE CANNOT, WE
-! EXCHANGE IN ROWS IYRCT(N+1),...,IYRCT(M).
+
+        ! EXCHANGE THE XS AT THE TOP OF THE TABLE FOR YS.
+        ! IF IYRCT(1) IS NONPOSITIVE, WE SET IYRCT AND CHOOSE THE
+        ! LARGEST POSSIBLE RESOLVENTS FOR THE EXCHANGES.  IF
+        ! IYRCT(1) IS POSITIVE, IYRCT WILL HAVE BEEN PREVIOUSLY SET
+        ! AND WE TRY TO EXCHANGE IN ROWS IYRCT(1),...,IYRCT(N),
+        ! STILL EMPLOYING A PIVOTING STRATEGY, BUT IF WE CANNOT, WE
+        ! EXCHANGE IN ROWS IYRCT(N+1),...,IYRCT(M).
         if (Iyrct(1) <= 0) then
             i10 = 1
             i20 = m
-! IF WE HAVE NO INFORMATION FROM A PREVIOUS VERTEX, WE GIVE
-! UP A LITTLE ACCURACY IN COLUMN N+1 TO HAVE A BETTER CHANCE
-! OF SUCCESS.
+            ! IF WE HAVE NO INFORMATION FROM A PREVIOUS VERTEX, WE GIVE
+            ! UP A LITTLE ACCURACY IN COLUMN N+1 TO HAVE A BETTER CHANCE
+            ! OF SUCCESS.
             rea2 = rea
-! THIS ROUTINE HAS A BACKTRACKING OPTION WHICH SOMETIMES
-! INCREASES ACCURACY BUT SOMETIMES LEADS TO FAILURE DUE TO
-! CYCLING.  IT IS SUGGESTED THAT THIS OPTION BE EMPLOYED IF
-! INFORMATION ABOUT A STARTING VERTEX IS AVAILABLE, AND
-! OTHERWISE BE DISABLED BY SETTING IBACK=1.
+            ! THIS ROUTINE HAS A BACKTRACKING OPTION WHICH SOMETIMES
+            ! INCREASES ACCURACY BUT SOMETIMES LEADS TO FAILURE DUE TO
+            ! CYCLING.  IT IS SUGGESTED THAT THIS OPTION BE EMPLOYED IF
+            ! INFORMATION ABOUT A STARTING VERTEX IS AVAILABLE, AND
+            ! OTHERWISE BE DISABLED BY SETTING IBACK=1.
             iback = 1
             do i = 1, m
                 Iyrct(i) = i
@@ -2035,29 +2039,28 @@ contains
             i20 = n
         end if
         j = 0
-! SET THE LOWER BOUND ON THE ABSOLUTE VALUE OF A RESOLVENT IN
-! PHASE 1.  ALSO SET IFAIL=0 TO INDICATE THE RESOLVENT SEARCH
-! IN THIS COLUMN HAS NOT FAILED.
+        ! SET THE LOWER BOUND ON THE ABSOLUTE VALUE OF A RESOLVENT IN
+        ! PHASE 1.  ALSO SET IFAIL=0 TO INDICATE THE RESOLVENT SEARCH
+        ! IN THIS COLUMN HAS NOT FAILED.
         rea3 = rea
         ifail = 0
 100     j = j + 1
         if (j > n) then
-!
-! REARRANGE THE ROWS OF V SO THAT X(1),...,X(N) COME FIRST
-! IN THAT ORDER.  REDEFINE IYRCT SO THAT AFTER THE
-! REARRANGEMENT IS DONE, IYRCT(I)=K WILL MEAN Y(K) IS IN
-! ROW I (FOR I GREATER THAN N).
+            ! REARRANGE THE ROWS OF V SO THAT X(1),...,X(N) COME FIRST
+            ! IN THAT ORDER.  REDEFINE IYRCT SO THAT AFTER THE
+            ! REARRANGEMENT IS DONE, IYRCT(I)=K WILL MEAN Y(K) IS IN
+            ! ROW I (FOR I GREATER THAN N).
             do i = 1, m
                 Iyrct(i) = i
             end do
             irow = 0
             goto 400
         end if
-! SET I1, I2 ACCORDING TO THE STRATEGY WE ARE USING.
+        ! SET I1, I2 ACCORDING TO THE STRATEGY WE ARE USING.
 200     i1 = i10
         i2 = i20
         amax = zero
-! SEARCH FOR A RESOLVENT IN ROWS IYRCT(I1),...,IYRCT(I2).
+        ! SEARCH FOR A RESOLVENT IN ROWS IYRCT(I1),...,IYRCT(I2).
 300     do i = i1, i2
             iytmp = Iyrct(i)
             if (Ixrct(iytmp) == 0) then
@@ -2068,37 +2071,36 @@ contains
                 end if
             end if
         end do
-! CHECK TO SEE IF THE PROSPECTIVE RESOLVENT IS LARGE ENOUGH
-! IN ABSOLUTE VALUE.
+        ! CHECK TO SEE IF THE PROSPECTIVE RESOLVENT IS LARGE ENOUGH
+        ! IN ABSOLUTE VALUE.
         if (amax > rea3) then
-! EXCHANGE X(J) FOR Y(IYRI).
+            ! EXCHANGE X(J) FOR Y(IYRI).
             call sjelim(mp1, 1, np1, iyri, j, Nparm, Numgr, v)
             Ixrct(iyri) = j
             Iycct(j) = iyri
-! IYCCT(J)=IYRI MEANS Y(IYRI) IS IN COLUMN J.
-! RESET REA3 AND IFAIL SINCE WE SUCCESSFULLY FOUND A RESOLVENT IN
-! THIS COLUMN, AND THE RESOLVENT SEARCH IN THE NEXT COLUMN HAS
-! NOT FAILED.
+            ! IYCCT(J)=IYRI MEANS Y(IYRI) IS IN COLUMN J.
+            ! RESET REA3 AND IFAIL SINCE WE SUCCESSFULLY FOUND A RESOLVENT IN
+            ! THIS COLUMN, AND THE RESOLVENT SEARCH IN THE NEXT COLUMN HAS
+            ! NOT FAILED.
             rea3 = rea
             ifail = 0
             goto 100
-! WE HAVE NOT FOUND A SUITABLE RESOLVENT IN ROWS IYRCT(I1),
-! ...IYRCT(I2).  IF I2 < M WE SEARCH THE REST OF COLUMN J.
+        ! WE HAVE NOT FOUND A SUITABLE RESOLVENT IN ROWS IYRCT(I1),
+        ! ...IYRCT(I2).  IF I2 < M WE SEARCH THE REST OF COLUMN J.
         else if (i2 < m) then
             i1 = i2 + 1
             i2 = m
             goto 300
-! HERE WE FAILED TO FIND A RESOLVENT IN COLUMN J WITH ABSOLUTE
-! VALUE > REA3.  IF IFAIL=0 WE SET INDIC=-3 AND TRY AGAIN
-! WITH REA3 REDUCED.  IF THIS HAS ALREADY BEEN TRIED WE SET
-! INDIC=1 AND RETURN.
+        ! HERE WE FAILED TO FIND A RESOLVENT IN COLUMN J WITH ABSOLUTE
+        ! VALUE > REA3.  IF IFAIL=0 WE SET INDIC=-3 AND TRY AGAIN
+        ! WITH REA3 REDUCED.  IF THIS HAS ALREADY BEEN TRIED WE SET
+        ! INDIC=1 AND RETURN.
         else if (ifail <= 0) then
             ifail = 1
             Indic = -3
             rea3 = rea1
             goto 200
         else
-!
             Indic = 1
             return
         end if
@@ -2107,40 +2109,40 @@ contains
             if (Ixrct(irow) == 0) goto 400
             if (Ixrct(irow) == irow) goto 400
         else
-! NOW IXRCT IS NO LONGER NEEDED, SO STORE THE PRESENT IYCCT
-! IN IT.
+            ! NOW IXRCT IS NO LONGER NEEDED, SO STORE THE PRESENT IYCCT
+            ! IN IT.
             do i = 1, n
                 Ixrct(i) = Iycct(i)
             end do
-! END OF PHASE 1.
-!
-! THE FIRST N ROWS OF V GIVE THE XS IN TERMS OF CERTAIN
-! YS.  THESE ROWS WILL NOT BE CHANGED BY LATER OPERATIONS.
-!
-! WE NOW ATTACK THE MAXIMIZATION PROBLEM BY LOOKING AT THE
-! DUAL PROBLEM OF MINIMIZING A FORM GIVEN BY THE
-! COEFFICIENTS IN V(N+1,N+1) THROUGH V(M,N+1) WITH SLACK
-! TERMS IN THE BOTTOM ROW OF V.
-! SEARCH ROW M+1 FOR A SIGNIFICANTLY NEGATIVE ELEMENT.  IF
-! THERE ARE NONE, PROCEED TO THE ACTUAL MINIMIZATION
-! PROBLEM.  STICK WITH COLUMN JJ UNTIL V(M+1,JJ) >= -REA1.
+            ! END OF PHASE 1.
+
+            ! THE FIRST N ROWS OF V GIVE THE XS IN TERMS OF CERTAIN
+            ! YS.  THESE ROWS WILL NOT BE CHANGED BY LATER OPERATIONS.
+            !
+            ! WE NOW ATTACK THE MAXIMIZATION PROBLEM BY LOOKING AT THE
+            ! DUAL PROBLEM OF MINIMIZING A FORM GIVEN BY THE
+            ! COEFFICIENTS IN V(N+1,N+1) THROUGH V(M,N+1) WITH SLACK
+            ! TERMS IN THE BOTTOM ROW OF V.
+            ! SEARCH ROW M+1 FOR A SIGNIFICANTLY NEGATIVE ELEMENT.  IF
+            ! THERE ARE NONE, PROCEED TO THE ACTUAL MINIMIZATION
+            ! PROBLEM.  STICK WITH COLUMN JJ UNTIL V(M+1,JJ) >= -REA1.
             jj = 0
             goto 600
         end if
-! NOW X(L) IS IN ROW IROW, BUT WE WANT IT IN ROW L.
+        ! NOW X(L) IS IN ROW IROW, BUT WE WANT IT IN ROW L.
 500     l = Ixrct(irow)
         ll = Ixrct(l)
         if (ll /= 0) then
-! X(L) IS IN ROW IROW, WHILE X(LL) IS IN ROW L.
+            ! X(L) IS IN ROW IROW, WHILE X(LL) IS IN ROW L.
             Ixrct(irow) = ll
             Ixrct(l) = l
         else
-! X(L) IS IN ROW IROW, WHILE Y(IYRCT(L)) IS IN ROW L.
+            ! X(L) IS IN ROW IROW, WHILE Y(IYRCT(L)) IS IN ROW L.
             Ixrct(irow) = 0
             Iyrct(irow) = Iyrct(l)
             Ixrct(l) = l
         end if
-! NOW EXCHANGE THE CONTENTS OF ROWS IROW AND L.
+        ! NOW EXCHANGE THE CONTENTS OF ROWS IROW AND L.
         do j = 1, np1
             temp = v(irow, j)
             v(irow, j) = v(l, j)
@@ -2151,12 +2153,11 @@ contains
         goto 500
 600     jj = jj + 1
         if (jj > n) then
-!
-! IN THE UNLIKELY EVENT THAT SOME V(M+1,J) IS STILL VERY
-! SIGNIFICANTLY NEGATIVE WE BACKTRACK TO COLUMN J.  THIS
-! COULD NOT HAPPEN IF THERE WERE NO ROUNDOFF ERROR AND WE
-! COULD ALLOW DIVISION BY NUMBERS WITH VERY SMALL ABSOLUTE
-! VALUE.  OMIT BACKTRACKING IF IBACK=1.
+            ! IN THE UNLIKELY EVENT THAT SOME V(M+1,J) IS STILL VERY
+            ! SIGNIFICANTLY NEGATIVE WE BACKTRACK TO COLUMN J.  THIS
+            ! COULD NOT HAPPEN IF THERE WERE NO ROUNDOFF ERROR AND WE
+            ! COULD ALLOW DIVISION BY NUMBERS WITH VERY SMALL ABSOLUTE
+            ! VALUE.  OMIT BACKTRACKING IF IBACK=1.
             if (iback <= 0) then
                 do j = 1, n
                     if (v(mp1, j) + rea <= 0) then
@@ -2169,23 +2170,22 @@ contains
         else if (v(mp1, jj) + rea1 >= 0) then
             goto 600
         end if
-!
-! WE HAVE V(M+1,JJ) SIGNIFICANTLY NEGATIVE.  SEARCH COLUMN
-! JJ FOR A POSITIVE ELEMENT, TREATING A VERY SMALL V(I,J)
-! AS A ZERO.  IF THERE ARE NO POSITIVE ELEMENTS THE DUAL
-! CONSTRAINTS WERE INCONSISTENT, SO THE ORIGINAL PROBLEM WAS
-! INCONSISTENT OR UNBOUNDED.
+
+        ! WE HAVE V(M+1,JJ) SIGNIFICANTLY NEGATIVE.  SEARCH COLUMN
+        ! JJ FOR A POSITIVE ELEMENT, TREATING A VERY SMALL V(I,J)
+        ! AS A ZERO.  IF THERE ARE NO POSITIVE ELEMENTS THE DUAL
+        ! CONSTRAINTS WERE INCONSISTENT, SO THE ORIGINAL PROBLEM WAS
+        ! INCONSISTENT OR UNBOUNDED.
 700     i = n
         inamp = 0
 800     i = i + 1
         if (i <= m) then
             if (v(i, jj) <= rea) goto 800
-!
-! NOW V(I,JJ) > REA.  WE SEARCH ROW I FOR INDICES K SUCH
-! THAT V(M+1,K) >= 0.0.OR.K < JJ, AND V(I,K) < -REA, AND
-! FIND THE MAXIMUM RATIO (I.E. THE RATIO WITH SMALLEST
-! ABSOLUTE VALUE, IF V(M+1,K) >= 0.0) V(M+1,K)/V(I,K).  IF
-! THERE IS NO SUCH K WE LOOK AT POSITIVE V(I,K) BELOW.
+            ! NOW V(I,JJ) > REA.  WE SEARCH ROW I FOR INDICES K SUCH
+            ! THAT V(M+1,K) >= 0.0.OR.K < JJ, AND V(I,K) < -REA, AND
+            ! FIND THE MAXIMUM RATIO (I.E. THE RATIO WITH SMALLEST
+            ! ABSOLUTE VALUE, IF V(M+1,K) >= 0.0) V(M+1,K)/V(I,K).  IF
+            ! THERE IS NO SUCH K WE LOOK AT POSITIVE V(I,K) BELOW.
             indst = 0
             do j = 1, n
                 if (v(mp1, j) < 0) then
@@ -2202,14 +2202,13 @@ contains
                 end if
 850         end do
             if (indst <= 0) then
-!
-! IF THERE WAS NO INDEX K SUCH THAT V(M+1,K) >= 0.0.OR.K <
-! JJ, AND V(I,K) < -REA, WE LOOK FOR THE SMALLEST (I.E.
-! LARGEST IN ABSOLUTE VALUE) RATIO V(M+1,K)/V(I,K) FOR
-! V(I,K) > REA AND V(M+1,K) < 0.0, AND PERFORM AN
-! ELIMINATION WITH RESOLVENT V(I,K).  THERE IS AT LEAST ONE
-! SUCH K, NAMELY JJ.
-! THIS WILL FINISH PHASE 2 UNLESS BACKTRACKING IS NECESSARY.
+                ! IF THERE WAS NO INDEX K SUCH THAT V(M+1,K) >= 0.0.OR.K <
+                ! JJ, AND V(I,K) < -REA, WE LOOK FOR THE SMALLEST (I.E.
+                ! LARGEST IN ABSOLUTE VALUE) RATIO V(M+1,K)/V(I,K) FOR
+                ! V(I,K) > REA AND V(M+1,K) < 0.0, AND PERFORM AN
+                ! ELIMINATION WITH RESOLVENT V(I,K).  THERE IS AT LEAST ONE
+                ! SUCH K, NAMELY JJ.
+                ! THIS WILL FINISH PHASE 2 UNLESS BACKTRACKING IS NECESSARY.
                 dist = one
                 do j = 1, n
                     if (v(mp1, j) < 0) then
@@ -2223,11 +2222,10 @@ contains
                     end if
                 end do
             else
-!
-! WE NOW COMPUTE V(I,JJ)*DIST AND GO ON TO LOOK AT OTHER
-! ROWS TO MINIMIZE THIS QUANTITY (I.E. TO MAXIMIZE ITS
-! ABSOLUTE VALUE, IF V(M+1,K) >= 0.0).  THIS IS THE NEGATIVE
-! OF THE CHANGE IN V(M+1,JJ).
+                ! WE NOW COMPUTE V(I,JJ)*DIST AND GO ON TO LOOK AT OTHER
+                ! ROWS TO MINIMIZE THIS QUANTITY (I.E. TO MAXIMIZE ITS
+                ! ABSOLUTE VALUE, IF V(M+1,K) >= 0.0).  THIS IS THE NEGATIVE
+                ! OF THE CHANGE IN V(M+1,JJ).
                 bmprv = v(i, jj)*dist
                 if (inamp > 0) then
                     if (bmprv >= amprv) goto 800
@@ -2236,52 +2234,50 @@ contains
                 inamp = 1
                 kpmp1 = i
                 kpmp2 = k
-! (KPMP1,KPMP2) GIVES THE POSITION OF THE BEST PROSPECTIVE
-! RESOLVENT FOUND SO FAR.
+                ! (KPMP1,KPMP2) GIVES THE POSITION OF THE BEST PROSPECTIVE
+                ! RESOLVENT FOUND SO FAR.
                 goto 800
             end if
-!
+
         else if (inamp <= 0) then
-! AT THIS POINT INAMP IS POSITIVE IFF THERE WAS AT LEAST ONE
-! ELEMENT > REA IN COLUMN JJ.  IF THERE WERE NONE, WE
-! TEMPORARILY RELAX REA AND TRY AGAIN.
+            ! AT THIS POINT INAMP IS POSITIVE IFF THERE WAS AT LEAST ONE
+            ! ELEMENT > REA IN COLUMN JJ.  IF THERE WERE NONE, WE
+            ! TEMPORARILY RELAX REA AND TRY AGAIN.
             if (irlax <= 0) then
                 irlax = 1
                 Indic = -1
                 rea = rea1
                 goto 700
             else
-!
                 Indic = 2
                 return
             end if
         else
-!
-! CHECK TO SEE IF V(MP1,KPMP2) IS VERY SMALL IN ABSOLUTE
-! VALUE OR NEGATIVE.  THIS INDICATES DEGENERACY.
+
+            ! CHECK TO SEE IF V(MP1,KPMP2) IS VERY SMALL IN ABSOLUTE
+            ! VALUE OR NEGATIVE.  THIS INDICATES DEGENERACY.
             if (v(mp1, kpmp2) <= rea) then
-!
-! WE ARE NOW STUCK IN DEGENERATE COLUMN KPMP2.  WE SEARCH
-! EACH DEGENERATE COLUMN IN WHICH WE ARE STUCK FOR A
-! RESOLVENT WHICH WILL KEEP US FROM GETTING STUCK IN THIS
-! COLUMN NEXT TIME, AND TO REDUCE THE ROUND-OFF ERROR WE
-! TAKE THE SMALLEST OF THESE (I.E. LARGEST IN ABSOLUTE
-! VALUE) AS OUR ACTUAL RESOLVENT.
+                ! WE ARE NOW STUCK IN DEGENERATE COLUMN KPMP2.  WE SEARCH
+                ! EACH DEGENERATE COLUMN IN WHICH WE ARE STUCK FOR A
+                ! RESOLVENT WHICH WILL KEEP US FROM GETTING STUCK IN THIS
+                ! COLUMN NEXT TIME, AND TO REDUCE THE ROUND-OFF ERROR WE
+                ! TAKE THE SMALLEST OF THESE (I.E. LARGEST IN ABSOLUTE
+                ! VALUE) AS OUR ACTUAL RESOLVENT.
                 amin = one
                 do j = 1, n
-! COLUMN J MAY BE DEGENERATE IF 0.0 <= V(M+1,J) <= REA,
-! OR V(M+1,J) < 0.0.AND.J < JJ.
+                    ! COLUMN J MAY BE DEGENERATE IF 0.0 <= V(M+1,J) <= REA,
+                    ! OR V(M+1,J) < 0.0.AND.J < JJ.
                     if (v(mp1, j) < 0) then
                         if (j >= jj) goto 860
                     else if (v(mp1, j) > rea) then
                         goto 860
                     end if
-! WE WILL BE STUCK IN COLUMN J IFF THERE IS AN INDEX ID FOR
-! WHICH V(ID,JJ) > REA AND V(ID,J) < -REA.  IF THIS IS THE
-! CASE, CHOOSING SUCH AN ID SO THAT V(ID,JJ)/V(ID,J) IS
-! MINIMIZED (I.E. MAXIMIZED IN ABSOLUTE VALUE) AND TAKING
-! V(ID,J) AS THE RESOLVENT WILL INSURE THAT WE DONT GET
-! STUCK IN COLUMN J NEXT TIME.
+                    ! WE WILL BE STUCK IN COLUMN J IFF THERE IS AN INDEX ID FOR
+                    ! WHICH V(ID,JJ) > REA AND V(ID,J) < -REA.  IF THIS IS THE
+                    ! CASE, CHOOSING SUCH AN ID SO THAT V(ID,JJ)/V(ID,J) IS
+                    ! MINIMIZED (I.E. MAXIMIZED IN ABSOLUTE VALUE) AND TAKING
+                    ! V(ID,J) AS THE RESOLVENT WILL INSURE THAT WE DONT GET
+                    ! STUCK IN COLUMN J NEXT TIME.
                     dist = one
                     do i = np1, m
                         if (v(i, jj) > rea) then
@@ -2295,58 +2291,58 @@ contains
                         end if
                     end do
                     if (dist < one/two) then
-! WE HAVE NOW DETERMINED THAT WE ARE STUCK IN COLUMN J.
-! IF V(ID,J) < AMIN THEN V(ID,J) IS THE BEST RESOLVENT
-! FOUND SO FAR.
+                        ! WE HAVE NOW DETERMINED THAT WE ARE STUCK IN COLUMN J.
+                        ! IF V(ID,J) < AMIN THEN V(ID,J) IS THE BEST RESOLVENT
+                        ! FOUND SO FAR.
                         if (v(id, j) < amin) then
                             amin = v(id, j)
                             kpmp1 = id
                             kpmp2 = j
                         end if
                     end if
-! THE BEST RESOLVENT IS V(KPMP1,KPMP2), SO WE DO AN
-! ELIMINATION.
+                    ! THE BEST RESOLVENT IS V(KPMP1,KPMP2), SO WE DO AN
+                    ! ELIMINATION.
 860             end do
             end if
-! DO AN ELIMINATION WITH RESOLVENT V(KPMP1,KPMP2).
+            ! DO AN ELIMINATION WITH RESOLVENT V(KPMP1,KPMP2).
             i = kpmp1
             k = kpmp2
         end if
-!
+
         ktjor = ktjor + 1
         if (ktjor > limjor) goto 1200
         call sjelim(mp1, np1, np1, i, k, Nparm, Numgr, v)
         itemp = Iyrct(i)
         Iyrct(i) = Iycct(k)
         Iycct(k) = itemp
-! RESET REA AND IRLAX.
+        ! RESET REA AND IRLAX.
         rea = reakp
         irlax = 0
-! IF NOW V(M+1,JJ) HAS BEEN MADE NOT SIGNIFICANTLY NEGATIVE,
-! WE GO TO THE NEXT COLUMN.  OTHERWISE WE TRY AGAIN IN
-! COLUMN JJ.
+        ! IF NOW V(M+1,JJ) HAS BEEN MADE NOT SIGNIFICANTLY NEGATIVE,
+        ! WE GO TO THE NEXT COLUMN.  OTHERWISE WE TRY AGAIN IN
+        ! COLUMN JJ.
         if (v(mp1, jj) + rea1 >= 0) goto 600
         goto 700
-! END OF PHASE 2.
-!
+        ! END OF PHASE 2.
+
 900     i = n
         kkk = 0
-!
-! SEARCH FOR A SIGNIFICANTLY NEGATIVE ELEMENT BETWEEN
-! V(N+1,N+1) AND V(N+1,M).  IF THERE ARE NONE WE HAVE THE
-! MINIMAL POINT OF THE DUAL PROBLEM (AND THUS THE MAXIMAL
-! POINT OF THE DIRECT PROBLEM) ALREADY.
+
+        ! SEARCH FOR A SIGNIFICANTLY NEGATIVE ELEMENT BETWEEN
+        ! V(N+1,N+1) AND V(N+1,M).  IF THERE ARE NONE WE HAVE THE
+        ! MINIMAL POINT OF THE DUAL PROBLEM (AND THUS THE MAXIMAL
+        ! POINT OF THE DIRECT PROBLEM) ALREADY.
 1000    i = i + 1
         if (i <= m) then
             if (v(i, np1) + rea2 >= 0) goto 1000
-!
-! SEARCH FOR A NEGATIVE ELEMENT IN ROW I, TREATING A NUMBER
-! WHICH IS VERY SMALL IN ABSOLUTE VALUE AS A ZERO.  IF THERE
-! ARE NO NEGATIVE ELEMENTS THE DUAL PROBLEM WAS UNBOUNDED
-! BELOW, SO THE ORIGINAL CONSTRAINTS WERE INCONSISTENT.
-! FIND THE INDEX K OF THE LARGEST (I.E. SMALLEST IN ABSOLUTE
-! VALUE, IF V(M+1,K) >= 0.0) RATIO V(M+1,K)/V(I,K) WITH
-! V(I,K) < -REA.
+
+            ! SEARCH FOR A NEGATIVE ELEMENT IN ROW I, TREATING A NUMBER
+            ! WHICH IS VERY SMALL IN ABSOLUTE VALUE AS A ZERO.  IF THERE
+            ! ARE NO NEGATIVE ELEMENTS THE DUAL PROBLEM WAS UNBOUNDED
+            ! BELOW, SO THE ORIGINAL CONSTRAINTS WERE INCONSISTENT.
+            ! FIND THE INDEX K OF THE LARGEST (I.E. SMALLEST IN ABSOLUTE
+            ! VALUE, IF V(M+1,K) >= 0.0) RATIO V(M+1,K)/V(I,K) WITH
+            ! V(I,K) < -REA.
 1050        indst = 0
             do j = 1, n
                 if (v(i, j) + rea < 0) then
@@ -2360,16 +2356,15 @@ contains
                 end if
 1100        end do
             if (indst > 0) then
-!
-! COMPUTE THE IMPROVEMENT DIST*V(I,N+1) IN THE VALUE OF THE
-! FORM USING V(I,K) AS THE RESOLVENT.  SET KKK=1 TO INDICATE
-! A SIGNIFICANTLY NEGATIVE V(I,N+1) WAS FOUND, AND LOOK AT
-! THE OTHER ROWS TO FIND THE RESOLVENT GIVING THE LARGEST
-! IMPROVEMENT.
+                ! COMPUTE THE IMPROVEMENT DIST*V(I,N+1) IN THE VALUE OF THE
+                ! FORM USING V(I,K) AS THE RESOLVENT.  SET KKK=1 TO INDICATE
+                ! A SIGNIFICANTLY NEGATIVE V(I,N+1) WAS FOUND, AND LOOK AT
+                ! THE OTHER ROWS TO FIND THE RESOLVENT GIVING THE LARGEST
+                ! IMPROVEMENT.
                 bmpr2 = dist*v(i, np1)
-! RESET IRLAX SO THAT THE NEXT ROW WHICH NEEDS RELAXING DOES
-! NOT TERMINATE THE ROUTINE.  REA WILL REMAIN RELAXED UNTIL
-! AFTER THE NEXT ELIMINATION.
+                ! RESET IRLAX SO THAT THE NEXT ROW WHICH NEEDS RELAXING DOES
+                ! NOT TERMINATE THE ROUTINE.  REA WILL REMAIN RELAXED UNTIL
+                ! AFTER THE NEXT ELIMINATION.
                 irlax = 0
                 if (kkk > 0) then
                     if (bmpr2 <= ampr2) goto 1000
@@ -2379,43 +2374,41 @@ contains
                 keep1 = k
                 ampr2 = bmpr2
                 goto 1000
-! RELAX REA AND LOOK FOR NEGATIVE ELEMENTS WITH SMALLER
-! ABSOLUTE VALUE.
+            ! RELAX REA AND LOOK FOR NEGATIVE ELEMENTS WITH SMALLER
+            ! ABSOLUTE VALUE.
             else if (irlax <= 0) then
                 irlax = 1
                 Indic = -1
                 rea = rea1
                 goto 1050
             else
-!
                 Indic = 3
                 return
             end if
-! KKK=0 HERE IFF NONE OF THE COST COEFFICIENTS ARE
-! SIGNIFICANTLY NEGATIVE.
+        ! KKK=0 HERE IFF NONE OF THE COST COEFFICIENTS ARE
+        ! SIGNIFICANTLY NEGATIVE.
         else if (kkk /= 0) then
-! CHECK TO SEE IF V(MP1,KEEP1) IS VERY SMALL IN ABSOLUTE
-! VALUE OR NEGATIVE.  THIS INDICATES DEGENERACY.
+            ! CHECK TO SEE IF V(MP1,KEEP1) IS VERY SMALL IN ABSOLUTE
+            ! VALUE OR NEGATIVE.  THIS INDICATES DEGENERACY.
             if (v(mp1, keep1) <= rea) then
-!
-! WE ARE NOW STUCK IN DEGENERATE COLUMN KEEP1.  WE SEARCH
-! EACH DEGENERATE COLUMN IN WHICH WE ARE STUCK FOR A
-! RESOLVENT WHICH WILL KEEP US FROM GETTING STUCK IN THIS
-! COLUMN NEXT TIME.  IF WE ARE NOT USING THE OPTION
-! DESCRIBED IN THE COMMENTS PRECEDING STATEMENT 1055, WE
-! TAKE THE SMALLEST OF THESE (I.E. THE LARGEST IN ABSOLUTE
-! VALUE) AS OUR ACTUAL RESOLVENT IN ORDER TO REDUCE THE
-! GROWTH OF ROUND-OFF ERROR.
+                ! WE ARE NOW STUCK IN DEGENERATE COLUMN KEEP1.  WE SEARCH
+                ! EACH DEGENERATE COLUMN IN WHICH WE ARE STUCK FOR A
+                ! RESOLVENT WHICH WILL KEEP US FROM GETTING STUCK IN THIS
+                ! COLUMN NEXT TIME.  IF WE ARE NOT USING THE OPTION
+                ! DESCRIBED IN THE COMMENTS PRECEDING STATEMENT 1055, WE
+                ! TAKE THE SMALLEST OF THESE (I.E. THE LARGEST IN ABSOLUTE
+                ! VALUE) AS OUR ACTUAL RESOLVENT IN ORDER TO REDUCE THE
+                ! GROWTH OF ROUND-OFF ERROR.
                 amin = one
                 mxrkn = np1
                 do j = 1, n
-! COLUMN J MAY BE DEGENERATE IF V(M+1,J) <= REA.
+                    ! COLUMN J MAY BE DEGENERATE IF V(M+1,J) <= REA.
                     if (v(mp1, j) <= rea) then
-! WE WILL BE STUCK IN COLUMN J IFF THERE IS AN INDEX ID FOR
-! WHICH V(ID,N+1) < -REA2 AND V(ID,J) < -REA.  IF THIS
-! IS THE CASE, CHOOSING SUCH AN ID SO THAT V(ID,N+1)/V(ID,J)
-! IS MAXIMIZED AND TAKING V(ID,J) AS THE RESOLVENT WILL
-! INSURE THAT WE DONT GET STUCK IN COLUMN J NEXT TIME.
+                        ! WE WILL BE STUCK IN COLUMN J IFF THERE IS AN INDEX ID FOR
+                        ! WHICH V(ID,N+1) < -REA2 AND V(ID,J) < -REA.  IF THIS
+                        ! IS THE CASE, CHOOSING SUCH AN ID SO THAT V(ID,N+1)/V(ID,J)
+                        ! IS MAXIMIZED AND TAKING V(ID,J) AS THE RESOLVENT WILL
+                        ! INSURE THAT WE DONT GET STUCK IN COLUMN J NEXT TIME.
                         dist = -one
                         do i = np1, m
                             if (v(i, np1) + rea2 < 0) then
@@ -2429,48 +2422,48 @@ contains
                             end if
                         end do
                         if (dist + one/two <= 0) goto 1120
-!
-! WE HAVE NOW DETERMINED THAT WE ARE STUCK IN COLUMN J.
-! THE FOLLOWING STATEMENTS ATTEMPT TO BREAK DEGENERACY
-! FASTER BY LOOKING ONE ITERATION INTO THE FUTURE, THAT IS,
-! BY CHOOSING FROM THE PROSPECTIVE RESOLVENTS FOUND ABOVE
-! THAT ONE WHICH MINIMIZES THE MINIMUM NUMBER OF STICKING
-! PLACES IN ANY ROW AT THE NEXT STAGE.
-! BECAUSE OF COMPUTER TIME AND THE POSSIBLE LOSS OF ACCURACY
-! DUE TO LESSENED PIVOTING (EVEN THOUGH TIES ARE ALWAYS
-! BROKEN IN FAVOR OF THE RESOLVENT WITH GREATEST ABSOLUTE
-! VALUE), IT IS SUGGESTED THAT THIS OPTION BE OMITTED IF
-! INFORMATION WAS AVAILABLE FROM A PREVIOUS VERTEX.  THIS
-! WILL BE THE CASE IFF THE BACKTRACKING OPTION WAS USED,
-! THAT IS, IFF IBACK=0.
+
+                        ! WE HAVE NOW DETERMINED THAT WE ARE STUCK IN COLUMN J.
+                        ! THE FOLLOWING STATEMENTS ATTEMPT TO BREAK DEGENERACY
+                        ! FASTER BY LOOKING ONE ITERATION INTO THE FUTURE, THAT IS,
+                        ! BY CHOOSING FROM THE PROSPECTIVE RESOLVENTS FOUND ABOVE
+                        ! THAT ONE WHICH MINIMIZES THE MINIMUM NUMBER OF STICKING
+                        ! PLACES IN ANY ROW AT THE NEXT STAGE.
+                        ! BECAUSE OF COMPUTER TIME AND THE POSSIBLE LOSS OF ACCURACY
+                        ! DUE TO LESSENED PIVOTING (EVEN THOUGH TIES ARE ALWAYS
+                        ! BROKEN IN FAVOR OF THE RESOLVENT WITH GREATEST ABSOLUTE
+                        ! VALUE), IT IS SUGGESTED THAT THIS OPTION BE OMITTED IF
+                        ! INFORMATION WAS AVAILABLE FROM A PREVIOUS VERTEX.  THIS
+                        ! WILL BE THE CASE IFF THE BACKTRACKING OPTION WAS USED,
+                        ! THAT IS, IFF IBACK=0.
                         if (iback > 0) then
-! COMPUTE WHAT THE NEW BOTTOM ROW WOULD BE (EXCEPT FOR
-! POSITION J) IF V(ID,J) WERE USED AS THE RESOLVENT, AND
-! PUT THE RESULTS INTO Y.
+                            ! COMPUTE WHAT THE NEW BOTTOM ROW WOULD BE (EXCEPT FOR
+                            ! POSITION J) IF V(ID,J) WERE USED AS THE RESOLVENT, AND
+                            ! PUT THE RESULTS INTO Y.
                             rowq = v(mp1, j)/v(id, j)
                             do l = 1, n
                                 if (l /= j) y(l) = v(mp1, l) - v(id, l)*rowq
                             end do
                             lrknt = -1
-! WE LOOK FOR A ROW WHICH WILL HAVE A SIGNIFICANTLY NEGATIVE
-! LAST ELEMENT BUT A MINIMUM NUMBER OF PLACES WHERE WE WILL
-! BE STUCK IN DEGENERATE COLUMNS.  LRKNT=-1 MEANS WE HAVE
-! NOT YET FOUND A ROW WHICH WILL HAVE A SIGNIFICANTLY
-! NEGATIVE LAST ELEMENT.
+                            ! WE LOOK FOR A ROW WHICH WILL HAVE A SIGNIFICANTLY NEGATIVE
+                            ! LAST ELEMENT BUT A MINIMUM NUMBER OF PLACES WHERE WE WILL
+                            ! BE STUCK IN DEGENERATE COLUMNS.  LRKNT=-1 MEANS WE HAVE
+                            ! NOT YET FOUND A ROW WHICH WILL HAVE A SIGNIFICANTLY
+                            ! NEGATIVE LAST ELEMENT.
                             do ii = np1, m
                                 if (ii /= id) then
                                     rowq = v(ii, j)/v(id, j)
                                     rtcol = v(ii, np1) - v(id, np1)*rowq
                                     if (rtcol + rea2 < 0) then
-! IF WE HAVE ALREADY LOCATED A RESOLVENT WHICH WILL FINISH
-! THE ROUTINE, BUT THE PRESENT PROSPECTIVE RESOLVENT WOULD
-! GIVE A ROW WITH A SIGNIFICANTLY NEGATIVE LAST ELEMENT, WE
-! LOOK AT THE NEXT PROSPECTIVE RESOLVENT FOR PIVOTING
-! PURPOSES.
+                                        ! IF WE HAVE ALREADY LOCATED A RESOLVENT WHICH WILL FINISH
+                                        ! THE ROUTINE, BUT THE PRESENT PROSPECTIVE RESOLVENT WOULD
+                                        ! GIVE A ROW WITH A SIGNIFICANTLY NEGATIVE LAST ELEMENT, WE
+                                        ! LOOK AT THE NEXT PROSPECTIVE RESOLVENT FOR PIVOTING
+                                        ! PURPOSES.
                                         if (mxrkn + 1 == 0) goto 1120
                                         lrknt = 0
-! NOW COUNT THE NUMBER (LRKNT) OF STICKING PLACES IN ROW II
-! AT THE NEXT ITERATION.
+                                        ! NOW COUNT THE NUMBER (LRKNT) OF STICKING PLACES IN ROW II
+                                        ! AT THE NEXT ITERATION.
                                         do jj = 1, n
                                             if (jj /= j) then
                                                 if (y(jj) <= rea) then
@@ -2494,10 +2487,10 @@ contains
                                     end if
                                 end if
 1102                        end do
-! LRKNT=-1 HERE WOULD MEAN THIS RESOLVENT WOULD FINISH THE
-! ROUTINE.  IF LRKNT >= 0 THEN MXRKN >= 0 ALSO, SO WE WILL
-! NOT HAVE EARLIER FOUND A RESOLVENT WHICH WILL FINISH THE
-! ROUTINE.
+                            ! LRKNT=-1 HERE WOULD MEAN THIS RESOLVENT WOULD FINISH THE
+                            ! ROUTINE.  IF LRKNT >= 0 THEN MXRKN >= 0 ALSO, SO WE WILL
+                            ! NOT HAVE EARLIER FOUND A RESOLVENT WHICH WILL FINISH THE
+                            ! ROUTINE.
                             if (lrknt + 1 /= 0) goto 1120
                             if (mxrkn + 1 /= 0) goto 1105
                         end if
@@ -2507,30 +2500,30 @@ contains
                         keep = id
                         keep1 = j
                     end if
-! THE BEST RESOLVENT IS V(KEEP,KEEP1), SO WE DO AN
-! ELIMINATION.
+                    ! THE BEST RESOLVENT IS V(KEEP,KEEP1), SO WE DO AN
+                    ! ELIMINATION.
 1120            end do
             end if
-! DO AN ELIMINATION WITH RESOLVENT V(KEEP,KEEP1).
+            ! DO AN ELIMINATION WITH RESOLVENT V(KEEP,KEEP1).
             i = keep
             k = keep1
-!
+
             ktjor = ktjor + 1
             if (ktjor <= limjor) then
                 call sjelim(mp1, np1, np1, i, k, Nparm, Numgr, v)
                 itemp = Iyrct(i)
                 Iyrct(i) = Iycct(k)
                 Iycct(k) = itemp
-! RESET REA AND IRLAX.
+                ! RESET REA AND IRLAX.
                 rea = reakp
                 irlax = 0
                 goto 900
             end if
         else
-! CHECK TO SEE IF ANY OF THE NUMBERS IN THE BOTTOM ROW HAVE
-! BECOME VERY SIGNIFICANTLY NEGATIVE.  IF SO, WE MUST
-! BACKTRACK TO PHASE 2 (SEE COMMENT ABOVE STATEMENT 1035).
-! OMIT BACKTRACKING IF IBACK=1.
+            ! CHECK TO SEE IF ANY OF THE NUMBERS IN THE BOTTOM ROW HAVE
+            ! BECOME VERY SIGNIFICANTLY NEGATIVE.  IF SO, WE MUST
+            ! BACKTRACK TO PHASE 2 (SEE COMMENT ABOVE STATEMENT 1035).
+            ! OMIT BACKTRACKING IF IBACK=1.
             if (iback <= 0) then
                 do j = 1, n
                     if (v(mp1, j) + rea <= 0) then
@@ -2539,9 +2532,9 @@ contains
                     end if
                 end do
             end if
-! END OF PHASE 3.  WE NOW HAVE THE VERTEX WE ARE SEEKING.
-!
-! READ OFF THE Y VALUES FOR THIS VERTEX.
+            ! END OF PHASE 3.  WE NOW HAVE THE VERTEX WE ARE SEEKING.
+
+            ! READ OFF THE Y VALUES FOR THIS VERTEX.
             do j = 1, n
                 iycj = Iycct(j)
                 y(iycj) = zero
@@ -2550,8 +2543,8 @@ contains
                 iyri = Iyrct(i)
                 y(iyri) = v(i, np1)
             end do
-! COMPUTE THE XS FROM THE YS.  RECALL THAT IXRCT CONTAINS
-! THE FORMER IYCCT.
+            ! COMPUTE THE XS FROM THE YS.  RECALL THAT IXRCT CONTAINS
+            ! THE FORMER IYCCT.
             do i = 1, n
                 x(i) = v(i, np1)
                 do j = 1, n
@@ -2559,11 +2552,11 @@ contains
                     x(i) = x(i) - v(i, j)*y(ixrj)
                 end do
             end do
-!
-! NOW PUT THE VALUES IN IYCCT INTO THE FIRST N POSITIONS OF
-! IYRCT IN DECREASING ORDER.
-! TO ACCOMPLISH THIS, MAKE IXRCT(I)=-1 IF IYCCT(J)=I FOR
-! SOME J, THEN SCAN IXRCT BACKWARDS.
+
+            ! NOW PUT THE VALUES IN IYCCT INTO THE FIRST N POSITIONS OF
+            ! IYRCT IN DECREASING ORDER.
+            ! TO ACCOMPLISH THIS, MAKE IXRCT(I)=-1 IF IYCCT(J)=I FOR
+            ! SOME J, THEN SCAN IXRCT BACKWARDS.
             do j = 1, n
                 iycj = Iycct(j)
                 Ixrct(iycj) = -1
@@ -2572,7 +2565,7 @@ contains
             i = mp1
 1150        i = i - 1
             if (i <= 0) then
-! NOW FILL IN THE REST OF IYRCT BY SCANNING IXRCT AGAIN.
+                ! NOW FILL IN THE REST OF IYRCT BY SCANNING IXRCT AGAIN.
                 i = mp1
 1160            i = i - 1
                 if (i <= 0) return
@@ -2589,7 +2582,7 @@ contains
                 goto 1150
             end if
         end if
-!
+
 1200    Indic = 4
 
     end subroutine slnpro

@@ -125,7 +125,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title="100.0% of total for modules and submodules.">3353 statements</a>
+    title="100.0% of total for modules and submodules.">3360 statements</a>
      </li> 
      
      
@@ -3288,7 +3288,7 @@ public subroutine <a href='../proc/slnpro.html'>slnpro</a>(v, m, n, Iyrct, y, Ix
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>v</strong></td><td></td>
+  <td><strong>v</strong>(Numgr+2*Nparm+1,Nparm+2)</td><td></td>
   
 </tr>
 
@@ -3333,7 +3333,7 @@ public subroutine <a href='../proc/slnpro.html'>slnpro</a>(v, m, n, Iyrct, y, Ix
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Iyrct</strong></td><td></td>
+  <td><strong>Iyrct</strong>(Numgr+2*Nparm)</td><td></td>
   
 </tr>
 
@@ -3348,7 +3348,7 @@ public subroutine <a href='../proc/slnpro.html'>slnpro</a>(v, m, n, Iyrct, y, Ix
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>y</strong></td><td></td>
+  <td><strong>y</strong>(Numgr+2*Nparm)</td><td></td>
   
 </tr>
 
@@ -3363,7 +3363,7 @@ public subroutine <a href='../proc/slnpro.html'>slnpro</a>(v, m, n, Iyrct, y, Ix
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Ixrct</strong></td><td></td>
+  <td><strong>Ixrct</strong>(Numgr+2*Nparm)</td><td></td>
   
 </tr>
 
@@ -3378,7 +3378,7 @@ public subroutine <a href='../proc/slnpro.html'>slnpro</a>(v, m, n, Iyrct, y, Ix
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Iycct</strong></td><td></td>
+  <td><strong>Iycct</strong>(Nparm+1)</td><td></td>
   
 </tr>
 
@@ -3388,8 +3388,8 @@ public subroutine <a href='../proc/slnpro.html'>slnpro</a>(v, m, n, Iyrct, y, Ix
   
 <tr>
   
-  <td><span class="anchor" ></span>integer</td>
-  <td></td>
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -3403,8 +3403,8 @@ public subroutine <a href='../proc/slnpro.html'>slnpro</a>(v, m, n, Iyrct, y, Ix
   
 <tr>
   
-  <td><span class="anchor" ></span>integer</td>
-  <td></td>
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -3423,7 +3423,7 @@ public subroutine <a href='../proc/slnpro.html'>slnpro</a>(v, m, n, Iyrct, y, Ix
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>x</strong></td><td></td>
+  <td><strong>x</strong>(Nparm+1)</td><td></td>
   
 </tr>
 

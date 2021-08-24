@@ -125,7 +125,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title="12.1% of total for procedures.">400 statements</a>
+    title="12.3% of total for procedures.">407 statements</a>
      </li> 
      
      
@@ -302,7 +302,7 @@ public subroutine slnpro(v, m, n, Iyrct, y, Ixrct, Iycct, Nparm, Numgr, x, Indic
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>v</strong></td><td></td>
+  <td><strong>v</strong>(Numgr+2*Nparm+1,Nparm+2)</td><td></td>
   
 </tr>
 
@@ -347,7 +347,7 @@ public subroutine slnpro(v, m, n, Iyrct, y, Ixrct, Iycct, Nparm, Numgr, x, Indic
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Iyrct</strong></td><td></td>
+  <td><strong>Iyrct</strong>(Numgr+2*Nparm)</td><td></td>
   
 </tr>
 
@@ -362,7 +362,7 @@ public subroutine slnpro(v, m, n, Iyrct, y, Ixrct, Iycct, Nparm, Numgr, x, Indic
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>y</strong></td><td></td>
+  <td><strong>y</strong>(Numgr+2*Nparm)</td><td></td>
   
 </tr>
 
@@ -377,7 +377,7 @@ public subroutine slnpro(v, m, n, Iyrct, y, Ixrct, Iycct, Nparm, Numgr, x, Indic
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Ixrct</strong></td><td></td>
+  <td><strong>Ixrct</strong>(Numgr+2*Nparm)</td><td></td>
   
 </tr>
 
@@ -392,7 +392,7 @@ public subroutine slnpro(v, m, n, Iyrct, y, Ixrct, Iycct, Nparm, Numgr, x, Indic
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Iycct</strong></td><td></td>
+  <td><strong>Iycct</strong>(Nparm+1)</td><td></td>
   
 </tr>
 
@@ -402,8 +402,8 @@ public subroutine slnpro(v, m, n, Iyrct, y, Ixrct, Iycct, Nparm, Numgr, x, Indic
   
 <tr>
   
-  <td><span class="anchor" id="variable-nparm~8"></span>integer</td>
-  <td></td>
+  <td><span class="anchor" id="variable-nparm~8"></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -417,8 +417,8 @@ public subroutine slnpro(v, m, n, Iyrct, y, Ixrct, Iycct, Nparm, Numgr, x, Indic
   
 <tr>
   
-  <td><span class="anchor" id="variable-numgr~6"></span>integer</td>
-  <td></td>
+  <td><span class="anchor" id="variable-numgr~6"></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -437,7 +437,7 @@ public subroutine slnpro(v, m, n, Iyrct, y, Ixrct, Iycct, Nparm, Numgr, x, Indic
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>x</strong></td><td></td>
+  <td><strong>x</strong>(Nparm+1)</td><td></td>
   
 </tr>
 
@@ -731,119 +731,123 @@ public subroutine slnpro(v, m, n, Iyrct, y, Ixrct, Iycct, Nparm, Numgr, x, Indic
 
         <span class="k">implicit none</span>
 
-<span class="k">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">absv</span><span class="p">,</span> <span class="nb">amax</span><span class="p">,</span> <span class="nb">amin</span><span class="p">,</span> <span class="n">ampr2</span><span class="p">,</span> <span class="n">amprv</span><span class="p">,</span> <span class="n">bmpr2</span><span class="p">,</span> <span class="n">bmprv</span><span class="p">,</span> <span class="p">&amp;</span>
-                    <span class="n">dist</span><span class="p">,</span> <span class="n">dist1</span><span class="p">,</span> <span class="n">rea</span><span class="p">,</span> <span class="n">rea1</span><span class="p">,</span> <span class="n">rea2</span><span class="p">,</span> <span class="p">&amp;</span>
-                    <span class="n">rea3</span><span class="p">,</span> <span class="n">reakp</span><span class="p">,</span> <span class="n">rowq</span><span class="p">,</span> <span class="n">rtcol</span>
-        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">temp</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span>
+<span class="k">        </span><span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Nparm</span>
+        <span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Numgr</span>
+        <span class="kt">integer</span>  <span class="kd">::</span> <span class="n">m</span>
+        <span class="kt">integer</span>  <span class="kd">::</span> <span class="n">n</span>
+        <span class="kt">integer</span>  <span class="kd">::</span> <span class="n">Indic</span>
+        <span class="kt">integer</span>  <span class="kd">::</span> <span class="n">Iyrct</span><span class="p">(</span><span class="n">Numgr</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">Nparm</span><span class="p">)</span>
+        <span class="kt">integer</span>  <span class="kd">::</span> <span class="n">Ixrct</span><span class="p">(</span><span class="n">Numgr</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">Nparm</span><span class="p">)</span>
+        <span class="kt">integer</span>  <span class="kd">::</span> <span class="n">Iycct</span><span class="p">(</span><span class="n">Nparm</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">x</span><span class="p">(</span><span class="n">Nparm</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">y</span><span class="p">(</span><span class="n">Numgr</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">Nparm</span><span class="p">)</span>
+        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">v</span><span class="p">(</span><span class="n">Numgr</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">Nparm</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">Nparm</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span>
+
+        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">absv</span><span class="p">,</span> <span class="nb">amax</span><span class="p">,</span> <span class="nb">amin</span><span class="p">,</span> <span class="n">ampr2</span><span class="p">,</span> <span class="n">amprv</span><span class="p">,</span> <span class="n">bmpr2</span><span class="p">,</span> <span class="n">bmprv</span><span class="p">,</span> <span class="p">&amp;</span>
+                    <span class="n">dist</span><span class="p">,</span> <span class="n">dist1</span><span class="p">,</span> <span class="n">rea</span><span class="p">,</span> <span class="n">rea1</span><span class="p">,</span> <span class="n">rea2</span><span class="p">,</span> <span class="n">rea3</span><span class="p">,</span> <span class="n">reakp</span><span class="p">,</span> <span class="n">rowq</span><span class="p">,</span> <span class="p">&amp;</span>
+                    <span class="n">rtcol</span><span class="p">,</span> <span class="n">temp</span>
         <span class="kt">integer</span> <span class="kd">::</span> <span class="n">i</span><span class="p">,</span> <span class="n">i1</span><span class="p">,</span> <span class="n">i10</span><span class="p">,</span> <span class="n">i2</span><span class="p">,</span> <span class="n">i20</span><span class="p">,</span> <span class="n">iback</span><span class="p">,</span> <span class="n">id</span><span class="p">,</span> <span class="n">ifail</span><span class="p">,</span> <span class="n">ii</span><span class="p">,</span> <span class="p">&amp;</span>
-                   <span class="n">inamp</span><span class="p">,</span> <span class="n">Indic</span><span class="p">,</span> <span class="n">indst</span><span class="p">,</span> <span class="n">irlax</span><span class="p">,</span> <span class="n">irow</span><span class="p">,</span> <span class="n">itemp</span><span class="p">,</span> <span class="n">Ixrct</span><span class="p">,</span> <span class="p">&amp;</span>
-                   <span class="n">ixrj</span><span class="p">,</span> <span class="n">Iycct</span><span class="p">,</span> <span class="n">iycj</span><span class="p">,</span> <span class="n">Iyrct</span>
-        <span class="kt">integer</span> <span class="kd">::</span> <span class="n">iyri</span><span class="p">,</span> <span class="n">iytmp</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">jj</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">keep</span><span class="p">,</span> <span class="n">keep1</span><span class="p">,</span> <span class="n">kkk</span><span class="p">,</span> <span class="n">kpmp1</span><span class="p">,</span> <span class="p">&amp;</span>
-                   <span class="n">kpmp2</span><span class="p">,</span> <span class="n">ktjor</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">limjor</span><span class="p">,</span> <span class="n">ll</span><span class="p">,</span> <span class="n">lrknt</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">mp1</span><span class="p">,</span> <span class="p">&amp;</span>
-                   <span class="n">mxrkn</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">np1</span>
-        <span class="kt">integer</span> <span class="kd">::</span> <span class="n">Nparm</span><span class="p">,</span> <span class="n">Numgr</span>
+                   <span class="n">inamp</span><span class="p">,</span> <span class="n">indst</span><span class="p">,</span> <span class="n">irlax</span><span class="p">,</span> <span class="n">irow</span><span class="p">,</span> <span class="n">itemp</span><span class="p">,</span> <span class="n">ixrj</span><span class="p">,</span> <span class="n">iycj</span><span class="p">,</span> <span class="p">&amp;</span>
+                   <span class="n">iyri</span><span class="p">,</span> <span class="n">iytmp</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">jj</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">keep</span><span class="p">,</span> <span class="n">keep1</span><span class="p">,</span> <span class="n">kkk</span><span class="p">,</span> <span class="n">kpmp1</span><span class="p">,</span> <span class="p">&amp;</span>
+                   <span class="n">kpmp2</span><span class="p">,</span> <span class="n">ktjor</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">limjor</span><span class="p">,</span> <span class="n">ll</span><span class="p">,</span> <span class="n">lrknt</span><span class="p">,</span> <span class="n">mp1</span><span class="p">,</span> <span class="n">mxrkn</span><span class="p">,</span> <span class="n">np1</span>
 
-        <span class="k">dimension </span><span class="n">v</span><span class="p">(</span><span class="n">Numgr</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">Nparm</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">Nparm</span> <span class="o">+</span> <span class="mi">2</span><span class="p">),</span> <span class="n">Iyrct</span><span class="p">(</span><span class="n">Numgr</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">Nparm</span><span class="p">),</span> <span class="p">&amp;</span>
-            <span class="n">x</span><span class="p">(</span><span class="n">Nparm</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="n">y</span><span class="p">(</span><span class="n">Numgr</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">Nparm</span><span class="p">),</span> <span class="n">Ixrct</span><span class="p">(</span><span class="n">Numgr</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">Nparm</span><span class="p">),</span> <span class="p">&amp;</span>
-            <span class="n">Iycct</span><span class="p">(</span><span class="n">Nparm</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="c">! SET MACHINE DEPENDENT PARAMETERS FOR SUBROUTINE SLNPRO.</span>
+        <span class="c">! SET SPCMN=B**(-ITT), WHERE B IS THE BASE AND ITT IS THE NUMBER</span>
+        <span class="c">! OF BASE B DIGITS IN THE MANTISSA.  SPCMN IS THE MINIMUM</span>
+        <span class="c">! RELATIVE SPACING ABS((X1-X2)/X2) BETWEEN TWO SUCCESSIVE</span>
+        <span class="c">! FLOATING POINT NUMBERS, SO IT IS THE SPACING BETWEEN TWO</span>
+        <span class="c">! SUCCESSIVE FLOATING POINT NUMBERS IN THE CLOSED INTERVAL</span>
+        <span class="c">! (0.1,1.0).  WE ALSO HAVE SPCMN=10.0**(-ITT*(LOG10)(B))=</span>
+        <span class="c">! 10.0**(-TNMAN), WHERE TNMAN IS THE BASE 10 EQUIVALENT OF</span>
+        <span class="c">! THE LENGTH OF THE MANTISSA.</span>
 
-<span class="c">! SET MACHINE DEPENDENT PARAMETERS FOR SUBROUTINE SLNPRO.</span>
-<span class="c">! SET SPCMN=B**(-ITT), WHERE B IS THE BASE AND ITT IS THE NUMBER</span>
-<span class="c">! OF BASE B DIGITS IN THE MANTISSA.  SPCMN IS THE MINIMUM</span>
-<span class="c">! RELATIVE SPACING ABS((X1-X2)/X2) BETWEEN TWO SUCCESSIVE</span>
-<span class="c">! FLOATING POINT NUMBERS, SO IT IS THE SPACING BETWEEN TWO</span>
-<span class="c">! SUCCESSIVE FLOATING POINT NUMBERS IN THE CLOSED INTERVAL</span>
-<span class="c">! (0.1,1.0).  WE ALSO HAVE SPCMN=10.0**(-ITT*(LOG10)(B))=</span>
-<span class="c">! 10.0**(-TNMAN), WHERE TNMAN IS THE BASE 10 EQUIVALENT OF</span>
-<span class="c">! THE LENGTH OF THE MANTISSA.</span>
-
-<span class="c">! SET REA (ROUND OFF ERROR ADJUSTMENT) =</span>
-<span class="c">! MAX(10.0**(-8),100.0*SPCMN).  THUS REA=10.0**(-EXREA),</span>
-<span class="c">! WHERE EXREA=MIN(8,TNMAN-2).</span>
-<span class="c">! DIVISION BY NUMBERS &lt;= REA IN ABSOLUTE VALUE WILL NOT BE</span>
-<span class="c">! PERMITTED.</span>
+        <span class="c">! SET REA (ROUND OFF ERROR ADJUSTMENT) =</span>
+        <span class="c">! MAX(10.0**(-8),100.0*SPCMN).  THUS REA=10.0**(-EXREA),</span>
+        <span class="c">! WHERE EXREA=MIN(8,TNMAN-2).</span>
+        <span class="c">! DIVISION BY NUMBERS &lt;= REA IN ABSOLUTE VALUE WILL NOT BE</span>
+        <span class="c">! PERMITTED.</span>
         <span class="n">rea</span> <span class="o">=</span> <span class="n">ten</span><span class="o">*</span><span class="n">ten</span><span class="o">*</span><span class="n">spcmn</span>
         <span class="k">if</span> <span class="p">(</span><span class="n">rea</span> <span class="o">&lt;</span> <span class="n">ten</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">8</span><span class="p">))</span> <span class="n">rea</span> <span class="o">=</span> <span class="n">ten</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">8</span><span class="p">)</span>
-<span class="c">! SET REA1=10.0*SPCMN.  THUS REA1=10.0**(-(TNMAN-1)).</span>
-<span class="c">! NUMBERS IN ROW M+1 OR COLUMN N+1 WHICH ARE &lt;= REA1 IN</span>
-<span class="c">! ABSOLUTE VALUE WILL BE TREATED AS ZEROES.  SLNPRO ASSUMES</span>
-<span class="c">! THAT 0.0 &lt; REA1 &lt;= REA.</span>
+        <span class="c">! SET REA1=10.0*SPCMN.  THUS REA1=10.0**(-(TNMAN-1)).</span>
+        <span class="c">! NUMBERS IN ROW M+1 OR COLUMN N+1 WHICH ARE &lt;= REA1 IN</span>
+        <span class="c">! ABSOLUTE VALUE WILL BE TREATED AS ZEROES.  SLNPRO ASSUMES</span>
+        <span class="c">! THAT 0.0 &lt; REA1 &lt;= REA.</span>
         <span class="n">rea1</span> <span class="o">=</span> <span class="n">ten</span><span class="o">*</span><span class="n">spcmn</span>
-<span class="c">! END OF INITIAL SETTING OF MACHINE DEPENDENT PARAMETERS FOR</span>
-<span class="c">! SLNPRO.  THESE PARAMETERS MAY BE ADJUSTED BY A COMMAND FROM</span>
-<span class="c">! THE CALLING PROGRAM.</span>
-<span class="c">!</span>
+        <span class="c">! END OF INITIAL SETTING OF MACHINE DEPENDENT PARAMETERS FOR</span>
+        <span class="c">! SLNPRO.  THESE PARAMETERS MAY BE ADJUSTED BY A COMMAND FROM</span>
+        <span class="c">! THE CALLING PROGRAM.</span>
+
         <span class="n">Indic</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="n">limjor</span> <span class="o">=</span> <span class="mi">300</span>
-<span class="c">! M BEING NEGATIVE IS A SIGNAL TO INCREASE REA AND REA1,</span>
-<span class="c">! THUS TREATING MORE NUMBERS WITH SMALL ABSOLUTE VALUES AS</span>
-<span class="c">! ZEROES.  THIS MAY GIVE THIS ROUTINE A BETTER CHANCE TO</span>
-<span class="c">! SUCCEED, BUT MAY ALSO CAUSE LARGER ERRORS.</span>
+        <span class="c">! M BEING NEGATIVE IS A SIGNAL TO INCREASE REA AND REA1,</span>
+        <span class="c">! THUS TREATING MORE NUMBERS WITH SMALL ABSOLUTE VALUES AS</span>
+        <span class="c">! ZEROES.  THIS MAY GIVE THIS ROUTINE A BETTER CHANCE TO</span>
+        <span class="c">! SUCCEED, BUT MAY ALSO CAUSE LARGER ERRORS.</span>
         <span class="k">if</span> <span class="p">(</span><span class="n">m</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="k">then</span>
-<span class="c">! RESET M.</span>
+            <span class="c">! RESET M.</span>
             <span class="n">m</span> <span class="o">=</span> <span class="o">-</span><span class="n">m</span>
             <span class="n">rea</span> <span class="o">=</span> <span class="nb">sqrt</span><span class="p">(</span><span class="n">rea</span><span class="p">)</span>
             <span class="n">rea1</span> <span class="o">=</span> <span class="nb">sqrt</span><span class="p">(</span><span class="n">rea1</span><span class="p">)</span>
             <span class="n">Indic</span> <span class="o">=</span> <span class="o">-</span><span class="mi">2</span>
         <span class="k">end if</span>
-<span class="c">! N BEING NEGATIVE IS A SIGNAL TO DECREASE REA AND REA1 TO TRY</span>
-<span class="c">! FOR MORE ACCURACY.  AMONG OTHER THINGS, THIS MAKES IT MORE</span>
-<span class="c">! LIKELY THAT THE PREVIOUS VERTEX WILL BE RETAINED IN PHASE 1</span>
-<span class="c">! BELOW, BUT IT ALSO COULD INCREASE ROUND OFF ERROR.</span>
+        <span class="c">! N BEING NEGATIVE IS A SIGNAL TO DECREASE REA AND REA1 TO TRY</span>
+        <span class="c">! FOR MORE ACCURACY.  AMONG OTHER THINGS, THIS MAKES IT MORE</span>
+        <span class="c">! LIKELY THAT THE PREVIOUS VERTEX WILL BE RETAINED IN PHASE 1</span>
+        <span class="c">! BELOW, BUT IT ALSO COULD INCREASE ROUND OFF ERROR.</span>
         <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="k">then</span>
-<span class="c">! RESET N.</span>
+            <span class="c">! RESET N.</span>
             <span class="n">n</span> <span class="o">=</span> <span class="o">-</span><span class="n">n</span>
             <span class="n">rea</span> <span class="o">=</span> <span class="n">rea1</span>
             <span class="n">rea1</span> <span class="o">=</span> <span class="n">rea1</span><span class="o">/</span><span class="p">(</span><span class="n">ten</span><span class="o">*</span><span class="n">ten</span><span class="p">)</span>
             <span class="n">Indic</span> <span class="o">=</span> <span class="o">-</span><span class="mi">4</span>
         <span class="k">end if</span>
-<span class="c">! PRESERVE REA IN CASE IT MUST BE TEMPORARILY RELAXED.</span>
-<span class="c">! IRLAX=0 INDICATES REA IS NOT RELAXED AT THIS STAGE.</span>
+        <span class="c">! PRESERVE REA IN CASE IT MUST BE TEMPORARILY RELAXED.</span>
+        <span class="c">! IRLAX=0 INDICATES REA IS NOT RELAXED AT THIS STAGE.</span>
         <span class="n">reakp</span> <span class="o">=</span> <span class="n">rea</span>
         <span class="n">irlax</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="c">! IN COLUMN N+1, NUMBERS &lt;= REA2 IN ABSOLUTE VALUE WILL BE</span>
-<span class="c">! TREATED AS ZEROES.</span>
+        <span class="c">! IN COLUMN N+1, NUMBERS &lt;= REA2 IN ABSOLUTE VALUE WILL BE</span>
+        <span class="c">! TREATED AS ZEROES.</span>
         <span class="n">rea2</span> <span class="o">=</span> <span class="n">rea1</span>
         <span class="n">np1</span> <span class="o">=</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">1</span>
         <span class="n">mp1</span> <span class="o">=</span> <span class="n">m</span> <span class="o">+</span> <span class="mi">1</span>
         <span class="n">ktjor</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="n">iback</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="c">! SET V(MP1,NP1)=0.0 SO THE DESCRIPTIONS IN AND FOLLOWING THE</span>
-<span class="c">! PROLOGUE WILL AGREE.</span>
+        <span class="c">! SET V(MP1,NP1)=0.0 SO THE DESCRIPTIONS IN AND FOLLOWING THE</span>
+        <span class="c">! PROLOGUE WILL AGREE.</span>
         <span class="n">v</span><span class="p">(</span><span class="n">mp1</span><span class="p">,</span> <span class="n">np1</span><span class="p">)</span> <span class="o">=</span> <span class="n">zero</span>
-<span class="c">! THE ONLY REASON FOR THE FOLLOWING THREE STATEMENTS IS TO</span>
-<span class="c">! AVOID THE ERROR MESSAGE ON SOME MACHINES THAT THESE</span>
-<span class="c">! VARIABLES HAVE NOT BEEN ASSIGNED A VALUE.  THEY WILL BE</span>
-<span class="c">! REASSIGNED A VALUE BEFORE THE PROGRAM REACHES A SPOT WHERE</span>
-<span class="c">! THEY WILL ACTUALLY BE USED.</span>
+        <span class="c">! THE ONLY REASON FOR THE FOLLOWING THREE STATEMENTS IS TO</span>
+        <span class="c">! AVOID THE ERROR MESSAGE ON SOME MACHINES THAT THESE</span>
+        <span class="c">! VARIABLES HAVE NOT BEEN ASSIGNED A VALUE.  THEY WILL BE</span>
+        <span class="c">! REASSIGNED A VALUE BEFORE THE PROGRAM REACHES A SPOT WHERE</span>
+        <span class="c">! THEY WILL ACTUALLY BE USED.</span>
         <span class="n">dist</span> <span class="o">=</span> <span class="n">one</span>
         <span class="n">amprv</span> <span class="o">=</span> <span class="n">one</span>
         <span class="n">ampr2</span> <span class="o">=</span> <span class="n">one</span>
-<span class="c">! SET IXRCT.  IXRCT(I)=0 MEANS SOME Y IS IN ROW I, WHILE</span>
-<span class="c">! IXRCT(I)=K/=0 MEANS X(K) IS IN ROW I.</span>
+        <span class="c">! SET IXRCT.  IXRCT(I)=0 MEANS SOME Y IS IN ROW I, WHILE</span>
+        <span class="c">! IXRCT(I)=K/=0 MEANS X(K) IS IN ROW I.</span>
         <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">m</span>
             <span class="n">Ixrct</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="k">end do</span>
-<span class="c">!</span>
-<span class="c">! EXCHANGE THE XS AT THE TOP OF THE TABLE FOR YS.</span>
-<span class="c">! IF IYRCT(1) IS NONPOSITIVE, WE SET IYRCT AND CHOOSE THE</span>
-<span class="c">! LARGEST POSSIBLE RESOLVENTS FOR THE EXCHANGES.  IF</span>
-<span class="c">! IYRCT(1) IS POSITIVE, IYRCT WILL HAVE BEEN PREVIOUSLY SET</span>
-<span class="c">! AND WE TRY TO EXCHANGE IN ROWS IYRCT(1),...,IYRCT(N),</span>
-<span class="c">! STILL EMPLOYING A PIVOTING STRATEGY, BUT IF WE CANNOT, WE</span>
-<span class="c">! EXCHANGE IN ROWS IYRCT(N+1),...,IYRCT(M).</span>
+
+        <span class="c">! EXCHANGE THE XS AT THE TOP OF THE TABLE FOR YS.</span>
+        <span class="c">! IF IYRCT(1) IS NONPOSITIVE, WE SET IYRCT AND CHOOSE THE</span>
+        <span class="c">! LARGEST POSSIBLE RESOLVENTS FOR THE EXCHANGES.  IF</span>
+        <span class="c">! IYRCT(1) IS POSITIVE, IYRCT WILL HAVE BEEN PREVIOUSLY SET</span>
+        <span class="c">! AND WE TRY TO EXCHANGE IN ROWS IYRCT(1),...,IYRCT(N),</span>
+        <span class="c">! STILL EMPLOYING A PIVOTING STRATEGY, BUT IF WE CANNOT, WE</span>
+        <span class="c">! EXCHANGE IN ROWS IYRCT(N+1),...,IYRCT(M).</span>
         <span class="k">if</span> <span class="p">(</span><span class="n">Iyrct</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">then</span>
 <span class="k">            </span><span class="n">i10</span> <span class="o">=</span> <span class="mi">1</span>
             <span class="n">i20</span> <span class="o">=</span> <span class="n">m</span>
-<span class="c">! IF WE HAVE NO INFORMATION FROM A PREVIOUS VERTEX, WE GIVE</span>
-<span class="c">! UP A LITTLE ACCURACY IN COLUMN N+1 TO HAVE A BETTER CHANCE</span>
-<span class="c">! OF SUCCESS.</span>
+            <span class="c">! IF WE HAVE NO INFORMATION FROM A PREVIOUS VERTEX, WE GIVE</span>
+            <span class="c">! UP A LITTLE ACCURACY IN COLUMN N+1 TO HAVE A BETTER CHANCE</span>
+            <span class="c">! OF SUCCESS.</span>
             <span class="n">rea2</span> <span class="o">=</span> <span class="n">rea</span>
-<span class="c">! THIS ROUTINE HAS A BACKTRACKING OPTION WHICH SOMETIMES</span>
-<span class="c">! INCREASES ACCURACY BUT SOMETIMES LEADS TO FAILURE DUE TO</span>
-<span class="c">! CYCLING.  IT IS SUGGESTED THAT THIS OPTION BE EMPLOYED IF</span>
-<span class="c">! INFORMATION ABOUT A STARTING VERTEX IS AVAILABLE, AND</span>
-<span class="c">! OTHERWISE BE DISABLED BY SETTING IBACK=1.</span>
+            <span class="c">! THIS ROUTINE HAS A BACKTRACKING OPTION WHICH SOMETIMES</span>
+            <span class="c">! INCREASES ACCURACY BUT SOMETIMES LEADS TO FAILURE DUE TO</span>
+            <span class="c">! CYCLING.  IT IS SUGGESTED THAT THIS OPTION BE EMPLOYED IF</span>
+            <span class="c">! INFORMATION ABOUT A STARTING VERTEX IS AVAILABLE, AND</span>
+            <span class="c">! OTHERWISE BE DISABLED BY SETTING IBACK=1.</span>
             <span class="n">iback</span> <span class="o">=</span> <span class="mi">1</span>
             <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">m</span>
                 <span class="n">Iyrct</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="n">i</span>
@@ -853,29 +857,28 @@ public subroutine slnpro(v, m, n, Iyrct, y, Ixrct, Iycct, Nparm, Numgr, x, Indic
             <span class="n">i20</span> <span class="o">=</span> <span class="n">n</span>
         <span class="k">end if</span>
 <span class="k">        </span><span class="n">j</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="c">! SET THE LOWER BOUND ON THE ABSOLUTE VALUE OF A RESOLVENT IN</span>
-<span class="c">! PHASE 1.  ALSO SET IFAIL=0 TO INDICATE THE RESOLVENT SEARCH</span>
-<span class="c">! IN THIS COLUMN HAS NOT FAILED.</span>
+        <span class="c">! SET THE LOWER BOUND ON THE ABSOLUTE VALUE OF A RESOLVENT IN</span>
+        <span class="c">! PHASE 1.  ALSO SET IFAIL=0 TO INDICATE THE RESOLVENT SEARCH</span>
+        <span class="c">! IN THIS COLUMN HAS NOT FAILED.</span>
         <span class="n">rea3</span> <span class="o">=</span> <span class="n">rea</span>
         <span class="n">ifail</span> <span class="o">=</span> <span class="mi">0</span>
 <span class="mi">100</span>     <span class="n">j</span> <span class="o">=</span> <span class="n">j</span> <span class="o">+</span> <span class="mi">1</span>
         <span class="k">if</span> <span class="p">(</span><span class="n">j</span> <span class="o">&gt;</span> <span class="n">n</span><span class="p">)</span> <span class="k">then</span>
-<span class="c">!</span>
-<span class="c">! REARRANGE THE ROWS OF V SO THAT X(1),...,X(N) COME FIRST</span>
-<span class="c">! IN THAT ORDER.  REDEFINE IYRCT SO THAT AFTER THE</span>
-<span class="c">! REARRANGEMENT IS DONE, IYRCT(I)=K WILL MEAN Y(K) IS IN</span>
-<span class="c">! ROW I (FOR I GREATER THAN N).</span>
+            <span class="c">! REARRANGE THE ROWS OF V SO THAT X(1),...,X(N) COME FIRST</span>
+            <span class="c">! IN THAT ORDER.  REDEFINE IYRCT SO THAT AFTER THE</span>
+            <span class="c">! REARRANGEMENT IS DONE, IYRCT(I)=K WILL MEAN Y(K) IS IN</span>
+            <span class="c">! ROW I (FOR I GREATER THAN N).</span>
             <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">m</span>
                 <span class="n">Iyrct</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="n">i</span>
             <span class="k">end do</span>
 <span class="k">            </span><span class="n">irow</span> <span class="o">=</span> <span class="mi">0</span>
             <span class="k">goto </span><span class="mi">400</span>
         <span class="k">end if</span>
-<span class="c">! SET I1, I2 ACCORDING TO THE STRATEGY WE ARE USING.</span>
+        <span class="c">! SET I1, I2 ACCORDING TO THE STRATEGY WE ARE USING.</span>
 <span class="mi">200</span>     <span class="n">i1</span> <span class="o">=</span> <span class="n">i10</span>
         <span class="n">i2</span> <span class="o">=</span> <span class="n">i20</span>
         <span class="nb">amax</span> <span class="o">=</span> <span class="n">zero</span>
-<span class="c">! SEARCH FOR A RESOLVENT IN ROWS IYRCT(I1),...,IYRCT(I2).</span>
+        <span class="c">! SEARCH FOR A RESOLVENT IN ROWS IYRCT(I1),...,IYRCT(I2).</span>
 <span class="mi">300</span>     <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="n">i1</span><span class="p">,</span> <span class="n">i2</span>
             <span class="n">iytmp</span> <span class="o">=</span> <span class="n">Iyrct</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
             <span class="k">if</span> <span class="p">(</span><span class="n">Ixrct</span><span class="p">(</span><span class="n">iytmp</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="k">then</span>
@@ -886,38 +889,37 @@ public subroutine slnpro(v, m, n, Iyrct, y, Ixrct, Iycct, Nparm, Numgr, x, Indic
                 <span class="k">end if</span>
 <span class="k">            end if</span>
 <span class="k">        end do</span>
-<span class="c">! CHECK TO SEE IF THE PROSPECTIVE RESOLVENT IS LARGE ENOUGH</span>
-<span class="c">! IN ABSOLUTE VALUE.</span>
+        <span class="c">! CHECK TO SEE IF THE PROSPECTIVE RESOLVENT IS LARGE ENOUGH</span>
+        <span class="c">! IN ABSOLUTE VALUE.</span>
         <span class="k">if</span> <span class="p">(</span><span class="nb">amax</span> <span class="o">&gt;</span> <span class="n">rea3</span><span class="p">)</span> <span class="k">then</span>
-<span class="c">! EXCHANGE X(J) FOR Y(IYRI).</span>
+            <span class="c">! EXCHANGE X(J) FOR Y(IYRI).</span>
             <span class="k">call </span><span class="n">sjelim</span><span class="p">(</span><span class="n">mp1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">np1</span><span class="p">,</span> <span class="n">iyri</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">Nparm</span><span class="p">,</span> <span class="n">Numgr</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
             <span class="n">Ixrct</span><span class="p">(</span><span class="n">iyri</span><span class="p">)</span> <span class="o">=</span> <span class="n">j</span>
             <span class="n">Iycct</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">iyri</span>
-<span class="c">! IYCCT(J)=IYRI MEANS Y(IYRI) IS IN COLUMN J.</span>
-<span class="c">! RESET REA3 AND IFAIL SINCE WE SUCCESSFULLY FOUND A RESOLVENT IN</span>
-<span class="c">! THIS COLUMN, AND THE RESOLVENT SEARCH IN THE NEXT COLUMN HAS</span>
-<span class="c">! NOT FAILED.</span>
+            <span class="c">! IYCCT(J)=IYRI MEANS Y(IYRI) IS IN COLUMN J.</span>
+            <span class="c">! RESET REA3 AND IFAIL SINCE WE SUCCESSFULLY FOUND A RESOLVENT IN</span>
+            <span class="c">! THIS COLUMN, AND THE RESOLVENT SEARCH IN THE NEXT COLUMN HAS</span>
+            <span class="c">! NOT FAILED.</span>
             <span class="n">rea3</span> <span class="o">=</span> <span class="n">rea</span>
             <span class="n">ifail</span> <span class="o">=</span> <span class="mi">0</span>
             <span class="k">goto </span><span class="mi">100</span>
-<span class="c">! WE HAVE NOT FOUND A SUITABLE RESOLVENT IN ROWS IYRCT(I1),</span>
-<span class="c">! ...IYRCT(I2).  IF I2 &lt; M WE SEARCH THE REST OF COLUMN J.</span>
+        <span class="c">! WE HAVE NOT FOUND A SUITABLE RESOLVENT IN ROWS IYRCT(I1),</span>
+        <span class="c">! ...IYRCT(I2).  IF I2 &lt; M WE SEARCH THE REST OF COLUMN J.</span>
         <span class="k">else if</span> <span class="p">(</span><span class="n">i2</span> <span class="o">&lt;</span> <span class="n">m</span><span class="p">)</span> <span class="k">then</span>
 <span class="k">            </span><span class="n">i1</span> <span class="o">=</span> <span class="n">i2</span> <span class="o">+</span> <span class="mi">1</span>
             <span class="n">i2</span> <span class="o">=</span> <span class="n">m</span>
             <span class="k">goto </span><span class="mi">300</span>
-<span class="c">! HERE WE FAILED TO FIND A RESOLVENT IN COLUMN J WITH ABSOLUTE</span>
-<span class="c">! VALUE &gt; REA3.  IF IFAIL=0 WE SET INDIC=-3 AND TRY AGAIN</span>
-<span class="c">! WITH REA3 REDUCED.  IF THIS HAS ALREADY BEEN TRIED WE SET</span>
-<span class="c">! INDIC=1 AND RETURN.</span>
+        <span class="c">! HERE WE FAILED TO FIND A RESOLVENT IN COLUMN J WITH ABSOLUTE</span>
+        <span class="c">! VALUE &gt; REA3.  IF IFAIL=0 WE SET INDIC=-3 AND TRY AGAIN</span>
+        <span class="c">! WITH REA3 REDUCED.  IF THIS HAS ALREADY BEEN TRIED WE SET</span>
+        <span class="c">! INDIC=1 AND RETURN.</span>
         <span class="k">else if</span> <span class="p">(</span><span class="n">ifail</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">then</span>
 <span class="k">            </span><span class="n">ifail</span> <span class="o">=</span> <span class="mi">1</span>
             <span class="n">Indic</span> <span class="o">=</span> <span class="o">-</span><span class="mi">3</span>
             <span class="n">rea3</span> <span class="o">=</span> <span class="n">rea1</span>
             <span class="k">goto </span><span class="mi">200</span>
         <span class="k">else</span>
-<span class="c">!</span>
-            <span class="n">Indic</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="k">            </span><span class="n">Indic</span> <span class="o">=</span> <span class="mi">1</span>
             <span class="k">return</span>
 <span class="k">        end if</span>
 <span class="mi">400</span>     <span class="n">irow</span> <span class="o">=</span> <span class="n">irow</span> <span class="o">+</span> <span class="mi">1</span>
@@ -925,40 +927,40 @@ public subroutine slnpro(v, m, n, Iyrct, y, Ixrct, Iycct, Nparm, Numgr, x, Indic
 <span class="k">            if</span> <span class="p">(</span><span class="n">Ixrct</span><span class="p">(</span><span class="n">irow</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="k">goto </span><span class="mi">400</span>
             <span class="k">if</span> <span class="p">(</span><span class="n">Ixrct</span><span class="p">(</span><span class="n">irow</span><span class="p">)</span> <span class="o">==</span> <span class="n">irow</span><span class="p">)</span> <span class="k">goto </span><span class="mi">400</span>
         <span class="k">else</span>
-<span class="c">! NOW IXRCT IS NO LONGER NEEDED, SO STORE THE PRESENT IYCCT</span>
-<span class="c">! IN IT.</span>
+            <span class="c">! NOW IXRCT IS NO LONGER NEEDED, SO STORE THE PRESENT IYCCT</span>
+            <span class="c">! IN IT.</span>
             <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n</span>
                 <span class="n">Ixrct</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="n">Iycct</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
             <span class="k">end do</span>
-<span class="c">! END OF PHASE 1.</span>
-<span class="c">!</span>
-<span class="c">! THE FIRST N ROWS OF V GIVE THE XS IN TERMS OF CERTAIN</span>
-<span class="c">! YS.  THESE ROWS WILL NOT BE CHANGED BY LATER OPERATIONS.</span>
-<span class="c">!</span>
-<span class="c">! WE NOW ATTACK THE MAXIMIZATION PROBLEM BY LOOKING AT THE</span>
-<span class="c">! DUAL PROBLEM OF MINIMIZING A FORM GIVEN BY THE</span>
-<span class="c">! COEFFICIENTS IN V(N+1,N+1) THROUGH V(M,N+1) WITH SLACK</span>
-<span class="c">! TERMS IN THE BOTTOM ROW OF V.</span>
-<span class="c">! SEARCH ROW M+1 FOR A SIGNIFICANTLY NEGATIVE ELEMENT.  IF</span>
-<span class="c">! THERE ARE NONE, PROCEED TO THE ACTUAL MINIMIZATION</span>
-<span class="c">! PROBLEM.  STICK WITH COLUMN JJ UNTIL V(M+1,JJ) &gt;= -REA1.</span>
+            <span class="c">! END OF PHASE 1.</span>
+
+            <span class="c">! THE FIRST N ROWS OF V GIVE THE XS IN TERMS OF CERTAIN</span>
+            <span class="c">! YS.  THESE ROWS WILL NOT BE CHANGED BY LATER OPERATIONS.</span>
+            <span class="c">!</span>
+            <span class="c">! WE NOW ATTACK THE MAXIMIZATION PROBLEM BY LOOKING AT THE</span>
+            <span class="c">! DUAL PROBLEM OF MINIMIZING A FORM GIVEN BY THE</span>
+            <span class="c">! COEFFICIENTS IN V(N+1,N+1) THROUGH V(M,N+1) WITH SLACK</span>
+            <span class="c">! TERMS IN THE BOTTOM ROW OF V.</span>
+            <span class="c">! SEARCH ROW M+1 FOR A SIGNIFICANTLY NEGATIVE ELEMENT.  IF</span>
+            <span class="c">! THERE ARE NONE, PROCEED TO THE ACTUAL MINIMIZATION</span>
+            <span class="c">! PROBLEM.  STICK WITH COLUMN JJ UNTIL V(M+1,JJ) &gt;= -REA1.</span>
             <span class="n">jj</span> <span class="o">=</span> <span class="mi">0</span>
             <span class="k">goto </span><span class="mi">600</span>
         <span class="k">end if</span>
-<span class="c">! NOW X(L) IS IN ROW IROW, BUT WE WANT IT IN ROW L.</span>
+        <span class="c">! NOW X(L) IS IN ROW IROW, BUT WE WANT IT IN ROW L.</span>
 <span class="mi">500</span>     <span class="n">l</span> <span class="o">=</span> <span class="n">Ixrct</span><span class="p">(</span><span class="n">irow</span><span class="p">)</span>
         <span class="n">ll</span> <span class="o">=</span> <span class="n">Ixrct</span><span class="p">(</span><span class="n">l</span><span class="p">)</span>
         <span class="k">if</span> <span class="p">(</span><span class="n">ll</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">then</span>
-<span class="c">! X(L) IS IN ROW IROW, WHILE X(LL) IS IN ROW L.</span>
+            <span class="c">! X(L) IS IN ROW IROW, WHILE X(LL) IS IN ROW L.</span>
             <span class="n">Ixrct</span><span class="p">(</span><span class="n">irow</span><span class="p">)</span> <span class="o">=</span> <span class="n">ll</span>
             <span class="n">Ixrct</span><span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="o">=</span> <span class="n">l</span>
         <span class="k">else</span>
-<span class="c">! X(L) IS IN ROW IROW, WHILE Y(IYRCT(L)) IS IN ROW L.</span>
+            <span class="c">! X(L) IS IN ROW IROW, WHILE Y(IYRCT(L)) IS IN ROW L.</span>
             <span class="n">Ixrct</span><span class="p">(</span><span class="n">irow</span><span class="p">)</span> <span class="o">=</span> <span class="mi">0</span>
             <span class="n">Iyrct</span><span class="p">(</span><span class="n">irow</span><span class="p">)</span> <span class="o">=</span> <span class="n">Iyrct</span><span class="p">(</span><span class="n">l</span><span class="p">)</span>
             <span class="n">Ixrct</span><span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="o">=</span> <span class="n">l</span>
         <span class="k">end if</span>
-<span class="c">! NOW EXCHANGE THE CONTENTS OF ROWS IROW AND L.</span>
+        <span class="c">! NOW EXCHANGE THE CONTENTS OF ROWS IROW AND L.</span>
         <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">np1</span>
             <span class="n">temp</span> <span class="o">=</span> <span class="n">v</span><span class="p">(</span><span class="n">irow</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span>
             <span class="n">v</span><span class="p">(</span><span class="n">irow</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">v</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span>
@@ -969,12 +971,11 @@ public subroutine slnpro(v, m, n, Iyrct, y, Ixrct, Iycct, Nparm, Numgr, x, Indic
         <span class="k">goto </span><span class="mi">500</span>
 <span class="mi">600</span>     <span class="n">jj</span> <span class="o">=</span> <span class="n">jj</span> <span class="o">+</span> <span class="mi">1</span>
         <span class="k">if</span> <span class="p">(</span><span class="n">jj</span> <span class="o">&gt;</span> <span class="n">n</span><span class="p">)</span> <span class="k">then</span>
-<span class="c">!</span>
-<span class="c">! IN THE UNLIKELY EVENT THAT SOME V(M+1,J) IS STILL VERY</span>
-<span class="c">! SIGNIFICANTLY NEGATIVE WE BACKTRACK TO COLUMN J.  THIS</span>
-<span class="c">! COULD NOT HAPPEN IF THERE WERE NO ROUNDOFF ERROR AND WE</span>
-<span class="c">! COULD ALLOW DIVISION BY NUMBERS WITH VERY SMALL ABSOLUTE</span>
-<span class="c">! VALUE.  OMIT BACKTRACKING IF IBACK=1.</span>
+            <span class="c">! IN THE UNLIKELY EVENT THAT SOME V(M+1,J) IS STILL VERY</span>
+            <span class="c">! SIGNIFICANTLY NEGATIVE WE BACKTRACK TO COLUMN J.  THIS</span>
+            <span class="c">! COULD NOT HAPPEN IF THERE WERE NO ROUNDOFF ERROR AND WE</span>
+            <span class="c">! COULD ALLOW DIVISION BY NUMBERS WITH VERY SMALL ABSOLUTE</span>
+            <span class="c">! VALUE.  OMIT BACKTRACKING IF IBACK=1.</span>
             <span class="k">if</span> <span class="p">(</span><span class="n">iback</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">then</span>
 <span class="k">                do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n</span>
                     <span class="k">if</span> <span class="p">(</span><span class="n">v</span><span class="p">(</span><span class="n">mp1</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span> <span class="o">+</span> <span class="n">rea</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">then</span>
@@ -987,23 +988,22 @@ public subroutine slnpro(v, m, n, Iyrct, y, Ixrct, Iycct, Nparm, Numgr, x, Indic
         <span class="k">else if</span> <span class="p">(</span><span class="n">v</span><span class="p">(</span><span class="n">mp1</span><span class="p">,</span> <span class="n">jj</span><span class="p">)</span> <span class="o">+</span> <span class="n">rea1</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">then</span>
 <span class="k">            goto </span><span class="mi">600</span>
         <span class="k">end if</span>
-<span class="c">!</span>
-<span class="c">! WE HAVE V(M+1,JJ) SIGNIFICANTLY NEGATIVE.  SEARCH COLUMN</span>
-<span class="c">! JJ FOR A POSITIVE ELEMENT, TREATING A VERY SMALL V(I,J)</span>
-<span class="c">! AS A ZERO.  IF THERE ARE NO POSITIVE ELEMENTS THE DUAL</span>
-<span class="c">! CONSTRAINTS WERE INCONSISTENT, SO THE ORIGINAL PROBLEM WAS</span>
-<span class="c">! INCONSISTENT OR UNBOUNDED.</span>
+
+        <span class="c">! WE HAVE V(M+1,JJ) SIGNIFICANTLY NEGATIVE.  SEARCH COLUMN</span>
+        <span class="c">! JJ FOR A POSITIVE ELEMENT, TREATING A VERY SMALL V(I,J)</span>
+        <span class="c">! AS A ZERO.  IF THERE ARE NO POSITIVE ELEMENTS THE DUAL</span>
+        <span class="c">! CONSTRAINTS WERE INCONSISTENT, SO THE ORIGINAL PROBLEM WAS</span>
+        <span class="c">! INCONSISTENT OR UNBOUNDED.</span>
 <span class="mi">700</span>     <span class="n">i</span> <span class="o">=</span> <span class="n">n</span>
         <span class="n">inamp</span> <span class="o">=</span> <span class="mi">0</span>
 <span class="mi">800</span>     <span class="n">i</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span>
         <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">&lt;=</span> <span class="n">m</span><span class="p">)</span> <span class="k">then</span>
 <span class="k">            if</span> <span class="p">(</span><span class="n">v</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">jj</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">rea</span><span class="p">)</span> <span class="k">goto </span><span class="mi">800</span>
-<span class="c">!</span>
-<span class="c">! NOW V(I,JJ) &gt; REA.  WE SEARCH ROW I FOR INDICES K SUCH</span>
-<span class="c">! THAT V(M+1,K) &gt;= 0.0.OR.K &lt; JJ, AND V(I,K) &lt; -REA, AND</span>
-<span class="c">! FIND THE MAXIMUM RATIO (I.E. THE RATIO WITH SMALLEST</span>
-<span class="c">! ABSOLUTE VALUE, IF V(M+1,K) &gt;= 0.0) V(M+1,K)/V(I,K).  IF</span>
-<span class="c">! THERE IS NO SUCH K WE LOOK AT POSITIVE V(I,K) BELOW.</span>
+            <span class="c">! NOW V(I,JJ) &gt; REA.  WE SEARCH ROW I FOR INDICES K SUCH</span>
+            <span class="c">! THAT V(M+1,K) &gt;= 0.0.OR.K &lt; JJ, AND V(I,K) &lt; -REA, AND</span>
+            <span class="c">! FIND THE MAXIMUM RATIO (I.E. THE RATIO WITH SMALLEST</span>
+            <span class="c">! ABSOLUTE VALUE, IF V(M+1,K) &gt;= 0.0) V(M+1,K)/V(I,K).  IF</span>
+            <span class="c">! THERE IS NO SUCH K WE LOOK AT POSITIVE V(I,K) BELOW.</span>
             <span class="n">indst</span> <span class="o">=</span> <span class="mi">0</span>
             <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n</span>
                 <span class="k">if</span> <span class="p">(</span><span class="n">v</span><span class="p">(</span><span class="n">mp1</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="k">then</span>
@@ -1020,14 +1020,13 @@ public subroutine slnpro(v, m, n, Iyrct, y, Ixrct, Iycct, Nparm, Numgr, x, Indic
                 <span class="k">end if</span>
 <span class="mi">850</span>         <span class="k">end do</span>
 <span class="k">            if</span> <span class="p">(</span><span class="n">indst</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">then</span>
-<span class="c">!</span>
-<span class="c">! IF THERE WAS NO INDEX K SUCH THAT V(M+1,K) &gt;= 0.0.OR.K &lt;</span>
-<span class="c">! JJ, AND V(I,K) &lt; -REA, WE LOOK FOR THE SMALLEST (I.E.</span>
-<span class="c">! LARGEST IN ABSOLUTE VALUE) RATIO V(M+1,K)/V(I,K) FOR</span>
-<span class="c">! V(I,K) &gt; REA AND V(M+1,K) &lt; 0.0, AND PERFORM AN</span>
-<span class="c">! ELIMINATION WITH RESOLVENT V(I,K).  THERE IS AT LEAST ONE</span>
-<span class="c">! SUCH K, NAMELY JJ.</span>
-<span class="c">! THIS WILL FINISH PHASE 2 UNLESS BACKTRACKING IS NECESSARY.</span>
+                <span class="c">! IF THERE WAS NO INDEX K SUCH THAT V(M+1,K) &gt;= 0.0.OR.K &lt;</span>
+                <span class="c">! JJ, AND V(I,K) &lt; -REA, WE LOOK FOR THE SMALLEST (I.E.</span>
+                <span class="c">! LARGEST IN ABSOLUTE VALUE) RATIO V(M+1,K)/V(I,K) FOR</span>
+                <span class="c">! V(I,K) &gt; REA AND V(M+1,K) &lt; 0.0, AND PERFORM AN</span>
+                <span class="c">! ELIMINATION WITH RESOLVENT V(I,K).  THERE IS AT LEAST ONE</span>
+                <span class="c">! SUCH K, NAMELY JJ.</span>
+                <span class="c">! THIS WILL FINISH PHASE 2 UNLESS BACKTRACKING IS NECESSARY.</span>
                 <span class="n">dist</span> <span class="o">=</span> <span class="n">one</span>
                 <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n</span>
                     <span class="k">if</span> <span class="p">(</span><span class="n">v</span><span class="p">(</span><span class="n">mp1</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="k">then</span>
@@ -1041,11 +1040,10 @@ public subroutine slnpro(v, m, n, Iyrct, y, Ixrct, Iycct, Nparm, Numgr, x, Indic
 <span class="k">                    end if</span>
 <span class="k">                end do</span>
 <span class="k">            else</span>
-<span class="c">!</span>
-<span class="c">! WE NOW COMPUTE V(I,JJ)*DIST AND GO ON TO LOOK AT OTHER</span>
-<span class="c">! ROWS TO MINIMIZE THIS QUANTITY (I.E. TO MAXIMIZE ITS</span>
-<span class="c">! ABSOLUTE VALUE, IF V(M+1,K) &gt;= 0.0).  THIS IS THE NEGATIVE</span>
-<span class="c">! OF THE CHANGE IN V(M+1,JJ).</span>
+                <span class="c">! WE NOW COMPUTE V(I,JJ)*DIST AND GO ON TO LOOK AT OTHER</span>
+                <span class="c">! ROWS TO MINIMIZE THIS QUANTITY (I.E. TO MAXIMIZE ITS</span>
+                <span class="c">! ABSOLUTE VALUE, IF V(M+1,K) &gt;= 0.0).  THIS IS THE NEGATIVE</span>
+                <span class="c">! OF THE CHANGE IN V(M+1,JJ).</span>
                 <span class="n">bmprv</span> <span class="o">=</span> <span class="n">v</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">jj</span><span class="p">)</span><span class="o">*</span><span class="n">dist</span>
                 <span class="k">if</span> <span class="p">(</span><span class="n">inamp</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="k">then</span>
 <span class="k">                    if</span> <span class="p">(</span><span class="n">bmprv</span> <span class="o">&gt;=</span> <span class="n">amprv</span><span class="p">)</span> <span class="k">goto </span><span class="mi">800</span>
@@ -1054,52 +1052,50 @@ public subroutine slnpro(v, m, n, Iyrct, y, Ixrct, Iycct, Nparm, Numgr, x, Indic
                 <span class="n">inamp</span> <span class="o">=</span> <span class="mi">1</span>
                 <span class="n">kpmp1</span> <span class="o">=</span> <span class="n">i</span>
                 <span class="n">kpmp2</span> <span class="o">=</span> <span class="n">k</span>
-<span class="c">! (KPMP1,KPMP2) GIVES THE POSITION OF THE BEST PROSPECTIVE</span>
-<span class="c">! RESOLVENT FOUND SO FAR.</span>
+                <span class="c">! (KPMP1,KPMP2) GIVES THE POSITION OF THE BEST PROSPECTIVE</span>
+                <span class="c">! RESOLVENT FOUND SO FAR.</span>
                 <span class="k">goto </span><span class="mi">800</span>
             <span class="k">end if</span>
-<span class="c">!</span>
-        <span class="k">else if</span> <span class="p">(</span><span class="n">inamp</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">then</span>
-<span class="c">! AT THIS POINT INAMP IS POSITIVE IFF THERE WAS AT LEAST ONE</span>
-<span class="c">! ELEMENT &gt; REA IN COLUMN JJ.  IF THERE WERE NONE, WE</span>
-<span class="c">! TEMPORARILY RELAX REA AND TRY AGAIN.</span>
+
+<span class="k">        else if</span> <span class="p">(</span><span class="n">inamp</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">then</span>
+            <span class="c">! AT THIS POINT INAMP IS POSITIVE IFF THERE WAS AT LEAST ONE</span>
+            <span class="c">! ELEMENT &gt; REA IN COLUMN JJ.  IF THERE WERE NONE, WE</span>
+            <span class="c">! TEMPORARILY RELAX REA AND TRY AGAIN.</span>
             <span class="k">if</span> <span class="p">(</span><span class="n">irlax</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">then</span>
 <span class="k">                </span><span class="n">irlax</span> <span class="o">=</span> <span class="mi">1</span>
                 <span class="n">Indic</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
                 <span class="n">rea</span> <span class="o">=</span> <span class="n">rea1</span>
                 <span class="k">goto </span><span class="mi">700</span>
             <span class="k">else</span>
-<span class="c">!</span>
-                <span class="n">Indic</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="k">                </span><span class="n">Indic</span> <span class="o">=</span> <span class="mi">2</span>
                 <span class="k">return</span>
 <span class="k">            end if</span>
 <span class="k">        else</span>
-<span class="c">!</span>
-<span class="c">! CHECK TO SEE IF V(MP1,KPMP2) IS VERY SMALL IN ABSOLUTE</span>
-<span class="c">! VALUE OR NEGATIVE.  THIS INDICATES DEGENERACY.</span>
+
+            <span class="c">! CHECK TO SEE IF V(MP1,KPMP2) IS VERY SMALL IN ABSOLUTE</span>
+            <span class="c">! VALUE OR NEGATIVE.  THIS INDICATES DEGENERACY.</span>
             <span class="k">if</span> <span class="p">(</span><span class="n">v</span><span class="p">(</span><span class="n">mp1</span><span class="p">,</span> <span class="n">kpmp2</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">rea</span><span class="p">)</span> <span class="k">then</span>
-<span class="c">!</span>
-<span class="c">! WE ARE NOW STUCK IN DEGENERATE COLUMN KPMP2.  WE SEARCH</span>
-<span class="c">! EACH DEGENERATE COLUMN IN WHICH WE ARE STUCK FOR A</span>
-<span class="c">! RESOLVENT WHICH WILL KEEP US FROM GETTING STUCK IN THIS</span>
-<span class="c">! COLUMN NEXT TIME, AND TO REDUCE THE ROUND-OFF ERROR WE</span>
-<span class="c">! TAKE THE SMALLEST OF THESE (I.E. LARGEST IN ABSOLUTE</span>
-<span class="c">! VALUE) AS OUR ACTUAL RESOLVENT.</span>
+                <span class="c">! WE ARE NOW STUCK IN DEGENERATE COLUMN KPMP2.  WE SEARCH</span>
+                <span class="c">! EACH DEGENERATE COLUMN IN WHICH WE ARE STUCK FOR A</span>
+                <span class="c">! RESOLVENT WHICH WILL KEEP US FROM GETTING STUCK IN THIS</span>
+                <span class="c">! COLUMN NEXT TIME, AND TO REDUCE THE ROUND-OFF ERROR WE</span>
+                <span class="c">! TAKE THE SMALLEST OF THESE (I.E. LARGEST IN ABSOLUTE</span>
+                <span class="c">! VALUE) AS OUR ACTUAL RESOLVENT.</span>
                 <span class="nb">amin</span> <span class="o">=</span> <span class="n">one</span>
                 <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n</span>
-<span class="c">! COLUMN J MAY BE DEGENERATE IF 0.0 &lt;= V(M+1,J) &lt;= REA,</span>
-<span class="c">! OR V(M+1,J) &lt; 0.0.AND.J &lt; JJ.</span>
+                    <span class="c">! COLUMN J MAY BE DEGENERATE IF 0.0 &lt;= V(M+1,J) &lt;= REA,</span>
+                    <span class="c">! OR V(M+1,J) &lt; 0.0.AND.J &lt; JJ.</span>
                     <span class="k">if</span> <span class="p">(</span><span class="n">v</span><span class="p">(</span><span class="n">mp1</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="k">then</span>
 <span class="k">                        if</span> <span class="p">(</span><span class="n">j</span> <span class="o">&gt;=</span> <span class="n">jj</span><span class="p">)</span> <span class="k">goto </span><span class="mi">860</span>
                     <span class="k">else if</span> <span class="p">(</span><span class="n">v</span><span class="p">(</span><span class="n">mp1</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">rea</span><span class="p">)</span> <span class="k">then</span>
 <span class="k">                        goto </span><span class="mi">860</span>
                     <span class="k">end if</span>
-<span class="c">! WE WILL BE STUCK IN COLUMN J IFF THERE IS AN INDEX ID FOR</span>
-<span class="c">! WHICH V(ID,JJ) &gt; REA AND V(ID,J) &lt; -REA.  IF THIS IS THE</span>
-<span class="c">! CASE, CHOOSING SUCH AN ID SO THAT V(ID,JJ)/V(ID,J) IS</span>
-<span class="c">! MINIMIZED (I.E. MAXIMIZED IN ABSOLUTE VALUE) AND TAKING</span>
-<span class="c">! V(ID,J) AS THE RESOLVENT WILL INSURE THAT WE DONT GET</span>
-<span class="c">! STUCK IN COLUMN J NEXT TIME.</span>
+                    <span class="c">! WE WILL BE STUCK IN COLUMN J IFF THERE IS AN INDEX ID FOR</span>
+                    <span class="c">! WHICH V(ID,JJ) &gt; REA AND V(ID,J) &lt; -REA.  IF THIS IS THE</span>
+                    <span class="c">! CASE, CHOOSING SUCH AN ID SO THAT V(ID,JJ)/V(ID,J) IS</span>
+                    <span class="c">! MINIMIZED (I.E. MAXIMIZED IN ABSOLUTE VALUE) AND TAKING</span>
+                    <span class="c">! V(ID,J) AS THE RESOLVENT WILL INSURE THAT WE DONT GET</span>
+                    <span class="c">! STUCK IN COLUMN J NEXT TIME.</span>
                     <span class="n">dist</span> <span class="o">=</span> <span class="n">one</span>
                     <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="n">np1</span><span class="p">,</span> <span class="n">m</span>
                         <span class="k">if</span> <span class="p">(</span><span class="n">v</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">jj</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">rea</span><span class="p">)</span> <span class="k">then</span>
@@ -1113,58 +1109,58 @@ public subroutine slnpro(v, m, n, Iyrct, y, Ixrct, Iycct, Nparm, Numgr, x, Indic
 <span class="k">                        end if</span>
 <span class="k">                    end do</span>
 <span class="k">                    if</span> <span class="p">(</span><span class="n">dist</span> <span class="o">&lt;</span> <span class="n">one</span><span class="o">/</span><span class="n">two</span><span class="p">)</span> <span class="k">then</span>
-<span class="c">! WE HAVE NOW DETERMINED THAT WE ARE STUCK IN COLUMN J.</span>
-<span class="c">! IF V(ID,J) &lt; AMIN THEN V(ID,J) IS THE BEST RESOLVENT</span>
-<span class="c">! FOUND SO FAR.</span>
+                        <span class="c">! WE HAVE NOW DETERMINED THAT WE ARE STUCK IN COLUMN J.</span>
+                        <span class="c">! IF V(ID,J) &lt; AMIN THEN V(ID,J) IS THE BEST RESOLVENT</span>
+                        <span class="c">! FOUND SO FAR.</span>
                         <span class="k">if</span> <span class="p">(</span><span class="n">v</span><span class="p">(</span><span class="n">id</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span> <span class="o">&lt;</span> <span class="nb">amin</span><span class="p">)</span> <span class="k">then</span>
 <span class="k">                            </span><span class="nb">amin</span> <span class="o">=</span> <span class="n">v</span><span class="p">(</span><span class="n">id</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span>
                             <span class="n">kpmp1</span> <span class="o">=</span> <span class="n">id</span>
                             <span class="n">kpmp2</span> <span class="o">=</span> <span class="n">j</span>
                         <span class="k">end if</span>
 <span class="k">                    end if</span>
-<span class="c">! THE BEST RESOLVENT IS V(KPMP1,KPMP2), SO WE DO AN</span>
-<span class="c">! ELIMINATION.</span>
+                    <span class="c">! THE BEST RESOLVENT IS V(KPMP1,KPMP2), SO WE DO AN</span>
+                    <span class="c">! ELIMINATION.</span>
 <span class="mi">860</span>             <span class="k">end do</span>
 <span class="k">            end if</span>
-<span class="c">! DO AN ELIMINATION WITH RESOLVENT V(KPMP1,KPMP2).</span>
+            <span class="c">! DO AN ELIMINATION WITH RESOLVENT V(KPMP1,KPMP2).</span>
             <span class="n">i</span> <span class="o">=</span> <span class="n">kpmp1</span>
             <span class="n">k</span> <span class="o">=</span> <span class="n">kpmp2</span>
         <span class="k">end if</span>
-<span class="c">!</span>
-        <span class="n">ktjor</span> <span class="o">=</span> <span class="n">ktjor</span> <span class="o">+</span> <span class="mi">1</span>
+
+<span class="k">        </span><span class="n">ktjor</span> <span class="o">=</span> <span class="n">ktjor</span> <span class="o">+</span> <span class="mi">1</span>
         <span class="k">if</span> <span class="p">(</span><span class="n">ktjor</span> <span class="o">&gt;</span> <span class="n">limjor</span><span class="p">)</span> <span class="k">goto </span><span class="mi">1200</span>
         <span class="k">call </span><span class="n">sjelim</span><span class="p">(</span><span class="n">mp1</span><span class="p">,</span> <span class="n">np1</span><span class="p">,</span> <span class="n">np1</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">Nparm</span><span class="p">,</span> <span class="n">Numgr</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
         <span class="n">itemp</span> <span class="o">=</span> <span class="n">Iyrct</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
         <span class="n">Iyrct</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="n">Iycct</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
         <span class="n">Iycct</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="o">=</span> <span class="n">itemp</span>
-<span class="c">! RESET REA AND IRLAX.</span>
+        <span class="c">! RESET REA AND IRLAX.</span>
         <span class="n">rea</span> <span class="o">=</span> <span class="n">reakp</span>
         <span class="n">irlax</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="c">! IF NOW V(M+1,JJ) HAS BEEN MADE NOT SIGNIFICANTLY NEGATIVE,</span>
-<span class="c">! WE GO TO THE NEXT COLUMN.  OTHERWISE WE TRY AGAIN IN</span>
-<span class="c">! COLUMN JJ.</span>
+        <span class="c">! IF NOW V(M+1,JJ) HAS BEEN MADE NOT SIGNIFICANTLY NEGATIVE,</span>
+        <span class="c">! WE GO TO THE NEXT COLUMN.  OTHERWISE WE TRY AGAIN IN</span>
+        <span class="c">! COLUMN JJ.</span>
         <span class="k">if</span> <span class="p">(</span><span class="n">v</span><span class="p">(</span><span class="n">mp1</span><span class="p">,</span> <span class="n">jj</span><span class="p">)</span> <span class="o">+</span> <span class="n">rea1</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">goto </span><span class="mi">600</span>
         <span class="k">goto </span><span class="mi">700</span>
-<span class="c">! END OF PHASE 2.</span>
-<span class="c">!</span>
+        <span class="c">! END OF PHASE 2.</span>
+
 <span class="mi">900</span>     <span class="n">i</span> <span class="o">=</span> <span class="n">n</span>
         <span class="n">kkk</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="c">!</span>
-<span class="c">! SEARCH FOR A SIGNIFICANTLY NEGATIVE ELEMENT BETWEEN</span>
-<span class="c">! V(N+1,N+1) AND V(N+1,M).  IF THERE ARE NONE WE HAVE THE</span>
-<span class="c">! MINIMAL POINT OF THE DUAL PROBLEM (AND THUS THE MAXIMAL</span>
-<span class="c">! POINT OF THE DIRECT PROBLEM) ALREADY.</span>
+
+        <span class="c">! SEARCH FOR A SIGNIFICANTLY NEGATIVE ELEMENT BETWEEN</span>
+        <span class="c">! V(N+1,N+1) AND V(N+1,M).  IF THERE ARE NONE WE HAVE THE</span>
+        <span class="c">! MINIMAL POINT OF THE DUAL PROBLEM (AND THUS THE MAXIMAL</span>
+        <span class="c">! POINT OF THE DIRECT PROBLEM) ALREADY.</span>
 <span class="mi">1000</span>    <span class="n">i</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span>
         <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">&lt;=</span> <span class="n">m</span><span class="p">)</span> <span class="k">then</span>
 <span class="k">            if</span> <span class="p">(</span><span class="n">v</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">np1</span><span class="p">)</span> <span class="o">+</span> <span class="n">rea2</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">goto </span><span class="mi">1000</span>
-<span class="c">!</span>
-<span class="c">! SEARCH FOR A NEGATIVE ELEMENT IN ROW I, TREATING A NUMBER</span>
-<span class="c">! WHICH IS VERY SMALL IN ABSOLUTE VALUE AS A ZERO.  IF THERE</span>
-<span class="c">! ARE NO NEGATIVE ELEMENTS THE DUAL PROBLEM WAS UNBOUNDED</span>
-<span class="c">! BELOW, SO THE ORIGINAL CONSTRAINTS WERE INCONSISTENT.</span>
-<span class="c">! FIND THE INDEX K OF THE LARGEST (I.E. SMALLEST IN ABSOLUTE</span>
-<span class="c">! VALUE, IF V(M+1,K) &gt;= 0.0) RATIO V(M+1,K)/V(I,K) WITH</span>
-<span class="c">! V(I,K) &lt; -REA.</span>
+
+            <span class="c">! SEARCH FOR A NEGATIVE ELEMENT IN ROW I, TREATING A NUMBER</span>
+            <span class="c">! WHICH IS VERY SMALL IN ABSOLUTE VALUE AS A ZERO.  IF THERE</span>
+            <span class="c">! ARE NO NEGATIVE ELEMENTS THE DUAL PROBLEM WAS UNBOUNDED</span>
+            <span class="c">! BELOW, SO THE ORIGINAL CONSTRAINTS WERE INCONSISTENT.</span>
+            <span class="c">! FIND THE INDEX K OF THE LARGEST (I.E. SMALLEST IN ABSOLUTE</span>
+            <span class="c">! VALUE, IF V(M+1,K) &gt;= 0.0) RATIO V(M+1,K)/V(I,K) WITH</span>
+            <span class="c">! V(I,K) &lt; -REA.</span>
 <span class="mi">1050</span>        <span class="n">indst</span> <span class="o">=</span> <span class="mi">0</span>
             <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n</span>
                 <span class="k">if</span> <span class="p">(</span><span class="n">v</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span> <span class="o">+</span> <span class="n">rea</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="k">then</span>
@@ -1178,16 +1174,15 @@ public subroutine slnpro(v, m, n, Iyrct, y, Ixrct, Iycct, Nparm, Numgr, x, Indic
                 <span class="k">end if</span>
 <span class="mi">1100</span>        <span class="k">end do</span>
 <span class="k">            if</span> <span class="p">(</span><span class="n">indst</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="k">then</span>
-<span class="c">!</span>
-<span class="c">! COMPUTE THE IMPROVEMENT DIST*V(I,N+1) IN THE VALUE OF THE</span>
-<span class="c">! FORM USING V(I,K) AS THE RESOLVENT.  SET KKK=1 TO INDICATE</span>
-<span class="c">! A SIGNIFICANTLY NEGATIVE V(I,N+1) WAS FOUND, AND LOOK AT</span>
-<span class="c">! THE OTHER ROWS TO FIND THE RESOLVENT GIVING THE LARGEST</span>
-<span class="c">! IMPROVEMENT.</span>
+                <span class="c">! COMPUTE THE IMPROVEMENT DIST*V(I,N+1) IN THE VALUE OF THE</span>
+                <span class="c">! FORM USING V(I,K) AS THE RESOLVENT.  SET KKK=1 TO INDICATE</span>
+                <span class="c">! A SIGNIFICANTLY NEGATIVE V(I,N+1) WAS FOUND, AND LOOK AT</span>
+                <span class="c">! THE OTHER ROWS TO FIND THE RESOLVENT GIVING THE LARGEST</span>
+                <span class="c">! IMPROVEMENT.</span>
                 <span class="n">bmpr2</span> <span class="o">=</span> <span class="n">dist</span><span class="o">*</span><span class="n">v</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">np1</span><span class="p">)</span>
-<span class="c">! RESET IRLAX SO THAT THE NEXT ROW WHICH NEEDS RELAXING DOES</span>
-<span class="c">! NOT TERMINATE THE ROUTINE.  REA WILL REMAIN RELAXED UNTIL</span>
-<span class="c">! AFTER THE NEXT ELIMINATION.</span>
+                <span class="c">! RESET IRLAX SO THAT THE NEXT ROW WHICH NEEDS RELAXING DOES</span>
+                <span class="c">! NOT TERMINATE THE ROUTINE.  REA WILL REMAIN RELAXED UNTIL</span>
+                <span class="c">! AFTER THE NEXT ELIMINATION.</span>
                 <span class="n">irlax</span> <span class="o">=</span> <span class="mi">0</span>
                 <span class="k">if</span> <span class="p">(</span><span class="n">kkk</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="k">then</span>
 <span class="k">                    if</span> <span class="p">(</span><span class="n">bmpr2</span> <span class="o">&lt;=</span> <span class="n">ampr2</span><span class="p">)</span> <span class="k">goto </span><span class="mi">1000</span>
@@ -1197,43 +1192,41 @@ public subroutine slnpro(v, m, n, Iyrct, y, Ixrct, Iycct, Nparm, Numgr, x, Indic
                 <span class="n">keep1</span> <span class="o">=</span> <span class="n">k</span>
                 <span class="n">ampr2</span> <span class="o">=</span> <span class="n">bmpr2</span>
                 <span class="k">goto </span><span class="mi">1000</span>
-<span class="c">! RELAX REA AND LOOK FOR NEGATIVE ELEMENTS WITH SMALLER</span>
-<span class="c">! ABSOLUTE VALUE.</span>
+            <span class="c">! RELAX REA AND LOOK FOR NEGATIVE ELEMENTS WITH SMALLER</span>
+            <span class="c">! ABSOLUTE VALUE.</span>
             <span class="k">else if</span> <span class="p">(</span><span class="n">irlax</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">then</span>
 <span class="k">                </span><span class="n">irlax</span> <span class="o">=</span> <span class="mi">1</span>
                 <span class="n">Indic</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
                 <span class="n">rea</span> <span class="o">=</span> <span class="n">rea1</span>
                 <span class="k">goto </span><span class="mi">1050</span>
             <span class="k">else</span>
-<span class="c">!</span>
-                <span class="n">Indic</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="k">                </span><span class="n">Indic</span> <span class="o">=</span> <span class="mi">3</span>
                 <span class="k">return</span>
 <span class="k">            end if</span>
-<span class="c">! KKK=0 HERE IFF NONE OF THE COST COEFFICIENTS ARE</span>
-<span class="c">! SIGNIFICANTLY NEGATIVE.</span>
+        <span class="c">! KKK=0 HERE IFF NONE OF THE COST COEFFICIENTS ARE</span>
+        <span class="c">! SIGNIFICANTLY NEGATIVE.</span>
         <span class="k">else if</span> <span class="p">(</span><span class="n">kkk</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">then</span>
-<span class="c">! CHECK TO SEE IF V(MP1,KEEP1) IS VERY SMALL IN ABSOLUTE</span>
-<span class="c">! VALUE OR NEGATIVE.  THIS INDICATES DEGENERACY.</span>
+            <span class="c">! CHECK TO SEE IF V(MP1,KEEP1) IS VERY SMALL IN ABSOLUTE</span>
+            <span class="c">! VALUE OR NEGATIVE.  THIS INDICATES DEGENERACY.</span>
             <span class="k">if</span> <span class="p">(</span><span class="n">v</span><span class="p">(</span><span class="n">mp1</span><span class="p">,</span> <span class="n">keep1</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">rea</span><span class="p">)</span> <span class="k">then</span>
-<span class="c">!</span>
-<span class="c">! WE ARE NOW STUCK IN DEGENERATE COLUMN KEEP1.  WE SEARCH</span>
-<span class="c">! EACH DEGENERATE COLUMN IN WHICH WE ARE STUCK FOR A</span>
-<span class="c">! RESOLVENT WHICH WILL KEEP US FROM GETTING STUCK IN THIS</span>
-<span class="c">! COLUMN NEXT TIME.  IF WE ARE NOT USING THE OPTION</span>
-<span class="c">! DESCRIBED IN THE COMMENTS PRECEDING STATEMENT 1055, WE</span>
-<span class="c">! TAKE THE SMALLEST OF THESE (I.E. THE LARGEST IN ABSOLUTE</span>
-<span class="c">! VALUE) AS OUR ACTUAL RESOLVENT IN ORDER TO REDUCE THE</span>
-<span class="c">! GROWTH OF ROUND-OFF ERROR.</span>
+                <span class="c">! WE ARE NOW STUCK IN DEGENERATE COLUMN KEEP1.  WE SEARCH</span>
+                <span class="c">! EACH DEGENERATE COLUMN IN WHICH WE ARE STUCK FOR A</span>
+                <span class="c">! RESOLVENT WHICH WILL KEEP US FROM GETTING STUCK IN THIS</span>
+                <span class="c">! COLUMN NEXT TIME.  IF WE ARE NOT USING THE OPTION</span>
+                <span class="c">! DESCRIBED IN THE COMMENTS PRECEDING STATEMENT 1055, WE</span>
+                <span class="c">! TAKE THE SMALLEST OF THESE (I.E. THE LARGEST IN ABSOLUTE</span>
+                <span class="c">! VALUE) AS OUR ACTUAL RESOLVENT IN ORDER TO REDUCE THE</span>
+                <span class="c">! GROWTH OF ROUND-OFF ERROR.</span>
                 <span class="nb">amin</span> <span class="o">=</span> <span class="n">one</span>
                 <span class="n">mxrkn</span> <span class="o">=</span> <span class="n">np1</span>
                 <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n</span>
-<span class="c">! COLUMN J MAY BE DEGENERATE IF V(M+1,J) &lt;= REA.</span>
+                    <span class="c">! COLUMN J MAY BE DEGENERATE IF V(M+1,J) &lt;= REA.</span>
                     <span class="k">if</span> <span class="p">(</span><span class="n">v</span><span class="p">(</span><span class="n">mp1</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">rea</span><span class="p">)</span> <span class="k">then</span>
-<span class="c">! WE WILL BE STUCK IN COLUMN J IFF THERE IS AN INDEX ID FOR</span>
-<span class="c">! WHICH V(ID,N+1) &lt; -REA2 AND V(ID,J) &lt; -REA.  IF THIS</span>
-<span class="c">! IS THE CASE, CHOOSING SUCH AN ID SO THAT V(ID,N+1)/V(ID,J)</span>
-<span class="c">! IS MAXIMIZED AND TAKING V(ID,J) AS THE RESOLVENT WILL</span>
-<span class="c">! INSURE THAT WE DONT GET STUCK IN COLUMN J NEXT TIME.</span>
+                        <span class="c">! WE WILL BE STUCK IN COLUMN J IFF THERE IS AN INDEX ID FOR</span>
+                        <span class="c">! WHICH V(ID,N+1) &lt; -REA2 AND V(ID,J) &lt; -REA.  IF THIS</span>
+                        <span class="c">! IS THE CASE, CHOOSING SUCH AN ID SO THAT V(ID,N+1)/V(ID,J)</span>
+                        <span class="c">! IS MAXIMIZED AND TAKING V(ID,J) AS THE RESOLVENT WILL</span>
+                        <span class="c">! INSURE THAT WE DONT GET STUCK IN COLUMN J NEXT TIME.</span>
                         <span class="n">dist</span> <span class="o">=</span> <span class="o">-</span><span class="n">one</span>
                         <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="n">np1</span><span class="p">,</span> <span class="n">m</span>
                             <span class="k">if</span> <span class="p">(</span><span class="n">v</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">np1</span><span class="p">)</span> <span class="o">+</span> <span class="n">rea2</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="k">then</span>
@@ -1247,48 +1240,48 @@ public subroutine slnpro(v, m, n, Iyrct, y, Ixrct, Iycct, Nparm, Numgr, x, Indic
 <span class="k">                            end if</span>
 <span class="k">                        end do</span>
 <span class="k">                        if</span> <span class="p">(</span><span class="n">dist</span> <span class="o">+</span> <span class="n">one</span><span class="o">/</span><span class="n">two</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">goto </span><span class="mi">1120</span>
-<span class="c">!</span>
-<span class="c">! WE HAVE NOW DETERMINED THAT WE ARE STUCK IN COLUMN J.</span>
-<span class="c">! THE FOLLOWING STATEMENTS ATTEMPT TO BREAK DEGENERACY</span>
-<span class="c">! FASTER BY LOOKING ONE ITERATION INTO THE FUTURE, THAT IS,</span>
-<span class="c">! BY CHOOSING FROM THE PROSPECTIVE RESOLVENTS FOUND ABOVE</span>
-<span class="c">! THAT ONE WHICH MINIMIZES THE MINIMUM NUMBER OF STICKING</span>
-<span class="c">! PLACES IN ANY ROW AT THE NEXT STAGE.</span>
-<span class="c">! BECAUSE OF COMPUTER TIME AND THE POSSIBLE LOSS OF ACCURACY</span>
-<span class="c">! DUE TO LESSENED PIVOTING (EVEN THOUGH TIES ARE ALWAYS</span>
-<span class="c">! BROKEN IN FAVOR OF THE RESOLVENT WITH GREATEST ABSOLUTE</span>
-<span class="c">! VALUE), IT IS SUGGESTED THAT THIS OPTION BE OMITTED IF</span>
-<span class="c">! INFORMATION WAS AVAILABLE FROM A PREVIOUS VERTEX.  THIS</span>
-<span class="c">! WILL BE THE CASE IFF THE BACKTRACKING OPTION WAS USED,</span>
-<span class="c">! THAT IS, IFF IBACK=0.</span>
+
+                        <span class="c">! WE HAVE NOW DETERMINED THAT WE ARE STUCK IN COLUMN J.</span>
+                        <span class="c">! THE FOLLOWING STATEMENTS ATTEMPT TO BREAK DEGENERACY</span>
+                        <span class="c">! FASTER BY LOOKING ONE ITERATION INTO THE FUTURE, THAT IS,</span>
+                        <span class="c">! BY CHOOSING FROM THE PROSPECTIVE RESOLVENTS FOUND ABOVE</span>
+                        <span class="c">! THAT ONE WHICH MINIMIZES THE MINIMUM NUMBER OF STICKING</span>
+                        <span class="c">! PLACES IN ANY ROW AT THE NEXT STAGE.</span>
+                        <span class="c">! BECAUSE OF COMPUTER TIME AND THE POSSIBLE LOSS OF ACCURACY</span>
+                        <span class="c">! DUE TO LESSENED PIVOTING (EVEN THOUGH TIES ARE ALWAYS</span>
+                        <span class="c">! BROKEN IN FAVOR OF THE RESOLVENT WITH GREATEST ABSOLUTE</span>
+                        <span class="c">! VALUE), IT IS SUGGESTED THAT THIS OPTION BE OMITTED IF</span>
+                        <span class="c">! INFORMATION WAS AVAILABLE FROM A PREVIOUS VERTEX.  THIS</span>
+                        <span class="c">! WILL BE THE CASE IFF THE BACKTRACKING OPTION WAS USED,</span>
+                        <span class="c">! THAT IS, IFF IBACK=0.</span>
                         <span class="k">if</span> <span class="p">(</span><span class="n">iback</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="k">then</span>
-<span class="c">! COMPUTE WHAT THE NEW BOTTOM ROW WOULD BE (EXCEPT FOR</span>
-<span class="c">! POSITION J) IF V(ID,J) WERE USED AS THE RESOLVENT, AND</span>
-<span class="c">! PUT THE RESULTS INTO Y.</span>
+                            <span class="c">! COMPUTE WHAT THE NEW BOTTOM ROW WOULD BE (EXCEPT FOR</span>
+                            <span class="c">! POSITION J) IF V(ID,J) WERE USED AS THE RESOLVENT, AND</span>
+                            <span class="c">! PUT THE RESULTS INTO Y.</span>
                             <span class="n">rowq</span> <span class="o">=</span> <span class="n">v</span><span class="p">(</span><span class="n">mp1</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span><span class="o">/</span><span class="n">v</span><span class="p">(</span><span class="n">id</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span>
                             <span class="k">do </span><span class="n">l</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n</span>
                                 <span class="k">if</span> <span class="p">(</span><span class="n">l</span> <span class="o">/=</span> <span class="n">j</span><span class="p">)</span> <span class="n">y</span><span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="o">=</span> <span class="n">v</span><span class="p">(</span><span class="n">mp1</span><span class="p">,</span> <span class="n">l</span><span class="p">)</span> <span class="o">-</span> <span class="n">v</span><span class="p">(</span><span class="n">id</span><span class="p">,</span> <span class="n">l</span><span class="p">)</span><span class="o">*</span><span class="n">rowq</span>
                             <span class="k">end do</span>
 <span class="k">                            </span><span class="n">lrknt</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
-<span class="c">! WE LOOK FOR A ROW WHICH WILL HAVE A SIGNIFICANTLY NEGATIVE</span>
-<span class="c">! LAST ELEMENT BUT A MINIMUM NUMBER OF PLACES WHERE WE WILL</span>
-<span class="c">! BE STUCK IN DEGENERATE COLUMNS.  LRKNT=-1 MEANS WE HAVE</span>
-<span class="c">! NOT YET FOUND A ROW WHICH WILL HAVE A SIGNIFICANTLY</span>
-<span class="c">! NEGATIVE LAST ELEMENT.</span>
+                            <span class="c">! WE LOOK FOR A ROW WHICH WILL HAVE A SIGNIFICANTLY NEGATIVE</span>
+                            <span class="c">! LAST ELEMENT BUT A MINIMUM NUMBER OF PLACES WHERE WE WILL</span>
+                            <span class="c">! BE STUCK IN DEGENERATE COLUMNS.  LRKNT=-1 MEANS WE HAVE</span>
+                            <span class="c">! NOT YET FOUND A ROW WHICH WILL HAVE A SIGNIFICANTLY</span>
+                            <span class="c">! NEGATIVE LAST ELEMENT.</span>
                             <span class="k">do </span><span class="n">ii</span> <span class="o">=</span> <span class="n">np1</span><span class="p">,</span> <span class="n">m</span>
                                 <span class="k">if</span> <span class="p">(</span><span class="n">ii</span> <span class="o">/=</span> <span class="n">id</span><span class="p">)</span> <span class="k">then</span>
 <span class="k">                                    </span><span class="n">rowq</span> <span class="o">=</span> <span class="n">v</span><span class="p">(</span><span class="n">ii</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span><span class="o">/</span><span class="n">v</span><span class="p">(</span><span class="n">id</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span>
                                     <span class="n">rtcol</span> <span class="o">=</span> <span class="n">v</span><span class="p">(</span><span class="n">ii</span><span class="p">,</span> <span class="n">np1</span><span class="p">)</span> <span class="o">-</span> <span class="n">v</span><span class="p">(</span><span class="n">id</span><span class="p">,</span> <span class="n">np1</span><span class="p">)</span><span class="o">*</span><span class="n">rowq</span>
                                     <span class="k">if</span> <span class="p">(</span><span class="n">rtcol</span> <span class="o">+</span> <span class="n">rea2</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="k">then</span>
-<span class="c">! IF WE HAVE ALREADY LOCATED A RESOLVENT WHICH WILL FINISH</span>
-<span class="c">! THE ROUTINE, BUT THE PRESENT PROSPECTIVE RESOLVENT WOULD</span>
-<span class="c">! GIVE A ROW WITH A SIGNIFICANTLY NEGATIVE LAST ELEMENT, WE</span>
-<span class="c">! LOOK AT THE NEXT PROSPECTIVE RESOLVENT FOR PIVOTING</span>
-<span class="c">! PURPOSES.</span>
+                                        <span class="c">! IF WE HAVE ALREADY LOCATED A RESOLVENT WHICH WILL FINISH</span>
+                                        <span class="c">! THE ROUTINE, BUT THE PRESENT PROSPECTIVE RESOLVENT WOULD</span>
+                                        <span class="c">! GIVE A ROW WITH A SIGNIFICANTLY NEGATIVE LAST ELEMENT, WE</span>
+                                        <span class="c">! LOOK AT THE NEXT PROSPECTIVE RESOLVENT FOR PIVOTING</span>
+                                        <span class="c">! PURPOSES.</span>
                                         <span class="k">if</span> <span class="p">(</span><span class="n">mxrkn</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="k">goto </span><span class="mi">1120</span>
                                         <span class="n">lrknt</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="c">! NOW COUNT THE NUMBER (LRKNT) OF STICKING PLACES IN ROW II</span>
-<span class="c">! AT THE NEXT ITERATION.</span>
+                                        <span class="c">! NOW COUNT THE NUMBER (LRKNT) OF STICKING PLACES IN ROW II</span>
+                                        <span class="c">! AT THE NEXT ITERATION.</span>
                                         <span class="k">do </span><span class="n">jj</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n</span>
                                             <span class="k">if</span> <span class="p">(</span><span class="n">jj</span> <span class="o">/=</span> <span class="n">j</span><span class="p">)</span> <span class="k">then</span>
 <span class="k">                                                if</span> <span class="p">(</span><span class="n">y</span><span class="p">(</span><span class="n">jj</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">rea</span><span class="p">)</span> <span class="k">then</span>
@@ -1312,10 +1305,10 @@ public subroutine slnpro(v, m, n, Iyrct, y, Ixrct, Iycct, Nparm, Numgr, x, Indic
                                     <span class="k">end if</span>
 <span class="k">                                end if</span>
 <span class="mi">1102</span>                        <span class="k">end do</span>
-<span class="c">! LRKNT=-1 HERE WOULD MEAN THIS RESOLVENT WOULD FINISH THE</span>
-<span class="c">! ROUTINE.  IF LRKNT &gt;= 0 THEN MXRKN &gt;= 0 ALSO, SO WE WILL</span>
-<span class="c">! NOT HAVE EARLIER FOUND A RESOLVENT WHICH WILL FINISH THE</span>
-<span class="c">! ROUTINE.</span>
+                            <span class="c">! LRKNT=-1 HERE WOULD MEAN THIS RESOLVENT WOULD FINISH THE</span>
+                            <span class="c">! ROUTINE.  IF LRKNT &gt;= 0 THEN MXRKN &gt;= 0 ALSO, SO WE WILL</span>
+                            <span class="c">! NOT HAVE EARLIER FOUND A RESOLVENT WHICH WILL FINISH THE</span>
+                            <span class="c">! ROUTINE.</span>
                             <span class="k">if</span> <span class="p">(</span><span class="n">lrknt</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">goto </span><span class="mi">1120</span>
                             <span class="k">if</span> <span class="p">(</span><span class="n">mxrkn</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">goto </span><span class="mi">1105</span>
                         <span class="k">end if</span>
@@ -1325,30 +1318,30 @@ public subroutine slnpro(v, m, n, Iyrct, y, Ixrct, Iycct, Nparm, Numgr, x, Indic
                         <span class="n">keep</span> <span class="o">=</span> <span class="n">id</span>
                         <span class="n">keep1</span> <span class="o">=</span> <span class="n">j</span>
                     <span class="k">end if</span>
-<span class="c">! THE BEST RESOLVENT IS V(KEEP,KEEP1), SO WE DO AN</span>
-<span class="c">! ELIMINATION.</span>
+                    <span class="c">! THE BEST RESOLVENT IS V(KEEP,KEEP1), SO WE DO AN</span>
+                    <span class="c">! ELIMINATION.</span>
 <span class="mi">1120</span>            <span class="k">end do</span>
 <span class="k">            end if</span>
-<span class="c">! DO AN ELIMINATION WITH RESOLVENT V(KEEP,KEEP1).</span>
+            <span class="c">! DO AN ELIMINATION WITH RESOLVENT V(KEEP,KEEP1).</span>
             <span class="n">i</span> <span class="o">=</span> <span class="n">keep</span>
             <span class="n">k</span> <span class="o">=</span> <span class="n">keep1</span>
-<span class="c">!</span>
+
             <span class="n">ktjor</span> <span class="o">=</span> <span class="n">ktjor</span> <span class="o">+</span> <span class="mi">1</span>
             <span class="k">if</span> <span class="p">(</span><span class="n">ktjor</span> <span class="o">&lt;=</span> <span class="n">limjor</span><span class="p">)</span> <span class="k">then</span>
 <span class="k">                call </span><span class="n">sjelim</span><span class="p">(</span><span class="n">mp1</span><span class="p">,</span> <span class="n">np1</span><span class="p">,</span> <span class="n">np1</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">Nparm</span><span class="p">,</span> <span class="n">Numgr</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
                 <span class="n">itemp</span> <span class="o">=</span> <span class="n">Iyrct</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
                 <span class="n">Iyrct</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="n">Iycct</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
                 <span class="n">Iycct</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="o">=</span> <span class="n">itemp</span>
-<span class="c">! RESET REA AND IRLAX.</span>
+                <span class="c">! RESET REA AND IRLAX.</span>
                 <span class="n">rea</span> <span class="o">=</span> <span class="n">reakp</span>
                 <span class="n">irlax</span> <span class="o">=</span> <span class="mi">0</span>
                 <span class="k">goto </span><span class="mi">900</span>
             <span class="k">end if</span>
 <span class="k">        else</span>
-<span class="c">! CHECK TO SEE IF ANY OF THE NUMBERS IN THE BOTTOM ROW HAVE</span>
-<span class="c">! BECOME VERY SIGNIFICANTLY NEGATIVE.  IF SO, WE MUST</span>
-<span class="c">! BACKTRACK TO PHASE 2 (SEE COMMENT ABOVE STATEMENT 1035).</span>
-<span class="c">! OMIT BACKTRACKING IF IBACK=1.</span>
+            <span class="c">! CHECK TO SEE IF ANY OF THE NUMBERS IN THE BOTTOM ROW HAVE</span>
+            <span class="c">! BECOME VERY SIGNIFICANTLY NEGATIVE.  IF SO, WE MUST</span>
+            <span class="c">! BACKTRACK TO PHASE 2 (SEE COMMENT ABOVE STATEMENT 1035).</span>
+            <span class="c">! OMIT BACKTRACKING IF IBACK=1.</span>
             <span class="k">if</span> <span class="p">(</span><span class="n">iback</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">then</span>
 <span class="k">                do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n</span>
                     <span class="k">if</span> <span class="p">(</span><span class="n">v</span><span class="p">(</span><span class="n">mp1</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span> <span class="o">+</span> <span class="n">rea</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">then</span>
@@ -1357,9 +1350,9 @@ public subroutine slnpro(v, m, n, Iyrct, y, Ixrct, Iycct, Nparm, Numgr, x, Indic
                     <span class="k">end if</span>
 <span class="k">                end do</span>
 <span class="k">            end if</span>
-<span class="c">! END OF PHASE 3.  WE NOW HAVE THE VERTEX WE ARE SEEKING.</span>
-<span class="c">!</span>
-<span class="c">! READ OFF THE Y VALUES FOR THIS VERTEX.</span>
+            <span class="c">! END OF PHASE 3.  WE NOW HAVE THE VERTEX WE ARE SEEKING.</span>
+
+            <span class="c">! READ OFF THE Y VALUES FOR THIS VERTEX.</span>
             <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n</span>
                 <span class="n">iycj</span> <span class="o">=</span> <span class="n">Iycct</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
                 <span class="n">y</span><span class="p">(</span><span class="n">iycj</span><span class="p">)</span> <span class="o">=</span> <span class="n">zero</span>
@@ -1368,8 +1361,8 @@ public subroutine slnpro(v, m, n, Iyrct, y, Ixrct, Iycct, Nparm, Numgr, x, Indic
                 <span class="n">iyri</span> <span class="o">=</span> <span class="n">Iyrct</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
                 <span class="n">y</span><span class="p">(</span><span class="n">iyri</span><span class="p">)</span> <span class="o">=</span> <span class="n">v</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">np1</span><span class="p">)</span>
             <span class="k">end do</span>
-<span class="c">! COMPUTE THE XS FROM THE YS.  RECALL THAT IXRCT CONTAINS</span>
-<span class="c">! THE FORMER IYCCT.</span>
+            <span class="c">! COMPUTE THE XS FROM THE YS.  RECALL THAT IXRCT CONTAINS</span>
+            <span class="c">! THE FORMER IYCCT.</span>
             <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n</span>
                 <span class="n">x</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="n">v</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">np1</span><span class="p">)</span>
                 <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n</span>
@@ -1377,11 +1370,11 @@ public subroutine slnpro(v, m, n, Iyrct, y, Ixrct, Iycct, Nparm, Numgr, x, Indic
                     <span class="n">x</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="n">x</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">-</span> <span class="n">v</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span><span class="o">*</span><span class="n">y</span><span class="p">(</span><span class="n">ixrj</span><span class="p">)</span>
                 <span class="k">end do</span>
 <span class="k">            end do</span>
-<span class="c">!</span>
-<span class="c">! NOW PUT THE VALUES IN IYCCT INTO THE FIRST N POSITIONS OF</span>
-<span class="c">! IYRCT IN DECREASING ORDER.</span>
-<span class="c">! TO ACCOMPLISH THIS, MAKE IXRCT(I)=-1 IF IYCCT(J)=I FOR</span>
-<span class="c">! SOME J, THEN SCAN IXRCT BACKWARDS.</span>
+
+            <span class="c">! NOW PUT THE VALUES IN IYCCT INTO THE FIRST N POSITIONS OF</span>
+            <span class="c">! IYRCT IN DECREASING ORDER.</span>
+            <span class="c">! TO ACCOMPLISH THIS, MAKE IXRCT(I)=-1 IF IYCCT(J)=I FOR</span>
+            <span class="c">! SOME J, THEN SCAN IXRCT BACKWARDS.</span>
             <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n</span>
                 <span class="n">iycj</span> <span class="o">=</span> <span class="n">Iycct</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
                 <span class="n">Ixrct</span><span class="p">(</span><span class="n">iycj</span><span class="p">)</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
@@ -1390,7 +1383,7 @@ public subroutine slnpro(v, m, n, Iyrct, y, Ixrct, Iycct, Nparm, Numgr, x, Indic
             <span class="n">i</span> <span class="o">=</span> <span class="n">mp1</span>
 <span class="mi">1150</span>        <span class="n">i</span> <span class="o">=</span> <span class="n">i</span> <span class="o">-</span> <span class="mi">1</span>
             <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">then</span>
-<span class="c">! NOW FILL IN THE REST OF IYRCT BY SCANNING IXRCT AGAIN.</span>
+                <span class="c">! NOW FILL IN THE REST OF IYRCT BY SCANNING IXRCT AGAIN.</span>
                 <span class="n">i</span> <span class="o">=</span> <span class="n">mp1</span>
 <span class="mi">1160</span>            <span class="n">i</span> <span class="o">=</span> <span class="n">i</span> <span class="o">-</span> <span class="mi">1</span>
                 <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">return</span>
@@ -1407,7 +1400,7 @@ public subroutine slnpro(v, m, n, Iyrct, y, Ixrct, Iycct, Nparm, Numgr, x, Indic
 <span class="k">                goto </span><span class="mi">1150</span>
             <span class="k">end if</span>
 <span class="k">        end if</span>
-<span class="c">!</span>
+
 <span class="mi">1200</span>    <span class="n">Indic</span> <span class="o">=</span> <span class="mi">4</span>
 
     <span class="k">end subroutine </span><span class="n">slnpro</span>
