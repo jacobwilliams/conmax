@@ -5310,7 +5310,7 @@ private subroutine <a href='../proc/derst.html'>derst</a>(me, Ioptn, Nparm, Numg
   <td></td>
   <td></td>
   
-  <td>dimension(Iptb,Indm)</td><td>::</td>
+  <td>dimension(Iptb, Indm)</td><td>::</td>
   <td><strong>Pttbl</strong></td><td></td>
   
 </tr>
@@ -5400,7 +5400,7 @@ private subroutine <a href='../proc/derst.html'>derst</a>(me, Ioptn, Nparm, Numg
   <td></td>
   <td></td>
   
-  <td>dimension(Numgr+2*Nparm+1,Nparm+2)</td><td>::</td>
+  <td>dimension(Numgr + 2*Nparm + 1, Nparm + 2)</td><td>::</td>
   <td><strong>v</strong></td><td></td>
   
 </tr>
@@ -5430,7 +5430,7 @@ private subroutine <a href='../proc/derst.html'>derst</a>(me, Ioptn, Nparm, Numg
   <td></td>
   <td></td>
   
-  <td>dimension(Numgr,Nparm+1)</td><td>::</td>
+  <td>dimension(Numgr, Nparm + 1)</td><td>::</td>
   <td><strong>Confun</strong></td><td></td>
   
 </tr>
@@ -5477,8 +5477,8 @@ private subroutine <a href='../proc/setu1.html'>setu1</a>(me, Ioptn, Numgr, Npar
 
 
 
-<p>THIS SUBROUTINE SETS UP V FOR SLNPRO TO SOLVE A MODIFIED LINEARIZED
- (ABOUT THE OLD PARAMETERS IN PARAM) VERSION OF OUR PROBLEM.</p>
+<p>This subroutine sets up v for slnpro to solve a modified linearized
+ (about the old parameters in param) version of our problem.</p>
     
     <h4>Arguments</h4>
     
@@ -6313,16 +6313,16 @@ private subroutine <a href='../proc/pmtst.html'>pmtst</a>(me, Ioptn, Numgr, Npar
     
     <section>
     <h3><span class="anchor" id="src"></span>Source Code</h3>
-    <div class="highlight"><pre><span></span>    <span class="k">type</span><span class="p">,</span><span class="k">abstract</span><span class="p">,</span><span class="k">public</span> <span class="kd">::</span> <span class="n">conmax_solver</span>
+    <div class="highlight"><pre><span></span>    <span class="k">type</span><span class="p">,</span> <span class="k">abstract</span><span class="p">,</span> <span class="k">public</span> <span class="kd">::</span> <span class="n">conmax_solver</span>
         <span class="c">!! main CONMAX solver class. This class must be</span>
         <span class="c">!! extended to define the users&#39;s `fnset` function.</span>
         <span class="k">private</span>
 <span class="k">    contains</span>
 <span class="k">        private</span>
-<span class="k">        procedure</span><span class="p">,</span><span class="k">public</span> <span class="kd">::</span> <span class="n">solve</span> <span class="o">=&gt;</span> <span class="n">conmax</span>  <span class="c">!! main solver routine</span>
-        <span class="k">procedure</span><span class="p">,</span><span class="k">public</span> <span class="kd">::</span> <span class="n">muller</span>
-        <span class="k">procedure</span><span class="p">,</span><span class="k">public</span> <span class="kd">::</span> <span class="n">searsl</span>
-        <span class="k">procedure</span><span class="p">(</span><span class="n">func</span><span class="p">),</span><span class="k">deferred</span><span class="p">,</span><span class="k">public</span> <span class="kd">::</span> <span class="n">fnset</span>
+<span class="k">        procedure</span><span class="p">,</span> <span class="k">public</span> <span class="kd">::</span> <span class="n">solve</span> <span class="o">=&gt;</span> <span class="n">conmax</span>  <span class="c">!! main solver routine</span>
+        <span class="k">procedure</span><span class="p">,</span> <span class="k">public</span> <span class="kd">::</span> <span class="n">muller</span>
+        <span class="k">procedure</span><span class="p">,</span> <span class="k">public</span> <span class="kd">::</span> <span class="n">searsl</span>
+        <span class="k">procedure</span><span class="p">(</span><span class="n">func</span><span class="p">),</span> <span class="k">deferred</span><span class="p">,</span> <span class="k">public</span> <span class="kd">::</span> <span class="n">fnset</span>
         <span class="k">procedure</span> <span class="kd">::</span> <span class="n">ercmp1</span>
         <span class="k">procedure</span> <span class="kd">::</span> <span class="n">rkcon</span>
         <span class="k">procedure</span> <span class="kd">::</span> <span class="n">slpcon</span>

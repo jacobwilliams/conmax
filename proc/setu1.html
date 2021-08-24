@@ -208,8 +208,8 @@ private subroutine setu1(me, Ioptn, Numgr, Nparm, Numin, Rchin, Pttbl, Iptb, Ind
 
 
     
-    <p>THIS SUBROUTINE SETS UP V FOR SLNPRO TO SOLVE A MODIFIED LINEARIZED
- (ABOUT THE OLD PARAMETERS IN PARAM) VERSION OF OUR PROBLEM.</p>
+    <p>This subroutine sets up v for slnpro to solve a modified linearized
+ (about the old parameters in param) version of our problem.</p>
     
 
     <h3>Arguments</h3>
@@ -844,300 +844,288 @@ private subroutine setu1(me, Ioptn, Numgr, Nparm, Numin, Rchin, Pttbl, Iptb, Ind
     
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="highlight"><pre><span></span>    <span class="k">subroutine </span><span class="n">setu1</span><span class="p">(</span><span class="n">me</span><span class="p">,</span><span class="n">Ioptn</span><span class="p">,</span><span class="n">Numgr</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numin</span><span class="p">,</span><span class="n">Rchin</span><span class="p">,</span><span class="n">Pttbl</span><span class="p">,</span><span class="n">Iptb</span><span class="p">,</span><span class="n">Indm</span><span class="p">,&amp;</span>
-                     <span class="n">Fun</span><span class="p">,</span><span class="n">Ifun</span><span class="p">,</span><span class="n">Funtbl</span><span class="p">,</span><span class="n">Cofbnd</span><span class="p">,</span><span class="n">Param</span><span class="p">,</span><span class="n">Icntyp</span><span class="p">,</span><span class="n">Rchdwn</span><span class="p">,</span><span class="n">Error</span><span class="p">,&amp;</span>
-                     <span class="n">Mact1</span><span class="p">,</span><span class="n">Iact1</span><span class="p">,</span><span class="n">Bndlgt</span><span class="p">,</span><span class="n">Iyrct</span><span class="p">,</span><span class="n">Iphse</span><span class="p">,</span><span class="n">Iwork</span><span class="p">,</span><span class="n">Liwrk</span><span class="p">,</span><span class="n">Work</span><span class="p">,</span> <span class="p">&amp;</span>
-                     <span class="n">Lwrk</span><span class="p">,</span><span class="n">Confun</span><span class="p">,</span><span class="n">Iact</span><span class="p">,</span><span class="n">v</span><span class="p">,</span><span class="n">m</span><span class="p">)</span>
+    <div class="highlight"><pre><span></span>    <span class="k">subroutine </span><span class="n">setu1</span><span class="p">(</span><span class="n">me</span><span class="p">,</span> <span class="n">Ioptn</span><span class="p">,</span> <span class="n">Numgr</span><span class="p">,</span> <span class="n">Nparm</span><span class="p">,</span> <span class="n">Numin</span><span class="p">,</span> <span class="n">Rchin</span><span class="p">,</span> <span class="n">Pttbl</span><span class="p">,</span> <span class="n">Iptb</span><span class="p">,</span> <span class="n">Indm</span><span class="p">,</span> <span class="p">&amp;</span>
+                     <span class="n">Fun</span><span class="p">,</span> <span class="n">Ifun</span><span class="p">,</span> <span class="n">Funtbl</span><span class="p">,</span> <span class="n">Cofbnd</span><span class="p">,</span> <span class="n">Param</span><span class="p">,</span> <span class="n">Icntyp</span><span class="p">,</span> <span class="n">Rchdwn</span><span class="p">,</span> <span class="n">Error</span><span class="p">,</span> <span class="p">&amp;</span>
+                     <span class="n">Mact1</span><span class="p">,</span> <span class="n">Iact1</span><span class="p">,</span> <span class="n">Bndlgt</span><span class="p">,</span> <span class="n">Iyrct</span><span class="p">,</span> <span class="n">Iphse</span><span class="p">,</span> <span class="n">Iwork</span><span class="p">,</span> <span class="n">Liwrk</span><span class="p">,</span> <span class="n">Work</span><span class="p">,</span> <span class="p">&amp;</span>
+                     <span class="n">Lwrk</span><span class="p">,</span> <span class="n">Confun</span><span class="p">,</span> <span class="n">Iact</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">m</span><span class="p">)</span>
 
-      <span class="k">implicit none</span>
+        <span class="k">implicit none</span>
 
-<span class="k">      class</span><span class="p">(</span><span class="n">conmax_solver</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span> <span class="kd">::</span> <span class="n">me</span>
-      <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">actlim</span> <span class="p">,</span> <span class="n">bndfud</span> <span class="p">,</span> <span class="n">Bndlgt</span> <span class="p">,</span> <span class="n">Cofbnd</span> <span class="p">,</span> <span class="n">Confun</span> <span class="p">,</span> <span class="n">enorm</span> <span class="p">,</span> <span class="p">&amp;</span>
-                  <span class="n">Error</span> <span class="p">,</span> <span class="n">Fun</span> <span class="p">,</span> <span class="n">Funtbl</span> <span class="p">,</span> <span class="n">grdlgt</span> <span class="p">,</span> <span class="n">Param</span> <span class="p">,</span> <span class="p">&amp;</span>
-                  <span class="n">Pttbl</span> <span class="p">,</span> <span class="n">Rchdwn</span> <span class="p">,</span> <span class="n">Rchin</span> <span class="p">,</span> <span class="n">rchind</span> <span class="p">,</span> <span class="n">rt</span> <span class="p">,</span> <span class="n">stfudg</span> <span class="p">,</span> <span class="nb">sum</span>
-<span class="nb">      </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">v</span> <span class="p">,</span> <span class="n">Work</span>
-      <span class="kt">integer</span> <span class="kd">::</span> <span class="n">i</span> <span class="p">,</span> <span class="n">Iact</span> <span class="p">,</span> <span class="n">Iact1</span> <span class="p">,</span> <span class="n">Icntyp</span> <span class="p">,</span> <span class="n">Ifun</span> <span class="p">,</span> <span class="n">ii</span> <span class="p">,</span> <span class="n">ilc22</span> <span class="p">,</span> <span class="n">ilc24</span> <span class="p">,</span> <span class="p">&amp;</span>
-                 <span class="n">Indm</span> <span class="p">,</span> <span class="n">Ioptn</span> <span class="p">,</span> <span class="n">ioptth</span> <span class="p">,</span> <span class="n">Iphse</span> <span class="p">,</span> <span class="n">ipt</span> <span class="p">,</span> <span class="n">Iptb</span> <span class="p">,</span> <span class="p">&amp;</span>
-                 <span class="n">Iwork</span> <span class="p">,</span> <span class="n">Iyrct</span> <span class="p">,</span> <span class="n">j</span> <span class="p">,</span> <span class="n">jj</span> <span class="p">,</span> <span class="n">k</span>
-      <span class="kt">integer</span> <span class="kd">::</span> <span class="n">kk</span> <span class="p">,</span> <span class="n">l</span> <span class="p">,</span> <span class="n">Liwrk</span> <span class="p">,</span> <span class="n">Lwrk</span> <span class="p">,</span> <span class="n">m</span> <span class="p">,</span> <span class="n">mact</span> <span class="p">,</span> <span class="n">Mact1</span> <span class="p">,</span> <span class="n">mm1</span> <span class="p">,</span> <span class="n">mp1</span> <span class="p">,</span> <span class="p">&amp;</span>
-                 <span class="n">npar1</span> <span class="p">,</span> <span class="n">npar2</span> <span class="p">,</span> <span class="n">Nparm</span> <span class="p">,</span> <span class="n">Numgr</span> <span class="p">,</span> <span class="n">Numin</span>
+<span class="k">        class</span><span class="p">(</span><span class="n">conmax_solver</span><span class="p">),</span> <span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span> <span class="kd">::</span> <span class="n">me</span>
+        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">actlim</span><span class="p">,</span> <span class="n">bndfud</span><span class="p">,</span> <span class="n">Bndlgt</span><span class="p">,</span> <span class="n">Cofbnd</span><span class="p">,</span> <span class="n">Confun</span><span class="p">,</span> <span class="n">enorm</span><span class="p">,</span> <span class="p">&amp;</span>
+                    <span class="n">Error</span><span class="p">,</span> <span class="n">Fun</span><span class="p">,</span> <span class="n">Funtbl</span><span class="p">,</span> <span class="n">grdlgt</span><span class="p">,</span> <span class="n">Param</span><span class="p">,</span> <span class="p">&amp;</span>
+                    <span class="n">Pttbl</span><span class="p">,</span> <span class="n">Rchdwn</span><span class="p">,</span> <span class="n">Rchin</span><span class="p">,</span> <span class="n">rchind</span><span class="p">,</span> <span class="n">rt</span><span class="p">,</span> <span class="n">stfudg</span><span class="p">,</span> <span class="nb">sum</span>
+<span class="nb">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">v</span><span class="p">,</span> <span class="n">Work</span>
+        <span class="kt">integer</span> <span class="kd">::</span> <span class="n">i</span><span class="p">,</span> <span class="n">Iact</span><span class="p">,</span> <span class="n">Iact1</span><span class="p">,</span> <span class="n">Icntyp</span><span class="p">,</span> <span class="n">Ifun</span><span class="p">,</span> <span class="n">ii</span><span class="p">,</span> <span class="n">ilc22</span><span class="p">,</span> <span class="n">ilc24</span><span class="p">,</span> <span class="p">&amp;</span>
+                   <span class="n">Indm</span><span class="p">,</span> <span class="n">Ioptn</span><span class="p">,</span> <span class="n">ioptth</span><span class="p">,</span> <span class="n">Iphse</span><span class="p">,</span> <span class="n">ipt</span><span class="p">,</span> <span class="n">Iptb</span><span class="p">,</span> <span class="p">&amp;</span>
+                   <span class="n">Iwork</span><span class="p">,</span> <span class="n">Iyrct</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">jj</span><span class="p">,</span> <span class="n">k</span>
+        <span class="kt">integer</span> <span class="kd">::</span> <span class="n">kk</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">Liwrk</span><span class="p">,</span> <span class="n">Lwrk</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">mact</span><span class="p">,</span> <span class="n">Mact1</span><span class="p">,</span> <span class="n">mm1</span><span class="p">,</span> <span class="n">mp1</span><span class="p">,</span> <span class="p">&amp;</span>
+                   <span class="n">npar1</span><span class="p">,</span> <span class="n">npar2</span><span class="p">,</span> <span class="n">Nparm</span><span class="p">,</span> <span class="n">Numgr</span><span class="p">,</span> <span class="n">Numin</span>
 
-      <span class="k">dimension </span><span class="n">Pttbl</span><span class="p">(</span><span class="n">Iptb</span><span class="p">,</span><span class="n">Indm</span><span class="p">)</span> <span class="p">,</span> <span class="n">Fun</span><span class="p">(</span><span class="n">Ifun</span><span class="p">)</span> <span class="p">,</span> <span class="n">Funtbl</span><span class="p">(</span><span class="n">Numgr</span><span class="p">,</span><span class="n">Nparm</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="p">,</span>   <span class="p">&amp;</span>
-                <span class="n">Cofbnd</span><span class="p">(</span><span class="n">Nparm</span><span class="p">)</span> <span class="p">,</span> <span class="n">Param</span><span class="p">(</span><span class="n">Nparm</span><span class="p">)</span> <span class="p">,</span> <span class="n">Error</span><span class="p">(</span><span class="n">Numgr</span><span class="o">+</span><span class="mi">3</span><span class="p">)</span> <span class="p">,</span>          <span class="p">&amp;</span>
-                <span class="n">v</span><span class="p">(</span><span class="n">Numgr</span><span class="o">+</span><span class="mi">2</span><span class="o">*</span><span class="n">Nparm</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="n">Nparm</span><span class="o">+</span><span class="mi">2</span><span class="p">)</span> <span class="p">,</span> <span class="n">Iact</span><span class="p">(</span><span class="n">Numgr</span><span class="p">)</span> <span class="p">,</span> <span class="n">Iact1</span><span class="p">(</span><span class="n">Numgr</span><span class="p">),</span> <span class="p">&amp;</span>
-                <span class="n">Iyrct</span><span class="p">(</span><span class="n">Numgr</span><span class="o">+</span><span class="mi">2</span><span class="o">*</span><span class="n">Nparm</span><span class="p">)</span> <span class="p">,</span> <span class="n">Icntyp</span><span class="p">(</span><span class="n">Numgr</span><span class="p">)</span> <span class="p">,</span>                   <span class="p">&amp;</span>
-                <span class="n">Confun</span><span class="p">(</span><span class="n">Numgr</span><span class="p">,</span><span class="n">Nparm</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="p">,</span> <span class="n">Iwork</span><span class="p">(</span><span class="n">Liwrk</span><span class="p">)</span> <span class="p">,</span> <span class="n">Work</span><span class="p">(</span><span class="n">Lwrk</span><span class="p">)</span>
+        <span class="k">dimension </span><span class="n">Pttbl</span><span class="p">(</span><span class="n">Iptb</span><span class="p">,</span> <span class="n">Indm</span><span class="p">),</span> <span class="n">Fun</span><span class="p">(</span><span class="n">Ifun</span><span class="p">),</span> <span class="n">Funtbl</span><span class="p">(</span><span class="n">Numgr</span><span class="p">,</span> <span class="n">Nparm</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="p">&amp;</span>
+            <span class="n">Cofbnd</span><span class="p">(</span><span class="n">Nparm</span><span class="p">),</span> <span class="n">Param</span><span class="p">(</span><span class="n">Nparm</span><span class="p">),</span> <span class="n">Error</span><span class="p">(</span><span class="n">Numgr</span> <span class="o">+</span> <span class="mi">3</span><span class="p">),</span> <span class="p">&amp;</span>
+            <span class="n">v</span><span class="p">(</span><span class="n">Numgr</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">Nparm</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">Nparm</span> <span class="o">+</span> <span class="mi">2</span><span class="p">),</span> <span class="n">Iact</span><span class="p">(</span><span class="n">Numgr</span><span class="p">),</span> <span class="n">Iact1</span><span class="p">(</span><span class="n">Numgr</span><span class="p">),</span> <span class="p">&amp;</span>
+            <span class="n">Iyrct</span><span class="p">(</span><span class="n">Numgr</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">Nparm</span><span class="p">),</span> <span class="n">Icntyp</span><span class="p">(</span><span class="n">Numgr</span><span class="p">),</span> <span class="p">&amp;</span>
+            <span class="n">Confun</span><span class="p">(</span><span class="n">Numgr</span><span class="p">,</span> <span class="n">Nparm</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="n">Iwork</span><span class="p">(</span><span class="n">Liwrk</span><span class="p">),</span> <span class="n">Work</span><span class="p">(</span><span class="n">Lwrk</span><span class="p">)</span>
 
-      <span class="n">ilc22</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">22</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
-      <span class="n">ilc24</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">24</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">)</span>
-      <span class="n">npar1</span> <span class="o">=</span> <span class="n">Nparm</span> <span class="o">+</span> <span class="mi">1</span>
-      <span class="n">npar2</span> <span class="o">=</span> <span class="n">Nparm</span> <span class="o">+</span> <span class="mi">2</span>
-      <span class="n">ioptth</span> <span class="o">=</span> <span class="p">(</span><span class="n">Ioptn</span><span class="o">-</span><span class="p">(</span><span class="n">Ioptn</span><span class="o">/</span><span class="mi">100000</span><span class="p">)</span><span class="o">*</span><span class="mi">100000</span><span class="p">)</span><span class="o">/</span><span class="mi">10000</span>
-<span class="c">!</span>
-<span class="c">! THE LINEARIZED PROBLEM REPLACES THE APPROXIMATING FUNCTION BY ITS</span>
-<span class="c">! FIRST ORDER TAYLOR SERIES, SO FUN(I)-(APPROXIMATING FUNCTION)(I) IS</span>
-<span class="c">! REPLACED BY ERROR(I)-(SUMMATION OF COEFFICIENT CHANGES TIMES PARTIAL</span>
-<span class="c">! DERIVATIVES OF THE APPROXIMATING FUNCTION WITH RESPECT TO THOSE</span>
-<span class="c">! COEFFICIENTS) IF ICNTYP(I)=2, AND IF ICNTYP(I)=1 WE REPLACE THE LEFT</span>
-<span class="c">! SIDE OF CONSTRAINT I BY ERROR(I)+(SUMMATION OF COEFFICIENT CHANGES TIMES</span>
-<span class="c">! PARTIAL DERIVATIVES OF THE LEFT SIDE OF CONSTRAINT I).</span>
-<span class="c">! V AND M ARE THE OUTPUT QUANTITIES.  M WILL KEEP TRACK OF THE NUMBER</span>
-<span class="c">! OF CONSTRAINTS IN THE LP PROBLEM TO BE SOLVED BY SLNPRO.</span>
-      <span class="n">m</span> <span class="o">=</span> <span class="mi">0</span>
-      <span class="n">enorm</span> <span class="o">=</span> <span class="n">Error</span><span class="p">(</span><span class="n">Numgr</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
-      <span class="n">stfudg</span> <span class="o">=</span> <span class="n">one</span><span class="o">/</span><span class="n">ten</span>
-<span class="c">!</span>
-<span class="c">! COMPUTE THE LENGTH OF THE LONGEST X VECTOR SATISFYING THE COEFFICIENT</span>
-<span class="c">! CHANGE BOUNDS.</span>
-      <span class="nb">sum</span> <span class="o">=</span> <span class="n">zero</span>
-      <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Nparm</span>
-         <span class="nb">sum</span> <span class="o">=</span> <span class="nb">sum</span> <span class="o">+</span> <span class="p">(</span><span class="n">Cofbnd</span><span class="p">(</span><span class="n">j</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span>
-      <span class="k">end do</span>
-<span class="k">      </span><span class="n">Bndlgt</span> <span class="o">=</span> <span class="nb">sqrt</span><span class="p">(</span><span class="nb">sum</span><span class="p">)</span>
-      <span class="n">bndfud</span> <span class="o">=</span> <span class="n">stfudg</span><span class="o">*</span><span class="n">Bndlgt</span>
-<span class="c">!</span>
-<span class="c">! WE WILL SAY A PRIMARY CONSTRAINT IS ACTIVE IF ERROR(I) (OR ABS(ERROR(I</span>
-<span class="c">! IF ICNTYP(I)=2) &gt;= ENORM-RCHDWN*BNDLGT.</span>
-      <span class="n">actlim</span> <span class="o">=</span> <span class="n">enorm</span> <span class="o">-</span> <span class="n">Rchdwn</span><span class="o">*</span><span class="n">Bndlgt</span>
-<span class="c">!</span>
-<span class="c">! WE WILL SAY A TYPE -2 CONSTRAINT IS ACTIVE IF ERROR(I) &gt;= -RCHIND.</span>
-      <span class="n">rchind</span> <span class="o">=</span> <span class="n">Rchin</span><span class="o">*</span><span class="n">Bndlgt</span>
-<span class="c">!</span>
-      <span class="k">if</span> <span class="p">(</span> <span class="n">Numin</span><span class="o">&lt;=</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
-<span class="c">!</span>
-<span class="c">! HERE NUMIN=0, SO WE WILL FIRST COMPUTE A NEW SET OF ACTIVE INDICES,</span>
-<span class="c">! THEN PUT THE FUNCTION VALUES AND GRADIENTS FOR THESE INDICES IN</span>
-<span class="c">! FUNTBL, WHERE THEY WILL REMAIN THROUGHOUT THIS CALL TO SLPCON.</span>
-         <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Numgr</span>
-            <span class="k">if</span> <span class="p">(</span> <span class="n">Icntyp</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">&lt;</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
-<span class="c">!</span>
-<span class="c">! HERE ICNTYP(I) &lt; 0 AND WE WILL DECLARE THE CONSTRAINT TO BE ACTIVE IF</span>
-<span class="c">! AND ONLY IF ICNTYP(I)=-1, OR ICNTYP(I)=-2 AND ERROR(I) &gt;= -RCHIND.</span>
-               <span class="k">if</span> <span class="p">(</span> <span class="n">Icntyp</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="o">&lt;</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
-<span class="k">                  if</span> <span class="p">(</span> <span class="n">Error</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">+</span><span class="n">rchind</span><span class="o">&lt;</span><span class="mi">0</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">50</span>
-               <span class="k">end if</span>
-<span class="k">            else if</span> <span class="p">(</span> <span class="n">Icntyp</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">==</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
-<span class="k">               goto </span><span class="mi">50</span>
-            <span class="k">else if</span> <span class="p">(</span> <span class="n">Icntyp</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">&lt;=</span><span class="mi">1</span> <span class="p">)</span> <span class="k">then</span>
-<span class="c">!</span>
-<span class="c">! HERE ICNTYP(I)=1 AND WE WILL DECLARE THE CONSTRAINT TO BE +ACTIVE IF AND</span>
-<span class="c">! ONLY IF ERROR(I) &gt;= ACTLIM.</span>
-               <span class="k">if</span> <span class="p">(</span> <span class="n">Error</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">&lt;</span><span class="n">actlim</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">50</span>
-<span class="c">!</span>
-<span class="c">! HERE ICNTYP(I)=2 AND WE WILL DECLARE THE CONSTRAINT TO BE +ACTIVE IF AND</span>
-<span class="c">! ONLY IF ERROR(I) &gt;= ACTLIM OR -ACTIVE IF AND ONLY IF ERROR(I)  &lt;=</span>
-<span class="c">! -ACTLIM.</span>
-            <span class="k">else if</span> <span class="p">(</span> <span class="n">Error</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">&lt;</span><span class="n">actlim</span> <span class="p">)</span> <span class="k">then</span>
-<span class="k">               if</span> <span class="p">(</span> <span class="n">Error</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">+</span><span class="n">actlim</span><span class="o">&lt;=</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
-<span class="c">!</span>
-<span class="c">! DECLARE CONSTRAINT I TO BE -ACTIVE.</span>
-                  <span class="n">m</span> <span class="o">=</span> <span class="n">m</span> <span class="o">+</span> <span class="mi">1</span>
-                  <span class="n">Iact</span><span class="p">(</span><span class="n">m</span><span class="p">)</span> <span class="o">=</span> <span class="o">-</span><span class="n">i</span>
-               <span class="k">end if</span>
-<span class="k">               goto </span><span class="mi">50</span>
-            <span class="k">end if</span>
-<span class="c">!</span>
-<span class="c">! DECLARE CONSTRAINT I TO BE (+)ACTIVE.</span>
-            <span class="n">m</span> <span class="o">=</span> <span class="n">m</span> <span class="o">+</span> <span class="mi">1</span>
-            <span class="n">Iact</span><span class="p">(</span><span class="n">m</span><span class="p">)</span> <span class="o">=</span> <span class="n">i</span>
- <span class="mi">50</span>      <span class="k">end do</span>
-<span class="k">         </span><span class="n">mact</span> <span class="o">=</span> <span class="n">m</span>
-<span class="c">!</span>
-<span class="c">! NOW PUT ACTIVE VALUES AND GRADIENTS IN FUNTBL.</span>
-         <span class="k">if</span> <span class="p">(</span> <span class="n">ioptth</span><span class="o">&lt;=</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
-<span class="c">! HERE IOPTTH=0 AND WE CALL DERST FOR EACH ACTIVE CONSTRAINT.</span>
-            <span class="k">do </span><span class="n">l</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">mact</span>
-               <span class="n">i</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">Iact</span><span class="p">(</span><span class="n">l</span><span class="p">))</span>
-               <span class="n">ipt</span> <span class="o">=</span> <span class="n">i</span>
-<span class="c">! CALL DERST TO COMPUTE BOTH FUNCTION AND GRADIENT VALUES.</span>
-               <span class="k">call </span><span class="n">me</span><span class="p">%</span><span class="n">derst</span><span class="p">(</span><span class="n">Ioptn</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">,</span><span class="n">Pttbl</span><span class="p">,</span><span class="n">Iptb</span><span class="p">,</span><span class="n">Indm</span><span class="p">,</span><span class="n">Param</span><span class="p">,</span><span class="n">ipt</span><span class="p">,</span>  <span class="p">&amp;</span>
-                             <span class="n">Work</span><span class="p">(</span><span class="n">ilc24</span><span class="p">),</span><span class="n">v</span><span class="p">,</span><span class="n">Iwork</span><span class="p">(</span><span class="n">ilc22</span><span class="p">),</span><span class="n">Confun</span><span class="p">)</span>
-<span class="c">! COPY THE VALUES FOR CONSTRAINT I INTO FUNTBL.</span>
-               <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">npar1</span>
-                  <span class="n">Funtbl</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">Confun</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span>
-               <span class="k">end do</span>
-<span class="k">            end do</span>
-<span class="k">            goto </span><span class="mi">300</span>
-         <span class="k">else</span>
-<span class="c">!</span>
-<span class="c">! HERE IOPTTH=1 AND ONLY ONE DERST CALL IS NEEDED.</span>
-<span class="c">! IF IPHSE &lt; 0 OR NO ICNTYP(L) IS POSITIVE, SET IPT=-1 TO TELL DERST</span>
-<span class="c">! TO COMPUTE STANDARD CONSTRAINTS ONLY, WHILE OTHERWISE SET IPT=0 TO</span>
-<span class="c">! TELL DERST TO COMPUTE ALL CONSTRAINTS.</span>
-            <span class="k">if</span> <span class="p">(</span> <span class="n">Iphse</span><span class="o">&gt;=</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
-<span class="k">               do </span><span class="n">l</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Numgr</span>
-                  <span class="k">if</span> <span class="p">(</span> <span class="n">Icntyp</span><span class="p">(</span><span class="n">l</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">0</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">100</span>
-               <span class="k">end do</span>
-<span class="k">            end if</span>
-<span class="k">            </span><span class="n">ipt</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
-            <span class="k">goto </span><span class="mi">200</span>
-         <span class="k">end if</span>
-<span class="k"> </span><span class="mi">100</span>     <span class="n">ipt</span> <span class="o">=</span> <span class="mi">0</span>
-      <span class="k">else</span>
-<span class="c">! HERE NUMIN IS NOT 0, AND WE WILL KEEP THE OLD ACTIVE CONSTRAINT SET</span>
-<span class="c">! AND FOREGO RECOMPUTING FUNCTION VALUES AND GRADIENTS.</span>
-         <span class="n">mact</span> <span class="o">=</span> <span class="n">Mact1</span>
-         <span class="n">m</span> <span class="o">=</span> <span class="n">mact</span>
-         <span class="k">do </span><span class="n">l</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">mact</span>
-            <span class="n">Iact</span><span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="o">=</span> <span class="n">Iact1</span><span class="p">(</span><span class="n">l</span><span class="p">)</span>
-         <span class="k">end do</span>
-<span class="k">         goto </span><span class="mi">300</span>
-      <span class="k">end if</span>
-<span class="k"> </span><span class="mi">200</span>  <span class="k">call </span><span class="n">me</span><span class="p">%</span><span class="n">derst</span><span class="p">(</span><span class="n">Ioptn</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">,</span><span class="n">Pttbl</span><span class="p">,</span><span class="n">Iptb</span><span class="p">,</span><span class="n">Indm</span><span class="p">,</span><span class="n">Param</span><span class="p">,</span><span class="n">ipt</span><span class="p">,</span><span class="n">Work</span><span class="p">(</span><span class="n">ilc24</span><span class="p">),&amp;</span>
-                    <span class="n">v</span><span class="p">,</span><span class="n">Iwork</span><span class="p">(</span><span class="n">ilc22</span><span class="p">),</span><span class="n">Confun</span><span class="p">)</span>
-<span class="c">! COPY THE ACTIVE FUNCTION AND GRADIENT VALUES INTO FUNTBL.</span>
-      <span class="k">do </span><span class="n">l</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">mact</span>
-         <span class="n">i</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">Iact</span><span class="p">(</span><span class="n">l</span><span class="p">))</span>
-         <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">npar1</span>
-            <span class="n">Funtbl</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">Confun</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span>
-         <span class="k">end do</span>
-<span class="k">      end do</span>
-<span class="c">!</span>
-<span class="c">! NOW SET UP THE ACTIVE CONSTRAINTS IN V FOR SLNPRO.</span>
- <span class="mi">300</span>  <span class="k">do </span><span class="n">l</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">mact</span>
-         <span class="n">i</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">Iact</span><span class="p">(</span><span class="n">l</span><span class="p">))</span>
-         <span class="k">if</span> <span class="p">(</span> <span class="n">Icntyp</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">&lt;</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
-<span class="c">!</span>
-            <span class="k">if</span> <span class="p">(</span> <span class="n">Icntyp</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="o">&lt;</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
-<span class="c">!</span>
-<span class="c">! HERE ICNTYP(I)=-2 AND WE FIRST COMPUTE THE LENGTH OF THE GRADIENT.</span>
-               <span class="nb">sum</span> <span class="o">=</span> <span class="n">zero</span>
-               <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Nparm</span>
-                  <span class="nb">sum</span> <span class="o">=</span> <span class="nb">sum</span> <span class="o">+</span> <span class="p">(</span><span class="n">Funtbl</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span>
-               <span class="k">end do</span>
-<span class="k">               </span><span class="n">grdlgt</span> <span class="o">=</span> <span class="nb">sqrt</span><span class="p">(</span><span class="nb">sum</span><span class="p">)</span>
-<span class="c">! NOW SET UP A CONSTRAINT OF THE FORM GRADIENT.CHANGE  &lt;=</span>
-<span class="c">! -MIN(1.0,CONSTRAINT VALUE)*BNDFUD*GRDLGT, SO IF GRDLGT &gt; 0.0 WE</span>
-<span class="c">! HAVE (-GRADIENT/GRDLGT).(CHANGE/BNDLGT) &gt;= STFUDG*MIN(1.0,</span>
-<span class="c">! CONSTRAINT VALUE).</span>
-               <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Nparm</span>
-                  <span class="n">v</span><span class="p">(</span><span class="n">l</span><span class="p">,</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">Funtbl</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
-               <span class="k">end do</span>
-<span class="k">               </span><span class="n">v</span><span class="p">(</span><span class="n">l</span><span class="p">,</span><span class="n">npar1</span><span class="p">)</span> <span class="o">=</span> <span class="n">zero</span>
-               <span class="n">rt</span> <span class="o">=</span> <span class="n">Error</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-               <span class="k">if</span> <span class="p">(</span> <span class="n">rt</span><span class="o">&gt;</span><span class="n">one</span> <span class="p">)</span> <span class="n">rt</span> <span class="o">=</span> <span class="n">one</span>
-               <span class="n">v</span><span class="p">(</span><span class="n">l</span><span class="p">,</span><span class="n">npar2</span><span class="p">)</span> <span class="o">=</span> <span class="o">-</span><span class="n">rt</span><span class="o">*</span><span class="n">bndfud</span><span class="o">*</span><span class="n">grdlgt</span>
-            <span class="k">else</span>
-<span class="c">!</span>
-<span class="c">! HERE ICNTYP(I)=-1 AND WE SET UP A CONSTRAINT OF THE FORM</span>
-<span class="c">! GRADIENT.CHANGE &lt;= -CONSTRAINT VALUE.</span>
-               <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Nparm</span>
-                  <span class="n">v</span><span class="p">(</span><span class="n">l</span><span class="p">,</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">Funtbl</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
-               <span class="k">end do</span>
-<span class="k">               </span><span class="n">v</span><span class="p">(</span><span class="n">l</span><span class="p">,</span><span class="n">npar1</span><span class="p">)</span> <span class="o">=</span> <span class="n">zero</span>
-               <span class="n">v</span><span class="p">(</span><span class="n">l</span><span class="p">,</span><span class="n">npar2</span><span class="p">)</span> <span class="o">=</span> <span class="o">-</span><span class="n">Error</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-            <span class="k">end if</span>
-<span class="k">         else if</span> <span class="p">(</span> <span class="n">Icntyp</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">/=</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
-<span class="k">            if</span> <span class="p">(</span> <span class="n">Icntyp</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">&lt;=</span><span class="mi">1</span> <span class="p">)</span> <span class="k">then</span>
-<span class="c">!</span>
-<span class="c">! HERE ICNTYP(I)=1 AND WE SET UP A CONSTRAINT OF THE FORM</span>
-<span class="c">! GRADIENT.CHANGE - W &lt;= -CONSTRAINT VALUE.</span>
-               <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Nparm</span>
-                  <span class="n">v</span><span class="p">(</span><span class="n">l</span><span class="p">,</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">Funtbl</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
-               <span class="k">end do</span>
-<span class="k">               </span><span class="n">v</span><span class="p">(</span><span class="n">l</span><span class="p">,</span><span class="n">npar1</span><span class="p">)</span> <span class="o">=</span> <span class="o">-</span><span class="n">one</span>
-               <span class="n">v</span><span class="p">(</span><span class="n">l</span><span class="p">,</span><span class="n">npar2</span><span class="p">)</span> <span class="o">=</span> <span class="o">-</span><span class="n">Error</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-            <span class="k">else if</span> <span class="p">(</span> <span class="n">Iact</span><span class="p">(</span><span class="n">l</span><span class="p">)</span><span class="o">&lt;=</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
-<span class="c">!</span>
-<span class="c">! HERE ICNTYP(I)=2 AND IACT(L) &lt; 0, AND WE SET UP A CONSTRAINT OF THE</span>
-<span class="c">! FORM GRADIENT.CHANGE - W &lt;= FUN - CONSTRAINT VALUE.</span>
-               <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Nparm</span>
-                  <span class="n">v</span><span class="p">(</span><span class="n">l</span><span class="p">,</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">Funtbl</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
-               <span class="k">end do</span>
-<span class="k">               </span><span class="n">v</span><span class="p">(</span><span class="n">l</span><span class="p">,</span><span class="n">npar1</span><span class="p">)</span> <span class="o">=</span> <span class="o">-</span><span class="n">one</span>
-               <span class="n">v</span><span class="p">(</span><span class="n">l</span><span class="p">,</span><span class="n">npar2</span><span class="p">)</span> <span class="o">=</span> <span class="n">Error</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-            <span class="k">else</span>
-<span class="c">!</span>
-<span class="c">! HERE ICNTYP(I)=2 AND IACT(L) &gt; 0, AND WE SET UP A CONSTRAINT OF THE</span>
-<span class="c">! FORM -GRADIENT.CHANGE - W &lt;= -(FUN - CONSTRAINT VALUE).</span>
-               <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Nparm</span>
-                  <span class="n">v</span><span class="p">(</span><span class="n">l</span><span class="p">,</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="o">-</span><span class="n">Funtbl</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
-               <span class="k">end do</span>
-<span class="k">               </span><span class="n">v</span><span class="p">(</span><span class="n">l</span><span class="p">,</span><span class="n">npar1</span><span class="p">)</span> <span class="o">=</span> <span class="o">-</span><span class="n">one</span>
-               <span class="n">v</span><span class="p">(</span><span class="n">l</span><span class="p">,</span><span class="n">npar2</span><span class="p">)</span> <span class="o">=</span> <span class="o">-</span><span class="n">Error</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-            <span class="k">end if</span>
-<span class="k">         end if</span>
-<span class="k">      end do</span>
-<span class="c">!</span>
-<span class="c">! SET THE CONSTRAINTS OF THE FORM -X(J) &lt;= COFBND(J) AND</span>
-<span class="c">! X(J) &lt;= COFBND(J).</span>
-      <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Nparm</span>
-         <span class="n">m</span> <span class="o">=</span> <span class="n">m</span> <span class="o">+</span> <span class="mi">2</span>
-         <span class="n">mm1</span> <span class="o">=</span> <span class="n">m</span> <span class="o">-</span> <span class="mi">1</span>
-         <span class="k">do </span><span class="n">k</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">npar1</span>
-            <span class="n">v</span><span class="p">(</span><span class="n">mm1</span><span class="p">,</span><span class="n">k</span><span class="p">)</span> <span class="o">=</span> <span class="n">zero</span>
-            <span class="n">v</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="n">k</span><span class="p">)</span> <span class="o">=</span> <span class="n">zero</span>
-         <span class="k">end do</span>
-<span class="k">         </span><span class="n">v</span><span class="p">(</span><span class="n">mm1</span><span class="p">,</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="o">-</span><span class="n">one</span>
-         <span class="n">v</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">one</span>
-         <span class="n">v</span><span class="p">(</span><span class="n">mm1</span><span class="p">,</span><span class="n">npar2</span><span class="p">)</span> <span class="o">=</span> <span class="n">Cofbnd</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
-         <span class="n">v</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="n">npar2</span><span class="p">)</span> <span class="o">=</span> <span class="n">Cofbnd</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
-      <span class="k">end do</span>
-<span class="c">!</span>
-<span class="c">! NOW SET THE BOTTOM ROW.  TO MINIMIZE W = X(NPARM+1) WE MAXIMIZE -W.</span>
-      <span class="n">mp1</span> <span class="o">=</span> <span class="n">m</span> <span class="o">+</span> <span class="mi">1</span>
-      <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">npar2</span>
-         <span class="n">v</span><span class="p">(</span><span class="n">mp1</span><span class="p">,</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">zero</span>
-      <span class="k">end do</span>
-<span class="k">      </span><span class="n">v</span><span class="p">(</span><span class="n">mp1</span><span class="p">,</span><span class="n">npar1</span><span class="p">)</span> <span class="o">=</span> <span class="n">one</span>
-<span class="c">!</span>
-<span class="c">! THIS SECTION ADJUSTS IYRCT TO EITHER TELL SLNPRO TO DO THE INITIAL</span>
-<span class="c">! EXCHANGES STRICTLY ACCORDING TO A PIVOTING STRATEGY (BY SETTING</span>
-<span class="c">! IYRCT(1)=-1) OR TO SPECIFY AN INITIAL VERTEX FOR SLNPRO, NAMELY THE</span>
-<span class="c">! VERTEX CORRESPONDING TO THE LAST LINEAR PROGRAMMING SOLUTION.</span>
-<span class="c">! IF IYRCT(1) IS -1 ALREADY WE DO NOT ATTEMPT TO SPECIFY A VERTEX, BUT</span>
-<span class="c">! WE STORE MACT IN MACT1 AND IACT IN IACT1 FOR POSSIBLE LATER USE.</span>
-      <span class="k">if</span> <span class="p">(</span> <span class="n">Iyrct</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">&gt;=</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
-<span class="c">! HERE IYRCT(1) /= -1, AND WE CONSIDER THE PRESENT ENTRIES IN IYRCT</span>
-<span class="c">! ONE BY ONE.</span>
-         <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">npar1</span>
-            <span class="n">jj</span> <span class="o">=</span> <span class="n">Iyrct</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
-            <span class="k">if</span> <span class="p">(</span> <span class="n">jj</span><span class="o">&lt;=</span><span class="n">Mact1</span> <span class="p">)</span> <span class="k">then</span>
-<span class="c">! HERE ENTRY J OF IYRCT CORRESPONDS TO A FORMER ACTIVE CONSTRAINT AT</span>
-<span class="c">! SOME POINT abs(KK), WHERE THE SIGN OF KK WILL INDICATE WHETHER THE</span>
-<span class="c">! CONSTRAINT WAS +ACTIVE OR -ACTIVE.</span>
-               <span class="n">kk</span> <span class="o">=</span> <span class="n">Iact1</span><span class="p">(</span><span class="n">jj</span><span class="p">)</span>
-<span class="c">! WE NOW CHECK TO SEE IF THIS FORMER ACTIVE CONSTRAINT IS STILL</span>
-<span class="c">! ACTIVE WITH THE SAME SIGN.  IF SO, WE RESET IYRCT(J) TO THE PRESENT</span>
-<span class="c">! NUMBER OF THIS CONSTRAINT, AND IF NOT (WHICH WILL OCCUR IFF THE K</span>
-<span class="c">! LOOP BELOW IS COMPLETED), WE WILL NOT TRY TO DETERMINE A VERTEX, SO</span>
-<span class="c">! WE WILL SET IYRCT(1)=-1 AND LEAVE THE J LOOP.</span>
-               <span class="k">do </span><span class="n">k</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">mact</span>
-                  <span class="k">if</span> <span class="p">(</span> <span class="n">kk</span><span class="o">==</span><span class="n">Iact</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="p">)</span> <span class="k">then</span>
-<span class="k">                     </span><span class="n">Iyrct</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">k</span>
-                     <span class="k">goto </span><span class="mi">350</span>
-                  <span class="k">end if</span>
-<span class="k">               end do</span>
-<span class="k">               </span><span class="n">Iyrct</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
-               <span class="k">goto </span><span class="mi">500</span>
-            <span class="k">else</span>
-<span class="c">! HERE ENTRY J OF IYRCT CORRESPONDS TO A CONSTRAINT BEYOND THE ACTIVE</span>
-<span class="c">! POINT CONSTRAINTS, AND WE ADJUST IYRCT(J) BY THE DIFFERENCE OF THE</span>
-<span class="c">! PRESENT AND FORMER NUMBER OF ACTIVE CONSTRAINTS.</span>
-               <span class="n">Iyrct</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">Iyrct</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">+</span> <span class="n">mact</span> <span class="o">-</span> <span class="n">Mact1</span>
-            <span class="k">end if</span>
-<span class="k"> </span><span class="mi">350</span>     <span class="k">end do</span>
-<span class="c">! WE HAVE NOW FILLED IN IYRCT(1),...,IYRCT(NPARM+1) WITH DISTINCT</span>
-<span class="c">! POSITIVE INTEGERS BETWEEN 1 AND M, AND WE FILL IN THE REST OF IYRCT</span>
-<span class="c">! SO THAT IYRCT WILL CONTAIN A PERMUTATION OF 1,...,M.  TO BE CONSISTENT</span>
-<span class="c">! WITH SLNPRO WE PUT IYRCT(NPARM+2),...,IYRCT(M) IN DECREASING ORDER.</span>
-         <span class="n">l</span> <span class="o">=</span> <span class="n">npar1</span>
-         <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">m</span>
-            <span class="n">ii</span> <span class="o">=</span> <span class="n">m</span> <span class="o">-</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span>
-<span class="c">! SKIP II IF IT IS ALREADY IN IYRCT.</span>
-            <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">npar1</span>
-               <span class="k">if</span> <span class="p">(</span> <span class="n">ii</span><span class="o">==</span><span class="n">Iyrct</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="p">)</span> <span class="k">goto </span><span class="mi">400</span>
+        <span class="n">ilc22</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">22</span><span class="p">,</span> <span class="n">Nparm</span><span class="p">,</span> <span class="n">Numgr</span><span class="p">)</span>
+        <span class="n">ilc24</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">24</span><span class="p">,</span> <span class="n">Nparm</span><span class="p">,</span> <span class="n">Numgr</span><span class="p">)</span>
+        <span class="n">npar1</span> <span class="o">=</span> <span class="n">Nparm</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="n">npar2</span> <span class="o">=</span> <span class="n">Nparm</span> <span class="o">+</span> <span class="mi">2</span>
+        <span class="n">ioptth</span> <span class="o">=</span> <span class="p">(</span><span class="n">Ioptn</span> <span class="o">-</span> <span class="p">(</span><span class="n">Ioptn</span><span class="o">/</span><span class="mi">100000</span><span class="p">)</span><span class="o">*</span><span class="mi">100000</span><span class="p">)</span><span class="o">/</span><span class="mi">10000</span>
+
+        <span class="c">! THE LINEARIZED PROBLEM REPLACES THE APPROXIMATING FUNCTION BY ITS</span>
+        <span class="c">! FIRST ORDER TAYLOR SERIES, SO FUN(I)-(APPROXIMATING FUNCTION)(I) IS</span>
+        <span class="c">! REPLACED BY ERROR(I)-(SUMMATION OF COEFFICIENT CHANGES TIMES PARTIAL</span>
+        <span class="c">! DERIVATIVES OF THE APPROXIMATING FUNCTION WITH RESPECT TO THOSE</span>
+        <span class="c">! COEFFICIENTS) IF ICNTYP(I)=2, AND IF ICNTYP(I)=1 WE REPLACE THE LEFT</span>
+        <span class="c">! SIDE OF CONSTRAINT I BY ERROR(I)+(SUMMATION OF COEFFICIENT CHANGES TIMES</span>
+        <span class="c">! PARTIAL DERIVATIVES OF THE LEFT SIDE OF CONSTRAINT I).</span>
+        <span class="c">! V AND M ARE THE OUTPUT QUANTITIES.  M WILL KEEP TRACK OF THE NUMBER</span>
+        <span class="c">! OF CONSTRAINTS IN THE LP PROBLEM TO BE SOLVED BY SLNPRO.</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">enorm</span> <span class="o">=</span> <span class="n">Error</span><span class="p">(</span><span class="n">Numgr</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">stfudg</span> <span class="o">=</span> <span class="n">one</span><span class="o">/</span><span class="n">ten</span>
+
+        <span class="c">! COMPUTE THE LENGTH OF THE LONGEST X VECTOR SATISFYING THE COEFFICIENT</span>
+        <span class="c">! CHANGE BOUNDS.</span>
+        <span class="nb">sum</span> <span class="o">=</span> <span class="n">zero</span>
+        <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">Nparm</span>
+            <span class="nb">sum</span> <span class="o">=</span> <span class="nb">sum</span> <span class="o">+</span> <span class="p">(</span><span class="n">Cofbnd</span><span class="p">(</span><span class="n">j</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span>
+        <span class="k">end do</span>
+<span class="k">        </span><span class="n">Bndlgt</span> <span class="o">=</span> <span class="nb">sqrt</span><span class="p">(</span><span class="nb">sum</span><span class="p">)</span>
+        <span class="n">bndfud</span> <span class="o">=</span> <span class="n">stfudg</span><span class="o">*</span><span class="n">Bndlgt</span>
+
+        <span class="c">! WE WILL SAY A PRIMARY CONSTRAINT IS ACTIVE IF ERROR(I) (OR ABS(ERROR(I</span>
+        <span class="c">! IF ICNTYP(I)=2) &gt;= ENORM-RCHDWN*BNDLGT.</span>
+        <span class="n">actlim</span> <span class="o">=</span> <span class="n">enorm</span> <span class="o">-</span> <span class="n">Rchdwn</span><span class="o">*</span><span class="n">Bndlgt</span>
+
+        <span class="c">! WE WILL SAY A TYPE -2 CONSTRAINT IS ACTIVE IF ERROR(I) &gt;= -RCHIND.</span>
+        <span class="n">rchind</span> <span class="o">=</span> <span class="n">Rchin</span><span class="o">*</span><span class="n">Bndlgt</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">Numin</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">then</span>
+
+            <span class="c">! HERE NUMIN=0, SO WE WILL FIRST COMPUTE A NEW SET OF ACTIVE INDICES,</span>
+            <span class="c">! THEN PUT THE FUNCTION VALUES AND GRADIENTS FOR THESE INDICES IN</span>
+            <span class="c">! FUNTBL, WHERE THEY WILL REMAIN THROUGHOUT THIS CALL TO SLPCON.</span>
+            <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">Numgr</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">Icntyp</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="k">then</span>
+                    <span class="c">! HERE ICNTYP(I) &lt; 0 AND WE WILL DECLARE THE CONSTRAINT TO BE ACTIVE IF</span>
+                    <span class="c">! AND ONLY IF ICNTYP(I)=-1, OR ICNTYP(I)=-2 AND ERROR(I) &gt;= -RCHIND.</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="n">Icntyp</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="k">then</span>
+<span class="k">                        if</span> <span class="p">(</span><span class="n">Error</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">+</span> <span class="n">rchind</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="k">cycle</span>
+<span class="k">                    end if</span>
+<span class="k">                else if</span> <span class="p">(</span><span class="n">Icntyp</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="k">then</span>
+<span class="k">                    cycle</span>
+<span class="k">                else if</span> <span class="p">(</span><span class="n">Icntyp</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">)</span> <span class="k">then</span>
+                    <span class="c">! HERE ICNTYP(I)=1 AND WE WILL DECLARE THE CONSTRAINT TO BE +ACTIVE IF AND</span>
+                    <span class="c">! ONLY IF ERROR(I) &gt;= ACTLIM.</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="n">Error</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">actlim</span><span class="p">)</span> <span class="k">cycle</span>
+                <span class="c">! HERE ICNTYP(I)=2 AND WE WILL DECLARE THE CONSTRAINT TO BE +ACTIVE IF AND</span>
+                <span class="c">! ONLY IF ERROR(I) &gt;= ACTLIM OR -ACTIVE IF AND ONLY IF ERROR(I)  &lt;=</span>
+                <span class="c">! -ACTLIM.</span>
+                <span class="k">else if</span> <span class="p">(</span><span class="n">Error</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">actlim</span><span class="p">)</span> <span class="k">then</span>
+<span class="k">                    if</span> <span class="p">(</span><span class="n">Error</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">+</span> <span class="n">actlim</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">then</span>
+                        <span class="c">! DECLARE CONSTRAINT I TO BE -ACTIVE.</span>
+                        <span class="n">m</span> <span class="o">=</span> <span class="n">m</span> <span class="o">+</span> <span class="mi">1</span>
+                        <span class="n">Iact</span><span class="p">(</span><span class="n">m</span><span class="p">)</span> <span class="o">=</span> <span class="o">-</span><span class="n">i</span>
+                    <span class="k">end if</span>
+<span class="k">                    cycle</span>
+<span class="k">                end if</span>
+                <span class="c">! DECLARE CONSTRAINT I TO BE (+)ACTIVE.</span>
+                <span class="n">m</span> <span class="o">=</span> <span class="n">m</span> <span class="o">+</span> <span class="mi">1</span>
+                <span class="n">Iact</span><span class="p">(</span><span class="n">m</span><span class="p">)</span> <span class="o">=</span> <span class="n">i</span>
             <span class="k">end do</span>
-<span class="k">            </span><span class="n">l</span> <span class="o">=</span> <span class="n">l</span> <span class="o">+</span> <span class="mi">1</span>
-            <span class="n">Iyrct</span><span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="o">=</span> <span class="n">ii</span>
- <span class="mi">400</span>     <span class="k">end do</span>
-<span class="k">      end if</span>
-<span class="c">!</span>
-<span class="c">! SAVE MACT IN MACT1 AND IACT IN IACT1 AND RETURN.</span>
- <span class="mi">500</span>  <span class="n">Mact1</span> <span class="o">=</span> <span class="n">mact</span>
-      <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">mact</span>
-         <span class="n">Iact1</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">Iact</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
-      <span class="k">end do</span>
+<span class="k">            </span><span class="n">mact</span> <span class="o">=</span> <span class="n">m</span>
+
+            <span class="c">! NOW PUT ACTIVE VALUES AND GRADIENTS IN FUNTBL.</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">ioptth</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">then</span>
+                <span class="c">! HERE IOPTTH=0 AND WE CALL DERST FOR EACH ACTIVE CONSTRAINT.</span>
+                <span class="k">do </span><span class="n">l</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">mact</span>
+                    <span class="n">i</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">Iact</span><span class="p">(</span><span class="n">l</span><span class="p">))</span>
+                    <span class="n">ipt</span> <span class="o">=</span> <span class="n">i</span>
+                    <span class="c">! CALL DERST TO COMPUTE BOTH FUNCTION AND GRADIENT VALUES.</span>
+                    <span class="k">call </span><span class="n">me</span><span class="p">%</span><span class="n">derst</span><span class="p">(</span><span class="n">Ioptn</span><span class="p">,</span> <span class="n">Nparm</span><span class="p">,</span> <span class="n">Numgr</span><span class="p">,</span> <span class="n">Pttbl</span><span class="p">,</span> <span class="n">Iptb</span><span class="p">,</span> <span class="n">Indm</span><span class="p">,</span> <span class="n">Param</span><span class="p">,</span> <span class="n">ipt</span><span class="p">,</span> <span class="p">&amp;</span>
+                                  <span class="n">Work</span><span class="p">(</span><span class="n">ilc24</span><span class="p">),</span> <span class="n">v</span><span class="p">,</span> <span class="n">Iwork</span><span class="p">(</span><span class="n">ilc22</span><span class="p">),</span> <span class="n">Confun</span><span class="p">)</span>
+                    <span class="c">! COPY THE VALUES FOR CONSTRAINT I INTO FUNTBL.</span>
+                    <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">npar1</span>
+                        <span class="n">Funtbl</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">Confun</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span>
+                    <span class="k">end do</span>
+<span class="k">                end do</span>
+<span class="k">                goto </span><span class="mi">300</span>
+            <span class="k">else</span>
+                <span class="c">! HERE IOPTTH=1 AND ONLY ONE DERST CALL IS NEEDED.</span>
+                <span class="c">! IF IPHSE &lt; 0 OR NO ICNTYP(L) IS POSITIVE, SET IPT=-1 TO TELL DERST</span>
+                <span class="c">! TO COMPUTE STANDARD CONSTRAINTS ONLY, WHILE OTHERWISE SET IPT=0 TO</span>
+                <span class="c">! TELL DERST TO COMPUTE ALL CONSTRAINTS.</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">Iphse</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">then</span>
+<span class="k">                    do </span><span class="n">l</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">Numgr</span>
+                        <span class="k">if</span> <span class="p">(</span><span class="n">Icntyp</span><span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="k">goto </span><span class="mi">100</span>
+                    <span class="k">end do</span>
+<span class="k">                end if</span>
+<span class="k">                </span><span class="n">ipt</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+                <span class="k">goto </span><span class="mi">200</span>
+            <span class="k">end if</span>
+<span class="mi">100</span>         <span class="n">ipt</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">else</span>
+            <span class="c">! HERE NUMIN IS NOT 0, AND WE WILL KEEP THE OLD ACTIVE CONSTRAINT SET</span>
+            <span class="c">! AND FOREGO RECOMPUTING FUNCTION VALUES AND GRADIENTS.</span>
+            <span class="n">mact</span> <span class="o">=</span> <span class="n">Mact1</span>
+            <span class="n">m</span> <span class="o">=</span> <span class="n">mact</span>
+            <span class="k">do </span><span class="n">l</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">mact</span>
+                <span class="n">Iact</span><span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="o">=</span> <span class="n">Iact1</span><span class="p">(</span><span class="n">l</span><span class="p">)</span>
+            <span class="k">end do</span>
+<span class="k">            goto </span><span class="mi">300</span>
+        <span class="k">end if</span>
+<span class="mi">200</span>     <span class="k">call </span><span class="n">me</span><span class="p">%</span><span class="n">derst</span><span class="p">(</span><span class="n">Ioptn</span><span class="p">,</span> <span class="n">Nparm</span><span class="p">,</span> <span class="n">Numgr</span><span class="p">,</span> <span class="n">Pttbl</span><span class="p">,</span> <span class="n">Iptb</span><span class="p">,</span> <span class="n">Indm</span><span class="p">,</span> <span class="n">Param</span><span class="p">,</span> <span class="n">ipt</span><span class="p">,</span> <span class="n">Work</span><span class="p">(</span><span class="n">ilc24</span><span class="p">),</span> <span class="p">&amp;</span>
+                      <span class="n">v</span><span class="p">,</span> <span class="n">Iwork</span><span class="p">(</span><span class="n">ilc22</span><span class="p">),</span> <span class="n">Confun</span><span class="p">)</span>
+        <span class="c">! COPY THE ACTIVE FUNCTION AND GRADIENT VALUES INTO FUNTBL.</span>
+        <span class="k">do </span><span class="n">l</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">mact</span>
+            <span class="n">i</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">Iact</span><span class="p">(</span><span class="n">l</span><span class="p">))</span>
+            <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">npar1</span>
+                <span class="n">Funtbl</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">Confun</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span>
+            <span class="k">end do</span>
+<span class="k">        end do</span>
+
+        <span class="c">! NOW SET UP THE ACTIVE CONSTRAINTS IN V FOR SLNPRO.</span>
+<span class="mi">300</span>     <span class="k">do </span><span class="n">l</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">mact</span>
+            <span class="n">i</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">Iact</span><span class="p">(</span><span class="n">l</span><span class="p">))</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">Icntyp</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="k">then</span>
+<span class="k">                if</span> <span class="p">(</span><span class="n">Icntyp</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="k">then</span>
+                    <span class="c">! HERE ICNTYP(I)=-2 AND WE FIRST COMPUTE THE LENGTH OF THE GRADIENT.</span>
+                    <span class="nb">sum</span> <span class="o">=</span> <span class="n">zero</span>
+                    <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">Nparm</span>
+                        <span class="nb">sum</span> <span class="o">=</span> <span class="nb">sum</span> <span class="o">+</span> <span class="p">(</span><span class="n">Funtbl</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span>
+                    <span class="k">end do</span>
+<span class="k">                    </span><span class="n">grdlgt</span> <span class="o">=</span> <span class="nb">sqrt</span><span class="p">(</span><span class="nb">sum</span><span class="p">)</span>
+                    <span class="c">! NOW SET UP A CONSTRAINT OF THE FORM GRADIENT.CHANGE  &lt;=</span>
+                    <span class="c">! -MIN(1.0,CONSTRAINT VALUE)*BNDFUD*GRDLGT, SO IF GRDLGT &gt; 0.0 WE</span>
+                    <span class="c">! HAVE (-GRADIENT/GRDLGT).(CHANGE/BNDLGT) &gt;= STFUDG*MIN(1.0,</span>
+                    <span class="c">! CONSTRAINT VALUE).</span>
+                    <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">Nparm</span>
+                        <span class="n">v</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">Funtbl</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+                    <span class="k">end do</span>
+<span class="k">                    </span><span class="n">v</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">npar1</span><span class="p">)</span> <span class="o">=</span> <span class="n">zero</span>
+                    <span class="n">rt</span> <span class="o">=</span> <span class="n">Error</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="n">rt</span> <span class="o">&gt;</span> <span class="n">one</span><span class="p">)</span> <span class="n">rt</span> <span class="o">=</span> <span class="n">one</span>
+                    <span class="n">v</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">npar2</span><span class="p">)</span> <span class="o">=</span> <span class="o">-</span><span class="n">rt</span><span class="o">*</span><span class="n">bndfud</span><span class="o">*</span><span class="n">grdlgt</span>
+                <span class="k">else</span>
+                    <span class="c">! HERE ICNTYP(I)=-1 AND WE SET UP A CONSTRAINT OF THE FORM</span>
+                    <span class="c">! GRADIENT.CHANGE &lt;= -CONSTRAINT VALUE.</span>
+                    <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">Nparm</span>
+                        <span class="n">v</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">Funtbl</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+                    <span class="k">end do</span>
+<span class="k">                    </span><span class="n">v</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">npar1</span><span class="p">)</span> <span class="o">=</span> <span class="n">zero</span>
+                    <span class="n">v</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">npar2</span><span class="p">)</span> <span class="o">=</span> <span class="o">-</span><span class="n">Error</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+                <span class="k">end if</span>
+<span class="k">            else if</span> <span class="p">(</span><span class="n">Icntyp</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">then</span>
+<span class="k">                if</span> <span class="p">(</span><span class="n">Icntyp</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">)</span> <span class="k">then</span>
+                    <span class="c">! HERE ICNTYP(I)=1 AND WE SET UP A CONSTRAINT OF THE FORM</span>
+                    <span class="c">! GRADIENT.CHANGE - W &lt;= -CONSTRAINT VALUE.</span>
+                    <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">Nparm</span>
+                        <span class="n">v</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">Funtbl</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+                    <span class="k">end do</span>
+<span class="k">                    </span><span class="n">v</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">npar1</span><span class="p">)</span> <span class="o">=</span> <span class="o">-</span><span class="n">one</span>
+                    <span class="n">v</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">npar2</span><span class="p">)</span> <span class="o">=</span> <span class="o">-</span><span class="n">Error</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+                <span class="k">else if</span> <span class="p">(</span><span class="n">Iact</span><span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">then</span>
+                    <span class="c">! HERE ICNTYP(I)=2 AND IACT(L) &lt; 0, AND WE SET UP A CONSTRAINT OF THE</span>
+                    <span class="c">! FORM GRADIENT.CHANGE - W &lt;= FUN - CONSTRAINT VALUE.</span>
+                    <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">Nparm</span>
+                        <span class="n">v</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">Funtbl</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+                    <span class="k">end do</span>
+<span class="k">                    </span><span class="n">v</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">npar1</span><span class="p">)</span> <span class="o">=</span> <span class="o">-</span><span class="n">one</span>
+                    <span class="n">v</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">npar2</span><span class="p">)</span> <span class="o">=</span> <span class="n">Error</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+                <span class="k">else</span>
+                    <span class="c">! HERE ICNTYP(I)=2 AND IACT(L) &gt; 0, AND WE SET UP A CONSTRAINT OF THE</span>
+                    <span class="c">! FORM -GRADIENT.CHANGE - W &lt;= -(FUN - CONSTRAINT VALUE).</span>
+                    <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">Nparm</span>
+                        <span class="n">v</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="o">-</span><span class="n">Funtbl</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+                    <span class="k">end do</span>
+<span class="k">                    </span><span class="n">v</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">npar1</span><span class="p">)</span> <span class="o">=</span> <span class="o">-</span><span class="n">one</span>
+                    <span class="n">v</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">npar2</span><span class="p">)</span> <span class="o">=</span> <span class="o">-</span><span class="n">Error</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+                <span class="k">end if</span>
+<span class="k">            end if</span>
+<span class="k">        end do</span>
+        <span class="c">! SET THE CONSTRAINTS OF THE FORM -X(J) &lt;= COFBND(J) AND</span>
+        <span class="c">! X(J) &lt;= COFBND(J).</span>
+        <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">Nparm</span>
+            <span class="n">m</span> <span class="o">=</span> <span class="n">m</span> <span class="o">+</span> <span class="mi">2</span>
+            <span class="n">mm1</span> <span class="o">=</span> <span class="n">m</span> <span class="o">-</span> <span class="mi">1</span>
+            <span class="k">do </span><span class="n">k</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">npar1</span>
+                <span class="n">v</span><span class="p">(</span><span class="n">mm1</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span> <span class="o">=</span> <span class="n">zero</span>
+                <span class="n">v</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span> <span class="o">=</span> <span class="n">zero</span>
+            <span class="k">end do</span>
+<span class="k">            </span><span class="n">v</span><span class="p">(</span><span class="n">mm1</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="o">-</span><span class="n">one</span>
+            <span class="n">v</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">one</span>
+            <span class="n">v</span><span class="p">(</span><span class="n">mm1</span><span class="p">,</span> <span class="n">npar2</span><span class="p">)</span> <span class="o">=</span> <span class="n">Cofbnd</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+            <span class="n">v</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">npar2</span><span class="p">)</span> <span class="o">=</span> <span class="n">Cofbnd</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+        <span class="k">end do</span>
+
+        <span class="c">! NOW SET THE BOTTOM ROW.  TO MINIMIZE W = X(NPARM+1) WE MAXIMIZE -W.</span>
+        <span class="n">mp1</span> <span class="o">=</span> <span class="n">m</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">npar2</span>
+            <span class="n">v</span><span class="p">(</span><span class="n">mp1</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">zero</span>
+        <span class="k">end do</span>
+<span class="k">        </span><span class="n">v</span><span class="p">(</span><span class="n">mp1</span><span class="p">,</span> <span class="n">npar1</span><span class="p">)</span> <span class="o">=</span> <span class="n">one</span>
+
+        <span class="c">! THIS SECTION ADJUSTS IYRCT TO EITHER TELL SLNPRO TO DO THE INITIAL</span>
+        <span class="c">! EXCHANGES STRICTLY ACCORDING TO A PIVOTING STRATEGY (BY SETTING</span>
+        <span class="c">! IYRCT(1)=-1) OR TO SPECIFY AN INITIAL VERTEX FOR SLNPRO, NAMELY THE</span>
+        <span class="c">! VERTEX CORRESPONDING TO THE LAST LINEAR PROGRAMMING SOLUTION.</span>
+        <span class="c">! IF IYRCT(1) IS -1 ALREADY WE DO NOT ATTEMPT TO SPECIFY A VERTEX, BUT</span>
+        <span class="c">! WE STORE MACT IN MACT1 AND IACT IN IACT1 FOR POSSIBLE LATER USE.</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">Iyrct</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">then</span>
+            <span class="c">! HERE IYRCT(1) /= -1, AND WE CONSIDER THE PRESENT ENTRIES IN IYRCT</span>
+            <span class="c">! ONE BY ONE.</span>
+            <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">npar1</span>
+                <span class="n">jj</span> <span class="o">=</span> <span class="n">Iyrct</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">jj</span> <span class="o">&lt;=</span> <span class="n">Mact1</span><span class="p">)</span> <span class="k">then</span>
+                    <span class="c">! HERE ENTRY J OF IYRCT CORRESPONDS TO A FORMER ACTIVE CONSTRAINT AT</span>
+                    <span class="c">! SOME POINT abs(KK), WHERE THE SIGN OF KK WILL INDICATE WHETHER THE</span>
+                    <span class="c">! CONSTRAINT WAS +ACTIVE OR -ACTIVE.</span>
+                    <span class="n">kk</span> <span class="o">=</span> <span class="n">Iact1</span><span class="p">(</span><span class="n">jj</span><span class="p">)</span>
+                    <span class="c">! WE NOW CHECK TO SEE IF THIS FORMER ACTIVE CONSTRAINT IS STILL</span>
+                    <span class="c">! ACTIVE WITH THE SAME SIGN.  IF SO, WE RESET IYRCT(J) TO THE PRESENT</span>
+                    <span class="c">! NUMBER OF THIS CONSTRAINT, AND IF NOT (WHICH WILL OCCUR IFF THE K</span>
+                    <span class="c">! LOOP BELOW IS COMPLETED), WE WILL NOT TRY TO DETERMINE A VERTEX, SO</span>
+                    <span class="c">! WE WILL SET IYRCT(1)=-1 AND LEAVE THE J LOOP.</span>
+                    <span class="k">do </span><span class="n">k</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">mact</span>
+                        <span class="k">if</span> <span class="p">(</span><span class="n">kk</span> <span class="o">==</span> <span class="n">Iact</span><span class="p">(</span><span class="n">k</span><span class="p">))</span> <span class="k">then</span>
+<span class="k">                            </span><span class="n">Iyrct</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">k</span>
+                            <span class="k">goto </span><span class="mi">350</span>
+                        <span class="k">end if</span>
+<span class="k">                    end do</span>
+<span class="k">                    </span><span class="n">Iyrct</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+                    <span class="k">goto </span><span class="mi">500</span>
+                <span class="k">else</span>
+                    <span class="c">! HERE ENTRY J OF IYRCT CORRESPONDS TO A CONSTRAINT BEYOND THE ACTIVE</span>
+                    <span class="c">! POINT CONSTRAINTS, AND WE ADJUST IYRCT(J) BY THE DIFFERENCE OF THE</span>
+                    <span class="c">! PRESENT AND FORMER NUMBER OF ACTIVE CONSTRAINTS.</span>
+                    <span class="n">Iyrct</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">Iyrct</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">+</span> <span class="n">mact</span> <span class="o">-</span> <span class="n">Mact1</span>
+                <span class="k">end if</span>
+<span class="mi">350</span>         <span class="k">end do</span>
+            <span class="c">! WE HAVE NOW FILLED IN IYRCT(1),...,IYRCT(NPARM+1) WITH DISTINCT</span>
+            <span class="c">! POSITIVE INTEGERS BETWEEN 1 AND M, AND WE FILL IN THE REST OF IYRCT</span>
+            <span class="c">! SO THAT IYRCT WILL CONTAIN A PERMUTATION OF 1,...,M.  TO BE CONSISTENT</span>
+            <span class="c">! WITH SLNPRO WE PUT IYRCT(NPARM+2),...,IYRCT(M) IN DECREASING ORDER.</span>
+            <span class="n">l</span> <span class="o">=</span> <span class="n">npar1</span>
+            <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">m</span>
+                <span class="n">ii</span> <span class="o">=</span> <span class="n">m</span> <span class="o">-</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span>
+                <span class="c">! SKIP II IF IT IS ALREADY IN IYRCT.</span>
+                <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">npar1</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="n">ii</span> <span class="o">==</span> <span class="n">Iyrct</span><span class="p">(</span><span class="n">j</span><span class="p">))</span> <span class="k">goto </span><span class="mi">400</span>
+                <span class="k">end do</span>
+<span class="k">                </span><span class="n">l</span> <span class="o">=</span> <span class="n">l</span> <span class="o">+</span> <span class="mi">1</span>
+                <span class="n">Iyrct</span><span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="o">=</span> <span class="n">ii</span>
+<span class="mi">400</span>         <span class="k">end do</span>
+<span class="k">        end if</span>
+
+        <span class="c">! SAVE MACT IN MACT1 AND IACT IN IACT1 AND RETURN.</span>
+<span class="mi">500</span>     <span class="n">Mact1</span> <span class="o">=</span> <span class="n">mact</span>
+        <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">mact</span>
+            <span class="n">Iact1</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">Iact</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+        <span class="k">end do</span>
+
 <span class="k">    end subroutine </span><span class="n">setu1</span>
 </pre></div>
 

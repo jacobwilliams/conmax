@@ -1210,7 +1210,7 @@ private pure function <a href='../proc/dotprd.html'>dotprd</a>(Lgth, Vec1, Vec2,
   <td>intent(in),</td>
   <td></td>
   
-  <td>dimension(Nparm+1)</td><td>::</td>
+  <td>dimension(Nparm + 1)</td><td>::</td>
   <td><strong>Vec1</strong></td><td></td>
   
 </tr>
@@ -1225,7 +1225,7 @@ private pure function <a href='../proc/dotprd.html'>dotprd</a>(Lgth, Vec1, Vec2,
   <td>intent(in),</td>
   <td></td>
   
-  <td>dimension(Nparm+1)</td><td>::</td>
+  <td>dimension(Nparm + 1)</td><td>::</td>
   <td><strong>Vec2</strong></td><td></td>
   
 </tr>
@@ -1887,7 +1887,7 @@ private subroutine <a href='../proc/derst.html'>derst</a>(me, Ioptn, Nparm, Numg
   <td></td>
   <td></td>
   
-  <td>dimension(Iptb,Indm)</td><td>::</td>
+  <td>dimension(Iptb, Indm)</td><td>::</td>
   <td><strong>Pttbl</strong></td><td></td>
   
 </tr>
@@ -1977,7 +1977,7 @@ private subroutine <a href='../proc/derst.html'>derst</a>(me, Ioptn, Nparm, Numg
   <td></td>
   <td></td>
   
-  <td>dimension(Numgr+2*Nparm+1,Nparm+2)</td><td>::</td>
+  <td>dimension(Numgr + 2*Nparm + 1, Nparm + 2)</td><td>::</td>
   <td><strong>v</strong></td><td></td>
   
 </tr>
@@ -2007,7 +2007,7 @@ private subroutine <a href='../proc/derst.html'>derst</a>(me, Ioptn, Nparm, Numg
   <td></td>
   <td></td>
   
-  <td>dimension(Numgr,Nparm+1)</td><td>::</td>
+  <td>dimension(Numgr, Nparm + 1)</td><td>::</td>
   <td><strong>Confun</strong></td><td></td>
   
 </tr>
@@ -2643,7 +2643,7 @@ private subroutine <a href='../proc/bndset.html'>bndset</a>(Nparm, x, Itersl, Nu
   <td>intent(in),</td>
   <td></td>
   
-  <td>dimension(Nparm+1)</td><td>::</td>
+  <td>dimension(Nparm + 1)</td><td>::</td>
   <td><strong>x</strong></td><td></td>
   
 </tr>
@@ -2718,7 +2718,7 @@ private subroutine <a href='../proc/bndset.html'>bndset</a>(Nparm, x, Itersl, Nu
   <td>intent(inout),</td>
   <td></td>
   
-  <td>dimension(Nparm+1)</td><td>::</td>
+  <td>dimension(Nparm + 1)</td><td>::</td>
   <td><strong>Xkeep</strong></td><td></td>
   
 </tr>
@@ -2767,8 +2767,8 @@ private subroutine <a href='../proc/setu1.html'>setu1</a>(me, Ioptn, Numgr, Npar
 
 
 
-<p>THIS SUBROUTINE SETS UP V FOR SLNPRO TO SOLVE A MODIFIED LINEARIZED
- (ABOUT THE OLD PARAMETERS IN PARAM) VERSION OF OUR PROBLEM.</p>
+<p>This subroutine sets up v for slnpro to solve a modified linearized
+ (about the old parameters in param) version of our problem.</p>
     
     <h4>Arguments</h4>
     
@@ -3262,13 +3262,7 @@ public subroutine <a href='../proc/slnpro.html'>slnpro</a>(v, m, n, Iyrct, y, Ix
 
 
 
-<p>THIS SUBROUTINE SOLVES THE LINEAR PROGRAMMING PROBLEM
-    MAXIMIZE Z = -V(M+1,1)<em>X(1)-...-V(M+1,N)</em>X(N)
-    WHERE X(1),...,X(N) ARE FREE VARIABLES, SUBJECT TO
-    V(I,1)<em>X(1)+...+V(I,N)</em>X(N) &lt;= V(I,N+1), FOR I=1,..,M,
-    WHERE M &gt;= N.
-  (INFORMATION CONCERNING TOLERANCES AND BASIC VARIABLES
-  IS ALSO TRANSMITTED USING M, N, AND IYRCT.)</p><a href="../proc/slnpro.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+<p>This subroutine solves the linear programming problem</p><a href="../proc/slnpro.html" class="pull-right"><emph>Read more&hellip;</emph></a>
     
     <h4>Arguments</h4>
     

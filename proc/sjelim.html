@@ -532,44 +532,44 @@ private subroutine sjelim(l, Ll, k, Ir, Is, Nparm, Numgr, v)
     
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="highlight"><pre><span></span>    <span class="k">subroutine </span><span class="n">sjelim</span><span class="p">(</span><span class="n">l</span><span class="p">,</span><span class="n">Ll</span><span class="p">,</span><span class="n">k</span><span class="p">,</span><span class="n">Ir</span><span class="p">,</span><span class="k">Is</span><span class="p">,</span><span class="n">Nparm</span><span class="p">,</span><span class="n">Numgr</span><span class="p">,</span><span class="n">v</span><span class="p">)</span>
+    <div class="highlight"><pre><span></span>    <span class="k">subroutine </span><span class="n">sjelim</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">Ll</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">Ir</span><span class="p">,</span> <span class="k">Is</span><span class="p">,</span> <span class="n">Nparm</span><span class="p">,</span> <span class="n">Numgr</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
 
-    <span class="k">implicit none</span>
+        <span class="k">implicit none</span>
 
-<span class="k">    </span><span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">l</span>
-    <span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Ll</span>
-    <span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">k</span>
-    <span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Ir</span>
-    <span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="k">Is</span>
-<span class="k">    </span><span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Nparm</span>
-    <span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Numgr</span>
-    <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span> <span class="kd">::</span> <span class="n">v</span><span class="p">(</span><span class="n">Numgr</span><span class="o">+</span><span class="mi">2</span><span class="o">*</span><span class="n">Nparm</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="n">Nparm</span><span class="o">+</span><span class="mi">2</span><span class="p">)</span>
+<span class="k">        </span><span class="kt">integer</span><span class="p">,</span> <span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">l</span>
+        <span class="kt">integer</span><span class="p">,</span> <span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Ll</span>
+        <span class="kt">integer</span><span class="p">,</span> <span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">k</span>
+        <span class="kt">integer</span><span class="p">,</span> <span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Ir</span>
+        <span class="kt">integer</span><span class="p">,</span> <span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="k">Is</span>
+<span class="k">        </span><span class="kt">integer</span><span class="p">,</span> <span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Nparm</span>
+        <span class="kt">integer</span><span class="p">,</span> <span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Numgr</span>
+        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span> <span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span> <span class="kd">::</span> <span class="n">v</span><span class="p">(</span><span class="n">Numgr</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">Nparm</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">Nparm</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span>
 
-    <span class="kt">integer</span> <span class="kd">::</span> <span class="n">i</span> <span class="p">,</span> <span class="n">j</span>
-    <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">fact</span> <span class="p">,</span> <span class="n">resol</span>
+        <span class="kt">integer</span> <span class="kd">::</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span>
+        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">fact</span><span class="p">,</span> <span class="n">resol</span>
 
-    <span class="c">! DIVIDE THE ENTRIES IN THE RESOLVENT ROW (EXCEPT FOR THE</span>
-    <span class="c">! RESOLVENT) BY THE RESOLVENT.</span>
-    <span class="n">resol</span> <span class="o">=</span> <span class="n">v</span><span class="p">(</span><span class="n">Ir</span><span class="p">,</span><span class="k">Is</span><span class="p">)</span>
-    <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">k</span>
-        <span class="k">if</span> <span class="p">(</span> <span class="n">j</span><span class="o">/=</span><span class="k">Is</span> <span class="p">)</span> <span class="n">v</span><span class="p">(</span><span class="n">Ir</span><span class="p">,</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">v</span><span class="p">(</span><span class="n">Ir</span><span class="p">,</span><span class="n">j</span><span class="p">)</span><span class="o">/</span><span class="n">resol</span>
-    <span class="k">end do</span>
-    <span class="c">! SWEEP OUT IN ALL BUT ROW IR AND COLUMN IS.</span>
-    <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="n">Ll</span> <span class="p">,</span> <span class="n">l</span>
-        <span class="k">if</span> <span class="p">(</span> <span class="n">i</span><span class="o">/=</span><span class="n">Ir</span> <span class="p">)</span> <span class="k">then</span>
-<span class="k">            </span><span class="n">fact</span> <span class="o">=</span> <span class="o">-</span><span class="n">v</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="k">Is</span><span class="p">)</span>
-            <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">k</span>
-                <span class="k">if</span> <span class="p">(</span> <span class="n">j</span><span class="o">/=</span><span class="k">Is</span> <span class="p">)</span> <span class="n">v</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">v</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span> <span class="o">+</span> <span class="n">v</span><span class="p">(</span><span class="n">Ir</span><span class="p">,</span><span class="n">j</span><span class="p">)</span><span class="o">*</span><span class="n">fact</span>
-            <span class="k">end do</span>
-<span class="k">        end if</span>
-<span class="k">    end do</span>
-    <span class="c">! DIVIDE THE ENTRIES IN THE RESOLVENT COLUMN (EXCEPT FOR THE</span>
-    <span class="c">! RESOLVENT) BY THE NEGATIVE OF THE RESOLVENT.</span>
-    <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="n">Ll</span> <span class="p">,</span> <span class="n">l</span>
-        <span class="k">if</span> <span class="p">(</span> <span class="n">i</span><span class="o">/=</span><span class="n">Ir</span> <span class="p">)</span> <span class="n">v</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="k">Is</span><span class="p">)</span> <span class="o">=</span> <span class="o">-</span><span class="n">v</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="k">Is</span><span class="p">)</span><span class="o">/</span><span class="n">resol</span>
-    <span class="k">end do</span>
-    <span class="c">! REPLACE THE RESOLVENT BY ITS RECIPROCAL.</span>
-    <span class="n">v</span><span class="p">(</span><span class="n">Ir</span><span class="p">,</span><span class="k">Is</span><span class="p">)</span> <span class="o">=</span> <span class="n">one</span><span class="o">/</span><span class="n">resol</span>
+        <span class="c">! DIVIDE THE ENTRIES IN THE RESOLVENT ROW (EXCEPT FOR THE</span>
+        <span class="c">! RESOLVENT) BY THE RESOLVENT.</span>
+        <span class="n">resol</span> <span class="o">=</span> <span class="n">v</span><span class="p">(</span><span class="n">Ir</span><span class="p">,</span> <span class="k">Is</span><span class="p">)</span>
+        <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">k</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">j</span> <span class="o">/=</span> <span class="k">Is</span><span class="p">)</span> <span class="n">v</span><span class="p">(</span><span class="n">Ir</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">v</span><span class="p">(</span><span class="n">Ir</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span><span class="o">/</span><span class="n">resol</span>
+        <span class="k">end do</span>
+        <span class="c">! SWEEP OUT IN ALL BUT ROW IR AND COLUMN IS.</span>
+        <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="n">Ll</span><span class="p">,</span> <span class="n">l</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">/=</span> <span class="n">Ir</span><span class="p">)</span> <span class="k">then</span>
+<span class="k">                </span><span class="n">fact</span> <span class="o">=</span> <span class="o">-</span><span class="n">v</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="k">Is</span><span class="p">)</span>
+                <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">k</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="n">j</span> <span class="o">/=</span> <span class="k">Is</span><span class="p">)</span> <span class="n">v</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">v</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span> <span class="o">+</span> <span class="n">v</span><span class="p">(</span><span class="n">Ir</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span><span class="o">*</span><span class="n">fact</span>
+                <span class="k">end do</span>
+<span class="k">            end if</span>
+<span class="k">        end do</span>
+        <span class="c">! DIVIDE THE ENTRIES IN THE RESOLVENT COLUMN (EXCEPT FOR THE</span>
+        <span class="c">! RESOLVENT) BY THE NEGATIVE OF THE RESOLVENT.</span>
+        <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="n">Ll</span><span class="p">,</span> <span class="n">l</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">/=</span> <span class="n">Ir</span><span class="p">)</span> <span class="n">v</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="k">Is</span><span class="p">)</span> <span class="o">=</span> <span class="o">-</span><span class="n">v</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="k">Is</span><span class="p">)</span><span class="o">/</span><span class="n">resol</span>
+        <span class="k">end do</span>
+        <span class="c">! REPLACE THE RESOLVENT BY ITS RECIPROCAL.</span>
+        <span class="n">v</span><span class="p">(</span><span class="n">Ir</span><span class="p">,</span> <span class="k">Is</span><span class="p">)</span> <span class="o">=</span> <span class="n">one</span><span class="o">/</span><span class="n">resol</span>
 
     <span class="k">end subroutine </span><span class="n">sjelim</span>
 </pre></div>

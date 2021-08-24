@@ -560,77 +560,77 @@ private subroutine rksact(Ioptn, Numgr, Icntyp, Rchdwn, Rchin, Conup, Projct, Er
     
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="highlight"><pre><span></span>    <span class="k">subroutine </span><span class="n">rksact</span><span class="p">(</span><span class="n">Ioptn</span><span class="p">,</span><span class="n">Numgr</span><span class="p">,</span><span class="n">Icntyp</span><span class="p">,</span><span class="n">Rchdwn</span><span class="p">,</span><span class="n">Rchin</span><span class="p">,</span><span class="n">Conup</span><span class="p">,</span><span class="n">Projct</span><span class="p">,</span> <span class="p">&amp;</span>
-                      <span class="n">Error</span><span class="p">,</span><span class="n">Mactrk</span><span class="p">,</span><span class="n">Actdif</span><span class="p">,</span><span class="n">Iact</span><span class="p">)</span>
+    <div class="highlight"><pre><span></span>    <span class="k">subroutine </span><span class="n">rksact</span><span class="p">(</span><span class="n">Ioptn</span><span class="p">,</span> <span class="n">Numgr</span><span class="p">,</span> <span class="n">Icntyp</span><span class="p">,</span> <span class="n">Rchdwn</span><span class="p">,</span> <span class="n">Rchin</span><span class="p">,</span> <span class="n">Conup</span><span class="p">,</span> <span class="n">Projct</span><span class="p">,</span> <span class="p">&amp;</span>
+                      <span class="n">Error</span><span class="p">,</span> <span class="n">Mactrk</span><span class="p">,</span> <span class="n">Actdif</span><span class="p">,</span> <span class="n">Iact</span><span class="p">)</span>
 
-    <span class="k">implicit none</span>
+        <span class="k">implicit none</span>
 
-<span class="k">    </span><span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Ioptn</span>
-    <span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Numgr</span>
-    <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Rchdwn</span>
-    <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Rchin</span>
-    <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Conup</span>
-    <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Projct</span>
-    <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Error</span><span class="p">(</span><span class="n">Numgr</span><span class="o">+</span><span class="mi">3</span><span class="p">)</span>
-    <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Actdif</span><span class="p">(</span><span class="n">Numgr</span><span class="p">)</span>
-    <span class="kt">integer</span> <span class="kd">::</span> <span class="n">Iact</span><span class="p">(</span><span class="n">Numgr</span><span class="p">)</span>
-    <span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>  <span class="kd">::</span> <span class="n">Icntyp</span><span class="p">(</span><span class="n">Numgr</span><span class="p">)</span>
-    <span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Mactrk</span>
+<span class="k">        </span><span class="kt">integer</span><span class="p">,</span> <span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Ioptn</span>
+        <span class="kt">integer</span><span class="p">,</span> <span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Numgr</span>
+        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span> <span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Rchdwn</span>
+        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span> <span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Rchin</span>
+        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span> <span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Conup</span>
+        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span> <span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Projct</span>
+        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span> <span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Error</span><span class="p">(</span><span class="n">Numgr</span> <span class="o">+</span> <span class="mi">3</span><span class="p">)</span>
+        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Actdif</span><span class="p">(</span><span class="n">Numgr</span><span class="p">)</span>
+        <span class="kt">integer</span> <span class="kd">::</span> <span class="n">Iact</span><span class="p">(</span><span class="n">Numgr</span><span class="p">)</span>
+        <span class="kt">integer</span><span class="p">,</span> <span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>  <span class="kd">::</span> <span class="n">Icntyp</span><span class="p">(</span><span class="n">Numgr</span><span class="p">)</span>
+        <span class="kt">integer</span><span class="p">,</span> <span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Mactrk</span>
 
-    <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">elow</span> <span class="p">,</span> <span class="n">enorm</span> <span class="p">,</span> <span class="n">rchind</span>
-    <span class="kt">integer</span> <span class="kd">::</span> <span class="n">i</span> <span class="p">,</span> <span class="n">l</span>
+        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">elow</span><span class="p">,</span> <span class="n">enorm</span><span class="p">,</span> <span class="n">rchind</span>
+        <span class="kt">integer</span> <span class="kd">::</span> <span class="n">i</span><span class="p">,</span> <span class="n">l</span>
 
-    <span class="c">! SET MACHINE AND PRECISION DEPENDENT CONSTANTS FOR RKSACT.</span>
-    <span class="n">enorm</span> <span class="o">=</span> <span class="n">Error</span><span class="p">(</span><span class="n">Numgr</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
-    <span class="n">elow</span> <span class="o">=</span> <span class="n">enorm</span> <span class="o">-</span> <span class="n">Rchdwn</span><span class="o">*</span><span class="n">Projct</span>
-    <span class="n">rchind</span> <span class="o">=</span> <span class="n">Rchin</span><span class="o">*</span><span class="n">Projct</span>
+        <span class="c">! SET MACHINE AND PRECISION DEPENDENT CONSTANTS FOR RKSACT.</span>
+        <span class="n">enorm</span> <span class="o">=</span> <span class="n">Error</span><span class="p">(</span><span class="n">Numgr</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">elow</span> <span class="o">=</span> <span class="n">enorm</span> <span class="o">-</span> <span class="n">Rchdwn</span><span class="o">*</span><span class="n">Projct</span>
+        <span class="n">rchind</span> <span class="o">=</span> <span class="n">Rchin</span><span class="o">*</span><span class="n">Projct</span>
 
-    <span class="c">! DETERMINE THE NUMBER MACTRK OF ACTIVE CONSTRAINTS, THEIR INDICATOR</span>
-    <span class="c">! IACT, AND THE VECTOR ACTDIF OF RIGHT SIDES FOR THE WOLFE SUBPROBLEM.</span>
-    <span class="n">l</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">Numgr</span>
-        <span class="k">if</span> <span class="p">(</span> <span class="n">Icntyp</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">&lt;</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
-<span class="k">            if</span> <span class="p">(</span> <span class="n">Icntyp</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="o">&gt;=</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
-                <span class="c">! HERE WE HAVE A TYPE -1 CONSTRAINT, WHICH WILL AUTOMATICALLY BE</span>
-                <span class="c">! DECLARED TO BE ACTIVE.</span>
-                <span class="n">l</span> <span class="o">=</span> <span class="n">l</span> <span class="o">+</span> <span class="mi">1</span>
-                <span class="n">Iact</span><span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="o">=</span> <span class="n">i</span>
-                <span class="n">Actdif</span><span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="o">=</span> <span class="n">Error</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">/</span><span class="n">Projct</span>
-                <span class="c">! HERE WE HAVE A TYPE -2 CONSTRAINT, WHICH WILL BE DECLARED TO BE</span>
-                <span class="c">! ACTIVE IFF ERROR(I) &gt;= -RCHIND.</span>
-            <span class="k">else if</span> <span class="p">(</span> <span class="n">Error</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">+</span><span class="n">rchind</span><span class="o">&gt;=</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
-                <span class="c">! HERE WE HAVE AN ACTIVE TYPE -2 CONSTRAINT, AND WE SET ACTDIF(L)=</span>
-                <span class="c">! MIN (CONUP, ERROR(I)/PROJCT).</span>
-                <span class="n">l</span> <span class="o">=</span> <span class="n">l</span> <span class="o">+</span> <span class="mi">1</span>
-                <span class="n">Iact</span><span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="o">=</span> <span class="n">i</span>
-                <span class="n">Actdif</span><span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="o">=</span> <span class="n">Error</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">/</span><span class="n">Projct</span>
-                <span class="k">if</span> <span class="p">(</span> <span class="n">Actdif</span><span class="p">(</span><span class="n">l</span><span class="p">)</span><span class="o">&gt;</span><span class="n">Conup</span> <span class="p">)</span> <span class="n">Actdif</span><span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="o">=</span> <span class="n">Conup</span>
-            <span class="k">end if</span>
-<span class="k">        else if</span> <span class="p">(</span> <span class="n">Icntyp</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">/=</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
-<span class="k">            if</span> <span class="p">(</span> <span class="n">Icntyp</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">1</span> <span class="p">)</span> <span class="k">then</span>
-                <span class="c">! HERE WE HAVE A TYPE 2 CONSTRAINT.</span>
-                <span class="k">if</span> <span class="p">(</span> <span class="n">Error</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">&lt;</span><span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
-<span class="k">                    if</span> <span class="p">(</span> <span class="o">-</span><span class="n">Error</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">&gt;=</span><span class="n">elow</span> <span class="p">)</span> <span class="k">then</span>
-                        <span class="c">! HERE WE HAVE A -ACTIVE TYPE 2 CONSTRAINT.</span>
-                        <span class="n">l</span> <span class="o">=</span> <span class="n">l</span> <span class="o">+</span> <span class="mi">1</span>
-                        <span class="n">Iact</span><span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="o">=</span> <span class="o">-</span><span class="n">i</span>
-                        <span class="n">Actdif</span><span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="o">=</span> <span class="n">one</span> <span class="o">+</span> <span class="p">(</span><span class="o">-</span><span class="n">Error</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">-</span><span class="n">enorm</span><span class="p">)</span><span class="o">/</span><span class="n">Projct</span>
-                    <span class="k">end if</span>
-<span class="k">                    cycle</span>
+        <span class="c">! DETERMINE THE NUMBER MACTRK OF ACTIVE CONSTRAINTS, THEIR INDICATOR</span>
+        <span class="c">! IACT, AND THE VECTOR ACTDIF OF RIGHT SIDES FOR THE WOLFE SUBPROBLEM.</span>
+        <span class="n">l</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">Numgr</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">Icntyp</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="k">then</span>
+<span class="k">                if</span> <span class="p">(</span><span class="n">Icntyp</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">then</span>
+                    <span class="c">! HERE WE HAVE A TYPE -1 CONSTRAINT, WHICH WILL AUTOMATICALLY BE</span>
+                    <span class="c">! DECLARED TO BE ACTIVE.</span>
+                    <span class="n">l</span> <span class="o">=</span> <span class="n">l</span> <span class="o">+</span> <span class="mi">1</span>
+                    <span class="n">Iact</span><span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="o">=</span> <span class="n">i</span>
+                    <span class="n">Actdif</span><span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="o">=</span> <span class="n">Error</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">/</span><span class="n">Projct</span>
+                    <span class="c">! HERE WE HAVE A TYPE -2 CONSTRAINT, WHICH WILL BE DECLARED TO BE</span>
+                    <span class="c">! ACTIVE IFF ERROR(I) &gt;= -RCHIND.</span>
+                <span class="k">else if</span> <span class="p">(</span><span class="n">Error</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">+</span> <span class="n">rchind</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">then</span>
+                    <span class="c">! HERE WE HAVE AN ACTIVE TYPE -2 CONSTRAINT, AND WE SET ACTDIF(L)=</span>
+                    <span class="c">! MIN (CONUP, ERROR(I)/PROJCT).</span>
+                    <span class="n">l</span> <span class="o">=</span> <span class="n">l</span> <span class="o">+</span> <span class="mi">1</span>
+                    <span class="n">Iact</span><span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="o">=</span> <span class="n">i</span>
+                    <span class="n">Actdif</span><span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="o">=</span> <span class="n">Error</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">/</span><span class="n">Projct</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="n">Actdif</span><span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">Conup</span><span class="p">)</span> <span class="n">Actdif</span><span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="o">=</span> <span class="n">Conup</span>
+                <span class="k">end if</span>
+<span class="k">            else if</span> <span class="p">(</span><span class="n">Icntyp</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">then</span>
+<span class="k">                if</span> <span class="p">(</span><span class="n">Icntyp</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">)</span> <span class="k">then</span>
+                    <span class="c">! HERE WE HAVE A TYPE 2 CONSTRAINT.</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="n">Error</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="k">then</span>
+<span class="k">                        if</span> <span class="p">(</span><span class="o">-</span><span class="n">Error</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">elow</span><span class="p">)</span> <span class="k">then</span>
+                            <span class="c">! HERE WE HAVE A -ACTIVE TYPE 2 CONSTRAINT.</span>
+                            <span class="n">l</span> <span class="o">=</span> <span class="n">l</span> <span class="o">+</span> <span class="mi">1</span>
+                            <span class="n">Iact</span><span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="o">=</span> <span class="o">-</span><span class="n">i</span>
+                            <span class="n">Actdif</span><span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="o">=</span> <span class="n">one</span> <span class="o">+</span> <span class="p">(</span><span class="o">-</span><span class="n">Error</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">-</span> <span class="n">enorm</span><span class="p">)</span><span class="o">/</span><span class="n">Projct</span>
+                        <span class="k">end if</span>
+<span class="k">                        cycle</span>
+<span class="k">                    end if</span>
 <span class="k">                end if</span>
+                <span class="c">! HERE WE HAVE A TYPE 1 CONSTRAINT, OR A TYPE 2 CONSTRAINT WITH</span>
+                <span class="c">! ERROR(I) &gt;= 0.0.</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">Error</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">elow</span><span class="p">)</span> <span class="k">then</span>
+                    <span class="c">! HERE WE HAVE AN ACTIVE TYPE 1 CONSTRAINT OR A +ACTIVE TYPE 2 CONSTRAINT.</span>
+                    <span class="n">l</span> <span class="o">=</span> <span class="n">l</span> <span class="o">+</span> <span class="mi">1</span>
+                    <span class="n">Iact</span><span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="o">=</span> <span class="n">i</span>
+                    <span class="n">Actdif</span><span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="o">=</span> <span class="n">one</span> <span class="o">+</span> <span class="p">(</span><span class="n">Error</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">-</span> <span class="n">enorm</span><span class="p">)</span><span class="o">/</span><span class="n">Projct</span>
+                <span class="k">end if</span>
 <span class="k">            end if</span>
-            <span class="c">! HERE WE HAVE A TYPE 1 CONSTRAINT, OR A TYPE 2 CONSTRAINT WITH</span>
-            <span class="c">! ERROR(I) &gt;= 0.0.</span>
-            <span class="k">if</span> <span class="p">(</span> <span class="n">Error</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">&gt;=</span><span class="n">elow</span> <span class="p">)</span> <span class="k">then</span>
-                <span class="c">! HERE WE HAVE AN ACTIVE TYPE 1 CONSTRAINT OR A +ACTIVE TYPE 2 CONSTRAINT.</span>
-                <span class="n">l</span> <span class="o">=</span> <span class="n">l</span> <span class="o">+</span> <span class="mi">1</span>
-                <span class="n">Iact</span><span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="o">=</span> <span class="n">i</span>
-                <span class="n">Actdif</span><span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="o">=</span> <span class="n">one</span> <span class="o">+</span> <span class="p">(</span><span class="n">Error</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">-</span><span class="n">enorm</span><span class="p">)</span><span class="o">/</span><span class="n">Projct</span>
-            <span class="k">end if</span>
-<span class="k">        end if</span>
-<span class="k">    end do</span>
+<span class="k">        end do</span>
 
-<span class="k">    </span><span class="n">Mactrk</span> <span class="o">=</span> <span class="n">l</span>
+<span class="k">        </span><span class="n">Mactrk</span> <span class="o">=</span> <span class="n">l</span>
 
     <span class="k">end subroutine </span><span class="n">rksact</span>
 </pre></div>

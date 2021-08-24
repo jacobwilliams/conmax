@@ -252,7 +252,7 @@ private pure function dotprd(Lgth, Vec1, Vec2, Nparm) result(dd)
   <td>intent(in),</td>
   <td></td>
   
-  <td>dimension(Nparm+1)</td><td>::</td>
+  <td>dimension(Nparm + 1)</td><td>::</td>
   <td><strong>Vec1</strong></td><td></td>
   
 </tr>
@@ -267,7 +267,7 @@ private pure function dotprd(Lgth, Vec1, Vec2, Nparm) result(dd)
   <td>intent(in),</td>
   <td></td>
   
-  <td>dimension(Nparm+1)</td><td>::</td>
+  <td>dimension(Nparm + 1)</td><td>::</td>
   <td><strong>Vec2</strong></td><td></td>
   
 </tr>
@@ -364,33 +364,33 @@ private pure function dotprd(Lgth, Vec1, Vec2, Nparm) result(dd)
 <path fill="none" stroke="#000000" d="M145.4,-69C153.48,-67.16 162.51,-65.11 171.1,-63.16"/>
 <polygon fill="#000000" stroke="#000000" points="171.94,-66.56 180.92,-60.93 170.39,-59.73 171.94,-66.56"/>
 </g>
-<!-- proc~rkcon -->
-<g id="proc~~dotprd~~CalledByGraph_node4" class="node">
-<title>proc~rkcon</title>
-<g id="a_proc~~dotprd~~CalledByGraph_node4"><a xlink:href=".././proc/rkcon.html" xlink:title="rkcon">
-<polygon fill="#d9534f" stroke="#d9534f" points="54.5,-150 0.5,-150 0.5,-126 54.5,-126 54.5,-150"/>
-<text text-anchor="middle" x="27.5" y="-135.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">rkcon</text>
-</a>
-</g>
-</g>
-<!-- proc~rkcon&#45;&gt;proc~wolfe -->
-<g id="proc~~dotprd~~CalledByGraph_edge7" class="edge">
-<title>proc~rkcon&#45;&gt;proc~wolfe</title>
-<path fill="none" stroke="#000000" d="M45.56,-125.85C58.66,-116.53 76.95,-103.51 91.75,-92.98"/>
-<polygon fill="#000000" stroke="#000000" points="93.87,-95.76 99.99,-87.11 89.81,-90.06 93.87,-95.76"/>
-</g>
 <!-- proc~corrct -->
-<g id="proc~~dotprd~~CalledByGraph_node5" class="node">
+<g id="proc~~dotprd~~CalledByGraph_node4" class="node">
 <title>proc~corrct</title>
-<g id="a_proc~~dotprd~~CalledByGraph_node5"><a xlink:href=".././proc/corrct.html" xlink:title="corrct">
-<polygon fill="#d9534f" stroke="#d9534f" points="54.5,-108 0.5,-108 0.5,-84 54.5,-84 54.5,-108"/>
-<text text-anchor="middle" x="27.5" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">corrct</text>
+<g id="a_proc~~dotprd~~CalledByGraph_node4"><a xlink:href=".././proc/corrct.html" xlink:title="corrct">
+<polygon fill="#d9534f" stroke="#d9534f" points="54.5,-150 0.5,-150 0.5,-126 54.5,-126 54.5,-150"/>
+<text text-anchor="middle" x="27.5" y="-135.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">corrct</text>
 </a>
 </g>
 </g>
 <!-- proc~corrct&#45;&gt;proc~wolfe -->
 <g id="proc~~dotprd~~CalledByGraph_edge4" class="edge">
 <title>proc~corrct&#45;&gt;proc~wolfe</title>
+<path fill="none" stroke="#000000" d="M45.56,-125.85C58.66,-116.53 76.95,-103.51 91.75,-92.98"/>
+<polygon fill="#000000" stroke="#000000" points="93.87,-95.76 99.99,-87.11 89.81,-90.06 93.87,-95.76"/>
+</g>
+<!-- proc~rkcon -->
+<g id="proc~~dotprd~~CalledByGraph_node5" class="node">
+<title>proc~rkcon</title>
+<g id="a_proc~~dotprd~~CalledByGraph_node5"><a xlink:href=".././proc/rkcon.html" xlink:title="rkcon">
+<polygon fill="#d9534f" stroke="#d9534f" points="54.5,-108 0.5,-108 0.5,-84 54.5,-84 54.5,-108"/>
+<text text-anchor="middle" x="27.5" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">rkcon</text>
+</a>
+</g>
+</g>
+<!-- proc~rkcon&#45;&gt;proc~wolfe -->
+<g id="proc~~dotprd~~CalledByGraph_edge5" class="edge">
+<title>proc~rkcon&#45;&gt;proc~wolfe</title>
 <path fill="none" stroke="#000000" d="M54.57,-89.81C62.87,-87.84 72.2,-85.63 81.07,-83.53"/>
 <polygon fill="#000000" stroke="#000000" points="81.88,-86.93 90.81,-81.22 80.27,-80.12 81.88,-86.93"/>
 </g>
@@ -404,7 +404,7 @@ private pure function dotprd(Lgth, Vec1, Vec2, Nparm) result(dd)
 </g>
 </g>
 <!-- proc~conmax&#45;&gt;proc~wolfe -->
-<g id="proc~~dotprd~~CalledByGraph_edge5" class="edge">
+<g id="proc~~dotprd~~CalledByGraph_edge6" class="edge">
 <title>proc~conmax&#45;&gt;proc~wolfe</title>
 <path fill="none" stroke="#000000" d="M55.05,-60.3C63.18,-62.23 72.25,-64.38 80.9,-66.43"/>
 <polygon fill="#000000" stroke="#000000" points="80.23,-69.87 90.77,-68.78 81.85,-63.06 80.23,-69.87"/>
@@ -419,7 +419,7 @@ private pure function dotprd(Lgth, Vec1, Vec2, Nparm) result(dd)
 </g>
 </g>
 <!-- proc~rkpar&#45;&gt;proc~wolfe -->
-<g id="proc~~dotprd~~CalledByGraph_edge6" class="edge">
+<g id="proc~~dotprd~~CalledByGraph_edge7" class="edge">
 <title>proc~rkpar&#45;&gt;proc~wolfe</title>
 <path fill="none" stroke="#000000" d="M45.56,-24.15C58.66,-33.47 76.95,-46.49 91.75,-57.02"/>
 <polygon fill="#000000" stroke="#000000" points="89.81,-59.94 99.99,-62.89 93.87,-54.24 89.81,-59.94"/>
@@ -547,24 +547,24 @@ private pure function dotprd(Lgth, Vec1, Vec2, Nparm) result(dd)
     
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="highlight"><pre><span></span>    <span class="k">pure function </span><span class="n">dotprd</span><span class="p">(</span><span class="n">Lgth</span><span class="p">,</span><span class="n">Vec1</span><span class="p">,</span><span class="n">Vec2</span><span class="p">,</span><span class="n">Nparm</span><span class="p">)</span> <span class="k">result</span><span class="p">(</span><span class="n">dd</span><span class="p">)</span>
+    <div class="highlight"><pre><span></span>    <span class="k">pure function </span><span class="n">dotprd</span><span class="p">(</span><span class="n">Lgth</span><span class="p">,</span> <span class="n">Vec1</span><span class="p">,</span> <span class="n">Vec2</span><span class="p">,</span> <span class="n">Nparm</span><span class="p">)</span> <span class="k">result</span><span class="p">(</span><span class="n">dd</span><span class="p">)</span>
 
-    <span class="k">implicit none</span>
+        <span class="k">implicit none</span>
 
-<span class="k">    </span><span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Lgth</span>
-    <span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Nparm</span>
-    <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="n">Nparm</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Vec1</span>
-    <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="n">Nparm</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Vec2</span>
-    <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">dd</span>
+<span class="k">        </span><span class="kt">integer</span><span class="p">,</span> <span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Lgth</span>
+        <span class="kt">integer</span><span class="p">,</span> <span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Nparm</span>
+        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span> <span class="k">dimension</span><span class="p">(</span><span class="n">Nparm</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Vec1</span>
+        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span> <span class="k">dimension</span><span class="p">(</span><span class="n">Nparm</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Vec2</span>
+        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">dd</span>
 
-    <span class="kt">integer</span> <span class="kd">::</span> <span class="n">j</span>
+        <span class="kt">integer</span> <span class="kd">::</span> <span class="n">j</span>
 
-    <span class="n">dd</span> <span class="o">=</span> <span class="n">Vec1</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">Vec2</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-    <span class="k">if</span> <span class="p">(</span> <span class="n">Lgth</span><span class="o">&gt;</span><span class="mi">1</span> <span class="p">)</span> <span class="k">then</span>
-<span class="k">        do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">2</span> <span class="p">,</span> <span class="n">Lgth</span>
-            <span class="n">dd</span> <span class="o">=</span> <span class="n">dd</span> <span class="o">+</span> <span class="n">Vec1</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="o">*</span><span class="n">Vec2</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
-        <span class="k">end do</span>
-<span class="k">    end if</span>
+        <span class="n">dd</span> <span class="o">=</span> <span class="n">Vec1</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">Vec2</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">Lgth</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">)</span> <span class="k">then</span>
+<span class="k">            do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">Lgth</span>
+                <span class="n">dd</span> <span class="o">=</span> <span class="n">dd</span> <span class="o">+</span> <span class="n">Vec1</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="o">*</span><span class="n">Vec2</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+            <span class="k">end do</span>
+<span class="k">        end if</span>
 
 <span class="k">    end function </span><span class="n">dotprd</span>
 </pre></div>
