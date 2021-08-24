@@ -4044,24 +4044,48 @@ contains
 
         implicit none
 
-        class(conmax_solver), intent(inout) :: me
-        real(wp) :: Confun, Dvec, emin, eold, Err1, Error, f1, &
-                    Fun, gain, p1, Parprj, Parwrk, Pmat, procor, &
-                    Projct, Pttbl, rchdwn, Rchin
-        real(wp) :: s, Tolcon, Unit, wdist, Work, Zwork
-        integer :: i, Iact, Icntyp, Icorct, Ifun, ilc06, ilc16, &
-                   ilc22, ilc24, ilc30, ilc31, ilc33, ilc35, ilc41, &
-                   Indm, Ioptn, ioptth, Iphse, ipmax
-        integer :: ipt, Iptb, ismax, isrcr, Iwork, j, Jcntyp, jflag, &
-                   k, l, Liwrk, Lwrk, Mact, ncor, newtit, newtlm, &
-                   nmaj, nmin, npar1, Nparm
-        integer :: Numgr
+        integer,intent(in) :: Ifun
+        integer,intent(in) :: Iptb
+        integer,intent(in) :: Liwrk
+        integer,intent(in) :: Lwrk
+        integer,intent(in) :: Nparm
+        integer,intent(in) :: Numgr
+        integer :: Icorct
+        integer :: Indm
+        integer :: Ioptn
+        integer :: Iphse
+        integer :: Mact
+        real(wp) :: Projct
+        real(wp) :: Rchin
+        real(wp) :: Tolcon
+        real(wp) :: Unit
+        integer :: Iact(Numgr)
+        integer :: Icntyp(Numgr)
+        integer :: Iwork(Liwrk)
+        integer :: Jcntyp(Numgr)
+        real(wp) :: Confun(Numgr, Nparm + 1)
+        real(wp) :: Dvec(Nparm)
+        real(wp) :: Err1(Numgr + 3)
+        real(wp) :: Error(Numgr + 3)
+        real(wp) :: Fun(Ifun)
+        real(wp) :: Parprj(Nparm)
+        real(wp) :: Parwrk(Nparm)
+        real(wp) :: Pmat(Nparm + 1, Numgr)
+        real(wp) :: Pttbl(Iptb, Indm)
+        real(wp) :: Work(Lwrk)
+        real(wp) :: Zwork(Nparm)
 
-        dimension Fun(Ifun), Pttbl(Iptb, Indm), Icntyp(Numgr), &
-            Parprj(Nparm), Parwrk(Nparm), Err1(Numgr + 3), &
-            Dvec(Nparm), Pmat(Nparm + 1, Numgr), Jcntyp(Numgr), &
-            Confun(Numgr, Nparm + 1), Zwork(Nparm), Error(Numgr + 3), &
-            Iact(Numgr), Iwork(Liwrk), Work(Lwrk)
+        class(conmax_solver), intent(inout) :: me
+        real(wp) :: emin, eold, f1, p1, procor, rchdwn, s, wdist
+        integer :: i, ilc06, ilc16, ilc22, ilc24, ilc30, ilc31, ilc33, ilc35, &
+                   ilc41, ioptth, ipmax, ipt, ismax, isrcr, j, jflag, &
+                   k, l, ncor, newtit, nmaj, nmin, npar1
+
+        real(wp),parameter :: gain = one/(ten*ten)
+        integer,parameter :: newtlm = 3 !! Set the limit newtlm on the number of quasi-newton steps (i.e. calls
+                                        !! to searcr), and if newtlm > 1 set the parameter gain such that no
+                                        !! further newton steps will be tried unless the last step reduced the
+                                        !! maximum standard error by a factor of gain or better.
 
         ! SET MACHINE AND PRECISION DEPENDENT CONSTANTS.
         ilc06 = iloc(6, Nparm, Numgr)
@@ -4076,12 +4100,7 @@ contains
         ioptth = (Ioptn - (Ioptn/100000)*100000)/10000
         npar1 = Nparm + 1
         newtit = 0
-        ! SET THE LIMIT NEWTLM ON THE NUMBER OF QUASI-NEWTON STEPS (I.E. CALLS
-        ! TO SEARCR), AND IF NEWTLM > 1 SET THE PARAMETER GAIN SUCH THAT NO
-        ! FURTHER NEWTON STEPS WILL BE TRIED UNLESS THE LAST STEP REDUCED THE
-        ! MAXIMUM STANDARD ERROR BY A FACTOR OF GAIN OR BETTER.
-        newtlm = 3
-        gain = one/(ten*ten)
+
         ! FOR NOW, SET JCNTYP(I)=0 IF ICNTYP(I) > 0 AND SET JCNTYP(I)
         ! =ICNTYP(I) OTHERWISE TO DIRECT ERCMP1 TO COMPUTE THE ERRORS FOR THE
         ! STANDARD CONSTRAINTS ONLY.
@@ -4224,9 +4243,10 @@ contains
                     ! WE CALL MULLER TO TRY TO GET THE MAXIMUM STANDARD CONSTRAINT
                     ! ERROR INTO THE CLOSED INTERVAL (-TOLCON, TOLCON) BY FURTHER
                     ! MODIFYING PROCOR.
-                    if (emin + Tolcon < 0) call me%muller(Ioptn, Nparm, Numgr, Dvec, Fun, &
-                                                          Ifun, Pttbl, Iptb, Indm, Zwork, Tolcon, Iphse, Iwork, Liwrk, &
-                                                          Work, Lwrk, Parwrk, Err1, p1, f1, procor, emin)
+                    if (emin + Tolcon < 0) &
+                        call me%muller(Ioptn, Nparm, Numgr, Dvec, Fun, &
+                                       Ifun, Pttbl, Iptb, Indm, Zwork, Tolcon, Iphse, Iwork, Liwrk, &
+                                       Work, Lwrk, Parwrk, Err1, p1, f1, procor, emin)
 
                     ! NOW COMPUTE PARPRJ = ZWORK + PROCOR*DVEC, SET ICORCT=0, AND RETURN.
                     do j = 1, Nparm
@@ -4296,20 +4316,34 @@ contains
         implicit none
 
         class(conmax_solver), intent(inout) :: me
-        real(wp) :: Dvec, Emin, Err1, f1, f1kp, &
-                    f2, f3, f4, Fun, fval, p1, p2, p3, &
-                    p4, Parwrk
-        real(wp) :: Procor, progr, Pttbl, pval, rlf, rrt, s1, s2, &
-                    Tolcon, Work, &
-                    Zwork
-        integer :: iaddl, iext, Ifun, ilc08, ilc21, ilf, Indm, &
-                   Ioptn, Iphse, ipmax, Iptb, irt, ismax, Isrcr, &
-                   Iwork, j, limscr, Liwrk, lll
-        integer :: Lwrk, Nparm, nsrch, Numgr
+        integer,intent(in) :: Ifun
+        integer,intent(in) :: Indm
+        integer,intent(in) :: Iptb
+        integer,intent(in) :: Liwrk
+        integer,intent(in) :: Lwrk
+        integer,intent(in) :: Nparm
+        integer :: Ioptn
+        integer :: Iphse
+        integer :: Isrcr
+        integer :: Numgr
+        real(wp) :: Emin
+        real(wp) :: f1
+        real(wp) :: p1
+        real(wp) :: Procor
+        real(wp) :: Tolcon
+        integer :: Iwork(Liwrk)
+        real(wp) :: Dvec(Nparm)
+        real(wp) :: Err1(Numgr + 3)
+        real(wp) :: Fun(Ifun)
+        real(wp) :: Parwrk(Nparm)
+        real(wp) :: Pttbl(Iptb, Indm)
+        real(wp) :: Work(Lwrk)
+        real(wp) :: Zwork(Nparm)
 
-        dimension Fun(Ifun), Pttbl(Iptb, Indm), Parwrk(Nparm), &
-            Err1(Numgr + 3), Zwork(Nparm), Dvec(Nparm), &
-            Iwork(Liwrk), Work(Lwrk)
+        real(wp) :: f1kp, f2, f3, f4, fval, p2, p3, p4, &
+                    progr, pval, rlf, rrt, s1, s2
+        integer :: iaddl, iext, ilc08, ilc21, ilf, &
+                   ipmax, irt, ismax, j, limscr, lll, nsrch
 
         real(wp), parameter :: tolden = ten*spcmn
         real(wp), parameter :: tol1 = ten*ten*spcmn
@@ -6193,23 +6227,23 @@ contains
             ! THERE WILL BE AT MOST MAXRS = MIN(NDM,NCOR) RESOLVENTS.
             maxrs = Ncor
             if (Ndm < maxrs) maxrs = Ndm
-            do k = 1, maxrs
+            column_reduce : do k = 1, maxrs
                 ! SEARCH FOR THE INDICES IMAX AND JMAX WITH 1 <= IMAX <= NDM, 1 <=
                 ! JMAX <= NCOR, PMAT1(IMAX,JMAX) IS NOT IN THE ROW OR COLUMN OF ANY
                 ! OTHER RESOLVENT (I.E. PIVOT), AND ABS(PMAT1(IMAX,JMAX)) IS MAXIMIZED.
                 ! WE USE THE VECTOR IXRCT TO SAVE THE RESOLVENT POSITIONS TO SAVE SPACE.
                 jstrt = 0
-                do j = 1, Ncor
+                outer: do j = 1, Ncor
                     if (nresl > 0) then
                         do l = 1, nresl
-                            if (j == Ixrct(2*l)) goto 20
+                            if (j == Ixrct(2*l)) cycle outer
                         end do
                     end if
                     ! HERE THERE IS NO EARLIER RESOLVENT IN COLUMN J.
-                    do i = 1, Ndm
+                    inner : do i = 1, Ndm
                         if (nresl > 0) then
                             do l = 1, nresl
-                                if (i == Ixrct(2*l - 1)) goto 10
+                                if (i == Ixrct(2*l - 1)) cycle inner
                             end do
                         end if
                         ! HERE THERE IS NO EARLIER RESOLVENT IN ROW I.
@@ -6217,16 +6251,18 @@ contains
                         if (jstrt <= 0) then
                             jstrt = 1
                         else if (aa <= amax) then
-                            goto 10
+                            cycle inner
                         end if
                         amax = aa
                         imax = i
                         jmax = j
-10                  end do
-20              end do
+                    end do inner
+                end do outer
+
                 ! IF THE ABSOLUTE VALUE OF THIS RESOLVENT IS VERY SMALL WE DO NOT ATTEMPT
                 ! ANY FURTHER COLUMN OPERATIONS.
-                if (amax < tole) goto 50
+                if (amax < tole) exit column_reduce
+
                 ! INCREMENT NRESL AND PUT THE LOCATION OF THE NRESLTH RESOLVENT IN
                 ! (IXRCT(2*L-1),IXRCT(2*L)).
                 nresl = nresl + 1
@@ -6235,9 +6271,9 @@ contains
 
                 ! NOW ELIMINATE WPT(IMAX) FROM THOSE COLUMNS WHICH DO NOT CONTAIN ANY OF
                 ! THE RESOLVENTS FOUND SO FAR (INCLUDING THE PRESENT RESOLVENT).
-                do j = 1, Ncor
+                outer2: do j = 1, Ncor
                     do l = 1, nresl
-                        if (j == Ixrct(2*l)) goto 40
+                        if (j == Ixrct(2*l)) cycle outer2
                     end do
                     ! HERE COLUMN J DOES NOT CONTAIN ANY OF THE RESOLVENTS FOUND SO FAR, AND
                     ! WE COMPUTE THE FACTOR FOR THE COLUMN OPERATION NEEDED TO ZERO OUT
@@ -6246,41 +6282,42 @@ contains
                     ! NOW DO THE OPERATION IN COLUMN J FOR ALL ROWS NOT CONTAINING A
                     ! RESOLVENT.  THE ELEMENTS IN THIS COLUMN IN THE ROWS WHICH CONTAIN AN
                     ! EARLIER (OR PRESENT) RESOLVENT WILL NOT BE NEEDED LATER.
-                    do i = 1, n
+                    inner2 : do i = 1, n
                         do l = 1, nresl
-                            if (i == Ixrct(2*l - 1)) goto 30
+                            if (i == Ixrct(2*l - 1)) cycle inner2
                         end do
                         Pmat1(i, j) = Pmat1(i, j) - fact*Pmat1(i, jmax)
-30                  end do
-40              end do
-            end do
+                    end do inner2
+                end do outer2
+            end do column_reduce
             ! END OF COLUMN REDUCTION OF PMAT1.
 
             ! IF NRESL=0 THEN ALL THE ELEMENTS IN PMAT1 FOR 1 <= I <= NDM AND
             ! 1 <= J <= NCOR WERE VERY SMALL IN ABSOLUTE VALUE, AND THERE IS
             ! NOTHING WE CAN DO, SO WE RETURN.
-50          if (nresl > 0) goto 200
+            if (nresl <= 0) return
+
+        else
+            return
         end if
 
-        return
-
-        ! NOW DO BACK SUBSTITUTION TO COMPUTE, FOR K=NRESL,...,1,
-        ! WPT(IXRCT(2*K-1)) = (PMAT1(NDM+1,IXRCT(2*K)) - SUMMATION(
-        ! PMAT1(I,IXRCT(2*K))*WPT(I), FOR I = 1,...,NDM, I /= IXRCT(2*L-1)
-        ! FOR ANY L=1,...,K))/PMAT1(IXRCT(2*K-1),IXRCT(2*K)).  IF WE ARE IN AN
-        ! ITERATIVE REFINEMENT STEP WE WISH TO CONSIDER WPT(I) (WHICH IS THEN
-        ! JUST A CORRECTION TO WPT(I)) = 0.0 IF I CORRESPONDS TO NO RESOLVENT
-        ! (SINCE THE VALUE OF SUCH WPT(I) IN SAVE SHOULD NOT CHANGE) SO WE OMIT
-        ! THE CORRESPONDING TERMS IN THE SUMMATION ABOVE.
-200     do
+        do
+            ! NOW DO BACK SUBSTITUTION TO COMPUTE, FOR K=NRESL,...,1,
+            ! WPT(IXRCT(2*K-1)) = (PMAT1(NDM+1,IXRCT(2*K)) - SUMMATION(
+            ! PMAT1(I,IXRCT(2*K))*WPT(I), FOR I = 1,...,NDM, I /= IXRCT(2*L-1)
+            ! FOR ANY L=1,...,K))/PMAT1(IXRCT(2*K-1),IXRCT(2*K)).  IF WE ARE IN AN
+            ! ITERATIVE REFINEMENT STEP WE WISH TO CONSIDER WPT(I) (WHICH IS THEN
+            ! JUST A CORRECTION TO WPT(I)) = 0.0 IF I CORRESPONDS TO NO RESOLVENT
+            ! (SINCE THE VALUE OF SUCH WPT(I) IN SAVE SHOULD NOT CHANGE) SO WE OMIT
+            ! THE CORRESPONDING TERMS IN THE SUMMATION ABOVE.
             do kk = 1, nresl
                 k = nresl - kk + 1
                 imax = Ixrct(2*k - 1)
                 jmax = Ixrct(2*k)
                 Wpt(imax) = Pmat1(n, jmax)
-                do i = 1, Ndm
+                iloop : do i = 1, Ndm
                     do l = 1, k
-                        if (i == Ixrct(2*l - 1)) goto 250
+                        if (i == Ixrct(2*l - 1)) cycle iloop
                     end do
                     ! HERE ROW I CONTAINS NO EARLIER (OR PRESENT) RESOLVENTS.
                     if (itrct > 0) then
@@ -6290,13 +6327,16 @@ contains
                             ! WPT(I) IFF I = IXRCT(2*L-1) FOR SOME L = K+1,...,NRESL.
                             kp1 = k + 1
                             do l = kp1, nresl
-                                if (i == Ixrct(2*l - 1)) goto 220
+                                if (i == Ixrct(2*l - 1)) then
+                                    Wpt(imax) = Wpt(imax) - Pmat1(i, jmax)*Wpt(i)
+                                    cycle iloop
+                                end if
                             end do
                         end if
-                        goto 250
+                    else
+                        Wpt(imax) = Wpt(imax) - Pmat1(i, jmax)*Wpt(i)
                     end if
-220                 Wpt(imax) = Wpt(imax) - Pmat1(i, jmax)*Wpt(i)
-250             end do
+                end do iloop
                 Wpt(imax) = Wpt(imax)/Pmat1(imax, jmax)
             end do
             ! END OF BACK SUBSTITUTION.

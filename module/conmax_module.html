@@ -125,7 +125,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title="100.0% of total for modules and submodules.">3360 statements</a>
+    title="100.0% of total for modules and submodules.">3410 statements</a>
      </li> 
      
      
@@ -6366,8 +6366,8 @@ private subroutine <a href='../proc/corrct.html'>corrct</a>(me, Ioptn, Nparm, Nu
   
 <tr>
   
-  <td><span class="anchor" ></span>integer</td>
-  <td></td>
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -6381,8 +6381,8 @@ private subroutine <a href='../proc/corrct.html'>corrct</a>(me, Ioptn, Nparm, Nu
   
 <tr>
   
-  <td><span class="anchor" ></span>integer</td>
-  <td></td>
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -6401,7 +6401,7 @@ private subroutine <a href='../proc/corrct.html'>corrct</a>(me, Ioptn, Nparm, Nu
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Fun</strong></td><td></td>
+  <td><strong>Fun</strong>(Ifun)</td><td></td>
   
 </tr>
 
@@ -6411,8 +6411,8 @@ private subroutine <a href='../proc/corrct.html'>corrct</a>(me, Ioptn, Nparm, Nu
   
 <tr>
   
-  <td><span class="anchor" ></span>integer</td>
-  <td></td>
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -6431,7 +6431,7 @@ private subroutine <a href='../proc/corrct.html'>corrct</a>(me, Ioptn, Nparm, Nu
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Pttbl</strong></td><td></td>
+  <td><strong>Pttbl</strong>(Iptb,Indm)</td><td></td>
   
 </tr>
 
@@ -6441,8 +6441,8 @@ private subroutine <a href='../proc/corrct.html'>corrct</a>(me, Ioptn, Nparm, Nu
   
 <tr>
   
-  <td><span class="anchor" ></span>integer</td>
-  <td></td>
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -6476,7 +6476,7 @@ private subroutine <a href='../proc/corrct.html'>corrct</a>(me, Ioptn, Nparm, Nu
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Icntyp</strong></td><td></td>
+  <td><strong>Icntyp</strong>(Numgr)</td><td></td>
   
 </tr>
 
@@ -6536,7 +6536,7 @@ private subroutine <a href='../proc/corrct.html'>corrct</a>(me, Ioptn, Nparm, Nu
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Error</strong></td><td></td>
+  <td><strong>Error</strong>(Numgr+3)</td><td></td>
   
 </tr>
 
@@ -6566,7 +6566,7 @@ private subroutine <a href='../proc/corrct.html'>corrct</a>(me, Ioptn, Nparm, Nu
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Iact</strong></td><td></td>
+  <td><strong>Iact</strong>(Numgr)</td><td></td>
   
 </tr>
 
@@ -6611,7 +6611,7 @@ private subroutine <a href='../proc/corrct.html'>corrct</a>(me, Ioptn, Nparm, Nu
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Iwork</strong></td><td></td>
+  <td><strong>Iwork</strong>(Liwrk)</td><td></td>
   
 </tr>
 
@@ -6621,8 +6621,8 @@ private subroutine <a href='../proc/corrct.html'>corrct</a>(me, Ioptn, Nparm, Nu
   
 <tr>
   
-  <td><span class="anchor" ></span>integer</td>
-  <td></td>
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -6641,7 +6641,7 @@ private subroutine <a href='../proc/corrct.html'>corrct</a>(me, Ioptn, Nparm, Nu
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Work</strong></td><td></td>
+  <td><strong>Work</strong>(Lwrk)</td><td></td>
   
 </tr>
 
@@ -6651,8 +6651,8 @@ private subroutine <a href='../proc/corrct.html'>corrct</a>(me, Ioptn, Nparm, Nu
   
 <tr>
   
-  <td><span class="anchor" ></span>integer</td>
-  <td></td>
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -6671,7 +6671,7 @@ private subroutine <a href='../proc/corrct.html'>corrct</a>(me, Ioptn, Nparm, Nu
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Parwrk</strong></td><td></td>
+  <td><strong>Parwrk</strong>(Nparm)</td><td></td>
   
 </tr>
 
@@ -6686,7 +6686,7 @@ private subroutine <a href='../proc/corrct.html'>corrct</a>(me, Ioptn, Nparm, Nu
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Err1</strong></td><td></td>
+  <td><strong>Err1</strong>(Numgr+3)</td><td></td>
   
 </tr>
 
@@ -6701,7 +6701,7 @@ private subroutine <a href='../proc/corrct.html'>corrct</a>(me, Ioptn, Nparm, Nu
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Dvec</strong></td><td></td>
+  <td><strong>Dvec</strong>(Nparm)</td><td></td>
   
 </tr>
 
@@ -6716,7 +6716,7 @@ private subroutine <a href='../proc/corrct.html'>corrct</a>(me, Ioptn, Nparm, Nu
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Pmat</strong></td><td></td>
+  <td><strong>Pmat</strong>(Nparm+1,Numgr)</td><td></td>
   
 </tr>
 
@@ -6731,7 +6731,7 @@ private subroutine <a href='../proc/corrct.html'>corrct</a>(me, Ioptn, Nparm, Nu
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Confun</strong></td><td></td>
+  <td><strong>Confun</strong>(Numgr,Nparm+1)</td><td></td>
   
 </tr>
 
@@ -6746,7 +6746,7 @@ private subroutine <a href='../proc/corrct.html'>corrct</a>(me, Ioptn, Nparm, Nu
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Zwork</strong></td><td></td>
+  <td><strong>Zwork</strong>(Nparm)</td><td></td>
   
 </tr>
 
@@ -6761,7 +6761,7 @@ private subroutine <a href='../proc/corrct.html'>corrct</a>(me, Ioptn, Nparm, Nu
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Jcntyp</strong></td><td></td>
+  <td><strong>Jcntyp</strong>(Numgr)</td><td></td>
   
 </tr>
 
@@ -6776,7 +6776,7 @@ private subroutine <a href='../proc/corrct.html'>corrct</a>(me, Ioptn, Nparm, Nu
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Parprj</strong></td><td></td>
+  <td><strong>Parprj</strong>(Nparm)</td><td></td>
   
 </tr>
 
@@ -6893,8 +6893,8 @@ private subroutine <a href='../proc/searcr.html'>searcr</a>(me, Ioptn, Nparm, Nu
   
 <tr>
   
-  <td><span class="anchor" ></span>integer</td>
-  <td></td>
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -6928,7 +6928,7 @@ private subroutine <a href='../proc/searcr.html'>searcr</a>(me, Ioptn, Nparm, Nu
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Dvec</strong></td><td></td>
+  <td><strong>Dvec</strong>(Nparm)</td><td></td>
   
 </tr>
 
@@ -6943,7 +6943,7 @@ private subroutine <a href='../proc/searcr.html'>searcr</a>(me, Ioptn, Nparm, Nu
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Fun</strong></td><td></td>
+  <td><strong>Fun</strong>(Ifun)</td><td></td>
   
 </tr>
 
@@ -6953,8 +6953,8 @@ private subroutine <a href='../proc/searcr.html'>searcr</a>(me, Ioptn, Nparm, Nu
   
 <tr>
   
-  <td><span class="anchor" ></span>integer</td>
-  <td></td>
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -6973,7 +6973,7 @@ private subroutine <a href='../proc/searcr.html'>searcr</a>(me, Ioptn, Nparm, Nu
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Pttbl</strong></td><td></td>
+  <td><strong>Pttbl</strong>(Iptb,Indm)</td><td></td>
   
 </tr>
 
@@ -6983,8 +6983,8 @@ private subroutine <a href='../proc/searcr.html'>searcr</a>(me, Ioptn, Nparm, Nu
   
 <tr>
   
-  <td><span class="anchor" ></span>integer</td>
-  <td></td>
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -6998,8 +6998,8 @@ private subroutine <a href='../proc/searcr.html'>searcr</a>(me, Ioptn, Nparm, Nu
   
 <tr>
   
-  <td><span class="anchor" ></span>integer</td>
-  <td></td>
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -7018,7 +7018,7 @@ private subroutine <a href='../proc/searcr.html'>searcr</a>(me, Ioptn, Nparm, Nu
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Zwork</strong></td><td></td>
+  <td><strong>Zwork</strong>(Nparm)</td><td></td>
   
 </tr>
 
@@ -7063,7 +7063,7 @@ private subroutine <a href='../proc/searcr.html'>searcr</a>(me, Ioptn, Nparm, Nu
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Iwork</strong></td><td></td>
+  <td><strong>Iwork</strong>(Liwrk)</td><td></td>
   
 </tr>
 
@@ -7073,8 +7073,8 @@ private subroutine <a href='../proc/searcr.html'>searcr</a>(me, Ioptn, Nparm, Nu
   
 <tr>
   
-  <td><span class="anchor" ></span>integer</td>
-  <td></td>
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -7093,7 +7093,7 @@ private subroutine <a href='../proc/searcr.html'>searcr</a>(me, Ioptn, Nparm, Nu
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Work</strong></td><td></td>
+  <td><strong>Work</strong>(Lwrk)</td><td></td>
   
 </tr>
 
@@ -7103,8 +7103,8 @@ private subroutine <a href='../proc/searcr.html'>searcr</a>(me, Ioptn, Nparm, Nu
   
 <tr>
   
-  <td><span class="anchor" ></span>integer</td>
-  <td></td>
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -7123,7 +7123,7 @@ private subroutine <a href='../proc/searcr.html'>searcr</a>(me, Ioptn, Nparm, Nu
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Parwrk</strong></td><td></td>
+  <td><strong>Parwrk</strong>(Nparm)</td><td></td>
   
 </tr>
 
@@ -7138,7 +7138,7 @@ private subroutine <a href='../proc/searcr.html'>searcr</a>(me, Ioptn, Nparm, Nu
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Err1</strong></td><td></td>
+  <td><strong>Err1</strong>(Numgr+3)</td><td></td>
   
 </tr>
 

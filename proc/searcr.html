@@ -125,7 +125,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 5.5% of total for procedures.">181 statements</a>
+    title=" 6.0% of total for procedures.">201 statements</a>
      </li> 
      
      
@@ -277,8 +277,8 @@ private subroutine searcr(me, Ioptn, Nparm, Numgr, Dvec, Fun, Ifun, Pttbl, Iptb,
   
 <tr>
   
-  <td><span class="anchor" id="variable-nparm~16"></span>integer</td>
-  <td></td>
+  <td><span class="anchor" id="variable-nparm~16"></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -312,7 +312,7 @@ private subroutine searcr(me, Ioptn, Nparm, Numgr, Dvec, Fun, Ifun, Pttbl, Iptb,
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Dvec</strong></td><td></td>
+  <td><strong>Dvec</strong>(Nparm)</td><td></td>
   
 </tr>
 
@@ -327,7 +327,7 @@ private subroutine searcr(me, Ioptn, Nparm, Numgr, Dvec, Fun, Ifun, Pttbl, Iptb,
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Fun</strong></td><td></td>
+  <td><strong>Fun</strong>(Ifun)</td><td></td>
   
 </tr>
 
@@ -337,8 +337,8 @@ private subroutine searcr(me, Ioptn, Nparm, Numgr, Dvec, Fun, Ifun, Pttbl, Iptb,
   
 <tr>
   
-  <td><span class="anchor" id="variable-ifun~8"></span>integer</td>
-  <td></td>
+  <td><span class="anchor" id="variable-ifun~8"></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -357,7 +357,7 @@ private subroutine searcr(me, Ioptn, Nparm, Numgr, Dvec, Fun, Ifun, Pttbl, Iptb,
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Pttbl</strong></td><td></td>
+  <td><strong>Pttbl</strong>(Iptb,Indm)</td><td></td>
   
 </tr>
 
@@ -367,8 +367,8 @@ private subroutine searcr(me, Ioptn, Nparm, Numgr, Dvec, Fun, Ifun, Pttbl, Iptb,
   
 <tr>
   
-  <td><span class="anchor" id="variable-iptb~11"></span>integer</td>
-  <td></td>
+  <td><span class="anchor" id="variable-iptb~11"></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -382,8 +382,8 @@ private subroutine searcr(me, Ioptn, Nparm, Numgr, Dvec, Fun, Ifun, Pttbl, Iptb,
   
 <tr>
   
-  <td><span class="anchor" id="variable-indm~12"></span>integer</td>
-  <td></td>
+  <td><span class="anchor" id="variable-indm~12"></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -402,7 +402,7 @@ private subroutine searcr(me, Ioptn, Nparm, Numgr, Dvec, Fun, Ifun, Pttbl, Iptb,
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Zwork</strong></td><td></td>
+  <td><strong>Zwork</strong>(Nparm)</td><td></td>
   
 </tr>
 
@@ -447,7 +447,7 @@ private subroutine searcr(me, Ioptn, Nparm, Numgr, Dvec, Fun, Ifun, Pttbl, Iptb,
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Iwork</strong></td><td></td>
+  <td><strong>Iwork</strong>(Liwrk)</td><td></td>
   
 </tr>
 
@@ -457,8 +457,8 @@ private subroutine searcr(me, Ioptn, Nparm, Numgr, Dvec, Fun, Ifun, Pttbl, Iptb,
   
 <tr>
   
-  <td><span class="anchor" id="variable-liwrk~9"></span>integer</td>
-  <td></td>
+  <td><span class="anchor" id="variable-liwrk~9"></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -477,7 +477,7 @@ private subroutine searcr(me, Ioptn, Nparm, Numgr, Dvec, Fun, Ifun, Pttbl, Iptb,
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Work</strong></td><td></td>
+  <td><strong>Work</strong>(Lwrk)</td><td></td>
   
 </tr>
 
@@ -487,8 +487,8 @@ private subroutine searcr(me, Ioptn, Nparm, Numgr, Dvec, Fun, Ifun, Pttbl, Iptb,
   
 <tr>
   
-  <td><span class="anchor" id="variable-lwrk~8"></span>integer</td>
-  <td></td>
+  <td><span class="anchor" id="variable-lwrk~8"></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -507,7 +507,7 @@ private subroutine searcr(me, Ioptn, Nparm, Numgr, Dvec, Fun, Ifun, Pttbl, Iptb,
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Parwrk</strong></td><td></td>
+  <td><strong>Parwrk</strong>(Nparm)</td><td></td>
   
 </tr>
 
@@ -522,7 +522,7 @@ private subroutine searcr(me, Ioptn, Nparm, Numgr, Dvec, Fun, Ifun, Pttbl, Iptb,
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Err1</strong></td><td></td>
+  <td><strong>Err1</strong>(Numgr+3)</td><td></td>
   
 </tr>
 
@@ -778,20 +778,34 @@ private subroutine searcr(me, Ioptn, Nparm, Numgr, Dvec, Fun, Ifun, Pttbl, Iptb,
         <span class="k">implicit none</span>
 
 <span class="k">        class</span><span class="p">(</span><span class="n">conmax_solver</span><span class="p">),</span> <span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span> <span class="kd">::</span> <span class="n">me</span>
-        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Dvec</span><span class="p">,</span> <span class="n">Emin</span><span class="p">,</span> <span class="n">Err1</span><span class="p">,</span> <span class="n">f1</span><span class="p">,</span> <span class="n">f1kp</span><span class="p">,</span> <span class="p">&amp;</span>
-                    <span class="n">f2</span><span class="p">,</span> <span class="n">f3</span><span class="p">,</span> <span class="n">f4</span><span class="p">,</span> <span class="n">Fun</span><span class="p">,</span> <span class="n">fval</span><span class="p">,</span> <span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">,</span> <span class="n">p3</span><span class="p">,</span> <span class="p">&amp;</span>
-                    <span class="n">p4</span><span class="p">,</span> <span class="n">Parwrk</span>
-        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Procor</span><span class="p">,</span> <span class="n">progr</span><span class="p">,</span> <span class="n">Pttbl</span><span class="p">,</span> <span class="n">pval</span><span class="p">,</span> <span class="n">rlf</span><span class="p">,</span> <span class="n">rrt</span><span class="p">,</span> <span class="n">s1</span><span class="p">,</span> <span class="n">s2</span><span class="p">,</span> <span class="p">&amp;</span>
-                    <span class="n">Tolcon</span><span class="p">,</span> <span class="n">Work</span><span class="p">,</span> <span class="p">&amp;</span>
-                    <span class="n">Zwork</span>
-        <span class="kt">integer</span> <span class="kd">::</span> <span class="n">iaddl</span><span class="p">,</span> <span class="n">iext</span><span class="p">,</span> <span class="n">Ifun</span><span class="p">,</span> <span class="n">ilc08</span><span class="p">,</span> <span class="n">ilc21</span><span class="p">,</span> <span class="n">ilf</span><span class="p">,</span> <span class="n">Indm</span><span class="p">,</span> <span class="p">&amp;</span>
-                   <span class="n">Ioptn</span><span class="p">,</span> <span class="n">Iphse</span><span class="p">,</span> <span class="n">ipmax</span><span class="p">,</span> <span class="n">Iptb</span><span class="p">,</span> <span class="n">irt</span><span class="p">,</span> <span class="n">ismax</span><span class="p">,</span> <span class="n">Isrcr</span><span class="p">,</span> <span class="p">&amp;</span>
-                   <span class="n">Iwork</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">limscr</span><span class="p">,</span> <span class="n">Liwrk</span><span class="p">,</span> <span class="n">lll</span>
-        <span class="kt">integer</span> <span class="kd">::</span> <span class="n">Lwrk</span><span class="p">,</span> <span class="n">Nparm</span><span class="p">,</span> <span class="n">nsrch</span><span class="p">,</span> <span class="n">Numgr</span>
+        <span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Ifun</span>
+        <span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Indm</span>
+        <span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Iptb</span>
+        <span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Liwrk</span>
+        <span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Lwrk</span>
+        <span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Nparm</span>
+        <span class="kt">integer</span> <span class="kd">::</span> <span class="n">Ioptn</span>
+        <span class="kt">integer</span> <span class="kd">::</span> <span class="n">Iphse</span>
+        <span class="kt">integer</span> <span class="kd">::</span> <span class="n">Isrcr</span>
+        <span class="kt">integer</span> <span class="kd">::</span> <span class="n">Numgr</span>
+        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Emin</span>
+        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">f1</span>
+        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">p1</span>
+        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Procor</span>
+        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Tolcon</span>
+        <span class="kt">integer</span> <span class="kd">::</span> <span class="n">Iwork</span><span class="p">(</span><span class="n">Liwrk</span><span class="p">)</span>
+        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Dvec</span><span class="p">(</span><span class="n">Nparm</span><span class="p">)</span>
+        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Err1</span><span class="p">(</span><span class="n">Numgr</span> <span class="o">+</span> <span class="mi">3</span><span class="p">)</span>
+        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Fun</span><span class="p">(</span><span class="n">Ifun</span><span class="p">)</span>
+        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Parwrk</span><span class="p">(</span><span class="n">Nparm</span><span class="p">)</span>
+        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Pttbl</span><span class="p">(</span><span class="n">Iptb</span><span class="p">,</span> <span class="n">Indm</span><span class="p">)</span>
+        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Work</span><span class="p">(</span><span class="n">Lwrk</span><span class="p">)</span>
+        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Zwork</span><span class="p">(</span><span class="n">Nparm</span><span class="p">)</span>
 
-        <span class="k">dimension </span><span class="n">Fun</span><span class="p">(</span><span class="n">Ifun</span><span class="p">),</span> <span class="n">Pttbl</span><span class="p">(</span><span class="n">Iptb</span><span class="p">,</span> <span class="n">Indm</span><span class="p">),</span> <span class="n">Parwrk</span><span class="p">(</span><span class="n">Nparm</span><span class="p">),</span> <span class="p">&amp;</span>
-            <span class="n">Err1</span><span class="p">(</span><span class="n">Numgr</span> <span class="o">+</span> <span class="mi">3</span><span class="p">),</span> <span class="n">Zwork</span><span class="p">(</span><span class="n">Nparm</span><span class="p">),</span> <span class="n">Dvec</span><span class="p">(</span><span class="n">Nparm</span><span class="p">),</span> <span class="p">&amp;</span>
-            <span class="n">Iwork</span><span class="p">(</span><span class="n">Liwrk</span><span class="p">),</span> <span class="n">Work</span><span class="p">(</span><span class="n">Lwrk</span><span class="p">)</span>
+        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">f1kp</span><span class="p">,</span> <span class="n">f2</span><span class="p">,</span> <span class="n">f3</span><span class="p">,</span> <span class="n">f4</span><span class="p">,</span> <span class="n">fval</span><span class="p">,</span> <span class="n">p2</span><span class="p">,</span> <span class="n">p3</span><span class="p">,</span> <span class="n">p4</span><span class="p">,</span> <span class="p">&amp;</span>
+                    <span class="n">progr</span><span class="p">,</span> <span class="n">pval</span><span class="p">,</span> <span class="n">rlf</span><span class="p">,</span> <span class="n">rrt</span><span class="p">,</span> <span class="n">s1</span><span class="p">,</span> <span class="n">s2</span>
+        <span class="kt">integer</span> <span class="kd">::</span> <span class="n">iaddl</span><span class="p">,</span> <span class="n">iext</span><span class="p">,</span> <span class="n">ilc08</span><span class="p">,</span> <span class="n">ilc21</span><span class="p">,</span> <span class="n">ilf</span><span class="p">,</span> <span class="p">&amp;</span>
+                   <span class="n">ipmax</span><span class="p">,</span> <span class="n">irt</span><span class="p">,</span> <span class="n">ismax</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">limscr</span><span class="p">,</span> <span class="n">lll</span><span class="p">,</span> <span class="n">nsrch</span>
 
         <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span> <span class="k">parameter</span> <span class="kd">::</span> <span class="n">tolden</span> <span class="o">=</span> <span class="n">ten</span><span class="o">*</span><span class="n">spcmn</span>
         <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span> <span class="k">parameter</span> <span class="kd">::</span> <span class="n">tol1</span> <span class="o">=</span> <span class="n">ten</span><span class="o">*</span><span class="n">ten</span><span class="o">*</span><span class="n">spcmn</span>
