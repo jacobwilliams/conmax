@@ -65,28 +65,28 @@ module conmax_module
 
     abstract interface
         subroutine func(me, Nparm, Numgr, Pttbl, Iptb, Indm, Param, Ipt, Indfn, Icntyp, Confun)
-        !! interface for the `fnset` function.
+        !!  Interface for the `fnset` function.
         !!
-        !! THE FIRST EIGHT VARIABLES IN THE CALLING SEQUENCE FOR FNSET ARE FOR
-        !! INPUT TO FNSET, WITH THE FIRST FIVE VARIABLES BEING EXACTLY AS THE
-        !! USER SET THEM IN THE DRIVER PROGRAM.  IF THE TEN THOUSANDS DIGIT OF
-        !! IOPTN WAS SET TO 0, FNSET SHOULD BE WRITTEN TO PLACE THE APPROPRIATE
-        !! VALUES IN ICNTYP AND CONFUN USING THE PARAMETERS IN PARAM, AS FOLLOWS.
+        !!  The first eight variables in the calling sequence for fnset are for
+        !!  input to fnset, with the first five variables being exactly as the
+        !!  user set them in the driver program.  if the ten thousands digit of
+        !!  ioptn was set to 0, fnset should be written to place the appropriate
+        !!  values in icntyp and confun using the parameters in param, as follows:
         !!
-        !! ICNTYP(IPT) = THE TYPE OF THE IPT(TH) CONSTRAINT (I.E. 2, 1, -1,
-        !!   OR -2), OR THE USER CAN SET ICNTYP(IPT)=0 AS A SIGNAL TO IGNORE
-        !!   CONSTRAINT IPT.
+        !!  * icntyp(ipt) = the type of the ipt(th) constraint (i.e. 2, 1, -1,
+        !!    or -2), or the user can set icntyp(ipt)=0 as a signal to ignore
+        !!    constraint ipt.
         !!
-        !! CONFUN(IPT,1) = THE APPROPRIATE VALUE AS DISCUSSED ABOVE.  (THIS CAN
-        !!   BE LEFT UNDEFINED IF ICNTYP(IPT)=0.)
+        !!  * confun(ipt,1) = the appropriate value as discussed above.  (this can
+        !!    be left undefined if icntyp(ipt)=0.)
         !!
-        !! IF INDFN=1 (WHICH IS THE ONLY POSSIBILITY OTHER THAN INDFN=0) THEN IN
-        !! ADDITION TO THE ABOVE, FOR J=1,...,NPARM, FNSET SHOULD COMPUTE
+        !!  if indfn=1 (which is the only possibility other than indfn=0) then in
+        !!  addition to the above, for j=1,...,nparm, fnset should compute
         !!
-        !! CONFUN(IPT,J+1) = THE VALUE OF THE PARTIAL DERIVATIVE WITH RESPECT
-        !!   TO PARAM(J) OF THE FUNCTION WHOSE VALUE WAS COMPUTED IN
-        !!   CONFUN(IPT,1) (UNLESS ICNTYP(IPT)=0, IN WHICH CASE THESE VALUES
-        !!   NEED NOT BE COMPUTED).
+        !!  confun(ipt,j+1) = the value of the partial derivative with respect
+        !!    to param(j) of the function whose value was computed in
+        !!    confun(ipt,1) (unless icntyp(ipt)=0, in which case these values
+        !!    need not be computed).
             import :: wp, conmax_solver
             implicit none
             class(conmax_solver), intent(inout) :: me
