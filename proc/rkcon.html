@@ -125,7 +125,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 4.6% of total for procedures.">157 statements</a>
+    title=" 5.6% of total for procedures.">191 statements</a>
      </li> 
      
      
@@ -257,8 +257,8 @@ private subroutine rkcon(me, Ioptn, Nparm, Numgr, Fun, Ifun, Pttbl, Iptb, Indm, 
   
 <tr>
   
-  <td><span class="anchor" id="variable-nparm~12"></span>integer</td>
-  <td></td>
+  <td><span class="anchor" id="variable-nparm~12"></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -272,8 +272,8 @@ private subroutine rkcon(me, Ioptn, Nparm, Numgr, Fun, Ifun, Pttbl, Iptb, Indm, 
   
 <tr>
   
-  <td><span class="anchor" id="variable-numgr~10"></span>integer</td>
-  <td></td>
+  <td><span class="anchor" id="variable-numgr~10"></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -292,7 +292,7 @@ private subroutine rkcon(me, Ioptn, Nparm, Numgr, Fun, Ifun, Pttbl, Iptb, Indm, 
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Fun</strong></td><td></td>
+  <td><strong>Fun</strong>(Ifun)</td><td></td>
   
 </tr>
 
@@ -302,8 +302,8 @@ private subroutine rkcon(me, Ioptn, Nparm, Numgr, Fun, Ifun, Pttbl, Iptb, Indm, 
   
 <tr>
   
-  <td><span class="anchor" id="variable-ifun~5"></span>integer</td>
-  <td></td>
+  <td><span class="anchor" id="variable-ifun~5"></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -322,7 +322,7 @@ private subroutine rkcon(me, Ioptn, Nparm, Numgr, Fun, Ifun, Pttbl, Iptb, Indm, 
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Pttbl</strong></td><td></td>
+  <td><strong>Pttbl</strong>(Iptb,Indm)</td><td></td>
   
 </tr>
 
@@ -332,8 +332,8 @@ private subroutine rkcon(me, Ioptn, Nparm, Numgr, Fun, Ifun, Pttbl, Iptb, Indm, 
   
 <tr>
   
-  <td><span class="anchor" id="variable-iptb~7"></span>integer</td>
-  <td></td>
+  <td><span class="anchor" id="variable-iptb~7"></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -487,7 +487,7 @@ private subroutine rkcon(me, Ioptn, Nparm, Numgr, Fun, Ifun, Pttbl, Iptb, Indm, 
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Icntyp</strong></td><td></td>
+  <td><strong>Icntyp</strong>(Numgr)</td><td></td>
   
 </tr>
 
@@ -592,7 +592,7 @@ private subroutine rkcon(me, Ioptn, Nparm, Numgr, Fun, Ifun, Pttbl, Iptb, Indm, 
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Pmat</strong></td><td></td>
+  <td><strong>Pmat</strong>(Nparm+1,Numgr)</td><td></td>
   
 </tr>
 
@@ -607,7 +607,7 @@ private subroutine rkcon(me, Ioptn, Nparm, Numgr, Fun, Ifun, Pttbl, Iptb, Indm, 
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Funtbl</strong></td><td></td>
+  <td><strong>Funtbl</strong>(Numgr,Nparm+1)</td><td></td>
   
 </tr>
 
@@ -622,7 +622,7 @@ private subroutine rkcon(me, Ioptn, Nparm, Numgr, Fun, Ifun, Pttbl, Iptb, Indm, 
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Iwork</strong></td><td></td>
+  <td><strong>Iwork</strong>(Liwrk)</td><td></td>
   
 </tr>
 
@@ -632,8 +632,8 @@ private subroutine rkcon(me, Ioptn, Nparm, Numgr, Fun, Ifun, Pttbl, Iptb, Indm, 
   
 <tr>
   
-  <td><span class="anchor" id="variable-liwrk~5"></span>integer</td>
-  <td></td>
+  <td><span class="anchor" id="variable-liwrk~5"></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -652,7 +652,7 @@ private subroutine rkcon(me, Ioptn, Nparm, Numgr, Fun, Ifun, Pttbl, Iptb, Indm, 
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Work</strong></td><td></td>
+  <td><strong>Work</strong>(Lwrk)</td><td></td>
   
 </tr>
 
@@ -662,8 +662,8 @@ private subroutine rkcon(me, Ioptn, Nparm, Numgr, Fun, Ifun, Pttbl, Iptb, Indm, 
   
 <tr>
   
-  <td><span class="anchor" id="variable-lwrk~4"></span>integer</td>
-  <td></td>
+  <td><span class="anchor" id="variable-lwrk~4"></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -682,7 +682,7 @@ private subroutine rkcon(me, Ioptn, Nparm, Numgr, Fun, Ifun, Pttbl, Iptb, Indm, 
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Iact</strong></td><td></td>
+  <td><strong>Iact</strong>(Numgr)</td><td></td>
   
 </tr>
 
@@ -697,7 +697,7 @@ private subroutine rkcon(me, Ioptn, Nparm, Numgr, Fun, Ifun, Pttbl, Iptb, Indm, 
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Actdif</strong></td><td></td>
+  <td><strong>Actdif</strong>(Numgr)</td><td></td>
   
 </tr>
 
@@ -712,7 +712,7 @@ private subroutine rkcon(me, Ioptn, Nparm, Numgr, Fun, Ifun, Pttbl, Iptb, Indm, 
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Parprj</strong></td><td></td>
+  <td><strong>Parprj</strong>(Nparm)</td><td></td>
   
 </tr>
 
@@ -727,7 +727,7 @@ private subroutine rkcon(me, Ioptn, Nparm, Numgr, Fun, Ifun, Pttbl, Iptb, Indm, 
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Parser</strong></td><td></td>
+  <td><strong>Parser</strong>(Nparm)</td><td></td>
   
 </tr>
 
@@ -742,7 +742,7 @@ private subroutine rkcon(me, Ioptn, Nparm, Numgr, Fun, Ifun, Pttbl, Iptb, Indm, 
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Xrk</strong></td><td></td>
+  <td><strong>Xrk</strong>(Nparm+1)</td><td></td>
   
 </tr>
 
@@ -757,7 +757,7 @@ private subroutine rkcon(me, Ioptn, Nparm, Numgr, Fun, Ifun, Pttbl, Iptb, Indm, 
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Err1</strong></td><td></td>
+  <td><strong>Err1</strong>(Numgr+3)</td><td></td>
   
 </tr>
 
@@ -772,7 +772,7 @@ private subroutine rkcon(me, Ioptn, Nparm, Numgr, Fun, Ifun, Pttbl, Iptb, Indm, 
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Confun</strong></td><td></td>
+  <td><strong>Confun</strong>(Numgr,Nparm+1)</td><td></td>
   
 </tr>
 
@@ -802,7 +802,7 @@ private subroutine rkcon(me, Ioptn, Nparm, Numgr, Fun, Ifun, Pttbl, Iptb, Indm, 
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Param</strong></td><td></td>
+  <td><strong>Param</strong>(Nparm)</td><td></td>
   
 </tr>
 
@@ -817,7 +817,7 @@ private subroutine rkcon(me, Ioptn, Nparm, Numgr, Fun, Ifun, Pttbl, Iptb, Indm, 
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Error</strong></td><td></td>
+  <td><strong>Error</strong>(Numgr+3)</td><td></td>
   
 </tr>
 
@@ -841,139 +841,139 @@ private subroutine rkcon(me, Ioptn, Nparm, Numgr, Fun, Ifun, Pttbl, Iptb, Indm, 
 <!-- Generated by graphviz version 2.43.0 (0)
  -->
 <!-- Title: proc~~rkcon~~CallsGraph Pages: 1 -->
-<svg id="procrkconCallsGraph" width="332pt" height="174pt"
- viewBox="0.00 0.00 332.00 173.65" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g id="proc~~rkcon~~CallsGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 169.65)">
+<svg id="procrkconCallsGraph" width="332pt" height="155pt"
+ viewBox="0.00 0.00 332.00 155.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="proc~~rkcon~~CallsGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 151)">
 <title>proc~~rkcon~~CallsGraph</title>
-<polygon fill="white" stroke="transparent" points="-4,4 -4,-169.65 328,-169.65 328,4 -4,4"/>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-151 328,-151 328,4 -4,4"/>
 <!-- proc~rkcon -->
 <g id="proc~~rkcon~~CallsGraph_node1" class="node">
 <title>proc~rkcon</title>
-<polygon fill="none" stroke="black" points="54,-145 0,-145 0,-121 54,-121 54,-145"/>
-<text text-anchor="middle" x="27" y="-130.6" font-family="Helvetica,sans-Serif" font-size="10.50">rkcon</text>
+<polygon fill="none" stroke="black" points="54,-104 0,-104 0,-80 54,-80 54,-104"/>
+<text text-anchor="middle" x="27" y="-89.6" font-family="Helvetica,sans-Serif" font-size="10.50">rkcon</text>
 </g>
 <!-- proc~wolfe -->
 <g id="proc~~rkcon~~CallsGraph_node2" class="node">
 <title>proc~wolfe</title>
 <g id="a_proc~~rkcon~~CallsGraph_node2"><a xlink:href=".././proc/wolfe.html" xlink:title="wolfe">
-<polygon fill="#d9534f" stroke="#d9534f" points="144,-103 90,-103 90,-79 144,-79 144,-103"/>
-<text text-anchor="middle" x="117" y="-88.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">wolfe</text>
+<polygon fill="#d9534f" stroke="#d9534f" points="144,-104 90,-104 90,-80 144,-80 144,-104"/>
+<text text-anchor="middle" x="117" y="-89.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">wolfe</text>
 </a>
 </g>
 </g>
 <!-- proc~rkcon&#45;&gt;proc~wolfe -->
 <g id="proc~~rkcon~~CallsGraph_edge1" class="edge">
 <title>proc~rkcon&#45;&gt;proc~wolfe</title>
-<path fill="none" stroke="#000000" d="M53.45,-120.85C62.21,-116.67 72.17,-111.92 81.52,-107.46"/>
-<polygon fill="#000000" stroke="#000000" points="83.09,-110.59 90.6,-103.12 80.07,-104.27 83.09,-110.59"/>
+<path fill="none" stroke="#000000" d="M54.4,-92C62.39,-92 71.31,-92 79.82,-92"/>
+<polygon fill="#000000" stroke="#000000" points="79.92,-95.5 89.92,-92 79.92,-88.5 79.92,-95.5"/>
 </g>
 <!-- proc~rksact -->
 <g id="proc~~rkcon~~CallsGraph_node3" class="node">
 <title>proc~rksact</title>
 <g id="a_proc~~rkcon~~CallsGraph_node3"><a xlink:href=".././proc/rksact.html" xlink:title="rksact">
-<polygon fill="#d9534f" stroke="#d9534f" points="144,-145 90,-145 90,-121 144,-121 144,-145"/>
-<text text-anchor="middle" x="117" y="-130.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">rksact</text>
+<polygon fill="#d9534f" stroke="#d9534f" points="144,-62 90,-62 90,-38 144,-38 144,-62"/>
+<text text-anchor="middle" x="117" y="-47.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">rksact</text>
 </a>
 </g>
 </g>
 <!-- proc~rkcon&#45;&gt;proc~rksact -->
 <g id="proc~~rkcon~~CallsGraph_edge2" class="edge">
 <title>proc~rkcon&#45;&gt;proc~rksact</title>
-<path fill="none" stroke="#000000" d="M54.4,-133C62.39,-133 71.31,-133 79.82,-133"/>
-<polygon fill="#000000" stroke="#000000" points="79.92,-136.5 89.92,-133 79.92,-129.5 79.92,-136.5"/>
+<path fill="none" stroke="#000000" d="M53.45,-79.85C62.21,-75.67 72.17,-70.92 81.52,-66.46"/>
+<polygon fill="#000000" stroke="#000000" points="83.09,-69.59 90.6,-62.12 80.07,-63.27 83.09,-69.59"/>
 </g>
 <!-- proc~iloc -->
 <g id="proc~~rkcon~~CallsGraph_node4" class="node">
 <title>proc~iloc</title>
 <g id="a_proc~~rkcon~~CallsGraph_node4"><a xlink:href=".././proc/iloc.html" xlink:title="iloc">
-<polygon fill="#d94e8f" stroke="#d94e8f" points="324,-108 270,-108 270,-84 324,-84 324,-108"/>
-<text text-anchor="middle" x="297" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">iloc</text>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="324,-147 270,-147 270,-123 324,-123 324,-147"/>
+<text text-anchor="middle" x="297" y="-132.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">iloc</text>
 </a>
 </g>
 </g>
 <!-- proc~rkcon&#45;&gt;proc~iloc -->
 <g id="proc~~rkcon~~CallsGraph_edge3" class="edge">
 <title>proc~rkcon&#45;&gt;proc~iloc</title>
-<path fill="none" stroke="#000000" d="M54.1,-143.16C94.27,-157.16 172.98,-178.09 234,-154 253.3,-146.38 270.12,-129.6 281.36,-116.04"/>
-<polygon fill="#000000" stroke="#000000" points="284.16,-118.14 287.6,-108.12 278.66,-113.81 284.16,-118.14"/>
+<path fill="none" stroke="#000000" d="M54.03,-101.58C65.04,-105.44 78.05,-109.73 90,-113 129.43,-123.8 139.4,-127.23 180,-132 206.43,-135.1 236.46,-135.8 259.35,-135.75"/>
+<polygon fill="#000000" stroke="#000000" points="259.67,-139.25 269.64,-135.68 259.62,-132.25 259.67,-139.25"/>
 </g>
 <!-- proc~wolfe&#45;&gt;proc~iloc -->
 <g id="proc~~rkcon~~CallsGraph_edge7" class="edge">
 <title>proc~wolfe&#45;&gt;proc~iloc</title>
-<path fill="none" stroke="#000000" d="M144.26,-91.74C174.85,-92.6 225.55,-94.02 259.84,-94.98"/>
-<polygon fill="#000000" stroke="#000000" points="259.82,-98.49 269.92,-95.27 260.02,-91.49 259.82,-98.49"/>
+<path fill="none" stroke="#000000" d="M144,-101.71C155,-105.58 168.02,-109.85 180,-113 206.48,-119.96 236.9,-125.64 259.94,-129.49"/>
+<polygon fill="#000000" stroke="#000000" points="259.54,-132.97 269.97,-131.13 260.66,-126.06 259.54,-132.97"/>
 </g>
 <!-- proc~conenr -->
 <g id="proc~~rkcon~~CallsGraph_node5" class="node">
 <title>proc~conenr</title>
 <g id="a_proc~~rkcon~~CallsGraph_node5"><a xlink:href=".././proc/conenr.html" xlink:title="conenr">
-<polygon fill="#d9534f" stroke="#d9534f" points="234,-65 180,-65 180,-41 234,-41 234,-65"/>
-<text text-anchor="middle" x="207" y="-50.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">conenr</text>
+<polygon fill="#d9534f" stroke="#d9534f" points="234,-104 180,-104 180,-80 234,-80 234,-104"/>
+<text text-anchor="middle" x="207" y="-89.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">conenr</text>
 </a>
 </g>
 </g>
 <!-- proc~wolfe&#45;&gt;proc~conenr -->
 <g id="proc~~rkcon~~CallsGraph_edge4" class="edge">
 <title>proc~wolfe&#45;&gt;proc~conenr</title>
-<path fill="none" stroke="#000000" d="M144.4,-79.6C152.66,-76.03 161.9,-72.04 170.66,-68.26"/>
-<polygon fill="#000000" stroke="#000000" points="172.13,-71.44 179.92,-64.26 169.35,-65.01 172.13,-71.44"/>
-</g>
-<!-- proc~dotprd -->
-<g id="proc~~rkcon~~CallsGraph_node6" class="node">
-<title>proc~dotprd</title>
-<g id="a_proc~~rkcon~~CallsGraph_node6"><a xlink:href=".././proc/dotprd.html" xlink:title="dotprd">
-<polygon fill="#d94e8f" stroke="#d94e8f" points="324,-24 270,-24 270,0 324,0 324,-24"/>
-<text text-anchor="middle" x="297" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dotprd</text>
-</a>
-</g>
-</g>
-<!-- proc~wolfe&#45;&gt;proc~dotprd -->
-<g id="proc~~rkcon~~CallsGraph_edge5" class="edge">
-<title>proc~wolfe&#45;&gt;proc~dotprd</title>
-<path fill="none" stroke="#000000" d="M127.03,-78.85C137.96,-65.12 157.7,-43.21 180,-32 204.81,-19.53 235.97,-14.66 259.74,-12.84"/>
-<polygon fill="#000000" stroke="#000000" points="260,-16.33 269.77,-12.22 259.57,-9.35 260,-16.33"/>
+<path fill="none" stroke="#000000" d="M144.4,-92C152.39,-92 161.31,-92 169.82,-92"/>
+<polygon fill="#000000" stroke="#000000" points="169.92,-95.5 179.92,-92 169.92,-88.5 169.92,-95.5"/>
 </g>
 <!-- proc~refwl -->
-<g id="proc~~rkcon~~CallsGraph_node7" class="node">
+<g id="proc~~rkcon~~CallsGraph_node6" class="node">
 <title>proc~refwl</title>
-<g id="a_proc~~rkcon~~CallsGraph_node7"><a xlink:href=".././proc/refwl.html" xlink:title="refwl">
-<polygon fill="#d9534f" stroke="#d9534f" points="234,-145 180,-145 180,-121 234,-121 234,-145"/>
-<text text-anchor="middle" x="207" y="-130.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">refwl</text>
+<g id="a_proc~~rkcon~~CallsGraph_node6"><a xlink:href=".././proc/refwl.html" xlink:title="refwl">
+<polygon fill="#d9534f" stroke="#d9534f" points="234,-24 180,-24 180,0 234,0 234,-24"/>
+<text text-anchor="middle" x="207" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">refwl</text>
 </a>
 </g>
 </g>
 <!-- proc~wolfe&#45;&gt;proc~refwl -->
-<g id="proc~~rkcon~~CallsGraph_edge6" class="edge">
+<g id="proc~~rkcon~~CallsGraph_edge5" class="edge">
 <title>proc~wolfe&#45;&gt;proc~refwl</title>
-<path fill="none" stroke="#000000" d="M143.45,-103.15C152.21,-107.33 162.17,-112.08 171.52,-116.54"/>
-<polygon fill="#000000" stroke="#000000" points="170.07,-119.73 180.6,-120.88 173.09,-113.41 170.07,-119.73"/>
+<path fill="none" stroke="#000000" d="M133.29,-79.99C136.85,-77.1 140.6,-73.98 144,-71 158.66,-58.14 174.59,-42.96 186.63,-31.22"/>
+<polygon fill="#000000" stroke="#000000" points="189.24,-33.56 193.92,-24.05 184.33,-28.56 189.24,-33.56"/>
+</g>
+<!-- proc~dotprd -->
+<g id="proc~~rkcon~~CallsGraph_node7" class="node">
+<title>proc~dotprd</title>
+<g id="a_proc~~rkcon~~CallsGraph_node7"><a xlink:href=".././proc/dotprd.html" xlink:title="dotprd">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="324,-63 270,-63 270,-39 324,-39 324,-63"/>
+<text text-anchor="middle" x="297" y="-48.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dotprd</text>
+</a>
+</g>
+</g>
+<!-- proc~wolfe&#45;&gt;proc~dotprd -->
+<g id="proc~~rkcon~~CallsGraph_edge6" class="edge">
+<title>proc~wolfe&#45;&gt;proc~dotprd</title>
+<path fill="none" stroke="#000000" d="M144.28,-82.09C155.21,-78.23 168.1,-74.02 180,-71 206.45,-64.28 236.87,-59.13 259.92,-55.74"/>
+<polygon fill="#000000" stroke="#000000" points="260.55,-59.19 269.96,-54.31 259.56,-52.26 260.55,-59.19"/>
 </g>
 <!-- proc~conenr&#45;&gt;proc~iloc -->
 <g id="proc~~rkcon~~CallsGraph_edge10" class="edge">
 <title>proc~conenr&#45;&gt;proc~iloc</title>
-<path fill="none" stroke="#000000" d="M232.98,-65.21C242.07,-69.65 252.5,-74.74 262.22,-79.49"/>
-<polygon fill="#000000" stroke="#000000" points="260.74,-82.67 271.26,-83.91 263.81,-76.38 260.74,-82.67"/>
+<path fill="none" stroke="#000000" d="M232.98,-104.21C242.07,-108.65 252.5,-113.74 262.22,-118.49"/>
+<polygon fill="#000000" stroke="#000000" points="260.74,-121.67 271.26,-122.91 263.81,-115.38 260.74,-121.67"/>
 </g>
 <!-- proc~conenr&#45;&gt;proc~dotprd -->
 <g id="proc~~rkcon~~CallsGraph_edge9" class="edge">
 <title>proc~conenr&#45;&gt;proc~dotprd</title>
-<path fill="none" stroke="#000000" d="M233.93,-40.92C242.36,-36.99 251.86,-32.57 260.84,-28.38"/>
-<polygon fill="#000000" stroke="#000000" points="262.37,-31.53 269.95,-24.13 259.41,-25.19 262.37,-31.53"/>
+<path fill="none" stroke="#000000" d="M233.93,-79.92C242.36,-75.99 251.86,-71.57 260.84,-67.38"/>
+<polygon fill="#000000" stroke="#000000" points="262.37,-70.53 269.95,-63.13 259.41,-64.19 262.37,-70.53"/>
 </g>
 <!-- proc~house -->
 <g id="proc~~rkcon~~CallsGraph_node8" class="node">
 <title>proc~house</title>
 <g id="a_proc~~rkcon~~CallsGraph_node8"><a xlink:href=".././proc/house.html" xlink:title="house">
-<polygon fill="#d9534f" stroke="#d9534f" points="324,-66 270,-66 270,-42 324,-42 324,-66"/>
-<text text-anchor="middle" x="297" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">house</text>
+<polygon fill="#d9534f" stroke="#d9534f" points="324,-105 270,-105 270,-81 324,-81 324,-105"/>
+<text text-anchor="middle" x="297" y="-90.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">house</text>
 </a>
 </g>
 </g>
 <!-- proc~conenr&#45;&gt;proc~house -->
 <g id="proc~~rkcon~~CallsGraph_edge8" class="edge">
 <title>proc~conenr&#45;&gt;proc~house</title>
-<path fill="none" stroke="#000000" d="M234.4,-53.3C242.39,-53.39 251.31,-53.49 259.82,-53.59"/>
-<polygon fill="#000000" stroke="#000000" points="259.88,-57.09 269.92,-53.7 259.96,-50.09 259.88,-57.09"/>
+<path fill="none" stroke="#000000" d="M234.4,-92.3C242.39,-92.39 251.31,-92.49 259.82,-92.59"/>
+<polygon fill="#000000" stroke="#000000" points="259.88,-96.09 269.92,-92.7 259.96,-89.09 259.88,-96.09"/>
 </g>
 </g>
 </svg>
@@ -1108,29 +1108,56 @@ private subroutine rkcon(me, Ioptn, Nparm, Numgr, Fun, Ifun, Pttbl, Iptb, Indm, 
         <span class="k">implicit none</span>
 
 <span class="k">        class</span><span class="p">(</span><span class="n">conmax_solver</span><span class="p">),</span> <span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span> <span class="kd">::</span> <span class="n">me</span>
-        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Actdif</span><span class="p">,</span> <span class="n">Confun</span><span class="p">,</span> <span class="n">conup</span><span class="p">,</span> <span class="n">emin</span><span class="p">,</span> <span class="n">emin1</span><span class="p">,</span> <span class="n">Enc1</span><span class="p">,</span> <span class="p">&amp;</span>
-                    <span class="n">Enchg</span><span class="p">,</span> <span class="n">enorm</span><span class="p">,</span> <span class="n">Err1</span><span class="p">,</span> <span class="n">Error</span><span class="p">,</span> <span class="n">Fun</span><span class="p">,</span> <span class="n">Funtbl</span><span class="p">,</span> <span class="p">&amp;</span>
-                    <span class="n">Param</span><span class="p">,</span> <span class="n">Parprj</span><span class="p">,</span> <span class="n">Parser</span><span class="p">,</span> <span class="n">pe</span><span class="p">,</span> <span class="n">Pmat</span>
-        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">prjbig</span><span class="p">,</span> <span class="n">prjlim</span><span class="p">,</span> <span class="n">Projct</span><span class="p">,</span> <span class="n">prosea</span><span class="p">,</span> <span class="n">Pttbl</span><span class="p">,</span> <span class="n">qt</span><span class="p">,</span> <span class="p">&amp;</span>
-                    <span class="n">quots</span><span class="p">,</span> <span class="n">Rchdwn</span><span class="p">,</span> <span class="n">Rchin</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">ss</span><span class="p">,</span> <span class="p">&amp;</span>
-                    <span class="n">steplm</span><span class="p">,</span> <span class="n">Tolcon</span>
-        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span>  <span class="kd">::</span> <span class="n">unit</span><span class="p">,</span> <span class="n">wdist</span><span class="p">,</span> <span class="n">Work</span><span class="p">,</span> <span class="n">Xrk</span>
-        <span class="kt">integer </span><span class="n">i</span><span class="p">,</span> <span class="n">Iact</span><span class="p">,</span> <span class="n">Icntyp</span><span class="p">,</span> <span class="n">icorct</span><span class="p">,</span> <span class="n">ifrkpr</span><span class="p">,</span> <span class="n">Ifun</span><span class="p">,</span> <span class="n">ilc06</span><span class="p">,</span> <span class="p">&amp;</span>
-            <span class="n">ilc10</span><span class="p">,</span> <span class="n">ilc15</span><span class="p">,</span> <span class="n">ilc21</span><span class="p">,</span> <span class="n">ilc22</span><span class="p">,</span> <span class="n">ilc24</span><span class="p">,</span> <span class="n">ilc27</span><span class="p">,</span> <span class="n">ilc30</span><span class="p">,</span> <span class="p">&amp;</span>
-            <span class="n">ilc31</span><span class="p">,</span> <span class="n">ilc33</span><span class="p">,</span> <span class="n">ilc35</span><span class="p">,</span> <span class="n">ilc36</span><span class="p">,</span> <span class="n">ilc37</span><span class="p">,</span> <span class="n">ilc38</span>
-        <span class="kt">integer </span><span class="n">ilc40</span><span class="p">,</span> <span class="n">ilc43</span><span class="p">,</span> <span class="n">ilc48</span><span class="p">,</span> <span class="n">Indm</span><span class="p">,</span> <span class="n">Ioptn</span><span class="p">,</span> <span class="n">ioptth</span><span class="p">,</span> <span class="p">&amp;</span>
-            <span class="n">Iphse</span><span class="p">,</span> <span class="n">ipmax</span><span class="p">,</span> <span class="n">ipt</span><span class="p">,</span> <span class="n">Iptb</span><span class="p">,</span> <span class="n">Irk</span><span class="p">,</span> <span class="n">ismax</span><span class="p">,</span> <span class="n">Isucc</span><span class="p">,</span> <span class="n">Iter</span><span class="p">,</span> <span class="p">&amp;</span>
-            <span class="n">Ityp1</span><span class="p">,</span> <span class="n">Ityp2</span><span class="p">,</span> <span class="n">Itypm1</span><span class="p">,</span> <span class="n">Itypm2</span><span class="p">,</span> <span class="n">iwarn</span>
-        <span class="kt">integer </span><span class="n">Iwork</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">jflag</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">limfl</span><span class="p">,</span> <span class="n">Liwrk</span><span class="p">,</span> <span class="n">Lwrk</span><span class="p">,</span> <span class="n">mactrk</span><span class="p">,</span> <span class="p">&amp;</span>
-            <span class="n">ncor</span><span class="p">,</span> <span class="n">nfail</span><span class="p">,</span> <span class="n">nmaj</span><span class="p">,</span> <span class="n">nmin</span><span class="p">,</span> <span class="n">npar1</span><span class="p">,</span> <span class="n">Nparm</span><span class="p">,</span> <span class="n">nsrch</span><span class="p">,</span> <span class="p">&amp;</span>
-            <span class="n">Nstep</span><span class="p">,</span> <span class="n">Numgr</span>
+        <span class="kt">integer</span><span class="p">,</span> <span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Ifun</span>
+        <span class="kt">integer</span><span class="p">,</span> <span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Iptb</span>
+        <span class="kt">integer</span><span class="p">,</span> <span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Liwrk</span>
+        <span class="kt">integer</span><span class="p">,</span> <span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Lwrk</span>
+        <span class="kt">integer</span><span class="p">,</span> <span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Nparm</span>
+        <span class="kt">integer</span><span class="p">,</span> <span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Numgr</span>
+        <span class="kt">integer</span> <span class="kd">::</span> <span class="n">Indm</span>
+        <span class="kt">integer</span> <span class="kd">::</span> <span class="n">Ioptn</span>
+        <span class="kt">integer</span> <span class="kd">::</span> <span class="n">Iphse</span>
+        <span class="kt">integer</span> <span class="kd">::</span> <span class="n">Irk</span>
+        <span class="kt">integer</span> <span class="kd">::</span> <span class="n">Isucc</span>
+        <span class="kt">integer</span> <span class="kd">::</span> <span class="n">Iter</span>
+        <span class="kt">integer</span> <span class="kd">::</span> <span class="n">Ityp1</span>
+        <span class="kt">integer</span> <span class="kd">::</span> <span class="n">Ityp2</span>
+        <span class="kt">integer</span> <span class="kd">::</span> <span class="n">Itypm1</span>
+        <span class="kt">integer</span> <span class="kd">::</span> <span class="n">Itypm2</span>
+        <span class="kt">integer</span> <span class="kd">::</span> <span class="n">Nstep</span>
+        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Enc1</span>
+        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Enchg</span>
+        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Projct</span>
+        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Rchdwn</span>
+        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Rchin</span>
+        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Tolcon</span>
+        <span class="kt">integer</span> <span class="kd">::</span> <span class="n">Iact</span><span class="p">(</span><span class="n">Numgr</span><span class="p">)</span>
+        <span class="kt">integer</span> <span class="kd">::</span> <span class="n">Icntyp</span><span class="p">(</span><span class="n">Numgr</span><span class="p">)</span>
+        <span class="kt">integer</span> <span class="kd">::</span> <span class="n">Iwork</span><span class="p">(</span><span class="n">Liwrk</span><span class="p">)</span>
+        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Actdif</span><span class="p">(</span><span class="n">Numgr</span><span class="p">)</span>
+        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Confun</span><span class="p">(</span><span class="n">Numgr</span><span class="p">,</span> <span class="n">Nparm</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Err1</span><span class="p">(</span><span class="n">Numgr</span> <span class="o">+</span> <span class="mi">3</span><span class="p">)</span>
+        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Error</span><span class="p">(</span><span class="n">Numgr</span> <span class="o">+</span> <span class="mi">3</span><span class="p">)</span>
+        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Fun</span><span class="p">(</span><span class="n">Ifun</span><span class="p">)</span>
+        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Funtbl</span><span class="p">(</span><span class="n">Numgr</span><span class="p">,</span> <span class="n">Nparm</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Param</span><span class="p">(</span><span class="n">Nparm</span><span class="p">)</span>
+        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Parprj</span><span class="p">(</span><span class="n">Nparm</span><span class="p">)</span>
+        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Parser</span><span class="p">(</span><span class="n">Nparm</span><span class="p">)</span>
+        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Pmat</span><span class="p">(</span><span class="n">Nparm</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">Numgr</span><span class="p">)</span>
+        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Pttbl</span><span class="p">(</span><span class="n">Iptb</span><span class="p">,</span> <span class="n">Indm</span><span class="p">)</span>
+        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Work</span><span class="p">(</span><span class="n">Lwrk</span><span class="p">)</span>
+        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Xrk</span><span class="p">(</span><span class="n">Nparm</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
 
-        <span class="k">dimension </span><span class="n">Fun</span><span class="p">(</span><span class="n">Ifun</span><span class="p">),</span> <span class="n">Pttbl</span><span class="p">(</span><span class="n">Iptb</span><span class="p">,</span> <span class="n">Indm</span><span class="p">),</span> <span class="n">Icntyp</span><span class="p">(</span><span class="n">Numgr</span><span class="p">),</span> <span class="p">&amp;</span>
-            <span class="n">Param</span><span class="p">(</span><span class="n">Nparm</span><span class="p">),</span> <span class="n">Error</span><span class="p">(</span><span class="n">Numgr</span> <span class="o">+</span> <span class="mi">3</span><span class="p">),</span> <span class="n">Pmat</span><span class="p">(</span><span class="n">Nparm</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">Numgr</span><span class="p">),</span> <span class="p">&amp;</span>
-            <span class="n">Funtbl</span><span class="p">(</span><span class="n">Numgr</span><span class="p">,</span> <span class="n">Nparm</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="n">Iwork</span><span class="p">(</span><span class="n">Liwrk</span><span class="p">),</span> <span class="n">Work</span><span class="p">(</span><span class="n">Lwrk</span><span class="p">),</span> <span class="p">&amp;</span>
-            <span class="n">Iact</span><span class="p">(</span><span class="n">Numgr</span><span class="p">),</span> <span class="n">Actdif</span><span class="p">(</span><span class="n">Numgr</span><span class="p">),</span> <span class="n">Parprj</span><span class="p">(</span><span class="n">Nparm</span><span class="p">),</span> <span class="p">&amp;</span>
-            <span class="n">Parser</span><span class="p">(</span><span class="n">Nparm</span><span class="p">),</span> <span class="n">Xrk</span><span class="p">(</span><span class="n">Nparm</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="n">Err1</span><span class="p">(</span><span class="n">Numgr</span> <span class="o">+</span> <span class="mi">3</span><span class="p">),</span> <span class="p">&amp;</span>
-            <span class="n">Confun</span><span class="p">(</span><span class="n">Numgr</span><span class="p">,</span> <span class="n">Nparm</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">conup</span><span class="p">,</span> <span class="n">emin</span><span class="p">,</span> <span class="n">emin1</span><span class="p">,</span> <span class="n">enorm</span><span class="p">,</span> <span class="n">pe</span><span class="p">,</span> <span class="p">&amp;</span>
+                    <span class="n">prjbig</span><span class="p">,</span> <span class="n">prjlim</span><span class="p">,</span> <span class="n">prosea</span><span class="p">,</span> <span class="n">qt</span><span class="p">,</span> <span class="p">&amp;</span>
+                    <span class="n">quots</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">ss</span><span class="p">,</span> <span class="n">steplm</span><span class="p">,</span> <span class="n">unit</span><span class="p">,</span> <span class="n">wdist</span>
+        <span class="kt">integer</span> <span class="kd">::</span> <span class="n">i</span><span class="p">,</span> <span class="n">icorct</span><span class="p">,</span> <span class="n">ifrkpr</span><span class="p">,</span> <span class="n">ilc06</span><span class="p">,</span> <span class="p">&amp;</span>
+                   <span class="n">ilc10</span><span class="p">,</span> <span class="n">ilc15</span><span class="p">,</span> <span class="n">ilc21</span><span class="p">,</span> <span class="n">ilc22</span><span class="p">,</span> <span class="n">ilc24</span><span class="p">,</span> <span class="n">ilc27</span><span class="p">,</span> <span class="n">ilc30</span><span class="p">,</span> <span class="p">&amp;</span>
+                   <span class="n">ilc31</span><span class="p">,</span> <span class="n">ilc33</span><span class="p">,</span> <span class="n">ilc35</span><span class="p">,</span> <span class="n">ilc36</span><span class="p">,</span> <span class="n">ilc37</span><span class="p">,</span> <span class="n">ilc38</span><span class="p">,</span> <span class="p">&amp;</span>
+                   <span class="n">ilc40</span><span class="p">,</span> <span class="n">ilc43</span><span class="p">,</span> <span class="n">ilc48</span><span class="p">,</span> <span class="n">ioptth</span><span class="p">,</span> <span class="p">&amp;</span>
+                   <span class="n">ipmax</span><span class="p">,</span> <span class="n">ipt</span><span class="p">,</span> <span class="n">ismax</span><span class="p">,</span> <span class="n">iwarn</span><span class="p">,</span> <span class="p">&amp;</span>
+                   <span class="n">j</span><span class="p">,</span> <span class="n">jflag</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">limfl</span><span class="p">,</span> <span class="n">mactrk</span><span class="p">,</span> <span class="p">&amp;</span>
+                   <span class="n">ncor</span><span class="p">,</span> <span class="n">nfail</span><span class="p">,</span> <span class="n">nmaj</span><span class="p">,</span> <span class="n">nmin</span><span class="p">,</span> <span class="n">npar1</span><span class="p">,</span> <span class="n">nsrch</span>
 
         <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span> <span class="k">parameter</span> <span class="kd">::</span> <span class="n">qthi</span> <span class="o">=</span> <span class="p">(</span><span class="n">one</span> <span class="o">+</span> <span class="n">two</span><span class="p">)</span><span class="o">/</span><span class="n">four</span>
         <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span> <span class="k">parameter</span> <span class="kd">::</span> <span class="n">qtlo</span> <span class="o">=</span> <span class="n">one</span><span class="o">/</span><span class="n">four</span>
