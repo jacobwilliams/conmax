@@ -5514,21 +5514,36 @@ contains
 
         implicit none
 
-        real(wp) :: amax, amin, cjj, Coef, diff, Dist, dmax, &
-                    dp, dsq, omt, pdotj, Picor, &
-                    Pmat1, Ptnr, Ptnrr, quot
-        real(wp) :: r, theta, Tol, tst, Vec, &
-                    Work
-        integer :: i, Icor, icoro, ihouse, ii, ilc01, ilc03, ilc04, &
-                   ilc09, ilc23, ilc34, Istrt1, itst1, Iwork, &
-                   j, Jflag, jj, jmax, jmin
-        integer :: kntsl, l, limsl, Liwrk, ll, Lwrk, m, mincf, mp1, &
-                   n, Ncor, ncoro, ndm, Nmaj, Nmin, Nparm, Numgr
+        integer, intent(in) :: Liwrk
+        integer, intent(in) :: Lwrk
+        integer, intent(in) :: Nparm
+        integer, intent(in) :: Numgr
+        integer :: Istrt1
+        integer :: Jflag
+        integer :: m
+        integer :: n
+        integer :: Ncor
+        integer :: Nmaj
+        integer :: Nmin
+        real(wp) :: Dist
+        real(wp) :: Tol
+        real(wp) :: Coef(Numgr)
+        integer :: Icor(Nparm + 1)
+        integer :: Iwork(Liwrk)
+        real(wp) :: Picor(Nparm + 1, Nparm + 1)
+        real(wp) :: Pmat1(Nparm + 1, Numgr)
+        real(wp) :: Ptnr(Nparm + 1)
+        real(wp) :: Ptnrr(Nparm + 1)
+        real(wp) :: r(Nparm + 1)
+        real(wp) :: Vec(Nparm + 1)
+        real(wp) :: Work(Lwrk)
 
-        dimension Pmat1(Nparm + 1, Numgr), r(Nparm + 1), Icor(Nparm + 1), &
-            Coef(Numgr), Ptnr(Nparm + 1), Vec(Nparm + 1), &
-            Ptnrr(Nparm + 1), Picor(Nparm + 1, Nparm + 1), Iwork(Liwrk), &
-            Work(Lwrk)
+        real(wp) :: amax, amin, cjj, diff, dmax, &
+                    dp, dsq, omt, pdotj, quot, theta, tst
+        integer :: i, icoro, ihouse, ii, ilc01, ilc03, ilc04, &
+                   ilc09, ilc23, ilc34, itst1, j, jj, jmax, jmin, &
+                   kntsl, l, limsl, ll, mincf, mp1, &
+                   ncoro, ndm
 
         real(wp), parameter :: tolel = ten*ten*spcmn
         real(wp), parameter :: z1 = ten*tolel

@@ -125,7 +125,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title="100.0% of total for modules and submodules.">3410 statements</a>
+    title="100.0% of total for modules and submodules.">3430 statements</a>
      </li> 
      
      
@@ -8387,7 +8387,7 @@ private subroutine <a href='../proc/conenr.html'>conenr</a>(n, m, Pmat1, r, Istr
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Pmat1</strong></td><td></td>
+  <td><strong>Pmat1</strong>(Nparm+1,Numgr)</td><td></td>
   
 </tr>
 
@@ -8402,7 +8402,7 @@ private subroutine <a href='../proc/conenr.html'>conenr</a>(n, m, Pmat1, r, Istr
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>r</strong></td><td></td>
+  <td><strong>r</strong>(Nparm+1)</td><td></td>
   
 </tr>
 
@@ -8447,7 +8447,7 @@ private subroutine <a href='../proc/conenr.html'>conenr</a>(n, m, Pmat1, r, Istr
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Icor</strong></td><td></td>
+  <td><strong>Icor</strong>(Nparm+1)</td><td></td>
   
 </tr>
 
@@ -8477,7 +8477,7 @@ private subroutine <a href='../proc/conenr.html'>conenr</a>(n, m, Pmat1, r, Istr
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Iwork</strong></td><td></td>
+  <td><strong>Iwork</strong>(Liwrk)</td><td></td>
   
 </tr>
 
@@ -8487,8 +8487,8 @@ private subroutine <a href='../proc/conenr.html'>conenr</a>(n, m, Pmat1, r, Istr
   
 <tr>
   
-  <td><span class="anchor" ></span>integer</td>
-  <td></td>
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -8507,7 +8507,7 @@ private subroutine <a href='../proc/conenr.html'>conenr</a>(n, m, Pmat1, r, Istr
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Work</strong></td><td></td>
+  <td><strong>Work</strong>(Lwrk)</td><td></td>
   
 </tr>
 
@@ -8517,8 +8517,8 @@ private subroutine <a href='../proc/conenr.html'>conenr</a>(n, m, Pmat1, r, Istr
   
 <tr>
   
-  <td><span class="anchor" ></span>integer</td>
-  <td></td>
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -8537,7 +8537,7 @@ private subroutine <a href='../proc/conenr.html'>conenr</a>(n, m, Pmat1, r, Istr
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Vec</strong></td><td></td>
+  <td><strong>Vec</strong>(Nparm+1)</td><td></td>
   
 </tr>
 
@@ -8552,7 +8552,7 @@ private subroutine <a href='../proc/conenr.html'>conenr</a>(n, m, Pmat1, r, Istr
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Ptnrr</strong></td><td></td>
+  <td><strong>Ptnrr</strong>(Nparm+1)</td><td></td>
   
 </tr>
 
@@ -8567,7 +8567,7 @@ private subroutine <a href='../proc/conenr.html'>conenr</a>(n, m, Pmat1, r, Istr
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Picor</strong></td><td></td>
+  <td><strong>Picor</strong>(Nparm+1,Nparm+1)</td><td></td>
   
 </tr>
 
@@ -8577,8 +8577,8 @@ private subroutine <a href='../proc/conenr.html'>conenr</a>(n, m, Pmat1, r, Istr
   
 <tr>
   
-  <td><span class="anchor" ></span>integer</td>
-  <td></td>
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -8592,8 +8592,8 @@ private subroutine <a href='../proc/conenr.html'>conenr</a>(n, m, Pmat1, r, Istr
   
 <tr>
   
-  <td><span class="anchor" ></span>integer</td>
-  <td></td>
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -8612,7 +8612,7 @@ private subroutine <a href='../proc/conenr.html'>conenr</a>(n, m, Pmat1, r, Istr
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Coef</strong></td><td></td>
+  <td><strong>Coef</strong>(Numgr)</td><td></td>
   
 </tr>
 
@@ -8627,7 +8627,7 @@ private subroutine <a href='../proc/conenr.html'>conenr</a>(n, m, Pmat1, r, Istr
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Ptnr</strong></td><td></td>
+  <td><strong>Ptnr</strong>(Nparm+1)</td><td></td>
   
 </tr>
 
