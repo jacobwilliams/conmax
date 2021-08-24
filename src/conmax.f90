@@ -472,423 +472,403 @@
     ! END OF PRELIMINARY SECTION.  THE STATEMENTS ABOVE THIS POINT WILL NOT
     ! BE EXECUTED AGAIN IN THIS CALL TO CONMAX.
 
-! CALL ERCMP1 WITH ICNUSE=0 TO COMPUTE THE ERRORS, ERROR NORMS, AND ICNTYP.
-! WE TAKE IPHSE AS 0 SO ALL CONSTRAINTS WILL BE COMPUTED BY FNSET IN CASE
-! THE TEN THOUSANDS DIGIT OF IOPTN IS 1.
-! THIS IS ONE OF ONLY TWO PLACES IN THE PROGRAM WHERE WE CALL ERCMP1 WITH
-! ICNUSE=0, THE OTHER BEING STATEMENT 1415 BELOW..
- 100  call me%ercmp1(Ioptn,Nparm,Numgr,Fun,Ifun,Pttbl,Iptb,Indm,Param,0,0, &
-                  Iwork,Liwrk,Work(ilc08),Iwork(ilc17),ipmax,ismax,     &
-                  Error)
-! IF ITLIM=0 WE RETURN.
-      if ( Itlim<=0 ) then
-         return
-      else
-!
-! COMPUTE ITYP2, ITYP1, ITYPM1, AND ITYPM2 AS THE NUMBER OF CONSTRAINTS  OF
-! TYPE 2 (I.E. PRIMARY, ABS(FUN(I)-CONFUN(I,1)) <= W) OR 1 (I.E. PRIMARY,
-! CONFUN(I,1) <= W) OR -1 (I.E. STANDARD LINEAR, CONFUN(I,1) <= 0.0)
-! OR -2 (I.E. STANDARD NONLINEAR) RESPECTIVELY.
-         ityp2 = 0
-         ityp1 = 0
-         itypm1 = 0
-         itypm2 = 0
-! NOTE THAT ARRAYS NOT IN THE CALLING SEQUENCE FOR CONMAX ARE ACCESSED
-! THROUGH THEIR LOCATION IN IWORK OR WORK.  CONMAX IS THE ONLY
-! SUBROUTINE IN WHICH THIS IS NECESSARY.
-         do i = 1 , Numgr
+    ! CALL ERCMP1 WITH ICNUSE=0 TO COMPUTE THE ERRORS, ERROR NORMS, AND ICNTYP.
+    ! WE TAKE IPHSE AS 0 SO ALL CONSTRAINTS WILL BE COMPUTED BY FNSET IN CASE
+    ! THE TEN THOUSANDS DIGIT OF IOPTN IS 1.
+    ! THIS IS ONE OF ONLY TWO PLACES IN THE PROGRAM WHERE WE CALL ERCMP1 WITH
+    ! ICNUSE=0, THE OTHER BEING STATEMENT 1415 BELOW..
+100 call me%ercmp1(Ioptn,Nparm,Numgr,Fun,Ifun,Pttbl,Iptb,Indm,Param,0,0, &
+                   Iwork,Liwrk,Work(ilc08),Iwork(ilc17),ipmax,ismax, &
+                   Error)
+    ! IF ITLIM=0 WE RETURN.
+    if ( Itlim<=0 ) then
+        return
+    else
+        ! COMPUTE ITYP2, ITYP1, ITYPM1, AND ITYPM2 AS THE NUMBER OF CONSTRAINTS  OF
+        ! TYPE 2 (I.E. PRIMARY, ABS(FUN(I)-CONFUN(I,1)) <= W) OR 1 (I.E. PRIMARY,
+        ! CONFUN(I,1) <= W) OR -1 (I.E. STANDARD LINEAR, CONFUN(I,1) <= 0.0)
+        ! OR -2 (I.E. STANDARD NONLINEAR) RESPECTIVELY.
+        ityp2 = 0
+        ityp1 = 0
+        itypm1 = 0
+        itypm2 = 0
+        ! NOTE THAT ARRAYS NOT IN THE CALLING SEQUENCE FOR CONMAX ARE ACCESSED
+        ! THROUGH THEIR LOCATION IN IWORK OR WORK.  CONMAX IS THE ONLY
+        ! SUBROUTINE IN WHICH THIS IS NECESSARY.
+        do i = 1 , Numgr
             ii = ilc17 - 1 + i
-! HERE IWORK(II)=ICNTYP(I).
+            ! HERE IWORK(II)=ICNTYP(I).
             if ( Iwork(ii)<0 ) then
-               if ( Iwork(ii)+1<0 ) then
-                  itypm2 = itypm2 + 1
-               else
-                  itypm1 = itypm1 + 1
-               end if
+                if ( Iwork(ii)+1<0 ) then
+                    itypm2 = itypm2 + 1
+                else
+                    itypm1 = itypm1 + 1
+                end if
             else if ( Iwork(ii)/=0 ) then
-               if ( Iwork(ii)<=1 ) then
-                  ityp1 = ityp1 + 1
-               else
-                  ityp2 = ityp2 + 1
-               end if
+                if ( Iwork(ii)<=1 ) then
+                    ityp1 = ityp1 + 1
+                else
+                    ityp2 = ityp2 + 1
+                end if
             end if
-         end do
-      end if
-!
-! COMPUTE THE ERROR NORMS.  ENORM IS THE PRINCIPAL ERROR NORM.
- 200  enorm = Error(Numgr+1)
-      enor2 = Error(Numgr+2)
-      enor3 = Error(Numgr+3)
-!
-! WRITE ITER, ISUCC, IRK, ENCHG, AND THE ERROR NORMS.
-!1050 WRITE(NWRIT,1100)ITER,ISUCC,IRK,ENCHG,ENORM,ENOR2,ENOR3
-!     WRITE(9,1100)ITER,ISUCC,IRK,ENCHG,ENORM,ENOR2,ENOR3
-!1100 FORMAT(/8H ITER IS,I5,10H  ISUCC IS,I4,8H  IRK IS,I4,
-!    *10H  ENCHG IS,E24.14/9H ENORM IS,E24.14,10H  ENOR2 IS,E24.14/
-!    *9H ENOR3 IS,E24.14)
-!
-!
-! THE NEXT SECTION DETERMINES WHETHER WE WILL TERMINATE DUE TO ITERATION
-! COUNT, AND IF SO FOR OUTPUT PURPOSES IT MODIFIES ITER (OR TWO OF THE
-! ERROR NORMS IF THE FAILURE IS DUE TO INABILITY TO GAIN TYPE -2
-! FEASIBILITY).
-!
-! IF IOPTEN=1 AND WE HAVE DONE AT LEAST ONE ITERATION IN THE MAIN PART
-! OF CONMAX, WE WILL GIVE UP IF ABS(ENCHG) HAS BEEN LESS THAN ENCSM FOR
-! LIMSM CONSECUTIVE MAIN ITERATIONS (INCLUDING THIS ONE).
- 300  if ( iopten==1 ) then
-         if ( iphse==0 ) then
+        end do
+    end if
+
+    ! COMPUTE THE ERROR NORMS.  ENORM IS THE PRINCIPAL ERROR NORM.
+200 enorm = Error(Numgr+1)
+    enor2 = Error(Numgr+2)
+    enor3 = Error(Numgr+3)
+
+    ! WRITE ITER, ISUCC, IRK, ENCHG, AND THE ERROR NORMS.
+    !1050 WRITE(NWRIT,1100)ITER,ISUCC,IRK,ENCHG,ENORM,ENOR2,ENOR3
+    !     WRITE(9,1100)ITER,ISUCC,IRK,ENCHG,ENORM,ENOR2,ENOR3
+    !1100 FORMAT(/8H ITER IS,I5,10H  ISUCC IS,I4,8H  IRK IS,I4,
+    !    *10H  ENCHG IS,E24.14/9H ENORM IS,E24.14,10H  ENOR2 IS,E24.14/
+    !    *9H ENOR3 IS,E24.14)
+
+    ! THE NEXT SECTION DETERMINES WHETHER WE WILL TERMINATE DUE TO ITERATION
+    ! COUNT, AND IF SO FOR OUTPUT PURPOSES IT MODIFIES ITER (OR TWO OF THE
+    ! ERROR NORMS IF THE FAILURE IS DUE TO INABILITY TO GAIN TYPE -2
+    ! FEASIBILITY).
+
+    ! IF IOPTEN=1 AND WE HAVE DONE AT LEAST ONE ITERATION IN THE MAIN PART
+    ! OF CONMAX, WE WILL GIVE UP IF ABS(ENCHG) HAS BEEN LESS THAN ENCSM FOR
+    ! LIMSM CONSECUTIVE MAIN ITERATIONS (INCLUDING THIS ONE).
+300 if ( iopten==1 ) then
+        if ( iphse==0 ) then
             if ( Iter>0 ) then
-               if ( -enchg<encsm ) then
-                  kntsm = kntsm + 1
-                  if ( kntsm>=limsm ) then
-!
-! FOR OUTPUT PURPOSES REPLACE ITER BY ITER + ITLIM - ITLIM1, THE TRUE
-! NUMBER OF ITERATIONS COUNTING INITIALIZATION.  ITLIM - ITLIM1 WILL BE
-! THE NUMBER OF ITERATIONS NEEDED TO GAIN TYPE -2 FEASIBILITY.  WORK
-! DONE TO GAIN TYPE -1 FEASIBILITY IS NOT COUNTED AS AN ITERATION.
-                     Iter = Iter + Itlim - itlim1
-                     goto 500
-                  end if
-               else
-                  kntsm = 0
-               end if
+                if ( -enchg<encsm ) then
+                    kntsm = kntsm + 1
+                    if ( kntsm>=limsm ) then
+                        ! FOR OUTPUT PURPOSES REPLACE ITER BY ITER + ITLIM - ITLIM1, THE TRUE
+                        ! NUMBER OF ITERATIONS COUNTING INITIALIZATION.  ITLIM - ITLIM1 WILL BE
+                        ! THE NUMBER OF ITERATIONS NEEDED TO GAIN TYPE -2 FEASIBILITY.  WORK
+                        ! DONE TO GAIN TYPE -1 FEASIBILITY IS NOT COUNTED AS AN ITERATION.
+                        Iter = Iter + Itlim - itlim1
+                        return
+                    end if
+                else
+                    kntsm = 0
+                end if
             end if
-         end if
-      end if
-!
-      if ( Iter<itlim1 ) then
-!
-! HERE ITER < ITLIM1.  IF IPHSE = 0 OR -2 HERE WE GO INTO THE
-! ITERATIVE PHASE OF CONMAX.
-         if ( iphse+1/=0 ) goto 900
-!
-!
-! HERE IPHSE=-1 AND WE CHECK TYPE -1 FEASIBILITY, TRY TO REGAIN IT IF
-! WE DONT HAVE IT, CHECK TYPE -2 FEASIBILITY, AND SET UP FOR TYPE -2
-! FEASIBILITY ITERATIONS IF WE DONT HAVE IT.  THE STATEMENTS FROM HERE
-! DOWN TO THE TRIPLE BLANK LINE WILL BE EXECUTED AT MOST ONCE.
-!
-! NOTE THAT ENOR2=0.0 IF THERE ARE NO TYPE -1 CONSTRAINTS.
-         if ( enor2<=tollin ) then
-!
-! HERE WE HAD TYPE -1 FEASIBILITY INITIALLY.
+        end if
+    end if
+
+    if ( Iter<itlim1 ) then
+
+        ! HERE ITER < ITLIM1.  IF IPHSE = 0 OR -2 HERE WE GO INTO THE
+        ! ITERATIVE PHASE OF CONMAX.
+        if ( iphse+1/=0 ) goto 900
+
+        ! HERE IPHSE=-1 AND WE CHECK TYPE -1 FEASIBILITY, TRY TO REGAIN IT IF
+        ! WE DONT HAVE IT, CHECK TYPE -2 FEASIBILITY, AND SET UP FOR TYPE -2
+        ! FEASIBILITY ITERATIONS IF WE DONT HAVE IT.  THE STATEMENTS FROM HERE
+        ! DOWN TO THE TRIPLE BLANK LINE WILL BE EXECUTED AT MOST ONCE.
+
+        ! NOTE THAT ENOR2=0.0 IF THERE ARE NO TYPE -1 CONSTRAINTS.
+        if ( enor2<=tollin ) then
+
+            ! HERE WE HAD TYPE -1 FEASIBILITY INITIALLY.
             if ( enor3>tolcon ) goto 700
             goto 800
-         else
-!
-! HERE WE DO NOT HAVE TYPE -1 FEASIBILITY SO WE TRY TO GET IT.
-! WE WILL NEED TO TELL DERST TO COMPUTE THE VALUES OF THE LEFT SIDES
-! OF THE TYPE -1 CONSTRAINTS WITH THE VARIABLES EQUAL TO ZERO (I.E.
-! THE CONSTANT TERMS IN THE CONSTRAINTS), SO WE SET PARWRK TO THE
-! ZERO VECTOR TO CARRY THE MESSAGE.
+        else
+
+            ! HERE WE DO NOT HAVE TYPE -1 FEASIBILITY SO WE TRY TO GET IT.
+            ! WE WILL NEED TO TELL DERST TO COMPUTE THE VALUES OF THE LEFT SIDES
+            ! OF THE TYPE -1 CONSTRAINTS WITH THE VARIABLES EQUAL TO ZERO (I.E.
+            ! THE CONSTANT TERMS IN THE CONSTRAINTS), SO WE SET PARWRK TO THE
+            ! ZERO VECTOR TO CARRY THE MESSAGE.
             do j = 1 , Nparm
-               jj = ilc27 - 1 + j
-! HERE WORK(JJ) = PARWRK(J).
-               Work(jj) = zero
+                jj = ilc27 - 1 + j
+                ! HERE WORK(JJ) = PARWRK(J).
+                Work(jj) = zero
             end do
             if ( ioptth>0 ) then
-! HERE IOPTTH=1 AND WE CALL DERST WITH IPT=-1 TO PUT ALL THE STANDARD
-! CONSTRAINT AND DERIVATIVE VALUES IN CONFUN.
-! WE SET IPT=-1 TO TELL DERST IT NEED ONLY COMPUTE STANDARD CONSTRAINTS.
-               ipt = -1
-               call me%derst(Ioptn,Nparm,Numgr,Pttbl,Iptb,Indm,Work(ilc27),&
-                             ipt,Work(ilc24),Work(ilc35),Iwork(ilc22),     &
-                             Work(ilc08))
+                ! HERE IOPTTH=1 AND WE CALL DERST WITH IPT=-1 TO PUT ALL THE STANDARD
+                ! CONSTRAINT AND DERIVATIVE VALUES IN CONFUN.
+                ! WE SET IPT=-1 TO TELL DERST IT NEED ONLY COMPUTE STANDARD CONSTRAINTS.
+                ipt = -1
+                call me%derst(Ioptn,Nparm,Numgr,Pttbl,Iptb,Indm,Work(ilc27),&
+                              ipt,Work(ilc24),Work(ilc35),Iwork(ilc22),     &
+                              Work(ilc08))
             end if
-!
+
             m = 0
             do i = 1 , Numgr
-               ii = ilc17 - 1 + i
-! HERE WE CONSIDER ONLY TYPE -1 CONSTRAINTS.  THERE MUST BE AT LEAST
-! ONE OF THESE, SINCE OTHERWISE WE WOULD NOT BE HERE ATTEMPTING TO
-! GAIN TYPE -1 FEASIBILITY.
-! HERE IWORK(II)=ICNTYP(I).
-               if ( Iwork(ii)+1==0 ) then
-                  m = m + 1
-                  if ( ioptth<=0 ) then
-! HERE IOPTTH=0 AND WE HAVE NOT YET CALLED DERST TO PUT CONSTRAINT I
-! AND ITS DERIVATIVES IN CONFUN, SO WE DO IT NOW.
-                     ipt = i
-                     call me%derst(Ioptn,Nparm,Numgr,Pttbl,Iptb,Indm,      &
-                                   Work(ilc27),ipt,Work(ilc24),Work(ilc35),&
-                                   Iwork(ilc22),Work(ilc08))
-                  end if
-! COPY THE DERIVATIVES INTO PMAT FOR USE BY WOLFE.
-                  do l = 1 , Nparm
-                     l1 = ilc29 - 1 + l + (m-1)*npar1
-                     l2 = ilc08 - 1 + i + l*Numgr
-! HERE WORK(L1)=PMAT(L,M) AND WORK(L2)=CONFUN(I,L+1).
-                     Work(l1) = Work(l2)
-                  end do
-!
-! NOW THE ITH CONSTRAINT (WHICH IS ALSO THE MTH TYPE -1 CONSTRAINT) HAS
-! THE FORM PMAT(1,M)*Z1+...+PMAT(NPARM,M)*ZNPARM + CONFUN(I,1)  <=
-! 0.0.  WE MAKE THE CHANGE OF VARIABLES ZZ = Z - PARAM TO TRANSLATE THE
-! ORIGIN TO PARAM.  THE ITH CONSTRAINT WILL THEN HAVE THE FORM
-! PMAT(1,M)*ZZ1+...+PMAT(NPARM,M)*ZZNPARM + (CONFUN(I,1) + PMAT(1,M)*
-! PARAM(1)+...+PMAT(NPARM,M)*PARAM(NPARM)) <= 0.0.  AFTER WOLFE FINDS
-! THE CLOSEST POINT TO THE ORIGIN IN THE POLYHEDRON DEFINED BY THE NEW
-! CONSTRAINTS, WE WILL ADD PARAM TO TRANSLATE BACK TO THE POINT WE WANT.
-                  l1 = ilc29 - 1 + npar1 + (m-1)*npar1
-                  l2 = ilc08 - 1 + i
-! HERE WORK(L1)=PMAT(NPAR1,1) AND WORK(L2)=CONFUN(I,1).
-                  Work(l1) = Work(l2)
-                  do l = 1 , Nparm
-                     l2 = ilc29 - 1 + l + (m-1)*npar1
-! HERE WORK(L1)=PMAT(NPAR1,1) AND WORK(L2)=PMAT(L,M).
-                     Work(l1) = Work(l1) + Work(l2)*Param(l)
-                  end do
-               end if
+                ii = ilc17 - 1 + i
+                ! HERE WE CONSIDER ONLY TYPE -1 CONSTRAINTS.  THERE MUST BE AT LEAST
+                ! ONE OF THESE, SINCE OTHERWISE WE WOULD NOT BE HERE ATTEMPTING TO
+                ! GAIN TYPE -1 FEASIBILITY.
+                ! HERE IWORK(II)=ICNTYP(I).
+                if ( Iwork(ii)+1==0 ) then
+                    m = m + 1
+                    if ( ioptth<=0 ) then
+                        ! HERE IOPTTH=0 AND WE HAVE NOT YET CALLED DERST TO PUT CONSTRAINT I
+                        ! AND ITS DERIVATIVES IN CONFUN, SO WE DO IT NOW.
+                        ipt = i
+                        call me%derst(Ioptn,Nparm,Numgr,Pttbl,Iptb,Indm,      &
+                                      Work(ilc27),ipt,Work(ilc24),Work(ilc35),&
+                                      Iwork(ilc22),Work(ilc08))
+                    end if
+                    ! COPY THE DERIVATIVES INTO PMAT FOR USE BY WOLFE.
+                    do l = 1 , Nparm
+                        l1 = ilc29 - 1 + l + (m-1)*npar1
+                        l2 = ilc08 - 1 + i + l*Numgr
+                        ! HERE WORK(L1)=PMAT(L,M) AND WORK(L2)=CONFUN(I,L+1).
+                        Work(l1) = Work(l2)
+                    end do
+
+                    ! NOW THE ITH CONSTRAINT (WHICH IS ALSO THE MTH TYPE -1 CONSTRAINT) HAS
+                    ! THE FORM PMAT(1,M)*Z1+...+PMAT(NPARM,M)*ZNPARM + CONFUN(I,1)  <=
+                    ! 0.0.  WE MAKE THE CHANGE OF VARIABLES ZZ = Z - PARAM TO TRANSLATE THE
+                    ! ORIGIN TO PARAM.  THE ITH CONSTRAINT WILL THEN HAVE THE FORM
+                    ! PMAT(1,M)*ZZ1+...+PMAT(NPARM,M)*ZZNPARM + (CONFUN(I,1) + PMAT(1,M)*
+                    ! PARAM(1)+...+PMAT(NPARM,M)*PARAM(NPARM)) <= 0.0.  AFTER WOLFE FINDS
+                    ! THE CLOSEST POINT TO THE ORIGIN IN THE POLYHEDRON DEFINED BY THE NEW
+                    ! CONSTRAINTS, WE WILL ADD PARAM TO TRANSLATE BACK TO THE POINT WE WANT.
+                    l1 = ilc29 - 1 + npar1 + (m-1)*npar1
+                    l2 = ilc08 - 1 + i
+                    ! HERE WORK(L1)=PMAT(NPAR1,1) AND WORK(L2)=CONFUN(I,1).
+                    Work(l1) = Work(l2)
+                    do l = 1 , Nparm
+                        l2 = ilc29 - 1 + l + (m-1)*npar1
+                        ! HERE WORK(L1)=PMAT(NPAR1,1) AND WORK(L2)=PMAT(L,M).
+                        Work(l1) = Work(l1) + Work(l2)*Param(l)
+                    end do
+                end if
             end do
-! CALL WOLFE WITH ISTRT=0 TO COMPUTE THE SOLUTION IN THE ZZ COORDINATE
-! SYSTEM FROM SCRATCH.
+            ! CALL WOLFE WITH ISTRT=0 TO COMPUTE THE SOLUTION IN THE ZZ COORDINATE
+            ! SYSTEM FROM SCRATCH.
             call wolfe(Nparm,m,Work(ilc29),0,s,ncor,Iwork(ilc15),Iwork, &
                        Liwrk,Work,Lwrk,Work(ilc33),Work(ilc06),         &
                        Work(ilc31),Work(ilc30),Nparm,Numgr,Work(ilc40), &
                        Work(ilc42),wdist,nmaj,nmin,jflag)
             if ( jflag>0 ) goto 600
-!
-! HERE JFLAG <= 0 AND WE PUT PARAM+WPT IN PARWRK TO CHECK WHETHER
-! THE TYPE -1 CONSTRAINTS ARE NOW FEASIBLE WITHIN TOLLIN.
+
+            ! HERE JFLAG <= 0 AND WE PUT PARAM+WPT IN PARWRK TO CHECK WHETHER
+            ! THE TYPE -1 CONSTRAINTS ARE NOW FEASIBLE WITHIN TOLLIN.
             do j = 1 , Nparm
-               j1 = ilc27 - 1 + j
-               j2 = ilc42 - 1 + j
-! HERE WORK(J1)=PARWRK(J) AND WORK(J2)=WPT(J).
-               Work(j1) = Param(j) + Work(j2)
+                j1 = ilc27 - 1 + j
+                j2 = ilc42 - 1 + j
+                ! HERE WORK(J1)=PARWRK(J) AND WORK(J2)=WPT(J).
+                Work(j1) = Param(j) + Work(j2)
             end do
-! FOR USE IN ERCMP1 WE SET JCNTYP(I)=-1 IF ICNTYP(I)=-1 AND SET
-! JCNTYP(I)=0 OTHERWISE.
+            ! FOR USE IN ERCMP1 WE SET JCNTYP(I)=-1 IF ICNTYP(I)=-1 AND SET
+            ! JCNTYP(I)=0 OTHERWISE.
             do i = 1 , Numgr
-               ii = ilc17 - 1 + i
-               jj = ilc21 - 1 + i
-! HERE IWORK(II)=ICNTYP(I) AND IWORK(JJ)=JCNTYP(I).
-               if ( Iwork(ii)+1/=0 ) then
-                  Iwork(jj) = 0
-               else
-                  Iwork(jj) = -1
-               end if
+                ii = ilc17 - 1 + i
+                jj = ilc21 - 1 + i
+                ! HERE IWORK(II)=ICNTYP(I) AND IWORK(JJ)=JCNTYP(I).
+                if ( Iwork(ii)+1/=0 ) then
+                    Iwork(jj) = 0
+                else
+                    Iwork(jj) = -1
+                end if
             end do
-! CALL ERCMP1 WITH ICNUSE=1.
-            call me%ercmp1(Ioptn,Nparm,Numgr,Fun,Ifun,Pttbl,Iptb,Indm,     &
-                        Work(ilc27),1,iphse,Iwork,Liwrk,Work(ilc08),    &
+            ! CALL ERCMP1 WITH ICNUSE=1.
+            call me%ercmp1(Ioptn,Nparm,Numgr,Fun,Ifun,Pttbl,Iptb,Indm,  &
+                        Work(ilc27),1,iphse,Iwork,Liwrk,Work(ilc08), &
                         Iwork(ilc21),ipmax,ismax,Work(ilc11))
-            i1 = ilc11 - 1 + (Numgr+2)
-! HERE WORK(I1)=ERR1(NUMGR+2).
+                        i1 = ilc11 - 1 + (Numgr+2)
+            ! HERE WORK(I1)=ERR1(NUMGR+2).
             if ( Work(i1)>tollin ) goto 600
-!
-! HERE WE HAVE ACHIEVED TYPE -1 FEASIBILITY.  WE REPLACE PARAM WITH
-! PARWRK.
+
+            ! HERE WE HAVE ACHIEVED TYPE -1 FEASIBILITY.  WE REPLACE PARAM WITH
+            ! PARWRK.
             do j = 1 , Nparm
-               jj = ilc27 - 1 + j
-! HERE WORK(JJ)=PARWRK(J).
-               Param(j) = Work(jj)
+                jj = ilc27 - 1 + j
+                ! HERE WORK(JJ)=PARWRK(J).
+                Param(j) = Work(jj)
             end do
             ii = ilc11 - 1 + Numgr + 2
-! HERE WORK(II)=ERR1(NUMGR+2).
-!     WRITE(NWRIT,1397)WORK(II),(PARAM(J),J=1,NPARM)
-!1397 FORMAT(48H TYPE -1 FEASIBILITY ACHIEVED.  ERR1(NUMGR+2) IS,
-!    *E15.5,10H  PARAM IS/(4E20.12))
-!
-! IF THERE ARE TYPE -2 CONSTRAINTS, SET JCNTYP AS ICNTYP WITH ALL BUT -2
-! VALUES ZEROED OUT AND CALL ERCMP1 WITH ICNUSE=1 TO CHECK TYPE -2
-! FEASIBILITY.  WE CANNOT SIMPLY CHECK THE OLD ENOR3 HERE SINCE PARAM HAS
-! BEEN CHANGED.  IF THERE ARE NO TYPE -2 CONSTRAINTS WE WILL AUTOMATICALLY
-! HAVE TYPE -2 FEASIBILITY.
+            ! HERE WORK(II)=ERR1(NUMGR+2).
+            !     WRITE(NWRIT,1397)WORK(II),(PARAM(J),J=1,NPARM)
+            !1397 FORMAT(48H TYPE -1 FEASIBILITY ACHIEVED.  ERR1(NUMGR+2) IS,
+            !    *E15.5,10H  PARAM IS/(4E20.12))
+
+            ! IF THERE ARE TYPE -2 CONSTRAINTS, SET JCNTYP AS ICNTYP WITH ALL BUT -2
+            ! VALUES ZEROED OUT AND CALL ERCMP1 WITH ICNUSE=1 TO CHECK TYPE -2
+            ! FEASIBILITY.  WE CANNOT SIMPLY CHECK THE OLD ENOR3 HERE SINCE PARAM HAS
+            ! BEEN CHANGED.  IF THERE ARE NO TYPE -2 CONSTRAINTS WE WILL AUTOMATICALLY
+            ! HAVE TYPE -2 FEASIBILITY.
             if ( itypm2<=0 ) then
-!
-! HERE WE HAVE BOTH TYPE -1 AND TYPE -2 FEASIBILITY, BUT PARAM WAS
-! CHANGED IN GETTING TYPE -1 FEASIBILITY, SO WE CALL ERCMP1
-! WITH ICNUSE=0 (ICNUSE=1 WOULD WORK ALSO SINCE ICNTYP HAS NOT BEEN
-! CHANGED HERE) TO GET THE NEW ERROR VECTOR.
-               call me%ercmp1(Ioptn,Nparm,Numgr,Fun,Ifun,Pttbl,Iptb,Indm,  &
-                           Param,0,iphse,Iwork,Liwrk,Work(ilc08),       &
-                           Iwork(ilc17),ipmax,ismax,Error)
-               goto 800
+                ! HERE WE HAVE BOTH TYPE -1 AND TYPE -2 FEASIBILITY, BUT PARAM WAS
+                ! CHANGED IN GETTING TYPE -1 FEASIBILITY, SO WE CALL ERCMP1
+                ! WITH ICNUSE=0 (ICNUSE=1 WOULD WORK ALSO SINCE ICNTYP HAS NOT BEEN
+                ! CHANGED HERE) TO GET THE NEW ERROR VECTOR.
+                call me%ercmp1(Ioptn,Nparm,Numgr,Fun,Ifun,Pttbl,Iptb,Indm,  &
+                               Param,0,iphse,Iwork,Liwrk,Work(ilc08),       &
+                               Iwork(ilc17),ipmax,ismax,Error)
+                goto 800
             else
-               do i = 1 , Numgr
-                  ii = ilc17 - 1 + i
-                  jj = ilc21 - 1 + i
-! HERE IWORK(II)=ICNTYP(I) AND IWORK(JJ)=JCNTYP(I).
-                  if ( Iwork(ii)+1<0 ) then
-                     Iwork(jj) = -2
-                  else
-                     Iwork(jj) = 0
-                  end if
-               end do
-               call me%ercmp1(Ioptn,Nparm,Numgr,Fun,Ifun,Pttbl,Iptb,Indm,  &
-                           Param,1,iphse,Iwork,Liwrk,Work(ilc08),       &
-                           Iwork(ilc21),ipmax,ismax,Work(ilc11))
-               ii = ilc11 - 1 + Numgr + 3
-! HERE WORK(II)=ERR1(NUMGR+3).
-               if ( Work(ii)>tolcon ) goto 700
-               call me%ercmp1(Ioptn,Nparm,Numgr,Fun,Ifun,Pttbl,Iptb,Indm,  &
-                           Param,0,iphse,Iwork,Liwrk,Work(ilc08),       &
-                           Iwork(ilc17),ipmax,ismax,Error)
-               goto 800
+                do i = 1 , Numgr
+                    ii = ilc17 - 1 + i
+                    jj = ilc21 - 1 + i
+                    ! HERE IWORK(II)=ICNTYP(I) AND IWORK(JJ)=JCNTYP(I).
+                    if ( Iwork(ii)+1<0 ) then
+                        Iwork(jj) = -2
+                    else
+                        Iwork(jj) = 0
+                    end if
+                end do
+                call me%ercmp1(Ioptn,Nparm,Numgr,Fun,Ifun,Pttbl,Iptb,Indm,  &
+                               Param,1,iphse,Iwork,Liwrk,Work(ilc08),       &
+                               Iwork(ilc21),ipmax,ismax,Work(ilc11))
+                ii = ilc11 - 1 + Numgr + 3
+                ! HERE WORK(II)=ERR1(NUMGR+3).
+                if ( Work(ii)>tolcon ) goto 700
+                call me%ercmp1(Ioptn,Nparm,Numgr,Fun,Ifun,Pttbl,Iptb,Indm,  &
+                               Param,0,iphse,Iwork,Liwrk,Work(ilc08),       &
+                               Iwork(ilc17),ipmax,ismax,Error)
+                goto 800
             end if
-         end if
-!
-! HERE ITER = ITLIM1, SO WE RETURN.
-      else if ( iphse>=0 ) then
-         Iter = Iter + Itlim - itlim1
-         goto 500
-      end if
-!
-! HERE WE HAVE FAILED TO ACHIEVE TYPE -2 FEASIBILITY AND WE SET ITER=-2
-! AS A WARNING, PUT ERROR(NUMGR+1) IN ITS PROPER LOCATION, SET
-! ERROR(NUMGR+1) = 0.0 SINCE THE PRIMARY CONSTRAINTS WERE NOT COMPUTED,
-! AND RETURN.  NOTE THAT WE CANNOT HAVE IPHSE=-1 HERE SINCE THAT WOULD
-! IMPLY ITER=0, THUS ITLIM=ITLIM1=0, IN WHICH CASE WE WOULD HAVE
-! TERMINATED EARLIER.
- 400  Iter = -2
-      Error(Numgr+3) = Error(Numgr+1)
-      Error(Numgr+1) = zero
-!     WRITE(6,1150)
-!1150 FORMAT(43H ***WARNING  NONLINEAR STANDARD FEASIBILITY,
-!    *16H NOT ACHIEVED***)
-      return
-!
- 500  return
-!
-! HERE WE HAVE FAILED TO ACHIEVE TYPE -1 FEASIBILITY.  WE SET ITER=-1
-! AS A WARNING AND RETURN.
- 600  Iter = -1
-!     WRITE(NWRIT,1360)
-!1360 FORMAT(40H ***WARNING  LINEAR STANDARD FEASIBILITY,
-!    *16H NOT ACHIEVED***)
-      return
-!
-! HERE WE HAVE TYPE -1 FEASIBILITY BUT NOT TYPE -2 FEASIBILITY.  WE SET
-! UP FOR THE TYPE -2 FEASIBILITY ITERATIONS, IN WHICH TYPE 1 AND TYPE
-! 2 CONSTRAINTS ARE IGNORED AND TYPE -2 CONSTRAINTS ARE TREATED AS
-! TYPE 1 CONSTRAINTS, EXCEPT WE WILL SWITCH OVER TO NORMAL ITERATIONS
-! ONCE WE CAN FORCE W <= TOLCON.  THUS WE SET THE INDICATOR IPHSE TO
-! -2, RESET ICNTYP(I) TO 1 IF IT WAS -2, LEAVE IT AT -1 IF IT WAS -1,
-! AND SET IT TO 0 OTHERWISE, RESET ITYP2, ITYP1, AND ITYPM2, AND CALL
-! ERCMP1 WITH ICNUSE=1 TO PUT THE PROPER VALUES IN ERROR.
- 700  iphse = -2
-      do i = 1 , Numgr
-         ii = ilc17 - 1 + i
-! HERE IWORK(II)=ICNTYP(I).
-         if ( Iwork(ii)+1<0 ) then
+        end if
+
+    ! HERE ITER = ITLIM1, SO WE RETURN.
+    else if ( iphse>=0 ) then
+        Iter = Iter + Itlim - itlim1
+        return
+    end if
+
+    ! HERE WE HAVE FAILED TO ACHIEVE TYPE -2 FEASIBILITY AND WE SET ITER=-2
+    ! AS A WARNING, PUT ERROR(NUMGR+1) IN ITS PROPER LOCATION, SET
+    ! ERROR(NUMGR+1) = 0.0 SINCE THE PRIMARY CONSTRAINTS WERE NOT COMPUTED,
+    ! AND RETURN.  NOTE THAT WE CANNOT HAVE IPHSE=-1 HERE SINCE THAT WOULD
+    ! IMPLY ITER=0, THUS ITLIM=ITLIM1=0, IN WHICH CASE WE WOULD HAVE
+    ! TERMINATED EARLIER.
+400 Iter = -2
+    Error(Numgr+3) = Error(Numgr+1)
+    Error(Numgr+1) = zero
+    ! WRITE(6,'(A)') '***WARNING  NONLINEAR STANDARD FEASIBILITY NOT ACHIEVED***'
+    return
+
+    ! HERE WE HAVE FAILED TO ACHIEVE TYPE -1 FEASIBILITY.  WE SET ITER=-1
+    ! AS A WARNING AND RETURN.
+600 Iter = -1
+    ! WRITE(NWRIT,'(A)') '***WARNING  LINEAR STANDARD FEASIBILITY NOT ACHIEVED***'
+    return
+
+    ! HERE WE HAVE TYPE -1 FEASIBILITY BUT NOT TYPE -2 FEASIBILITY.  WE SET
+    ! UP FOR THE TYPE -2 FEASIBILITY ITERATIONS, IN WHICH TYPE 1 AND TYPE
+    ! 2 CONSTRAINTS ARE IGNORED AND TYPE -2 CONSTRAINTS ARE TREATED AS
+    ! TYPE 1 CONSTRAINTS, EXCEPT WE WILL SWITCH OVER TO NORMAL ITERATIONS
+    ! ONCE WE CAN FORCE W <= TOLCON.  THUS WE SET THE INDICATOR IPHSE TO
+    ! -2, RESET ICNTYP(I) TO 1 IF IT WAS -2, LEAVE IT AT -1 IF IT WAS -1,
+    ! AND SET IT TO 0 OTHERWISE, RESET ITYP2, ITYP1, AND ITYPM2, AND CALL
+    ! ERCMP1 WITH ICNUSE=1 TO PUT THE PROPER VALUES IN ERROR.
+700 iphse = -2
+    do i = 1 , Numgr
+        ii = ilc17 - 1 + i
+        ! HERE IWORK(II)=ICNTYP(I).
+        if ( Iwork(ii)+1<0 ) then
             Iwork(ii) = 1
-         else if ( Iwork(ii)+1/=0 ) then
+        else if ( Iwork(ii)+1/=0 ) then
             Iwork(ii) = 0
-         end if
-      end do
-! SAVE ITYP2 AND ITYP1.
-      ityp2k = ityp2
-      ityp1k = ityp1
-      ityp2 = 0
-      ityp1 = itypm2
-      itypm2 = 0
-      call me%ercmp1(Ioptn,Nparm,Numgr,Fun,Ifun,Pttbl,Iptb,Indm,Param,1,   &
-                  iphse,Iwork,Liwrk,Work(ilc08),Iwork(ilc17),ipmax,     &
-                  ismax,Error)
-      goto 900
-!
-! HERE WE HAVE BOTH TYPE -1 AND TYPE -2 FEASIBILITY, AND WE
-! SET IPHSE=0 AND GO INTO THE MAIN PART OF CONMAX (UNLESS THERE WERE
-! NO TYPE 1 OR TYPE 2 CONSTRAINTS, IN WHICH CASE WE RETURN).
- 800  iphse = 0
-      if ( ityp1+ityp2<=0 ) goto 500
-!
-! END OF INITIAL FEASIBILITY CHECKING, TYPE -1 FEASIBILITY WORK, AND
-! TYPE -2 SETUP.  THE BLOCK OF STATEMENTS FROM HERE UP TO THE
-! PRECEDING DOUBLE BLANK LINE WILL NOT BE EXECUTED AGAIN.
-!
-!
-!
- 900  if ( irk<=0 ) then
-!
-! HERE IRK IS 0 OR -1 AND WE DO AN SLP STEP.  IF SLPCON CANNOT REDUCE THE
-! PRINCIPAL ERROR NORM ENORM = ERROR(NUMGR+1) BY MORE THAN 100.0*B**(-ITT)
-! THEN IT WILL LEAVE PARAM AND ERROR UNCHANGED.
-         call me%slpcon(Ioptn,Nparm,Numgr,Fun,Ifun,Pttbl,Iptb,Indm,tolcon, &
-                     rchin,irk,itypm1,itypm2,Iwork(ilc17),rchdwn,numlim,&
-                     itersl,prjslp,Work(ilc12),Iwork(ilc20),Work(ilc44),&
-                     mact1,Iwork(ilc14),Iwork(ilc21),iphse,enchg,Iwork, &
-                     Liwrk,Work,Lwrk,Work(ilc26),isucc,Param,Error)
-      else
-!
-! HERE IRK IS 1 OR 2 AND WE DO AN RK STEP.  IF RKCON CANNOT REDUCE THE
-! PRINCIPAL ERROR NORM ENORM = ERROR(NUMGR+1) BY MORE THAN 100.0*B**(-ITT)
-! THEN IT WILL LEAVE PARAM AND ERROR UNCHANGED.
-         call me%rkcon(Ioptn,Nparm,Numgr,Fun,Ifun,Pttbl,Iptb,Indm,tolcon,  &
-                    rchin,Iter,irk,ityp2,ityp1,itypm1,itypm2,           &
-                    Iwork(ilc17),projct,rchdwn,nstep,iphse,enchg,enc1,  &
-                    Work(ilc29),Work(ilc12),Iwork,Liwrk,Work,Lwrk,      &
-                    Iwork(ilc13),Work(ilc02),Work(ilc25),Work(ilc26),   &
-                    Work(ilc46),Work(ilc11),Work(ilc08),isucc,Param,    &
-                    Error)
-      end if
-!
-      if ( isucc<=0 ) then
-! HERE THE RK OR SLP STEP REDUCED ERROR(NUMGR+1) BY MORE THAN
-! 100.0*B**(-ITT), AND WE INCREMENT ITER.
-         Iter = Iter + 1
-!
-! IF EITHER IPHSE=0, OR IPHSE=-2 AND ERROR(NUMGR+1) > TOLCON, WE GO
-! ON AS USUAL TO SET UP ANOTHER STEP WITH THE SAME IPHSE.
-         if ( iphse<0 ) then
+        end if
+    end do
+    ! SAVE ITYP2 AND ITYP1.
+    ityp2k = ityp2
+    ityp1k = ityp1
+    ityp2 = 0
+    ityp1 = itypm2
+    itypm2 = 0
+    call me%ercmp1(Ioptn,Nparm,Numgr,Fun,Ifun,Pttbl,Iptb,Indm,Param,1, &
+                   iphse,Iwork,Liwrk,Work(ilc08),Iwork(ilc17),ipmax,   &
+                   ismax,Error)
+    goto 900
+
+    ! HERE WE HAVE BOTH TYPE -1 AND TYPE -2 FEASIBILITY, AND WE
+    ! SET IPHSE=0 AND GO INTO THE MAIN PART OF CONMAX (UNLESS THERE WERE
+    ! NO TYPE 1 OR TYPE 2 CONSTRAINTS, IN WHICH CASE WE RETURN).
+800 iphse = 0
+    if ( ityp1+ityp2<=0 ) return
+
+    ! END OF INITIAL FEASIBILITY CHECKING, TYPE -1 FEASIBILITY WORK, AND
+    ! TYPE -2 SETUP.  THE BLOCK OF STATEMENTS FROM HERE UP TO THE
+    ! PRECEDING DOUBLE BLANK LINE WILL NOT BE EXECUTED AGAIN.
+
+900 if ( irk<=0 ) then
+        ! HERE IRK IS 0 OR -1 AND WE DO AN SLP STEP.  IF SLPCON CANNOT REDUCE THE
+        ! PRINCIPAL ERROR NORM ENORM = ERROR(NUMGR+1) BY MORE THAN 100.0*B**(-ITT)
+        ! THEN IT WILL LEAVE PARAM AND ERROR UNCHANGED.
+        call me%slpcon(Ioptn,Nparm,Numgr,Fun,Ifun,Pttbl,Iptb,Indm,tolcon, &
+                        rchin,irk,itypm1,itypm2,Iwork(ilc17),rchdwn,numlim,&
+                        itersl,prjslp,Work(ilc12),Iwork(ilc20),Work(ilc44),&
+                        mact1,Iwork(ilc14),Iwork(ilc21),iphse,enchg,Iwork, &
+                        Liwrk,Work,Lwrk,Work(ilc26),isucc,Param,Error)
+    else
+        ! HERE IRK IS 1 OR 2 AND WE DO AN RK STEP.  IF RKCON CANNOT REDUCE THE
+        ! PRINCIPAL ERROR NORM ENORM = ERROR(NUMGR+1) BY MORE THAN 100.0*B**(-ITT)
+        ! THEN IT WILL LEAVE PARAM AND ERROR UNCHANGED.
+        call me%rkcon(Ioptn,Nparm,Numgr,Fun,Ifun,Pttbl,Iptb,Indm,tolcon,  &
+                        rchin,Iter,irk,ityp2,ityp1,itypm1,itypm2,           &
+                        Iwork(ilc17),projct,rchdwn,nstep,iphse,enchg,enc1,  &
+                        Work(ilc29),Work(ilc12),Iwork,Liwrk,Work,Lwrk,      &
+                        Iwork(ilc13),Work(ilc02),Work(ilc25),Work(ilc26),   &
+                        Work(ilc46),Work(ilc11),Work(ilc08),isucc,Param,    &
+                        Error)
+    end if
+
+    if ( isucc<=0 ) then
+        ! HERE THE RK OR SLP STEP REDUCED ERROR(NUMGR+1) BY MORE THAN
+        ! 100.0*B**(-ITT), AND WE INCREMENT ITER.
+        Iter = Iter + 1
+
+        ! IF EITHER IPHSE=0, OR IPHSE=-2 AND ERROR(NUMGR+1) > TOLCON, WE GO
+        ! ON AS USUAL TO SET UP ANOTHER STEP WITH THE SAME IPHSE.
+        if ( iphse<0 ) then
             if ( Error(Numgr+1)<=tolcon ) then
-!
-! HERE IPHSE=-2 AND ERROR(NUMGR+1) <= TOLCON, SO WE HAVE JUST ACHIEVED
-! TYPE -2 FEASIBILITY.  WE WILL SET IPHSE=0, AND IF THERE ARE ANY
-! PRIMARY CONSTRAINTS WE WILL RESET ITER, ITERSL, AND ITLIM1 (SINCE
-! ITER=0 AND ITERSL=0 HAVE MEANINGS TO RKCON AND SLPCON RESPECTIVELY),
-! RESET RCHIN AND RCHDWN, AND GO BACK TO THE FIRST ERCMP1 CALL TO
-! RESTORE ERROR AND ICNTYP (ITYP1, ITYP2, ITYPM1, AND ITYPM2 WILL ALSO
-! BE RESTORED).
-               iphse = 0
-               if ( ityp1k+ityp2k<=0 ) goto 500
-               itlim1 = Itlim - Iter
-               Iter = 0
-               itersl = 0
-               rchin = rchdwn
-               rchdwn = rchdnk
-               goto 100
+                ! HERE IPHSE=-2 AND ERROR(NUMGR+1) <= TOLCON, SO WE HAVE JUST ACHIEVED
+                ! TYPE -2 FEASIBILITY.  WE WILL SET IPHSE=0, AND IF THERE ARE ANY
+                ! PRIMARY CONSTRAINTS WE WILL RESET ITER, ITERSL, AND ITLIM1 (SINCE
+                ! ITER=0 AND ITERSL=0 HAVE MEANINGS TO RKCON AND SLPCON RESPECTIVELY),
+                ! RESET RCHIN AND RCHDWN, AND GO BACK TO THE FIRST ERCMP1 CALL TO
+                ! RESTORE ERROR AND ICNTYP (ITYP1, ITYP2, ITYPM1, AND ITYPM2 WILL ALSO
+                ! BE RESTORED).
+                iphse = 0
+                if ( ityp1k+ityp2k<=0 ) return
+                itlim1 = Itlim - Iter
+                Iter = 0
+                itersl = 0
+                rchin = rchdwn
+                rchdwn = rchdnk
+                goto 100
             end if
-         end if
-!
-         if ( irk<0 ) then
-!
-! HERE WE HAD AN SLP SUCCESS AND WE ARE GOING TO TRY RK AGAIN, SO WE SET
-! IRK=2 TO WARN RKCON THAT THE SUCCESS CAME FROM SLP.
+        end if
+
+        if ( irk<0 ) then
+            ! HERE WE HAD AN SLP SUCCESS AND WE ARE GOING TO TRY RK AGAIN, SO WE SET
+            ! IRK=2 TO WARN RKCON THAT THE SUCCESS CAME FROM SLP.
             irk = 2
-         else if ( irk/=0 ) then
-!
-! HERE IRK IS 1 OR 2, SO WE JUST HAD AN RK SUCCESS.  WE RESET IRK AND
-! ITERSL.
+        else if ( irk/=0 ) then
+            ! HERE IRK IS 1 OR 2, SO WE JUST HAD AN RK SUCCESS.  WE RESET IRK AND
+            ! ITERSL.
             irk = 1
             itersl = 0
             goto 200
-         end if
-! HERE WE HAD AN SLP SUCCESS AND WE INCREMENT ITERSL = THE NUMBER OF SLP
-! SUCCESSES SINCE THE LAST SUCCESSFUL RK STEP (IF ANY).  ITERSL IS NEEDED
-! IN SUBROUTINE BNDSET (CALLED BY SLPCON).
-         itersl = itersl + 1
-         goto 200
-      else
-!
-! HERE RKCON OR SLPCON FAILED TO SIGNIFICANTLY REDUCE THE PRINCIPAL ERROR
-! NORM.  IF WE JUST TRIED SLP WE QUIT, AND IF WE JUST TRIED RK WE ATTEMPT
-! AN SLP STEP UNLESS IOPTHO = 2, IN WHICH CASE WE QUIT.
-         if ( irk>0 ) then
+        end if
+        ! HERE WE HAD AN SLP SUCCESS AND WE INCREMENT ITERSL = THE NUMBER OF SLP
+        ! SUCCESSES SINCE THE LAST SUCCESSFUL RK STEP (IF ANY).  ITERSL IS NEEDED
+        ! IN SUBROUTINE BNDSET (CALLED BY SLPCON).
+        itersl = itersl + 1
+        goto 200
+    else
+        ! HERE RKCON OR SLPCON FAILED TO SIGNIFICANTLY REDUCE THE PRINCIPAL ERROR
+        ! NORM.  IF WE JUST TRIED SLP WE QUIT, AND IF WE JUST TRIED RK WE ATTEMPT
+        ! AN SLP STEP UNLESS IOPTHO = 2, IN WHICH CASE WE QUIT.
+        if ( irk>0 ) then
             if ( ioptho/=2 ) then
-               irk = -1
-               goto 300
+                irk = -1
+                goto 300
             end if
-         end if
-!
-! IF IPHSE=-2 HERE WE WILL SET ITER=-2 AS A WARNING AND CHANGE
-! ERROR(NUMGR+1) AND ERROR(NUMGR+3) BEFORE RETURNING.  OTHERWISE WE WILL
-! HAVE IPHSE=0 AND WE WILL ADJUST ITER BEFORE RETURNING.
-         if ( iphse<0 ) goto 400
-         Iter = Iter + Itlim - itlim1
-         goto 500
-      end if
+        end if
+
+        ! IF IPHSE=-2 HERE WE WILL SET ITER=-2 AS A WARNING AND CHANGE
+        ! ERROR(NUMGR+1) AND ERROR(NUMGR+3) BEFORE RETURNING.  OTHERWISE WE WILL
+        ! HAVE IPHSE=0 AND WE WILL ADJUST ITER BEFORE RETURNING.
+        if ( iphse<0 ) goto 400
+        Iter = Iter + Itlim - itlim1
+    end if
 
     end subroutine conmax
 !********************************************************************************
