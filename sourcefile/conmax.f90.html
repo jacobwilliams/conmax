@@ -326,28 +326,28 @@
 <a id="ln-64" name="ln-64"></a>
 <a id="ln-65" name="ln-65"></a>    <span class="k">abstract interface</span>
 <a id="ln-66" name="ln-66"></a><span class="k">        subroutine </span><span class="n">func</span><span class="p">(</span><span class="n">me</span><span class="p">,</span> <span class="n">Nparm</span><span class="p">,</span> <span class="n">Numgr</span><span class="p">,</span> <span class="n">Pttbl</span><span class="p">,</span> <span class="n">Iptb</span><span class="p">,</span> <span class="n">Indm</span><span class="p">,</span> <span class="n">Param</span><span class="p">,</span> <span class="n">Ipt</span><span class="p">,</span> <span class="n">Indfn</span><span class="p">,</span> <span class="n">Icntyp</span><span class="p">,</span> <span class="n">Confun</span><span class="p">)</span>
-<a id="ln-67" name="ln-67"></a>        <span class="c">!! interface for the `fnset` function.</span>
+<a id="ln-67" name="ln-67"></a>        <span class="c">!!  Interface for the `fnset` function.</span>
 <a id="ln-68" name="ln-68"></a>        <span class="c">!!</span>
-<a id="ln-69" name="ln-69"></a>        <span class="c">!! THE FIRST EIGHT VARIABLES IN THE CALLING SEQUENCE FOR FNSET ARE FOR</span>
-<a id="ln-70" name="ln-70"></a>        <span class="c">!! INPUT TO FNSET, WITH THE FIRST FIVE VARIABLES BEING EXACTLY AS THE</span>
-<a id="ln-71" name="ln-71"></a>        <span class="c">!! USER SET THEM IN THE DRIVER PROGRAM.  IF THE TEN THOUSANDS DIGIT OF</span>
-<a id="ln-72" name="ln-72"></a>        <span class="c">!! IOPTN WAS SET TO 0, FNSET SHOULD BE WRITTEN TO PLACE THE APPROPRIATE</span>
-<a id="ln-73" name="ln-73"></a>        <span class="c">!! VALUES IN ICNTYP AND CONFUN USING THE PARAMETERS IN PARAM, AS FOLLOWS.</span>
+<a id="ln-69" name="ln-69"></a>        <span class="c">!!  The first eight variables in the calling sequence for fnset are for</span>
+<a id="ln-70" name="ln-70"></a>        <span class="c">!!  input to fnset, with the first five variables being exactly as the</span>
+<a id="ln-71" name="ln-71"></a>        <span class="c">!!  user set them in the driver program.  if the ten thousands digit of</span>
+<a id="ln-72" name="ln-72"></a>        <span class="c">!!  ioptn was set to 0, fnset should be written to place the appropriate</span>
+<a id="ln-73" name="ln-73"></a>        <span class="c">!!  values in icntyp and confun using the parameters in param, as follows:</span>
 <a id="ln-74" name="ln-74"></a>        <span class="c">!!</span>
-<a id="ln-75" name="ln-75"></a>        <span class="c">!! ICNTYP(IPT) = THE TYPE OF THE IPT(TH) CONSTRAINT (I.E. 2, 1, -1,</span>
-<a id="ln-76" name="ln-76"></a>        <span class="c">!!   OR -2), OR THE USER CAN SET ICNTYP(IPT)=0 AS A SIGNAL TO IGNORE</span>
-<a id="ln-77" name="ln-77"></a>        <span class="c">!!   CONSTRAINT IPT.</span>
+<a id="ln-75" name="ln-75"></a>        <span class="c">!!  * icntyp(ipt) = the type of the ipt(th) constraint (i.e. 2, 1, -1,</span>
+<a id="ln-76" name="ln-76"></a>        <span class="c">!!    or -2), or the user can set icntyp(ipt)=0 as a signal to ignore</span>
+<a id="ln-77" name="ln-77"></a>        <span class="c">!!    constraint ipt.</span>
 <a id="ln-78" name="ln-78"></a>        <span class="c">!!</span>
-<a id="ln-79" name="ln-79"></a>        <span class="c">!! CONFUN(IPT,1) = THE APPROPRIATE VALUE AS DISCUSSED ABOVE.  (THIS CAN</span>
-<a id="ln-80" name="ln-80"></a>        <span class="c">!!   BE LEFT UNDEFINED IF ICNTYP(IPT)=0.)</span>
+<a id="ln-79" name="ln-79"></a>        <span class="c">!!  * confun(ipt,1) = the appropriate value as discussed above.  (this can</span>
+<a id="ln-80" name="ln-80"></a>        <span class="c">!!    be left undefined if icntyp(ipt)=0.)</span>
 <a id="ln-81" name="ln-81"></a>        <span class="c">!!</span>
-<a id="ln-82" name="ln-82"></a>        <span class="c">!! IF INDFN=1 (WHICH IS THE ONLY POSSIBILITY OTHER THAN INDFN=0) THEN IN</span>
-<a id="ln-83" name="ln-83"></a>        <span class="c">!! ADDITION TO THE ABOVE, FOR J=1,...,NPARM, FNSET SHOULD COMPUTE</span>
+<a id="ln-82" name="ln-82"></a>        <span class="c">!!  if indfn=1 (which is the only possibility other than indfn=0) then in</span>
+<a id="ln-83" name="ln-83"></a>        <span class="c">!!  addition to the above, for j=1,...,nparm, fnset should compute</span>
 <a id="ln-84" name="ln-84"></a>        <span class="c">!!</span>
-<a id="ln-85" name="ln-85"></a>        <span class="c">!! CONFUN(IPT,J+1) = THE VALUE OF THE PARTIAL DERIVATIVE WITH RESPECT</span>
-<a id="ln-86" name="ln-86"></a>        <span class="c">!!   TO PARAM(J) OF THE FUNCTION WHOSE VALUE WAS COMPUTED IN</span>
-<a id="ln-87" name="ln-87"></a>        <span class="c">!!   CONFUN(IPT,1) (UNLESS ICNTYP(IPT)=0, IN WHICH CASE THESE VALUES</span>
-<a id="ln-88" name="ln-88"></a>        <span class="c">!!   NEED NOT BE COMPUTED).</span>
+<a id="ln-85" name="ln-85"></a>        <span class="c">!!  confun(ipt,j+1) = the value of the partial derivative with respect</span>
+<a id="ln-86" name="ln-86"></a>        <span class="c">!!    to param(j) of the function whose value was computed in</span>
+<a id="ln-87" name="ln-87"></a>        <span class="c">!!    confun(ipt,1) (unless icntyp(ipt)=0, in which case these values</span>
+<a id="ln-88" name="ln-88"></a>        <span class="c">!!    need not be computed).</span>
 <a id="ln-89" name="ln-89"></a>            <span class="k">import</span> <span class="kd">::</span> <span class="n">wp</span><span class="p">,</span> <span class="n">conmax_solver</span>
 <a id="ln-90" name="ln-90"></a>            <span class="k">implicit none</span>
 <a id="ln-91" name="ln-91"></a><span class="k">            class</span><span class="p">(</span><span class="n">conmax_solver</span><span class="p">),</span> <span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span> <span class="kd">::</span> <span class="n">me</span>
