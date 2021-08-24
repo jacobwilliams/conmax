@@ -921,9 +921,9 @@ private subroutine setu1(me, Ioptn, Numgr, Nparm, Numin, Rchin, Pttbl, Iptb, Ind
                     <span class="c">! HERE ICNTYP(I)=1 AND WE WILL DECLARE THE CONSTRAINT TO BE +ACTIVE IF AND</span>
                     <span class="c">! ONLY IF ERROR(I) &gt;= ACTLIM.</span>
                     <span class="k">if</span> <span class="p">(</span><span class="n">Error</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">actlim</span><span class="p">)</span> <span class="k">cycle</span>
-                <span class="c">! HERE ICNTYP(I)=2 AND WE WILL DECLARE THE CONSTRAINT TO BE +ACTIVE IF AND</span>
-                <span class="c">! ONLY IF ERROR(I) &gt;= ACTLIM OR -ACTIVE IF AND ONLY IF ERROR(I)  &lt;=</span>
-                <span class="c">! -ACTLIM.</span>
+                    <span class="c">! HERE ICNTYP(I)=2 AND WE WILL DECLARE THE CONSTRAINT TO BE +ACTIVE IF AND</span>
+                    <span class="c">! ONLY IF ERROR(I) &gt;= ACTLIM OR -ACTIVE IF AND ONLY IF ERROR(I)  &lt;=</span>
+                    <span class="c">! -ACTLIM.</span>
                 <span class="k">else if</span> <span class="p">(</span><span class="n">Error</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">actlim</span><span class="p">)</span> <span class="k">then</span>
 <span class="k">                    if</span> <span class="p">(</span><span class="n">Error</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">+</span> <span class="n">actlim</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">then</span>
                         <span class="c">! DECLARE CONSTRAINT I TO BE -ACTIVE.</span>

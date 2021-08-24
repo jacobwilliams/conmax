@@ -426,35 +426,35 @@ private subroutine refwl(Ndm, Ncor, Icor, Pmat, Pmat1, Nparm, Numgr, Ixrct, Save
 <path fill="none" stroke="#000000" d="M145.4,-75C153.39,-75 162.31,-75 170.82,-75"/>
 <polygon fill="#000000" stroke="#000000" points="170.92,-78.5 180.92,-75 170.92,-71.5 170.92,-78.5"/>
 </g>
-<!-- proc~corrct -->
+<!-- proc~conmax -->
 <g id="proc~~refwl~~CalledByGraph_node3" class="node">
+<title>proc~conmax</title>
+<g id="a_proc~~refwl~~CalledByGraph_node3"><a xlink:href=".././proc/conmax.html" xlink:title="conmax">
+<polygon fill="#d9534f" stroke="#d9534f" points="55,-150 0,-150 0,-126 55,-126 55,-150"/>
+<text text-anchor="middle" x="27.5" y="-135.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">conmax</text>
+</a>
+</g>
+</g>
+<!-- proc~conmax&#45;&gt;proc~wolfe -->
+<g id="proc~~refwl~~CalledByGraph_edge3" class="edge">
+<title>proc~conmax&#45;&gt;proc~wolfe</title>
+<path fill="none" stroke="#000000" d="M45.56,-125.85C58.66,-116.53 76.95,-103.51 91.75,-92.98"/>
+<polygon fill="#000000" stroke="#000000" points="93.87,-95.76 99.99,-87.11 89.81,-90.06 93.87,-95.76"/>
+</g>
+<!-- proc~corrct -->
+<g id="proc~~refwl~~CalledByGraph_node4" class="node">
 <title>proc~corrct</title>
-<g id="a_proc~~refwl~~CalledByGraph_node3"><a xlink:href=".././proc/corrct.html" xlink:title="corrct">
-<polygon fill="#d9534f" stroke="#d9534f" points="54.5,-150 0.5,-150 0.5,-126 54.5,-126 54.5,-150"/>
-<text text-anchor="middle" x="27.5" y="-135.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">corrct</text>
+<g id="a_proc~~refwl~~CalledByGraph_node4"><a xlink:href=".././proc/corrct.html" xlink:title="corrct">
+<polygon fill="#d9534f" stroke="#d9534f" points="54.5,-108 0.5,-108 0.5,-84 54.5,-84 54.5,-108"/>
+<text text-anchor="middle" x="27.5" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">corrct</text>
 </a>
 </g>
 </g>
 <!-- proc~corrct&#45;&gt;proc~wolfe -->
 <g id="proc~~refwl~~CalledByGraph_edge2" class="edge">
 <title>proc~corrct&#45;&gt;proc~wolfe</title>
-<path fill="none" stroke="#000000" d="M45.56,-125.85C58.66,-116.53 76.95,-103.51 91.75,-92.98"/>
-<polygon fill="#000000" stroke="#000000" points="93.87,-95.76 99.99,-87.11 89.81,-90.06 93.87,-95.76"/>
-</g>
-<!-- proc~conmax -->
-<g id="proc~~refwl~~CalledByGraph_node4" class="node">
-<title>proc~conmax</title>
-<g id="a_proc~~refwl~~CalledByGraph_node4"><a xlink:href=".././proc/conmax.html" xlink:title="conmax">
-<polygon fill="#d9534f" stroke="#d9534f" points="55,-108 0,-108 0,-84 55,-84 55,-108"/>
-<text text-anchor="middle" x="27.5" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">conmax</text>
-</a>
-</g>
-</g>
-<!-- proc~conmax&#45;&gt;proc~wolfe -->
-<g id="proc~~refwl~~CalledByGraph_edge5" class="edge">
-<title>proc~conmax&#45;&gt;proc~wolfe</title>
-<path fill="none" stroke="#000000" d="M55.05,-89.7C63.18,-87.77 72.25,-85.62 80.9,-83.57"/>
-<polygon fill="#000000" stroke="#000000" points="81.85,-86.94 90.77,-81.22 80.23,-80.13 81.85,-86.94"/>
+<path fill="none" stroke="#000000" d="M54.57,-89.81C62.87,-87.84 72.2,-85.63 81.07,-83.53"/>
+<polygon fill="#000000" stroke="#000000" points="81.88,-86.93 90.81,-81.22 80.27,-80.12 81.88,-86.93"/>
 </g>
 <!-- proc~rkpar -->
 <g id="proc~~refwl~~CalledByGraph_node5" class="node">
@@ -466,7 +466,7 @@ private subroutine refwl(Ndm, Ncor, Icor, Pmat, Pmat1, Nparm, Numgr, Ixrct, Save
 </g>
 </g>
 <!-- proc~rkpar&#45;&gt;proc~wolfe -->
-<g id="proc~~refwl~~CalledByGraph_edge4" class="edge">
+<g id="proc~~refwl~~CalledByGraph_edge5" class="edge">
 <title>proc~rkpar&#45;&gt;proc~wolfe</title>
 <path fill="none" stroke="#000000" d="M54.57,-60.19C62.87,-62.16 72.2,-64.37 81.07,-66.47"/>
 <polygon fill="#000000" stroke="#000000" points="80.27,-69.88 90.81,-68.78 81.88,-63.07 80.27,-69.88"/>
@@ -481,7 +481,7 @@ private subroutine refwl(Ndm, Ncor, Icor, Pmat, Pmat1, Nparm, Numgr, Ixrct, Save
 </g>
 </g>
 <!-- proc~rkcon&#45;&gt;proc~wolfe -->
-<g id="proc~~refwl~~CalledByGraph_edge3" class="edge">
+<g id="proc~~refwl~~CalledByGraph_edge4" class="edge">
 <title>proc~rkcon&#45;&gt;proc~wolfe</title>
 <path fill="none" stroke="#000000" d="M45.56,-24.15C58.66,-33.47 76.95,-46.49 91.75,-57.02"/>
 <polygon fill="#000000" stroke="#000000" points="89.81,-59.94 99.99,-62.89 93.87,-54.24 89.81,-59.94"/>
@@ -654,7 +654,7 @@ private subroutine refwl(Ndm, Ncor, Icor, Pmat, Pmat1, Nparm, Numgr, Ixrct, Save
             <span class="c">! THERE WILL BE AT MOST MAXRS = MIN(NDM,NCOR) RESOLVENTS.</span>
             <span class="n">maxrs</span> <span class="o">=</span> <span class="n">Ncor</span>
             <span class="k">if</span> <span class="p">(</span><span class="n">Ndm</span> <span class="o">&lt;</span> <span class="n">maxrs</span><span class="p">)</span> <span class="n">maxrs</span> <span class="o">=</span> <span class="n">Ndm</span>
-            <span class="n">column_reduce</span> <span class="p">:</span> <span class="k">do </span><span class="n">k</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">maxrs</span>
+            <span class="n">column_reduce</span><span class="p">:</span> <span class="k">do </span><span class="n">k</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">maxrs</span>
                 <span class="c">! SEARCH FOR THE INDICES IMAX AND JMAX WITH 1 &lt;= IMAX &lt;= NDM, 1 &lt;=</span>
                 <span class="c">! JMAX &lt;= NCOR, PMAT1(IMAX,JMAX) IS NOT IN THE ROW OR COLUMN OF ANY</span>
                 <span class="c">! OTHER RESOLVENT (I.E. PIVOT), AND ABS(PMAT1(IMAX,JMAX)) IS MAXIMIZED.</span>
@@ -667,7 +667,7 @@ private subroutine refwl(Ndm, Ncor, Icor, Pmat, Pmat1, Nparm, Numgr, Ixrct, Save
                         <span class="k">end do</span>
 <span class="k">                    end if</span>
                     <span class="c">! HERE THERE IS NO EARLIER RESOLVENT IN COLUMN J.</span>
-                    <span class="n">inner</span> <span class="p">:</span> <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">Ndm</span>
+                    <span class="n">inner</span><span class="p">:</span> <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">Ndm</span>
                         <span class="k">if</span> <span class="p">(</span><span class="n">nresl</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="k">then</span>
 <span class="k">                            do </span><span class="n">l</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nresl</span>
                                 <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">==</span> <span class="n">Ixrct</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">l</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span> <span class="k">cycle </span><span class="n">inner</span>
@@ -709,7 +709,7 @@ private subroutine refwl(Ndm, Ncor, Icor, Pmat, Pmat1, Nparm, Numgr, Ixrct, Save
                     <span class="c">! NOW DO THE OPERATION IN COLUMN J FOR ALL ROWS NOT CONTAINING A</span>
                     <span class="c">! RESOLVENT.  THE ELEMENTS IN THIS COLUMN IN THE ROWS WHICH CONTAIN AN</span>
                     <span class="c">! EARLIER (OR PRESENT) RESOLVENT WILL NOT BE NEEDED LATER.</span>
-                    <span class="n">inner2</span> <span class="p">:</span> <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n</span>
+                    <span class="n">inner2</span><span class="p">:</span> <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n</span>
                         <span class="k">do </span><span class="n">l</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nresl</span>
                             <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">==</span> <span class="n">Ixrct</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">l</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span> <span class="k">cycle </span><span class="n">inner2</span>
                         <span class="k">end do</span>
@@ -742,7 +742,7 @@ private subroutine refwl(Ndm, Ncor, Icor, Pmat, Pmat1, Nparm, Numgr, Ixrct, Save
                 <span class="n">imax</span> <span class="o">=</span> <span class="n">Ixrct</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">k</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
                 <span class="n">jmax</span> <span class="o">=</span> <span class="n">Ixrct</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">k</span><span class="p">)</span>
                 <span class="n">Wpt</span><span class="p">(</span><span class="n">imax</span><span class="p">)</span> <span class="o">=</span> <span class="n">Pmat1</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">jmax</span><span class="p">)</span>
-                <span class="n">iloop</span> <span class="p">:</span> <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">Ndm</span>
+                <span class="n">iloop</span><span class="p">:</span> <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">Ndm</span>
                     <span class="k">do </span><span class="n">l</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">k</span>
                         <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">==</span> <span class="n">Ixrct</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">l</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span> <span class="k">cycle </span><span class="n">iloop</span>
                     <span class="k">end do</span>

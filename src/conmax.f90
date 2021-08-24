@@ -1627,9 +1627,9 @@ contains
                     ! HERE ICNTYP(I)=1 AND WE WILL DECLARE THE CONSTRAINT TO BE +ACTIVE IF AND
                     ! ONLY IF ERROR(I) >= ACTLIM.
                     if (Error(i) < actlim) cycle
-                ! HERE ICNTYP(I)=2 AND WE WILL DECLARE THE CONSTRAINT TO BE +ACTIVE IF AND
-                ! ONLY IF ERROR(I) >= ACTLIM OR -ACTIVE IF AND ONLY IF ERROR(I)  <=
-                ! -ACTLIM.
+                    ! HERE ICNTYP(I)=2 AND WE WILL DECLARE THE CONSTRAINT TO BE +ACTIVE IF AND
+                    ! ONLY IF ERROR(I) >= ACTLIM OR -ACTIVE IF AND ONLY IF ERROR(I)  <=
+                    ! -ACTLIM.
                 else if (Error(i) < actlim) then
                     if (Error(i) + actlim <= 0) then
                         ! DECLARE CONSTRAINT I TO BE -ACTIVE.
@@ -1913,8 +1913,8 @@ contains
 
         implicit none
 
-        integer,intent(in) :: Nparm
-        integer,intent(in) :: Numgr
+        integer, intent(in) :: Nparm
+        integer, intent(in) :: Numgr
         integer  :: m
         integer  :: n
         integer  :: Indic
@@ -2085,16 +2085,16 @@ contains
             rea3 = rea
             ifail = 0
             goto 100
-        ! WE HAVE NOT FOUND A SUITABLE RESOLVENT IN ROWS IYRCT(I1),
-        ! ...IYRCT(I2).  IF I2 < M WE SEARCH THE REST OF COLUMN J.
+            ! WE HAVE NOT FOUND A SUITABLE RESOLVENT IN ROWS IYRCT(I1),
+            ! ...IYRCT(I2).  IF I2 < M WE SEARCH THE REST OF COLUMN J.
         else if (i2 < m) then
             i1 = i2 + 1
             i2 = m
             goto 300
-        ! HERE WE FAILED TO FIND A RESOLVENT IN COLUMN J WITH ABSOLUTE
-        ! VALUE > REA3.  IF IFAIL=0 WE SET INDIC=-3 AND TRY AGAIN
-        ! WITH REA3 REDUCED.  IF THIS HAS ALREADY BEEN TRIED WE SET
-        ! INDIC=1 AND RETURN.
+            ! HERE WE FAILED TO FIND A RESOLVENT IN COLUMN J WITH ABSOLUTE
+            ! VALUE > REA3.  IF IFAIL=0 WE SET INDIC=-3 AND TRY AGAIN
+            ! WITH REA3 REDUCED.  IF THIS HAS ALREADY BEEN TRIED WE SET
+            ! INDIC=1 AND RETURN.
         else if (ifail <= 0) then
             ifail = 1
             Indic = -3
@@ -2374,8 +2374,8 @@ contains
                 keep1 = k
                 ampr2 = bmpr2
                 goto 1000
-            ! RELAX REA AND LOOK FOR NEGATIVE ELEMENTS WITH SMALLER
-            ! ABSOLUTE VALUE.
+                ! RELAX REA AND LOOK FOR NEGATIVE ELEMENTS WITH SMALLER
+                ! ABSOLUTE VALUE.
             else if (irlax <= 0) then
                 irlax = 1
                 Indic = -1
@@ -2385,8 +2385,8 @@ contains
                 Indic = 3
                 return
             end if
-        ! KKK=0 HERE IFF NONE OF THE COST COEFFICIENTS ARE
-        ! SIGNIFICANTLY NEGATIVE.
+            ! KKK=0 HERE IFF NONE OF THE COST COEFFICIENTS ARE
+            ! SIGNIFICANTLY NEGATIVE.
         else if (kkk /= 0) then
             ! CHECK TO SEE IF V(MP1,KEEP1) IS VERY SMALL IN ABSOLUTE
             ! VALUE OR NEGATIVE.  THIS INDICATES DEGENERACY.
@@ -4044,12 +4044,12 @@ contains
 
         implicit none
 
-        integer,intent(in) :: Ifun
-        integer,intent(in) :: Iptb
-        integer,intent(in) :: Liwrk
-        integer,intent(in) :: Lwrk
-        integer,intent(in) :: Nparm
-        integer,intent(in) :: Numgr
+        integer, intent(in) :: Ifun
+        integer, intent(in) :: Iptb
+        integer, intent(in) :: Liwrk
+        integer, intent(in) :: Lwrk
+        integer, intent(in) :: Nparm
+        integer, intent(in) :: Numgr
         integer :: Icorct
         integer :: Indm
         integer :: Ioptn
@@ -4081,11 +4081,11 @@ contains
                    ilc41, ioptth, ipmax, ipt, ismax, isrcr, j, jflag, &
                    k, l, ncor, newtit, nmaj, nmin, npar1
 
-        real(wp),parameter :: gain = one/(ten*ten)
-        integer,parameter :: newtlm = 3 !! Set the limit newtlm on the number of quasi-newton steps (i.e. calls
-                                        !! to searcr), and if newtlm > 1 set the parameter gain such that no
-                                        !! further newton steps will be tried unless the last step reduced the
-                                        !! maximum standard error by a factor of gain or better.
+        real(wp), parameter :: gain = one/(ten*ten)
+        integer, parameter :: newtlm = 3 !! Set the limit newtlm on the number of quasi-newton steps (i.e. calls
+                                         !! to searcr), and if newtlm > 1 set the parameter gain such that no
+                                         !! further newton steps will be tried unless the last step reduced the
+                                         !! maximum standard error by a factor of gain or better.
 
         ! SET MACHINE AND PRECISION DEPENDENT CONSTANTS.
         ilc06 = iloc(6, Nparm, Numgr)
@@ -4316,12 +4316,12 @@ contains
         implicit none
 
         class(conmax_solver), intent(inout) :: me
-        integer,intent(in) :: Ifun
-        integer,intent(in) :: Indm
-        integer,intent(in) :: Iptb
-        integer,intent(in) :: Liwrk
-        integer,intent(in) :: Lwrk
-        integer,intent(in) :: Nparm
+        integer, intent(in) :: Ifun
+        integer, intent(in) :: Indm
+        integer, intent(in) :: Iptb
+        integer, intent(in) :: Liwrk
+        integer, intent(in) :: Lwrk
+        integer, intent(in) :: Nparm
         integer :: Ioptn
         integer :: Iphse
         integer :: Isrcr
@@ -6227,7 +6227,7 @@ contains
             ! THERE WILL BE AT MOST MAXRS = MIN(NDM,NCOR) RESOLVENTS.
             maxrs = Ncor
             if (Ndm < maxrs) maxrs = Ndm
-            column_reduce : do k = 1, maxrs
+            column_reduce: do k = 1, maxrs
                 ! SEARCH FOR THE INDICES IMAX AND JMAX WITH 1 <= IMAX <= NDM, 1 <=
                 ! JMAX <= NCOR, PMAT1(IMAX,JMAX) IS NOT IN THE ROW OR COLUMN OF ANY
                 ! OTHER RESOLVENT (I.E. PIVOT), AND ABS(PMAT1(IMAX,JMAX)) IS MAXIMIZED.
@@ -6240,7 +6240,7 @@ contains
                         end do
                     end if
                     ! HERE THERE IS NO EARLIER RESOLVENT IN COLUMN J.
-                    inner : do i = 1, Ndm
+                    inner: do i = 1, Ndm
                         if (nresl > 0) then
                             do l = 1, nresl
                                 if (i == Ixrct(2*l - 1)) cycle inner
@@ -6282,7 +6282,7 @@ contains
                     ! NOW DO THE OPERATION IN COLUMN J FOR ALL ROWS NOT CONTAINING A
                     ! RESOLVENT.  THE ELEMENTS IN THIS COLUMN IN THE ROWS WHICH CONTAIN AN
                     ! EARLIER (OR PRESENT) RESOLVENT WILL NOT BE NEEDED LATER.
-                    inner2 : do i = 1, n
+                    inner2: do i = 1, n
                         do l = 1, nresl
                             if (i == Ixrct(2*l - 1)) cycle inner2
                         end do
@@ -6315,7 +6315,7 @@ contains
                 imax = Ixrct(2*k - 1)
                 jmax = Ixrct(2*k)
                 Wpt(imax) = Pmat1(n, jmax)
-                iloop : do i = 1, Ndm
+                iloop: do i = 1, Ndm
                     do l = 1, k
                         if (i == Ixrct(2*l - 1)) cycle iloop
                     end do
