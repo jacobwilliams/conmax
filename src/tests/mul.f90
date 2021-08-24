@@ -26,87 +26,84 @@
 ! WITH ABS(F(PROCOR)) .LE. 0.001D0, WHERE F(X) = 2.0D0**(-X) - 0.5D0
 ! (THE EXACT SOLUTION IS PROCOR = 1.0D0, EMIN = 0.0D0).
 
-     module muller_test_module
+module muller_test_module
 
-      use conmax_module, only: conmax_solver
-      use iso_fortran_env, only: wp => real64
+    use conmax_module, only: conmax_solver
+    use iso_fortran_env, only: wp => real64
 
-      implicit none
+    implicit none
 
-      private
+    private
 
-      type,extends(conmax_solver) :: my_solver
-            contains
-            procedure :: fnset => my_fnset
-      end type my_solver
+    type, extends(conmax_solver) :: my_solver
+    contains
+        procedure :: fnset => my_fnset
+    end type my_solver
 
-      public :: muller_test
+    public :: muller_test
 
-      contains
+contains
 
-      subroutine muller_test()
+    subroutine muller_test()
 
-      implicit none
+        implicit none
 
-      real(wp) dvec , emin , err1 , f1 , fun , p1 , parwrk , procor ,     &
-               pttbl , tolcon , work , zwork
-      integer iwork
-      dimension dvec(1) , fun(1) , pttbl(1,1) , zwork(1) , err1(4) ,    &
-                parwrk(1) , iwork(17) , work(6)
+        real(wp) :: dvec(1), emin, err1(4), f1, fun(1), p1, parwrk(1), procor, &
+                    pttbl(1, 1), tolcon, work(6), zwork(1)
+        integer :: iwork(17)
 
-      type(my_solver) :: solver
+        type(my_solver) :: solver
 
-      !open (6,file='mulout')
+        !open (6,file='mulout')
 
-      dvec(1)   = 1.0_wp
-      zwork(1)  = 0.0_wp
-      iwork(16) = -2
-      tolcon    = 1.0e-3_wp
-      p1        = -2.0_wp
-      f1        = 3.5_wp
-      procor    = 2.0_wp
-      emin      = -0.25_wp
+        dvec(1)   = 1.0_wp
+        zwork(1)  = 0.0_wp
+        iwork(16) = -2
+        tolcon    = 1.0e-3_wp
+        p1        = -2.0_wp
+        f1        = 3.5_wp
+        procor    = 2.0_wp
+        emin      = -0.25_wp
 
-      write (6,99001) tolcon , p1 , f1 , procor , emin
-99001 format (/' tolcon is',e22.13//' initially p1 is',e22.13,'  f1 is',&
-            & e22.13//' procor is',e22.13,'  emin is',e22.13)
+        write (6, 99001) tolcon, p1, f1, procor, emin
+99001   format(/' tolcon is', e22.13//' initially p1 is', e22.13, '  f1 is',&
+              & e22.13//' procor is', e22.13, '  emin is', e22.13)
 
-      call solver%muller(0,1,1,dvec,fun,1,pttbl,1,1,zwork,tolcon,0,iwork,17,   &
-                         work,6,parwrk,err1,p1,f1,procor,emin)
+        call solver%muller(0, 1, 1, dvec, fun, 1, pttbl, 1, 1, zwork, tolcon, 0, iwork, 17, &
+                           work, 6, parwrk, err1, p1, f1, procor, emin)
 
-      write (6,99002) procor , emin
-99002 format (/' after muller procor is',e22.13//' emin is',e22.13)
+        write (6, 99002) procor, emin
+99002   format(/' after muller procor is', e22.13//' emin is', e22.13)
 
-      end subroutine muller_test
+    end subroutine muller_test
 
-      subroutine my_fnset(me,nparm,numgr,pttbl,iptb,indm,param,ipt,indfn, &
-                          icntyp,confun)
-      implicit none
+    subroutine my_fnset(me, nparm, numgr, pttbl, iptb, indm, param, ipt, indfn, &
+                        icntyp, confun)
+        implicit none
 
-      class(my_solver),intent(inout) :: me
-      integer  :: nparm
-      integer  :: numgr
-      integer  :: iptb
-      integer  :: indm
-      real(wp) :: pttbl(iptb,indm)
-      real(wp) :: param(nparm)
-      integer  :: ipt
-      integer  :: indfn
-      integer  :: icntyp(numgr)
-      real(wp) :: confun(numgr,nparm+1)
+        class(my_solver), intent(inout) :: me
+        integer, intent(in)                             :: Nparm
+        integer, intent(in)                             :: Numgr
+        integer, intent(in)                             :: Iptb
+        integer, intent(in)                             :: Indm
+        real(wp), dimension(Iptb, Indm), intent(in)     :: Pttbl
+        real(wp), dimension(Nparm), intent(in)          :: Param
+        integer, intent(in)                             :: Ipt
+        integer, intent(in)                             :: Indfn
+        integer, dimension(Numgr), intent(out)          :: Icntyp
+        real(wp), dimension(Numgr, Nparm + 1), intent(out) :: Confun
 
-      confun(1,1) = 2.0_wp**(-param(1)) - 0.5_wp
+        confun(1, 1) = 2.0_wp**(-param(1)) - 0.5_wp
 
-      end subroutine my_fnset
+    end subroutine my_fnset
 
-      end module muller_test_module
+end module muller_test_module
 
-      program main
-            use muller_test_module
-            implicit none
-            call muller_test()
-      end program main
-
+program main
+    use muller_test_module
+    implicit none
+    call muller_test()
+end program main
 
 ! OUTPUT FOR (A) MULLERS METHOD
 !
