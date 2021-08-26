@@ -1,30 +1,42 @@
 !********************************************************************************
 !>
-! (A) MULLERS METHOD DERIVATIVE FREE REAL ROOT FINDING
+!  Mullers method derivative free real root finding
 !
-! GIVEN A FUNCTION F OF ONE VARIABLE (WHERE F(X) IS COMPUTED IN SUBROUTINE
-! FNSET AS CONFUN(1,1), WITH X = PARAM(1)), A NONNEGATIVE TOLERANCE TOLCON,
-! TWO POINTS (P1,F1) AND (PROCOR,EMIN) WITH F1 = F(P1), EMIN = F(PROCOR),
-! P1 .LT. PROCOR, F1 .GT. TOLCON, AND EMIN .LT. -TOLCON, THE PROGRAM WILL
-! ATTEMPT TO LOCATE A NEW PROCOR WITH NEW EMIN = F(PROCOR) AND ABS(EMIN)
-! .LE. TOLCON.  IF IT FAILS TO DO THIS, THE PROGRAM WILL RETURN WITH
-! PROCOR = THE LEFTMOST ABSCISSA FOUND WITH EMIN = F(PROCOR) .LT. -TOLCON.
-! NOTE:  IF INSTEAD OF F1 .GT. TOLCON AND EMIN .LT. -TOLCON WE START WITH
-! F1 .LT. -TOLCON AND EMIN .GT. TOLCON, THIS PROGRAM CAN STILL BE USED
-! BY REPLACING F BY -F BEFORE RUNNING THE PROGRAM.
-! THE SOLUTION PROCEDURE IS A MODIFICATION OF THE FOLLOWING:  BISECT THE
-! INTERVAL [P1,PROCOR] TO GET A THIRD POINT, PASS A QUADRATIC POLYNOMIAL
-! THROUGH THE THREE POINTS AND USE ITS UNIQUE ZERO IN [P1,PROCOR] TO
-! REPLACE P1 OR PROCOR, MAINTAINING THE CONDITIONS F(LEFT ENDPOINT) .GT.
-! TOLCON AND F(RIGHT ENDPOINT) .LT. -TOLCON, AND CONTINUE UNTIL A SOLUTION
-! IS FOUND OR F HAS BEEN COMPUTED 5 TIMES OR THE INTERVAL LENGTH FALLS
-! BELOW 100.0*B**(-ITT).  THIS PROCEDURE MAY BE ESPECIALLY USEFUL IN CASES
-! WHERE F IS EXPENSIVE TO COMPUTE SINCE IT MAINTAINS A SHRINKING INTERVAL
-! ABOUT THE SOLUTION, HAS A HIGHER ORDER OF CONVERGENCE THAN THE REGULA
-! FALSI METHOD, AND REQUIRES NO DERIVATIVES.  THE FOLLOWING SAMPLE DRIVER
-! PROGRAM AND SUBROUTINE FNSET ARE SET UP TO FIND PROCOR IN [-4.0D0,2.0D0]
-! WITH ABS(F(PROCOR)) .LE. 0.001D0, WHERE F(X) = 2.0D0**(-X) - 0.5D0
-! (THE EXACT SOLUTION IS PROCOR = 1.0D0, EMIN = 0.0D0).
+!  Given a function f of one variable (where f(x) is computed in subroutine
+!  fnset as confun(1,1), with:
+!
+!  * `x = param(1))`
+!  * a nonnegative tolerance `tolcon`
+!  * two points `(p1,f1)` and `(procor,emin)` with:
+!    * `f1 = f(p1)`
+!    * `emin = f(procor)`
+!    * `p1 < procor`
+!    * `f1 > tolcon`
+!    * `emin < -tolcon`
+!
+!  The program will attempt to locate a new `procor` with new `emin = f(procor)`
+!  and `abs(emin) <= tolcon`. if it fails to do this, the program will return with
+!  `procor` = the leftmost abscissa found with `emin = f(procor) < -tolcon`.
+!
+!  Note:  if instead of `f1 > tolcon` and `emin < -tolcon` we start with
+!  `f1 < -tolcon` and `emin > tolcon`, this program can still be used
+!  by replacing `f` by `-f` before running the program.
+!
+!  The solution procedure is a modification of the following:  bisect the
+!  interval [p1,procor] to get a third point, pass a quadratic polynomial
+!  through the three points and use its unique zero in [p1,procor] to
+!  replace p1 or procor, maintaining the conditions f(left endpoint) >
+!  tolcon and f(right endpoint) < -tolcon, and continue until a solution
+!  is found or f has been computed 5 times or the interval length falls
+!  below 100.0*b**(-itt).  this procedure may be especially useful in cases
+!  where f is expensive to compute since it maintains a shrinking interval
+!  about the solution, has a higher order of convergence than the regula
+!  falsi method, and requires no derivatives.
+!
+!  The following sample driver
+!  program and subroutine fnset are set up to find `procor` in [-4.0,2.0]
+!  with abs(f(procor)) <= 0.001, where f(x) = 2.0**(-x) - 0.5
+!  (the exact solution is procor = 1.0, emin = 0.0).
 
 module muller_test_module
 

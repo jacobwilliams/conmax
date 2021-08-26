@@ -1,37 +1,37 @@
+!********************************************************************************
+!>
+!  One-dimensional derivative-free quadratic search for a positive
+!  local minimum
+!
+!  Given a function f of one variable (where f(x) is computed in subroutine
+!  fnset as confun(1,1), with x = param(1)) and a positive number projct,
+!  the program will attempt to locate a new projct with emin = f(projct),
+!  with the new projct approximately giving a local minimum of f in
+!  [(old projct)/1024, 1024*(old projct)].  if it fails to do this, the
+!  program will return with projct = the abscissa found with smallest
+!  emin = f(projct).  on output, nsrch will be the number of evaluations
+!  of f that were done.
+!
+!  The solution procedure is a modification of the
+!  following:  compute f(projct/2), f(projct), and f(2*projct), if the
+!  conditions f(middle point) .le. f(left point) and f(middle point) .le.
+!  f(right point) are not both satisfied then try to get this by computing
+!  f at smaller (or larger) points at most 3 more times;  once the
+!  conditions are satisfied, assuming the points are not too close to being
+!  collinear, pass a quadratic polynomial through the three points and use
+!  its unique minimum in the interval to replace one of the endpoints while
+!  maintaining the two conditions, continuing until f has been computed 4
+!  more times or the interval length falls below 100.0*b**(-itt) or the
+!  points become nearly collinear.
+!
+!  The following sample driver and
+!  subroutine fnset are set up to approximate a solution of the line search
+!  problem of minimizing g((6.0d0,2.0d0) + projct*(-2.0d0,-1.0d0)), where
+!  g(u,v) = 3.0d0*abs(u) + 2.0d0*abs(v).  we start with projct = 1.0d0,
+!  then run the program again starting with the result of the first run.
+!  (the exact solution is projct = 3.0d0, emin = 2.0d0;  convergence is
+!  rather slow, mainly because f is not differentiable at the minimum.)
 
-! (B) ONE-DIMENSIONAL DERIVATIVE-FREE QUADRATIC SEARCH FOR A POSITIVE
-!     LOCAL MINIMUM
-!
-! (SUBPROGRAMS INVOLVED:  SEARSL, FNSET (USER SUPPLIED), ILOC,
-! ERCMP1, RCHMOD, CORRCT, SEARCR, MULLER, WOLFE, CONENR, HOUSE,
-! DOTPRD, REFWL;  ONLY THE FIRST FIVE OF THESE ARE ACTUALLY USED)
-!
-! GIVEN A FUNCTION F OF ONE VARIABLE (WHERE F(X) IS COMPUTED IN SUBROUTINE
-! FNSET AS CONFUN(1,1), WITH X = PARAM(1)) AND A POSITIVE NUMBER PROJCT,
-! THE PROGRAM WILL ATTEMPT TO LOCATE A NEW PROJCT WITH EMIN = F(PROJCT),
-! WITH THE NEW PROJCT APPROXIMATELY GIVING A LOCAL MINIMUM OF F IN
-! [(OLD PROJCT)/1024, 1024*(OLD PROJCT)].  IF IT FAILS TO DO THIS, THE
-! PROGRAM WILL RETURN WITH PROJCT = THE ABSCISSA FOUND WITH SMALLEST
-! EMIN = F(PROJCT).  ON OUTPUT, NSRCH WILL BE THE NUMBER OF EVALUATIONS
-! OF F THAT WERE DONE.  THE SOLUTION PROCEDURE IS A MODIFICATION OF THE
-! FOLLOWING:  COMPUTE F(PROJCT/2), F(PROJCT), AND F(2*PROJCT), IF THE
-! CONDITIONS F(MIDDLE POINT) .LE. F(LEFT POINT) AND F(MIDDLE POINT) .LE.
-! F(RIGHT POINT) ARE NOT BOTH SATISFIED THEN TRY TO GET THIS BY COMPUTING
-! F AT SMALLER (OR LARGER) POINTS AT MOST 3 MORE TIMES;  ONCE THE
-! CONDITIONS ARE SATISFIED, ASSUMING THE POINTS ARE NOT TOO CLOSE TO BEING
-! COLLINEAR, PASS A QUADRATIC POLYNOMIAL THROUGH THE THREE POINTS AND USE
-! ITS UNIQUE MINIMUM IN THE INTERVAL TO REPLACE ONE OF THE ENDPOINTS WHILE
-! MAINTAINING THE TWO CONDITIONS, CONTINUING UNTIL F HAS BEEN COMPUTED 4
-! MORE TIMES OR THE INTERVAL LENGTH FALLS BELOW 100.0*B**(-ITT) OR THE
-! POINTS BECOME NEARLY COLLINEAR.  THE FOLLOWING SAMPLE DRIVER AND
-! SUBROUTINE FNSET ARE SET UP TO APPROXIMATE A SOLUTION OF THE LINE SEARCH
-! PROBLEM OF MINIMIZING G((6.0D0,2.0D0) + PROJCT*(-2.0D0,-1.0D0)), WHERE
-! G(U,V) = 3.0D0*ABS(U) + 2.0D0*ABS(V).  WE START WITH PROJCT = 1.0D0,
-! THEN RUN THE PROGRAM AGAIN STARTING WITH THE RESULT OF THE FIRST RUN.
-! (THE EXACT SOLUTION IS PROJCT = 3.0D0, EMIN = 2.0D0;  CONVERGENCE IS
-! RATHER SLOW, MAINLY BECAUSE F IS NOT DIFFERENTIABLE AT THE MINIMUM.)
-!
-! SAMPLE DRIVER AND FNSET FOR (B) ONE-DIMENSIONAL SEARCH
 module search_test_module
 
     use conmax_module, only: conmax_solver

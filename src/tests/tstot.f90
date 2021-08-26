@@ -1,16 +1,16 @@
-!
-! THE EXAMPLE IS TO CHOOSE (DOUBLE PRECISION) PARAMETERS A, B, C, AND D
-! TO MINIMIZE
+!********************************************************************************
+!>
+! THE EXAMPLE IS TO CHOOSE PARAMETERS A, B, C, AND D TO MINIMIZE
 !
 ! MAX{ MAX (|F(X,Y) - (AX+BY+C)/(DX+1)|, |(AX+BY+C)/(DX+1)|) :
 ! (X,Y) IN Z}
 !
 ! SUBJECT TO THE CONSTRAINTS
 !
-! DX+1 .GE. EPS FOR (X,Y) IN Z,
+! DX+1 >= EPS FOR (X,Y) IN Z,
 !
 ! AND THE FIRST PARTIAL DERIVATIVE OF (AX+BY+C)/(DX+1) WITH RESPECT TO
-! X IS .LE. 0.0 AT (X,Y) = (0.0,0.0).
+! X IS <= 0.0 AT (X,Y) = (0.0,0.0).
 !
 ! HERE WE ARE TAKING Z = {(0.0,0.0), (0.0,1.0), (-2.0/3.0,1.0/3.0),
 ! (1.0,1.0), (1.0,2.0)}, EPS = .0001, F(0.0,0.0) = .5, F(0.0,1.0) = 1.0,
@@ -22,15 +22,15 @@
 !
 ! MINIMIZE W, SUBJECT TO
 !
-! |F(X,Y) - (AX+BY+C)/(DX+1)| .LE. W, (X,Y) IN Z,    (TYPE 2)
+! |F(X,Y) - (AX+BY+C)/(DX+1)| <= W, (X,Y) IN Z,    (TYPE 2)
 !
-!            (AX+BY+C)/(DX+1) .LE. W, (X,Y) IN Z,    (TYPE 1)
+!            (AX+BY+C)/(DX+1) <= W, (X,Y) IN Z,    (TYPE 1)
 !
-!           -(AX+BY+C)/(DX+1) .LE. W, (X,Y) IN Z,    (TYPE 1)
+!           -(AX+BY+C)/(DX+1) <= W, (X,Y) IN Z,    (TYPE 1)
 !
-!               -DX - 1 + EPS .LE. 0, (X,Y) IN Z,    (TYPE -1)
+!               -DX - 1 + EPS <= 0, (X,Y) IN Z,    (TYPE -1)
 !
-!                      A - CD .LE. 0.                (TYPE -2)
+!                      A - CD <= 0.                (TYPE -2)
 !
 ! ONE CAN PROVE THAT THE UNIQUE BEST VALUES ARE A = -B = C = D = 1.0,
 ! WITH W (= ENORM = ERROR(NUMGR+1)) = 1.0.  ONE CAN ALSO PROVE THAT
@@ -97,31 +97,32 @@
 !  -0.96385061855376E+00  -0.96385061855376E+00   0.12883964728427E-12
 !
 
-! THIS IS A TEST DRIVER PROGRAM FOR CONMAX.  FOR A DESCRIPTION OF
-! CONMAX, PLEASE SEE THE CONMAX USERS GUIDE, WHICH APPEARS AT THE
-! BEGINNING OF THIS PACKAGE.  FOR MORE INFORMATION ABOUT THE
-! EXAMPLE WHICH IS SET UP IN THIS DRIVER PROGRAM AND IN SUBROUTINE
-! FNSET, PLEASE SEE THE COMMENTS IN THESE TWO ROUTINES AS WELL AS
-! THE COMMENTS IN THE AFOREMENTIONED USERS GUIDE.
 !
 ! THIS TEST DRIVER PROGRAM AND FNSET ARE SET UP TO CHOOSE REAL (DOUBLE
 ! PRECISION) PARAMETERS A, B, C, AND D TO MINIMIZE
 !
-! MAX{ MAX (|F(X,Y) - (AX+BY+C)/(DX+1)|, |(AX+BY+C)/(DX+1)|) :
-! (X,Y) IN Z}
+! MAX{ MAX (|F(X,Y) - (AX+BY+C)/(DX+1)|, |(AX+BY+C)/(DX+1)|) : (X,Y) IN Z}
 !
 ! SUBJECT TO THE CONSTRAINTS
 !
-! DX+1 .GE. EPS FOR (X,Y) IN Z,
+! DX+1 >= EPS FOR (X,Y) IN Z,
 !
 ! AND THE FIRST PARTIAL DERIVATIVE OF (AX+BY+C)/(DX+1) WITH RESPECT TO
-! X IS .LE. 0.0 AT (X,Y) = (0.0,0.0).
+! X IS <= 0.0 AT (X,Y) = (0.0,0.0).
 !
-! HERE WE ARE TAKING Z = {(0.0,0.0), (0.0,1.0), (-2.0/3.0,1.0/3.0),
-! (1.0,1.0), (1.0,2.0)}, EPS = .0001, F(0.0,0.0) = .5, F(0.0,1.0) = 1.0,
-! F(-2.0/3.0,1.0/3.0) = -1.0, F(1.0,1.0) =1.5, F(1.0,2.0) =-ONE,
-! AND TAKING THE INITIAL GUESSES FOR THE PARAMETERS TO BE
-! A = B = C = D = 0.0
+! HERE WE ARE TAKING:
+!
+!  * Z = {(0.0,0.0), (0.0,1.0), (-2.0/3.0,1.0/3.0), (1.0,1.0), (1.0,2.0)},
+!  * EPS = 0.0001
+!  * F(0.0,0.0)          =  0.5
+!  * F(0.0,1.0)          =  1.0
+!  * F(-2.0/3.0,1.0/3.0) = -1.0
+!  * F(1.0,1.0)          =  1.5
+!  * F(1.0,2.0)          = -1.0
+!
+! AND TAKING THE INITIAL GUESSES FOR THE PARAMETERS TO BE:
+!
+!  * A = B = C = D = 0.0
 
 module tstot_test_module
 
@@ -266,7 +267,7 @@ contains
 
 !********************************************************************************
 !>
-!  Function for three of the unit tests.
+!  Function for the unit test.
 
     subroutine my_fnset(me, nparm, numgr, pttbl, iptb, indm, param, ipt, indfn, icntyp, confun)
 
@@ -293,8 +294,8 @@ contains
         ! we break fnset into sections based on the value of ipt, that is, on
         ! which constraint is being set.
         if (ipt <= 5) then
-            ! here ipt .le. 5 and we set a constraint of the form
-            ! abs(f(x,y) - (ax+by+c)/(dx+1)) .le. w.
+            ! here ipt <= 5 and we set a constraint of the form
+            ! abs(f(x,y) - (ax+by+c)/(dx+1)) <= w.
             ! note that since this is a type 2 constraint we do not need to deal
             ! with the absolute value or the f(x,y) here.
             icntyp(ipt) = 2
@@ -308,7 +309,7 @@ contains
             q = d*x + one
             confun(ipt, 1) = p/q
             if (indfn > 0) then
-                ! here ipt .le. 5 and indfn=1, and we set the partial derivatives.
+                ! here ipt <= 5 and indfn=1, and we set the partial derivatives.
                 confun(ipt, 2) = x/q
                 confun(ipt, 3) = y/q
                 confun(ipt, 4) = one/q
@@ -316,11 +317,11 @@ contains
                 return
             end if
         elseif (ipt <= 15) then
-            ! here 6 .le. ipt .le. 15 and if ipt is even we set the constraint
-            ! (ax+by+c)/(dx+1) .le. w, which is half of the constraint
-            ! abs((ax+by+c)/(dx+1)) .le. w, while if ipt is odd we set the constraint
-            ! -(ax+by+c)/(dx+1) .le. w, which is the other half of the constraint
-            ! abs((ax+by+c)/(dx+1)) .le. w.
+            ! here 6 <= ipt <= 15 and if ipt is even we set the constraint
+            ! (ax+by+c)/(dx+1) <= w, which is half of the constraint
+            ! abs((ax+by+c)/(dx+1)) <= w, while if ipt is odd we set the constraint
+            ! -(ax+by+c)/(dx+1) <= w, which is the other half of the constraint
+            ! abs((ax+by+c)/(dx+1)) <= w.
             icntyp(ipt) = 1
             ii = (ipt - 4)/2
             a = param(1)
@@ -333,7 +334,7 @@ contains
             q = d*x + one
             irem = ipt - 4 - 2*ii
             if (irem <= 0) then
-                ! here 6 .le. ipt .le. 15 and ipt is even.
+                ! here 6 <= ipt <= 15 and ipt is even.
                 confun(ipt, 1) = p/q
                 if (indfn > 0) then
                     confun(ipt, 2) = x/q
@@ -344,7 +345,7 @@ contains
                 end if
             else
                 !
-                ! here 6 .le. ipt .le. 15 and ipt is odd.
+                ! here 6 <= ipt <= 15 and ipt is odd.
                 confun(ipt, 1) = -p/q
                 if (indfn > 0) then
                     confun(ipt, 2) = -x/q
@@ -355,8 +356,8 @@ contains
                 end if
             end if
         elseif (ipt <= 20) then
-            ! here 16 .le. ipt .le. 20 and we set a constraint of the form
-            ! -dx - 1.0 + eps .le. 0.0
+            ! here 16 <= ipt <= 20 and we set a constraint of the form
+            ! -dx - 1.0 + eps <= 0.0
             icntyp(ipt) = -1
             d = param(4)
             eps = pttbl(6, 1)
@@ -373,8 +374,8 @@ contains
         else
             ! here ipt=21 and we set the constraint
             ! (partial derivative of (ax+by+c)/(dx+1) with respect to x at
-            ! (x,y) = (0.0,0.0)) .le. 0.0,
-            ! i.e. a - cd .le. 0.0
+            ! (x,y) = (0.0,0.0)) <= 0.0,
+            ! i.e. a - cd <= 0.0
             icntyp(ipt) = -2
             a = param(1)
             c = param(3)
