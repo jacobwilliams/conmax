@@ -4,6 +4,7 @@
 [![GitHub release](https://img.shields.io/github/release/jacobwilliams/conmax.svg)](https://github.com/jacobwilliams/conmax/releases/latest)
 [![Build Status](https://github.com/jacobwilliams/conmax/actions/workflows/CI.yml/badge.svg)](https://github.com/jacobwilliams/conmax/actions)
 [![codecov](https://codecov.io/gh/jacobwilliams/conmax/branch/master/graph/badge.svg?token=43HK33CSMY)](https://codecov.io/gh/jacobwilliams/conmax)
+[![last-commit](https://img.shields.io/github/last-commit/jacobwilliams/conmax)](https://github.com/jacobwilliams/conmax/commits/master)
 
 
 This is a work in progress of a refactored version of [CONMAX](http://www.netlib.org/opt/conmax.f) in Modern Fortran.
