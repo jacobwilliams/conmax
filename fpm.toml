@@ -1,0 +1,20 @@
+name = "conmax"
+author = "Jacob Williams"
+maintainer = "Jacob Williams"
+copyright = "Copyright (c) 2021-2022, Jacob Williams"
+license = "BSD-3"
+description = "Refactored CONMAX Library"
+homepage = "https://github.com/jacobwilliams/conmax"
+categories = ["optimization"]
+keywords = ["optimization"]
+
+[library]
+source-dir = "src"
+
+[install]
+library = true
+
+[build]
+auto-executables = false
+auto-examples = false
+auto-tests = true

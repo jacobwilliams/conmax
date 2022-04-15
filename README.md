@@ -1,22 +1,33 @@
 
 ### Status
 
-![Build Status](https://github.com/jacobwilliams/conmax/actions/workflows/CI.yml/badge.svg)
+[![GitHub release](https://img.shields.io/github/release/jacobwilliams/conmax.svg)](https://github.com/jacobwilliams/conmax/releases/latest)
+[![Build Status](https://github.com/jacobwilliams/conmax/actions/workflows/CI.yml/badge.svg)](https://github.com/jacobwilliams/conmax/actions)
+[![codecov](https://codecov.io/gh/jacobwilliams/conmax/branch/master/graph/badge.svg?token=43HK33CSMY)](https://codecov.io/gh/jacobwilliams/conmax)
+
 
 This is a work in progress of a refactored version of [CONMAX](http://www.netlib.org/opt/conmax.f) in Modern Fortran.
 
 ### Compiling
 
-A [FoBiS](https://github.com/szaghi/FoBiS) configuration file (`conmax.fobis`) is provided that can also build the library and examples. Use the `mode` flag to indicate what to build. For example:
+A [Fortran Package Manager](https://github.com/fortran-lang/fpm) manifest file is included, so that the library and tests cases can be compiled with FPM. For example:
 
-  * To build all the examples using gfortran: `FoBiS.py build -f conmax.fobis -mode tests-gnu`
-  * To build all the examples using ifort:    `FoBiS.py build -f conmax.fobis -mode tests-intel`
-  * To build a static library using gfortran: `FoBiS.py build -f conmax.fobis -mode static-gnu`
-  * To build a static library using ifort:    `FoBiS.py build -f conmax.fobis -mode static-intel`
+```
+fpm build --profile release
+fpm test --profile release
+```
 
-  The full set of modes are: `static-gnu`, `static-gnu-debug`, `static-intel`, `static-intel-debug`, `shared-gnu`, `shared-gnu-debug`, `shared-intel`, `shared-intel-debug`, `tests-gnu`, `tests-gnu-debug`, `tests-intel`, `tests-intel-debug`
+To use `conmax` within your FPM project, add the following to your `fpm.toml` file:
+```toml
+[dependencies]
+conmax = { git="https://github.com/jacobwilliams/conmax.git" }
+```
 
-  To generate the documentation using [ford](https://github.com/Fortran-FOSS-Programmers/ford), run: ```FoBis.py rule --execute makedoc -f conmax.fobis```
+To generate the documentation using [FORD](https://github.com/Fortran-FOSS-Programmers/ford), run:
+
+```
+  ford conmax.md
+```
 
 ### Documentation
 
