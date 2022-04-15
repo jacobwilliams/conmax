@@ -4,9 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-   
    <meta name="description" content="CONMAX -- General nonlinearly constrained function minimization">
-    
     <meta name="author" content="Jacob Williams" >
     <link rel="icon" href="../favicon.png">
 
@@ -16,8 +14,6 @@
     <link href="../css/pygments.css" rel="stylesheet">
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
-    
-    
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -46,102 +42,50 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-        
             <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
               <a href="#" class="dropdown-toggle"
               data-toggle="dropdown" role="button"
               aria-haspopup="true"
      aria-expanded="false">Contents <span class="caret"></span></a>
         <ul class="dropdown-menu">
-          
-              
             <li><a href="../sourcefile/conmax.f90.html">Source File</a></li>
-        
-        
-        
             <li><a href="../lists/modules.html">Modules</a></li>
-        
-            
-                                
             <li><a href="../lists/procedures.html">Procedures</a></li>
-        
-        
             <li><a href="../lists/absint.html">Abstract Interfaces</a></li>
-               
-            <li><a href="../lists/types.html">Derived Types</a></li>
-        
-               
-        
-        
+                   <li><a href="../lists/types.html">Derived Types</a></li>
+       
             </ul>
         
             </li>
-
-
 <li class="visible-xs hidden-sm visible-lg"><a href="../sourcefile/conmax.f90.html">Source File</a></li>
-
-
-
 <li class="visible-xs hidden-sm visible-lg"><a href="../lists/modules.html">Modules</a></li>
-
-
-
 <li class="visible-xs hidden-sm visible-lg"><a href="../lists/procedures.html">Procedures</a></li>
-
-
 <li class="visible-xs hidden-sm visible-lg"><a href="../lists/absint.html">Abstract Interfaces</a></li>
-                             
-<li class="visible-xs hidden-sm visible-lg"><a href="../lists/types.html">Derived Types</a></li>
-
-
-
-
+                             <li class="visible-xs hidden-sm visible-lg"><a href="../lists/types.html">Derived Types</a></li>
           </ul>
-        
         </div><!--/.nav-collapse -->
       </div>
     </nav>
 
     <div class="container">
-    
-  
   <div class="row">
     <h1>bndset
       <small>Subroutine</small>
-    
     </h1>
-    
-<div class="row">
+    <div class="row">
   <div class="col-lg-12">
 <div class="well well-sm">
   <ul class="list-inline" style="margin-bottom:0px;display:inline">
-     
-     
-     
-     
-     
-    
-    
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
     title=" 2.6% of total for procedures.">89 statements</a>
      </li> 
-     
-     
-     
     <li><i class="fa fa-code"></i><a href="../src/conmax.f90"> Source File</a></li>
-     
-     
   </ul>
   <ol class="breadcrumb in-well text-right">
-  
-    
      <li><a href='../sourcefile/conmax.f90.html'>conmax.f90</a></li>
-    
      <li><a href='../module/conmax_module.html'>conmax_module</a></li>
-    
-  
      <li class="active">bndset</li>
   </ol>
 </div>
@@ -157,32 +101,9 @@
   
   <div class="row">
     <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
-    
-<div id="sidebar">
-  
-<h3>Contents</h3>
+    <div id="sidebar">
+  <h3>Contents</h3>
  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <div class="panel panel-primary">
   <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
   <div class="list-group">
@@ -190,170 +111,73 @@
   </div>
 </div>
 
-
-
 </div>
 
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>
-private subroutine bndset(Nparm, x, Itersl, Numin, Prjslp, Cofbnd, Xkeep, Bndkp)
+    <h2>private subroutine bndset(Nparm, x, Itersl, Numin, Prjslp, Cofbnd, Xkeep, Bndkp)</h2>
     
-    
-   
-</h2>
-    
-  
 
-
-    
     <p>This subroutine sets the bounds on the coefficient changes in
-  <a href="../proc/slnpro.html">slnpro</a>.</p>
-    
+<a href="../proc/slnpro.html">slnpro</a>.</p>
 
     <h3>Arguments</h3>
-    
-      
-<table class="table table-striped varlist">
-<thead><tr><th>Type</th>
-<th>Intent</th><th>Optional</th>
-<th>Attributes</th><th></th><th>Name</th><th></th></thead>
-
-
-
+      <table class="table table-striped varlist">
+<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-nparm~6"></span>integer,</td>
-  <td>intent(in)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>Nparm</strong></td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-x~2"></span>real(kind=wp),</td>
-  <td>intent(in),</td>
-  <td></td>
-  
-  <td>dimension(Nparm + 1)</td><td>::</td>
+<td>intent(in),</td>
+  <td></td>  <td>dimension(Nparm + 1)</td><td>::</td>
   <td><strong>x</strong></td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-itersl~2"></span>integer,</td>
-  <td>intent(in)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>Itersl</strong></td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-numin"></span>integer,</td>
-  <td>intent(in)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>Numin</strong></td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-prjslp~2"></span>real(kind=wp),</td>
-  <td>intent(in)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>Prjslp</strong></td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-cofbnd"></span>real(kind=wp),</td>
-  <td>intent(inout),</td>
-  <td></td>
-  
-  <td>dimension(Nparm)</td><td>::</td>
+<td>intent(inout),</td>
+  <td></td>  <td>dimension(Nparm)</td><td>::</td>
   <td><strong>Cofbnd</strong></td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-xkeep"></span>real(kind=wp),</td>
-  <td>intent(inout),</td>
-  <td></td>
-  
-  <td>dimension(Nparm + 1)</td><td>::</td>
+<td>intent(inout),</td>
+  <td></td>  <td>dimension(Nparm + 1)</td><td>::</td>
   <td><strong>Xkeep</strong></td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-bndkp"></span>real(kind=wp),</td>
-  <td>intent(inout),</td>
-  <td></td>
-  
-  <td>dimension(Nparm)</td><td>::</td>
+<td>intent(inout),</td>
+  <td></td>  <td>dimension(Nparm)</td><td>::</td>
   <td><strong>Bndkp</strong></td><td></td>
-  
 </tr>
-
 </tbody>
 </table>
 
-    
-    
-    
     <br>
-    
-    
-     
     <div class="panel panel-default">
       <div class="panel-heading">
   <h3 class="panel-title">Called by</h3>
@@ -454,34 +278,11 @@ private subroutine bndset(Nparm, x, Itersl, Numin, Prjslp, Cofbnd, Xkeep, Bndkp)
     </div></div></div></div>
       </div>
     </div>
-     
     <br>
 
     <section class="visible-xs visible-sm hidden-md">
-      
-<h3>Contents</h3>
+      <h3>Contents</h3>
  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <div class="panel panel-primary">
   <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
   <div class="list-group">
@@ -489,203 +290,188 @@ private subroutine bndset(Nparm, x, Itersl, Numin, Prjslp, Cofbnd, Xkeep, Bndkp)
   </div>
 </div>
 
-
-
     </section>
     <br class="visible-xs visible-sm hidden-md">
 
-    
 
-    
-    
-    
     
     
 
     
     
-    
-    
-    
 
 
-    
-    
     
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="highlight"><pre><span></span>    <span class="k">subroutine </span><span class="n">bndset</span><span class="p">(</span><span class="n">Nparm</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">Itersl</span><span class="p">,</span> <span class="n">Numin</span><span class="p">,</span> <span class="n">Prjslp</span><span class="p">,</span> <span class="n">Cofbnd</span><span class="p">,</span> <span class="n">Xkeep</span><span class="p">,</span> <span class="n">Bndkp</span><span class="p">)</span>
+    <div class="highlight"><pre><span></span><span class="w">    </span><span class="k">subroutine </span><span class="n">bndset</span><span class="p">(</span><span class="n">Nparm</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">Itersl</span><span class="p">,</span><span class="w"> </span><span class="n">Numin</span><span class="p">,</span><span class="w"> </span><span class="n">Prjslp</span><span class="p">,</span><span class="w"> </span><span class="n">Cofbnd</span><span class="p">,</span><span class="w"> </span><span class="n">Xkeep</span><span class="p">,</span><span class="w"> </span><span class="n">Bndkp</span><span class="p">)</span><span class="w"></span>
 
-        <span class="k">implicit none</span>
+<span class="w">        </span><span class="k">implicit none</span>
 
-<span class="k">        </span><span class="kt">integer</span><span class="p">,</span> <span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>                           <span class="kd">::</span> <span class="n">Nparm</span>
-        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span> <span class="k">dimension</span><span class="p">(</span><span class="n">Nparm</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>    <span class="kd">::</span> <span class="n">x</span>
-        <span class="kt">integer</span><span class="p">,</span> <span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>                           <span class="kd">::</span> <span class="n">Itersl</span>
-        <span class="kt">integer</span><span class="p">,</span> <span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>                           <span class="kd">::</span> <span class="n">Numin</span>
-        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span> <span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>                          <span class="kd">::</span> <span class="n">Prjslp</span>
-        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span> <span class="k">dimension</span><span class="p">(</span><span class="n">Nparm</span><span class="p">),</span> <span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span>     <span class="kd">::</span> <span class="n">Cofbnd</span>
-        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span> <span class="k">dimension</span><span class="p">(</span><span class="n">Nparm</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Xkeep</span>
-        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span> <span class="k">dimension</span><span class="p">(</span><span class="n">Nparm</span><span class="p">),</span> <span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span>     <span class="kd">::</span> <span class="n">Bndkp</span>
+<span class="k">        </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">                           </span><span class="kd">::</span><span class="w"> </span><span class="n">Nparm</span><span class="w"></span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="w"> </span><span class="k">dimension</span><span class="p">(</span><span class="n">Nparm</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">    </span><span class="kd">::</span><span class="w"> </span><span class="n">x</span><span class="w"></span>
+<span class="w">        </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">                           </span><span class="kd">::</span><span class="w"> </span><span class="n">Itersl</span><span class="w"></span>
+<span class="w">        </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">                           </span><span class="kd">::</span><span class="w"> </span><span class="n">Numin</span><span class="w"></span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">                          </span><span class="kd">::</span><span class="w"> </span><span class="n">Prjslp</span><span class="w"></span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="w"> </span><span class="k">dimension</span><span class="p">(</span><span class="n">Nparm</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w">     </span><span class="kd">::</span><span class="w"> </span><span class="n">Cofbnd</span><span class="w"></span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="w"> </span><span class="k">dimension</span><span class="p">(</span><span class="n">Nparm</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">Xkeep</span><span class="w"></span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="w"> </span><span class="k">dimension</span><span class="p">(</span><span class="n">Nparm</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w">     </span><span class="kd">::</span><span class="w"> </span><span class="n">Bndkp</span><span class="w"></span>
 
-        <span class="c">! set initial parameters.  fact1, fact3a, fact3b, chlm1, and chlm2</span>
-        <span class="c">! should be between 0.0 and 1.0, while fact2 should be &gt; 1.0.</span>
-        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span> <span class="k">parameter</span> <span class="kd">::</span> <span class="n">fact1</span> <span class="o">=</span> <span class="p">(</span><span class="n">one</span> <span class="o">+</span> <span class="n">two</span><span class="p">)</span><span class="o">/</span><span class="n">four</span>
-        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span> <span class="k">parameter</span> <span class="kd">::</span> <span class="n">fact2</span> <span class="o">=</span> <span class="n">two</span>
-        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span> <span class="k">parameter</span> <span class="kd">::</span> <span class="n">fact3a</span> <span class="o">=</span> <span class="n">one</span><span class="o">/</span><span class="n">ten</span>
-        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span> <span class="k">parameter</span> <span class="kd">::</span> <span class="n">fact3b</span> <span class="o">=</span> <span class="n">one</span><span class="o">/</span><span class="p">(</span><span class="n">ten</span><span class="o">*</span><span class="n">ten</span><span class="p">)</span>
-        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span> <span class="k">parameter</span> <span class="kd">::</span> <span class="n">fact4</span> <span class="o">=</span> <span class="n">two</span><span class="o">/</span><span class="n">ten</span>
-        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span> <span class="k">parameter</span> <span class="kd">::</span> <span class="n">chlm1</span> <span class="o">=</span> <span class="n">one</span><span class="o">/</span><span class="n">ten</span>
-        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span> <span class="k">parameter</span> <span class="kd">::</span> <span class="n">chlm2</span> <span class="o">=</span> <span class="p">(</span><span class="n">four</span> <span class="o">+</span> <span class="n">four</span><span class="p">)</span><span class="o">/</span><span class="n">ten</span>
-        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span> <span class="k">parameter</span> <span class="kd">::</span> <span class="n">tstprj</span> <span class="o">=</span> <span class="n">one</span><span class="o">/</span><span class="n">two</span> <span class="o">-</span> <span class="n">one</span><span class="o">/</span><span class="p">(</span><span class="n">ten</span><span class="o">*</span><span class="n">ten</span><span class="o">*</span><span class="n">ten</span><span class="p">)</span>
-        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span> <span class="k">parameter</span> <span class="kd">::</span> <span class="n">epsil</span> <span class="o">=</span> <span class="n">ten</span><span class="o">*</span><span class="n">ten</span><span class="o">*</span><span class="n">spcmn</span>
-        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span> <span class="k">parameter</span> <span class="kd">::</span> <span class="n">epsil1</span> <span class="o">=</span> <span class="p">(</span><span class="n">one</span> <span class="o">+</span> <span class="n">one</span><span class="o">/</span><span class="p">(</span><span class="n">ten</span><span class="o">*</span><span class="n">ten</span><span class="o">*</span><span class="n">ten</span><span class="p">))</span><span class="o">*</span><span class="n">epsil</span>
-        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span> <span class="k">parameter</span> <span class="kd">::</span> <span class="n">bnd</span> <span class="o">=</span> <span class="n">two</span><span class="o">/</span><span class="p">(</span><span class="n">ten</span><span class="o">*</span><span class="n">ten</span><span class="p">)</span> <span class="c">!! The initial bound on all coefficient changes.</span>
+<span class="w">        </span><span class="c">! set initial parameters.  fact1, fact3a, fact3b, chlm1, and chlm2</span>
+<span class="w">        </span><span class="c">! should be between 0.0 and 1.0, while fact2 should be &gt; 1.0.</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">fact1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">one</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">two</span><span class="p">)</span><span class="o">/</span><span class="n">four</span><span class="w"></span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">fact2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">two</span><span class="w"></span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">fact3a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">one</span><span class="o">/</span><span class="n">ten</span><span class="w"></span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">fact3b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">one</span><span class="o">/</span><span class="p">(</span><span class="n">ten</span><span class="o">*</span><span class="n">ten</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">fact4</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">two</span><span class="o">/</span><span class="n">ten</span><span class="w"></span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">chlm1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">one</span><span class="o">/</span><span class="n">ten</span><span class="w"></span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">chlm2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">four</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">four</span><span class="p">)</span><span class="o">/</span><span class="n">ten</span><span class="w"></span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">tstprj</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">one</span><span class="o">/</span><span class="n">two</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">one</span><span class="o">/</span><span class="p">(</span><span class="n">ten</span><span class="o">*</span><span class="n">ten</span><span class="o">*</span><span class="n">ten</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">epsil</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ten</span><span class="o">*</span><span class="n">ten</span><span class="o">*</span><span class="n">spcmn</span><span class="w"></span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">epsil1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">one</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">one</span><span class="o">/</span><span class="p">(</span><span class="n">ten</span><span class="o">*</span><span class="n">ten</span><span class="o">*</span><span class="n">ten</span><span class="p">))</span><span class="o">*</span><span class="n">epsil</span><span class="w"></span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">bnd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">two</span><span class="o">/</span><span class="p">(</span><span class="n">ten</span><span class="o">*</span><span class="n">ten</span><span class="p">)</span><span class="w"> </span><span class="c">!! The initial bound on all coefficient changes.</span>
 
-        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">bsave</span><span class="p">,</span> <span class="n">fact3</span>
-        <span class="kt">integer</span> <span class="kd">::</span> <span class="n">itight</span><span class="p">,</span> <span class="n">j</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">bsave</span><span class="p">,</span><span class="w"> </span><span class="n">fact3</span><span class="w"></span>
+<span class="w">        </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">itight</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="w"></span>
 
-        <span class="k">if</span> <span class="p">(</span><span class="n">Numin</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">)</span> <span class="k">then</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">Numin</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
 
-<span class="k">            if</span> <span class="p">(</span><span class="n">Itersl</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">)</span> <span class="k">then</span>
+<span class="k">            if</span><span class="w"> </span><span class="p">(</span><span class="n">Itersl</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
 
-<span class="k">            else if</span> <span class="p">(</span><span class="n">Itersl</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="k">then</span>
-                <span class="c">! HERE NUMIN=0 AND ITERSL=1, SO THE LAST BNDSET CALL RESULTED IN</span>
-                <span class="c">! THE FIRST SUCCESSFUL PRINCIPAL ERROR NORM IMPROVEMENT,</span>
-                <span class="c">! AND SO WE SAVE COFBND IN BNDKP AND X IN XKEEP.  WE WILL NOT</span>
-                <span class="c">! CHANGE COFBND HERE.</span>
-                <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">Nparm</span>
-                    <span class="n">Xkeep</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">x</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
-                    <span class="n">Bndkp</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">Cofbnd</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
-                <span class="k">end do</span>
+<span class="k">            else if</span><span class="w"> </span><span class="p">(</span><span class="n">Itersl</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">then</span><span class="w"></span>
+<span class="w">                </span><span class="c">! HERE NUMIN=0 AND ITERSL=1, SO THE LAST BNDSET CALL RESULTED IN</span>
+<span class="w">                </span><span class="c">! THE FIRST SUCCESSFUL PRINCIPAL ERROR NORM IMPROVEMENT,</span>
+<span class="w">                </span><span class="c">! AND SO WE SAVE COFBND IN BNDKP AND X IN XKEEP.  WE WILL NOT</span>
+<span class="w">                </span><span class="c">! CHANGE COFBND HERE.</span>
+<span class="w">                </span><span class="k">do </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">Nparm</span><span class="w"></span>
+<span class="w">                    </span><span class="n">Xkeep</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"></span>
+<span class="w">                    </span><span class="n">Bndkp</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Cofbnd</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"></span>
+<span class="w">                </span><span class="k">end do</span>
 <span class="k">                return</span>
-<span class="k">            else</span>
-                <span class="c">! HERE NUMIN=0 AND ITERSL &gt;= 2, SO WE HAVE HAD AT LEAST 2 SUCCESSES,</span>
-                <span class="c">! WITH THE COEFFICIENTS AND BOUNDS FOR THE LAST ONE IN X AND</span>
-                <span class="c">! COFBND RESPECTIVELY, AND THE COEFFICIENTS AND BOUNDS FOR THE</span>
-                <span class="c">! PREVIOUS ONE IN XKEEP AND BNDKP RESPECTIVELY.  WE WILL FORM A</span>
-                <span class="c">! NEW COFBND, AND SHIFT THE OLD COFBND INTO BNDKP AND X INTO XKEEP.</span>
-                <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">Nparm</span>
-                    <span class="n">Cofbnd_block</span><span class="p">:</span> <span class="k">block</span>
-                        <span class="c">! SAVE THE OLD COFBND(J) IN BSAVE.</span>
-                        <span class="n">bsave</span> <span class="o">=</span> <span class="n">Cofbnd</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
-                        <span class="c">! IF AT BOTH THE LAST AND PREVIOUS SUCCESSFUL ITERATION THE CHANGES</span>
-                        <span class="c">! IN A COEFFICIENT RELATIVE TO ITS BOUND WERE &gt;= CHLM2 IN ABSOLUTE</span>
-                        <span class="c">! VALUE AND IN THE SAME DIRECTION, WE LOOSEN THE BOUND BY A FACTOR</span>
-                        <span class="c">! OF FACT2.  IF THE RELATIVE CHANGES WERE &gt;= CHLM1 IN ABSOLUTE</span>
-                        <span class="c">! VALUE AND IN OPPOSITE DIRECTIONS, WE TIGHTEN THE BOUND BY A FACTOR</span>
-                        <span class="c">! OF FACT1 BECAUSE OF SUSPECTED OSCILLATION.  WE ALSO TIGHTEN THE</span>
-                        <span class="c">! BOUND IF BOTH RELATIVE CHANGES WERE LESS THAN CHLM1 IN ABSOLUTE</span>
-                        <span class="c">! VALUE IN ORDER TO PREVENT A LONG SEQUENCE OF OSCILLATIONS OF THE</span>
-                        <span class="c">! SAME SMALL ORDER.  OTHERWISE WE LEAVE THE BOUND ALONE.</span>
-                        <span class="c">! THE NEXT FOUR IF STATEMENTS CHECK TO SEE IF THE BOUND SHOULD BE</span>
-                        <span class="c">! LOOSENED.</span>
-                        <span class="k">if</span> <span class="p">(</span><span class="n">x</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">chlm2</span><span class="o">*</span><span class="n">Cofbnd</span><span class="p">(</span><span class="n">j</span><span class="p">))</span> <span class="k">then</span>
-<span class="k">                            if</span> <span class="p">(</span><span class="n">x</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">+</span> <span class="n">chlm2</span><span class="o">*</span><span class="n">Cofbnd</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">then</span>
-<span class="k">                                if</span> <span class="p">(</span><span class="n">Xkeep</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">+</span> <span class="n">chlm2</span><span class="o">*</span><span class="n">Bndkp</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">then</span>
-                                    <span class="c">! LOOSEN THE BOUND.</span>
-                                    <span class="n">Cofbnd</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">fact2</span><span class="o">*</span><span class="n">Cofbnd</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
-                                    <span class="k">exit </span><span class="n">Cofbnd_block</span>
-                                <span class="k">end if</span>
+<span class="k">            else</span><span class="w"></span>
+<span class="w">                </span><span class="c">! HERE NUMIN=0 AND ITERSL &gt;= 2, SO WE HAVE HAD AT LEAST 2 SUCCESSES,</span>
+<span class="w">                </span><span class="c">! WITH THE COEFFICIENTS AND BOUNDS FOR THE LAST ONE IN X AND</span>
+<span class="w">                </span><span class="c">! COFBND RESPECTIVELY, AND THE COEFFICIENTS AND BOUNDS FOR THE</span>
+<span class="w">                </span><span class="c">! PREVIOUS ONE IN XKEEP AND BNDKP RESPECTIVELY.  WE WILL FORM A</span>
+<span class="w">                </span><span class="c">! NEW COFBND, AND SHIFT THE OLD COFBND INTO BNDKP AND X INTO XKEEP.</span>
+<span class="w">                </span><span class="k">do </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">Nparm</span><span class="w"></span>
+<span class="w">                    </span><span class="n">Cofbnd_block</span><span class="p">:</span><span class="w"> </span><span class="k">block</span><span class="w"></span>
+<span class="w">                        </span><span class="c">! SAVE THE OLD COFBND(J) IN BSAVE.</span>
+<span class="w">                        </span><span class="n">bsave</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Cofbnd</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"></span>
+<span class="w">                        </span><span class="c">! IF AT BOTH THE LAST AND PREVIOUS SUCCESSFUL ITERATION THE CHANGES</span>
+<span class="w">                        </span><span class="c">! IN A COEFFICIENT RELATIVE TO ITS BOUND WERE &gt;= CHLM2 IN ABSOLUTE</span>
+<span class="w">                        </span><span class="c">! VALUE AND IN THE SAME DIRECTION, WE LOOSEN THE BOUND BY A FACTOR</span>
+<span class="w">                        </span><span class="c">! OF FACT2.  IF THE RELATIVE CHANGES WERE &gt;= CHLM1 IN ABSOLUTE</span>
+<span class="w">                        </span><span class="c">! VALUE AND IN OPPOSITE DIRECTIONS, WE TIGHTEN THE BOUND BY A FACTOR</span>
+<span class="w">                        </span><span class="c">! OF FACT1 BECAUSE OF SUSPECTED OSCILLATION.  WE ALSO TIGHTEN THE</span>
+<span class="w">                        </span><span class="c">! BOUND IF BOTH RELATIVE CHANGES WERE LESS THAN CHLM1 IN ABSOLUTE</span>
+<span class="w">                        </span><span class="c">! VALUE IN ORDER TO PREVENT A LONG SEQUENCE OF OSCILLATIONS OF THE</span>
+<span class="w">                        </span><span class="c">! SAME SMALL ORDER.  OTHERWISE WE LEAVE THE BOUND ALONE.</span>
+<span class="w">                        </span><span class="c">! THE NEXT FOUR IF STATEMENTS CHECK TO SEE IF THE BOUND SHOULD BE</span>
+<span class="w">                        </span><span class="c">! LOOSENED.</span>
+<span class="w">                        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">x</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">chlm2</span><span class="o">*</span><span class="n">Cofbnd</span><span class="p">(</span><span class="n">j</span><span class="p">))</span><span class="w"> </span><span class="k">then</span>
+<span class="k">                            if</span><span class="w"> </span><span class="p">(</span><span class="n">x</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">chlm2</span><span class="o">*</span><span class="n">Cofbnd</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">                                if</span><span class="w"> </span><span class="p">(</span><span class="n">Xkeep</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">chlm2</span><span class="o">*</span><span class="n">Bndkp</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span><span class="w"></span>
+<span class="w">                                    </span><span class="c">! LOOSEN THE BOUND.</span>
+<span class="w">                                    </span><span class="n">Cofbnd</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fact2</span><span class="o">*</span><span class="n">Cofbnd</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"></span>
+<span class="w">                                    </span><span class="k">exit </span><span class="n">Cofbnd_block</span><span class="w"></span>
+<span class="w">                                </span><span class="k">end if</span>
 <span class="k">                            end if</span>
-<span class="k">                        else if</span> <span class="p">(</span><span class="n">Xkeep</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">chlm2</span><span class="o">*</span><span class="n">Bndkp</span><span class="p">(</span><span class="n">j</span><span class="p">))</span> <span class="k">then</span>
-<span class="k">                            </span><span class="n">Cofbnd</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">fact2</span><span class="o">*</span><span class="n">Cofbnd</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
-                            <span class="k">exit </span><span class="n">Cofbnd_block</span>
-                        <span class="k">end if</span>
-                        <span class="c">! HERE THE BOUND SHOULD NOT BE LOOSENED.  THE NEXT FIVE IF</span>
-                        <span class="c">! STATEMTENTS CHECK TO SEE IF IT SHOULD BE TIGHTENED.</span>
-                        <span class="k">if</span> <span class="p">(</span><span class="n">x</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">chlm1</span><span class="o">*</span><span class="n">Cofbnd</span><span class="p">(</span><span class="n">j</span><span class="p">))</span> <span class="k">then</span>
-<span class="k">                            if</span> <span class="p">(</span><span class="n">x</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">+</span> <span class="n">chlm1</span><span class="o">*</span><span class="n">Cofbnd</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">then</span>
-<span class="k">                                if</span> <span class="p">(</span><span class="n">Xkeep</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">chlm1</span><span class="o">*</span><span class="n">Bndkp</span><span class="p">(</span><span class="n">j</span><span class="p">))</span> <span class="k">exit </span><span class="n">Cofbnd_block</span>
-                                <span class="c">! HERE WE HAVE ABS(X(J)) &lt; CHLM1*COFBND(J).</span>
-                            <span class="k">else if</span> <span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">Xkeep</span><span class="p">(</span><span class="n">j</span><span class="p">))</span> <span class="o">&gt;=</span> <span class="n">chlm1</span><span class="o">*</span><span class="n">Bndkp</span><span class="p">(</span><span class="n">j</span><span class="p">))</span> <span class="k">then</span>
-<span class="k">                                exit </span><span class="n">Cofbnd_block</span>
-                            <span class="k">end if</span>
-<span class="k">                        else if</span> <span class="p">(</span><span class="n">Xkeep</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">+</span> <span class="n">chlm1</span><span class="o">*</span><span class="n">Bndkp</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="k">then</span>
-<span class="k">                            exit </span><span class="n">Cofbnd_block</span>
-                        <span class="k">end if</span>
-                        <span class="c">! TIGHTEN THE BOUND.</span>
-                        <span class="n">Cofbnd</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">fact1</span><span class="o">*</span><span class="n">Cofbnd</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
-                        <span class="c">! DO NOT ALLOW THE BOUND TO DROP BELOW EPSIL.</span>
-                        <span class="k">if</span> <span class="p">(</span><span class="n">Cofbnd</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">epsil</span><span class="p">)</span> <span class="n">Cofbnd</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">epsil</span>
-                    <span class="k">end block </span><span class="n">Cofbnd_block</span>
-                    <span class="c">! SAVE X(J) AND THE OLD COFBND(J).</span>
-                    <span class="n">Bndkp</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">bsave</span>
-                    <span class="n">Xkeep</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">x</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
-                <span class="k">end do</span>
-                <span class="c">! IF THE LAST PROJECTION FACTOR IS SMALLER THAN .499, WE TIGHTEN THE</span>
-                <span class="c">! BOUNDS BY A FACTOR OF 0.2, WITH THE RESTRICTION THAT WE DO NOT</span>
-                <span class="c">! ALLOW THE BOUNDS TO DROP BELOW EPSIL.</span>
-                <span class="k">if</span> <span class="p">(</span><span class="n">Prjslp</span> <span class="o">&lt;</span> <span class="n">tstprj</span><span class="p">)</span> <span class="k">then</span>
-<span class="k">                    do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">Nparm</span>
-                        <span class="n">Cofbnd</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">fact4</span><span class="o">*</span><span class="n">Cofbnd</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
-                        <span class="k">if</span> <span class="p">(</span><span class="n">Cofbnd</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">epsil</span><span class="p">)</span> <span class="n">Cofbnd</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">epsil</span>
-                    <span class="k">end do</span>
+<span class="k">                        else if</span><span class="w"> </span><span class="p">(</span><span class="n">Xkeep</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">chlm2</span><span class="o">*</span><span class="n">Bndkp</span><span class="p">(</span><span class="n">j</span><span class="p">))</span><span class="w"> </span><span class="k">then</span>
+<span class="k">                            </span><span class="n">Cofbnd</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fact2</span><span class="o">*</span><span class="n">Cofbnd</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"></span>
+<span class="w">                            </span><span class="k">exit </span><span class="n">Cofbnd_block</span><span class="w"></span>
+<span class="w">                        </span><span class="k">end if</span><span class="w"></span>
+<span class="w">                        </span><span class="c">! HERE THE BOUND SHOULD NOT BE LOOSENED.  THE NEXT FIVE IF</span>
+<span class="w">                        </span><span class="c">! STATEMTENTS CHECK TO SEE IF IT SHOULD BE TIGHTENED.</span>
+<span class="w">                        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">x</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">chlm1</span><span class="o">*</span><span class="n">Cofbnd</span><span class="p">(</span><span class="n">j</span><span class="p">))</span><span class="w"> </span><span class="k">then</span>
+<span class="k">                            if</span><span class="w"> </span><span class="p">(</span><span class="n">x</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">chlm1</span><span class="o">*</span><span class="n">Cofbnd</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">                                if</span><span class="w"> </span><span class="p">(</span><span class="n">Xkeep</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">chlm1</span><span class="o">*</span><span class="n">Bndkp</span><span class="p">(</span><span class="n">j</span><span class="p">))</span><span class="w"> </span><span class="k">exit </span><span class="n">Cofbnd_block</span><span class="w"></span>
+<span class="w">                                </span><span class="c">! HERE WE HAVE ABS(X(J)) &lt; CHLM1*COFBND(J).</span>
+<span class="w">                            </span><span class="k">else if</span><span class="w"> </span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">Xkeep</span><span class="p">(</span><span class="n">j</span><span class="p">))</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">chlm1</span><span class="o">*</span><span class="n">Bndkp</span><span class="p">(</span><span class="n">j</span><span class="p">))</span><span class="w"> </span><span class="k">then</span>
+<span class="k">                                exit </span><span class="n">Cofbnd_block</span><span class="w"></span>
+<span class="w">                            </span><span class="k">end if</span>
+<span class="k">                        else if</span><span class="w"> </span><span class="p">(</span><span class="n">Xkeep</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">chlm1</span><span class="o">*</span><span class="n">Bndkp</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">                            exit </span><span class="n">Cofbnd_block</span><span class="w"></span>
+<span class="w">                        </span><span class="k">end if</span><span class="w"></span>
+<span class="w">                        </span><span class="c">! TIGHTEN THE BOUND.</span>
+<span class="w">                        </span><span class="n">Cofbnd</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fact1</span><span class="o">*</span><span class="n">Cofbnd</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"></span>
+<span class="w">                        </span><span class="c">! DO NOT ALLOW THE BOUND TO DROP BELOW EPSIL.</span>
+<span class="w">                        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">Cofbnd</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">epsil</span><span class="p">)</span><span class="w"> </span><span class="n">Cofbnd</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">epsil</span><span class="w"></span>
+<span class="w">                    </span><span class="k">end block </span><span class="n">Cofbnd_block</span><span class="w"></span>
+<span class="w">                    </span><span class="c">! SAVE X(J) AND THE OLD COFBND(J).</span>
+<span class="w">                    </span><span class="n">Bndkp</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">bsave</span><span class="w"></span>
+<span class="w">                    </span><span class="n">Xkeep</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"></span>
+<span class="w">                </span><span class="k">end do</span><span class="w"></span>
+<span class="w">                </span><span class="c">! IF THE LAST PROJECTION FACTOR IS SMALLER THAN .499, WE TIGHTEN THE</span>
+<span class="w">                </span><span class="c">! BOUNDS BY A FACTOR OF 0.2, WITH THE RESTRICTION THAT WE DO NOT</span>
+<span class="w">                </span><span class="c">! ALLOW THE BOUNDS TO DROP BELOW EPSIL.</span>
+<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">Prjslp</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">tstprj</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">                    do </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">Nparm</span><span class="w"></span>
+<span class="w">                        </span><span class="n">Cofbnd</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fact4</span><span class="o">*</span><span class="n">Cofbnd</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"></span>
+<span class="w">                        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">Cofbnd</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">epsil</span><span class="p">)</span><span class="w"> </span><span class="n">Cofbnd</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">epsil</span><span class="w"></span>
+<span class="w">                    </span><span class="k">end do</span>
 <span class="k">                end if</span>
 <span class="k">                return</span>
-<span class="k">            end if</span>
+<span class="k">            end if</span><span class="w"></span>
 
-            <span class="c">! HERE NUMIN=0 AND ITERSL=0, SO WE ARE IN THE FIRST BNDSET CALL SINCE THE</span>
-            <span class="c">! LAST RK SUCCESS (IF ANY), SO WE SET INITIAL BOUNDS.</span>
-            <span class="n">Cofbnd</span> <span class="o">=</span> <span class="n">bnd</span>
-            <span class="k">return</span>
+<span class="w">            </span><span class="c">! HERE NUMIN=0 AND ITERSL=0, SO WE ARE IN THE FIRST BNDSET CALL SINCE THE</span>
+<span class="w">            </span><span class="c">! LAST RK SUCCESS (IF ANY), SO WE SET INITIAL BOUNDS.</span>
+<span class="w">            </span><span class="n">Cofbnd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">bnd</span><span class="w"></span>
+<span class="w">            </span><span class="k">return</span>
 
-<span class="k">        else if</span> <span class="p">(</span><span class="n">Numin</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="k">then</span>
-            <span class="c">! HERE NUMIN=1 SO THE LAST BNDSET CALL RESULTED IN FAILURE TO</span>
-            <span class="c">! IMPROVE THE PRINCIPAL ERROR NORM, AND WE SET FACT3=</span>
-            <span class="c">! FACT3A AND TIGHTEN THE BOUNDS.</span>
-            <span class="n">fact3</span> <span class="o">=</span> <span class="n">fact3a</span>
-        <span class="k">else</span>
-            <span class="c">! HERE NUMIN &gt; 1 SO THERE HAVE BEEN AT LEAST 2 SUCCESSIVE</span>
-            <span class="c">! FAILURES, AND WE SET FACT3=FACT3B AND TIGHTEN THE BOUNDS.</span>
-            <span class="n">fact3</span> <span class="o">=</span> <span class="n">fact3b</span>
-        <span class="k">end if</span>
+<span class="k">        else if</span><span class="w"> </span><span class="p">(</span><span class="n">Numin</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">then</span><span class="w"></span>
+<span class="w">            </span><span class="c">! HERE NUMIN=1 SO THE LAST BNDSET CALL RESULTED IN FAILURE TO</span>
+<span class="w">            </span><span class="c">! IMPROVE THE PRINCIPAL ERROR NORM, AND WE SET FACT3=</span>
+<span class="w">            </span><span class="c">! FACT3A AND TIGHTEN THE BOUNDS.</span>
+<span class="w">            </span><span class="n">fact3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fact3a</span><span class="w"></span>
+<span class="w">        </span><span class="k">else</span><span class="w"></span>
+<span class="w">            </span><span class="c">! HERE NUMIN &gt; 1 SO THERE HAVE BEEN AT LEAST 2 SUCCESSIVE</span>
+<span class="w">            </span><span class="c">! FAILURES, AND WE SET FACT3=FACT3B AND TIGHTEN THE BOUNDS.</span>
+<span class="w">            </span><span class="n">fact3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fact3b</span><span class="w"></span>
+<span class="w">        </span><span class="k">end if</span><span class="w"></span>
 
-        <span class="c">! TIGHTEN THE BOUNDS BY A FACTOR OF FACT3.</span>
-        <span class="n">itight</span> <span class="o">=</span> <span class="mi">1</span>
-        <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">Nparm</span>
-            <span class="n">bsave</span> <span class="o">=</span> <span class="n">Cofbnd</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
-            <span class="n">Cofbnd</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">fact3</span><span class="o">*</span><span class="n">bsave</span>
-            <span class="c">! WE DO NOT ALLOW A BOUND TO DROP BELOW EPSIL.</span>
-            <span class="k">if</span> <span class="p">(</span><span class="n">Cofbnd</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">epsil</span><span class="p">)</span> <span class="k">then</span>
-                <span class="c">! IF THE BOUND WAS ALREADY (ESSENTIALLY) AT EPSIL, KEEP TRACK OF</span>
-                <span class="c">! THIS BY NOT SETTING ITIGHT=0.</span>
-                <span class="k">if</span> <span class="p">(</span><span class="n">bsave</span> <span class="o">&gt;</span> <span class="n">epsil1</span><span class="p">)</span> <span class="n">itight</span> <span class="o">=</span> <span class="mi">0</span>
-                <span class="n">Cofbnd</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">epsil</span>
-            <span class="k">else</span>
-<span class="k">                </span><span class="n">itight</span> <span class="o">=</span> <span class="mi">0</span>
-            <span class="k">end if</span>
-<span class="k">        end do</span>
+<span class="w">        </span><span class="c">! TIGHTEN THE BOUNDS BY A FACTOR OF FACT3.</span>
+<span class="w">        </span><span class="n">itight</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">        </span><span class="k">do </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">Nparm</span><span class="w"></span>
+<span class="w">            </span><span class="n">bsave</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Cofbnd</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="n">Cofbnd</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fact3</span><span class="o">*</span><span class="n">bsave</span><span class="w"></span>
+<span class="w">            </span><span class="c">! WE DO NOT ALLOW A BOUND TO DROP BELOW EPSIL.</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">Cofbnd</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">epsil</span><span class="p">)</span><span class="w"> </span><span class="k">then</span><span class="w"></span>
+<span class="w">                </span><span class="c">! IF THE BOUND WAS ALREADY (ESSENTIALLY) AT EPSIL, KEEP TRACK OF</span>
+<span class="w">                </span><span class="c">! THIS BY NOT SETTING ITIGHT=0.</span>
+<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">bsave</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">epsil1</span><span class="p">)</span><span class="w"> </span><span class="n">itight</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">                </span><span class="n">Cofbnd</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">epsil</span><span class="w"></span>
+<span class="w">            </span><span class="k">else</span>
+<span class="k">                </span><span class="n">itight</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">            </span><span class="k">end if</span>
+<span class="k">        end do</span><span class="w"></span>
 
-        <span class="c">! IF ALL THE BOUNDS WERE ALREADY (ESSENTIALLY) AT EPSIL, WE TRY</span>
-        <span class="c">! RESETTING THE BOUNDS TO THEIR ORIGINAL VALUES.</span>
-        <span class="c">!WRITE(NWRIT,&#39;(A)&#39;) &#39;*****RESETTING BOUNDS TO THEIR ORIGINAL VALUES*****&#39;</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">itight</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="n">Cofbnd</span> <span class="o">=</span> <span class="n">bnd</span>
+<span class="w">        </span><span class="c">! IF ALL THE BOUNDS WERE ALREADY (ESSENTIALLY) AT EPSIL, WE TRY</span>
+<span class="w">        </span><span class="c">! RESETTING THE BOUNDS TO THEIR ORIGINAL VALUES.</span>
+<span class="w">        </span><span class="c">!WRITE(NWRIT,&#39;(A)&#39;) &#39;*****RESETTING BOUNDS TO THEIR ORIGINAL VALUES*****&#39;</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">itight</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="n">Cofbnd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">bnd</span><span class="w"></span>
 
-    <span class="k">end subroutine </span><span class="n">bndset</span>
+<span class="w">    </span><span class="k">end subroutine </span><span class="n">bndset</span><span class="w"></span>
 </pre></div>
 
     </section>
     <br>
     
-    
     </div>
   </div>
-
 
     <hr>    
     </div> <!-- /container -->
     <footer>
       <div class="container">
       <div class="row">
-        <div class="col-xs-6 col-md-6"><p>conmax was developed by Jacob Williams<br>&copy; 2021 
-                                          </p>
+        <div class="col-xs-6 col-md-6"><p>conmax was developed by Jacob Williams<br>&copy; 2022 
+</p>
         </div>
         <div class="col-xs-6 col-md-6">
           <p class="text-right">
             Documentation generated by 
             <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
-            
-            
           </p>
         </div>
       </div>
@@ -713,9 +499,7 @@ private subroutine bndset(Nparm, x, Itersl, Numin, Prjslp, Cofbnd, Xkeep, Bndkp)
         extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
       });
     </script>
-    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
     
     
   </body>

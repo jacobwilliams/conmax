@@ -4,9 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-   
    <meta name="description" content="CONMAX -- General nonlinearly constrained function minimization">
-    
     <meta name="author" content="Jacob Williams" >
     <link rel="icon" href="../favicon.png">
 
@@ -16,8 +14,6 @@
     <link href="../css/pygments.css" rel="stylesheet">
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
-    
-    
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -46,102 +42,50 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-        
             <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
               <a href="#" class="dropdown-toggle"
               data-toggle="dropdown" role="button"
               aria-haspopup="true"
      aria-expanded="false">Contents <span class="caret"></span></a>
         <ul class="dropdown-menu">
-          
-              
             <li><a href="../sourcefile/conmax.f90.html">Source File</a></li>
-        
-        
-        
             <li><a href="../lists/modules.html">Modules</a></li>
-        
-            
-                                
             <li><a href="../lists/procedures.html">Procedures</a></li>
-        
-        
             <li><a href="../lists/absint.html">Abstract Interfaces</a></li>
-               
-            <li><a href="../lists/types.html">Derived Types</a></li>
-        
-               
-        
-        
+                   <li><a href="../lists/types.html">Derived Types</a></li>
+       
             </ul>
         
             </li>
-
-
 <li class="visible-xs hidden-sm visible-lg"><a href="../sourcefile/conmax.f90.html">Source File</a></li>
-
-
-
 <li class="visible-xs hidden-sm visible-lg"><a href="../lists/modules.html">Modules</a></li>
-
-
-
 <li class="visible-xs hidden-sm visible-lg"><a href="../lists/procedures.html">Procedures</a></li>
-
-
 <li class="visible-xs hidden-sm visible-lg"><a href="../lists/absint.html">Abstract Interfaces</a></li>
-                             
-<li class="visible-xs hidden-sm visible-lg"><a href="../lists/types.html">Derived Types</a></li>
-
-
-
-
+                             <li class="visible-xs hidden-sm visible-lg"><a href="../lists/types.html">Derived Types</a></li>
           </ul>
-        
         </div><!--/.nav-collapse -->
       </div>
     </nav>
 
     <div class="container">
-    
-  
   <div class="row">
     <h1>iloc
       <small>Function</small>
-    
     </h1>
-    
-<div class="row">
+    <div class="row">
   <div class="col-lg-12">
 <div class="well well-sm">
   <ul class="list-inline" style="margin-bottom:0px;display:inline">
-     
-     
-     
-     
-     
-    
-    
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
     title=" 3.1% of total for procedures.">105 statements</a>
      </li> 
-     
-     
-     
     <li><i class="fa fa-code"></i><a href="../src/conmax.f90"> Source File</a></li>
-     
-     
   </ul>
   <ol class="breadcrumb in-well text-right">
-  
-    
      <li><a href='../sourcefile/conmax.f90.html'>conmax.f90</a></li>
-    
      <li><a href='../module/conmax_module.html'>conmax_module</a></li>
-    
-  
      <li class="active">iloc</li>
   </ol>
 </div>
@@ -157,32 +101,9 @@
   
   <div class="row">
     <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
-    
-<div id="sidebar">
-  
-<h3>Contents</h3>
+    <div id="sidebar">
+  <h3>Contents</h3>
  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <div class="panel panel-primary">
   <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
   <div class="list-group">
@@ -190,106 +111,47 @@
   </div>
 </div>
 
-
-
 </div>
 
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>
-private pure function iloc(Iarr, Nparm, Numgr)
+    <h2>private pure function iloc(Iarr, Nparm, Numgr)</h2>
     
-    
-   
-</h2>
-    
-  
 
-
-    
     <p>This function subprogram returns the subscript of the first element of
-  array <code>iarr</code> relative to <code>iwork</code> (if the array is integer, i.e. <code>13 &lt;=
-  iarr &lt;= 23</code>) or relative to work (if the array is floating point, i.e.
-  <code>1 &lt;= iarr &lt;= 12</code> or <code>24 &lt;= iarr &lt;= 48</code>).</p>
-    
+array <code>iarr</code> relative to <code>iwork</code> (if the array is integer, i.e. <code>13 &lt;=
+iarr &lt;= 23</code>) or relative to work (if the array is floating point, i.e.
+<code>1 &lt;= iarr &lt;= 12</code> or <code>24 &lt;= iarr &lt;= 48</code>).</p>
 
     <h3>Arguments</h3>
-    
-      
-<table class="table table-striped varlist">
-<thead><tr><th>Type</th>
-<th>Intent</th><th>Optional</th>
-<th>Attributes</th><th></th><th>Name</th><th></th></thead>
-
-
-
+      <table class="table table-striped varlist">
+<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-iarr"></span>integer,</td>
-  <td>intent(in)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>Iarr</strong></td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-nparm~2"></span>integer,</td>
-  <td>intent(in)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>Nparm</strong></td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-numgr~2"></span>integer,</td>
-  <td>intent(in)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>Numgr</strong></td><td></td>
-  
 </tr>
-
 </tbody>
 </table>
 
-    
-    
-    
-    
-    
-    
-    
-   <h3>Return Value <small><span class="anchor" id="variable-iloc"></span>integer
-  </small></h3>
-    
-    
+   <h3>Return Value <small><span class="anchor" id="variable-iloc"></span>integer</small></h3>
     
     <br>
-    
-    
-     
     <div class="panel panel-default">
       <div class="panel-heading">
   <h3 class="panel-title">Called by</h3>
@@ -301,241 +163,241 @@ private pure function iloc(Iarr, Nparm, Numgr)
 <!-- Generated by graphviz version 2.43.0 (0)
  -->
 <!-- Title: proc~~iloc~~CalledByGraph Pages: 1 -->
-<svg id="procilocCalledByGraph" width="333pt" height="508pt"
- viewBox="0.00 0.00 333.00 507.70" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g id="proc~~iloc~~CalledByGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 503.7)">
+<svg id="procilocCalledByGraph" width="333pt" height="502pt"
+ viewBox="0.00 0.00 333.00 502.26" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="proc~~iloc~~CalledByGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 498.26)">
 <title>proc~~iloc~~CalledByGraph</title>
-<polygon fill="white" stroke="transparent" points="-4,4 -4,-503.7 329,-503.7 329,4 -4,4"/>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-498.26 329,-498.26 329,4 -4,4"/>
 <!-- proc~iloc -->
 <g id="proc~~iloc~~CalledByGraph_node1" class="node">
 <title>proc~iloc</title>
-<polygon fill="none" stroke="black" points="325,-255.7 271,-255.7 271,-231.7 325,-231.7 325,-255.7"/>
-<text text-anchor="middle" x="298" y="-241.3" font-family="Helvetica,sans-Serif" font-size="10.50">iloc</text>
+<polygon fill="none" stroke="black" points="325,-254.26 271,-254.26 271,-230.26 325,-230.26 325,-254.26"/>
+<text text-anchor="middle" x="298" y="-239.86" font-family="Helvetica,sans-Serif" font-size="10.50">iloc</text>
+</g>
+<!-- proc~slpcon -->
+<g id="proc~~iloc~~CalledByGraph_node2" class="node">
+<title>proc~slpcon</title>
+<g id="a_proc~~iloc~~CalledByGraph_node2"><a xlink:href=".././proc/slpcon.html" xlink:title="slpcon">
+<polygon fill="#d9534f" stroke="#d9534f" points="235,-494.26 181,-494.26 181,-470.26 235,-470.26 235,-494.26"/>
+<text text-anchor="middle" x="208" y="-479.86" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">slpcon</text>
+</a>
+</g>
+</g>
+<!-- proc~slpcon&#45;&gt;proc~iloc -->
+<g id="proc~~iloc~~CalledByGraph_edge1" class="edge">
+<title>proc~slpcon&#45;&gt;proc~iloc</title>
+<path fill="none" stroke="#000000" d="M226.95,-470.25C229.97,-467.58 232.83,-464.55 235,-461.26 276.79,-397.98 290.77,-306.51 295.15,-264.67"/>
+<polygon fill="#000000" stroke="#000000" points="298.65,-264.76 296.12,-254.48 291.68,-264.1 298.65,-264.76"/>
 </g>
 <!-- proc~pmtst -->
-<g id="proc~~iloc~~CalledByGraph_node2" class="node">
+<g id="proc~~iloc~~CalledByGraph_node3" class="node">
 <title>proc~pmtst</title>
-<g id="a_proc~~iloc~~CalledByGraph_node2"><a xlink:href=".././proc/pmtst.html" xlink:title="pmtst">
-<polygon fill="#d9534f" stroke="#d9534f" points="235,-499.7 181,-499.7 181,-475.7 235,-475.7 235,-499.7"/>
-<text text-anchor="middle" x="208" y="-485.3" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">pmtst</text>
+<g id="a_proc~~iloc~~CalledByGraph_node3"><a xlink:href=".././proc/pmtst.html" xlink:title="pmtst">
+<polygon fill="#d9534f" stroke="#d9534f" points="235,-452.26 181,-452.26 181,-428.26 235,-428.26 235,-452.26"/>
+<text text-anchor="middle" x="208" y="-437.86" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">pmtst</text>
 </a>
 </g>
 </g>
 <!-- proc~pmtst&#45;&gt;proc~iloc -->
-<g id="proc~~iloc~~CalledByGraph_edge1" class="edge">
+<g id="proc~~iloc~~CalledByGraph_edge2" class="edge">
 <title>proc~pmtst&#45;&gt;proc~iloc</title>
-<path fill="none" stroke="#000000" d="M223.68,-475.6C227.83,-471.55 232.02,-466.77 235,-461.7 273.16,-396.75 288.92,-307.03 294.44,-265.91"/>
-<polygon fill="#000000" stroke="#000000" points="297.93,-266.24 295.71,-255.88 290.98,-265.36 297.93,-266.24"/>
+<path fill="none" stroke="#000000" d="M223.46,-428.03C227.61,-423.97 231.85,-419.22 235,-414.26 266.16,-365.17 284.47,-298.27 292.37,-264.18"/>
+<polygon fill="#000000" stroke="#000000" points="295.8,-264.85 294.57,-254.33 288.97,-263.33 295.8,-264.85"/>
+</g>
+<!-- proc~conmax -->
+<g id="proc~~iloc~~CalledByGraph_node4" class="node">
+<title>proc~conmax</title>
+<g id="a_proc~~iloc~~CalledByGraph_node4"><a xlink:href=".././proc/conmax.html" xlink:title="conmax">
+<polygon fill="#d9534f" stroke="#d9534f" points="55,-353.26 0,-353.26 0,-329.26 55,-329.26 55,-353.26"/>
+<text text-anchor="middle" x="27.5" y="-338.86" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">conmax</text>
+</a>
+</g>
+</g>
+<!-- proc~conmax&#45;&gt;proc~iloc -->
+<g id="proc~~iloc~~CalledByGraph_edge4" class="edge">
+<title>proc~conmax&#45;&gt;proc~iloc</title>
+<path fill="none" stroke="#000000" d="M47.61,-353.42C86.26,-376.3 175.11,-420.12 235,-381.26 275.05,-355.27 289.45,-296.72 294.46,-264.52"/>
+<polygon fill="#000000" stroke="#000000" points="297.97,-264.71 295.86,-254.33 291.03,-263.76 297.97,-264.71"/>
 </g>
 <!-- proc~wolfe -->
-<g id="proc~~iloc~~CalledByGraph_node3" class="node">
+<g id="proc~~iloc~~CalledByGraph_node14" class="node">
 <title>proc~wolfe</title>
-<g id="a_proc~~iloc~~CalledByGraph_node3"><a xlink:href=".././proc/wolfe.html" xlink:title="wolfe">
-<polygon fill="#d9534f" stroke="#d9534f" points="145,-174.7 91,-174.7 91,-150.7 145,-150.7 145,-174.7"/>
-<text text-anchor="middle" x="118" y="-160.3" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">wolfe</text>
+<g id="a_proc~~iloc~~CalledByGraph_node14"><a xlink:href=".././proc/wolfe.html" xlink:title="wolfe">
+<polygon fill="#d9534f" stroke="#d9534f" points="145,-253.26 91,-253.26 91,-229.26 145,-229.26 145,-253.26"/>
+<text text-anchor="middle" x="118" y="-238.86" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">wolfe</text>
 </a>
 </g>
 </g>
-<!-- proc~wolfe&#45;&gt;proc~iloc -->
-<g id="proc~~iloc~~CalledByGraph_edge2" class="edge">
-<title>proc~wolfe&#45;&gt;proc~iloc</title>
-<path fill="none" stroke="#000000" d="M139.2,-150.53C163.45,-137.64 204.64,-121.37 235,-138.7 266.05,-156.43 283.11,-196.46 291.13,-221.65"/>
-<polygon fill="#000000" stroke="#000000" points="287.83,-222.84 294.03,-231.44 294.55,-220.85 287.83,-222.84"/>
-</g>
-<!-- proc~conenr -->
-<g id="proc~~iloc~~CalledByGraph_node12" class="node">
-<title>proc~conenr</title>
-<g id="a_proc~~iloc~~CalledByGraph_node12"><a xlink:href=".././proc/conenr.html" xlink:title="conenr">
-<polygon fill="#d9534f" stroke="#d9534f" points="235,-213.7 181,-213.7 181,-189.7 235,-189.7 235,-213.7"/>
-<text text-anchor="middle" x="208" y="-199.3" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">conenr</text>
-</a>
-</g>
-</g>
-<!-- proc~wolfe&#45;&gt;proc~conenr -->
+<!-- proc~conmax&#45;&gt;proc~wolfe -->
 <g id="proc~~iloc~~CalledByGraph_edge18" class="edge">
-<title>proc~wolfe&#45;&gt;proc~conenr</title>
-<path fill="none" stroke="#000000" d="M145.4,-174.4C153.66,-178.06 162.9,-182.16 171.66,-186.04"/>
-<polygon fill="#000000" stroke="#000000" points="170.36,-189.29 180.92,-190.14 173.19,-182.89 170.36,-189.29"/>
-</g>
-<!-- proc~searsl -->
-<g id="proc~~iloc~~CalledByGraph_node4" class="node">
-<title>proc~searsl</title>
-<g id="a_proc~~iloc~~CalledByGraph_node4"><a xlink:href=".././proc/searsl.html" xlink:title="searsl">
-<polygon fill="#d9534f" stroke="#d9534f" points="235,-419.7 181,-419.7 181,-395.7 235,-395.7 235,-419.7"/>
-<text text-anchor="middle" x="208" y="-405.3" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">searsl</text>
-</a>
-</g>
-</g>
-<!-- proc~searsl&#45;&gt;proc~iloc -->
-<g id="proc~~iloc~~CalledByGraph_edge4" class="edge">
-<title>proc~searsl&#45;&gt;proc~iloc</title>
-<path fill="none" stroke="#000000" d="M226.34,-395.67C229.48,-392.97 232.54,-389.94 235,-386.7 263.89,-348.72 282.4,-295.21 291.12,-265.59"/>
-<polygon fill="#000000" stroke="#000000" points="294.52,-266.41 293.89,-255.83 287.79,-264.49 294.52,-266.41"/>
+<title>proc~conmax&#45;&gt;proc~wolfe</title>
+<path fill="none" stroke="#000000" d="M39.35,-329C54.36,-312.04 81.63,-281.23 99.53,-261"/>
+<polygon fill="#000000" stroke="#000000" points="102.33,-263.12 106.34,-253.31 97.09,-258.48 102.33,-263.12"/>
 </g>
 <!-- proc~ercmp1 -->
 <g id="proc~~iloc~~CalledByGraph_node5" class="node">
 <title>proc~ercmp1</title>
 <g id="a_proc~~iloc~~CalledByGraph_node5"><a xlink:href=".././proc/ercmp1.html" xlink:title="ercmp1">
-<polygon fill="#d9534f" stroke="#d9534f" points="235,-377.7 181,-377.7 181,-353.7 235,-353.7 235,-377.7"/>
-<text text-anchor="middle" x="208" y="-363.3" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">ercmp1</text>
+<polygon fill="#d9534f" stroke="#d9534f" points="235,-372.26 181,-372.26 181,-348.26 235,-348.26 235,-372.26"/>
+<text text-anchor="middle" x="208" y="-357.86" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">ercmp1</text>
 </a>
 </g>
 </g>
 <!-- proc~ercmp1&#45;&gt;proc~iloc -->
 <g id="proc~~iloc~~CalledByGraph_edge5" class="edge">
 <title>proc~ercmp1&#45;&gt;proc~iloc</title>
-<path fill="none" stroke="#000000" d="M225.71,-353.62C228.98,-350.87 232.24,-347.84 235,-344.7 256.81,-319.89 275.65,-286.47 286.67,-265"/>
-<polygon fill="#000000" stroke="#000000" points="289.94,-266.29 291.29,-255.78 283.68,-263.15 289.94,-266.29"/>
+<path fill="none" stroke="#000000" d="M222.21,-348.03C226.47,-343.83 231.1,-338.99 235,-334.26 254.05,-311.14 272.84,-282.15 284.65,-262.96"/>
+<polygon fill="#000000" stroke="#000000" points="287.66,-264.76 289.86,-254.4 281.68,-261.12 287.66,-264.76"/>
 </g>
-<!-- proc~setu1 -->
+<!-- proc~conenr -->
 <g id="proc~~iloc~~CalledByGraph_node6" class="node">
-<title>proc~setu1</title>
-<g id="a_proc~~iloc~~CalledByGraph_node6"><a xlink:href=".././proc/setu1.html" xlink:title="setu1">
-<polygon fill="#d9534f" stroke="#d9534f" points="235,-335.7 181,-335.7 181,-311.7 235,-311.7 235,-335.7"/>
-<text text-anchor="middle" x="208" y="-321.3" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">setu1</text>
+<title>proc~conenr</title>
+<g id="a_proc~~iloc~~CalledByGraph_node6"><a xlink:href=".././proc/conenr.html" xlink:title="conenr">
+<polygon fill="#d9534f" stroke="#d9534f" points="235,-212.26 181,-212.26 181,-188.26 235,-188.26 235,-212.26"/>
+<text text-anchor="middle" x="208" y="-197.86" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">conenr</text>
 </a>
 </g>
 </g>
-<!-- proc~setu1&#45;&gt;proc~iloc -->
-<g id="proc~~iloc~~CalledByGraph_edge3" class="edge">
-<title>proc~setu1&#45;&gt;proc~iloc</title>
-<path fill="none" stroke="#000000" d="M222.37,-311.55C236.66,-298.56 259.53,-277.77 276.18,-262.63"/>
-<polygon fill="#000000" stroke="#000000" points="278.75,-265.02 283.8,-255.71 274.04,-259.84 278.75,-265.02"/>
-</g>
-<!-- proc~rkcon -->
-<g id="proc~~iloc~~CalledByGraph_node7" class="node">
-<title>proc~rkcon</title>
-<g id="a_proc~~iloc~~CalledByGraph_node7"><a xlink:href=".././proc/rkcon.html" xlink:title="rkcon">
-<polygon fill="#d9534f" stroke="#d9534f" points="54.5,-397.7 0.5,-397.7 0.5,-373.7 54.5,-373.7 54.5,-397.7"/>
-<text text-anchor="middle" x="27.5" y="-383.3" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">rkcon</text>
-</a>
-</g>
-</g>
-<!-- proc~rkcon&#45;&gt;proc~iloc -->
+<!-- proc~conenr&#45;&gt;proc~iloc -->
 <g id="proc~~iloc~~CalledByGraph_edge6" class="edge">
-<title>proc~rkcon&#45;&gt;proc~iloc</title>
-<path fill="none" stroke="#000000" d="M46.43,-397.85C84.8,-422.17 176.14,-471.05 235,-428.7 287.53,-390.91 296.19,-306.5 297.2,-266.09"/>
-<polygon fill="#000000" stroke="#000000" points="300.7,-265.98 297.31,-255.94 293.7,-265.9 300.7,-265.98"/>
-</g>
-<!-- proc~rkcon&#45;&gt;proc~wolfe -->
-<g id="proc~~iloc~~CalledByGraph_edge17" class="edge">
-<title>proc~rkcon&#45;&gt;proc~wolfe</title>
-<path fill="none" stroke="#000000" d="M33.38,-373.4C47.77,-337.15 90.11,-230.45 108.41,-184.34"/>
-<polygon fill="#000000" stroke="#000000" points="111.7,-185.56 112.13,-174.97 105.19,-182.98 111.7,-185.56"/>
-</g>
-<!-- proc~muller -->
-<g id="proc~~iloc~~CalledByGraph_node8" class="node">
-<title>proc~muller</title>
-<g id="a_proc~~iloc~~CalledByGraph_node8"><a xlink:href=".././proc/muller.html" xlink:title="muller">
-<polygon fill="#d9534f" stroke="#d9534f" points="235,-255.7 181,-255.7 181,-231.7 235,-231.7 235,-255.7"/>
-<text text-anchor="middle" x="208" y="-241.3" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">muller</text>
-</a>
-</g>
-</g>
-<!-- proc~muller&#45;&gt;proc~iloc -->
-<g id="proc~~iloc~~CalledByGraph_edge7" class="edge">
-<title>proc~muller&#45;&gt;proc~iloc</title>
-<path fill="none" stroke="#000000" d="M235.4,-243.7C243.39,-243.7 252.31,-243.7 260.82,-243.7"/>
-<polygon fill="#000000" stroke="#000000" points="260.92,-247.2 270.92,-243.7 260.92,-240.2 260.92,-247.2"/>
-</g>
-<!-- proc~conmax -->
-<g id="proc~~iloc~~CalledByGraph_node9" class="node">
-<title>proc~conmax</title>
-<g id="a_proc~~iloc~~CalledByGraph_node9"><a xlink:href=".././proc/conmax.html" xlink:title="conmax">
-<polygon fill="#d9534f" stroke="#d9534f" points="55,-234.7 0,-234.7 0,-210.7 55,-210.7 55,-234.7"/>
-<text text-anchor="middle" x="27.5" y="-220.3" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">conmax</text>
-</a>
-</g>
-</g>
-<!-- proc~conmax&#45;&gt;proc~iloc -->
-<g id="proc~~iloc~~CalledByGraph_edge8" class="edge">
-<title>proc~conmax&#45;&gt;proc~iloc</title>
-<path fill="none" stroke="#000000" d="M55.11,-234.44C94.33,-250.29 170.02,-275.41 235,-264.7 243.7,-263.27 252.83,-260.77 261.32,-257.99"/>
-<polygon fill="#000000" stroke="#000000" points="262.64,-261.24 270.94,-254.64 260.34,-254.63 262.64,-261.24"/>
-</g>
-<!-- proc~conmax&#45;&gt;proc~wolfe -->
-<g id="proc~~iloc~~CalledByGraph_edge14" class="edge">
-<title>proc~conmax&#45;&gt;proc~wolfe</title>
-<path fill="none" stroke="#000000" d="M46.41,-210.56C59.12,-201.94 76.4,-190.23 90.68,-180.55"/>
-<polygon fill="#000000" stroke="#000000" points="92.8,-183.34 99.12,-174.83 88.88,-177.54 92.8,-183.34"/>
-</g>
-<!-- proc~searcr -->
-<g id="proc~~iloc~~CalledByGraph_node10" class="node">
-<title>proc~searcr</title>
-<g id="a_proc~~iloc~~CalledByGraph_node10"><a xlink:href=".././proc/searcr.html" xlink:title="searcr">
-<polygon fill="#d9534f" stroke="#d9534f" points="235,-171.7 181,-171.7 181,-147.7 235,-147.7 235,-171.7"/>
-<text text-anchor="middle" x="208" y="-157.3" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">searcr</text>
-</a>
-</g>
-</g>
-<!-- proc~searcr&#45;&gt;proc~iloc -->
-<g id="proc~~iloc~~CalledByGraph_edge9" class="edge">
-<title>proc~searcr&#45;&gt;proc~iloc</title>
-<path fill="none" stroke="#000000" d="M224.64,-171.86C228.11,-174.69 231.73,-177.74 235,-180.7 250.44,-194.7 266.95,-211.58 279.04,-224.34"/>
-<polygon fill="#000000" stroke="#000000" points="276.56,-226.8 285.96,-231.69 281.66,-222.01 276.56,-226.8"/>
+<title>proc~conenr&#45;&gt;proc~iloc</title>
+<path fill="none" stroke="#000000" d="M234.45,-212.41C243.21,-216.59 253.17,-221.34 262.52,-225.8"/>
+<polygon fill="#000000" stroke="#000000" points="261.07,-228.99 271.6,-230.14 264.09,-222.67 261.07,-228.99"/>
 </g>
 <!-- proc~corrct -->
-<g id="proc~~iloc~~CalledByGraph_node11" class="node">
+<g id="proc~~iloc~~CalledByGraph_node7" class="node">
 <title>proc~corrct</title>
-<g id="a_proc~~iloc~~CalledByGraph_node11"><a xlink:href=".././proc/corrct.html" xlink:title="corrct">
-<polygon fill="#d9534f" stroke="#d9534f" points="54.5,-112.7 0.5,-112.7 0.5,-88.7 54.5,-88.7 54.5,-112.7"/>
-<text text-anchor="middle" x="27.5" y="-98.3" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">corrct</text>
+<g id="a_proc~~iloc~~CalledByGraph_node7"><a xlink:href=".././proc/corrct.html" xlink:title="corrct">
+<polygon fill="#d9534f" stroke="#d9534f" points="54.5,-272.26 0.5,-272.26 0.5,-248.26 54.5,-248.26 54.5,-272.26"/>
+<text text-anchor="middle" x="27.5" y="-257.86" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">corrct</text>
 </a>
 </g>
 </g>
 <!-- proc~corrct&#45;&gt;proc~iloc -->
-<g id="proc~~iloc~~CalledByGraph_edge10" class="edge">
+<g id="proc~~iloc~~CalledByGraph_edge7" class="edge">
 <title>proc~corrct&#45;&gt;proc~iloc</title>
-<path fill="none" stroke="#000000" d="M54.65,-96.83C96.65,-92.05 179.99,-88.72 235,-126.7 267.73,-149.31 284.54,-194.8 292,-221.92"/>
-<polygon fill="#000000" stroke="#000000" points="288.62,-222.83 294.49,-231.65 295.4,-221.1 288.62,-222.83"/>
+<path fill="none" stroke="#000000" d="M54.76,-268.26C94.49,-279.1 171.93,-295.24 235,-278.26 248.43,-274.65 261.94,-267.33 272.91,-260.23"/>
+<polygon fill="#000000" stroke="#000000" points="275.17,-262.93 281.47,-254.41 271.23,-257.14 275.17,-262.93"/>
 </g>
 <!-- proc~corrct&#45;&gt;proc~wolfe -->
 <g id="proc~~iloc~~CalledByGraph_edge15" class="edge">
 <title>proc~corrct&#45;&gt;proc~wolfe</title>
-<path fill="none" stroke="#000000" d="M45.98,-112.95C58.92,-122.01 76.73,-134.49 91.29,-144.69"/>
-<polygon fill="#000000" stroke="#000000" points="89.65,-147.82 99.85,-150.69 93.67,-142.09 89.65,-147.82"/>
+<path fill="none" stroke="#000000" d="M54.57,-254.66C62.78,-252.9 72,-250.92 80.78,-249.04"/>
+<polygon fill="#000000" stroke="#000000" points="81.76,-252.41 90.81,-246.88 80.29,-245.56 81.76,-252.41"/>
 </g>
-<!-- proc~conenr&#45;&gt;proc~iloc -->
-<g id="proc~~iloc~~CalledByGraph_edge11" class="edge">
-<title>proc~conenr&#45;&gt;proc~iloc</title>
-<path fill="none" stroke="#000000" d="M234.45,-213.85C243.21,-218.03 253.17,-222.78 262.52,-227.25"/>
-<polygon fill="#000000" stroke="#000000" points="261.07,-230.43 271.6,-231.58 264.09,-224.12 261.07,-230.43"/>
-</g>
-<!-- proc~slpcon -->
-<g id="proc~~iloc~~CalledByGraph_node13" class="node">
-<title>proc~slpcon</title>
-<g id="a_proc~~iloc~~CalledByGraph_node13"><a xlink:href=".././proc/slpcon.html" xlink:title="slpcon">
-<polygon fill="#d9534f" stroke="#d9534f" points="235,-53.7 181,-53.7 181,-29.7 235,-29.7 235,-53.7"/>
-<text text-anchor="middle" x="208" y="-39.3" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">slpcon</text>
+<!-- proc~searcr -->
+<g id="proc~~iloc~~CalledByGraph_node8" class="node">
+<title>proc~searcr</title>
+<g id="a_proc~~iloc~~CalledByGraph_node8"><a xlink:href=".././proc/searcr.html" xlink:title="searcr">
+<polygon fill="#d9534f" stroke="#d9534f" points="235,-254.26 181,-254.26 181,-230.26 235,-230.26 235,-254.26"/>
+<text text-anchor="middle" x="208" y="-239.86" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">searcr</text>
 </a>
 </g>
 </g>
-<!-- proc~slpcon&#45;&gt;proc~iloc -->
-<g id="proc~~iloc~~CalledByGraph_edge12" class="edge">
-<title>proc~slpcon&#45;&gt;proc~iloc</title>
-<path fill="none" stroke="#000000" d="M223.49,-53.92C227.63,-57.98 231.87,-62.73 235,-67.7 266.62,-117.92 284.74,-186.38 292.48,-221.27"/>
-<polygon fill="#000000" stroke="#000000" points="289.12,-222.3 294.63,-231.35 295.97,-220.84 289.12,-222.3"/>
+<!-- proc~searcr&#45;&gt;proc~iloc -->
+<g id="proc~~iloc~~CalledByGraph_edge8" class="edge">
+<title>proc~searcr&#45;&gt;proc~iloc</title>
+<path fill="none" stroke="#000000" d="M235.4,-242.26C243.39,-242.26 252.31,-242.26 260.82,-242.26"/>
+<polygon fill="#000000" stroke="#000000" points="260.92,-245.76 270.92,-242.26 260.92,-238.76 260.92,-245.76"/>
+</g>
+<!-- proc~rkcon -->
+<g id="proc~~iloc~~CalledByGraph_node9" class="node">
+<title>proc~rkcon</title>
+<g id="a_proc~~iloc~~CalledByGraph_node9"><a xlink:href=".././proc/rkcon.html" xlink:title="rkcon">
+<polygon fill="#d9534f" stroke="#d9534f" points="54.5,-190.26 0.5,-190.26 0.5,-166.26 54.5,-166.26 54.5,-190.26"/>
+<text text-anchor="middle" x="27.5" y="-175.86" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">rkcon</text>
+</a>
+</g>
+</g>
+<!-- proc~rkcon&#45;&gt;proc~iloc -->
+<g id="proc~~iloc~~CalledByGraph_edge9" class="edge">
+<title>proc~rkcon&#45;&gt;proc~iloc</title>
+<path fill="none" stroke="#000000" d="M47.84,-166.2C86.14,-143.99 173.26,-102.02 235,-137.26 266.05,-154.98 283.11,-195.02 291.13,-220.21"/>
+<polygon fill="#000000" stroke="#000000" points="287.83,-221.4 294.03,-229.99 294.55,-219.41 287.83,-221.4"/>
+</g>
+<!-- proc~rkcon&#45;&gt;proc~wolfe -->
+<g id="proc~~iloc~~CalledByGraph_edge17" class="edge">
+<title>proc~rkcon&#45;&gt;proc~wolfe</title>
+<path fill="none" stroke="#000000" d="M45.56,-190.41C58.66,-199.73 76.95,-212.75 91.75,-223.29"/>
+<polygon fill="#000000" stroke="#000000" points="89.81,-226.2 99.99,-229.15 93.87,-220.5 89.81,-226.2"/>
+</g>
+<!-- proc~searsl -->
+<g id="proc~~iloc~~CalledByGraph_node10" class="node">
+<title>proc~searsl</title>
+<g id="a_proc~~iloc~~CalledByGraph_node10"><a xlink:href=".././proc/searsl.html" xlink:title="searsl">
+<polygon fill="#d9534f" stroke="#d9534f" points="235,-170.26 181,-170.26 181,-146.26 235,-146.26 235,-170.26"/>
+<text text-anchor="middle" x="208" y="-155.86" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">searsl</text>
+</a>
+</g>
+</g>
+<!-- proc~searsl&#45;&gt;proc~iloc -->
+<g id="proc~~iloc~~CalledByGraph_edge3" class="edge">
+<title>proc~searsl&#45;&gt;proc~iloc</title>
+<path fill="none" stroke="#000000" d="M224.64,-170.41C228.11,-173.25 231.73,-176.3 235,-179.26 250.44,-193.26 266.95,-210.14 279.04,-222.9"/>
+<polygon fill="#000000" stroke="#000000" points="276.56,-225.36 285.96,-230.25 281.66,-220.57 276.56,-225.36"/>
 </g>
 <!-- proc~rkpar -->
-<g id="proc~~iloc~~CalledByGraph_node14" class="node">
+<g id="proc~~iloc~~CalledByGraph_node11" class="node">
 <title>proc~rkpar</title>
-<g id="a_proc~~iloc~~CalledByGraph_node14"><a xlink:href=".././proc/rkpar.html" xlink:title="rkpar">
-<polygon fill="#d9534f" stroke="#d9534f" points="54.5,-51.7 0.5,-51.7 0.5,-27.7 54.5,-27.7 54.5,-51.7"/>
-<text text-anchor="middle" x="27.5" y="-37.3" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">rkpar</text>
+<g id="a_proc~~iloc~~CalledByGraph_node11"><a xlink:href=".././proc/rkpar.html" xlink:title="rkpar">
+<polygon fill="#d9534f" stroke="#d9534f" points="54.5,-108.26 0.5,-108.26 0.5,-84.26 54.5,-84.26 54.5,-108.26"/>
+<text text-anchor="middle" x="27.5" y="-93.86" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">rkpar</text>
 </a>
 </g>
 </g>
 <!-- proc~rkpar&#45;&gt;proc~iloc -->
 <g id="proc~~iloc~~CalledByGraph_edge13" class="edge">
 <title>proc~rkpar&#45;&gt;proc~iloc</title>
-<path fill="none" stroke="#000000" d="M53.4,-27.58C95.46,-9.04 181.25,20.14 235,-20.7 267.34,-45.28 287.27,-170.11 294.22,-221.53"/>
-<polygon fill="#000000" stroke="#000000" points="290.77,-222.13 295.54,-231.59 297.71,-221.22 290.77,-222.13"/>
+<path fill="none" stroke="#000000" d="M40.36,-84.13C73.87,-51.31 171.03,33.58 235,-15.26 267.9,-40.38 287.56,-167.95 294.33,-220.05"/>
+<polygon fill="#000000" stroke="#000000" points="290.89,-220.75 295.61,-230.23 297.83,-219.87 290.89,-220.75"/>
 </g>
 <!-- proc~rkpar&#45;&gt;proc~wolfe -->
 <g id="proc~~iloc~~CalledByGraph_edge16" class="edge">
 <title>proc~rkpar&#45;&gt;proc~wolfe</title>
-<path fill="none" stroke="#000000" d="M37.31,-51.95C52.48,-73.04 83.71,-116.43 102.24,-142.2"/>
-<polygon fill="#000000" stroke="#000000" points="99.54,-144.44 108.23,-150.51 105.23,-140.35 99.54,-144.44"/>
+<path fill="none" stroke="#000000" d="M36.05,-108.62C51.2,-133.45 85.47,-189.61 104.2,-220.29"/>
+<polygon fill="#000000" stroke="#000000" points="101.28,-222.22 109.47,-228.93 107.25,-218.57 101.28,-222.22"/>
+</g>
+<!-- proc~muller -->
+<g id="proc~~iloc~~CalledByGraph_node12" class="node">
+<title>proc~muller</title>
+<g id="a_proc~~iloc~~CalledByGraph_node12"><a xlink:href=".././proc/muller.html" xlink:title="muller">
+<polygon fill="#d9534f" stroke="#d9534f" points="235,-90.26 181,-90.26 181,-66.26 235,-66.26 235,-90.26"/>
+<text text-anchor="middle" x="208" y="-75.86" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">muller</text>
+</a>
+</g>
+</g>
+<!-- proc~muller&#45;&gt;proc~iloc -->
+<g id="proc~~iloc~~CalledByGraph_edge11" class="edge">
+<title>proc~muller&#45;&gt;proc~iloc</title>
+<path fill="none" stroke="#000000" d="M222.96,-90.38C227.18,-94.5 231.59,-99.32 235,-104.26 260.92,-141.84 280.22,-192 289.94,-220.34"/>
+<polygon fill="#000000" stroke="#000000" points="286.7,-221.68 293.2,-230.06 293.34,-219.46 286.7,-221.68"/>
+</g>
+<!-- proc~setu1 -->
+<g id="proc~~iloc~~CalledByGraph_node13" class="node">
+<title>proc~setu1</title>
+<g id="a_proc~~iloc~~CalledByGraph_node13"><a xlink:href=".././proc/setu1.html" xlink:title="setu1">
+<polygon fill="#d9534f" stroke="#d9534f" points="235,-48.26 181,-48.26 181,-24.26 235,-24.26 235,-48.26"/>
+<text text-anchor="middle" x="208" y="-33.86" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">setu1</text>
+</a>
+</g>
+</g>
+<!-- proc~setu1&#45;&gt;proc~iloc -->
+<g id="proc~~iloc~~CalledByGraph_edge12" class="edge">
+<title>proc~setu1&#45;&gt;proc~iloc</title>
+<path fill="none" stroke="#000000" d="M226.83,-48.36C229.86,-51.02 232.75,-54.02 235,-57.26 270.92,-108.94 287.36,-183.04 293.67,-219.8"/>
+<polygon fill="#000000" stroke="#000000" points="290.26,-220.64 295.32,-229.95 297.17,-219.52 290.26,-220.64"/>
+</g>
+<!-- proc~wolfe&#45;&gt;proc~iloc -->
+<g id="proc~~iloc~~CalledByGraph_edge10" class="edge">
+<title>proc~wolfe&#45;&gt;proc~iloc</title>
+<path fill="none" stroke="#000000" d="M145.02,-252.72C155.91,-256.93 168.84,-261.17 181,-263.26 204.65,-267.33 211.32,-267.16 235,-263.26 243.7,-261.83 252.83,-259.33 261.32,-256.55"/>
+<polygon fill="#000000" stroke="#000000" points="262.64,-259.8 270.94,-253.2 260.34,-253.19 262.64,-259.8"/>
+</g>
+<!-- proc~wolfe&#45;&gt;proc~conenr -->
+<g id="proc~~iloc~~CalledByGraph_edge14" class="edge">
+<title>proc~wolfe&#45;&gt;proc~conenr</title>
+<path fill="none" stroke="#000000" d="M144.93,-229.18C153.36,-225.25 162.86,-220.83 171.84,-216.64"/>
+<polygon fill="#000000" stroke="#000000" points="173.37,-219.79 180.95,-212.4 170.41,-213.45 173.37,-219.79"/>
 </g>
 </g>
 </svg>
@@ -600,34 +462,11 @@ private pure function iloc(Iarr, Nparm, Numgr)
     </div></div></div></div>
       </div>
     </div>
-     
     <br>
 
     <section class="visible-xs visible-sm hidden-md">
-      
-<h3>Contents</h3>
+      <h3>Contents</h3>
  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <div class="panel panel-primary">
   <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
   <div class="list-group">
@@ -635,213 +474,198 @@ private pure function iloc(Iarr, Nparm, Numgr)
   </div>
 </div>
 
-
-
     </section>
     <br class="visible-xs visible-sm hidden-md">
 
-    
 
-    
-    
-    
     
     
 
     
     
-    
-    
-    
 
 
-    
-    
     
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="highlight"><pre><span></span>    <span class="k">pure function </span><span class="n">iloc</span><span class="p">(</span><span class="n">Iarr</span><span class="p">,</span> <span class="n">Nparm</span><span class="p">,</span> <span class="n">Numgr</span><span class="p">)</span>
+    <div class="highlight"><pre><span></span><span class="w">    </span><span class="k">pure function </span><span class="n">iloc</span><span class="p">(</span><span class="n">Iarr</span><span class="p">,</span><span class="w"> </span><span class="n">Nparm</span><span class="p">,</span><span class="w"> </span><span class="n">Numgr</span><span class="p">)</span><span class="w"></span>
 
-        <span class="k">implicit none</span>
+<span class="w">        </span><span class="k">implicit none</span>
 
-<span class="k">        </span><span class="kt">integer</span><span class="p">,</span> <span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Iarr</span>
-        <span class="kt">integer</span><span class="p">,</span> <span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Nparm</span>
-        <span class="kt">integer</span><span class="p">,</span> <span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Numgr</span>
-        <span class="kt">integer</span> <span class="kd">::</span> <span class="n">iloc</span>
+<span class="k">        </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">Iarr</span><span class="w"></span>
+<span class="w">        </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">Nparm</span><span class="w"></span>
+<span class="w">        </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">Numgr</span><span class="w"></span>
+<span class="w">        </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">iloc</span><span class="w"></span>
 
-        <span class="k">select case</span> <span class="p">(</span><span class="n">Iarr</span><span class="p">)</span>
-        <span class="k">case</span> <span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-            <span class="c">! 2  ACTDIF(NUMGR)</span>
-            <span class="n">iloc</span> <span class="o">=</span> <span class="mi">1</span>
-        <span class="k">case</span> <span class="p">(</span><span class="mi">3</span><span class="p">)</span>
-            <span class="c">! 3  B(NPARM+1)  (OPPOSITE V, Y;  FOLLOWS AA)</span>
-            <span class="n">iloc</span> <span class="o">=</span> <span class="n">Nparm</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">3</span><span class="o">*</span><span class="n">Numgr</span><span class="o">*</span><span class="n">Nparm</span> <span class="o">+</span> <span class="mi">6</span><span class="o">*</span><span class="n">Numgr</span> <span class="o">+</span> <span class="mi">13</span><span class="o">*</span><span class="n">Nparm</span> <span class="o">+</span> <span class="mi">9</span>
-        <span class="k">case</span> <span class="p">(</span><span class="mi">4</span><span class="p">)</span>
-            <span class="c">! 4  BETA(NPARM+1)  (OPPOSITE V, Y;  FOLLOWS B)</span>
-            <span class="n">iloc</span> <span class="o">=</span> <span class="n">Nparm</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">3</span><span class="o">*</span><span class="n">Numgr</span><span class="o">*</span><span class="n">Nparm</span> <span class="o">+</span> <span class="mi">6</span><span class="o">*</span><span class="n">Numgr</span> <span class="o">+</span> <span class="mi">14</span><span class="o">*</span><span class="n">Nparm</span> <span class="o">+</span> <span class="mi">10</span>
-        <span class="k">case</span> <span class="p">(</span><span class="mi">5</span><span class="p">)</span>
-            <span class="c">! 5  BNDKP(NPARM) (FOLLOWS ACTDIF)</span>
-            <span class="n">iloc</span> <span class="o">=</span> <span class="n">Numgr</span> <span class="o">+</span> <span class="mi">1</span>
-        <span class="k">case</span> <span class="p">(</span><span class="mi">6</span><span class="p">)</span>
-            <span class="c">! 6  COEF(NUMGR)</span>
-            <span class="n">iloc</span> <span class="o">=</span> <span class="n">Numgr</span> <span class="o">+</span> <span class="n">Nparm</span> <span class="o">+</span> <span class="mi">1</span>
-        <span class="k">case</span> <span class="p">(</span><span class="mi">7</span><span class="p">)</span>
-            <span class="c">! 7  COFBND(NPARM)</span>
-            <span class="n">iloc</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">Numgr</span> <span class="o">+</span> <span class="n">Nparm</span> <span class="o">+</span> <span class="mi">1</span>
-        <span class="k">case</span> <span class="p">(</span><span class="mi">8</span><span class="p">)</span>
-            <span class="c">! 8  CONFUN(NUMGR,NPARM+1)  (OPPOSITE PMAT1)</span>
-            <span class="n">iloc</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">Numgr</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">Nparm</span> <span class="o">+</span> <span class="mi">1</span>
-        <span class="k">case</span> <span class="p">(</span><span class="mi">9</span><span class="p">)</span>
-            <span class="c">! 9  D(NPARM+1)  (OPPOSITE V, Y;  FOLLOWS BETA)</span>
-            <span class="n">iloc</span> <span class="o">=</span> <span class="n">Nparm</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">3</span><span class="o">*</span><span class="n">Numgr</span><span class="o">*</span><span class="n">Nparm</span> <span class="o">+</span> <span class="mi">6</span><span class="o">*</span><span class="n">Numgr</span> <span class="o">+</span> <span class="mi">15</span><span class="o">*</span><span class="n">Nparm</span> <span class="o">+</span> <span class="mi">11</span>
-        <span class="k">case</span> <span class="p">(</span><span class="mi">10</span><span class="p">)</span>
-            <span class="c">!  10  DVEC(NPARM) (FOLLOWS CONFUN)</span>
-            <span class="n">iloc</span> <span class="o">=</span> <span class="n">Numgr</span><span class="o">*</span><span class="n">Nparm</span> <span class="o">+</span> <span class="mi">3</span><span class="o">*</span><span class="n">Numgr</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">Nparm</span> <span class="o">+</span> <span class="mi">1</span>
-        <span class="k">case</span> <span class="p">(</span><span class="mi">11</span><span class="p">)</span>
-            <span class="c">!  11  ERR1(NUMGR+3)</span>
-            <span class="n">iloc</span> <span class="o">=</span> <span class="n">Numgr</span><span class="o">*</span><span class="n">Nparm</span> <span class="o">+</span> <span class="mi">3</span><span class="o">*</span><span class="n">Numgr</span> <span class="o">+</span> <span class="mi">3</span><span class="o">*</span><span class="n">Nparm</span> <span class="o">+</span> <span class="mi">1</span>
-        <span class="k">case</span> <span class="p">(</span><span class="mi">12</span><span class="p">)</span>
-            <span class="c">!  12  FUNTBL(NUMGR,NPARM+1)</span>
-            <span class="n">iloc</span> <span class="o">=</span> <span class="n">Numgr</span><span class="o">*</span><span class="n">Nparm</span> <span class="o">+</span> <span class="mi">4</span><span class="o">*</span><span class="n">Numgr</span> <span class="o">+</span> <span class="mi">3</span><span class="o">*</span><span class="n">Nparm</span> <span class="o">+</span> <span class="mi">4</span>
-        <span class="k">case</span> <span class="p">(</span><span class="mi">13</span><span class="p">)</span>
-            <span class="c">!  13  IACT(NUMGR)</span>
-            <span class="n">iloc</span> <span class="o">=</span> <span class="mi">1</span>
-        <span class="k">case</span> <span class="p">(</span><span class="mi">14</span><span class="p">)</span>
-            <span class="c">!  14  IACT1(NUMGR)</span>
-            <span class="n">iloc</span> <span class="o">=</span> <span class="n">Numgr</span> <span class="o">+</span> <span class="mi">1</span>
-        <span class="k">case</span> <span class="p">(</span><span class="mi">15</span><span class="p">)</span>
-            <span class="c">!  15  ICOR(NPARM+1)</span>
-            <span class="n">iloc</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">Numgr</span> <span class="o">+</span> <span class="mi">1</span>
-        <span class="k">case</span> <span class="p">(</span><span class="mi">16</span><span class="p">)</span>
-            <span class="c">!  16  ICOR1(NPARM+1)  (DOES NOT APPEAR IN PROGRAM BY NAME)</span>
-            <span class="n">iloc</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">Numgr</span> <span class="o">+</span> <span class="n">Nparm</span> <span class="o">+</span> <span class="mi">2</span>
-        <span class="k">case</span> <span class="p">(</span><span class="mi">17</span><span class="p">)</span>
-            <span class="c">!  17  ICNTYP(NUMGR)</span>
-            <span class="n">iloc</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">Numgr</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">Nparm</span> <span class="o">+</span> <span class="mi">3</span>
-        <span class="k">case</span> <span class="p">(</span><span class="mi">18</span><span class="p">)</span>
-            <span class="c">!  18  IXRCT(NUMGR+2*NPARM)</span>
-            <span class="n">iloc</span> <span class="o">=</span> <span class="mi">3</span><span class="o">*</span><span class="n">Numgr</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">Nparm</span> <span class="o">+</span> <span class="mi">3</span>
-        <span class="k">case</span> <span class="p">(</span><span class="mi">19</span><span class="p">)</span>
-            <span class="c">!  19  IYCCT(NPARM+1) (OPPOSITE KPIVOT)</span>
-            <span class="n">iloc</span> <span class="o">=</span> <span class="mi">4</span><span class="o">*</span><span class="n">Numgr</span> <span class="o">+</span> <span class="mi">4</span><span class="o">*</span><span class="n">Nparm</span> <span class="o">+</span> <span class="mi">3</span>
-        <span class="k">case</span> <span class="p">(</span><span class="mi">20</span><span class="p">)</span>
-            <span class="c">!  20  IYRCT(NUMGR+2*NPARM)</span>
-            <span class="n">iloc</span> <span class="o">=</span> <span class="mi">4</span><span class="o">*</span><span class="n">Numgr</span> <span class="o">+</span> <span class="mi">5</span><span class="o">*</span><span class="n">Nparm</span> <span class="o">+</span> <span class="mi">4</span>
-        <span class="k">case</span> <span class="p">(</span><span class="mi">21</span><span class="p">)</span>
-            <span class="c">!  21  JCNTYP(NUMGR)</span>
-            <span class="n">iloc</span> <span class="o">=</span> <span class="mi">5</span><span class="o">*</span><span class="n">Numgr</span> <span class="o">+</span> <span class="mi">7</span><span class="o">*</span><span class="n">Nparm</span> <span class="o">+</span> <span class="mi">4</span>
-        <span class="k">case</span> <span class="p">(</span><span class="mi">22</span><span class="p">)</span>
-            <span class="c">!  22  KCNTYP(NUMGR)</span>
-            <span class="n">iloc</span> <span class="o">=</span> <span class="mi">6</span><span class="o">*</span><span class="n">Numgr</span> <span class="o">+</span> <span class="mi">7</span><span class="o">*</span><span class="n">Nparm</span> <span class="o">+</span> <span class="mi">4</span>
-        <span class="k">case</span> <span class="p">(</span><span class="mi">23</span><span class="p">)</span>
-            <span class="c">!  23  KPIVOT(NPARM+1)  (OPPOSITE IYCCT)</span>
-            <span class="n">iloc</span> <span class="o">=</span> <span class="mi">4</span><span class="o">*</span><span class="n">Numgr</span> <span class="o">+</span> <span class="mi">4</span><span class="o">*</span><span class="n">Nparm</span> <span class="o">+</span> <span class="mi">3</span>
-        <span class="k">case</span> <span class="p">(</span><span class="mi">24</span><span class="p">)</span>
-            <span class="c">!  24  PARAM1(NPARM) (FOLLOWS FUNTBL)</span>
-            <span class="n">iloc</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">Numgr</span><span class="o">*</span><span class="n">Nparm</span> <span class="o">+</span> <span class="mi">5</span><span class="o">*</span><span class="n">Numgr</span> <span class="o">+</span> <span class="mi">3</span><span class="o">*</span><span class="n">Nparm</span> <span class="o">+</span> <span class="mi">4</span>
-        <span class="k">case</span> <span class="p">(</span><span class="mi">25</span><span class="p">)</span>
-            <span class="c">!  25  PARPRJ(NPARM)</span>
-            <span class="n">iloc</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">Numgr</span><span class="o">*</span><span class="n">Nparm</span> <span class="o">+</span> <span class="mi">5</span><span class="o">*</span><span class="n">Numgr</span> <span class="o">+</span> <span class="mi">4</span><span class="o">*</span><span class="n">Nparm</span> <span class="o">+</span> <span class="mi">4</span>
-        <span class="k">case</span> <span class="p">(</span><span class="mi">26</span><span class="p">)</span>
-            <span class="c">!  26  PARSER(NPARM)</span>
-            <span class="n">iloc</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">Numgr</span><span class="o">*</span><span class="n">Nparm</span> <span class="o">+</span> <span class="mi">5</span><span class="o">*</span><span class="n">Numgr</span> <span class="o">+</span> <span class="mi">5</span><span class="o">*</span><span class="n">Nparm</span> <span class="o">+</span> <span class="mi">4</span>
-        <span class="k">case</span> <span class="p">(</span><span class="mi">27</span><span class="p">)</span>
-            <span class="c">!  27  PARWRK(NPARM)</span>
-            <span class="n">iloc</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">Numgr</span><span class="o">*</span><span class="n">Nparm</span> <span class="o">+</span> <span class="mi">5</span><span class="o">*</span><span class="n">Numgr</span> <span class="o">+</span> <span class="mi">6</span><span class="o">*</span><span class="n">Nparm</span> <span class="o">+</span> <span class="mi">4</span>
-        <span class="k">case</span> <span class="p">(</span><span class="mi">28</span><span class="p">)</span>
-            <span class="c">!  28  PICOR(NPARM+1,NPARM+1)  (OPPOSITE V, Y;  FOLLOWS D)</span>
-            <span class="n">iloc</span> <span class="o">=</span> <span class="n">Nparm</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">3</span><span class="o">*</span><span class="n">Numgr</span><span class="o">*</span><span class="n">Nparm</span> <span class="o">+</span> <span class="mi">6</span><span class="o">*</span><span class="n">Numgr</span> <span class="o">+</span> <span class="mi">16</span><span class="o">*</span><span class="n">Nparm</span> <span class="o">+</span> <span class="mi">12</span>
-        <span class="k">case</span> <span class="p">(</span><span class="mi">29</span><span class="p">)</span>
-            <span class="c">!  29  PMAT(NPARM+1,NUMGR) (FOLLOWS PARWRK)</span>
-            <span class="n">iloc</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">Numgr</span><span class="o">*</span><span class="n">Nparm</span> <span class="o">+</span> <span class="mi">5</span><span class="o">*</span><span class="n">Numgr</span> <span class="o">+</span> <span class="mi">7</span><span class="o">*</span><span class="n">Nparm</span> <span class="o">+</span> <span class="mi">4</span>
-        <span class="k">case</span> <span class="p">(</span><span class="mi">30</span><span class="p">)</span>
-            <span class="c">!  30  PMAT1(NPARM+1,NUMGR)  (OPPOSITE CONFUN)</span>
-            <span class="n">iloc</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">Numgr</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">Nparm</span> <span class="o">+</span> <span class="mi">1</span>
-        <span class="k">case</span> <span class="p">(</span><span class="mi">31</span><span class="p">)</span>
-            <span class="c">!  31  PTNR(NPARM+1) (FOLLOWS PMAT)</span>
-            <span class="n">iloc</span> <span class="o">=</span> <span class="mi">3</span><span class="o">*</span><span class="n">Numgr</span><span class="o">*</span><span class="n">Nparm</span> <span class="o">+</span> <span class="mi">6</span><span class="o">*</span><span class="n">Numgr</span> <span class="o">+</span> <span class="mi">7</span><span class="o">*</span><span class="n">Nparm</span> <span class="o">+</span> <span class="mi">4</span>
-        <span class="k">case</span> <span class="p">(</span><span class="mi">32</span><span class="p">)</span>
-            <span class="c">!  32  PTNRR(NPARM+1)</span>
-            <span class="n">iloc</span> <span class="o">=</span> <span class="mi">3</span><span class="o">*</span><span class="n">Numgr</span><span class="o">*</span><span class="n">Nparm</span> <span class="o">+</span> <span class="mi">6</span><span class="o">*</span><span class="n">Numgr</span> <span class="o">+</span> <span class="mi">8</span><span class="o">*</span><span class="n">Nparm</span> <span class="o">+</span> <span class="mi">5</span>
-        <span class="k">case</span> <span class="p">(</span><span class="mi">33</span><span class="p">)</span>
-            <span class="c">!  33  R(NPARM+1)</span>
-            <span class="n">iloc</span> <span class="o">=</span> <span class="mi">3</span><span class="o">*</span><span class="n">Numgr</span><span class="o">*</span><span class="n">Nparm</span> <span class="o">+</span> <span class="mi">6</span><span class="o">*</span><span class="n">Numgr</span> <span class="o">+</span> <span class="mi">9</span><span class="o">*</span><span class="n">Nparm</span> <span class="o">+</span> <span class="mi">6</span>
-        <span class="k">case</span> <span class="p">(</span><span class="mi">34</span><span class="p">)</span>
-            <span class="c">!  34  SAVE(NPARM+1)</span>
-            <span class="n">iloc</span> <span class="o">=</span> <span class="mi">3</span><span class="o">*</span><span class="n">Numgr</span><span class="o">*</span><span class="n">Nparm</span> <span class="o">+</span> <span class="mi">6</span><span class="o">*</span><span class="n">Numgr</span> <span class="o">+</span> <span class="mi">10</span><span class="o">*</span><span class="n">Nparm</span> <span class="o">+</span> <span class="mi">7</span>
-        <span class="k">case</span> <span class="p">(</span><span class="mi">35</span><span class="p">)</span>
-            <span class="c">!  35  V(NUMGR+2*NPARM+1,NPARM+2)  (WITH Y, OPPOSITE AA, B, BETA, D,</span>
-            <span class="c">!    PICOR, ZWORK)</span>
-            <span class="n">iloc</span> <span class="o">=</span> <span class="mi">3</span><span class="o">*</span><span class="n">Numgr</span><span class="o">*</span><span class="n">Nparm</span> <span class="o">+</span> <span class="mi">6</span><span class="o">*</span><span class="n">Numgr</span> <span class="o">+</span> <span class="mi">11</span><span class="o">*</span><span class="n">Nparm</span> <span class="o">+</span> <span class="mi">8</span>
-        <span class="k">case</span> <span class="p">(</span><span class="mi">36</span><span class="p">)</span>
-            <span class="c">!  36  VDER(NPARM) (FOLLOWS Y)</span>
-            <span class="n">iloc</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">Nparm</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">4</span><span class="o">*</span><span class="n">Numgr</span><span class="o">*</span><span class="n">Nparm</span> <span class="o">+</span> <span class="mi">9</span><span class="o">*</span><span class="n">Numgr</span> <span class="o">+</span> <span class="mi">18</span><span class="o">*</span><span class="n">Nparm</span> <span class="o">+</span> <span class="mi">10</span>
-        <span class="k">case</span> <span class="p">(</span><span class="mi">37</span><span class="p">)</span>
-            <span class="c">!  37  VDERN(NPARM)</span>
-            <span class="n">iloc</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">Nparm</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">4</span><span class="o">*</span><span class="n">Numgr</span><span class="o">*</span><span class="n">Nparm</span> <span class="o">+</span> <span class="mi">9</span><span class="o">*</span><span class="n">Numgr</span> <span class="o">+</span> <span class="mi">19</span><span class="o">*</span><span class="n">Nparm</span> <span class="o">+</span> <span class="mi">10</span>
-        <span class="k">case</span> <span class="p">(</span><span class="mi">38</span><span class="p">)</span>
-            <span class="c">!  38  VDERS(NPARM)</span>
-            <span class="n">iloc</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">Nparm</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">4</span><span class="o">*</span><span class="n">Numgr</span><span class="o">*</span><span class="n">Nparm</span> <span class="o">+</span> <span class="mi">9</span><span class="o">*</span><span class="n">Numgr</span> <span class="o">+</span> <span class="mi">20</span><span class="o">*</span><span class="n">Nparm</span> <span class="o">+</span> <span class="mi">10</span>
-        <span class="k">case</span> <span class="p">(</span><span class="mi">39</span><span class="p">)</span>
-            <span class="c">!  39  VEC(NPARM+1)</span>
-            <span class="n">iloc</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">Nparm</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">4</span><span class="o">*</span><span class="n">Numgr</span><span class="o">*</span><span class="n">Nparm</span> <span class="o">+</span> <span class="mi">9</span><span class="o">*</span><span class="n">Numgr</span> <span class="o">+</span> <span class="mi">21</span><span class="o">*</span><span class="n">Nparm</span> <span class="o">+</span> <span class="mi">10</span>
-        <span class="k">case</span> <span class="p">(</span><span class="mi">40</span><span class="p">)</span>
-            <span class="c">!  40  WCOEF(NUMGR)</span>
-            <span class="n">iloc</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">Nparm</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">4</span><span class="o">*</span><span class="n">Numgr</span><span class="o">*</span><span class="n">Nparm</span> <span class="o">+</span> <span class="mi">9</span><span class="o">*</span><span class="n">Numgr</span> <span class="o">+</span> <span class="mi">22</span><span class="o">*</span><span class="n">Nparm</span> <span class="o">+</span> <span class="mi">11</span>
-        <span class="k">case</span> <span class="p">(</span><span class="mi">41</span><span class="p">)</span>
-            <span class="c">!  41  WCOEF1(NUMGR)  (DOES NOT APPEAR IN THE PROGRAM BY NAME)</span>
-            <span class="n">iloc</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">Nparm</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">4</span><span class="o">*</span><span class="n">Numgr</span><span class="o">*</span><span class="n">Nparm</span> <span class="o">+</span> <span class="mi">10</span><span class="o">*</span><span class="n">Numgr</span> <span class="o">+</span> <span class="mi">22</span><span class="o">*</span><span class="n">Nparm</span> <span class="o">+</span> <span class="mi">11</span>
-        <span class="k">case</span> <span class="p">(</span><span class="mi">42</span><span class="p">)</span>
-            <span class="c">!  42  WPT(NPARM)</span>
-            <span class="n">iloc</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">Nparm</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">4</span><span class="o">*</span><span class="n">Numgr</span><span class="o">*</span><span class="n">Nparm</span> <span class="o">+</span> <span class="mi">11</span><span class="o">*</span><span class="n">Numgr</span> <span class="o">+</span> <span class="mi">22</span><span class="o">*</span><span class="n">Nparm</span> <span class="o">+</span> <span class="mi">11</span>
-        <span class="k">case</span> <span class="p">(</span><span class="mi">43</span><span class="p">)</span>
-            <span class="c">!  43  WVEC(NPARM)</span>
-            <span class="n">iloc</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">Nparm</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">4</span><span class="o">*</span><span class="n">Numgr</span><span class="o">*</span><span class="n">Nparm</span> <span class="o">+</span> <span class="mi">11</span><span class="o">*</span><span class="n">Numgr</span> <span class="o">+</span> <span class="mi">23</span><span class="o">*</span><span class="n">Nparm</span> <span class="o">+</span> <span class="mi">11</span>
-        <span class="k">case</span> <span class="p">(</span><span class="mi">44</span><span class="p">)</span>
-            <span class="c">!  44  X(NPARM+1)</span>
-            <span class="n">iloc</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">Nparm</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">4</span><span class="o">*</span><span class="n">Numgr</span><span class="o">*</span><span class="n">Nparm</span> <span class="o">+</span> <span class="mi">11</span><span class="o">*</span><span class="n">Numgr</span> <span class="o">+</span> <span class="mi">24</span><span class="o">*</span><span class="n">Nparm</span> <span class="o">+</span> <span class="mi">11</span>
-        <span class="k">case</span> <span class="p">(</span><span class="mi">45</span><span class="p">)</span>
-            <span class="c">!  45  XKEEP(NPARM+1)</span>
-            <span class="n">iloc</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">Nparm</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">4</span><span class="o">*</span><span class="n">Numgr</span><span class="o">*</span><span class="n">Nparm</span> <span class="o">+</span> <span class="mi">11</span><span class="o">*</span><span class="n">Numgr</span> <span class="o">+</span> <span class="mi">25</span><span class="o">*</span><span class="n">Nparm</span> <span class="o">+</span> <span class="mi">12</span>
-        <span class="k">case</span> <span class="p">(</span><span class="mi">46</span><span class="p">)</span>
-            <span class="c">!  46  XRK(NPARM+1)</span>
-            <span class="n">iloc</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">Nparm</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">4</span><span class="o">*</span><span class="n">Numgr</span><span class="o">*</span><span class="n">Nparm</span> <span class="o">+</span> <span class="mi">11</span><span class="o">*</span><span class="n">Numgr</span> <span class="o">+</span> <span class="mi">26</span><span class="o">*</span><span class="n">Nparm</span> <span class="o">+</span> <span class="mi">13</span>
-        <span class="k">case</span> <span class="p">(</span><span class="mi">47</span><span class="p">)</span>
-            <span class="c">!  47  Y(NUMGR+2*NPARM)  (WITH V, OPPOSITE AA, B, BETA, D, PICOR, ZWORK;  FOLLOWS V)</span>
-            <span class="n">iloc</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">Nparm</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">4</span><span class="o">*</span><span class="n">Numgr</span><span class="o">*</span><span class="n">Nparm</span> <span class="o">+</span> <span class="mi">8</span><span class="o">*</span><span class="n">Numgr</span> <span class="o">+</span> <span class="mi">16</span><span class="o">*</span><span class="n">Nparm</span> <span class="o">+</span> <span class="mi">10</span>
-        <span class="k">case</span> <span class="p">(</span><span class="mi">48</span><span class="p">)</span>
-            <span class="c">!  48  ZWORK(NPARM)  (OPPOSITE V, Y;  FOLLOWS PICOR)</span>
-            <span class="n">iloc</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">Nparm</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">3</span><span class="o">*</span><span class="n">Numgr</span><span class="o">*</span><span class="n">Nparm</span> <span class="o">+</span> <span class="mi">6</span><span class="o">*</span><span class="n">Numgr</span> <span class="o">+</span> <span class="mi">18</span><span class="o">*</span><span class="n">Nparm</span> <span class="o">+</span> <span class="mi">13</span>
-        <span class="k">case </span><span class="n">default</span>
-            <span class="c">! 1  AA(NPARM+1,NPARM+1)  (OPPOSITE V, Y; STARTS AT V STARTING POINT)</span>
-            <span class="n">iloc</span> <span class="o">=</span> <span class="mi">3</span><span class="o">*</span><span class="n">Numgr</span><span class="o">*</span><span class="n">Nparm</span> <span class="o">+</span> <span class="mi">6</span><span class="o">*</span><span class="n">Numgr</span> <span class="o">+</span> <span class="mi">11</span><span class="o">*</span><span class="n">Nparm</span> <span class="o">+</span> <span class="mi">8</span>
-        <span class="k">end select</span>
+<span class="w">        </span><span class="k">select case</span><span class="w"> </span><span class="p">(</span><span class="n">Iarr</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="c">! 2  ACTDIF(NUMGR)</span>
+<span class="w">            </span><span class="n">iloc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="c">! 3  B(NPARM+1)  (OPPOSITE V, Y;  FOLLOWS AA)</span>
+<span class="w">            </span><span class="n">iloc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Nparm</span><span class="o">**</span><span class="mi">2</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">3</span><span class="o">*</span><span class="n">Numgr</span><span class="o">*</span><span class="n">Nparm</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">6</span><span class="o">*</span><span class="n">Numgr</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">13</span><span class="o">*</span><span class="n">Nparm</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">9</span><span class="w"></span>
+<span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="mi">4</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="c">! 4  BETA(NPARM+1)  (OPPOSITE V, Y;  FOLLOWS B)</span>
+<span class="w">            </span><span class="n">iloc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Nparm</span><span class="o">**</span><span class="mi">2</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">3</span><span class="o">*</span><span class="n">Numgr</span><span class="o">*</span><span class="n">Nparm</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">6</span><span class="o">*</span><span class="n">Numgr</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">14</span><span class="o">*</span><span class="n">Nparm</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">10</span><span class="w"></span>
+<span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="mi">5</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="c">! 5  BNDKP(NPARM) (FOLLOWS ACTDIF)</span>
+<span class="w">            </span><span class="n">iloc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Numgr</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="mi">6</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="c">! 6  COEF(NUMGR)</span>
+<span class="w">            </span><span class="n">iloc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Numgr</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Nparm</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="mi">7</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="c">! 7  COFBND(NPARM)</span>
+<span class="w">            </span><span class="n">iloc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="o">*</span><span class="n">Numgr</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Nparm</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="mi">8</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="c">! 8  CONFUN(NUMGR,NPARM+1)  (OPPOSITE PMAT1)</span>
+<span class="w">            </span><span class="n">iloc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="o">*</span><span class="n">Numgr</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">2</span><span class="o">*</span><span class="n">Nparm</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="mi">9</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="c">! 9  D(NPARM+1)  (OPPOSITE V, Y;  FOLLOWS BETA)</span>
+<span class="w">            </span><span class="n">iloc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Nparm</span><span class="o">**</span><span class="mi">2</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">3</span><span class="o">*</span><span class="n">Numgr</span><span class="o">*</span><span class="n">Nparm</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">6</span><span class="o">*</span><span class="n">Numgr</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">15</span><span class="o">*</span><span class="n">Nparm</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">11</span><span class="w"></span>
+<span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="mi">10</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="c">!  10  DVEC(NPARM) (FOLLOWS CONFUN)</span>
+<span class="w">            </span><span class="n">iloc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Numgr</span><span class="o">*</span><span class="n">Nparm</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">3</span><span class="o">*</span><span class="n">Numgr</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">2</span><span class="o">*</span><span class="n">Nparm</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="mi">11</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="c">!  11  ERR1(NUMGR+3)</span>
+<span class="w">            </span><span class="n">iloc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Numgr</span><span class="o">*</span><span class="n">Nparm</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">3</span><span class="o">*</span><span class="n">Numgr</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">3</span><span class="o">*</span><span class="n">Nparm</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="mi">12</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="c">!  12  FUNTBL(NUMGR,NPARM+1)</span>
+<span class="w">            </span><span class="n">iloc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Numgr</span><span class="o">*</span><span class="n">Nparm</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">4</span><span class="o">*</span><span class="n">Numgr</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">3</span><span class="o">*</span><span class="n">Nparm</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">4</span><span class="w"></span>
+<span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="mi">13</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="c">!  13  IACT(NUMGR)</span>
+<span class="w">            </span><span class="n">iloc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="mi">14</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="c">!  14  IACT1(NUMGR)</span>
+<span class="w">            </span><span class="n">iloc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Numgr</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="mi">15</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="c">!  15  ICOR(NPARM+1)</span>
+<span class="w">            </span><span class="n">iloc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="o">*</span><span class="n">Numgr</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="mi">16</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="c">!  16  ICOR1(NPARM+1)  (DOES NOT APPEAR IN PROGRAM BY NAME)</span>
+<span class="w">            </span><span class="n">iloc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="o">*</span><span class="n">Numgr</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Nparm</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">2</span><span class="w"></span>
+<span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="mi">17</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="c">!  17  ICNTYP(NUMGR)</span>
+<span class="w">            </span><span class="n">iloc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="o">*</span><span class="n">Numgr</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">2</span><span class="o">*</span><span class="n">Nparm</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">3</span><span class="w"></span>
+<span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="mi">18</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="c">!  18  IXRCT(NUMGR+2*NPARM)</span>
+<span class="w">            </span><span class="n">iloc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="o">*</span><span class="n">Numgr</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">2</span><span class="o">*</span><span class="n">Nparm</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">3</span><span class="w"></span>
+<span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="mi">19</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="c">!  19  IYCCT(NPARM+1) (OPPOSITE KPIVOT)</span>
+<span class="w">            </span><span class="n">iloc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span><span class="o">*</span><span class="n">Numgr</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">4</span><span class="o">*</span><span class="n">Nparm</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">3</span><span class="w"></span>
+<span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="mi">20</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="c">!  20  IYRCT(NUMGR+2*NPARM)</span>
+<span class="w">            </span><span class="n">iloc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span><span class="o">*</span><span class="n">Numgr</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">5</span><span class="o">*</span><span class="n">Nparm</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">4</span><span class="w"></span>
+<span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="mi">21</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="c">!  21  JCNTYP(NUMGR)</span>
+<span class="w">            </span><span class="n">iloc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">5</span><span class="o">*</span><span class="n">Numgr</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">7</span><span class="o">*</span><span class="n">Nparm</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">4</span><span class="w"></span>
+<span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="mi">22</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="c">!  22  KCNTYP(NUMGR)</span>
+<span class="w">            </span><span class="n">iloc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">6</span><span class="o">*</span><span class="n">Numgr</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">7</span><span class="o">*</span><span class="n">Nparm</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">4</span><span class="w"></span>
+<span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="mi">23</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="c">!  23  KPIVOT(NPARM+1)  (OPPOSITE IYCCT)</span>
+<span class="w">            </span><span class="n">iloc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span><span class="o">*</span><span class="n">Numgr</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">4</span><span class="o">*</span><span class="n">Nparm</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">3</span><span class="w"></span>
+<span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="mi">24</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="c">!  24  PARAM1(NPARM) (FOLLOWS FUNTBL)</span>
+<span class="w">            </span><span class="n">iloc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="o">*</span><span class="n">Numgr</span><span class="o">*</span><span class="n">Nparm</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">5</span><span class="o">*</span><span class="n">Numgr</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">3</span><span class="o">*</span><span class="n">Nparm</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">4</span><span class="w"></span>
+<span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="mi">25</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="c">!  25  PARPRJ(NPARM)</span>
+<span class="w">            </span><span class="n">iloc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="o">*</span><span class="n">Numgr</span><span class="o">*</span><span class="n">Nparm</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">5</span><span class="o">*</span><span class="n">Numgr</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">4</span><span class="o">*</span><span class="n">Nparm</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">4</span><span class="w"></span>
+<span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="mi">26</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="c">!  26  PARSER(NPARM)</span>
+<span class="w">            </span><span class="n">iloc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="o">*</span><span class="n">Numgr</span><span class="o">*</span><span class="n">Nparm</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">5</span><span class="o">*</span><span class="n">Numgr</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">5</span><span class="o">*</span><span class="n">Nparm</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">4</span><span class="w"></span>
+<span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="mi">27</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="c">!  27  PARWRK(NPARM)</span>
+<span class="w">            </span><span class="n">iloc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="o">*</span><span class="n">Numgr</span><span class="o">*</span><span class="n">Nparm</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">5</span><span class="o">*</span><span class="n">Numgr</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">6</span><span class="o">*</span><span class="n">Nparm</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">4</span><span class="w"></span>
+<span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="mi">28</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="c">!  28  PICOR(NPARM+1,NPARM+1)  (OPPOSITE V, Y;  FOLLOWS D)</span>
+<span class="w">            </span><span class="n">iloc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Nparm</span><span class="o">**</span><span class="mi">2</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">3</span><span class="o">*</span><span class="n">Numgr</span><span class="o">*</span><span class="n">Nparm</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">6</span><span class="o">*</span><span class="n">Numgr</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">16</span><span class="o">*</span><span class="n">Nparm</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">12</span><span class="w"></span>
+<span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="mi">29</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="c">!  29  PMAT(NPARM+1,NUMGR) (FOLLOWS PARWRK)</span>
+<span class="w">            </span><span class="n">iloc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="o">*</span><span class="n">Numgr</span><span class="o">*</span><span class="n">Nparm</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">5</span><span class="o">*</span><span class="n">Numgr</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">7</span><span class="o">*</span><span class="n">Nparm</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">4</span><span class="w"></span>
+<span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="mi">30</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="c">!  30  PMAT1(NPARM+1,NUMGR)  (OPPOSITE CONFUN)</span>
+<span class="w">            </span><span class="n">iloc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="o">*</span><span class="n">Numgr</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">2</span><span class="o">*</span><span class="n">Nparm</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="mi">31</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="c">!  31  PTNR(NPARM+1) (FOLLOWS PMAT)</span>
+<span class="w">            </span><span class="n">iloc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="o">*</span><span class="n">Numgr</span><span class="o">*</span><span class="n">Nparm</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">6</span><span class="o">*</span><span class="n">Numgr</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">7</span><span class="o">*</span><span class="n">Nparm</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">4</span><span class="w"></span>
+<span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="mi">32</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="c">!  32  PTNRR(NPARM+1)</span>
+<span class="w">            </span><span class="n">iloc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="o">*</span><span class="n">Numgr</span><span class="o">*</span><span class="n">Nparm</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">6</span><span class="o">*</span><span class="n">Numgr</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">8</span><span class="o">*</span><span class="n">Nparm</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">5</span><span class="w"></span>
+<span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="mi">33</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="c">!  33  R(NPARM+1)</span>
+<span class="w">            </span><span class="n">iloc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="o">*</span><span class="n">Numgr</span><span class="o">*</span><span class="n">Nparm</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">6</span><span class="o">*</span><span class="n">Numgr</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">9</span><span class="o">*</span><span class="n">Nparm</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">6</span><span class="w"></span>
+<span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="mi">34</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="c">!  34  SAVE(NPARM+1)</span>
+<span class="w">            </span><span class="n">iloc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="o">*</span><span class="n">Numgr</span><span class="o">*</span><span class="n">Nparm</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">6</span><span class="o">*</span><span class="n">Numgr</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">10</span><span class="o">*</span><span class="n">Nparm</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">7</span><span class="w"></span>
+<span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="mi">35</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="c">!  35  V(NUMGR+2*NPARM+1,NPARM+2)  (WITH Y, OPPOSITE AA, B, BETA, D,</span>
+<span class="w">            </span><span class="c">!    PICOR, ZWORK)</span>
+<span class="w">            </span><span class="n">iloc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="o">*</span><span class="n">Numgr</span><span class="o">*</span><span class="n">Nparm</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">6</span><span class="o">*</span><span class="n">Numgr</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">11</span><span class="o">*</span><span class="n">Nparm</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">8</span><span class="w"></span>
+<span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="mi">36</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="c">!  36  VDER(NPARM) (FOLLOWS Y)</span>
+<span class="w">            </span><span class="n">iloc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="o">*</span><span class="n">Nparm</span><span class="o">**</span><span class="mi">2</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">4</span><span class="o">*</span><span class="n">Numgr</span><span class="o">*</span><span class="n">Nparm</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">9</span><span class="o">*</span><span class="n">Numgr</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">18</span><span class="o">*</span><span class="n">Nparm</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">10</span><span class="w"></span>
+<span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="mi">37</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="c">!  37  VDERN(NPARM)</span>
+<span class="w">            </span><span class="n">iloc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="o">*</span><span class="n">Nparm</span><span class="o">**</span><span class="mi">2</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">4</span><span class="o">*</span><span class="n">Numgr</span><span class="o">*</span><span class="n">Nparm</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">9</span><span class="o">*</span><span class="n">Numgr</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">19</span><span class="o">*</span><span class="n">Nparm</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">10</span><span class="w"></span>
+<span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="mi">38</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="c">!  38  VDERS(NPARM)</span>
+<span class="w">            </span><span class="n">iloc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="o">*</span><span class="n">Nparm</span><span class="o">**</span><span class="mi">2</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">4</span><span class="o">*</span><span class="n">Numgr</span><span class="o">*</span><span class="n">Nparm</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">9</span><span class="o">*</span><span class="n">Numgr</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">20</span><span class="o">*</span><span class="n">Nparm</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">10</span><span class="w"></span>
+<span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="mi">39</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="c">!  39  VEC(NPARM+1)</span>
+<span class="w">            </span><span class="n">iloc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="o">*</span><span class="n">Nparm</span><span class="o">**</span><span class="mi">2</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">4</span><span class="o">*</span><span class="n">Numgr</span><span class="o">*</span><span class="n">Nparm</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">9</span><span class="o">*</span><span class="n">Numgr</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">21</span><span class="o">*</span><span class="n">Nparm</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">10</span><span class="w"></span>
+<span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="mi">40</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="c">!  40  WCOEF(NUMGR)</span>
+<span class="w">            </span><span class="n">iloc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="o">*</span><span class="n">Nparm</span><span class="o">**</span><span class="mi">2</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">4</span><span class="o">*</span><span class="n">Numgr</span><span class="o">*</span><span class="n">Nparm</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">9</span><span class="o">*</span><span class="n">Numgr</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">22</span><span class="o">*</span><span class="n">Nparm</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">11</span><span class="w"></span>
+<span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="mi">41</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="c">!  41  WCOEF1(NUMGR)  (DOES NOT APPEAR IN THE PROGRAM BY NAME)</span>
+<span class="w">            </span><span class="n">iloc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="o">*</span><span class="n">Nparm</span><span class="o">**</span><span class="mi">2</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">4</span><span class="o">*</span><span class="n">Numgr</span><span class="o">*</span><span class="n">Nparm</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">10</span><span class="o">*</span><span class="n">Numgr</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">22</span><span class="o">*</span><span class="n">Nparm</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">11</span><span class="w"></span>
+<span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="mi">42</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="c">!  42  WPT(NPARM)</span>
+<span class="w">            </span><span class="n">iloc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="o">*</span><span class="n">Nparm</span><span class="o">**</span><span class="mi">2</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">4</span><span class="o">*</span><span class="n">Numgr</span><span class="o">*</span><span class="n">Nparm</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">11</span><span class="o">*</span><span class="n">Numgr</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">22</span><span class="o">*</span><span class="n">Nparm</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">11</span><span class="w"></span>
+<span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="mi">43</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="c">!  43  WVEC(NPARM)</span>
+<span class="w">            </span><span class="n">iloc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="o">*</span><span class="n">Nparm</span><span class="o">**</span><span class="mi">2</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">4</span><span class="o">*</span><span class="n">Numgr</span><span class="o">*</span><span class="n">Nparm</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">11</span><span class="o">*</span><span class="n">Numgr</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">23</span><span class="o">*</span><span class="n">Nparm</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">11</span><span class="w"></span>
+<span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="mi">44</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="c">!  44  X(NPARM+1)</span>
+<span class="w">            </span><span class="n">iloc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="o">*</span><span class="n">Nparm</span><span class="o">**</span><span class="mi">2</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">4</span><span class="o">*</span><span class="n">Numgr</span><span class="o">*</span><span class="n">Nparm</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">11</span><span class="o">*</span><span class="n">Numgr</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">24</span><span class="o">*</span><span class="n">Nparm</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">11</span><span class="w"></span>
+<span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="mi">45</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="c">!  45  XKEEP(NPARM+1)</span>
+<span class="w">            </span><span class="n">iloc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="o">*</span><span class="n">Nparm</span><span class="o">**</span><span class="mi">2</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">4</span><span class="o">*</span><span class="n">Numgr</span><span class="o">*</span><span class="n">Nparm</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">11</span><span class="o">*</span><span class="n">Numgr</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">25</span><span class="o">*</span><span class="n">Nparm</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">12</span><span class="w"></span>
+<span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="mi">46</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="c">!  46  XRK(NPARM+1)</span>
+<span class="w">            </span><span class="n">iloc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="o">*</span><span class="n">Nparm</span><span class="o">**</span><span class="mi">2</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">4</span><span class="o">*</span><span class="n">Numgr</span><span class="o">*</span><span class="n">Nparm</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">11</span><span class="o">*</span><span class="n">Numgr</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">26</span><span class="o">*</span><span class="n">Nparm</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">13</span><span class="w"></span>
+<span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="mi">47</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="c">!  47  Y(NUMGR+2*NPARM)  (WITH V, OPPOSITE AA, B, BETA, D, PICOR, ZWORK;  FOLLOWS V)</span>
+<span class="w">            </span><span class="n">iloc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="o">*</span><span class="n">Nparm</span><span class="o">**</span><span class="mi">2</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">4</span><span class="o">*</span><span class="n">Numgr</span><span class="o">*</span><span class="n">Nparm</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">8</span><span class="o">*</span><span class="n">Numgr</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">16</span><span class="o">*</span><span class="n">Nparm</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">10</span><span class="w"></span>
+<span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="mi">48</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="c">!  48  ZWORK(NPARM)  (OPPOSITE V, Y;  FOLLOWS PICOR)</span>
+<span class="w">            </span><span class="n">iloc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="o">*</span><span class="n">Nparm</span><span class="o">**</span><span class="mi">2</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">3</span><span class="o">*</span><span class="n">Numgr</span><span class="o">*</span><span class="n">Nparm</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">6</span><span class="o">*</span><span class="n">Numgr</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">18</span><span class="o">*</span><span class="n">Nparm</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">13</span><span class="w"></span>
+<span class="w">        </span><span class="k">case </span><span class="n">default</span><span class="w"></span>
+<span class="w">            </span><span class="c">! 1  AA(NPARM+1,NPARM+1)  (OPPOSITE V, Y; STARTS AT V STARTING POINT)</span>
+<span class="w">            </span><span class="n">iloc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="o">*</span><span class="n">Numgr</span><span class="o">*</span><span class="n">Nparm</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">6</span><span class="o">*</span><span class="n">Numgr</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">11</span><span class="o">*</span><span class="n">Nparm</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">8</span><span class="w"></span>
+<span class="w">        </span><span class="k">end select</span>
 
-<span class="k">    end function </span><span class="n">iloc</span>
+<span class="k">    end function </span><span class="n">iloc</span><span class="w"></span>
 </pre></div>
 
     </section>
     <br>
     
-    
     </div>
   </div>
-
 
     <hr>    
     </div> <!-- /container -->
     <footer>
       <div class="container">
       <div class="row">
-        <div class="col-xs-6 col-md-6"><p>conmax was developed by Jacob Williams<br>&copy; 2021 
-                                          </p>
+        <div class="col-xs-6 col-md-6"><p>conmax was developed by Jacob Williams<br>&copy; 2022 
+</p>
         </div>
         <div class="col-xs-6 col-md-6">
           <p class="text-right">
             Documentation generated by 
             <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
-            
-            
           </p>
         </div>
       </div>
@@ -869,9 +693,7 @@ private pure function iloc(Iarr, Nparm, Numgr)
         extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
       });
     </script>
-    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
     
     
   </body>

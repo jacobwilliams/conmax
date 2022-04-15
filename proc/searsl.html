@@ -4,9 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-   
    <meta name="description" content="CONMAX -- General nonlinearly constrained function minimization">
-    
     <meta name="author" content="Jacob Williams" >
     <link rel="icon" href="../favicon.png">
 
@@ -16,8 +14,6 @@
     <link href="../css/pygments.css" rel="stylesheet">
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
-    
-    
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -46,102 +42,50 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-        
             <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
               <a href="#" class="dropdown-toggle"
               data-toggle="dropdown" role="button"
               aria-haspopup="true"
      aria-expanded="false">Contents <span class="caret"></span></a>
         <ul class="dropdown-menu">
-          
-              
             <li><a href="../sourcefile/conmax.f90.html">Source File</a></li>
-        
-        
-        
             <li><a href="../lists/modules.html">Modules</a></li>
-        
-            
-                                
             <li><a href="../lists/procedures.html">Procedures</a></li>
-        
-        
             <li><a href="../lists/absint.html">Abstract Interfaces</a></li>
-               
-            <li><a href="../lists/types.html">Derived Types</a></li>
-        
-               
-        
-        
+                   <li><a href="../lists/types.html">Derived Types</a></li>
+       
             </ul>
         
             </li>
-
-
 <li class="visible-xs hidden-sm visible-lg"><a href="../sourcefile/conmax.f90.html">Source File</a></li>
-
-
-
 <li class="visible-xs hidden-sm visible-lg"><a href="../lists/modules.html">Modules</a></li>
-
-
-
 <li class="visible-xs hidden-sm visible-lg"><a href="../lists/procedures.html">Procedures</a></li>
-
-
 <li class="visible-xs hidden-sm visible-lg"><a href="../lists/absint.html">Abstract Interfaces</a></li>
-                             
-<li class="visible-xs hidden-sm visible-lg"><a href="../lists/types.html">Derived Types</a></li>
-
-
-
-
+                             <li class="visible-xs hidden-sm visible-lg"><a href="../lists/types.html">Derived Types</a></li>
           </ul>
-        
         </div><!--/.nav-collapse -->
       </div>
     </nav>
 
     <div class="container">
-    
-  
   <div class="row">
     <h1>searsl
       <small>Subroutine</small>
-    
     </h1>
-    
-<div class="row">
+    <div class="row">
   <div class="col-lg-12">
 <div class="well well-sm">
   <ul class="list-inline" style="margin-bottom:0px;display:inline">
-     
-     
-     
-     
-     
-    
-    
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
     title=" 7.4% of total for procedures.">251 statements</a>
      </li> 
-     
-     
-     
     <li><i class="fa fa-code"></i><a href="../src/conmax.f90"> Source File</a></li>
-     
-     
   </ul>
   <ol class="breadcrumb in-well text-right">
-  
-    
      <li><a href='../sourcefile/conmax.f90.html'>conmax.f90</a></li>
-    
      <li><a href='../module/conmax_module.html'>conmax_module</a></li>
-    
-  
      <li class="active">searsl</li>
   </ol>
 </div>
@@ -157,32 +101,9 @@
   
   <div class="row">
     <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
-    
-<div id="sidebar">
-  
-<h3>Contents</h3>
+    <div id="sidebar">
+  <h3>Contents</h3>
  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <div class="panel panel-primary">
   <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
   <div class="list-group">
@@ -190,568 +111,238 @@
   </div>
 </div>
 
-
-
 </div>
 
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>
-private subroutine searsl(me, Ioptn, Numgr, Nparm, Prjlim, Tol1, x, Fun, Ifun, Pttbl, Iptb, Indm, Param, Error, Rchdwn, Mact, Iact, Iphse, Unit, Tolcon, Rchin, Itypm1, Itypm2, Iwork, Liwrk, Work, Lwrk, Err1, Parprj, Projct, Emin, Emin1, Parser, Nsrch)
+    <h2>private subroutine searsl(me, Ioptn, Numgr, Nparm, Prjlim, Tol1, x, Fun, Ifun, Pttbl, Iptb, Indm, Param, Error, Rchdwn, Mact, Iact, Iphse, Unit, Tolcon, Rchin, Itypm1, Itypm2, Iwork, Liwrk, Work, Lwrk, Err1, Parprj, Projct, Emin, Emin1, Parser, Nsrch)</h2>
     
-    
-   
-</h2>
-    
-  
 
-
-    
     <p>This subroutine uses a modified quadratic fitting process to
-  search for the minimum of a function f.  it requres an initial
-  guess in projct, a tolerance tol1 on the search interval length,
-  an upper bound prjlim on the minimizing point (which should be set
-  very large if no upper bound is desired), and a way to compute f(x)
-  for a given x.  the subroutine will print a warning and return if
-  it would need to compute f more than initlm times in the initialization
-  or more than nadd additional times in the main part of the program.
-  when the subroutine returns, it will have put the minimum location in
-  projct, the minimum f value in emin, the f value for the initial
-  projct in emin1, and the number of times it computed f in nsrch.</p>
-    
+search for the minimum of a function f.  it requres an initial
+guess in projct, a tolerance tol1 on the search interval length,
+an upper bound prjlim on the minimizing point (which should be set
+very large if no upper bound is desired), and a way to compute f(x)
+for a given x.  the subroutine will print a warning and return if
+it would need to compute f more than initlm times in the initialization
+or more than nadd additional times in the main part of the program.
+when the subroutine returns, it will have put the minimum location in
+projct, the minimum f value in emin, the f value for the initial
+projct in emin1, and the number of times it computed f in nsrch.</p>
 
     <h3>Arguments</h3>
-    
-      
-<table class="table table-striped varlist">
-<thead><tr><th>Type</th>
-<th>Intent</th><th>Optional</th>
-<th>Attributes</th><th></th><th>Name</th><th></th></thead>
-
-
-
+      <table class="table table-striped varlist">
+<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-me~6"></span>class(<a href='../type/conmax_solver.html'>conmax_solver</a>),</td>
-  <td>intent(inout)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td>intent(inout)</td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>me</strong></td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-ioptn~4"></span>integer</td>
-  <td></td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td></td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>Ioptn</strong></td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-numgr~8"></span>integer</td>
-  <td></td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td></td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>Numgr</strong></td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-nparm~10"></span>integer</td>
-  <td></td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td></td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>Nparm</strong></td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-prjlim"></span>real(kind=wp)</td>
-  <td></td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td></td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>Prjlim</strong></td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-tol1"></span>real(kind=wp)</td>
-  <td></td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td></td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>Tol1</strong></td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-x~4"></span>real(kind=wp)</td>
-  <td></td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td></td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>x</strong></td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-fun~3"></span>real(kind=wp)</td>
-  <td></td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td></td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>Fun</strong></td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-ifun~3"></span>integer</td>
-  <td></td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td></td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>Ifun</strong></td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-pttbl~5"></span>real(kind=wp)</td>
-  <td></td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td></td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>Pttbl</strong></td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-iptb~5"></span>integer</td>
-  <td></td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td></td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>Iptb</strong></td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-indm~6"></span>integer</td>
-  <td></td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td></td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>Indm</strong></td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-param~5"></span>real(kind=wp)</td>
-  <td></td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td></td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>Param</strong></td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-error~3"></span>real(kind=wp)</td>
-  <td></td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td></td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>Error</strong></td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-rchdwn~3"></span>real(kind=wp)</td>
-  <td></td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td></td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>Rchdwn</strong></td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-mact"></span>integer</td>
-  <td></td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td></td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>Mact</strong></td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-iact~2"></span>integer</td>
-  <td></td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td></td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>Iact</strong></td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-iphse~3"></span>integer</td>
-  <td></td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td></td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>Iphse</strong></td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-unit"></span>real(kind=wp)</td>
-  <td></td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td></td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>Unit</strong></td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-tolcon~2"></span>real(kind=wp)</td>
-  <td></td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td></td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>Tolcon</strong></td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-rchin~3"></span>real(kind=wp)</td>
-  <td></td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td></td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>Rchin</strong></td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-itypm1~2"></span>integer</td>
-  <td></td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td></td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>Itypm1</strong></td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-itypm2~2"></span>integer</td>
-  <td></td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td></td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>Itypm2</strong></td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-iwork~3"></span>integer</td>
-  <td></td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td></td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>Iwork</strong></td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-liwrk~3"></span>integer</td>
-  <td></td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td></td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>Liwrk</strong></td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-work~3"></span>real(kind=wp)</td>
-  <td></td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td></td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>Work</strong></td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-lwrk~3"></span>integer</td>
-  <td></td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td></td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>Lwrk</strong></td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-err1"></span>real(kind=wp)</td>
-  <td></td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td></td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>Err1</strong></td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-parprj"></span>real(kind=wp)</td>
-  <td></td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td></td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>Parprj</strong></td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-projct"></span>real(kind=wp)</td>
-  <td></td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td></td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>Projct</strong></td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-emin"></span>real(kind=wp)</td>
-  <td></td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td></td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>Emin</strong></td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-emin1"></span>real(kind=wp)</td>
-  <td></td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td></td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>Emin1</strong></td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-parser~2"></span>real(kind=wp)</td>
-  <td></td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td></td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>Parser</strong></td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-nsrch"></span>integer</td>
-  <td></td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td></td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>Nsrch</strong></td><td></td>
-  
 </tr>
-
 </tbody>
 </table>
 
-    
-    
-    
     <br>
-    
-    
     <div class="panel panel-default">
       <div class="panel-heading">
   <h3 class="panel-title">Calls</h3>
@@ -774,33 +365,33 @@ private subroutine searsl(me, Ioptn, Numgr, Nparm, Prjlim, Tol1, x, Fun, Ifun, P
 <polygon fill="none" stroke="black" points="54,-45 0,-45 0,-21 54,-21 54,-45"/>
 <text text-anchor="middle" x="27" y="-30.6" font-family="Helvetica,sans-Serif" font-size="10.50">searsl</text>
 </g>
-<!-- proc~rchmod -->
-<g id="proc~~searsl~~CallsGraph_node2" class="node">
-<title>proc~rchmod</title>
-<g id="a_proc~~searsl~~CallsGraph_node2"><a xlink:href=".././proc/rchmod.html" xlink:title="rchmod">
-<polygon fill="#d9534f" stroke="#d9534f" points="144,-66 90,-66 90,-42 144,-42 144,-66"/>
-<text text-anchor="middle" x="117" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">rchmod</text>
-</a>
-</g>
-</g>
-<!-- proc~searsl&#45;&gt;proc~rchmod -->
-<g id="proc~~searsl~~CallsGraph_edge1" class="edge">
-<title>proc~searsl&#45;&gt;proc~rchmod</title>
-<path fill="none" stroke="#000000" d="M54.4,-39.3C62.48,-41.23 71.51,-43.38 80.1,-45.43"/>
-<polygon fill="#000000" stroke="#000000" points="79.38,-48.86 89.92,-47.78 81,-42.05 79.38,-48.86"/>
-</g>
 <!-- proc~iloc -->
-<g id="proc~~searsl~~CallsGraph_node3" class="node">
+<g id="proc~~searsl~~CallsGraph_node2" class="node">
 <title>proc~iloc</title>
-<g id="a_proc~~searsl~~CallsGraph_node3"><a xlink:href=".././proc/iloc.html" xlink:title="iloc">
-<polygon fill="#d94e8f" stroke="#d94e8f" points="144,-24 90,-24 90,0 144,0 144,-24"/>
-<text text-anchor="middle" x="117" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">iloc</text>
+<g id="a_proc~~searsl~~CallsGraph_node2"><a xlink:href=".././proc/iloc.html" xlink:title="iloc">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="144,-66 90,-66 90,-42 144,-42 144,-66"/>
+<text text-anchor="middle" x="117" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">iloc</text>
 </a>
 </g>
 </g>
 <!-- proc~searsl&#45;&gt;proc~iloc -->
-<g id="proc~~searsl~~CallsGraph_edge2" class="edge">
+<g id="proc~~searsl~~CallsGraph_edge1" class="edge">
 <title>proc~searsl&#45;&gt;proc~iloc</title>
+<path fill="none" stroke="#000000" d="M54.4,-39.3C62.48,-41.23 71.51,-43.38 80.1,-45.43"/>
+<polygon fill="#000000" stroke="#000000" points="79.38,-48.86 89.92,-47.78 81,-42.05 79.38,-48.86"/>
+</g>
+<!-- proc~rchmod -->
+<g id="proc~~searsl~~CallsGraph_node3" class="node">
+<title>proc~rchmod</title>
+<g id="a_proc~~searsl~~CallsGraph_node3"><a xlink:href=".././proc/rchmod.html" xlink:title="rchmod">
+<polygon fill="#d9534f" stroke="#d9534f" points="144,-24 90,-24 90,0 144,0 144,-24"/>
+<text text-anchor="middle" x="117" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">rchmod</text>
+</a>
+</g>
+</g>
+<!-- proc~searsl&#45;&gt;proc~rchmod -->
+<g id="proc~~searsl~~CallsGraph_edge2" class="edge">
+<title>proc~searsl&#45;&gt;proc~rchmod</title>
 <path fill="none" stroke="#000000" d="M54.4,-26.7C62.48,-24.77 71.51,-22.62 80.1,-20.57"/>
 <polygon fill="#000000" stroke="#000000" points="81,-23.95 89.92,-18.22 79.38,-17.14 81,-23.95"/>
 </g>
@@ -867,35 +458,11 @@ private subroutine searsl(me, Ioptn, Numgr, Nparm, Prjlim, Tol1, x, Fun, Ifun, P
     </div></div></div></div>
       </div>
     </div>
-     
-     
     <br>
 
     <section class="visible-xs visible-sm hidden-md">
-      
-<h3>Contents</h3>
+      <h3>Contents</h3>
  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <div class="panel panel-primary">
   <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
   <div class="list-group">
@@ -903,498 +470,483 @@ private subroutine searsl(me, Ioptn, Numgr, Nparm, Prjlim, Tol1, x, Fun, Ifun, P
   </div>
 </div>
 
-
-
     </section>
     <br class="visible-xs visible-sm hidden-md">
 
-    
 
-    
-    
-    
     
     
 
     
     
-    
-    
-    
 
 
-    
-    
     
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="highlight"><pre><span></span>    <span class="k">subroutine </span><span class="n">searsl</span><span class="p">(</span><span class="n">me</span><span class="p">,</span> <span class="n">Ioptn</span><span class="p">,</span> <span class="n">Numgr</span><span class="p">,</span> <span class="n">Nparm</span><span class="p">,</span> <span class="n">Prjlim</span><span class="p">,</span> <span class="n">Tol1</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">Fun</span><span class="p">,</span> <span class="n">Ifun</span><span class="p">,</span> <span class="n">Pttbl</span><span class="p">,</span> <span class="p">&amp;</span>
-                      <span class="n">Iptb</span><span class="p">,</span> <span class="n">Indm</span><span class="p">,</span> <span class="n">Param</span><span class="p">,</span> <span class="n">Error</span><span class="p">,</span> <span class="n">Rchdwn</span><span class="p">,</span> <span class="n">Mact</span><span class="p">,</span> <span class="n">Iact</span><span class="p">,</span> <span class="n">Iphse</span><span class="p">,</span> <span class="p">&amp;</span>
-                      <span class="n">Unit</span><span class="p">,</span> <span class="n">Tolcon</span><span class="p">,</span> <span class="n">Rchin</span><span class="p">,</span> <span class="n">Itypm1</span><span class="p">,</span> <span class="n">Itypm2</span><span class="p">,</span> <span class="n">Iwork</span><span class="p">,</span> <span class="n">Liwrk</span><span class="p">,</span> <span class="p">&amp;</span>
-                      <span class="n">Work</span><span class="p">,</span> <span class="n">Lwrk</span><span class="p">,</span> <span class="n">Err1</span><span class="p">,</span> <span class="n">Parprj</span><span class="p">,</span> <span class="n">Projct</span><span class="p">,</span> <span class="n">Emin</span><span class="p">,</span> <span class="n">Emin1</span><span class="p">,</span> <span class="n">Parser</span><span class="p">,</span> <span class="p">&amp;</span>
-                      <span class="n">Nsrch</span><span class="p">)</span>
+    <div class="highlight"><pre><span></span><span class="w">    </span><span class="k">subroutine </span><span class="n">searsl</span><span class="p">(</span><span class="n">me</span><span class="p">,</span><span class="w"> </span><span class="n">Ioptn</span><span class="p">,</span><span class="w"> </span><span class="n">Numgr</span><span class="p">,</span><span class="w"> </span><span class="n">Nparm</span><span class="p">,</span><span class="w"> </span><span class="n">Prjlim</span><span class="p">,</span><span class="w"> </span><span class="n">Tol1</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">Fun</span><span class="p">,</span><span class="w"> </span><span class="n">Ifun</span><span class="p">,</span><span class="w"> </span><span class="n">Pttbl</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                      </span><span class="n">Iptb</span><span class="p">,</span><span class="w"> </span><span class="n">Indm</span><span class="p">,</span><span class="w"> </span><span class="n">Param</span><span class="p">,</span><span class="w"> </span><span class="n">Error</span><span class="p">,</span><span class="w"> </span><span class="n">Rchdwn</span><span class="p">,</span><span class="w"> </span><span class="n">Mact</span><span class="p">,</span><span class="w"> </span><span class="n">Iact</span><span class="p">,</span><span class="w"> </span><span class="n">Iphse</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                      </span><span class="n">Unit</span><span class="p">,</span><span class="w"> </span><span class="n">Tolcon</span><span class="p">,</span><span class="w"> </span><span class="n">Rchin</span><span class="p">,</span><span class="w"> </span><span class="n">Itypm1</span><span class="p">,</span><span class="w"> </span><span class="n">Itypm2</span><span class="p">,</span><span class="w"> </span><span class="n">Iwork</span><span class="p">,</span><span class="w"> </span><span class="n">Liwrk</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                      </span><span class="n">Work</span><span class="p">,</span><span class="w"> </span><span class="n">Lwrk</span><span class="p">,</span><span class="w"> </span><span class="n">Err1</span><span class="p">,</span><span class="w"> </span><span class="n">Parprj</span><span class="p">,</span><span class="w"> </span><span class="n">Projct</span><span class="p">,</span><span class="w"> </span><span class="n">Emin</span><span class="p">,</span><span class="w"> </span><span class="n">Emin1</span><span class="p">,</span><span class="w"> </span><span class="n">Parser</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                      </span><span class="n">Nsrch</span><span class="p">)</span><span class="w"></span>
 
-        <span class="k">implicit none</span>
+<span class="w">        </span><span class="k">implicit none</span>
 
-<span class="k">        class</span><span class="p">(</span><span class="n">conmax_solver</span><span class="p">),</span> <span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span> <span class="kd">::</span> <span class="n">me</span>
-        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Emin</span><span class="p">,</span> <span class="n">Emin1</span><span class="p">,</span> <span class="n">Err1</span><span class="p">,</span> <span class="p">&amp;</span>
-                    <span class="n">Error</span><span class="p">,</span> <span class="n">f1</span><span class="p">,</span> <span class="n">f2</span><span class="p">,</span> <span class="n">f3</span><span class="p">,</span> <span class="n">f4</span><span class="p">,</span> <span class="n">Fun</span><span class="p">,</span> <span class="n">fval</span><span class="p">,</span> <span class="n">fvlkp</span><span class="p">,</span> <span class="p">&amp;</span>
-                    <span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">,</span> <span class="n">p3</span>
-        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">p4</span><span class="p">,</span> <span class="n">Param</span><span class="p">,</span> <span class="n">Parprj</span><span class="p">,</span> <span class="n">Parser</span><span class="p">,</span> <span class="n">Prjlim</span><span class="p">,</span> <span class="n">Projct</span><span class="p">,</span> <span class="n">Pttbl</span><span class="p">,</span> <span class="p">&amp;</span>
-                    <span class="n">pval</span><span class="p">,</span> <span class="n">Rchdwn</span><span class="p">,</span> <span class="n">Rchin</span><span class="p">,</span> <span class="n">rlf</span><span class="p">,</span> <span class="n">rrt</span><span class="p">,</span> <span class="n">s1</span><span class="p">,</span> <span class="n">s2</span><span class="p">,</span> <span class="n">tol4</span><span class="p">,</span> <span class="p">&amp;</span>
-                    <span class="n">Tol1</span><span class="p">,</span> <span class="n">Tolcon</span>
-        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Unit</span><span class="p">,</span> <span class="n">Work</span><span class="p">,</span> <span class="n">x</span>
-        <span class="kt">integer</span> <span class="kd">::</span> <span class="n">Iact</span><span class="p">,</span> <span class="n">icorct</span><span class="p">,</span> <span class="n">Ifun</span><span class="p">,</span> <span class="n">ilc08</span><span class="p">,</span> <span class="n">ilc10</span><span class="p">,</span> <span class="n">ilc17</span><span class="p">,</span> <span class="n">ilc21</span><span class="p">,</span> <span class="p">&amp;</span>
-                   <span class="n">ilc27</span><span class="p">,</span> <span class="n">ilc29</span><span class="p">,</span> <span class="n">ilc48</span><span class="p">,</span> <span class="n">ilf</span><span class="p">,</span> <span class="n">Indm</span><span class="p">,</span> <span class="n">initlm</span><span class="p">,</span> <span class="p">&amp;</span>
-                   <span class="n">Ioptn</span><span class="p">,</span> <span class="n">Iphse</span><span class="p">,</span> <span class="n">ipmax</span><span class="p">,</span> <span class="n">Iptb</span><span class="p">,</span> <span class="n">irt</span><span class="p">,</span> <span class="n">isave</span>
-        <span class="kt">integer</span> <span class="kd">::</span> <span class="n">ismax</span><span class="p">,</span> <span class="n">Itypm1</span><span class="p">,</span> <span class="n">Itypm2</span><span class="p">,</span> <span class="n">iupbar</span><span class="p">,</span> <span class="n">Iwork</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">lims1</span><span class="p">,</span> <span class="p">&amp;</span>
-                   <span class="n">Liwrk</span><span class="p">,</span> <span class="n">lll</span><span class="p">,</span> <span class="n">Lwrk</span><span class="p">,</span> <span class="n">Mact</span><span class="p">,</span> <span class="n">nadd</span><span class="p">,</span> <span class="n">Nparm</span><span class="p">,</span> <span class="n">Nsrch</span><span class="p">,</span> <span class="n">Numgr</span>
+<span class="k">        class</span><span class="p">(</span><span class="n">conmax_solver</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">me</span><span class="w"></span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">Emin</span><span class="p">,</span><span class="w"> </span><span class="n">Emin1</span><span class="p">,</span><span class="w"> </span><span class="n">Err1</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                    </span><span class="n">Error</span><span class="p">,</span><span class="w"> </span><span class="n">f1</span><span class="p">,</span><span class="w"> </span><span class="n">f2</span><span class="p">,</span><span class="w"> </span><span class="n">f3</span><span class="p">,</span><span class="w"> </span><span class="n">f4</span><span class="p">,</span><span class="w"> </span><span class="n">Fun</span><span class="p">,</span><span class="w"> </span><span class="n">fval</span><span class="p">,</span><span class="w"> </span><span class="n">fvlkp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                    </span><span class="n">p1</span><span class="p">,</span><span class="w"> </span><span class="n">p2</span><span class="p">,</span><span class="w"> </span><span class="n">p3</span><span class="w"></span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">p4</span><span class="p">,</span><span class="w"> </span><span class="n">Param</span><span class="p">,</span><span class="w"> </span><span class="n">Parprj</span><span class="p">,</span><span class="w"> </span><span class="n">Parser</span><span class="p">,</span><span class="w"> </span><span class="n">Prjlim</span><span class="p">,</span><span class="w"> </span><span class="n">Projct</span><span class="p">,</span><span class="w"> </span><span class="n">Pttbl</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                    </span><span class="n">pval</span><span class="p">,</span><span class="w"> </span><span class="n">Rchdwn</span><span class="p">,</span><span class="w"> </span><span class="n">Rchin</span><span class="p">,</span><span class="w"> </span><span class="n">rlf</span><span class="p">,</span><span class="w"> </span><span class="n">rrt</span><span class="p">,</span><span class="w"> </span><span class="n">s1</span><span class="p">,</span><span class="w"> </span><span class="n">s2</span><span class="p">,</span><span class="w"> </span><span class="n">tol4</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                    </span><span class="n">Tol1</span><span class="p">,</span><span class="w"> </span><span class="n">Tolcon</span><span class="w"></span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">Unit</span><span class="p">,</span><span class="w"> </span><span class="n">Work</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="w"></span>
+<span class="w">        </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">Iact</span><span class="p">,</span><span class="w"> </span><span class="n">icorct</span><span class="p">,</span><span class="w"> </span><span class="n">Ifun</span><span class="p">,</span><span class="w"> </span><span class="n">ilc08</span><span class="p">,</span><span class="w"> </span><span class="n">ilc10</span><span class="p">,</span><span class="w"> </span><span class="n">ilc17</span><span class="p">,</span><span class="w"> </span><span class="n">ilc21</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                   </span><span class="n">ilc27</span><span class="p">,</span><span class="w"> </span><span class="n">ilc29</span><span class="p">,</span><span class="w"> </span><span class="n">ilc48</span><span class="p">,</span><span class="w"> </span><span class="n">ilf</span><span class="p">,</span><span class="w"> </span><span class="n">Indm</span><span class="p">,</span><span class="w"> </span><span class="n">initlm</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                   </span><span class="n">Ioptn</span><span class="p">,</span><span class="w"> </span><span class="n">Iphse</span><span class="p">,</span><span class="w"> </span><span class="n">ipmax</span><span class="p">,</span><span class="w"> </span><span class="n">Iptb</span><span class="p">,</span><span class="w"> </span><span class="n">irt</span><span class="p">,</span><span class="w"> </span><span class="n">isave</span><span class="w"></span>
+<span class="w">        </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">ismax</span><span class="p">,</span><span class="w"> </span><span class="n">Itypm1</span><span class="p">,</span><span class="w"> </span><span class="n">Itypm2</span><span class="p">,</span><span class="w"> </span><span class="n">iupbar</span><span class="p">,</span><span class="w"> </span><span class="n">Iwork</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">,</span><span class="w"> </span><span class="n">lims1</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                   </span><span class="n">Liwrk</span><span class="p">,</span><span class="w"> </span><span class="n">lll</span><span class="p">,</span><span class="w"> </span><span class="n">Lwrk</span><span class="p">,</span><span class="w"> </span><span class="n">Mact</span><span class="p">,</span><span class="w"> </span><span class="n">nadd</span><span class="p">,</span><span class="w"> </span><span class="n">Nparm</span><span class="p">,</span><span class="w"> </span><span class="n">Nsrch</span><span class="p">,</span><span class="w"> </span><span class="n">Numgr</span><span class="w"></span>
 
-        <span class="k">dimension </span><span class="n">Fun</span><span class="p">(</span><span class="n">Ifun</span><span class="p">),</span> <span class="n">Pttbl</span><span class="p">(</span><span class="n">Iptb</span><span class="p">,</span> <span class="n">Indm</span><span class="p">),</span> <span class="n">Param</span><span class="p">(</span><span class="n">Nparm</span><span class="p">),</span> <span class="p">&amp;</span>
-            <span class="n">Err1</span><span class="p">(</span><span class="n">Numgr</span> <span class="o">+</span> <span class="mi">3</span><span class="p">),</span> <span class="n">Parprj</span><span class="p">(</span><span class="n">Nparm</span><span class="p">),</span> <span class="n">x</span><span class="p">(</span><span class="n">Nparm</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="p">&amp;</span>
-            <span class="n">Error</span><span class="p">(</span><span class="n">Numgr</span> <span class="o">+</span> <span class="mi">3</span><span class="p">),</span> <span class="n">Iact</span><span class="p">(</span><span class="n">Numgr</span><span class="p">),</span> <span class="n">Parser</span><span class="p">(</span><span class="n">Nparm</span><span class="p">),</span> <span class="p">&amp;</span>
-            <span class="n">Iwork</span><span class="p">(</span><span class="n">Liwrk</span><span class="p">),</span> <span class="n">Work</span><span class="p">(</span><span class="n">Lwrk</span><span class="p">)</span>
+<span class="w">        </span><span class="k">dimension </span><span class="n">Fun</span><span class="p">(</span><span class="n">Ifun</span><span class="p">),</span><span class="w"> </span><span class="n">Pttbl</span><span class="p">(</span><span class="n">Iptb</span><span class="p">,</span><span class="w"> </span><span class="n">Indm</span><span class="p">),</span><span class="w"> </span><span class="n">Param</span><span class="p">(</span><span class="n">Nparm</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">            </span><span class="n">Err1</span><span class="p">(</span><span class="n">Numgr</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">3</span><span class="p">),</span><span class="w"> </span><span class="n">Parprj</span><span class="p">(</span><span class="n">Nparm</span><span class="p">),</span><span class="w"> </span><span class="n">x</span><span class="p">(</span><span class="n">Nparm</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">            </span><span class="n">Error</span><span class="p">(</span><span class="n">Numgr</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">3</span><span class="p">),</span><span class="w"> </span><span class="n">Iact</span><span class="p">(</span><span class="n">Numgr</span><span class="p">),</span><span class="w"> </span><span class="n">Parser</span><span class="p">(</span><span class="n">Nparm</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">            </span><span class="n">Iwork</span><span class="p">(</span><span class="n">Liwrk</span><span class="p">),</span><span class="w"> </span><span class="n">Work</span><span class="p">(</span><span class="n">Lwrk</span><span class="p">)</span><span class="w"></span>
 
-        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span> <span class="k">parameter</span> <span class="kd">::</span> <span class="n">tolden</span> <span class="o">=</span> <span class="n">ten</span><span class="o">*</span><span class="n">spcmn</span>
-        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span> <span class="k">parameter</span> <span class="kd">::</span> <span class="n">balfct</span> <span class="o">=</span> <span class="n">ten</span>
-        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span> <span class="k">parameter</span> <span class="kd">::</span> <span class="n">baladj</span> <span class="o">=</span> <span class="p">(</span><span class="n">ten</span> <span class="o">-</span> <span class="n">one</span><span class="p">)</span><span class="o">/</span><span class="n">ten</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">tolden</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ten</span><span class="o">*</span><span class="n">spcmn</span><span class="w"></span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">balfct</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ten</span><span class="w"></span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">baladj</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">ten</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">one</span><span class="p">)</span><span class="o">/</span><span class="n">ten</span><span class="w"></span>
 
-        <span class="n">tol4</span> <span class="o">=</span> <span class="n">Tol1</span><span class="o">/</span><span class="n">four</span>
-        <span class="n">ilc08</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="n">Nparm</span><span class="p">,</span> <span class="n">Numgr</span><span class="p">)</span>
-        <span class="n">ilc10</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">Nparm</span><span class="p">,</span> <span class="n">Numgr</span><span class="p">)</span>
-        <span class="n">ilc17</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">17</span><span class="p">,</span> <span class="n">Nparm</span><span class="p">,</span> <span class="n">Numgr</span><span class="p">)</span>
-        <span class="n">ilc21</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">21</span><span class="p">,</span> <span class="n">Nparm</span><span class="p">,</span> <span class="n">Numgr</span><span class="p">)</span>
-        <span class="n">ilc27</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">27</span><span class="p">,</span> <span class="n">Nparm</span><span class="p">,</span> <span class="n">Numgr</span><span class="p">)</span>
-        <span class="n">ilc29</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">29</span><span class="p">,</span> <span class="n">Nparm</span><span class="p">,</span> <span class="n">Numgr</span><span class="p">)</span>
-        <span class="n">ilc48</span> <span class="o">=</span> <span class="n">iloc</span><span class="p">(</span><span class="mi">48</span><span class="p">,</span> <span class="n">Nparm</span><span class="p">,</span> <span class="n">Numgr</span><span class="p">)</span>
+<span class="w">        </span><span class="n">tol4</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Tol1</span><span class="o">/</span><span class="n">four</span><span class="w"></span>
+<span class="w">        </span><span class="n">ilc08</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">iloc</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="w"> </span><span class="n">Nparm</span><span class="p">,</span><span class="w"> </span><span class="n">Numgr</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="n">ilc10</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">iloc</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="n">Nparm</span><span class="p">,</span><span class="w"> </span><span class="n">Numgr</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="n">ilc17</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">iloc</span><span class="p">(</span><span class="mi">17</span><span class="p">,</span><span class="w"> </span><span class="n">Nparm</span><span class="p">,</span><span class="w"> </span><span class="n">Numgr</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="n">ilc21</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">iloc</span><span class="p">(</span><span class="mi">21</span><span class="p">,</span><span class="w"> </span><span class="n">Nparm</span><span class="p">,</span><span class="w"> </span><span class="n">Numgr</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="n">ilc27</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">iloc</span><span class="p">(</span><span class="mi">27</span><span class="p">,</span><span class="w"> </span><span class="n">Nparm</span><span class="p">,</span><span class="w"> </span><span class="n">Numgr</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="n">ilc29</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">iloc</span><span class="p">(</span><span class="mi">29</span><span class="p">,</span><span class="w"> </span><span class="n">Nparm</span><span class="p">,</span><span class="w"> </span><span class="n">Numgr</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="n">ilc48</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">iloc</span><span class="p">(</span><span class="mi">48</span><span class="p">,</span><span class="w"> </span><span class="n">Nparm</span><span class="p">,</span><span class="w"> </span><span class="n">Numgr</span><span class="p">)</span><span class="w"></span>
 
-        <span class="c">! THE INITIAL PROJCT CAN BE INCREASED (OR DECREASED) BY A FACTOR OF</span>
-        <span class="c">! 2.0**((INITLM-1)*INITLM-2)/2) (ASSUMING WE TAKE INITLM &gt;= 3, AS</span>
-        <span class="c">! WE SHOULD).  WE TAKE INITLM=6 SINCE A FACTOR OF 1024 SEEMS SUFFICIENT.</span>
-        <span class="n">initlm</span> <span class="o">=</span> <span class="mi">6</span>
-        <span class="c">! NADD=4 SEEMS TO BE SUFFICIENT SINCE THIS NUMBER OF ITERATIONS PAST THE</span>
-        <span class="c">! INITIALIZATION SEEMS TO ONLY RARELY BE EXCEEDED.</span>
-        <span class="n">nadd</span> <span class="o">=</span> <span class="mi">4</span>
-        <span class="n">Nsrch</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="n">ilf</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="n">irt</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="n">iupbar</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="n">isave</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="c">! INITIALLY PUT PARAM IN PARSER SO THERE WILL BE SOMETHING THERE IF</span>
-        <span class="c">! WE NEVER GET A CORRECTIBLE PARPRJ.</span>
-        <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">Nparm</span>
-            <span class="n">Parser</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
-        <span class="k">end do</span>
-        <span class="c">! WE NOW TRY TO COMPUTE VALUES AT POINTS P2=PROJCT, P1=P2/2.0, AND</span>
-        <span class="c">! P3=2.0*P2 (BUT P3 CANNOT EXCEED PRJLIM).</span>
-        <span class="n">p2</span> <span class="o">=</span> <span class="n">Projct</span>
-        <span class="c">! SET LLL=2 AS THE THREAD THROUGH THE MINOTAURS CAVERN AND JUMP</span>
-        <span class="c">! DOWN TO PUT F(P2) IN F2.  WE WILL JUMP BACK AFTER ALL SUCH JUMPS</span>
-        <span class="n">lll</span> <span class="o">=</span> <span class="mi">2</span>
-        <span class="n">pval</span> <span class="o">=</span> <span class="n">p2</span>
-        <span class="k">goto </span><span class="mi">1200</span>
+<span class="w">        </span><span class="c">! THE INITIAL PROJCT CAN BE INCREASED (OR DECREASED) BY A FACTOR OF</span>
+<span class="w">        </span><span class="c">! 2.0**((INITLM-1)*INITLM-2)/2) (ASSUMING WE TAKE INITLM &gt;= 3, AS</span>
+<span class="w">        </span><span class="c">! WE SHOULD).  WE TAKE INITLM=6 SINCE A FACTOR OF 1024 SEEMS SUFFICIENT.</span>
+<span class="w">        </span><span class="n">initlm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">6</span><span class="w"></span>
+<span class="w">        </span><span class="c">! NADD=4 SEEMS TO BE SUFFICIENT SINCE THIS NUMBER OF ITERATIONS PAST THE</span>
+<span class="w">        </span><span class="c">! INITIALIZATION SEEMS TO ONLY RARELY BE EXCEEDED.</span>
+<span class="w">        </span><span class="n">nadd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span><span class="w"></span>
+<span class="w">        </span><span class="n">Nsrch</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">        </span><span class="n">ilf</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">        </span><span class="n">irt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">        </span><span class="n">iupbar</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">        </span><span class="n">isave</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">        </span><span class="c">! INITIALLY PUT PARAM IN PARSER SO THERE WILL BE SOMETHING THERE IF</span>
+<span class="w">        </span><span class="c">! WE NEVER GET A CORRECTIBLE PARPRJ.</span>
+<span class="w">        </span><span class="k">do </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">Nparm</span><span class="w"></span>
+<span class="w">            </span><span class="n">Parser</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Param</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="k">end do</span><span class="w"></span>
+<span class="w">        </span><span class="c">! WE NOW TRY TO COMPUTE VALUES AT POINTS P2=PROJCT, P1=P2/2.0, AND</span>
+<span class="w">        </span><span class="c">! P3=2.0*P2 (BUT P3 CANNOT EXCEED PRJLIM).</span>
+<span class="w">        </span><span class="n">p2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Projct</span><span class="w"></span>
+<span class="w">        </span><span class="c">! SET LLL=2 AS THE THREAD THROUGH THE MINOTAURS CAVERN AND JUMP</span>
+<span class="w">        </span><span class="c">! DOWN TO PUT F(P2) IN F2.  WE WILL JUMP BACK AFTER ALL SUCH JUMPS</span>
+<span class="w">        </span><span class="n">lll</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="w"></span>
+<span class="w">        </span><span class="n">pval</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">p2</span><span class="w"></span>
+<span class="w">        </span><span class="k">goto</span><span class="w"> </span><span class="mi">1200</span><span class="w"></span>
 
-        <span class="c">! HERE SET LLL=3 AND PUT F(P3) IN F3.</span>
-<span class="mi">100</span>     <span class="n">lll</span> <span class="o">=</span> <span class="mi">3</span>
-        <span class="n">pval</span> <span class="o">=</span> <span class="n">p3</span>
-        <span class="k">goto </span><span class="mi">1200</span>
+<span class="w">        </span><span class="c">! HERE SET LLL=3 AND PUT F(P3) IN F3.</span>
+<span class="mi">100</span><span class="w">     </span><span class="n">lll</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="w"></span>
+<span class="w">        </span><span class="n">pval</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">p3</span><span class="w"></span>
+<span class="w">        </span><span class="k">goto</span><span class="w"> </span><span class="mi">1200</span><span class="w"></span>
 
-        <span class="c">! WE NOW HAVE FOUND P1, P2, AND P3 WITH CORRESPONDING VALUES</span>
-        <span class="c">! F1, F2, AND F3.  WE EXPAND THE INTERVAL IF NECESSARY TO TRY</span>
-        <span class="c">! TO FIND NEW VALUES WITH F2 &lt;= MIN(F1,F3).</span>
-<span class="mi">200</span>     <span class="k">if</span> <span class="p">(</span><span class="n">f2</span> <span class="o">&lt;=</span> <span class="n">f1</span><span class="p">)</span> <span class="k">then</span>
-            <span class="c">! HERE F2 &lt;= F1.  IF F2 &lt;= F3 AND WE HAVE NOT HAD ALL FAILURES OF</span>
-            <span class="c">! THE F COMPUTATION, WE ARE DONE INITIALIZING.</span>
-            <span class="k">if</span> <span class="p">(</span><span class="n">f2</span> <span class="o">&gt;</span> <span class="n">f3</span><span class="p">)</span> <span class="k">goto </span><span class="mi">500</span>
-            <span class="k">goto </span><span class="mi">400</span>
-        <span class="k">else if</span> <span class="p">(</span><span class="n">f1</span> <span class="o">&gt;</span> <span class="n">f3</span><span class="p">)</span> <span class="k">then</span>
-<span class="k">            goto </span><span class="mi">500</span>
-        <span class="k">end if</span>
+<span class="w">        </span><span class="c">! WE NOW HAVE FOUND P1, P2, AND P3 WITH CORRESPONDING VALUES</span>
+<span class="w">        </span><span class="c">! F1, F2, AND F3.  WE EXPAND THE INTERVAL IF NECESSARY TO TRY</span>
+<span class="w">        </span><span class="c">! TO FIND NEW VALUES WITH F2 &lt;= MIN(F1,F3).</span>
+<span class="mi">200</span><span class="w">     </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">f2</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">f1</span><span class="p">)</span><span class="w"> </span><span class="k">then</span><span class="w"></span>
+<span class="w">            </span><span class="c">! HERE F2 &lt;= F1.  IF F2 &lt;= F3 AND WE HAVE NOT HAD ALL FAILURES OF</span>
+<span class="w">            </span><span class="c">! THE F COMPUTATION, WE ARE DONE INITIALIZING.</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">f2</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">f3</span><span class="p">)</span><span class="w"> </span><span class="k">goto</span><span class="w"> </span><span class="mi">500</span><span class="w"></span>
+<span class="w">            </span><span class="k">goto</span><span class="w"> </span><span class="mi">400</span><span class="w"></span>
+<span class="w">        </span><span class="k">else if</span><span class="w"> </span><span class="p">(</span><span class="n">f1</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">f3</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">            goto</span><span class="w"> </span><span class="mi">500</span><span class="w"></span>
+<span class="w">        </span><span class="k">end if</span><span class="w"></span>
 
-        <span class="c">! HERE WE WILL EXPAND THE INTERVAL TO THE LEFT, PROVIDING THAT</span>
-        <span class="c">! NSRCH &lt; INITLM AND P1-P1/2.0**(NSRCH-1) &gt;= TOL4.</span>
-<span class="mi">300</span>     <span class="k">if</span> <span class="p">(</span><span class="n">Nsrch</span> <span class="o">&lt;</span> <span class="n">initlm</span><span class="p">)</span> <span class="k">then</span>
-<span class="k">            if</span> <span class="p">(</span><span class="n">p1</span> <span class="o">-</span> <span class="n">p1</span><span class="o">/</span><span class="n">two</span><span class="o">**</span><span class="p">(</span><span class="n">Nsrch</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">tol4</span><span class="p">)</span> <span class="k">then</span>
-                <span class="c">! EXPAND LEFT.</span>
-                <span class="n">p3</span> <span class="o">=</span> <span class="n">p2</span>
-                <span class="n">f3</span> <span class="o">=</span> <span class="n">f2</span>
-                <span class="n">p2</span> <span class="o">=</span> <span class="n">p1</span>
-                <span class="n">f2</span> <span class="o">=</span> <span class="n">f1</span>
-                <span class="n">p1</span> <span class="o">=</span> <span class="n">p1</span><span class="o">/</span><span class="n">two</span><span class="o">**</span><span class="p">(</span><span class="n">Nsrch</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
-                <span class="c">! SET LLL=5 AND PUT F(P1) IN F1.</span>
-                <span class="n">lll</span> <span class="o">=</span> <span class="mi">5</span>
-                <span class="n">pval</span> <span class="o">=</span> <span class="n">p1</span>
-                <span class="k">goto </span><span class="mi">1200</span>
-            <span class="k">end if</span>
-<span class="k">        end if</span>
+<span class="w">        </span><span class="c">! HERE WE WILL EXPAND THE INTERVAL TO THE LEFT, PROVIDING THAT</span>
+<span class="w">        </span><span class="c">! NSRCH &lt; INITLM AND P1-P1/2.0**(NSRCH-1) &gt;= TOL4.</span>
+<span class="mi">300</span><span class="w">     </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">Nsrch</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">initlm</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">            if</span><span class="w"> </span><span class="p">(</span><span class="n">p1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">p1</span><span class="o">/</span><span class="n">two</span><span class="o">**</span><span class="p">(</span><span class="n">Nsrch</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">tol4</span><span class="p">)</span><span class="w"> </span><span class="k">then</span><span class="w"></span>
+<span class="w">                </span><span class="c">! EXPAND LEFT.</span>
+<span class="w">                </span><span class="n">p3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">p2</span><span class="w"></span>
+<span class="w">                </span><span class="n">f3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">f2</span><span class="w"></span>
+<span class="w">                </span><span class="n">p2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">p1</span><span class="w"></span>
+<span class="w">                </span><span class="n">f2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">f1</span><span class="w"></span>
+<span class="w">                </span><span class="n">p1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">p1</span><span class="o">/</span><span class="n">two</span><span class="o">**</span><span class="p">(</span><span class="n">Nsrch</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+<span class="w">                </span><span class="c">! SET LLL=5 AND PUT F(P1) IN F1.</span>
+<span class="w">                </span><span class="n">lll</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">5</span><span class="w"></span>
+<span class="w">                </span><span class="n">pval</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">p1</span><span class="w"></span>
+<span class="w">                </span><span class="k">goto</span><span class="w"> </span><span class="mi">1200</span><span class="w"></span>
+<span class="w">            </span><span class="k">end if</span>
+<span class="k">        end if</span><span class="w"></span>
 
-        <span class="c">! HERE WE CANNOT EXPAND LEFT AND WE RETURN WITH THE BEST VALUES</span>
-        <span class="c">! FOUND SO FAR.</span>
-        <span class="n">Projct</span> <span class="o">=</span> <span class="n">p1</span>
-        <span class="n">Emin</span> <span class="o">=</span> <span class="n">f1</span>
-        <span class="k">return</span>
+<span class="w">        </span><span class="c">! HERE WE CANNOT EXPAND LEFT AND WE RETURN WITH THE BEST VALUES</span>
+<span class="w">        </span><span class="c">! FOUND SO FAR.</span>
+<span class="w">        </span><span class="n">Projct</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">p1</span><span class="w"></span>
+<span class="w">        </span><span class="n">Emin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">f1</span><span class="w"></span>
+<span class="w">        </span><span class="k">return</span><span class="w"></span>
 
-        <span class="c">! HERE WE CHECK TO SEE IF THE F COMPUTATION HAS FAILED EVERY TIME</span>
-        <span class="c">! (INDICATED BY F1=F2=F3=BIG), AND IF SO WE TRY TO EXPAND LEFT.</span>
-        <span class="c">! IF NOT, WE ARE DONE WITH THE INITIALIZATION.</span>
-<span class="mi">400</span>     <span class="k">if</span> <span class="p">(</span><span class="n">f1</span> <span class="o">&lt;</span> <span class="n">big</span><span class="p">)</span> <span class="k">goto </span><span class="mi">700</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">f2</span> <span class="o">&lt;</span> <span class="n">big</span><span class="p">)</span> <span class="k">goto </span><span class="mi">700</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">f3</span> <span class="o">&gt;=</span> <span class="n">big</span><span class="p">)</span> <span class="k">goto </span><span class="mi">300</span>
-        <span class="k">goto </span><span class="mi">700</span>
+<span class="w">        </span><span class="c">! HERE WE CHECK TO SEE IF THE F COMPUTATION HAS FAILED EVERY TIME</span>
+<span class="w">        </span><span class="c">! (INDICATED BY F1=F2=F3=BIG), AND IF SO WE TRY TO EXPAND LEFT.</span>
+<span class="w">        </span><span class="c">! IF NOT, WE ARE DONE WITH THE INITIALIZATION.</span>
+<span class="mi">400</span><span class="w">     </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">f1</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">big</span><span class="p">)</span><span class="w"> </span><span class="k">goto</span><span class="w"> </span><span class="mi">700</span><span class="w"></span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">f2</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">big</span><span class="p">)</span><span class="w"> </span><span class="k">goto</span><span class="w"> </span><span class="mi">700</span><span class="w"></span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">f3</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">big</span><span class="p">)</span><span class="w"> </span><span class="k">goto</span><span class="w"> </span><span class="mi">300</span><span class="w"></span>
+<span class="w">        </span><span class="k">goto</span><span class="w"> </span><span class="mi">700</span><span class="w"></span>
 
-        <span class="c">! HERE F3 &lt; MIN(F1,F2) AND WE EXPAND THE INTERVAL TO THE RIGHT IF</span>
-        <span class="c">! NSRCH &lt; INITLM AND IUPBAR=0.</span>
-<span class="mi">500</span>     <span class="k">if</span> <span class="p">(</span><span class="n">Nsrch</span> <span class="o">&lt;</span> <span class="n">initlm</span><span class="p">)</span> <span class="k">then</span>
-<span class="k">            if</span> <span class="p">(</span><span class="n">iupbar</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">then</span>
-                <span class="c">! EXPAND RIGHT.</span>
-                <span class="n">p1</span> <span class="o">=</span> <span class="n">p2</span>
-                <span class="n">f1</span> <span class="o">=</span> <span class="n">f2</span>
-                <span class="n">p2</span> <span class="o">=</span> <span class="n">p3</span>
-                <span class="n">f2</span> <span class="o">=</span> <span class="n">f3</span>
-                <span class="n">p3</span> <span class="o">=</span> <span class="n">two</span><span class="o">**</span><span class="p">(</span><span class="n">Nsrch</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">p2</span>
-                <span class="c">! IF P3 &gt; PRJLIM, SET IUPBAR=1 AS AN INDICATOR WE CANNOT LATER</span>
-                <span class="c">! EXPAND THE INTERVAL TO THE RIGHT.  THEN IF PRJLIM &gt;= P2+TOL4</span>
-                <span class="c">! REPLACE P3 BY PRJLIM, AND OTHERWISE RETURN WITH THE BEST VALUES</span>
-                <span class="c">! FOUND SO FAR.</span>
-                <span class="k">if</span> <span class="p">(</span><span class="n">p3</span> <span class="o">&lt;=</span> <span class="n">Prjlim</span><span class="p">)</span> <span class="k">goto </span><span class="mi">600</span>
-                <span class="n">iupbar</span> <span class="o">=</span> <span class="mi">1</span>
-                <span class="k">if</span> <span class="p">(</span><span class="n">Prjlim</span> <span class="o">-</span> <span class="n">p2</span> <span class="o">&lt;</span> <span class="n">tol4</span><span class="p">)</span> <span class="k">then</span>
-<span class="k">                    </span><span class="n">Projct</span> <span class="o">=</span> <span class="n">p2</span>
-                    <span class="n">Emin</span> <span class="o">=</span> <span class="n">f2</span>
-                    <span class="k">return</span>
+<span class="w">        </span><span class="c">! HERE F3 &lt; MIN(F1,F2) AND WE EXPAND THE INTERVAL TO THE RIGHT IF</span>
+<span class="w">        </span><span class="c">! NSRCH &lt; INITLM AND IUPBAR=0.</span>
+<span class="mi">500</span><span class="w">     </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">Nsrch</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">initlm</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">            if</span><span class="w"> </span><span class="p">(</span><span class="n">iupbar</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span><span class="w"></span>
+<span class="w">                </span><span class="c">! EXPAND RIGHT.</span>
+<span class="w">                </span><span class="n">p1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">p2</span><span class="w"></span>
+<span class="w">                </span><span class="n">f1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">f2</span><span class="w"></span>
+<span class="w">                </span><span class="n">p2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">p3</span><span class="w"></span>
+<span class="w">                </span><span class="n">f2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">f3</span><span class="w"></span>
+<span class="w">                </span><span class="n">p3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">two</span><span class="o">**</span><span class="p">(</span><span class="n">Nsrch</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">p2</span><span class="w"></span>
+<span class="w">                </span><span class="c">! IF P3 &gt; PRJLIM, SET IUPBAR=1 AS AN INDICATOR WE CANNOT LATER</span>
+<span class="w">                </span><span class="c">! EXPAND THE INTERVAL TO THE RIGHT.  THEN IF PRJLIM &gt;= P2+TOL4</span>
+<span class="w">                </span><span class="c">! REPLACE P3 BY PRJLIM, AND OTHERWISE RETURN WITH THE BEST VALUES</span>
+<span class="w">                </span><span class="c">! FOUND SO FAR.</span>
+<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">p3</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">Prjlim</span><span class="p">)</span><span class="w"> </span><span class="k">goto</span><span class="w"> </span><span class="mi">600</span><span class="w"></span>
+<span class="w">                </span><span class="n">iupbar</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">Prjlim</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">p2</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">tol4</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">                    </span><span class="n">Projct</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">p2</span><span class="w"></span>
+<span class="w">                    </span><span class="n">Emin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">f2</span><span class="w"></span>
+<span class="w">                    </span><span class="k">return</span>
 <span class="k">                else</span>
-<span class="k">                    </span><span class="n">p3</span> <span class="o">=</span> <span class="n">Prjlim</span>
-                    <span class="k">goto </span><span class="mi">600</span>
-                <span class="k">end if</span>
+<span class="k">                    </span><span class="n">p3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Prjlim</span><span class="w"></span>
+<span class="w">                    </span><span class="k">goto</span><span class="w"> </span><span class="mi">600</span><span class="w"></span>
+<span class="w">                </span><span class="k">end if</span>
 <span class="k">            end if</span>
-<span class="k">        end if</span>
+<span class="k">        end if</span><span class="w"></span>
 
-        <span class="c">! HERE WE CANNOT EXPAND RIGHT AND WE RETURN WITH THE BEST VALUES</span>
-        <span class="c">! FOUND SO FAR.</span>
-        <span class="n">Projct</span> <span class="o">=</span> <span class="n">p3</span>
-        <span class="n">Emin</span> <span class="o">=</span> <span class="n">f3</span>
-        <span class="k">return</span>
+<span class="w">        </span><span class="c">! HERE WE CANNOT EXPAND RIGHT AND WE RETURN WITH THE BEST VALUES</span>
+<span class="w">        </span><span class="c">! FOUND SO FAR.</span>
+<span class="w">        </span><span class="n">Projct</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">p3</span><span class="w"></span>
+<span class="w">        </span><span class="n">Emin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">f3</span><span class="w"></span>
+<span class="w">        </span><span class="k">return</span><span class="w"></span>
 
-        <span class="c">! SET LLL=6 AND PUT F(P3) IN F3.</span>
-<span class="mi">600</span>     <span class="n">lll</span> <span class="o">=</span> <span class="mi">6</span>
-        <span class="n">pval</span> <span class="o">=</span> <span class="n">p3</span>
-        <span class="k">goto </span><span class="mi">1200</span>
-        <span class="c">! END OF INITIALIZATION.</span>
+<span class="w">        </span><span class="c">! SET LLL=6 AND PUT F(P3) IN F3.</span>
+<span class="mi">600</span><span class="w">     </span><span class="n">lll</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">6</span><span class="w"></span>
+<span class="w">        </span><span class="n">pval</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">p3</span><span class="w"></span>
+<span class="w">        </span><span class="k">goto</span><span class="w"> </span><span class="mi">1200</span><span class="w"></span>
+<span class="w">        </span><span class="c">! END OF INITIALIZATION.</span>
 
-        <span class="c">! ASSUMING THAT P3-P1 &gt;= TOL1, WE NOW HAVE POINTS P1, P2, P3 WITH</span>
-        <span class="c">! P1 &lt;= P2-TOL4, P2 &lt;= P3-TOL4, F1=F(P1) &gt;= F2=F(P2), AND F3=F(P3)</span>
-        <span class="c">! &gt;= F2.  THESE CONDITIONS WILL BE MAINTAINED THROUGHOUT THE PROGRAM.</span>
-        <span class="c">! SET LLL=7, WHERE IT WILL REMAIN FROM NOW ON.</span>
-<span class="mi">700</span>     <span class="n">lll</span> <span class="o">=</span> <span class="mi">7</span>
+<span class="w">        </span><span class="c">! ASSUMING THAT P3-P1 &gt;= TOL1, WE NOW HAVE POINTS P1, P2, P3 WITH</span>
+<span class="w">        </span><span class="c">! P1 &lt;= P2-TOL4, P2 &lt;= P3-TOL4, F1=F(P1) &gt;= F2=F(P2), AND F3=F(P3)</span>
+<span class="w">        </span><span class="c">! &gt;= F2.  THESE CONDITIONS WILL BE MAINTAINED THROUGHOUT THE PROGRAM.</span>
+<span class="w">        </span><span class="c">! SET LLL=7, WHERE IT WILL REMAIN FROM NOW ON.</span>
+<span class="mi">700</span><span class="w">     </span><span class="n">lll</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">7</span><span class="w"></span>
 
-        <span class="c">! RESET LIMS1 SO THAT AT MOST NADD MORE COMPUTATIONS OF F WILL BE DONE.</span>
-        <span class="n">lims1</span> <span class="o">=</span> <span class="n">Nsrch</span> <span class="o">+</span> <span class="n">nadd</span>
+<span class="w">        </span><span class="c">! RESET LIMS1 SO THAT AT MOST NADD MORE COMPUTATIONS OF F WILL BE DONE.</span>
+<span class="w">        </span><span class="n">lims1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Nsrch</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">nadd</span><span class="w"></span>
 
-        <span class="c">! IF WE HAVE COMPUTED F LIMS1 TIMES, WE PUT P2 IN PROJCT, PUT F2 IN</span>
-        <span class="c">! EMIN, AND RETURN.</span>
-<span class="mi">800</span>     <span class="k">if</span> <span class="p">(</span><span class="n">Nsrch</span> <span class="o">&lt;</span> <span class="n">lims1</span><span class="p">)</span> <span class="k">then</span>
+<span class="w">        </span><span class="c">! IF WE HAVE COMPUTED F LIMS1 TIMES, WE PUT P2 IN PROJCT, PUT F2 IN</span>
+<span class="w">        </span><span class="c">! EMIN, AND RETURN.</span>
+<span class="mi">800</span><span class="w">     </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">Nsrch</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">lims1</span><span class="p">)</span><span class="w"> </span><span class="k">then</span><span class="w"></span>
 
-            <span class="c">! IF THE SEARCH INTERVAL LENGTH IS LESS THAN TOL1 WE PUT P2 IN</span>
-            <span class="c">! PROJCT, PUT F2 IN EMIN, AND RETURN.</span>
-            <span class="k">if</span> <span class="p">(</span><span class="n">p3</span> <span class="o">-</span> <span class="n">p1</span> <span class="o">&gt;=</span> <span class="n">Tol1</span><span class="p">)</span> <span class="k">then</span>
-                <span class="c">! COMPUTE S1 = THE ABSOLUTE VALUE OF THE SLOPE OF THE LINE THROUGH</span>
-                <span class="c">! (P1,F1) AND (P2,F2), AND S2 = THE (ABSOLUTE VALUE OF THE) SLOPE</span>
-                <span class="c">! OF THE LINE THROUGH (P2,F2) AND (P3,F3).</span>
-                <span class="c">!***MOD  CONSIDER INCREASING TOL1 TO 10**4*SPCMN</span>
-                <span class="n">s1</span> <span class="o">=</span> <span class="p">(</span><span class="n">f1</span> <span class="o">-</span> <span class="n">f2</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">p2</span> <span class="o">-</span> <span class="n">p1</span><span class="p">)</span>
-                <span class="n">s2</span> <span class="o">=</span> <span class="p">(</span><span class="n">f3</span> <span class="o">-</span> <span class="n">f2</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">p3</span> <span class="o">-</span> <span class="n">p2</span><span class="p">)</span>
-                <span class="c">! IF S1+S2 IS VERY SMALL WE RETURN WITH THE BEST VALUES FOUND SO FAR.</span>
-                <span class="k">if</span> <span class="p">(</span><span class="n">s1</span> <span class="o">+</span> <span class="n">s2</span> <span class="o">&gt;=</span> <span class="n">tolden</span><span class="p">)</span> <span class="k">then</span>
-<span class="k">                    </span><span class="n">rlf</span> <span class="o">=</span> <span class="n">s2</span><span class="o">/</span><span class="p">(</span><span class="n">s1</span> <span class="o">+</span> <span class="n">s2</span><span class="p">)</span>
-                    <span class="n">rrt</span> <span class="o">=</span> <span class="n">one</span> <span class="o">-</span> <span class="n">rlf</span>
-                    <span class="c">! THE MINIMUM OF THE QUADRATIC POLYNOMIAL PASSING THROUGH</span>
-                    <span class="c">! (P1,F1), (P2,F2), AND (P3,F3) WILL OCCUR AT (RLF*P1+</span>
-                    <span class="c">! RRT*P3+P2)/2.0.  NOTE THAT THE THREE POINTS CANNOT BE</span>
-                    <span class="c">! COLLNEAR, ELSE WE WOULD HAVE TERMINATED ABOVE.  SINCE THE</span>
-                    <span class="c">! MINIMUM OCCURS AT THE AVERAGE OF P2 AND A CONVEX COMBINATION</span>
-                    <span class="c">! OF P1 AND P3, IT WILL BE AT LEAST AS CLOSE TO P2 AS TO THE</span>
-                    <span class="c">! ENDPOINT ON THE SAME SIDE.</span>
-                    <span class="k">if</span> <span class="p">(</span><span class="n">ilf</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">)</span> <span class="k">then</span>
-                        <span class="c">! HERE THE LEFT ENDPOINT WAS DROPPED AT THE LAST ILF &gt; 1</span>
-                        <span class="c">! ITERATIONS, SO TO PREVENT A LONG STRING OF SUCH OCCURRENCES</span>
-                        <span class="c">! WITH LITTLE REDUCTION OF P3-P1 WE WILL SHIFT THE NEW POINT</span>
-                        <span class="c">! TO THE RIGHT BY DECREASING RLF RELATIVE TO RRT.</span>
-                        <span class="n">rlf</span> <span class="o">=</span> <span class="n">rlf</span><span class="o">/</span><span class="n">two</span><span class="o">**</span><span class="p">(</span><span class="n">ilf</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
-                        <span class="n">rrt</span> <span class="o">=</span> <span class="n">one</span> <span class="o">-</span> <span class="n">rlf</span>
-                    <span class="k">else if</span> <span class="p">(</span><span class="n">irt</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">)</span> <span class="k">then</span>
-                        <span class="c">! HERE THE RIGHT ENDPOINT WAS DROPPED AT THE LAST IRT &gt; 1</span>
-                        <span class="c">! ITERATIONS, AND WE WILL SHIFT THE NEW POINT TO THE LEFT.</span>
-                        <span class="n">rrt</span> <span class="o">=</span> <span class="n">rrt</span><span class="o">/</span><span class="n">two</span><span class="o">**</span><span class="p">(</span><span class="n">irt</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
-                        <span class="n">rlf</span> <span class="o">=</span> <span class="n">one</span> <span class="o">-</span> <span class="n">rrt</span>
-                        <span class="c">! HERE WE HAVE NOT JUST HAD A STRING OF TWO OR MORE MOVES IN</span>
-                        <span class="c">! THE SAME DIRECTION, BUT IF THE SUBINTERVALS ARE OUT OF</span>
-                        <span class="c">! BALANCE BY MORE THAN A FACTOR OF BALFCT, WE SHIFT THE NEW</span>
-                        <span class="c">! POINT SLIGHTLY IN THE DIRECTION OF THE LONGER INTERVAL.  THE</span>
-                        <span class="c">! IDEA HERE IS THAT THE TWO CLOSE POINTS ARE PROBABLY NEAR THE</span>
-                        <span class="c">! SOLUTION, AND IF WE CAN BRACKET THE SOLUTION WE MAY BE ABLE TO</span>
-                        <span class="c">! CUT OFF THE MAJOR PORTION OF THE LONGER SUBINTERVAL.</span>
-                    <span class="k">else if</span> <span class="p">(</span><span class="n">p2</span> <span class="o">-</span> <span class="n">p1</span> <span class="o">&gt;</span> <span class="n">balfct</span><span class="o">*</span><span class="p">(</span><span class="n">p3</span> <span class="o">-</span> <span class="n">p2</span><span class="p">))</span> <span class="k">then</span>
-                        <span class="c">! HERE THE LEFT SUBINTERVAL IS MORE THAN BALFCT TIMES LONGER THAN</span>
-                        <span class="c">! THE RIGHT SUBINTERVAL, SO WE DECREASE RRT RRELATIVE TO RLF.</span>
-                        <span class="n">rrt</span> <span class="o">=</span> <span class="n">baladj</span><span class="o">*</span><span class="n">rrt</span>
-                        <span class="n">rlf</span> <span class="o">=</span> <span class="n">one</span> <span class="o">-</span> <span class="n">rrt</span>
-                    <span class="k">else if</span> <span class="p">(</span><span class="n">p3</span> <span class="o">-</span> <span class="n">p2</span> <span class="o">&gt;</span> <span class="n">balfct</span><span class="o">*</span><span class="p">(</span><span class="n">p2</span> <span class="o">-</span> <span class="n">p1</span><span class="p">))</span> <span class="k">then</span>
-                        <span class="c">! HERE THE RIGHT SUBINTERVAL IS MORE THAN BALFCT TIMES LONGER</span>
-                        <span class="c">! THAN THE LEFT SUBINTERVAL, SO WE DECREASE RLF RELATIVE TO RRT.</span>
-                        <span class="n">rlf</span> <span class="o">=</span> <span class="n">baladj</span><span class="o">*</span><span class="n">rlf</span>
-                        <span class="n">rrt</span> <span class="o">=</span> <span class="n">one</span> <span class="o">-</span> <span class="n">rlf</span>
-                    <span class="k">end if</span>
+<span class="w">            </span><span class="c">! IF THE SEARCH INTERVAL LENGTH IS LESS THAN TOL1 WE PUT P2 IN</span>
+<span class="w">            </span><span class="c">! PROJCT, PUT F2 IN EMIN, AND RETURN.</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">p3</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">p1</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">Tol1</span><span class="p">)</span><span class="w"> </span><span class="k">then</span><span class="w"></span>
+<span class="w">                </span><span class="c">! COMPUTE S1 = THE ABSOLUTE VALUE OF THE SLOPE OF THE LINE THROUGH</span>
+<span class="w">                </span><span class="c">! (P1,F1) AND (P2,F2), AND S2 = THE (ABSOLUTE VALUE OF THE) SLOPE</span>
+<span class="w">                </span><span class="c">! OF THE LINE THROUGH (P2,F2) AND (P3,F3).</span>
+<span class="w">                </span><span class="c">!***MOD  CONSIDER INCREASING TOL1 TO 10**4*SPCMN</span>
+<span class="w">                </span><span class="n">s1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">f1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">f2</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">p2</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">p1</span><span class="p">)</span><span class="w"></span>
+<span class="w">                </span><span class="n">s2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">f3</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">f2</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">p3</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">p2</span><span class="p">)</span><span class="w"></span>
+<span class="w">                </span><span class="c">! IF S1+S2 IS VERY SMALL WE RETURN WITH THE BEST VALUES FOUND SO FAR.</span>
+<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">s1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">s2</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">tolden</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">                    </span><span class="n">rlf</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">s2</span><span class="o">/</span><span class="p">(</span><span class="n">s1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">s2</span><span class="p">)</span><span class="w"></span>
+<span class="w">                    </span><span class="n">rrt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">one</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">rlf</span><span class="w"></span>
+<span class="w">                    </span><span class="c">! THE MINIMUM OF THE QUADRATIC POLYNOMIAL PASSING THROUGH</span>
+<span class="w">                    </span><span class="c">! (P1,F1), (P2,F2), AND (P3,F3) WILL OCCUR AT (RLF*P1+</span>
+<span class="w">                    </span><span class="c">! RRT*P3+P2)/2.0.  NOTE THAT THE THREE POINTS CANNOT BE</span>
+<span class="w">                    </span><span class="c">! COLLNEAR, ELSE WE WOULD HAVE TERMINATED ABOVE.  SINCE THE</span>
+<span class="w">                    </span><span class="c">! MINIMUM OCCURS AT THE AVERAGE OF P2 AND A CONVEX COMBINATION</span>
+<span class="w">                    </span><span class="c">! OF P1 AND P3, IT WILL BE AT LEAST AS CLOSE TO P2 AS TO THE</span>
+<span class="w">                    </span><span class="c">! ENDPOINT ON THE SAME SIDE.</span>
+<span class="w">                    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">ilf</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">then</span><span class="w"></span>
+<span class="w">                        </span><span class="c">! HERE THE LEFT ENDPOINT WAS DROPPED AT THE LAST ILF &gt; 1</span>
+<span class="w">                        </span><span class="c">! ITERATIONS, SO TO PREVENT A LONG STRING OF SUCH OCCURRENCES</span>
+<span class="w">                        </span><span class="c">! WITH LITTLE REDUCTION OF P3-P1 WE WILL SHIFT THE NEW POINT</span>
+<span class="w">                        </span><span class="c">! TO THE RIGHT BY DECREASING RLF RELATIVE TO RRT.</span>
+<span class="w">                        </span><span class="n">rlf</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rlf</span><span class="o">/</span><span class="n">two</span><span class="o">**</span><span class="p">(</span><span class="n">ilf</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+<span class="w">                        </span><span class="n">rrt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">one</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">rlf</span><span class="w"></span>
+<span class="w">                    </span><span class="k">else if</span><span class="w"> </span><span class="p">(</span><span class="n">irt</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">then</span><span class="w"></span>
+<span class="w">                        </span><span class="c">! HERE THE RIGHT ENDPOINT WAS DROPPED AT THE LAST IRT &gt; 1</span>
+<span class="w">                        </span><span class="c">! ITERATIONS, AND WE WILL SHIFT THE NEW POINT TO THE LEFT.</span>
+<span class="w">                        </span><span class="n">rrt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rrt</span><span class="o">/</span><span class="n">two</span><span class="o">**</span><span class="p">(</span><span class="n">irt</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+<span class="w">                        </span><span class="n">rlf</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">one</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">rrt</span><span class="w"></span>
+<span class="w">                        </span><span class="c">! HERE WE HAVE NOT JUST HAD A STRING OF TWO OR MORE MOVES IN</span>
+<span class="w">                        </span><span class="c">! THE SAME DIRECTION, BUT IF THE SUBINTERVALS ARE OUT OF</span>
+<span class="w">                        </span><span class="c">! BALANCE BY MORE THAN A FACTOR OF BALFCT, WE SHIFT THE NEW</span>
+<span class="w">                        </span><span class="c">! POINT SLIGHTLY IN THE DIRECTION OF THE LONGER INTERVAL.  THE</span>
+<span class="w">                        </span><span class="c">! IDEA HERE IS THAT THE TWO CLOSE POINTS ARE PROBABLY NEAR THE</span>
+<span class="w">                        </span><span class="c">! SOLUTION, AND IF WE CAN BRACKET THE SOLUTION WE MAY BE ABLE TO</span>
+<span class="w">                        </span><span class="c">! CUT OFF THE MAJOR PORTION OF THE LONGER SUBINTERVAL.</span>
+<span class="w">                    </span><span class="k">else if</span><span class="w"> </span><span class="p">(</span><span class="n">p2</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">p1</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">balfct</span><span class="o">*</span><span class="p">(</span><span class="n">p3</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">p2</span><span class="p">))</span><span class="w"> </span><span class="k">then</span><span class="w"></span>
+<span class="w">                        </span><span class="c">! HERE THE LEFT SUBINTERVAL IS MORE THAN BALFCT TIMES LONGER THAN</span>
+<span class="w">                        </span><span class="c">! THE RIGHT SUBINTERVAL, SO WE DECREASE RRT RRELATIVE TO RLF.</span>
+<span class="w">                        </span><span class="n">rrt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">baladj</span><span class="o">*</span><span class="n">rrt</span><span class="w"></span>
+<span class="w">                        </span><span class="n">rlf</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">one</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">rrt</span><span class="w"></span>
+<span class="w">                    </span><span class="k">else if</span><span class="w"> </span><span class="p">(</span><span class="n">p3</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">p2</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">balfct</span><span class="o">*</span><span class="p">(</span><span class="n">p2</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">p1</span><span class="p">))</span><span class="w"> </span><span class="k">then</span><span class="w"></span>
+<span class="w">                        </span><span class="c">! HERE THE RIGHT SUBINTERVAL IS MORE THAN BALFCT TIMES LONGER</span>
+<span class="w">                        </span><span class="c">! THAN THE LEFT SUBINTERVAL, SO WE DECREASE RLF RELATIVE TO RRT.</span>
+<span class="w">                        </span><span class="n">rlf</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">baladj</span><span class="o">*</span><span class="n">rlf</span><span class="w"></span>
+<span class="w">                        </span><span class="n">rrt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">one</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">rlf</span><span class="w"></span>
+<span class="w">                    </span><span class="k">end if</span><span class="w"></span>
 
-                    <span class="c">! COMPUTE THE (POSSIBLY MODIFIED) MINIMUM OF THE QUADRATIC FIT.</span>
-                    <span class="n">p4</span> <span class="o">=</span> <span class="p">(</span><span class="n">rlf</span><span class="o">*</span><span class="n">p1</span> <span class="o">+</span> <span class="n">rrt</span><span class="o">*</span><span class="n">p3</span> <span class="o">+</span> <span class="n">p2</span><span class="p">)</span><span class="o">/</span><span class="n">two</span>
+<span class="w">                    </span><span class="c">! COMPUTE THE (POSSIBLY MODIFIED) MINIMUM OF THE QUADRATIC FIT.</span>
+<span class="w">                    </span><span class="n">p4</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">rlf</span><span class="o">*</span><span class="n">p1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">rrt</span><span class="o">*</span><span class="n">p3</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">p2</span><span class="p">)</span><span class="o">/</span><span class="n">two</span><span class="w"></span>
 
-                    <span class="c">! THE NEXT SECTION (FROM HERE TO STATEMENT 2800) MODIFIES P4 IF NECESSARY</span>
-                    <span class="c">! TO GET P1+TOL4 &lt;= P2,P4 &lt;= P3-TOL4 AND ABS(P4-P2) &gt;= TOL4.  IN</span>
-                    <span class="c">! THE UNLIKELY EVENT THIS IS NOT POSSIBLE WE SET PROJCT=P2, EMIN=F2</span>
-                    <span class="c">! AND RETURN.</span>
+<span class="w">                    </span><span class="c">! THE NEXT SECTION (FROM HERE TO STATEMENT 2800) MODIFIES P4 IF NECESSARY</span>
+<span class="w">                    </span><span class="c">! TO GET P1+TOL4 &lt;= P2,P4 &lt;= P3-TOL4 AND ABS(P4-P2) &gt;= TOL4.  IN</span>
+<span class="w">                    </span><span class="c">! THE UNLIKELY EVENT THIS IS NOT POSSIBLE WE SET PROJCT=P2, EMIN=F2</span>
+<span class="w">                    </span><span class="c">! AND RETURN.</span>
 
-                    <span class="c">! IF ABS(P4-P2) &lt; TOL4 WE REDEFINE P4 BY MOVING TOL4 FROM</span>
-                    <span class="c">! P2 INTO THE LONGER SUBINTERVAL.  NOTE THAT THE LENGTH OF THIS</span>
-                    <span class="c">! SUBINTERVAL MUST BE AT LEAST TOL1/2.0 = 2.0*TOL4, ELSE WE</span>
-                    <span class="c">! WOULD HAVE TERMINATED EARLIER.</span>
-                    <span class="k">if</span> <span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">p4</span> <span class="o">-</span> <span class="n">p2</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">tol4</span><span class="p">)</span> <span class="k">then</span>
-<span class="k">                        if</span> <span class="p">(</span><span class="n">p3</span> <span class="o">-</span> <span class="n">p2</span> <span class="o">&gt;</span> <span class="p">(</span><span class="n">p2</span> <span class="o">-</span> <span class="n">p1</span><span class="p">))</span> <span class="k">goto </span><span class="mi">1000</span>
-                        <span class="k">goto </span><span class="mi">1100</span>
-                        <span class="c">! HERE WE HAD ABS(P4-P2) &gt;= TOL4 AND WE MAKE SURE THAT P1+TOL4</span>
-                        <span class="c">! &lt;= P4 &lt;= P3-TOL4.</span>
-                    <span class="k">else if</span> <span class="p">(</span><span class="n">p4</span> <span class="o">&lt;=</span> <span class="p">(</span><span class="n">p3</span> <span class="o">-</span> <span class="n">tol4</span><span class="p">))</span> <span class="k">then</span>
-<span class="k">                        if</span> <span class="p">(</span><span class="n">p4</span> <span class="o">&lt;</span> <span class="p">(</span><span class="n">p1</span> <span class="o">+</span> <span class="n">tol4</span><span class="p">))</span> <span class="k">then</span>
-                            <span class="c">! HERE P4 &lt; P1+TOL4 AND WE SET P4=P1+TOL4 IF P2-P1 &gt;= TOL1/2.0</span>
-                            <span class="c">! AND OTHERWISE WE SET P4=P2+TOL4.</span>
-                            <span class="k">if</span> <span class="p">(</span><span class="n">p2</span> <span class="o">-</span> <span class="n">p1</span> <span class="o">&lt;</span> <span class="n">Tol1</span><span class="o">/</span><span class="n">two</span><span class="p">)</span> <span class="k">goto </span><span class="mi">1000</span>
-                            <span class="n">p4</span> <span class="o">=</span> <span class="n">p1</span> <span class="o">+</span> <span class="n">tol4</span>
-                            <span class="c">! NOW JUMP DOWN TO PUT F(P4) IN F4.</span>
-                            <span class="n">pval</span> <span class="o">=</span> <span class="n">p4</span>
-                            <span class="k">goto </span><span class="mi">1200</span>
-                        <span class="k">else</span>
-<span class="k">                            </span><span class="n">pval</span> <span class="o">=</span> <span class="n">p4</span>
-                            <span class="k">goto </span><span class="mi">1200</span>
-                        <span class="k">end if</span>
-<span class="k">                    else</span>
-                        <span class="c">! HERE P4 &gt; P3-TOL4 AND WE SET P4=P3-TOL4 IF P3-P2 &gt;= TOL1/2.0,</span>
-                        <span class="c">! AND OTHERWISE WE SET P4=P2-TOL4.</span>
-                        <span class="k">if</span> <span class="p">(</span><span class="n">p3</span> <span class="o">-</span> <span class="n">p2</span> <span class="o">&lt;</span> <span class="n">Tol1</span><span class="o">/</span><span class="n">two</span><span class="p">)</span> <span class="k">goto </span><span class="mi">1100</span>
-                        <span class="n">p4</span> <span class="o">=</span> <span class="n">p3</span> <span class="o">-</span> <span class="n">tol4</span>
-                        <span class="n">pval</span> <span class="o">=</span> <span class="n">p4</span>
-                        <span class="k">goto </span><span class="mi">1200</span>
-                    <span class="k">end if</span>
+<span class="w">                    </span><span class="c">! IF ABS(P4-P2) &lt; TOL4 WE REDEFINE P4 BY MOVING TOL4 FROM</span>
+<span class="w">                    </span><span class="c">! P2 INTO THE LONGER SUBINTERVAL.  NOTE THAT THE LENGTH OF THIS</span>
+<span class="w">                    </span><span class="c">! SUBINTERVAL MUST BE AT LEAST TOL1/2.0 = 2.0*TOL4, ELSE WE</span>
+<span class="w">                    </span><span class="c">! WOULD HAVE TERMINATED EARLIER.</span>
+<span class="w">                    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">p4</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">p2</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">tol4</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">                        if</span><span class="w"> </span><span class="p">(</span><span class="n">p3</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">p2</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="p">(</span><span class="n">p2</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">p1</span><span class="p">))</span><span class="w"> </span><span class="k">goto</span><span class="w"> </span><span class="mi">1000</span><span class="w"></span>
+<span class="w">                        </span><span class="k">goto</span><span class="w"> </span><span class="mi">1100</span><span class="w"></span>
+<span class="w">                        </span><span class="c">! HERE WE HAD ABS(P4-P2) &gt;= TOL4 AND WE MAKE SURE THAT P1+TOL4</span>
+<span class="w">                        </span><span class="c">! &lt;= P4 &lt;= P3-TOL4.</span>
+<span class="w">                    </span><span class="k">else if</span><span class="w"> </span><span class="p">(</span><span class="n">p4</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="p">(</span><span class="n">p3</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">tol4</span><span class="p">))</span><span class="w"> </span><span class="k">then</span>
+<span class="k">                        if</span><span class="w"> </span><span class="p">(</span><span class="n">p4</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="p">(</span><span class="n">p1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">tol4</span><span class="p">))</span><span class="w"> </span><span class="k">then</span><span class="w"></span>
+<span class="w">                            </span><span class="c">! HERE P4 &lt; P1+TOL4 AND WE SET P4=P1+TOL4 IF P2-P1 &gt;= TOL1/2.0</span>
+<span class="w">                            </span><span class="c">! AND OTHERWISE WE SET P4=P2+TOL4.</span>
+<span class="w">                            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">p2</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">p1</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">Tol1</span><span class="o">/</span><span class="n">two</span><span class="p">)</span><span class="w"> </span><span class="k">goto</span><span class="w"> </span><span class="mi">1000</span><span class="w"></span>
+<span class="w">                            </span><span class="n">p4</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">p1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">tol4</span><span class="w"></span>
+<span class="w">                            </span><span class="c">! NOW JUMP DOWN TO PUT F(P4) IN F4.</span>
+<span class="w">                            </span><span class="n">pval</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">p4</span><span class="w"></span>
+<span class="w">                            </span><span class="k">goto</span><span class="w"> </span><span class="mi">1200</span><span class="w"></span>
+<span class="w">                        </span><span class="k">else</span>
+<span class="k">                            </span><span class="n">pval</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">p4</span><span class="w"></span>
+<span class="w">                            </span><span class="k">goto</span><span class="w"> </span><span class="mi">1200</span><span class="w"></span>
+<span class="w">                        </span><span class="k">end if</span>
+<span class="k">                    else</span><span class="w"></span>
+<span class="w">                        </span><span class="c">! HERE P4 &gt; P3-TOL4 AND WE SET P4=P3-TOL4 IF P3-P2 &gt;= TOL1/2.0,</span>
+<span class="w">                        </span><span class="c">! AND OTHERWISE WE SET P4=P2-TOL4.</span>
+<span class="w">                        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">p3</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">p2</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">Tol1</span><span class="o">/</span><span class="n">two</span><span class="p">)</span><span class="w"> </span><span class="k">goto</span><span class="w"> </span><span class="mi">1100</span><span class="w"></span>
+<span class="w">                        </span><span class="n">p4</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">p3</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">tol4</span><span class="w"></span>
+<span class="w">                        </span><span class="n">pval</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">p4</span><span class="w"></span>
+<span class="w">                        </span><span class="k">goto</span><span class="w"> </span><span class="mi">1200</span><span class="w"></span>
+<span class="w">                    </span><span class="k">end if</span>
 <span class="k">                end if</span>
 <span class="k">            end if</span>
 <span class="k">        end if</span>
 
-<span class="mi">900</span>     <span class="n">Projct</span> <span class="o">=</span> <span class="n">p2</span>
-        <span class="n">Emin</span> <span class="o">=</span> <span class="n">f2</span>
-        <span class="k">return</span>
+<span class="mi">900</span><span class="w">     </span><span class="n">Projct</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">p2</span><span class="w"></span>
+<span class="w">        </span><span class="n">Emin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">f2</span><span class="w"></span>
+<span class="w">        </span><span class="k">return</span>
 
-<span class="mi">1000</span>    <span class="n">p4</span> <span class="o">=</span> <span class="n">p2</span> <span class="o">+</span> <span class="n">tol4</span>
-        <span class="c">! IF TOL4 WAS SMALL ENOUGH RELATIVE TO P2 THAT THE MACHINE THINKS P4</span>
-        <span class="c">! STILL EQUALS P2, WHICH IS MORE LIKELY IF P2 IS LARGE, THIS COULD RESULT</span>
-        <span class="c">! IN A DIVIDE FAULT LATER.  TO AVOID THIS, WE REDEFINE P4 AS THE AVERAGE</span>
-        <span class="c">! OF P2 AND P3 IF NECESSARY.  IF WE STILL DONT HAVE P4 STRICTLY BETWEEN</span>
-        <span class="c">! P2 AND P3, WE TERMINATE THE SEARCH.</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">p4</span> <span class="o">&lt;=</span> <span class="n">p2</span><span class="p">)</span> <span class="k">then</span>
-<span class="k">            </span><span class="n">p4</span> <span class="o">=</span> <span class="p">(</span><span class="n">p2</span> <span class="o">+</span> <span class="n">p3</span><span class="p">)</span><span class="o">/</span><span class="n">two</span>
-            <span class="k">if</span> <span class="p">(</span><span class="n">p4</span> <span class="o">&lt;=</span> <span class="n">p2</span><span class="p">)</span> <span class="k">goto </span><span class="mi">900</span>
-        <span class="k">end if</span>
-<span class="k">        if</span> <span class="p">(</span><span class="n">p4</span> <span class="o">&gt;=</span> <span class="n">p3</span><span class="p">)</span> <span class="k">goto </span><span class="mi">900</span>
-        <span class="n">pval</span> <span class="o">=</span> <span class="n">p4</span>
-        <span class="k">goto </span><span class="mi">1200</span>
+<span class="mi">1000</span><span class="w">    </span><span class="n">p4</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">p2</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">tol4</span><span class="w"></span>
+<span class="w">        </span><span class="c">! IF TOL4 WAS SMALL ENOUGH RELATIVE TO P2 THAT THE MACHINE THINKS P4</span>
+<span class="w">        </span><span class="c">! STILL EQUALS P2, WHICH IS MORE LIKELY IF P2 IS LARGE, THIS COULD RESULT</span>
+<span class="w">        </span><span class="c">! IN A DIVIDE FAULT LATER.  TO AVOID THIS, WE REDEFINE P4 AS THE AVERAGE</span>
+<span class="w">        </span><span class="c">! OF P2 AND P3 IF NECESSARY.  IF WE STILL DONT HAVE P4 STRICTLY BETWEEN</span>
+<span class="w">        </span><span class="c">! P2 AND P3, WE TERMINATE THE SEARCH.</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">p4</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">p2</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">            </span><span class="n">p4</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">p2</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">p3</span><span class="p">)</span><span class="o">/</span><span class="n">two</span><span class="w"></span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">p4</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">p2</span><span class="p">)</span><span class="w"> </span><span class="k">goto</span><span class="w"> </span><span class="mi">900</span><span class="w"></span>
+<span class="w">        </span><span class="k">end if</span>
+<span class="k">        if</span><span class="w"> </span><span class="p">(</span><span class="n">p4</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">p3</span><span class="p">)</span><span class="w"> </span><span class="k">goto</span><span class="w"> </span><span class="mi">900</span><span class="w"></span>
+<span class="w">        </span><span class="n">pval</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">p4</span><span class="w"></span>
+<span class="w">        </span><span class="k">goto</span><span class="w"> </span><span class="mi">1200</span><span class="w"></span>
 
-<span class="mi">1100</span>    <span class="n">p4</span> <span class="o">=</span> <span class="n">p2</span> <span class="o">-</span> <span class="n">tol4</span>
-        <span class="c">! IF TOL4 WAS SMALL ENOUGH RELATIVE TO P2 THAT THE MACHINE THINKS P4</span>
-        <span class="c">! STILL EQUALS P2, WHICH IS MORE LIKELY IF P2 IS LARGE, THIS COULD RESULT</span>
-        <span class="c">! IN A DIVIDE FAULT LATER.  TO AVOID THIS, WE REDEFINE P4 AS THE AVERAGE</span>
-        <span class="c">! OF P1 AND P2 IF NECESSARY.  IF WE STILL DONT HAVE P4 STRICTLY BETWEEN</span>
-        <span class="c">! P1 AND P2, WE TERMINATE THE SEARCH.</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">p4</span> <span class="o">&gt;=</span> <span class="n">p2</span><span class="p">)</span> <span class="k">then</span>
-<span class="k">            </span><span class="n">p4</span> <span class="o">=</span> <span class="p">(</span><span class="n">p1</span> <span class="o">+</span> <span class="n">p2</span><span class="p">)</span><span class="o">/</span><span class="n">two</span>
-            <span class="k">if</span> <span class="p">(</span><span class="n">p4</span> <span class="o">&gt;=</span> <span class="n">p2</span><span class="p">)</span> <span class="k">goto </span><span class="mi">900</span>
-        <span class="k">end if</span>
-<span class="k">        if</span> <span class="p">(</span><span class="n">p4</span> <span class="o">&lt;=</span> <span class="n">p1</span><span class="p">)</span> <span class="k">goto </span><span class="mi">900</span>
-        <span class="n">pval</span> <span class="o">=</span> <span class="n">p4</span>
+<span class="mi">1100</span><span class="w">    </span><span class="n">p4</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">p2</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">tol4</span><span class="w"></span>
+<span class="w">        </span><span class="c">! IF TOL4 WAS SMALL ENOUGH RELATIVE TO P2 THAT THE MACHINE THINKS P4</span>
+<span class="w">        </span><span class="c">! STILL EQUALS P2, WHICH IS MORE LIKELY IF P2 IS LARGE, THIS COULD RESULT</span>
+<span class="w">        </span><span class="c">! IN A DIVIDE FAULT LATER.  TO AVOID THIS, WE REDEFINE P4 AS THE AVERAGE</span>
+<span class="w">        </span><span class="c">! OF P1 AND P2 IF NECESSARY.  IF WE STILL DONT HAVE P4 STRICTLY BETWEEN</span>
+<span class="w">        </span><span class="c">! P1 AND P2, WE TERMINATE THE SEARCH.</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">p4</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">p2</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">            </span><span class="n">p4</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">p1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">p2</span><span class="p">)</span><span class="o">/</span><span class="n">two</span><span class="w"></span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">p4</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">p2</span><span class="p">)</span><span class="w"> </span><span class="k">goto</span><span class="w"> </span><span class="mi">900</span><span class="w"></span>
+<span class="w">        </span><span class="k">end if</span>
+<span class="k">        if</span><span class="w"> </span><span class="p">(</span><span class="n">p4</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">p1</span><span class="p">)</span><span class="w"> </span><span class="k">goto</span><span class="w"> </span><span class="mi">900</span><span class="w"></span>
+<span class="w">        </span><span class="n">pval</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">p4</span><span class="w"></span>
 
-        <span class="c">! INCREMENT NSRCH SINCE WE ARE ABOUT TO COMPUTE F.</span>
-<span class="mi">1200</span>    <span class="n">Nsrch</span> <span class="o">=</span> <span class="n">Nsrch</span> <span class="o">+</span> <span class="mi">1</span>
+<span class="w">        </span><span class="c">! INCREMENT NSRCH SINCE WE ARE ABOUT TO COMPUTE F.</span>
+<span class="mi">1200</span><span class="w">    </span><span class="n">Nsrch</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Nsrch</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
 
-        <span class="c">! THIS IS WHERE THE USER MUST SUPPLY A ROUTINE TO COMPUTE</span>
-        <span class="c">! FVAL=F(PVAL).  IF THE PROCEDURE FAILS, SET FVAL=BIG.</span>
+<span class="w">        </span><span class="c">! THIS IS WHERE THE USER MUST SUPPLY A ROUTINE TO COMPUTE</span>
+<span class="w">        </span><span class="c">! FVAL=F(PVAL).  IF THE PROCEDURE FAILS, SET FVAL=BIG.</span>
 
-        <span class="n">fval</span> <span class="o">=</span> <span class="n">big</span>
-        <span class="c">! PROJECT X TO GET PARPRJ.</span>
-        <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">Nparm</span>
-            <span class="n">Parprj</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">+</span> <span class="n">pval</span><span class="o">*</span><span class="n">x</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
-        <span class="k">end do</span>
+<span class="w">        </span><span class="n">fval</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">big</span><span class="w"></span>
+<span class="w">        </span><span class="c">! PROJECT X TO GET PARPRJ.</span>
+<span class="w">        </span><span class="k">do </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">Nparm</span><span class="w"></span>
+<span class="w">            </span><span class="n">Parprj</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Param</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">pval</span><span class="o">*</span><span class="n">x</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="k">end do</span><span class="w"></span>
 
-        <span class="c">! CALL CORRCT TO RETURN PARPRJ TO FEASIBILITY IF NECESSARY IF ITYPM1</span>
-        <span class="c">! OR ITYPM2 IS POSITIVE.</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">Itypm1</span> <span class="o">+</span> <span class="n">Itypm2</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="k">then</span>
-<span class="k">            call </span><span class="n">me</span><span class="p">%</span><span class="n">corrct</span><span class="p">(</span><span class="n">Ioptn</span><span class="p">,</span> <span class="n">Nparm</span><span class="p">,</span> <span class="n">Numgr</span><span class="p">,</span> <span class="n">Fun</span><span class="p">,</span> <span class="n">Ifun</span><span class="p">,</span> <span class="n">Pttbl</span><span class="p">,</span> <span class="n">Iptb</span><span class="p">,</span> <span class="n">Indm</span><span class="p">,</span> <span class="p">&amp;</span>
-                           <span class="n">Iwork</span><span class="p">(</span><span class="n">ilc17</span><span class="p">),</span> <span class="n">Unit</span><span class="p">,</span> <span class="n">Tolcon</span><span class="p">,</span> <span class="n">Rchin</span><span class="p">,</span> <span class="n">Error</span><span class="p">,</span> <span class="n">Mact</span><span class="p">,</span> <span class="n">Iact</span><span class="p">,</span> <span class="p">&amp;</span>
-                           <span class="n">Projct</span><span class="p">,</span> <span class="n">Iphse</span><span class="p">,</span> <span class="n">Iwork</span><span class="p">,</span> <span class="n">Liwrk</span><span class="p">,</span> <span class="n">Work</span><span class="p">,</span> <span class="n">Lwrk</span><span class="p">,</span> <span class="n">Work</span><span class="p">(</span><span class="n">ilc27</span><span class="p">),</span> <span class="p">&amp;</span>
-                           <span class="n">Err1</span><span class="p">,</span> <span class="n">Work</span><span class="p">(</span><span class="n">ilc10</span><span class="p">),</span> <span class="n">Work</span><span class="p">(</span><span class="n">ilc29</span><span class="p">),</span> <span class="n">Work</span><span class="p">(</span><span class="n">ilc08</span><span class="p">),</span> <span class="p">&amp;</span>
-                           <span class="n">Work</span><span class="p">(</span><span class="n">ilc48</span><span class="p">),</span> <span class="n">Iwork</span><span class="p">(</span><span class="n">ilc21</span><span class="p">),</span> <span class="n">Parprj</span><span class="p">,</span> <span class="n">icorct</span><span class="p">)</span>
-            <span class="k">if</span> <span class="p">(</span><span class="n">icorct</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="k">goto </span><span class="mi">1300</span>
-        <span class="k">end if</span>
-<span class="k">        call </span><span class="n">me</span><span class="p">%</span><span class="n">ercmp1</span><span class="p">(</span><span class="n">Ioptn</span><span class="p">,</span> <span class="n">Nparm</span><span class="p">,</span> <span class="n">Numgr</span><span class="p">,</span> <span class="n">Fun</span><span class="p">,</span> <span class="n">Ifun</span><span class="p">,</span> <span class="n">Pttbl</span><span class="p">,</span> <span class="n">Iptb</span><span class="p">,</span> <span class="n">Indm</span><span class="p">,</span> <span class="n">Parprj</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="p">&amp;</span>
-                       <span class="n">Iphse</span><span class="p">,</span> <span class="n">Iwork</span><span class="p">,</span> <span class="n">Liwrk</span><span class="p">,</span> <span class="n">Work</span><span class="p">(</span><span class="n">ilc08</span><span class="p">),</span> <span class="n">Iwork</span><span class="p">(</span><span class="n">ilc17</span><span class="p">),</span> <span class="n">ipmax</span><span class="p">,</span> <span class="p">&amp;</span>
-                       <span class="n">ismax</span><span class="p">,</span> <span class="n">Err1</span><span class="p">)</span>
-        <span class="n">fval</span> <span class="o">=</span> <span class="n">Err1</span><span class="p">(</span><span class="n">Numgr</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+<span class="w">        </span><span class="c">! CALL CORRCT TO RETURN PARPRJ TO FEASIBILITY IF NECESSARY IF ITYPM1</span>
+<span class="w">        </span><span class="c">! OR ITYPM2 IS POSITIVE.</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">Itypm1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Itypm2</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">            call </span><span class="n">me</span><span class="p">%</span><span class="n">corrct</span><span class="p">(</span><span class="n">Ioptn</span><span class="p">,</span><span class="w"> </span><span class="n">Nparm</span><span class="p">,</span><span class="w"> </span><span class="n">Numgr</span><span class="p">,</span><span class="w"> </span><span class="n">Fun</span><span class="p">,</span><span class="w"> </span><span class="n">Ifun</span><span class="p">,</span><span class="w"> </span><span class="n">Pttbl</span><span class="p">,</span><span class="w"> </span><span class="n">Iptb</span><span class="p">,</span><span class="w"> </span><span class="n">Indm</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                           </span><span class="n">Iwork</span><span class="p">(</span><span class="n">ilc17</span><span class="p">),</span><span class="w"> </span><span class="n">Unit</span><span class="p">,</span><span class="w"> </span><span class="n">Tolcon</span><span class="p">,</span><span class="w"> </span><span class="n">Rchin</span><span class="p">,</span><span class="w"> </span><span class="n">Error</span><span class="p">,</span><span class="w"> </span><span class="n">Mact</span><span class="p">,</span><span class="w"> </span><span class="n">Iact</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                           </span><span class="n">Projct</span><span class="p">,</span><span class="w"> </span><span class="n">Iphse</span><span class="p">,</span><span class="w"> </span><span class="n">Iwork</span><span class="p">,</span><span class="w"> </span><span class="n">Liwrk</span><span class="p">,</span><span class="w"> </span><span class="n">Work</span><span class="p">,</span><span class="w"> </span><span class="n">Lwrk</span><span class="p">,</span><span class="w"> </span><span class="n">Work</span><span class="p">(</span><span class="n">ilc27</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                           </span><span class="n">Err1</span><span class="p">,</span><span class="w"> </span><span class="n">Work</span><span class="p">(</span><span class="n">ilc10</span><span class="p">),</span><span class="w"> </span><span class="n">Work</span><span class="p">(</span><span class="n">ilc29</span><span class="p">),</span><span class="w"> </span><span class="n">Work</span><span class="p">(</span><span class="n">ilc08</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                           </span><span class="n">Work</span><span class="p">(</span><span class="n">ilc48</span><span class="p">),</span><span class="w"> </span><span class="n">Iwork</span><span class="p">(</span><span class="n">ilc21</span><span class="p">),</span><span class="w"> </span><span class="n">Parprj</span><span class="p">,</span><span class="w"> </span><span class="n">icorct</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">icorct</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">goto</span><span class="w"> </span><span class="mi">1300</span><span class="w"></span>
+<span class="w">        </span><span class="k">end if</span>
+<span class="k">        call </span><span class="n">me</span><span class="p">%</span><span class="n">ercmp1</span><span class="p">(</span><span class="n">Ioptn</span><span class="p">,</span><span class="w"> </span><span class="n">Nparm</span><span class="p">,</span><span class="w"> </span><span class="n">Numgr</span><span class="p">,</span><span class="w"> </span><span class="n">Fun</span><span class="p">,</span><span class="w"> </span><span class="n">Ifun</span><span class="p">,</span><span class="w"> </span><span class="n">Pttbl</span><span class="p">,</span><span class="w"> </span><span class="n">Iptb</span><span class="p">,</span><span class="w"> </span><span class="n">Indm</span><span class="p">,</span><span class="w"> </span><span class="n">Parprj</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                       </span><span class="n">Iphse</span><span class="p">,</span><span class="w"> </span><span class="n">Iwork</span><span class="p">,</span><span class="w"> </span><span class="n">Liwrk</span><span class="p">,</span><span class="w"> </span><span class="n">Work</span><span class="p">(</span><span class="n">ilc08</span><span class="p">),</span><span class="w"> </span><span class="n">Iwork</span><span class="p">(</span><span class="n">ilc17</span><span class="p">),</span><span class="w"> </span><span class="n">ipmax</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                       </span><span class="n">ismax</span><span class="p">,</span><span class="w"> </span><span class="n">Err1</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="n">fval</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Err1</span><span class="p">(</span><span class="n">Numgr</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
 
-        <span class="c">! IF NSRCH=1, INDICATING THAT WE ARE COMPUTING F WITH THE INITIAL PROJCT,</span>
-        <span class="c">! CALL RCHMOD WITH IRCH=1 TO INCREASE RCHDWN FOR THE NEXT SETU1 OR</span>
-        <span class="c">! RKSACT CALL IF NECESSARY.</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">Nsrch</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">)</span> <span class="k">call </span><span class="n">rchmod</span><span class="p">(</span><span class="n">Numgr</span><span class="p">,</span> <span class="n">Error</span><span class="p">,</span> <span class="n">Err1</span><span class="p">,</span> <span class="n">Iwork</span><span class="p">(</span><span class="n">ilc17</span><span class="p">),</span> <span class="n">Mact</span><span class="p">,</span> <span class="p">&amp;</span>
-                                    <span class="n">Iact</span><span class="p">,</span> <span class="n">ipmax</span><span class="p">,</span> <span class="n">ismax</span><span class="p">,</span> <span class="n">Unit</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">Rchdwn</span><span class="p">,</span> <span class="n">Rchin</span><span class="p">)</span>
-        <span class="c">! WE WILL SAVE THE BEST PARPRJ FOUND IN THIS SEARSL CALL IN PARSER.</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">isave</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">then</span>
-<span class="k">            </span><span class="n">isave</span> <span class="o">=</span> <span class="mi">1</span>
-        <span class="k">else if</span> <span class="p">(</span><span class="n">fval</span> <span class="o">&gt;=</span> <span class="n">fvlkp</span><span class="p">)</span> <span class="k">then</span>
-<span class="k">            goto </span><span class="mi">1300</span>
-        <span class="k">end if</span>
-<span class="k">        do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">Nparm</span>
-            <span class="n">Parser</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">Parprj</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
-        <span class="k">end do</span>
-<span class="k">        </span><span class="n">fvlkp</span> <span class="o">=</span> <span class="n">fval</span>
-        <span class="c">! IF IPHSE &lt; 0 AND FVAL &lt;= TOLCON WE RETURN WITH THE BEST VALUES</span>
-        <span class="c">! FOUND SO FAR.</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">Iphse</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="k">then</span>
-<span class="k">            if</span> <span class="p">(</span><span class="n">fval</span> <span class="o">&lt;=</span> <span class="n">Tolcon</span><span class="p">)</span> <span class="k">then</span>
-<span class="k">                </span><span class="n">Projct</span> <span class="o">=</span> <span class="n">pval</span>
-                <span class="n">Emin</span> <span class="o">=</span> <span class="n">fval</span>
-                <span class="k">return</span>
+<span class="w">        </span><span class="c">! IF NSRCH=1, INDICATING THAT WE ARE COMPUTING F WITH THE INITIAL PROJCT,</span>
+<span class="w">        </span><span class="c">! CALL RCHMOD WITH IRCH=1 TO INCREASE RCHDWN FOR THE NEXT SETU1 OR</span>
+<span class="w">        </span><span class="c">! RKSACT CALL IF NECESSARY.</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">Nsrch</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">call </span><span class="n">rchmod</span><span class="p">(</span><span class="n">Numgr</span><span class="p">,</span><span class="w"> </span><span class="n">Error</span><span class="p">,</span><span class="w"> </span><span class="n">Err1</span><span class="p">,</span><span class="w"> </span><span class="n">Iwork</span><span class="p">(</span><span class="n">ilc17</span><span class="p">),</span><span class="w"> </span><span class="n">Mact</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                    </span><span class="n">Iact</span><span class="p">,</span><span class="w"> </span><span class="n">ipmax</span><span class="p">,</span><span class="w"> </span><span class="n">ismax</span><span class="p">,</span><span class="w"> </span><span class="n">Unit</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">Rchdwn</span><span class="p">,</span><span class="w"> </span><span class="n">Rchin</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="c">! WE WILL SAVE THE BEST PARPRJ FOUND IN THIS SEARSL CALL IN PARSER.</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">isave</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">            </span><span class="n">isave</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">        </span><span class="k">else if</span><span class="w"> </span><span class="p">(</span><span class="n">fval</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">fvlkp</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">            goto</span><span class="w"> </span><span class="mi">1300</span><span class="w"></span>
+<span class="w">        </span><span class="k">end if</span>
+<span class="k">        do </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">Nparm</span><span class="w"></span>
+<span class="w">            </span><span class="n">Parser</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Parprj</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="k">end do</span>
+<span class="k">        </span><span class="n">fvlkp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fval</span><span class="w"></span>
+<span class="w">        </span><span class="c">! IF IPHSE &lt; 0 AND FVAL &lt;= TOLCON WE RETURN WITH THE BEST VALUES</span>
+<span class="w">        </span><span class="c">! FOUND SO FAR.</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">Iphse</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">            if</span><span class="w"> </span><span class="p">(</span><span class="n">fval</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">Tolcon</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">                </span><span class="n">Projct</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pval</span><span class="w"></span>
+<span class="w">                </span><span class="n">Emin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fval</span><span class="w"></span>
+<span class="w">                </span><span class="k">return</span>
 <span class="k">            end if</span>
-<span class="k">        end if</span>
+<span class="k">        end if</span><span class="w"></span>
 
-        <span class="c">! CARRY THE COMPUTED F VALUE BACK TO THE APPROPRIATE PART OF THE PROGRAM.</span>
-<span class="mi">1300</span>    <span class="k">select case</span> <span class="p">(</span><span class="n">lll</span><span class="p">)</span>
-        <span class="k">case</span> <span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-            <span class="n">f1</span> <span class="o">=</span> <span class="n">fval</span>
-            <span class="n">p3</span> <span class="o">=</span> <span class="n">two</span><span class="o">*</span><span class="n">p2</span>
-            <span class="c">! IF P3 &gt; PRJLIM, SET IUPBAR=1 AS AN INDICATOR WE CANNOT LATER</span>
-            <span class="c">! EXPAND THE INTERVAL TO THE RIGHT.  THEN IF PRJLIM &gt;= P2+TOL4</span>
-            <span class="c">! REPLACE P3 BY PRJLIM, AND OTHERWISE EXPAND THE INTERVAL TO THE</span>
-            <span class="c">! LEFT TO GET THE DESIRED THIRD POINT.</span>
-            <span class="k">if</span> <span class="p">(</span><span class="n">p3</span> <span class="o">&lt;=</span> <span class="n">Prjlim</span><span class="p">)</span> <span class="k">goto </span><span class="mi">100</span>
-            <span class="n">iupbar</span> <span class="o">=</span> <span class="mi">1</span>
-            <span class="k">if</span> <span class="p">(</span><span class="n">Prjlim</span> <span class="o">-</span> <span class="n">p2</span> <span class="o">&lt;</span> <span class="n">tol4</span><span class="p">)</span> <span class="k">then</span>
-                <span class="c">! EXPAND LEFT TO GET THE INITIAL THIRD POINT SINCE THERE IS NO ROOM</span>
-                <span class="c">! TO EXPAND RIGHT.</span>
-                <span class="n">p3</span> <span class="o">=</span> <span class="n">p2</span>
-                <span class="n">f3</span> <span class="o">=</span> <span class="n">f2</span>
-                <span class="n">p2</span> <span class="o">=</span> <span class="n">p1</span>
-                <span class="n">f2</span> <span class="o">=</span> <span class="n">f1</span>
-                <span class="n">p1</span> <span class="o">=</span> <span class="n">p1</span><span class="o">/</span><span class="n">two</span>
-                <span class="c">! SET LLL=4 AND PUT F(P1) IN F1.</span>
-                <span class="n">lll</span> <span class="o">=</span> <span class="mi">4</span>
-                <span class="n">pval</span> <span class="o">=</span> <span class="n">p1</span>
-                <span class="k">goto </span><span class="mi">1200</span>
-            <span class="k">else</span>
-<span class="k">                </span><span class="n">p3</span> <span class="o">=</span> <span class="n">Prjlim</span>
-                <span class="k">goto </span><span class="mi">100</span>
-            <span class="k">end if</span>
-<span class="k">        case</span> <span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-            <span class="n">f2</span> <span class="o">=</span> <span class="n">fval</span>
-            <span class="c">! SET EMIN1 = THE VALUE OF F USING THE GIVEN PROJECTION FACTOR PROJCT.</span>
-            <span class="n">Emin1</span> <span class="o">=</span> <span class="n">fval</span>
-            <span class="n">p1</span> <span class="o">=</span> <span class="n">p2</span><span class="o">/</span><span class="n">two</span>
-            <span class="c">! SET LLL=1 AND PUT F(P1) IN F1.</span>
-            <span class="n">lll</span> <span class="o">=</span> <span class="mi">1</span>
-            <span class="n">pval</span> <span class="o">=</span> <span class="n">p1</span>
-            <span class="k">goto </span><span class="mi">1200</span>
-        <span class="k">case</span> <span class="p">(</span><span class="mi">3</span><span class="p">)</span>
-            <span class="n">f3</span> <span class="o">=</span> <span class="n">fval</span>
-            <span class="k">goto </span><span class="mi">200</span>
-        <span class="k">case</span> <span class="p">(</span><span class="mi">4</span><span class="p">)</span>
-            <span class="n">f1</span> <span class="o">=</span> <span class="n">fval</span>
-            <span class="k">goto </span><span class="mi">200</span>
-        <span class="k">case</span> <span class="p">(</span><span class="mi">5</span><span class="p">)</span>
-            <span class="n">f1</span> <span class="o">=</span> <span class="n">fval</span>
-            <span class="c">! HERE F2 &lt;= F3 AND WE HAVE JUST EXPANDED LEFT.  IF F2 &gt; F1 WE</span>
-            <span class="c">! TRY TO EXPAND LEFT AGAIN, OTHERWISE WE CHECK TO SEE IF WE ARE DONE</span>
-            <span class="c">! INITIALIZING.</span>
-            <span class="k">if</span> <span class="p">(</span><span class="n">f2</span> <span class="o">&gt;</span> <span class="n">f1</span><span class="p">)</span> <span class="k">goto </span><span class="mi">300</span>
-            <span class="k">goto </span><span class="mi">400</span>
-        <span class="k">case</span> <span class="p">(</span><span class="mi">6</span><span class="p">)</span>
-            <span class="n">f3</span> <span class="o">=</span> <span class="n">fval</span>
-            <span class="c">! HERE F2 &lt; F1 AND WE HAVE JUST EXPANDED RIGHT.  IF F2 &lt;= F3</span>
-            <span class="c">! WE ARE DONE INITIALIZING, OTHERWISE WE TRY TO EXPAND RIGHT AGAIN.</span>
-            <span class="k">if</span> <span class="p">(</span><span class="n">f2</span> <span class="o">&gt;</span> <span class="n">f3</span><span class="p">)</span> <span class="k">goto </span><span class="mi">500</span>
-            <span class="k">goto </span><span class="mi">700</span>
-        <span class="k">case</span> <span class="p">(</span><span class="mi">7</span><span class="p">)</span>
-            <span class="n">f4</span> <span class="o">=</span> <span class="n">fval</span>
-            <span class="c">! NOW WE DROP EITHER P1 OR P3 AND RELABEL THE REMAINING POINTS SO</span>
-            <span class="c">! THAT F(P2) &lt;= F(P1) AND F(P2) &lt;= F(P3).</span>
+<span class="w">        </span><span class="c">! CARRY THE COMPUTED F VALUE BACK TO THE APPROPRIATE PART OF THE PROGRAM.</span>
+<span class="mi">1300</span><span class="w">    </span><span class="k">select case</span><span class="w"> </span><span class="p">(</span><span class="n">lll</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="n">f1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fval</span><span class="w"></span>
+<span class="w">            </span><span class="n">p3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">two</span><span class="o">*</span><span class="n">p2</span><span class="w"></span>
+<span class="w">            </span><span class="c">! IF P3 &gt; PRJLIM, SET IUPBAR=1 AS AN INDICATOR WE CANNOT LATER</span>
+<span class="w">            </span><span class="c">! EXPAND THE INTERVAL TO THE RIGHT.  THEN IF PRJLIM &gt;= P2+TOL4</span>
+<span class="w">            </span><span class="c">! REPLACE P3 BY PRJLIM, AND OTHERWISE EXPAND THE INTERVAL TO THE</span>
+<span class="w">            </span><span class="c">! LEFT TO GET THE DESIRED THIRD POINT.</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">p3</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">Prjlim</span><span class="p">)</span><span class="w"> </span><span class="k">goto</span><span class="w"> </span><span class="mi">100</span><span class="w"></span>
+<span class="w">            </span><span class="n">iupbar</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">Prjlim</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">p2</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">tol4</span><span class="p">)</span><span class="w"> </span><span class="k">then</span><span class="w"></span>
+<span class="w">                </span><span class="c">! EXPAND LEFT TO GET THE INITIAL THIRD POINT SINCE THERE IS NO ROOM</span>
+<span class="w">                </span><span class="c">! TO EXPAND RIGHT.</span>
+<span class="w">                </span><span class="n">p3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">p2</span><span class="w"></span>
+<span class="w">                </span><span class="n">f3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">f2</span><span class="w"></span>
+<span class="w">                </span><span class="n">p2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">p1</span><span class="w"></span>
+<span class="w">                </span><span class="n">f2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">f1</span><span class="w"></span>
+<span class="w">                </span><span class="n">p1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">p1</span><span class="o">/</span><span class="n">two</span><span class="w"></span>
+<span class="w">                </span><span class="c">! SET LLL=4 AND PUT F(P1) IN F1.</span>
+<span class="w">                </span><span class="n">lll</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span><span class="w"></span>
+<span class="w">                </span><span class="n">pval</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">p1</span><span class="w"></span>
+<span class="w">                </span><span class="k">goto</span><span class="w"> </span><span class="mi">1200</span><span class="w"></span>
+<span class="w">            </span><span class="k">else</span>
+<span class="k">                </span><span class="n">p3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Prjlim</span><span class="w"></span>
+<span class="w">                </span><span class="k">goto</span><span class="w"> </span><span class="mi">100</span><span class="w"></span>
+<span class="w">            </span><span class="k">end if</span>
+<span class="k">        case</span><span class="w"> </span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="n">f2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fval</span><span class="w"></span>
+<span class="w">            </span><span class="c">! SET EMIN1 = THE VALUE OF F USING THE GIVEN PROJECTION FACTOR PROJCT.</span>
+<span class="w">            </span><span class="n">Emin1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fval</span><span class="w"></span>
+<span class="w">            </span><span class="n">p1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">p2</span><span class="o">/</span><span class="n">two</span><span class="w"></span>
+<span class="w">            </span><span class="c">! SET LLL=1 AND PUT F(P1) IN F1.</span>
+<span class="w">            </span><span class="n">lll</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">            </span><span class="n">pval</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">p1</span><span class="w"></span>
+<span class="w">            </span><span class="k">goto</span><span class="w"> </span><span class="mi">1200</span><span class="w"></span>
+<span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="n">f3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fval</span><span class="w"></span>
+<span class="w">            </span><span class="k">goto</span><span class="w"> </span><span class="mi">200</span><span class="w"></span>
+<span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="mi">4</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="n">f1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fval</span><span class="w"></span>
+<span class="w">            </span><span class="k">goto</span><span class="w"> </span><span class="mi">200</span><span class="w"></span>
+<span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="mi">5</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="n">f1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fval</span><span class="w"></span>
+<span class="w">            </span><span class="c">! HERE F2 &lt;= F3 AND WE HAVE JUST EXPANDED LEFT.  IF F2 &gt; F1 WE</span>
+<span class="w">            </span><span class="c">! TRY TO EXPAND LEFT AGAIN, OTHERWISE WE CHECK TO SEE IF WE ARE DONE</span>
+<span class="w">            </span><span class="c">! INITIALIZING.</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">f2</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">f1</span><span class="p">)</span><span class="w"> </span><span class="k">goto</span><span class="w"> </span><span class="mi">300</span><span class="w"></span>
+<span class="w">            </span><span class="k">goto</span><span class="w"> </span><span class="mi">400</span><span class="w"></span>
+<span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="mi">6</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="n">f3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fval</span><span class="w"></span>
+<span class="w">            </span><span class="c">! HERE F2 &lt; F1 AND WE HAVE JUST EXPANDED RIGHT.  IF F2 &lt;= F3</span>
+<span class="w">            </span><span class="c">! WE ARE DONE INITIALIZING, OTHERWISE WE TRY TO EXPAND RIGHT AGAIN.</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">f2</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">f3</span><span class="p">)</span><span class="w"> </span><span class="k">goto</span><span class="w"> </span><span class="mi">500</span><span class="w"></span>
+<span class="w">            </span><span class="k">goto</span><span class="w"> </span><span class="mi">700</span><span class="w"></span>
+<span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="mi">7</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="n">f4</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fval</span><span class="w"></span>
+<span class="w">            </span><span class="c">! NOW WE DROP EITHER P1 OR P3 AND RELABEL THE REMAINING POINTS SO</span>
+<span class="w">            </span><span class="c">! THAT F(P2) &lt;= F(P1) AND F(P2) &lt;= F(P3).</span>
 
-            <span class="c">! IF NOW THE LEFTMOST OF THE TWO MIDDLE POINTS IS LOWER THAN THE</span>
-            <span class="c">! RIGHTMOST OF THE TWO MIDDLE POINTS WE DROP P3, AND SET ILF=0</span>
-            <span class="c">! AND INCREMENT IRT TO INDICATE THE RIGHT END POINT HAS BEEN DROPPED.</span>
-            <span class="c">! OTHERWISE WE DROP P1, SET IRT=0 AND INCREMENT ILF.  IN ALL CASES</span>
-            <span class="c">! WE THEN RESHUFFLE THE VALUES INTO P1, P2, P3, F1, F2, F3 AND TRY</span>
-            <span class="c">! TO DO ANOTHER ITERATION.</span>
-            <span class="k">if</span> <span class="p">(</span><span class="n">p4</span> <span class="o">&lt;</span> <span class="n">p2</span><span class="p">)</span> <span class="k">then</span>
-                <span class="c">! HERE P4 &lt; P2.</span>
-                <span class="k">if</span> <span class="p">(</span><span class="n">f4</span> <span class="o">&lt;</span> <span class="n">f2</span><span class="p">)</span> <span class="k">then</span>
-<span class="k">                    </span><span class="n">p3</span> <span class="o">=</span> <span class="n">p2</span>
-                    <span class="n">f3</span> <span class="o">=</span> <span class="n">f2</span>
-                    <span class="n">p2</span> <span class="o">=</span> <span class="n">p4</span>
-                    <span class="n">f2</span> <span class="o">=</span> <span class="n">f4</span>
-                    <span class="n">ilf</span> <span class="o">=</span> <span class="mi">0</span>
-                    <span class="n">irt</span> <span class="o">=</span> <span class="n">irt</span> <span class="o">+</span> <span class="mi">1</span>
-                <span class="k">else</span>
-<span class="k">                    </span><span class="n">p1</span> <span class="o">=</span> <span class="n">p4</span>
-                    <span class="n">f1</span> <span class="o">=</span> <span class="n">f4</span>
-                    <span class="n">ilf</span> <span class="o">=</span> <span class="n">ilf</span> <span class="o">+</span> <span class="mi">1</span>
-                    <span class="n">irt</span> <span class="o">=</span> <span class="mi">0</span>
-                <span class="k">end if</span>
-                <span class="c">! HERE P4 &gt; P2.</span>
-            <span class="k">else if</span> <span class="p">(</span><span class="n">f2</span> <span class="o">&lt;</span> <span class="n">f4</span><span class="p">)</span> <span class="k">then</span>
-<span class="k">                </span><span class="n">p3</span> <span class="o">=</span> <span class="n">p4</span>
-                <span class="n">f3</span> <span class="o">=</span> <span class="n">f4</span>
-                <span class="n">ilf</span> <span class="o">=</span> <span class="mi">0</span>
-                <span class="n">irt</span> <span class="o">=</span> <span class="n">irt</span> <span class="o">+</span> <span class="mi">1</span>
-            <span class="k">else</span>
-<span class="k">                </span><span class="n">p1</span> <span class="o">=</span> <span class="n">p2</span>
-                <span class="n">f1</span> <span class="o">=</span> <span class="n">f2</span>
-                <span class="n">p2</span> <span class="o">=</span> <span class="n">p4</span>
-                <span class="n">f2</span> <span class="o">=</span> <span class="n">f4</span>
-                <span class="n">ilf</span> <span class="o">=</span> <span class="n">ilf</span> <span class="o">+</span> <span class="mi">1</span>
-                <span class="n">irt</span> <span class="o">=</span> <span class="mi">0</span>
-            <span class="k">end if</span>
-<span class="k">            goto </span><span class="mi">800</span>
-        <span class="k">case </span><span class="n">default</span>
+<span class="w">            </span><span class="c">! IF NOW THE LEFTMOST OF THE TWO MIDDLE POINTS IS LOWER THAN THE</span>
+<span class="w">            </span><span class="c">! RIGHTMOST OF THE TWO MIDDLE POINTS WE DROP P3, AND SET ILF=0</span>
+<span class="w">            </span><span class="c">! AND INCREMENT IRT TO INDICATE THE RIGHT END POINT HAS BEEN DROPPED.</span>
+<span class="w">            </span><span class="c">! OTHERWISE WE DROP P1, SET IRT=0 AND INCREMENT ILF.  IN ALL CASES</span>
+<span class="w">            </span><span class="c">! WE THEN RESHUFFLE THE VALUES INTO P1, P2, P3, F1, F2, F3 AND TRY</span>
+<span class="w">            </span><span class="c">! TO DO ANOTHER ITERATION.</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">p4</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">p2</span><span class="p">)</span><span class="w"> </span><span class="k">then</span><span class="w"></span>
+<span class="w">                </span><span class="c">! HERE P4 &lt; P2.</span>
+<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">f4</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">f2</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">                    </span><span class="n">p3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">p2</span><span class="w"></span>
+<span class="w">                    </span><span class="n">f3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">f2</span><span class="w"></span>
+<span class="w">                    </span><span class="n">p2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">p4</span><span class="w"></span>
+<span class="w">                    </span><span class="n">f2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">f4</span><span class="w"></span>
+<span class="w">                    </span><span class="n">ilf</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">                    </span><span class="n">irt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">irt</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">                </span><span class="k">else</span>
+<span class="k">                    </span><span class="n">p1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">p4</span><span class="w"></span>
+<span class="w">                    </span><span class="n">f1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">f4</span><span class="w"></span>
+<span class="w">                    </span><span class="n">ilf</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ilf</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">                    </span><span class="n">irt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">                </span><span class="k">end if</span><span class="w"></span>
+<span class="w">                </span><span class="c">! HERE P4 &gt; P2.</span>
+<span class="w">            </span><span class="k">else if</span><span class="w"> </span><span class="p">(</span><span class="n">f2</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">f4</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">                </span><span class="n">p3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">p4</span><span class="w"></span>
+<span class="w">                </span><span class="n">f3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">f4</span><span class="w"></span>
+<span class="w">                </span><span class="n">ilf</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">                </span><span class="n">irt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">irt</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">            </span><span class="k">else</span>
+<span class="k">                </span><span class="n">p1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">p2</span><span class="w"></span>
+<span class="w">                </span><span class="n">f1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">f2</span><span class="w"></span>
+<span class="w">                </span><span class="n">p2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">p4</span><span class="w"></span>
+<span class="w">                </span><span class="n">f2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">f4</span><span class="w"></span>
+<span class="w">                </span><span class="n">ilf</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ilf</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">                </span><span class="n">irt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">            </span><span class="k">end if</span>
+<span class="k">            goto</span><span class="w"> </span><span class="mi">800</span><span class="w"></span>
+<span class="w">        </span><span class="k">case </span><span class="n">default</span><span class="w"></span>
 
-        <span class="k">end select</span>
+<span class="w">        </span><span class="k">end select</span>
 
-<span class="k">    end subroutine </span><span class="n">searsl</span>
+<span class="k">    end subroutine </span><span class="n">searsl</span><span class="w"></span>
 </pre></div>
 
     </section>
     <br>
     
-    
     </div>
   </div>
-
 
     <hr>    
     </div> <!-- /container -->
     <footer>
       <div class="container">
       <div class="row">
-        <div class="col-xs-6 col-md-6"><p>conmax was developed by Jacob Williams<br>&copy; 2021 
-                                          </p>
+        <div class="col-xs-6 col-md-6"><p>conmax was developed by Jacob Williams<br>&copy; 2022 
+</p>
         </div>
         <div class="col-xs-6 col-md-6">
           <p class="text-right">
             Documentation generated by 
             <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
-            
-            
           </p>
         </div>
       </div>
@@ -1422,9 +974,7 @@ private subroutine searsl(me, Ioptn, Numgr, Nparm, Prjlim, Tol1, x, Fun, Ifun, P
         extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
       });
     </script>
-    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
     
     
   </body>

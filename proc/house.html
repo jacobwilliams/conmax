@@ -4,9 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-   
    <meta name="description" content="CONMAX -- General nonlinearly constrained function minimization">
-    
     <meta name="author" content="Jacob Williams" >
     <link rel="icon" href="../favicon.png">
 
@@ -16,8 +14,6 @@
     <link href="../css/pygments.css" rel="stylesheet">
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
-    
-    
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -46,102 +42,50 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-        
             <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
               <a href="#" class="dropdown-toggle"
               data-toggle="dropdown" role="button"
               aria-haspopup="true"
      aria-expanded="false">Contents <span class="caret"></span></a>
         <ul class="dropdown-menu">
-          
-              
             <li><a href="../sourcefile/conmax.f90.html">Source File</a></li>
-        
-        
-        
             <li><a href="../lists/modules.html">Modules</a></li>
-        
-            
-                                
             <li><a href="../lists/procedures.html">Procedures</a></li>
-        
-        
             <li><a href="../lists/absint.html">Abstract Interfaces</a></li>
-               
-            <li><a href="../lists/types.html">Derived Types</a></li>
-        
-               
-        
-        
+                   <li><a href="../lists/types.html">Derived Types</a></li>
+       
             </ul>
         
             </li>
-
-
 <li class="visible-xs hidden-sm visible-lg"><a href="../sourcefile/conmax.f90.html">Source File</a></li>
-
-
-
 <li class="visible-xs hidden-sm visible-lg"><a href="../lists/modules.html">Modules</a></li>
-
-
-
 <li class="visible-xs hidden-sm visible-lg"><a href="../lists/procedures.html">Procedures</a></li>
-
-
 <li class="visible-xs hidden-sm visible-lg"><a href="../lists/absint.html">Abstract Interfaces</a></li>
-                             
-<li class="visible-xs hidden-sm visible-lg"><a href="../lists/types.html">Derived Types</a></li>
-
-
-
-
+                             <li class="visible-xs hidden-sm visible-lg"><a href="../lists/types.html">Derived Types</a></li>
           </ul>
-        
         </div><!--/.nav-collapse -->
       </div>
     </nav>
 
     <div class="container">
-    
-  
   <div class="row">
     <h1>house
       <small>Subroutine</small>
-    
     </h1>
-    
-<div class="row">
+    <div class="row">
   <div class="col-lg-12">
 <div class="well well-sm">
   <ul class="list-inline" style="margin-bottom:0px;display:inline">
-     
-     
-     
-     
-     
-    
-    
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
     title=" 5.0% of total for procedures.">172 statements</a>
      </li> 
-     
-     
-     
     <li><i class="fa fa-code"></i><a href="../src/conmax.f90"> Source File</a></li>
-     
-     
   </ul>
   <ol class="breadcrumb in-well text-right">
-  
-    
      <li><a href='../sourcefile/conmax.f90.html'>conmax.f90</a></li>
-    
      <li><a href='../module/conmax_module.html'>conmax_module</a></li>
-    
-  
      <li class="active">house</li>
   </ol>
 </div>
@@ -157,32 +101,9 @@
   
   <div class="row">
     <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
-    
-<div id="sidebar">
-  
-<h3>Contents</h3>
+    <div id="sidebar">
+  <h3>Contents</h3>
  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <div class="panel panel-primary">
   <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
   <div class="list-group">
@@ -190,258 +111,116 @@
   </div>
 </div>
 
-
-
 </div>
 
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>
-private subroutine house(n, Ncor, Picor, r, Kpivot, Nparm, Aa, Beta, d, Save, b, Vec, Ihouse)
+    <h2>private subroutine house(n, Ncor, Picor, r, Kpivot, Nparm, Aa, Beta, d, Save, b, Vec, Ihouse)</h2>
     
-    
-   
-</h2>
-    
-  
 
-
-    
     <p>Given ncor n dimensional vectors as columns of the n by ncor
-  matrix picor and an n dimensional vector r, this subroutine uses
-  householder transformations to find the best least squares solution
-  vec to the linear system of equations picor*vec = r, where vec
-  is an ncor dimensional vector.  if the rank of picor is
-  (computationally) 0, the subroutine will return with the failure
-  warning ihouse=1, otherwise it will return with ihouse=0.  if the
-  rank is &gt; 0 but &lt; ncor, then (ncor - rank) of the components
-  of vec will be set to 0.0.  the arays picor and r will not be
-  changed by this subroutine.  the subroutine will attempt up to
-  numref iterative refinements of the solution, where the user can
-  set numref as any nonnegative integer, but to get the most out of
-  the iterative refinement process, the computation of the residual
-  summ near the end of this subroutine should be done in higher
-  precision than the other computations in the subroutine.</p>
-    
+matrix picor and an n dimensional vector r, this subroutine uses
+householder transformations to find the best least squares solution
+vec to the linear system of equations picor*vec = r, where vec
+is an ncor dimensional vector.  if the rank of picor is
+(computationally) 0, the subroutine will return with the failure
+warning ihouse=1, otherwise it will return with ihouse=0.  if the
+rank is &gt; 0 but &lt; ncor, then (ncor - rank) of the components
+of vec will be set to 0.0.  the arays picor and r will not be
+changed by this subroutine.  the subroutine will attempt up to
+numref iterative refinements of the solution, where the user can
+set numref as any nonnegative integer, but to get the most out of
+the iterative refinement process, the computation of the residual
+summ near the end of this subroutine should be done in higher
+precision than the other computations in the subroutine.</p>
 
     <h3>Arguments</h3>
-    
-      
-<table class="table table-striped varlist">
-<thead><tr><th>Type</th>
-<th>Intent</th><th>Optional</th>
-<th>Attributes</th><th></th><th>Name</th><th></th></thead>
-
-
-
+      <table class="table table-striped varlist">
+<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-n~3"></span>integer,</td>
-  <td>intent(in)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>n</strong></td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-ncor~4"></span>integer,</td>
-  <td>intent(in)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>Ncor</strong></td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-picor~2"></span>real(kind=wp)</td>
-  <td></td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td></td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>Picor</strong>(Nparm+1,Nparm+1)</td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-r~3"></span>real(kind=wp)</td>
-  <td></td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td></td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>r</strong>(Nparm+1)</td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-kpivot"></span>integer</td>
-  <td></td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td></td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>Kpivot</strong>(Nparm+1)</td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-nparm~20"></span>integer,</td>
-  <td>intent(in)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>Nparm</strong></td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-aa"></span>real(kind=wp)</td>
-  <td></td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td></td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>Aa</strong>(Nparm+1,Nparm+1)</td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-beta"></span>real(kind=wp)</td>
-  <td></td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td></td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>Beta</strong>(Nparm+1)</td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-d"></span>real(kind=wp)</td>
-  <td></td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td></td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>d</strong>(Nparm+1)</td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-save"></span>real(kind=wp)</td>
-  <td></td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td></td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>Save</strong>(Nparm+1)</td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-b"></span>real(kind=wp)</td>
-  <td></td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td></td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>b</strong>(Nparm+1)</td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-vec~2"></span>real(kind=wp)</td>
-  <td></td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td></td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>Vec</strong>(Nparm+1)</td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-ihouse"></span>integer,</td>
-  <td>intent(out)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td>intent(out)</td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>Ihouse</strong></td><td></td>
-  
 </tr>
-
 </tbody>
 </table>
 
-    
-    
-    
     <br>
-    
-    
-     
     <div class="panel panel-default">
       <div class="panel-heading">
   <h3 class="panel-title">Called by</h3>
@@ -494,63 +273,63 @@ private subroutine house(n, Ncor, Picor, r, Kpivot, Nparm, Aa, Beta, d, Save, b,
 <path fill="none" stroke="#000000" d="M145.4,-75C153.39,-75 162.31,-75 170.82,-75"/>
 <polygon fill="#000000" stroke="#000000" points="170.92,-78.5 180.92,-75 170.92,-71.5 170.92,-78.5"/>
 </g>
-<!-- proc~rkcon -->
-<g id="proc~~house~~CalledByGraph_node4" class="node">
-<title>proc~rkcon</title>
-<g id="a_proc~~house~~CalledByGraph_node4"><a xlink:href=".././proc/rkcon.html" xlink:title="rkcon">
-<polygon fill="#d9534f" stroke="#d9534f" points="54.5,-150 0.5,-150 0.5,-126 54.5,-126 54.5,-150"/>
-<text text-anchor="middle" x="27.5" y="-135.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">rkcon</text>
-</a>
-</g>
-</g>
-<!-- proc~rkcon&#45;&gt;proc~wolfe -->
-<g id="proc~~house~~CalledByGraph_edge6" class="edge">
-<title>proc~rkcon&#45;&gt;proc~wolfe</title>
-<path fill="none" stroke="#000000" d="M45.56,-125.85C58.66,-116.53 76.95,-103.51 91.75,-92.98"/>
-<polygon fill="#000000" stroke="#000000" points="93.87,-95.76 99.99,-87.11 89.81,-90.06 93.87,-95.76"/>
-</g>
-<!-- proc~conmax -->
-<g id="proc~~house~~CalledByGraph_node5" class="node">
-<title>proc~conmax</title>
-<g id="a_proc~~house~~CalledByGraph_node5"><a xlink:href=".././proc/conmax.html" xlink:title="conmax">
-<polygon fill="#d9534f" stroke="#d9534f" points="55,-108 0,-108 0,-84 55,-84 55,-108"/>
-<text text-anchor="middle" x="27.5" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">conmax</text>
-</a>
-</g>
-</g>
-<!-- proc~conmax&#45;&gt;proc~wolfe -->
-<g id="proc~~house~~CalledByGraph_edge3" class="edge">
-<title>proc~conmax&#45;&gt;proc~wolfe</title>
-<path fill="none" stroke="#000000" d="M55.05,-89.7C63.18,-87.77 72.25,-85.62 80.9,-83.57"/>
-<polygon fill="#000000" stroke="#000000" points="81.85,-86.94 90.77,-81.22 80.23,-80.13 81.85,-86.94"/>
-</g>
 <!-- proc~corrct -->
-<g id="proc~~house~~CalledByGraph_node6" class="node">
+<g id="proc~~house~~CalledByGraph_node4" class="node">
 <title>proc~corrct</title>
-<g id="a_proc~~house~~CalledByGraph_node6"><a xlink:href=".././proc/corrct.html" xlink:title="corrct">
-<polygon fill="#d9534f" stroke="#d9534f" points="54.5,-66 0.5,-66 0.5,-42 54.5,-42 54.5,-66"/>
-<text text-anchor="middle" x="27.5" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">corrct</text>
+<g id="a_proc~~house~~CalledByGraph_node4"><a xlink:href=".././proc/corrct.html" xlink:title="corrct">
+<polygon fill="#d9534f" stroke="#d9534f" points="54.5,-150 0.5,-150 0.5,-126 54.5,-126 54.5,-150"/>
+<text text-anchor="middle" x="27.5" y="-135.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">corrct</text>
 </a>
 </g>
 </g>
 <!-- proc~corrct&#45;&gt;proc~wolfe -->
-<g id="proc~~house~~CalledByGraph_edge4" class="edge">
+<g id="proc~~house~~CalledByGraph_edge3" class="edge">
 <title>proc~corrct&#45;&gt;proc~wolfe</title>
-<path fill="none" stroke="#000000" d="M54.57,-60.19C62.87,-62.16 72.2,-64.37 81.07,-66.47"/>
-<polygon fill="#000000" stroke="#000000" points="80.27,-69.88 90.81,-68.78 81.88,-63.07 80.27,-69.88"/>
+<path fill="none" stroke="#000000" d="M45.56,-125.85C58.66,-116.53 76.95,-103.51 91.75,-92.98"/>
+<polygon fill="#000000" stroke="#000000" points="93.87,-95.76 99.99,-87.11 89.81,-90.06 93.87,-95.76"/>
+</g>
+<!-- proc~rkcon -->
+<g id="proc~~house~~CalledByGraph_node5" class="node">
+<title>proc~rkcon</title>
+<g id="a_proc~~house~~CalledByGraph_node5"><a xlink:href=".././proc/rkcon.html" xlink:title="rkcon">
+<polygon fill="#d9534f" stroke="#d9534f" points="54.5,-108 0.5,-108 0.5,-84 54.5,-84 54.5,-108"/>
+<text text-anchor="middle" x="27.5" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">rkcon</text>
+</a>
+</g>
+</g>
+<!-- proc~rkcon&#45;&gt;proc~wolfe -->
+<g id="proc~~house~~CalledByGraph_edge5" class="edge">
+<title>proc~rkcon&#45;&gt;proc~wolfe</title>
+<path fill="none" stroke="#000000" d="M54.57,-89.81C62.87,-87.84 72.2,-85.63 81.07,-83.53"/>
+<polygon fill="#000000" stroke="#000000" points="81.88,-86.93 90.81,-81.22 80.27,-80.12 81.88,-86.93"/>
 </g>
 <!-- proc~rkpar -->
-<g id="proc~~house~~CalledByGraph_node7" class="node">
+<g id="proc~~house~~CalledByGraph_node6" class="node">
 <title>proc~rkpar</title>
-<g id="a_proc~~house~~CalledByGraph_node7"><a xlink:href=".././proc/rkpar.html" xlink:title="rkpar">
-<polygon fill="#d9534f" stroke="#d9534f" points="54.5,-24 0.5,-24 0.5,0 54.5,0 54.5,-24"/>
-<text text-anchor="middle" x="27.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">rkpar</text>
+<g id="a_proc~~house~~CalledByGraph_node6"><a xlink:href=".././proc/rkpar.html" xlink:title="rkpar">
+<polygon fill="#d9534f" stroke="#d9534f" points="54.5,-66 0.5,-66 0.5,-42 54.5,-42 54.5,-66"/>
+<text text-anchor="middle" x="27.5" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">rkpar</text>
 </a>
 </g>
 </g>
 <!-- proc~rkpar&#45;&gt;proc~wolfe -->
-<g id="proc~~house~~CalledByGraph_edge5" class="edge">
+<g id="proc~~house~~CalledByGraph_edge4" class="edge">
 <title>proc~rkpar&#45;&gt;proc~wolfe</title>
+<path fill="none" stroke="#000000" d="M54.57,-60.19C62.87,-62.16 72.2,-64.37 81.07,-66.47"/>
+<polygon fill="#000000" stroke="#000000" points="80.27,-69.88 90.81,-68.78 81.88,-63.07 80.27,-69.88"/>
+</g>
+<!-- proc~conmax -->
+<g id="proc~~house~~CalledByGraph_node7" class="node">
+<title>proc~conmax</title>
+<g id="a_proc~~house~~CalledByGraph_node7"><a xlink:href=".././proc/conmax.html" xlink:title="conmax">
+<polygon fill="#d9534f" stroke="#d9534f" points="55,-24 0,-24 0,0 55,0 55,-24"/>
+<text text-anchor="middle" x="27.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">conmax</text>
+</a>
+</g>
+</g>
+<!-- proc~conmax&#45;&gt;proc~wolfe -->
+<g id="proc~~house~~CalledByGraph_edge6" class="edge">
+<title>proc~conmax&#45;&gt;proc~wolfe</title>
 <path fill="none" stroke="#000000" d="M45.56,-24.15C58.66,-33.47 76.95,-46.49 91.75,-57.02"/>
 <polygon fill="#000000" stroke="#000000" points="89.81,-59.94 99.99,-62.89 93.87,-54.24 89.81,-59.94"/>
 </g>
@@ -617,34 +396,11 @@ private subroutine house(n, Ncor, Picor, r, Kpivot, Nparm, Aa, Beta, d, Save, b,
     </div></div></div></div>
       </div>
     </div>
-     
     <br>
 
     <section class="visible-xs visible-sm hidden-md">
-      
-<h3>Contents</h3>
+      <h3>Contents</h3>
  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <div class="panel panel-primary">
   <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
   <div class="list-group">
@@ -652,326 +408,311 @@ private subroutine house(n, Ncor, Picor, r, Kpivot, Nparm, Aa, Beta, d, Save, b,
   </div>
 </div>
 
-
-
     </section>
     <br class="visible-xs visible-sm hidden-md">
 
-    
 
-    
-    
-    
     
     
 
     
     
-    
-    
-    
 
 
-    
-    
     
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="highlight"><pre><span></span>    <span class="k">subroutine </span><span class="n">house</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">Ncor</span><span class="p">,</span> <span class="n">Picor</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">Kpivot</span><span class="p">,</span> <span class="n">Nparm</span><span class="p">,</span> <span class="n">Aa</span><span class="p">,</span> <span class="n">Beta</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="k">Save</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">Vec</span><span class="p">,</span> <span class="n">Ihouse</span><span class="p">)</span>
+    <div class="highlight"><pre><span></span><span class="w">    </span><span class="k">subroutine </span><span class="n">house</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">Ncor</span><span class="p">,</span><span class="w"> </span><span class="n">Picor</span><span class="p">,</span><span class="w"> </span><span class="n">r</span><span class="p">,</span><span class="w"> </span><span class="n">Kpivot</span><span class="p">,</span><span class="w"> </span><span class="n">Nparm</span><span class="p">,</span><span class="w"> </span><span class="n">Aa</span><span class="p">,</span><span class="w"> </span><span class="n">Beta</span><span class="p">,</span><span class="w"> </span><span class="n">d</span><span class="p">,</span><span class="w"> </span><span class="k">Save</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="n">Vec</span><span class="p">,</span><span class="w"> </span><span class="n">Ihouse</span><span class="p">)</span><span class="w"></span>
 
-        <span class="k">implicit none</span>
+<span class="w">        </span><span class="k">implicit none</span>
 
-<span class="k">        </span><span class="kt">integer</span><span class="p">,</span> <span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>  <span class="kd">::</span> <span class="n">Nparm</span>
-        <span class="kt">integer</span><span class="p">,</span> <span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Ihouse</span>
-        <span class="kt">integer</span><span class="p">,</span> <span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>  <span class="kd">::</span> <span class="n">n</span>
-        <span class="kt">integer</span><span class="p">,</span> <span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>  <span class="kd">::</span> <span class="n">Ncor</span>
-        <span class="kt">integer</span>  <span class="kd">::</span> <span class="n">Kpivot</span><span class="p">(</span><span class="n">Nparm</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
-        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Aa</span><span class="p">(</span><span class="n">Nparm</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">Nparm</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
-        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">b</span><span class="p">(</span><span class="n">Nparm</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
-        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Beta</span><span class="p">(</span><span class="n">Nparm</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
-        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">d</span><span class="p">(</span><span class="n">Nparm</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
-        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Picor</span><span class="p">(</span><span class="n">Nparm</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">Nparm</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
-        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">r</span><span class="p">(</span><span class="n">Nparm</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
-        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="k">Save</span><span class="p">(</span><span class="n">Nparm</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
-        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Vec</span><span class="p">(</span><span class="n">Nparm</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+<span class="k">        </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">  </span><span class="kd">::</span><span class="w"> </span><span class="n">Nparm</span><span class="w"></span>
+<span class="w">        </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">Ihouse</span><span class="w"></span>
+<span class="w">        </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">  </span><span class="kd">::</span><span class="w"> </span><span class="n">n</span><span class="w"></span>
+<span class="w">        </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">  </span><span class="kd">::</span><span class="w"> </span><span class="n">Ncor</span><span class="w"></span>
+<span class="w">        </span><span class="kt">integer</span><span class="w">  </span><span class="kd">::</span><span class="w"> </span><span class="n">Kpivot</span><span class="p">(</span><span class="n">Nparm</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">Aa</span><span class="p">(</span><span class="n">Nparm</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">Nparm</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">b</span><span class="p">(</span><span class="n">Nparm</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">Beta</span><span class="p">(</span><span class="n">Nparm</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">d</span><span class="p">(</span><span class="n">Nparm</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">Picor</span><span class="p">(</span><span class="n">Nparm</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">Nparm</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">r</span><span class="p">(</span><span class="n">Nparm</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="k">Save</span><span class="p">(</span><span class="n">Nparm</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">Vec</span><span class="p">(</span><span class="n">Nparm</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
 
-        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">aakk</span><span class="p">,</span> <span class="nb">amax</span><span class="p">,</span> <span class="n">sqdk</span><span class="p">,</span> <span class="n">store</span><span class="p">,</span> <span class="nb">sum</span><span class="p">,</span> <span class="n">summ</span><span class="p">,</span> <span class="n">test</span><span class="p">,</span> <span class="n">testt</span>
-        <span class="kt">integer</span> <span class="kd">::</span> <span class="n">i</span><span class="p">,</span> <span class="n">ia</span><span class="p">,</span> <span class="n">icount</span><span class="p">,</span> <span class="n">ii</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">jj</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">kchnge</span><span class="p">,</span> <span class="n">kk</span><span class="p">,</span> <span class="p">&amp;</span>
-                   <span class="n">kp</span><span class="p">,</span> <span class="n">krank</span><span class="p">,</span> <span class="n">kt</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">aakk</span><span class="p">,</span><span class="w"> </span><span class="nb">amax</span><span class="p">,</span><span class="w"> </span><span class="n">sqdk</span><span class="p">,</span><span class="w"> </span><span class="n">store</span><span class="p">,</span><span class="w"> </span><span class="nb">sum</span><span class="p">,</span><span class="w"> </span><span class="n">summ</span><span class="p">,</span><span class="w"> </span><span class="n">test</span><span class="p">,</span><span class="w"> </span><span class="n">testt</span><span class="w"></span>
+<span class="w">        </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">ia</span><span class="p">,</span><span class="w"> </span><span class="n">icount</span><span class="p">,</span><span class="w"> </span><span class="n">ii</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">,</span><span class="w"> </span><span class="n">jj</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">,</span><span class="w"> </span><span class="n">kchnge</span><span class="p">,</span><span class="w"> </span><span class="n">kk</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                   </span><span class="n">kp</span><span class="p">,</span><span class="w"> </span><span class="n">krank</span><span class="p">,</span><span class="w"> </span><span class="n">kt</span><span class="w"></span>
 
-        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span> <span class="k">parameter</span> <span class="kd">::</span> <span class="n">tolsq</span> <span class="o">=</span> <span class="p">(</span><span class="n">ten</span><span class="o">*</span><span class="n">ten</span><span class="o">*</span><span class="n">spcmn</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span>
-        <span class="kt">integer</span><span class="p">,</span> <span class="k">parameter</span> <span class="kd">::</span> <span class="n">numref</span> <span class="o">=</span> <span class="mi">1</span> <span class="c">!! Set numref = the limit on the number of iterative refinement steps.</span>
-        <span class="kt">integer</span><span class="p">,</span> <span class="k">parameter</span> <span class="kd">::</span> <span class="n">nmref1</span> <span class="o">=</span> <span class="n">numref</span> <span class="o">+</span> <span class="mi">1</span>
-        <span class="kt">integer</span><span class="p">,</span> <span class="k">parameter</span> <span class="kd">::</span> <span class="n">nmref2</span> <span class="o">=</span> <span class="n">numref</span> <span class="o">+</span> <span class="mi">2</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">tolsq</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">ten</span><span class="o">*</span><span class="n">ten</span><span class="o">*</span><span class="n">spcmn</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="w"></span>
+<span class="w">        </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">numref</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="c">!! Set numref = the limit on the number of iterative refinement steps.</span>
+<span class="w">        </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">nmref1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">numref</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">        </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">nmref2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">numref</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">2</span><span class="w"></span>
 
-        <span class="c">! COMPUTE MACHINE AND PRECISION DEPENDENT CONSTANTS.</span>
-        <span class="n">Ihouse</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="w">        </span><span class="c">! COMPUTE MACHINE AND PRECISION DEPENDENT CONSTANTS.</span>
+<span class="w">        </span><span class="n">Ihouse</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
 
-        <span class="c">! SET KRANK = MIN(N,NCOR).  THIS MAY BE REDUCED LATER.</span>
-        <span class="n">krank</span> <span class="o">=</span> <span class="n">Ncor</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">&lt;</span> <span class="n">Ncor</span><span class="p">)</span> <span class="n">krank</span> <span class="o">=</span> <span class="n">n</span>
-        <span class="c">! INITIALLY SET KPIVOT.  AFTER ALL COLUMN INTERCHANGES ARE DONE</span>
-        <span class="c">! KPIVOT(J) WILL BE THE ORIGINAL POSITION OF THE COLUMN WHERE THE</span>
-        <span class="c">! JTH PIVOT WAS DONE.  THIS COLUMN WILL BE MOVED TO COLUMN J.</span>
-        <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">Ncor</span>
-            <span class="n">Kpivot</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">j</span>
-        <span class="k">end do</span>
-        <span class="c">! COPY R INTO B AND PICOR INTO AA, BUT IN THE PROCESS REPLACE ANY NUMBERS</span>
-        <span class="c">! WITH ABSOLUTE VALUE LESS THAN SPCMN BY ZERO TO AVOID UNDERFLOWS.</span>
-        <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n</span>
-            <span class="k">if</span> <span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">r</span><span class="p">(</span><span class="n">i</span><span class="p">))</span> <span class="o">&lt;</span> <span class="n">spcmn</span><span class="p">)</span> <span class="k">then</span>
-<span class="k">                </span><span class="n">b</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="n">zero</span>
-            <span class="k">else</span>
-<span class="k">                </span><span class="n">b</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="n">r</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-            <span class="k">end if</span>
+<span class="w">        </span><span class="c">! SET KRANK = MIN(N,NCOR).  THIS MAY BE REDUCED LATER.</span>
+<span class="w">        </span><span class="n">krank</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Ncor</span><span class="w"></span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">Ncor</span><span class="p">)</span><span class="w"> </span><span class="n">krank</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n</span><span class="w"></span>
+<span class="w">        </span><span class="c">! INITIALLY SET KPIVOT.  AFTER ALL COLUMN INTERCHANGES ARE DONE</span>
+<span class="w">        </span><span class="c">! KPIVOT(J) WILL BE THE ORIGINAL POSITION OF THE COLUMN WHERE THE</span>
+<span class="w">        </span><span class="c">! JTH PIVOT WAS DONE.  THIS COLUMN WILL BE MOVED TO COLUMN J.</span>
+<span class="w">        </span><span class="k">do </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">Ncor</span><span class="w"></span>
+<span class="w">            </span><span class="n">Kpivot</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">j</span><span class="w"></span>
+<span class="w">        </span><span class="k">end do</span><span class="w"></span>
+<span class="w">        </span><span class="c">! COPY R INTO B AND PICOR INTO AA, BUT IN THE PROCESS REPLACE ANY NUMBERS</span>
+<span class="w">        </span><span class="c">! WITH ABSOLUTE VALUE LESS THAN SPCMN BY ZERO TO AVOID UNDERFLOWS.</span>
+<span class="w">        </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="w"></span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">r</span><span class="p">(</span><span class="n">i</span><span class="p">))</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">spcmn</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">                </span><span class="n">b</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">zero</span><span class="w"></span>
+<span class="w">            </span><span class="k">else</span>
+<span class="k">                </span><span class="n">b</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">r</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="k">end if</span>
 <span class="k">        end do</span>
-<span class="k">        do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">Ncor</span>
-            <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n</span>
-                <span class="k">if</span> <span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">Picor</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">))</span> <span class="o">&lt;</span> <span class="n">spcmn</span><span class="p">)</span> <span class="k">then</span>
-<span class="k">                    </span><span class="n">Aa</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">zero</span>
-                <span class="k">else</span>
-<span class="k">                    </span><span class="n">Aa</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">Picor</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span>
-                <span class="k">end if</span>
+<span class="k">        do </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">Ncor</span><span class="w"></span>
+<span class="w">            </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="w"></span>
+<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">Picor</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">))</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">spcmn</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">                    </span><span class="n">Aa</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">zero</span><span class="w"></span>
+<span class="w">                </span><span class="k">else</span>
+<span class="k">                    </span><span class="n">Aa</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Picor</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">)</span><span class="w"></span>
+<span class="w">                </span><span class="k">end if</span>
 <span class="k">            end do</span>
 <span class="k">        end do</span>
-<span class="k">        do </span><span class="n">k</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">Ncor</span>
-            <span class="k">if</span> <span class="p">(</span><span class="n">k</span> <span class="o">&gt;</span> <span class="n">n</span><span class="p">)</span> <span class="k">exit</span>
-<span class="k">            </span><span class="n">d</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="o">=</span> <span class="n">zero</span>
-            <span class="n">kchnge</span> <span class="o">=</span> <span class="n">k</span>
-            <span class="k">do </span><span class="n">jj</span> <span class="o">=</span> <span class="n">k</span><span class="p">,</span> <span class="n">Ncor</span>
-                <span class="nb">sum</span> <span class="o">=</span> <span class="n">zero</span>
-                <span class="k">do </span><span class="n">ia</span> <span class="o">=</span> <span class="n">k</span><span class="p">,</span> <span class="n">n</span>
-                    <span class="k">if</span> <span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">Aa</span><span class="p">(</span><span class="n">ia</span><span class="p">,</span> <span class="n">jj</span><span class="p">))</span> <span class="o">&gt;</span> <span class="n">spcmn</span><span class="p">)</span> <span class="nb">sum</span> <span class="o">=</span> <span class="nb">sum</span> <span class="o">+</span> <span class="n">Aa</span><span class="p">(</span><span class="n">ia</span><span class="p">,</span> <span class="n">jj</span><span class="p">)</span><span class="o">*</span><span class="n">Aa</span><span class="p">(</span><span class="n">ia</span><span class="p">,</span> <span class="n">jj</span><span class="p">)</span>
-                <span class="k">end do</span>
-<span class="k">                if</span> <span class="p">(</span><span class="n">d</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="o">&lt;</span> <span class="nb">sum</span><span class="p">)</span> <span class="k">then</span>
-<span class="k">                    </span><span class="n">kchnge</span> <span class="o">=</span> <span class="n">jj</span>
-                    <span class="n">d</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="o">=</span> <span class="nb">sum</span>
+<span class="k">        do </span><span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">Ncor</span><span class="w"></span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">k</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="k">exit</span>
+<span class="k">            </span><span class="n">d</span><span class="p">(</span><span class="n">k</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">zero</span><span class="w"></span>
+<span class="w">            </span><span class="n">kchnge</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">k</span><span class="w"></span>
+<span class="w">            </span><span class="k">do </span><span class="n">jj</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">k</span><span class="p">,</span><span class="w"> </span><span class="n">Ncor</span><span class="w"></span>
+<span class="w">                </span><span class="nb">sum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">zero</span><span class="w"></span>
+<span class="w">                </span><span class="k">do </span><span class="n">ia</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">k</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="w"></span>
+<span class="w">                    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">Aa</span><span class="p">(</span><span class="n">ia</span><span class="p">,</span><span class="w"> </span><span class="n">jj</span><span class="p">))</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">spcmn</span><span class="p">)</span><span class="w"> </span><span class="nb">sum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">sum</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Aa</span><span class="p">(</span><span class="n">ia</span><span class="p">,</span><span class="w"> </span><span class="n">jj</span><span class="p">)</span><span class="o">*</span><span class="n">Aa</span><span class="p">(</span><span class="n">ia</span><span class="p">,</span><span class="w"> </span><span class="n">jj</span><span class="p">)</span><span class="w"></span>
+<span class="w">                </span><span class="k">end do</span>
+<span class="k">                if</span><span class="w"> </span><span class="p">(</span><span class="n">d</span><span class="p">(</span><span class="n">k</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="nb">sum</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">                    </span><span class="n">kchnge</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">jj</span><span class="w"></span>
+<span class="w">                    </span><span class="n">d</span><span class="p">(</span><span class="n">k</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">sum</span>
 <span class="nb">                </span><span class="k">end if</span>
-<span class="k">            end do</span>
+<span class="k">            end do</span><span class="w"></span>
 
-            <span class="c">!  KCHNGE CONTAINS THE INDEX OF THE COLUMN OF GREATEST</span>
-            <span class="c">!  LENGTH BETWEEN K AND NCOR (FROM POSITION K TO THE BOTTOM).</span>
-            <span class="c">! IF K=1 AND D(K) &lt; TOLSQ WE RETURN WITH THE FAILURE WARNING</span>
-            <span class="c">! IHOUSE=1.</span>
-            <span class="k">if</span> <span class="p">(</span><span class="n">k</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">)</span> <span class="k">then</span>
-<span class="k">                if</span> <span class="p">(</span><span class="n">d</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">tolsq</span><span class="p">)</span> <span class="k">then</span>
-<span class="k">                    </span><span class="n">Ihouse</span> <span class="o">=</span> <span class="mi">1</span>
-                    <span class="k">return</span>
+<span class="w">            </span><span class="c">!  KCHNGE CONTAINS THE INDEX OF THE COLUMN OF GREATEST</span>
+<span class="w">            </span><span class="c">!  LENGTH BETWEEN K AND NCOR (FROM POSITION K TO THE BOTTOM).</span>
+<span class="w">            </span><span class="c">! IF K=1 AND D(K) &lt; TOLSQ WE RETURN WITH THE FAILURE WARNING</span>
+<span class="w">            </span><span class="c">! IHOUSE=1.</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">k</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">                if</span><span class="w"> </span><span class="p">(</span><span class="n">d</span><span class="p">(</span><span class="n">k</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">tolsq</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">                    </span><span class="n">Ihouse</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">                    </span><span class="k">return</span>
 <span class="k">                end if</span>
 <span class="k">            end if</span>
 
-<span class="k">            if</span> <span class="p">(</span><span class="n">kchnge</span> <span class="o">/=</span> <span class="n">k</span><span class="p">)</span> <span class="k">then</span>
-                <span class="c">!  START COLUMN INTERCHANGE.</span>
-                <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n</span>
-                    <span class="n">store</span> <span class="o">=</span> <span class="n">Aa</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">kchnge</span><span class="p">)</span>
-                    <span class="n">Aa</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">kchnge</span><span class="p">)</span> <span class="o">=</span> <span class="n">Aa</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span>
-                    <span class="n">Aa</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span> <span class="o">=</span> <span class="n">store</span>
-                <span class="k">end do</span>
-<span class="k">                </span><span class="n">kk</span> <span class="o">=</span> <span class="n">Kpivot</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
-                <span class="n">Kpivot</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="o">=</span> <span class="n">Kpivot</span><span class="p">(</span><span class="n">kchnge</span><span class="p">)</span>
-                <span class="n">Kpivot</span><span class="p">(</span><span class="n">kchnge</span><span class="p">)</span> <span class="o">=</span> <span class="n">kk</span>
-            <span class="k">end if</span>
-<span class="k">            if</span> <span class="p">(</span><span class="n">k</span> <span class="o">/=</span> <span class="mi">1</span><span class="p">)</span> <span class="k">then</span>
-<span class="k">                </span><span class="nb">amax</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">d</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
-                <span class="n">test</span> <span class="o">=</span> <span class="p">(</span><span class="kt">real</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">wp</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">ten</span><span class="o">*</span><span class="n">ten</span><span class="o">*</span><span class="n">spcmn</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="nb">amax</span><span class="o">*</span><span class="nb">amax</span><span class="p">)</span>
-                <span class="k">if</span> <span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">d</span><span class="p">(</span><span class="n">k</span><span class="p">))</span> <span class="o">&lt;=</span> <span class="n">test</span><span class="p">)</span> <span class="k">then</span>
-                    <span class="c">! HERE THE LENGTH OF THE BEST OF COLUMNS K THROUGH NCOR (FROM K DOWN)</span>
-                    <span class="c">! WAS TOO SMALL, AND WE REDUCE KRANK TO K-1 AND LEAVE THIS LOOP.</span>
-                    <span class="n">d</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="o">=</span> <span class="nb">sqrt</span><span class="p">(</span><span class="n">d</span><span class="p">(</span><span class="n">k</span><span class="p">))</span>
-                    <span class="n">krank</span> <span class="o">=</span> <span class="n">k</span> <span class="o">-</span> <span class="mi">1</span>
-                    <span class="k">exit</span>
+<span class="k">            if</span><span class="w"> </span><span class="p">(</span><span class="n">kchnge</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="n">k</span><span class="p">)</span><span class="w"> </span><span class="k">then</span><span class="w"></span>
+<span class="w">                </span><span class="c">!  START COLUMN INTERCHANGE.</span>
+<span class="w">                </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="w"></span>
+<span class="w">                    </span><span class="n">store</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Aa</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">kchnge</span><span class="p">)</span><span class="w"></span>
+<span class="w">                    </span><span class="n">Aa</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">kchnge</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Aa</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">)</span><span class="w"></span>
+<span class="w">                    </span><span class="n">Aa</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">store</span><span class="w"></span>
+<span class="w">                </span><span class="k">end do</span>
+<span class="k">                </span><span class="n">kk</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Kpivot</span><span class="p">(</span><span class="n">k</span><span class="p">)</span><span class="w"></span>
+<span class="w">                </span><span class="n">Kpivot</span><span class="p">(</span><span class="n">k</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Kpivot</span><span class="p">(</span><span class="n">kchnge</span><span class="p">)</span><span class="w"></span>
+<span class="w">                </span><span class="n">Kpivot</span><span class="p">(</span><span class="n">kchnge</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">kk</span><span class="w"></span>
+<span class="w">            </span><span class="k">end if</span>
+<span class="k">            if</span><span class="w"> </span><span class="p">(</span><span class="n">k</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">                </span><span class="nb">amax</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">abs</span><span class="p">(</span><span class="n">d</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span><span class="w"></span>
+<span class="w">                </span><span class="n">test</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="kt">real</span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">wp</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">ten</span><span class="o">*</span><span class="n">ten</span><span class="o">*</span><span class="n">spcmn</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="nb">amax</span><span class="o">*</span><span class="nb">amax</span><span class="p">)</span><span class="w"></span>
+<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">d</span><span class="p">(</span><span class="n">k</span><span class="p">))</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">test</span><span class="p">)</span><span class="w"> </span><span class="k">then</span><span class="w"></span>
+<span class="w">                    </span><span class="c">! HERE THE LENGTH OF THE BEST OF COLUMNS K THROUGH NCOR (FROM K DOWN)</span>
+<span class="w">                    </span><span class="c">! WAS TOO SMALL, AND WE REDUCE KRANK TO K-1 AND LEAVE THIS LOOP.</span>
+<span class="w">                    </span><span class="n">d</span><span class="p">(</span><span class="n">k</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">sqrt</span><span class="p">(</span><span class="n">d</span><span class="p">(</span><span class="n">k</span><span class="p">))</span><span class="w"></span>
+<span class="w">                    </span><span class="n">krank</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">                    </span><span class="k">exit</span>
 <span class="k">                end if</span>
-<span class="k">            end if</span>
+<span class="k">            end if</span><span class="w"></span>
 
-            <span class="c">! NOW COMPUTE THE SCALAR BETA(K) AND THE N-K+1 DIMENSIONAL VECTOR</span>
-            <span class="c">! GNU(K) (TO BE PLACED IN AA(K,K),...,AA(N,K)) FOR I(K) - BETA(K)*</span>
-            <span class="c">! GNU(K)*(GNU(K) TRANSPOSE), WHICH IS THE ACTIVE PART OF THE</span>
-            <span class="c">! HOUSEHOLDER TRANSFORMATION PH(K) = DIAG(I(K-1), ACTIVE PART).  THIS</span>
-            <span class="c">! IS A SYMMETRIC ORTHOGONAL MATRIX WHICH WHEN MULTIPLIED TIMES AA WILL</span>
-            <span class="c">! ZERO OUT AA(K+1,K),...,AA(N,K) AND CHANGE AA(K,K) TO -SGN(OLD</span>
-            <span class="c">! AA(K,K))*SQDK, WHERE SQDK = LENGTH OF OLD (AA(K,K),...,AA(N,K)) AND</span>
-            <span class="c">! WE REDEFINE THE SGN FUNCTION TO HAVE VALUE 1.0 IF ITS ARGUMENT IS</span>
-            <span class="c">! 0.0.  WE WILL HAVE BETA(K) = 1.0/(SQDK**2 + ABS(OLD AA(K,K))*SQDK)</span>
-            <span class="c">! AND GNU(K) = (OLD AA(K,K) + SGN(OLD AA(K,K))*SQDK, OLD AA(K+1,K),...,</span>
-            <span class="c">! OLD AA(N,K)).  WE WILL ALSO REPLACE D(K) BY THE NEW AA(K,K) (WHICH</span>
-            <span class="c">! WILL NOT ACTUALLY BE WRITTEN INTO AA) FOR LATER USE.</span>
-            <span class="n">aakk</span> <span class="o">=</span> <span class="n">Aa</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span>
-            <span class="n">sqdk</span> <span class="o">=</span> <span class="nb">sqrt</span><span class="p">(</span><span class="n">d</span><span class="p">(</span><span class="n">k</span><span class="p">))</span>
-            <span class="k">if</span> <span class="p">(</span><span class="n">aakk</span> <span class="o">&lt;</span> <span class="n">zero</span><span class="p">)</span> <span class="k">then</span>
-<span class="k">                </span><span class="n">Beta</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="o">=</span> <span class="n">one</span><span class="o">/</span><span class="p">(</span><span class="n">d</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="o">-</span> <span class="n">aakk</span><span class="o">*</span><span class="n">sqdk</span><span class="p">)</span>
-                <span class="n">Aa</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span> <span class="o">=</span> <span class="o">-</span><span class="n">sqdk</span> <span class="o">+</span> <span class="n">aakk</span>
-                <span class="n">d</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="o">=</span> <span class="n">sqdk</span>
-            <span class="k">else</span>
-<span class="k">                </span><span class="n">Beta</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="o">=</span> <span class="n">one</span><span class="o">/</span><span class="p">(</span><span class="n">d</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="o">+</span> <span class="n">aakk</span><span class="o">*</span><span class="n">sqdk</span><span class="p">)</span>
-                <span class="n">Aa</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span> <span class="o">=</span> <span class="n">sqdk</span> <span class="o">+</span> <span class="n">aakk</span>
-                <span class="n">d</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="o">=</span> <span class="o">-</span><span class="n">sqdk</span>
-            <span class="k">end if</span>
-<span class="k">            </span><span class="n">kt</span> <span class="o">=</span> <span class="n">k</span> <span class="o">+</span> <span class="mi">1</span>
-            <span class="k">if</span> <span class="p">(</span><span class="n">k</span> <span class="o">/=</span> <span class="n">Ncor</span><span class="p">)</span> <span class="k">then</span>
-                <span class="c">! HERE K &lt; NCOR AND WE MULTIPLY COLUMNS K+1,...,NCOR OF AA BY THE</span>
-                <span class="c">! HOUSEHOLDER TRANSFORMATION PH(K), WHICH WILL CHANGE ONLY POSITIONS</span>
-                <span class="c">! K THROUGH THE BOTTOM OF THESE COLUMNS.  THIS IS DONE BY, FOR J =</span>
-                <span class="c">! K+1,...,NCOR, REPLACING COLUMN J (FROM K DOWN) BY COLUMN J (FROM K DOWN)</span>
-                <span class="c">! - GNU(K)*(GNU(K).COLUMN J (FROM K DOWN))*BETA(K).</span>
-                <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="n">kt</span><span class="p">,</span> <span class="n">Ncor</span>
-                    <span class="k">Save</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">zero</span>
-                    <span class="k">do </span><span class="n">ia</span> <span class="o">=</span> <span class="n">k</span><span class="p">,</span> <span class="n">n</span>
-                        <span class="k">Save</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="k">Save</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">+</span> <span class="n">Aa</span><span class="p">(</span><span class="n">ia</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span><span class="o">*</span><span class="n">Aa</span><span class="p">(</span><span class="n">ia</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span>
-                    <span class="k">end do</span>
-<span class="k">                    do </span><span class="n">i</span> <span class="o">=</span> <span class="n">k</span><span class="p">,</span> <span class="n">n</span>
-                        <span class="n">Aa</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">Aa</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span> <span class="o">-</span> <span class="n">Aa</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span><span class="o">*</span><span class="k">Save</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="o">*</span><span class="n">Beta</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
-                    <span class="k">end do</span>
+<span class="w">            </span><span class="c">! NOW COMPUTE THE SCALAR BETA(K) AND THE N-K+1 DIMENSIONAL VECTOR</span>
+<span class="w">            </span><span class="c">! GNU(K) (TO BE PLACED IN AA(K,K),...,AA(N,K)) FOR I(K) - BETA(K)*</span>
+<span class="w">            </span><span class="c">! GNU(K)*(GNU(K) TRANSPOSE), WHICH IS THE ACTIVE PART OF THE</span>
+<span class="w">            </span><span class="c">! HOUSEHOLDER TRANSFORMATION PH(K) = DIAG(I(K-1), ACTIVE PART).  THIS</span>
+<span class="w">            </span><span class="c">! IS A SYMMETRIC ORTHOGONAL MATRIX WHICH WHEN MULTIPLIED TIMES AA WILL</span>
+<span class="w">            </span><span class="c">! ZERO OUT AA(K+1,K),...,AA(N,K) AND CHANGE AA(K,K) TO -SGN(OLD</span>
+<span class="w">            </span><span class="c">! AA(K,K))*SQDK, WHERE SQDK = LENGTH OF OLD (AA(K,K),...,AA(N,K)) AND</span>
+<span class="w">            </span><span class="c">! WE REDEFINE THE SGN FUNCTION TO HAVE VALUE 1.0 IF ITS ARGUMENT IS</span>
+<span class="w">            </span><span class="c">! 0.0.  WE WILL HAVE BETA(K) = 1.0/(SQDK**2 + ABS(OLD AA(K,K))*SQDK)</span>
+<span class="w">            </span><span class="c">! AND GNU(K) = (OLD AA(K,K) + SGN(OLD AA(K,K))*SQDK, OLD AA(K+1,K),...,</span>
+<span class="w">            </span><span class="c">! OLD AA(N,K)).  WE WILL ALSO REPLACE D(K) BY THE NEW AA(K,K) (WHICH</span>
+<span class="w">            </span><span class="c">! WILL NOT ACTUALLY BE WRITTEN INTO AA) FOR LATER USE.</span>
+<span class="w">            </span><span class="n">aakk</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Aa</span><span class="p">(</span><span class="n">k</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="n">sqdk</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">sqrt</span><span class="p">(</span><span class="n">d</span><span class="p">(</span><span class="n">k</span><span class="p">))</span><span class="w"></span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">aakk</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">zero</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">                </span><span class="n">Beta</span><span class="p">(</span><span class="n">k</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">one</span><span class="o">/</span><span class="p">(</span><span class="n">d</span><span class="p">(</span><span class="n">k</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">aakk</span><span class="o">*</span><span class="n">sqdk</span><span class="p">)</span><span class="w"></span>
+<span class="w">                </span><span class="n">Aa</span><span class="p">(</span><span class="n">k</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">sqdk</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">aakk</span><span class="w"></span>
+<span class="w">                </span><span class="n">d</span><span class="p">(</span><span class="n">k</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sqdk</span><span class="w"></span>
+<span class="w">            </span><span class="k">else</span>
+<span class="k">                </span><span class="n">Beta</span><span class="p">(</span><span class="n">k</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">one</span><span class="o">/</span><span class="p">(</span><span class="n">d</span><span class="p">(</span><span class="n">k</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">aakk</span><span class="o">*</span><span class="n">sqdk</span><span class="p">)</span><span class="w"></span>
+<span class="w">                </span><span class="n">Aa</span><span class="p">(</span><span class="n">k</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sqdk</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">aakk</span><span class="w"></span>
+<span class="w">                </span><span class="n">d</span><span class="p">(</span><span class="n">k</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">sqdk</span><span class="w"></span>
+<span class="w">            </span><span class="k">end if</span>
+<span class="k">            </span><span class="n">kt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">k</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="n">Ncor</span><span class="p">)</span><span class="w"> </span><span class="k">then</span><span class="w"></span>
+<span class="w">                </span><span class="c">! HERE K &lt; NCOR AND WE MULTIPLY COLUMNS K+1,...,NCOR OF AA BY THE</span>
+<span class="w">                </span><span class="c">! HOUSEHOLDER TRANSFORMATION PH(K), WHICH WILL CHANGE ONLY POSITIONS</span>
+<span class="w">                </span><span class="c">! K THROUGH THE BOTTOM OF THESE COLUMNS.  THIS IS DONE BY, FOR J =</span>
+<span class="w">                </span><span class="c">! K+1,...,NCOR, REPLACING COLUMN J (FROM K DOWN) BY COLUMN J (FROM K DOWN)</span>
+<span class="w">                </span><span class="c">! - GNU(K)*(GNU(K).COLUMN J (FROM K DOWN))*BETA(K).</span>
+<span class="w">                </span><span class="k">do </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">kt</span><span class="p">,</span><span class="w"> </span><span class="n">Ncor</span><span class="w"></span>
+<span class="w">                    </span><span class="k">Save</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">zero</span><span class="w"></span>
+<span class="w">                    </span><span class="k">do </span><span class="n">ia</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">k</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="w"></span>
+<span class="w">                        </span><span class="k">Save</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">Save</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Aa</span><span class="p">(</span><span class="n">ia</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">)</span><span class="o">*</span><span class="n">Aa</span><span class="p">(</span><span class="n">ia</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">)</span><span class="w"></span>
+<span class="w">                    </span><span class="k">end do</span>
+<span class="k">                    do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">k</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="w"></span>
+<span class="w">                        </span><span class="n">Aa</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Aa</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">Aa</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">)</span><span class="o">*</span><span class="k">Save</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="o">*</span><span class="n">Beta</span><span class="p">(</span><span class="n">k</span><span class="p">)</span><span class="w"></span>
+<span class="w">                    </span><span class="k">end do</span>
 <span class="k">                end do</span>
 <span class="k">            end if</span>
 <span class="k">        end do</span>
 
-<span class="k">        do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">krank</span>
-            <span class="c">! IF I &lt;= MIN(KRANK,NCOR-1), DIVIDE ROW I OF AA FROM COLUMN I+1</span>
-            <span class="c">! THROUGH COLUMN NCOR BY THE NEW AA(I,I) (WHICH IS NOT ACTUALLY</span>
-            <span class="c">! WRITTEN INTO AA(I,I), BUT IS STORED IN D(I)).</span>
-            <span class="n">ii</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span>
-            <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">==</span> <span class="n">Ncor</span><span class="p">)</span> <span class="k">exit</span>
-<span class="k">            do </span><span class="n">j</span> <span class="o">=</span> <span class="n">ii</span><span class="p">,</span> <span class="n">Ncor</span>
-                <span class="n">Aa</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">Aa</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span><span class="o">/</span><span class="n">d</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-            <span class="k">end do</span>
-<span class="k">        end do</span>
+<span class="k">        do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">krank</span><span class="w"></span>
+<span class="w">            </span><span class="c">! IF I &lt;= MIN(KRANK,NCOR-1), DIVIDE ROW I OF AA FROM COLUMN I+1</span>
+<span class="w">            </span><span class="c">! THROUGH COLUMN NCOR BY THE NEW AA(I,I) (WHICH IS NOT ACTUALLY</span>
+<span class="w">            </span><span class="c">! WRITTEN INTO AA(I,I), BUT IS STORED IN D(I)).</span>
+<span class="w">            </span><span class="n">ii</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">Ncor</span><span class="p">)</span><span class="w"> </span><span class="k">exit</span>
+<span class="k">            do </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ii</span><span class="p">,</span><span class="w"> </span><span class="n">Ncor</span><span class="w"></span>
+<span class="w">                </span><span class="n">Aa</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Aa</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">)</span><span class="o">/</span><span class="n">d</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="k">end do</span>
+<span class="k">        end do</span><span class="w"></span>
 
-        <span class="c">! NOW ALL THE DIAGONAL ELEMENTS OF AA (ALTHOUGH NOT WRITTEN IN)</span>
-        <span class="c">! ARE 1.0 AND ALL OFF DIAGONAL ELEMENTS OF AA ARE LESS THAN OR</span>
-        <span class="c">! EQUAL TO 1.0.</span>
+<span class="w">        </span><span class="c">! NOW ALL THE DIAGONAL ELEMENTS OF AA (ALTHOUGH NOT WRITTEN IN)</span>
+<span class="w">        </span><span class="c">! ARE 1.0 AND ALL OFF DIAGONAL ELEMENTS OF AA ARE LESS THAN OR</span>
+<span class="w">        </span><span class="c">! EQUAL TO 1.0.</span>
 
-        <span class="c">! INITIALIZE THE ITERATIVE REFINEMENT COUNTER ICOUNT AND ZERO OUT VEC</span>
-        <span class="c">! INITIALLY.  THE VEC VALUES NOT CORRESPONDING TO THE FIRST KRANK</span>
-        <span class="c">! COLUMNS (MODULO EARLIER COLUMN INTERCHANGES) WILL REMAIN AT 0.0.</span>
-        <span class="n">icount</span> <span class="o">=</span> <span class="mi">1</span>
-        <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">Ncor</span>
-            <span class="n">Vec</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="n">zero</span>
-        <span class="k">end do</span>
+<span class="w">        </span><span class="c">! INITIALIZE THE ITERATIVE REFINEMENT COUNTER ICOUNT AND ZERO OUT VEC</span>
+<span class="w">        </span><span class="c">! INITIALLY.  THE VEC VALUES NOT CORRESPONDING TO THE FIRST KRANK</span>
+<span class="w">        </span><span class="c">! COLUMNS (MODULO EARLIER COLUMN INTERCHANGES) WILL REMAIN AT 0.0.</span>
+<span class="w">        </span><span class="n">icount</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">        </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">Ncor</span><span class="w"></span>
+<span class="w">            </span><span class="n">Vec</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">zero</span><span class="w"></span>
+<span class="w">        </span><span class="k">end do</span>
 
-<span class="k">        </span><span class="n">iteration</span><span class="p">:</span> <span class="k">do</span>
+<span class="k">        </span><span class="n">iteration</span><span class="p">:</span><span class="w"> </span><span class="k">do</span><span class="w"></span>
 
-            <span class="c">! PREMULTIPLY B BY THE HOUSEHOLDER TRANSFORMATIONS PH(1),...,</span>
-            <span class="c">! PH(KRANK).  RECALL THAT GNU(I) IS STILL IN AA(I,I),...,AA(N,I)</span>
-            <span class="c">! FOR I=1,...,KRANK.</span>
-            <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">krank</span>
-                <span class="nb">sum</span> <span class="o">=</span> <span class="n">zero</span>
-                <span class="k">do </span><span class="n">ia</span> <span class="o">=</span> <span class="n">i</span><span class="p">,</span> <span class="n">n</span>
-                    <span class="nb">sum</span> <span class="o">=</span> <span class="nb">sum</span> <span class="o">+</span> <span class="n">Aa</span><span class="p">(</span><span class="n">ia</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span><span class="o">*</span><span class="n">b</span><span class="p">(</span><span class="n">ia</span><span class="p">)</span>
-                <span class="k">end do</span>
-<span class="k">                </span><span class="nb">sum</span> <span class="o">=</span> <span class="nb">sum</span><span class="o">*</span><span class="n">Beta</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-                <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="n">i</span><span class="p">,</span> <span class="n">n</span>
-                    <span class="n">b</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">b</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">-</span> <span class="n">Aa</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span><span class="o">*</span><span class="nb">sum</span>
+<span class="w">            </span><span class="c">! PREMULTIPLY B BY THE HOUSEHOLDER TRANSFORMATIONS PH(1),...,</span>
+<span class="w">            </span><span class="c">! PH(KRANK).  RECALL THAT GNU(I) IS STILL IN AA(I,I),...,AA(N,I)</span>
+<span class="w">            </span><span class="c">! FOR I=1,...,KRANK.</span>
+<span class="w">            </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">krank</span><span class="w"></span>
+<span class="w">                </span><span class="nb">sum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">zero</span><span class="w"></span>
+<span class="w">                </span><span class="k">do </span><span class="n">ia</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="w"></span>
+<span class="w">                    </span><span class="nb">sum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">sum</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Aa</span><span class="p">(</span><span class="n">ia</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">)</span><span class="o">*</span><span class="n">b</span><span class="p">(</span><span class="n">ia</span><span class="p">)</span><span class="w"></span>
+<span class="w">                </span><span class="k">end do</span>
+<span class="k">                </span><span class="nb">sum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">sum</span><span class="o">*</span><span class="n">Beta</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"></span>
+<span class="w">                </span><span class="k">do </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="w"></span>
+<span class="w">                    </span><span class="n">b</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">b</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">Aa</span><span class="p">(</span><span class="n">j</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">)</span><span class="o">*</span><span class="nb">sum</span>
 <span class="nb">                </span><span class="k">end do</span>
-<span class="k">            end do</span>
+<span class="k">            end do</span><span class="w"></span>
 
-            <span class="c">! NOW ONLY USE THE FIRST KRANK TERMS OF B, AS WE CANT DO ANYTHING ABOUT</span>
-            <span class="c">! THE OTHERS, WHOSE SQUARE ROOT OF SUM OF SQUARES WILL GIVE THE LEAST</span>
-            <span class="c">! SQUARES DISTANCE.</span>
-            <span class="c">! DIVIDE B(I) BY D(I) FOR I=1,...,KRANK AS WE DID THIS TO ROW I OF AA.</span>
-            <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">krank</span>
-                <span class="n">b</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="n">b</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">/</span><span class="n">d</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-            <span class="k">end do</span>
+<span class="w">            </span><span class="c">! NOW ONLY USE THE FIRST KRANK TERMS OF B, AS WE CANT DO ANYTHING ABOUT</span>
+<span class="w">            </span><span class="c">! THE OTHERS, WHOSE SQUARE ROOT OF SUM OF SQUARES WILL GIVE THE LEAST</span>
+<span class="w">            </span><span class="c">! SQUARES DISTANCE.</span>
+<span class="w">            </span><span class="c">! DIVIDE B(I) BY D(I) FOR I=1,...,KRANK AS WE DID THIS TO ROW I OF AA.</span>
+<span class="w">            </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">krank</span><span class="w"></span>
+<span class="w">                </span><span class="n">b</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">b</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">/</span><span class="n">d</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="k">end do</span><span class="w"></span>
 
-            <span class="c">! THE PROBLEM HAS NOW BEEN REDUCED TO SOLVING (UPPER LEFT KRANK BY</span>
-            <span class="c">! KRANK PART OF AA)*(FIRST KRANK TERMS OF VEC, MODULO COLUMN</span>
-            <span class="c">! INTERCHANGE UNSCRAMBLING) = (FIRST KRANK TERMS OF B).  ALTHOUGH THE</span>
-            <span class="c">! DIAGONAL AND BELOW DIAGONAL TERMS OF THE COEFFICIENT MATRIX HAVE NOT</span>
-            <span class="c">! BEEN WRITTEN IN, THE SYSTEM IS UPPER TRIANGULAR WITH DIAGONAL ELEMENTS</span>
-            <span class="c">! ALL EQUAL TO 1.0, SO WE SOLVE BY BACK SUBSTITUTION.  WE FIRST PUT</span>
-            <span class="c">! THE SOLUTION TO THIS SYSTEM IN B(1),...,B(KRANK) AND SORT IT OUT</span>
-            <span class="c">! LATER.  IF ICOUNT &gt; 1 THE SOLUTION IS AN ITERATIVE CORRECTION TO</span>
-            <span class="c">! VEC RATHER THAN VEC ITSELF.</span>
-            <span class="k">do </span><span class="n">ii</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">krank</span>
-                <span class="n">i</span> <span class="o">=</span> <span class="n">krank</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">ii</span>
-                <span class="n">kk</span> <span class="o">=</span> <span class="n">i</span> <span class="o">-</span> <span class="mi">1</span>
-                <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">/=</span> <span class="mi">1</span><span class="p">)</span> <span class="k">then</span>
-                    <span class="c">! HERE WE ALREADY HAVE B(I) (WHERE I  &gt; 1) AND WE SUBTRACT AA(J,I)*</span>
-                    <span class="c">! B(I) FROM B(J) FOR J = 1,...,I-1.</span>
-                    <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">kk</span>
-                        <span class="n">b</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">b</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">-</span> <span class="n">Aa</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span><span class="o">*</span><span class="n">b</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-                    <span class="k">end do</span>
+<span class="w">            </span><span class="c">! THE PROBLEM HAS NOW BEEN REDUCED TO SOLVING (UPPER LEFT KRANK BY</span>
+<span class="w">            </span><span class="c">! KRANK PART OF AA)*(FIRST KRANK TERMS OF VEC, MODULO COLUMN</span>
+<span class="w">            </span><span class="c">! INTERCHANGE UNSCRAMBLING) = (FIRST KRANK TERMS OF B).  ALTHOUGH THE</span>
+<span class="w">            </span><span class="c">! DIAGONAL AND BELOW DIAGONAL TERMS OF THE COEFFICIENT MATRIX HAVE NOT</span>
+<span class="w">            </span><span class="c">! BEEN WRITTEN IN, THE SYSTEM IS UPPER TRIANGULAR WITH DIAGONAL ELEMENTS</span>
+<span class="w">            </span><span class="c">! ALL EQUAL TO 1.0, SO WE SOLVE BY BACK SUBSTITUTION.  WE FIRST PUT</span>
+<span class="w">            </span><span class="c">! THE SOLUTION TO THIS SYSTEM IN B(1),...,B(KRANK) AND SORT IT OUT</span>
+<span class="w">            </span><span class="c">! LATER.  IF ICOUNT &gt; 1 THE SOLUTION IS AN ITERATIVE CORRECTION TO</span>
+<span class="w">            </span><span class="c">! VEC RATHER THAN VEC ITSELF.</span>
+<span class="w">            </span><span class="k">do </span><span class="n">ii</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">krank</span><span class="w"></span>
+<span class="w">                </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">krank</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">ii</span><span class="w"></span>
+<span class="w">                </span><span class="n">kk</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">then</span><span class="w"></span>
+<span class="w">                    </span><span class="c">! HERE WE ALREADY HAVE B(I) (WHERE I  &gt; 1) AND WE SUBTRACT AA(J,I)*</span>
+<span class="w">                    </span><span class="c">! B(I) FROM B(J) FOR J = 1,...,I-1.</span>
+<span class="w">                    </span><span class="k">do </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">kk</span><span class="w"></span>
+<span class="w">                        </span><span class="n">b</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">b</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">Aa</span><span class="p">(</span><span class="n">j</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">)</span><span class="o">*</span><span class="n">b</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"></span>
+<span class="w">                    </span><span class="k">end do</span>
 <span class="k">                end if</span>
-<span class="k">            end do</span>
+<span class="k">            end do</span><span class="w"></span>
 
-            <span class="c">!  TEST FOR CONVERGENCE.</span>
-            <span class="c">!  FIRST TEST, TOO MANY ITERATIONS.</span>
-            <span class="c">!  SECOND TEST, SEE IF VEC IS DECREASING.</span>
+<span class="w">            </span><span class="c">!  TEST FOR CONVERGENCE.</span>
+<span class="w">            </span><span class="c">!  FIRST TEST, TOO MANY ITERATIONS.</span>
+<span class="w">            </span><span class="c">!  SECOND TEST, SEE IF VEC IS DECREASING.</span>
 
-            <span class="c">! COMPUTE THE LENGTH SQUARED OF THE FIRST TOP 1 THROUGH KRANK PART OF</span>
-            <span class="c">! B, WHICH WILL BE THE RESIDUAL VECTOR IF ICOUNT &gt; 1.</span>
-            <span class="nb">sum</span> <span class="o">=</span> <span class="n">zero</span>
-            <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">krank</span>
-                <span class="k">if</span> <span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">b</span><span class="p">(</span><span class="n">i</span><span class="p">))</span> <span class="o">&gt;</span> <span class="n">spcmn</span><span class="p">)</span> <span class="nb">sum</span> <span class="o">=</span> <span class="nb">sum</span> <span class="o">+</span> <span class="n">b</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">*</span><span class="n">b</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-            <span class="k">end do</span>
-<span class="k">            if</span> <span class="p">(</span><span class="n">icount</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="k">then</span>
-<span class="k">                </span><span class="n">testt</span> <span class="o">=</span> <span class="nb">sum</span>
-<span class="nb">            </span><span class="k">else if</span> <span class="p">(</span><span class="nb">sum</span> <span class="o">&gt;</span> <span class="n">test</span><span class="o">/</span><span class="n">two</span><span class="p">)</span> <span class="k">then</span>
-<span class="k">                </span><span class="n">icount</span> <span class="o">=</span> <span class="n">nmref2</span>
-            <span class="k">end if</span>
-<span class="k">            </span><span class="n">test</span> <span class="o">=</span> <span class="nb">sum</span>
+<span class="w">            </span><span class="c">! COMPUTE THE LENGTH SQUARED OF THE FIRST TOP 1 THROUGH KRANK PART OF</span>
+<span class="w">            </span><span class="c">! B, WHICH WILL BE THE RESIDUAL VECTOR IF ICOUNT &gt; 1.</span>
+<span class="w">            </span><span class="nb">sum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">zero</span><span class="w"></span>
+<span class="w">            </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">krank</span><span class="w"></span>
+<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">b</span><span class="p">(</span><span class="n">i</span><span class="p">))</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">spcmn</span><span class="p">)</span><span class="w"> </span><span class="nb">sum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">sum</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">b</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">*</span><span class="n">b</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="k">end do</span>
+<span class="k">            if</span><span class="w"> </span><span class="p">(</span><span class="n">icount</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">                </span><span class="n">testt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">sum</span>
+<span class="nb">            </span><span class="k">else if</span><span class="w"> </span><span class="p">(</span><span class="nb">sum</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">test</span><span class="o">/</span><span class="n">two</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">                </span><span class="n">icount</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nmref2</span><span class="w"></span>
+<span class="w">            </span><span class="k">end if</span>
+<span class="k">            </span><span class="n">test</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">sum</span><span class="w"></span>
 
-            <span class="c">! COMPUTE THE VEC VALUES, WHICH WILL BE ACTUAL VEC VALUES IF ICOUNT=1</span>
-            <span class="c">! AND CORRECTIONS TO VEC VALUES IF ICOUNT &gt; 1.  WE GET THESE BY</span>
-            <span class="c">! UNSCRAMBLING THE B VALUES AND ADDING THEM TO THE APPROPRIATE OLD VEC</span>
-            <span class="c">! VALUES (WHICH WILL BE 0.0 IF ICOUNT=1).</span>
-            <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">krank</span>
-                <span class="n">kp</span> <span class="o">=</span> <span class="n">Kpivot</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-                <span class="n">Vec</span><span class="p">(</span><span class="n">kp</span><span class="p">)</span> <span class="o">=</span> <span class="n">b</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">+</span> <span class="n">Vec</span><span class="p">(</span><span class="n">kp</span><span class="p">)</span>
-            <span class="k">end do</span>
+<span class="w">            </span><span class="c">! COMPUTE THE VEC VALUES, WHICH WILL BE ACTUAL VEC VALUES IF ICOUNT=1</span>
+<span class="w">            </span><span class="c">! AND CORRECTIONS TO VEC VALUES IF ICOUNT &gt; 1.  WE GET THESE BY</span>
+<span class="w">            </span><span class="c">! UNSCRAMBLING THE B VALUES AND ADDING THEM TO THE APPROPRIATE OLD VEC</span>
+<span class="w">            </span><span class="c">! VALUES (WHICH WILL BE 0.0 IF ICOUNT=1).</span>
+<span class="w">            </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">krank</span><span class="w"></span>
+<span class="w">                </span><span class="n">kp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Kpivot</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"></span>
+<span class="w">                </span><span class="n">Vec</span><span class="p">(</span><span class="n">kp</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">b</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Vec</span><span class="p">(</span><span class="n">kp</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="k">end do</span><span class="w"></span>
 
-            <span class="c">! CALCULATE THE RESIDUAL R - ACOEF*VEC.  RECALL THAT ACOEF AND R</span>
-            <span class="c">! CONTAIN THE ORIGINAL COEFFICIENT AND RIGHT SIDE ARRAYS RESPECTIVELY.</span>
-            <span class="c">! TO GET THE MOST OUT OF ITERATIVE REFINEMENT THIS COMPUTATION SHOULD</span>
-            <span class="c">! PROBABLY BE DONE IN HIGHER PRECISION, IN WHICH CASE IT MAY BE</span>
-            <span class="c">! FRUITFUL TO ALSO SET NUMREF LARGER AT THE BEGINNING OF THIS</span>
-            <span class="c">! SUBROUTINE.</span>
-            <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n</span>
-                <span class="n">summ</span> <span class="o">=</span> <span class="n">zero</span>
-                <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">Ncor</span>
-                    <span class="k">if</span> <span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">Picor</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">))</span> <span class="o">&gt;=</span> <span class="n">spcmn</span><span class="p">)</span> <span class="n">summ</span> <span class="o">=</span> <span class="n">summ</span> <span class="o">+</span> <span class="n">Picor</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span><span class="o">*</span><span class="n">Vec</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
-                <span class="k">end do</span>
-<span class="k">                </span><span class="n">b</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="n">r</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">-</span> <span class="n">summ</span>
-            <span class="k">end do</span>
+<span class="w">            </span><span class="c">! CALCULATE THE RESIDUAL R - ACOEF*VEC.  RECALL THAT ACOEF AND R</span>
+<span class="w">            </span><span class="c">! CONTAIN THE ORIGINAL COEFFICIENT AND RIGHT SIDE ARRAYS RESPECTIVELY.</span>
+<span class="w">            </span><span class="c">! TO GET THE MOST OUT OF ITERATIVE REFINEMENT THIS COMPUTATION SHOULD</span>
+<span class="w">            </span><span class="c">! PROBABLY BE DONE IN HIGHER PRECISION, IN WHICH CASE IT MAY BE</span>
+<span class="w">            </span><span class="c">! FRUITFUL TO ALSO SET NUMREF LARGER AT THE BEGINNING OF THIS</span>
+<span class="w">            </span><span class="c">! SUBROUTINE.</span>
+<span class="w">            </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="w"></span>
+<span class="w">                </span><span class="n">summ</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">zero</span><span class="w"></span>
+<span class="w">                </span><span class="k">do </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">Ncor</span><span class="w"></span>
+<span class="w">                    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">Picor</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">))</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">spcmn</span><span class="p">)</span><span class="w"> </span><span class="n">summ</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">summ</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Picor</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">)</span><span class="o">*</span><span class="n">Vec</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"></span>
+<span class="w">                </span><span class="k">end do</span>
+<span class="k">                </span><span class="n">b</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">r</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">summ</span><span class="w"></span>
+<span class="w">            </span><span class="k">end do</span><span class="w"></span>
 
-            <span class="c">!  THIRD TEST, WAS THE CORRECTION SIGNIFICANT.</span>
-            <span class="k">if</span> <span class="p">(</span><span class="n">test</span> <span class="o">&gt;=</span> <span class="n">spcmn</span><span class="o">*</span><span class="n">testt</span><span class="p">)</span> <span class="k">then</span>
-<span class="k">                if</span> <span class="p">(</span><span class="n">icount</span> <span class="o">/=</span> <span class="n">nmref1</span><span class="p">)</span> <span class="k">then</span>
-<span class="k">                    if</span> <span class="p">(</span><span class="n">icount</span> <span class="o">&lt;</span> <span class="n">nmref2</span><span class="p">)</span> <span class="k">then</span>
-<span class="k">                        </span><span class="n">icount</span> <span class="o">=</span> <span class="n">icount</span> <span class="o">+</span> <span class="mi">1</span>
-                        <span class="k">cycle </span><span class="n">iteration</span>
-                    <span class="k">end if</span>
+<span class="w">            </span><span class="c">!  THIRD TEST, WAS THE CORRECTION SIGNIFICANT.</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">test</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">spcmn</span><span class="o">*</span><span class="n">testt</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">                if</span><span class="w"> </span><span class="p">(</span><span class="n">icount</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="n">nmref1</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">                    if</span><span class="w"> </span><span class="p">(</span><span class="n">icount</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">nmref2</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">                        </span><span class="n">icount</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">icount</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">                        </span><span class="k">cycle </span><span class="n">iteration</span><span class="w"></span>
+<span class="w">                    </span><span class="k">end if</span>
 <span class="k">                end if</span>
 <span class="k">            end if</span>
 
-<span class="k">            exit </span><span class="n">iteration</span>  <span class="c">! done</span>
+<span class="k">            exit </span><span class="n">iteration</span><span class="w">  </span><span class="c">! done</span>
 
-        <span class="k">end do </span><span class="n">iteration</span>
+<span class="w">        </span><span class="k">end do </span><span class="n">iteration</span><span class="w"></span>
 
-    <span class="k">end subroutine </span><span class="n">house</span>
+<span class="w">    </span><span class="k">end subroutine </span><span class="n">house</span><span class="w"></span>
 </pre></div>
 
     </section>
     <br>
     
-    
     </div>
   </div>
-
 
     <hr>    
     </div> <!-- /container -->
     <footer>
       <div class="container">
       <div class="row">
-        <div class="col-xs-6 col-md-6"><p>conmax was developed by Jacob Williams<br>&copy; 2021 
-                                          </p>
+        <div class="col-xs-6 col-md-6"><p>conmax was developed by Jacob Williams<br>&copy; 2022 
+</p>
         </div>
         <div class="col-xs-6 col-md-6">
           <p class="text-right">
             Documentation generated by 
             <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
-            
-            
           </p>
         </div>
       </div>
@@ -999,9 +740,7 @@ private subroutine house(n, Ncor, Picor, r, Kpivot, Nparm, Aa, Beta, d, Save, b,
         extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
       });
     </script>
-    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
     
     
   </body>
