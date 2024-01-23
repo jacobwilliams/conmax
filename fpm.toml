@@ -1,7 +1,7 @@
 name = "conmax"
 author = "Jacob Williams"
 maintainer = "Jacob Williams"
-copyright = "Copyright (c) 2021-2022, Jacob Williams"
+copyright = "Copyright (c) 2021-2024, Jacob Williams"
 license = "BSD-3"
 description = "Refactored CONMAX Library"
 homepage = "https://github.com/jacobwilliams/conmax"

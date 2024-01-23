@@ -1,8 +1,9 @@
-![conmax](/media/logo.png)
+![conmax](media/logo.png)
 ============
 
 ### Status
 
+[![Language](https://img.shields.io/badge/-Fortran-734f96?logo=fortran&logoColor=white)](https://github.com/topics/fortran)
 [![GitHub release](https://img.shields.io/github/release/jacobwilliams/conmax.svg)](https://github.com/jacobwilliams/conmax/releases/latest)
 [![Build Status](https://github.com/jacobwilliams/conmax/actions/workflows/CI.yml/badge.svg)](https://github.com/jacobwilliams/conmax/actions)
 [![codecov](https://codecov.io/gh/jacobwilliams/conmax/branch/master/graph/badge.svg?token=43HK33CSMY)](https://codecov.io/gh/jacobwilliams/conmax)
@@ -29,7 +30,7 @@ conmax = { git="https://github.com/jacobwilliams/conmax.git" }
 To generate the documentation using [FORD](https://github.com/Fortran-FOSS-Programmers/ford), run:
 
 ```
-  ford conmax.md
+  ford ford.md
 ```
 
 ### Documentation
