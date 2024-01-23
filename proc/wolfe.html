@@ -1,122 +1,149 @@
+<!-- -*- mode: jinja2 -*- -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-   <meta name="description" content="CONMAX -- General nonlinearly constrained function minimization">
+      <meta name="description" content="CONMAX -- General nonlinearly constrained function minimization">
     <meta name="author" content="Jacob Williams" >
     <link rel="icon" href="../favicon.png">
 
     <title>wolfe &ndash; conmax</title>
 
-    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link href="../css/pygments.css" rel="stylesheet">
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
+      <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
 
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
-    
-    <script src="../js/jquery-2.1.3.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="../js/svg-pan-zoom.min.js"></script>
-
   </head>
 
   <body>
 
     <!-- Fixed navbar -->
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
           <a class="navbar-brand" href="../index.html">conmax </a>
-        </div>
-        <div id="navbar" class="navbar-collapse collapse">
-          <ul class="nav navbar-nav">
-            <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
-              <a href="#" class="dropdown-toggle"
-              data-toggle="dropdown" role="button"
-              aria-haspopup="true"
-     aria-expanded="false">Contents <span class="caret"></span></a>
-        <ul class="dropdown-menu">
-            <li><a href="../sourcefile/conmax.f90.html">Source File</a></li>
-            <li><a href="../lists/modules.html">Modules</a></li>
-            <li><a href="../lists/procedures.html">Procedures</a></li>
-            <li><a href="../lists/absint.html">Abstract Interfaces</a></li>
-                   <li><a href="../lists/types.html">Derived Types</a></li>
-       
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link" href="sourcefile/conmax.f90.html">Source File</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
             </ul>
-        
-            </li>
-<li class="visible-xs hidden-sm visible-lg"><a href="../sourcefile/conmax.f90.html">Source File</a></li>
-<li class="visible-xs hidden-sm visible-lg"><a href="../lists/modules.html">Modules</a></li>
-<li class="visible-xs hidden-sm visible-lg"><a href="../lists/procedures.html">Procedures</a></li>
-<li class="visible-xs hidden-sm visible-lg"><a href="../lists/absint.html">Abstract Interfaces</a></li>
-                             <li class="visible-xs hidden-sm visible-lg"><a href="../lists/types.html">Derived Types</a></li>
-          </ul>
-        </div><!--/.nav-collapse -->
-      </div>
-    </nav>
+              <div class="d-flex align-items-end flex-grow-1">
+                <form action="../search.html" role="search" class="ms-auto">
+                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                </form>
+              </div>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
 
     <div class="container">
   <div class="row">
     <h1>wolfe
       <small>Subroutine</small>
+      
     </h1>
-    <div class="row">
-  <div class="col-lg-12">
-<div class="well well-sm">
-  <ul class="list-inline" style="margin-bottom:0px;display:inline">
-     <li><i class="fa fa-list-ol"></i>
-       <a data-toggle="tooltip"
-    data-placement="bottom" data-html="true"
-    title=" 6.5% of total for procedures.">221 statements</a>
-     </li> 
-    <li><i class="fa fa-code"></i><a href="../src/conmax.f90"> Source File</a></li>
-  </ul>
-  <ol class="breadcrumb in-well text-right">
-     <li><a href='../sourcefile/conmax.f90.html'>conmax.f90</a></li>
-     <li><a href='../module/conmax_module.html'>conmax_module</a></li>
-     <li class="active">wolfe</li>
-  </ol>
-</div>
-</div>
-</div>
-<script>
-  $(function () {
-  $('[data-toggle="tooltip"]').tooltip()
-  })
-</script>
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip"
+                 data-bs-placement="bottom" data-html="true"
+                 title=" 6.5% of total for procedures.">221 statements</a>
+            </li>
+
+            <li class="list-inline-item" id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/conmax.f90"> Source File</a>
+            </li>
+        </ul>
+      </div>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+                <li class="breadcrumb-item"><a href='../sourcefile/conmax.f90.html'>conmax.f90</a></li>
+                <li class="breadcrumb-item"><a href='../module/conmax_module.html'>conmax_module</a></li>
+            <li class="breadcrumb-item active" aria-current="page">wolfe</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <script>
+    $(function () {
+    $('[data-bs-toggle="tooltip"]').tooltip()
+    })
+  </script>
 
   </div>
   
   <div class="row">
     <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
-    <div id="sidebar">
-  <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/wolfe.html#src">wolfe</a>
-  </div>
-</div>
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="card card-primary">
+      <div class="card-header text-left"><h3 class="card-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/wolfe.html#src">wolfe</a>
+      </div>
+    </div>
 
-</div>
+
+  </div>
 
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>public subroutine wolfe(Ndm, m, Pmat, Istrt, s, Ncor, Icor, Iwork, Liwrk, Work, Lwrk, r, Coef, Ptnr, Pmat1, Nparm, Numgr, Wcoef, Wpt, Wdist, Nmaj, Nmin, Jflag)</h2>
+    <h2>public  subroutine wolfe(Ndm, m, Pmat, Istrt, s, Ncor, Icor, Iwork, Liwrk, Work, Lwrk, r, Coef, Ptnr, Pmat1, Nparm, Numgr, Wcoef, Wpt, Wdist, Nmaj, Nmin, Jflag)  
+</h2>
     
 
     <p>given m inequalities of the form a(k).x + b(k) &lt;= 0.0 for k=1,
@@ -156,28 +183,62 @@
   in (wolfe, philip, finding the nearest point in a polytope, mathematical
   programming 11 (1976), 128-149).</p>
 
+
     <h3>Arguments</h3>
-      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-ndm"></span>integer,</td>
+        <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-ndm"></span>
+              integer,
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>Ndm</strong></td><td><p>The number of variables. it must be less than or equal to <code>nparm</code>.</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-m~3"></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>Ndm</strong></td>
+            <td>
+                <p>The number of variables. it must be less than or equal to <code>nparm</code>.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-m~5"></span>
+              integer,
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>m</strong></td><td><p>The number of inequalities defining the polytope.  it
-must be less than or equal to <code>numgr</code>.</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-pmat~5"></span>real(kind=wp),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>m</strong></td>
+            <td>
+                <p>The number of inequalities defining the polytope.  it
+must be less than or equal to <code>numgr</code>.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-pmat~5"></span>
+              real(kind=wp),
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>Pmat</strong>(Nparm+1,Numgr)</td><td><p>This is an array whose kth column contains the vector
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>Pmat</strong>(Nparm+1,Numgr)</td>
+            <td>
+                <p>This is an array whose kth column contains the vector
 (a(k),b(k)) for k=1,...,m, where the m inequalities a(k).x + b(k)
 &lt;= 0.0 define the polytope whose nearest point to the origin we
 seek.  the first dimension of pmat in the driver program must be
@@ -187,278 +248,469 @@ if we actually want the nearest point in the polytope to some point
 y other than the origin, we translate y to the origin before calling
 wolfe, that is, call wolfe to find the nearest point z to the origin
 in the polytope defined by a(k).z + (b(k) + a(k).y) &lt;= 0.0, then
-compute x = y + z.</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-istrt"></span>integer,</td>
+compute x = y + z.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-istrt"></span>
+              integer,
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>Istrt</strong></td><td><p>Set this equal to zero unless a hot start is desired--
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>Istrt</strong></td>
+            <td>
+                <p>Set this equal to zero unless a hot start is desired--
 see next paragraph of comments for more details.  if istrt is set
 equal to 1, then s, wcoef, ncor, and icor must also be assigned
-values initially.</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-s~2"></span>real(kind=wp),</td>
+values initially.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-s~5"></span>
+              real(kind=wp),
+            </td>
 <td>intent(out)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>s</strong></td><td><p>You may ignore this scale factor unless you want to use the hot start option.</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-ncor~2"></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>s</strong></td>
+            <td>
+                <p>You may ignore this scale factor unless you want to use the hot start option.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-ncor~2"></span>
+              integer,
+            </td>
 <td>intent(out)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>Ncor</strong></td><td><p>This is the number of vectors (i.e. colunns of pmat) in
-the final corral.</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-icor"></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>Ncor</strong></td>
+            <td>
+                <p>This is the number of vectors (i.e. colunns of pmat) in
+the final corral.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-icor"></span>
+              integer,
+            </td>
 <td>intent(out)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>Icor</strong>(Nparm+1)</td><td><p>This array contains the ncor indices of the vectors in
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>Icor</strong>(Nparm+1)</td>
+            <td>
+                <p>This array contains the ncor indices of the vectors in
 the final corral.  its dimension in the driver program must be at
-least nparm+1.</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-iwork~11"></span>integer</td>
+least nparm+1.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-iwork~11"></span>
+              integer
+            </td>
 <td></td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>Iwork</strong>(Liwrk)</td><td><p>Work array</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-liwrk~11"></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>Iwork</strong>(Liwrk)</td>
+            <td>
+                <p>Work array</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-liwrk~11"></span>
+              integer,
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>Liwrk</strong></td><td><p>This is the dimension of <code>iwork</code>.  It must be at least 7<em>nparm + 7</em>numgr + 3.</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-work~10"></span>real(kind=wp)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>Liwrk</strong></td>
+            <td>
+                <p>This is the dimension of <code>iwork</code>.  It must be at least 7<em>nparm + 7</em>numgr + 3.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-work~10"></span>
+              real(kind=wp)
+            </td>
 <td></td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>Work</strong>(Lwrk)</td><td><p>Work array</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-lwrk~10"></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>Work</strong>(Lwrk)</td>
+            <td>
+                <p>Work array</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-lwrk~10"></span>
+              integer,
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>Lwrk</strong></td><td><p>This is the dimension of <code>work</code>.  it must be at least
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>Lwrk</strong></td>
+            <td>
+                <p>This is the dimension of <code>work</code>.  it must be at least
 2<em>nparm</em><em>2 + 4</em>numgr<em>nparm + 11</em>numgr + 27*nparm + 13.
 note that some storage could be saved by rewriting function
 subprogram iloc to take out all but the arrays needed (namely 1, 3,
 4, 9, 28, 32, 34, 39 for work, 18, 23 for iwork) and scrunching
 work and iwork in iloc so the remaining arrays follow one after
-another.</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-r"></span>real(kind=wp)</td>
+another.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-r"></span>
+              real(kind=wp)
+            </td>
 <td></td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>r</strong>(Nparm+1)</td><td><p>Work array</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-coef"></span>real(kind=wp)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>r</strong>(Nparm+1)</td>
+            <td>
+                <p>Work array</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-coef"></span>
+              real(kind=wp)
+            </td>
 <td></td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>Coef</strong>(Numgr)</td><td><p>Work array</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-ptnr"></span>real(kind=wp)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>Coef</strong>(Numgr)</td>
+            <td>
+                <p>Work array</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-ptnr"></span>
+              real(kind=wp)
+            </td>
 <td></td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>Ptnr</strong>(Nparm+1)</td><td><p>Work array</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-pmat1"></span>real(kind=wp)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>Ptnr</strong>(Nparm+1)</td>
+            <td>
+                <p>Work array</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-pmat1"></span>
+              real(kind=wp)
+            </td>
 <td></td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>Pmat1</strong>(Nparm+1,Numgr)</td><td><p>Work array</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-nparm~18"></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>Pmat1</strong>(Nparm+1,Numgr)</td>
+            <td>
+                <p>Work array</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-nparm~17"></span>
+              integer,
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>Nparm</strong></td><td><p>This is basically a dimension parameter here.  it must
-be greater than or equal to <code>ndm</code>.</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-numgr~18"></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>Nparm</strong></td>
+            <td>
+                <p>This is basically a dimension parameter here.  it must
+be greater than or equal to <code>ndm</code>.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-numgr~18"></span>
+              integer,
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>Numgr</strong></td><td><p>This is basically a dimension parameter here.  it must
-be greater than or equal to <code>m</code>.</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-wcoef"></span>real(kind=wp),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>Numgr</strong></td>
+            <td>
+                <p>This is basically a dimension parameter here.  it must
+be greater than or equal to <code>m</code>.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-wcoef"></span>
+              real(kind=wp),
+            </td>
 <td>intent(out)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>Wcoef</strong>(Numgr)</td><td><p>This will give the coefficients of the vectors a(k)
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>Wcoef</strong>(Numgr)</td>
+            <td>
+                <p>This will give the coefficients of the vectors a(k)
 needed to form a linear combination equal to the solution in wpt.
 its dimension in the driver program must be at least numgr.
 wcoef may not be accurate if it was necessary to call refwl to
-refine wpt, which rarely happens.</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-wpt"></span>real(kind=wp),</td>
+refine wpt, which rarely happens.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-wpt"></span>
+              real(kind=wp),
+            </td>
 <td>intent(out)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>Wpt</strong>(Nparm)</td><td><p>This will give the coordinates of the point we are seeking,
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>Wpt</strong>(Nparm)</td>
+            <td>
+                <p>This will give the coordinates of the point we are seeking,
 namely the nearest point in the polytope to the origin.  its dimension
-in the driver program must be at least nparm.</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-wdist"></span>real(kind=wp),</td>
+in the driver program must be at least nparm.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-wdist"></span>
+              real(kind=wp),
+            </td>
 <td>intent(out)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>Wdist</strong></td><td><p>This will be the (minimized) euclidean distance of <code>wpt</code> from the origin.</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-nmaj"></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>Wdist</strong></td>
+            <td>
+                <p>This will be the (minimized) euclidean distance of <code>wpt</code> from the origin.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-nmaj"></span>
+              integer,
+            </td>
 <td>intent(out)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>Nmaj</strong></td><td><p>This will be the number of major cycles used in <code>wolfe</code>.</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-nmin"></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>Nmaj</strong></td>
+            <td>
+                <p>This will be the number of major cycles used in <code>wolfe</code>.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-nmin"></span>
+              integer,
+            </td>
 <td>intent(out)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>Nmin</strong></td><td><p>This will be the number of major cycles used in <code>wolfe</code>.</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-jflag"></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>Nmin</strong></td>
+            <td>
+                <p>This will be the number of major cycles used in <code>wolfe</code>.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-jflag"></span>
+              integer,
+            </td>
 <td>intent(out)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>Jflag</strong></td><td><p>This is a flag variable which is 0 in case of a normal
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>Jflag</strong></td>
+            <td>
+                <p>This is a flag variable which is 0 in case of a normal
 solution and is positive otherwise (in which case the returned
-solution may be no good).</p></td>
-</tr>
-</tbody>
-</table>
+solution may be no good).</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
 
     <br>
-    <div class="panel panel-default">
-      <div class="panel-heading">
-  <h3 class="panel-title">Calls</h3>
+    <div class="card">
+      <div class="card-header">
+  <h3 class="card-title">Calls</h3>
       </div>
-      <div class="panel-body">
+      <div class="card-body">
   <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <!-- Generated by graphviz version 2.43.0 (0)
  -->
 <!-- Title: proc~~wolfe~~CallsGraph Pages: 1 -->
-<svg id="procwolfeCallsGraph" width="242pt" height="154pt"
- viewBox="0.00 0.00 242.00 154.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<svg id="procwolfeCallsGraph" width="507pt" height="154pt"
+ viewBox="0.00 0.00 507.00 154.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <g id="proc~~wolfe~~CallsGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 150)">
 <title>proc~~wolfe~~CallsGraph</title>
-<polygon fill="white" stroke="transparent" points="-4,4 -4,-150 238,-150 238,4 -4,4"/>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-150 503,-150 503,4 -4,4"/>
 <!-- proc~wolfe -->
 <g id="proc~~wolfe~~CallsGraph_node1" class="node">
 <title>proc~wolfe</title>
-<polygon fill="none" stroke="black" points="54,-84 0,-84 0,-60 54,-60 54,-84"/>
-<text text-anchor="middle" x="27" y="-69.6" font-family="Helvetica,sans-Serif" font-size="10.50">wolfe</text>
-</g>
-<!-- proc~iloc -->
-<g id="proc~~wolfe~~CallsGraph_node2" class="node">
-<title>proc~iloc</title>
-<g id="a_proc~~wolfe~~CallsGraph_node2"><a xlink:href=".././proc/iloc.html" xlink:title="iloc">
-<polygon fill="#d94e8f" stroke="#d94e8f" points="234,-146 180,-146 180,-122 234,-122 234,-146"/>
-<text text-anchor="middle" x="207" y="-131.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">iloc</text>
-</a>
-</g>
-</g>
-<!-- proc~wolfe&#45;&gt;proc~iloc -->
-<g id="proc~~wolfe~~CallsGraph_edge1" class="edge">
-<title>proc~wolfe&#45;&gt;proc~iloc</title>
-<path fill="none" stroke="#000000" d="M42.82,-84.32C54.81,-93.63 72.52,-105.98 90,-113 115.53,-123.25 146.23,-128.52 169.63,-131.22"/>
-<polygon fill="#000000" stroke="#000000" points="169.52,-134.73 179.83,-132.29 170.25,-127.77 169.52,-134.73"/>
-</g>
-<!-- proc~dotprd -->
-<g id="proc~~wolfe~~CallsGraph_node3" class="node">
-<title>proc~dotprd</title>
-<g id="a_proc~~wolfe~~CallsGraph_node3"><a xlink:href=".././proc/dotprd.html" xlink:title="dotprd">
-<polygon fill="#d94e8f" stroke="#d94e8f" points="234,-62 180,-62 180,-38 234,-38 234,-62"/>
-<text text-anchor="middle" x="207" y="-47.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dotprd</text>
-</a>
-</g>
-</g>
-<!-- proc~wolfe&#45;&gt;proc~dotprd -->
-<g id="proc~~wolfe~~CallsGraph_edge4" class="edge">
-<title>proc~wolfe&#45;&gt;proc~dotprd</title>
-<path fill="none" stroke="#000000" d="M54.26,-68.75C84.85,-64.97 135.55,-58.71 169.84,-54.47"/>
-<polygon fill="#000000" stroke="#000000" points="170.42,-57.92 179.92,-53.22 169.56,-50.98 170.42,-57.92"/>
+<polygon fill="none" stroke="black" points="137,-84 0,-84 0,-60 137,-60 137,-84"/>
+<text text-anchor="middle" x="68.5" y="-69.6" font-family="Helvetica,sans-Serif" font-size="10.50">conmax_module::wolfe</text>
 </g>
 <!-- proc~conenr -->
-<g id="proc~~wolfe~~CallsGraph_node4" class="node">
+<g id="proc~~wolfe~~CallsGraph_node2" class="node">
 <title>proc~conenr</title>
-<g id="a_proc~~wolfe~~CallsGraph_node4"><a xlink:href=".././proc/conenr.html" xlink:title="conenr">
-<polygon fill="#d9534f" stroke="#d9534f" points="144,-104 90,-104 90,-80 144,-80 144,-104"/>
-<text text-anchor="middle" x="117" y="-89.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">conenr</text>
+<g id="a_proc~~wolfe~~CallsGraph_node2"><a xlink:href="../proc/conenr.html" xlink:title="conmax_module::conenr">
+<polygon fill="#d9534f" stroke="#d9534f" points="319,-104 173,-104 173,-80 319,-80 319,-104"/>
+<text text-anchor="middle" x="246" y="-89.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">conmax_module::conenr</text>
 </a>
 </g>
 </g>
 <!-- proc~wolfe&#45;&gt;proc~conenr -->
-<g id="proc~~wolfe~~CallsGraph_edge3" class="edge">
+<g id="proc~~wolfe~~CallsGraph_edge1" class="edge">
 <title>proc~wolfe&#45;&gt;proc~conenr</title>
-<path fill="none" stroke="#000000" d="M54.4,-78C62.48,-79.84 71.51,-81.89 80.1,-83.84"/>
-<polygon fill="#000000" stroke="#000000" points="79.39,-87.27 89.92,-86.07 80.94,-80.44 79.39,-87.27"/>
+<path fill="none" stroke="#000000" d="M137.1,-79.7C145.5,-80.66 154.16,-81.65 162.75,-82.63"/>
+<polygon fill="#000000" stroke="#000000" points="162.44,-86.11 172.77,-83.77 163.23,-79.16 162.44,-86.11"/>
+</g>
+<!-- proc~dotprd -->
+<g id="proc~~wolfe~~CallsGraph_node3" class="node">
+<title>proc~dotprd</title>
+<g id="a_proc~~wolfe~~CallsGraph_node3"><a xlink:href="../proc/dotprd.html" xlink:title="conmax_module::dotprd">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="499,-146 355,-146 355,-122 499,-122 499,-146"/>
+<text text-anchor="middle" x="427" y="-131.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">conmax_module::dotprd</text>
+</a>
+</g>
+</g>
+<!-- proc~wolfe&#45;&gt;proc~dotprd -->
+<g id="proc~~wolfe~~CallsGraph_edge2" class="edge">
+<title>proc~wolfe&#45;&gt;proc~dotprd</title>
+<path fill="none" stroke="#000000" d="M93.93,-84.06C114.5,-93.62 144.96,-106.44 173,-113 229.41,-126.21 294.59,-131.39 344.66,-133.3"/>
+<polygon fill="#000000" stroke="#000000" points="344.68,-136.81 354.79,-133.65 344.92,-129.81 344.68,-136.81"/>
+</g>
+<!-- proc~iloc -->
+<g id="proc~~wolfe~~CallsGraph_node4" class="node">
+<title>proc~iloc</title>
+<g id="a_proc~~wolfe~~CallsGraph_node4"><a xlink:href="../proc/iloc.html" xlink:title="conmax_module::iloc">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="490.5,-62 363.5,-62 363.5,-38 490.5,-38 490.5,-62"/>
+<text text-anchor="middle" x="427" y="-47.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">conmax_module::iloc</text>
+</a>
+</g>
+</g>
+<!-- proc~wolfe&#45;&gt;proc~iloc -->
+<g id="proc~~wolfe~~CallsGraph_edge3" class="edge">
+<title>proc~wolfe&#45;&gt;proc~iloc</title>
+<path fill="none" stroke="#000000" d="M137.39,-67.81C199.11,-64 289.93,-58.4 353.14,-54.5"/>
+<polygon fill="#000000" stroke="#000000" points="353.67,-57.97 363.43,-53.86 353.24,-50.98 353.67,-57.97"/>
 </g>
 <!-- proc~refwl -->
 <g id="proc~~wolfe~~CallsGraph_node5" class="node">
 <title>proc~refwl</title>
-<g id="a_proc~~wolfe~~CallsGraph_node5"><a xlink:href=".././proc/refwl.html" xlink:title="refwl">
-<polygon fill="#d9534f" stroke="#d9534f" points="144,-24 90,-24 90,0 144,0 144,-24"/>
-<text text-anchor="middle" x="117" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">refwl</text>
+<g id="a_proc~~wolfe~~CallsGraph_node5"><a xlink:href="../proc/refwl.html" xlink:title="conmax_module::refwl">
+<polygon fill="#d9534f" stroke="#d9534f" points="313,-24 179,-24 179,0 313,0 313,-24"/>
+<text text-anchor="middle" x="246" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">conmax_module::refwl</text>
 </a>
 </g>
 </g>
 <!-- proc~wolfe&#45;&gt;proc~refwl -->
-<g id="proc~~wolfe~~CallsGraph_edge2" class="edge">
+<g id="proc~~wolfe~~CallsGraph_edge4" class="edge">
 <title>proc~wolfe&#45;&gt;proc~refwl</title>
-<path fill="none" stroke="#000000" d="M45.81,-59.86C58.45,-51.24 75.63,-39.52 89.83,-29.84"/>
-<polygon fill="#000000" stroke="#000000" points="91.93,-32.65 98.22,-24.12 87.98,-26.87 91.93,-32.65"/>
-</g>
-<!-- proc~conenr&#45;&gt;proc~iloc -->
-<g id="proc~~wolfe~~CallsGraph_edge5" class="edge">
-<title>proc~conenr&#45;&gt;proc~iloc</title>
-<path fill="none" stroke="#000000" d="M143.45,-104.15C152.21,-108.33 162.17,-113.08 171.52,-117.54"/>
-<polygon fill="#000000" stroke="#000000" points="170.07,-120.73 180.6,-121.88 173.09,-114.41 170.07,-120.73"/>
+<path fill="none" stroke="#000000" d="M105.02,-59.86C132.46,-50.47 170.63,-37.43 200.18,-27.32"/>
+<polygon fill="#000000" stroke="#000000" points="201.51,-30.57 209.84,-24.02 199.24,-23.94 201.51,-30.57"/>
 </g>
 <!-- proc~conenr&#45;&gt;proc~dotprd -->
-<g id="proc~~wolfe~~CallsGraph_edge6" class="edge">
+<g id="proc~~wolfe~~CallsGraph_edge5" class="edge">
 <title>proc~conenr&#45;&gt;proc~dotprd</title>
-<path fill="none" stroke="#000000" d="M143.45,-79.85C152.21,-75.67 162.17,-70.92 171.52,-66.46"/>
-<polygon fill="#000000" stroke="#000000" points="173.09,-69.59 180.6,-62.12 170.07,-63.27 173.09,-69.59"/>
+<path fill="none" stroke="#000000" d="M298.29,-104.04C319.08,-108.91 343.25,-114.58 364.93,-119.67"/>
+<polygon fill="#000000" stroke="#000000" points="364.16,-123.09 374.7,-121.96 365.76,-116.27 364.16,-123.09"/>
+</g>
+<!-- proc~conenr&#45;&gt;proc~iloc -->
+<g id="proc~~wolfe~~CallsGraph_edge7" class="edge">
+<title>proc~conenr&#45;&gt;proc~iloc</title>
+<path fill="none" stroke="#000000" d="M298.29,-79.96C319.08,-75.09 343.25,-69.42 364.93,-64.33"/>
+<polygon fill="#000000" stroke="#000000" points="365.76,-67.73 374.7,-62.04 364.16,-60.91 365.76,-67.73"/>
 </g>
 <!-- proc~house -->
 <g id="proc~~wolfe~~CallsGraph_node6" class="node">
 <title>proc~house</title>
-<g id="a_proc~~wolfe~~CallsGraph_node6"><a xlink:href=".././proc/house.html" xlink:title="house">
-<polygon fill="#d9534f" stroke="#d9534f" points="234,-104 180,-104 180,-80 234,-80 234,-104"/>
-<text text-anchor="middle" x="207" y="-89.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">house</text>
+<g id="a_proc~~wolfe~~CallsGraph_node6"><a xlink:href="../proc/house.html" xlink:title="conmax_module::house">
+<polygon fill="#d9534f" stroke="#d9534f" points="497.5,-104 356.5,-104 356.5,-80 497.5,-80 497.5,-104"/>
+<text text-anchor="middle" x="427" y="-89.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">conmax_module::house</text>
 </a>
 </g>
 </g>
 <!-- proc~conenr&#45;&gt;proc~house -->
-<g id="proc~~wolfe~~CallsGraph_edge7" class="edge">
+<g id="proc~~wolfe~~CallsGraph_edge6" class="edge">
 <title>proc~conenr&#45;&gt;proc~house</title>
-<path fill="none" stroke="#000000" d="M144.4,-92C152.39,-92 161.31,-92 169.82,-92"/>
-<polygon fill="#000000" stroke="#000000" points="169.92,-95.5 179.92,-92 169.92,-88.5 169.92,-95.5"/>
+<path fill="none" stroke="#000000" d="M319.03,-92C328,-92 337.2,-92 346.28,-92"/>
+<polygon fill="#000000" stroke="#000000" points="346.44,-95.5 356.44,-92 346.44,-88.5 346.44,-95.5"/>
 </g>
 </g>
 </svg>
-</div><div><a type="button" class="graph-help" data-toggle="modal" href="#graph-help-text">Help</a></div><div class="modal fade" id="graph-help-text" tabindex="-1" role="dialog"><div class="modal-dialog modal-lg" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="-graph-help-label">Graph Key</h4></div><div class="modal-body">
-    <p>Nodes of different colours represent the following: </p>
-    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+</div>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#CallsGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="CallsGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <!-- Generated by graphviz version 2.43.0 (0)
  -->
 <!-- Title: Graph Key Pages: 1 -->
-<svg width="597pt" height="32pt"
- viewBox="0.00 0.00 596.50 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<svg width="641pt" height="28pt"
+ viewBox="0.00 0.00 641.00 27.51" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1.16 1.16) rotate(0) translate(4 28)">
 <title>Graph Key</title>
-<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 592.5,-28 592.5,4 -4,4"/>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 741.5,-28 741.5,4 -4,4"/>
 <!-- Subroutine -->
 <g id="node1" class="node">
 <title>Subroutine</title>
@@ -477,133 +729,221 @@ solution may be no good).</p></td>
 <polygon fill="#a7506f" stroke="#a7506f" points="225.5,-24 164.5,-24 164.5,0 225.5,0 225.5,-24"/>
 <text text-anchor="middle" x="195" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Interface</text>
 </g>
-<!-- Unknown Procedure Type -->
+<!-- Type Bound Procedure -->
 <g id="node4" class="node">
+<title>Type Bound Procedure</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="374,-24 244,-24 244,0 374,0 374,-24"/>
+<text text-anchor="middle" x="309" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Type Bound Procedure</text>
+</g>
+<!-- Unknown Procedure Type -->
+<g id="node5" class="node">
 <title>Unknown Procedure Type</title>
-<polygon fill="#777777" stroke="#777777" points="388.5,-24 243.5,-24 243.5,0 388.5,0 388.5,-24"/>
-<text text-anchor="middle" x="316" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Unknown Procedure Type</text>
+<polygon fill="#777777" stroke="#777777" points="537.5,-24 392.5,-24 392.5,0 537.5,0 537.5,-24"/>
+<text text-anchor="middle" x="465" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Unknown Procedure Type</text>
 </g>
 <!-- Program -->
-<g id="node5" class="node">
+<g id="node6" class="node">
 <title>Program</title>
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="465,-24 407,-24 407,0 465,0 465,-24"/>
-<text text-anchor="middle" x="436" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="614,-24 556,-24 556,0 614,0 614,-24"/>
+<text text-anchor="middle" x="585" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
 </g>
 <!-- This Page&#39;s Entity -->
-<g id="node6" class="node">
+<g id="node7" class="node">
 <title>This Page&#39;s Entity</title>
-<polygon fill="none" stroke="black" points="588.5,-24 483.5,-24 483.5,0 588.5,0 588.5,-24"/>
-<text text-anchor="middle" x="536" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+<polygon fill="none" stroke="black" points="737.5,-24 632.5,-24 632.5,0 737.5,0 737.5,-24"/>
+<text text-anchor="middle" x="685" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
 </g>
 </g>
 </svg>
 
-    
-    <p>Solid arrows point from a procedure to one which it calls. Dashed 
-    arrows point from an interface to procedures which implement that interface.
-    This could include the module procedures in a generic interface or the
-    implementation in a submodule of an interface in a parent module.
-    </p>
-    </div></div></div></div>
+<p>Solid arrows point from a procedure to one which it calls. Dashed 
+arrows point from an interface to procedures which implement that interface.
+This could include the module procedures in a generic interface or the
+implementation in a submodule of an interface in a parent module.
+</p>
+ </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="panel panel-default">
-      <div class="panel-heading">
-  <h3 class="panel-title">Called by</h3>
+    <div class="card">
+      <div class="card-header">
+  <h3 class="card-title">Called by</h3>
       </div>
-      <div class="panel-body">
+      <div class="card-body">
   <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <!-- Generated by graphviz version 2.43.0 (0)
  -->
 <!-- Title: proc~~wolfe~~CalledByGraph Pages: 1 -->
-<svg id="procwolfeCalledByGraph" width="153pt" height="158pt"
- viewBox="0.00 0.00 153.00 158.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g id="proc~~wolfe~~CalledByGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 154)">
+<svg id="procwolfeCalledByGraph" width="641pt" height="88pt"
+ viewBox="0.00 0.00 641.00 87.69" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="proc~~wolfe~~CalledByGraph" class="graph" transform="scale(1.91 1.91) rotate(0) translate(4 163.17)">
 <title>proc~~wolfe~~CalledByGraph</title>
-<polygon fill="white" stroke="transparent" points="-4,4 -4,-154 149,-154 149,4 -4,4"/>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-163.17 1218,-163.17 1218,4 -4,4"/>
 <!-- proc~wolfe -->
 <g id="proc~~wolfe~~CalledByGraph_node1" class="node">
 <title>proc~wolfe</title>
-<polygon fill="none" stroke="black" points="145,-87 91,-87 91,-63 145,-63 145,-87"/>
-<text text-anchor="middle" x="118" y="-72.6" font-family="Helvetica,sans-Serif" font-size="10.50">wolfe</text>
+<polygon fill="none" stroke="black" points="1214,-67.96 1077,-67.96 1077,-43.96 1214,-43.96 1214,-67.96"/>
+<text text-anchor="middle" x="1145.5" y="-53.56" font-family="Helvetica,sans-Serif" font-size="10.50">conmax_module::wolfe</text>
 </g>
 <!-- proc~conmax -->
 <g id="proc~~wolfe~~CalledByGraph_node2" class="node">
 <title>proc~conmax</title>
-<g id="a_proc~~wolfe~~CalledByGraph_node2"><a xlink:href=".././proc/conmax.html" xlink:title="conmax">
-<polygon fill="#d9534f" stroke="#d9534f" points="55,-150 0,-150 0,-126 55,-126 55,-150"/>
-<text text-anchor="middle" x="27.5" y="-135.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">conmax</text>
+<g id="a_proc~~wolfe~~CalledByGraph_node2"><a xlink:href="../proc/conmax.html" xlink:title="conmax_module::conmax_solver%conmax">
+<polygon fill="#d9534f" stroke="#d9534f" points="241,-127.96 0,-127.96 0,-103.96 241,-103.96 241,-127.96"/>
+<text text-anchor="middle" x="120.5" y="-113.56" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">conmax_module::conmax_solver%conmax</text>
 </a>
 </g>
 </g>
 <!-- proc~conmax&#45;&gt;proc~wolfe -->
 <g id="proc~~wolfe~~CalledByGraph_edge1" class="edge">
 <title>proc~conmax&#45;&gt;proc~wolfe</title>
-<path fill="none" stroke="#000000" d="M45.56,-125.85C58.66,-116.53 76.95,-103.51 91.75,-92.98"/>
-<polygon fill="#000000" stroke="#000000" points="93.87,-95.76 99.99,-87.11 89.81,-90.06 93.87,-95.76"/>
+<path fill="none" stroke="#000000" d="M195.25,-127.99C221.04,-131.64 250.23,-135.16 277,-136.96 616.26,-159.77 712.71,-185.52 1041,-96.96 1064.41,-90.65 1089.74,-80.67 1109.48,-72.15"/>
+<polygon fill="#000000" stroke="#000000" points="1110.94,-75.33 1118.68,-68.1 1108.12,-68.92 1110.94,-75.33"/>
 </g>
-<!-- proc~rkpar -->
-<g id="proc~~wolfe~~CalledByGraph_node3" class="node">
-<title>proc~rkpar</title>
-<g id="a_proc~~wolfe~~CalledByGraph_node3"><a xlink:href=".././proc/rkpar.html" xlink:title="rkpar">
-<polygon fill="#d9534f" stroke="#d9534f" points="54.5,-108 0.5,-108 0.5,-84 54.5,-84 54.5,-108"/>
-<text text-anchor="middle" x="27.5" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">rkpar</text>
+<!-- proc~rkcon -->
+<g id="proc~~wolfe~~CalledByGraph_node4" class="node">
+<title>proc~rkcon</title>
+<g id="a_proc~~wolfe~~CalledByGraph_node4"><a xlink:href="../proc/rkcon.html" xlink:title="conmax_module::conmax_solver%rkcon">
+<polygon fill="#d9534f" stroke="#d9534f" points="508,-85.96 279,-85.96 279,-61.96 508,-61.96 508,-85.96"/>
+<text text-anchor="middle" x="393.5" y="-71.56" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">conmax_module::conmax_solver%rkcon</text>
 </a>
 </g>
 </g>
-<!-- proc~rkpar&#45;&gt;proc~wolfe -->
-<g id="proc~~wolfe~~CalledByGraph_edge2" class="edge">
-<title>proc~rkpar&#45;&gt;proc~wolfe</title>
-<path fill="none" stroke="#000000" d="M54.57,-89.81C62.87,-87.84 72.2,-85.63 81.07,-83.53"/>
-<polygon fill="#000000" stroke="#000000" points="81.88,-86.93 90.81,-81.22 80.27,-80.12 81.88,-86.93"/>
+<!-- proc~conmax&#45;&gt;proc~rkcon -->
+<g id="proc~~wolfe~~CalledByGraph_edge8" class="edge">
+<title>proc~conmax&#45;&gt;proc~rkcon</title>
+<path fill="none" stroke="#000000" d="M199.16,-103.93C232.18,-98.81 270.85,-92.82 304.9,-87.54"/>
+<polygon fill="#000000" stroke="#000000" points="305.48,-90.99 314.83,-86 304.41,-84.07 305.48,-90.99"/>
+</g>
+<!-- proc~slpcon -->
+<g id="proc~~wolfe~~CalledByGraph_node7" class="node">
+<title>proc~slpcon</title>
+<g id="a_proc~~wolfe~~CalledByGraph_node7"><a xlink:href="../proc/slpcon.html" xlink:title="conmax_module::conmax_solver%slpcon">
+<polygon fill="#d9534f" stroke="#d9534f" points="510,-127.96 277,-127.96 277,-103.96 510,-103.96 510,-127.96"/>
+<text text-anchor="middle" x="393.5" y="-113.56" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">conmax_module::conmax_solver%slpcon</text>
+</a>
+</g>
+</g>
+<!-- proc~conmax&#45;&gt;proc~slpcon -->
+<g id="proc~~wolfe~~CalledByGraph_edge12" class="edge">
+<title>proc~conmax&#45;&gt;proc~slpcon</title>
+<path fill="none" stroke="#000000" d="M241.15,-115.96C249.52,-115.96 257.97,-115.96 266.37,-115.96"/>
+<polygon fill="#000000" stroke="#000000" points="266.58,-119.46 276.58,-115.96 266.58,-112.46 266.58,-119.46"/>
 </g>
 <!-- proc~corrct -->
-<g id="proc~~wolfe~~CalledByGraph_node4" class="node">
+<g id="proc~~wolfe~~CalledByGraph_node3" class="node">
 <title>proc~corrct</title>
-<g id="a_proc~~wolfe~~CalledByGraph_node4"><a xlink:href=".././proc/corrct.html" xlink:title="corrct">
-<polygon fill="#d9534f" stroke="#d9534f" points="54.5,-66 0.5,-66 0.5,-42 54.5,-42 54.5,-66"/>
-<text text-anchor="middle" x="27.5" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">corrct</text>
+<g id="a_proc~~wolfe~~CalledByGraph_node3"><a xlink:href="../proc/corrct.html" xlink:title="conmax_module::conmax_solver%corrct">
+<polygon fill="#d9534f" stroke="#d9534f" points="1041,-87.96 812,-87.96 812,-63.96 1041,-63.96 1041,-87.96"/>
+<text text-anchor="middle" x="926.5" y="-73.56" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">conmax_module::conmax_solver%corrct</text>
 </a>
 </g>
 </g>
 <!-- proc~corrct&#45;&gt;proc~wolfe -->
-<g id="proc~~wolfe~~CalledByGraph_edge3" class="edge">
+<g id="proc~~wolfe~~CalledByGraph_edge2" class="edge">
 <title>proc~corrct&#45;&gt;proc~wolfe</title>
-<path fill="none" stroke="#000000" d="M54.57,-60.19C62.87,-62.16 72.2,-64.37 81.07,-66.47"/>
-<polygon fill="#000000" stroke="#000000" points="80.27,-69.88 90.81,-68.78 81.88,-63.07 80.27,-69.88"/>
+<path fill="none" stroke="#000000" d="M1041.08,-65.49C1049.76,-64.7 1058.39,-63.9 1066.76,-63.13"/>
+<polygon fill="#000000" stroke="#000000" points="1067.18,-66.6 1076.82,-62.2 1066.54,-59.63 1067.18,-66.6"/>
 </g>
-<!-- proc~rkcon -->
+<!-- proc~rkcon&#45;&gt;proc~wolfe -->
+<g id="proc~~wolfe~~CalledByGraph_edge3" class="edge">
+<title>proc~rkcon&#45;&gt;proc~wolfe</title>
+<path fill="none" stroke="#000000" d="M417.57,-61.84C446.6,-47.34 498.42,-23.9 546,-14.96 740.05,21.49 974.92,-18.53 1083.73,-41.75"/>
+<polygon fill="#000000" stroke="#000000" points="1083.03,-45.18 1093.55,-43.88 1084.51,-38.34 1083.03,-45.18"/>
+</g>
+<!-- proc~rkcon&#45;&gt;proc~corrct -->
+<g id="proc~~wolfe~~CalledByGraph_edge5" class="edge">
+<title>proc~rkcon&#45;&gt;proc~corrct</title>
+<path fill="none" stroke="#000000" d="M508.09,-74.39C594.33,-74.72 712.81,-75.16 801.52,-75.5"/>
+<polygon fill="#000000" stroke="#000000" points="801.62,-79 811.64,-75.53 801.65,-72 801.62,-79"/>
+</g>
+<!-- proc~rkpar -->
 <g id="proc~~wolfe~~CalledByGraph_node5" class="node">
-<title>proc~rkcon</title>
-<g id="a_proc~~wolfe~~CalledByGraph_node5"><a xlink:href=".././proc/rkcon.html" xlink:title="rkcon">
-<polygon fill="#d9534f" stroke="#d9534f" points="54.5,-24 0.5,-24 0.5,0 54.5,0 54.5,-24"/>
-<text text-anchor="middle" x="27.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">rkcon</text>
+<title>proc~rkpar</title>
+<g id="a_proc~~wolfe~~CalledByGraph_node5"><a xlink:href="../proc/rkpar.html" xlink:title="conmax_module::conmax_solver%rkpar">
+<polygon fill="#d9534f" stroke="#d9534f" points="774.5,-47.96 547.5,-47.96 547.5,-23.96 774.5,-23.96 774.5,-47.96"/>
+<text text-anchor="middle" x="661" y="-33.56" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">conmax_module::conmax_solver%rkpar</text>
 </a>
 </g>
 </g>
-<!-- proc~rkcon&#45;&gt;proc~wolfe -->
+<!-- proc~rkcon&#45;&gt;proc~rkpar -->
+<g id="proc~~wolfe~~CalledByGraph_edge9" class="edge">
+<title>proc~rkcon&#45;&gt;proc~rkpar</title>
+<path fill="none" stroke="#000000" d="M478.51,-61.94C506.36,-57.95 537.55,-53.49 566.1,-49.4"/>
+<polygon fill="#000000" stroke="#000000" points="566.68,-52.86 576.09,-47.97 565.69,-45.93 566.68,-52.86"/>
+</g>
+<!-- proc~searsl -->
+<g id="proc~~wolfe~~CalledByGraph_node6" class="node">
+<title>proc~searsl</title>
+<g id="a_proc~~wolfe~~CalledByGraph_node6"><a xlink:href="../proc/searsl.html" xlink:title="conmax_module::conmax_solver%searsl">
+<polygon fill="#d9534f" stroke="#d9534f" points="776,-127.96 546,-127.96 546,-103.96 776,-103.96 776,-127.96"/>
+<text text-anchor="middle" x="661" y="-113.56" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">conmax_module::conmax_solver%searsl</text>
+</a>
+</g>
+</g>
+<!-- proc~rkcon&#45;&gt;proc~searsl -->
+<g id="proc~~wolfe~~CalledByGraph_edge10" class="edge">
+<title>proc~rkcon&#45;&gt;proc~searsl</title>
+<path fill="none" stroke="#000000" d="M470.58,-86C502.8,-91.1 540.5,-97.06 573.74,-102.32"/>
+<polygon fill="#000000" stroke="#000000" points="573.48,-105.82 583.91,-103.93 574.58,-98.91 573.48,-105.82"/>
+</g>
+<!-- proc~rkpar&#45;&gt;proc~wolfe -->
 <g id="proc~~wolfe~~CalledByGraph_edge4" class="edge">
-<title>proc~rkcon&#45;&gt;proc~wolfe</title>
-<path fill="none" stroke="#000000" d="M45.56,-24.15C58.66,-33.47 76.95,-46.49 91.75,-57.02"/>
-<polygon fill="#000000" stroke="#000000" points="89.81,-59.94 99.99,-62.89 93.87,-54.24 89.81,-59.94"/>
+<title>proc~rkpar&#45;&gt;proc~wolfe</title>
+<path fill="none" stroke="#000000" d="M774.52,-40.63C864.19,-44.34 987.43,-49.45 1066.54,-52.73"/>
+<polygon fill="#000000" stroke="#000000" points="1066.78,-56.24 1076.92,-53.16 1067.07,-49.25 1066.78,-56.24"/>
+</g>
+<!-- proc~rkpar&#45;&gt;proc~corrct -->
+<g id="proc~~wolfe~~CalledByGraph_edge6" class="edge">
+<title>proc~rkpar&#45;&gt;proc~corrct</title>
+<path fill="none" stroke="#000000" d="M741.06,-47.96C770.89,-52.49 805.03,-57.68 835.76,-62.34"/>
+<polygon fill="#000000" stroke="#000000" points="835.63,-65.86 846.04,-63.9 836.68,-58.94 835.63,-65.86"/>
+</g>
+<!-- proc~searsl&#45;&gt;proc~corrct -->
+<g id="proc~~wolfe~~CalledByGraph_edge7" class="edge">
+<title>proc~searsl&#45;&gt;proc~corrct</title>
+<path fill="none" stroke="#000000" d="M741.06,-103.96C770.89,-99.43 805.03,-94.25 835.76,-89.59"/>
+<polygon fill="#000000" stroke="#000000" points="836.68,-92.99 846.04,-88.03 835.63,-86.07 836.68,-92.99"/>
+</g>
+<!-- proc~slpcon&#45;&gt;proc~searsl -->
+<g id="proc~~wolfe~~CalledByGraph_edge11" class="edge">
+<title>proc~slpcon&#45;&gt;proc~searsl</title>
+<path fill="none" stroke="#000000" d="M510.18,-115.96C518.72,-115.96 527.35,-115.96 535.93,-115.96"/>
+<polygon fill="#000000" stroke="#000000" points="535.98,-119.46 545.98,-115.96 535.98,-112.46 535.98,-119.46"/>
 </g>
 </g>
 </svg>
-</div><div><a type="button" class="graph-help" data-toggle="modal" href="#graph-help-text">Help</a></div><div class="modal fade" id="graph-help-text" tabindex="-1" role="dialog"><div class="modal-dialog modal-lg" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="-graph-help-label">Graph Key</h4></div><div class="modal-body">
-    <p>Nodes of different colours represent the following: </p>
-    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+</div>                <script>
+                  var panprocwolfeCalledByGraph = svgPanZoom('#procwolfeCalledByGraph',
+                    {zoomEnabled: true, controlIconsEnabled: true, fit: true, center: true,}
+                  );
+                </script>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#CalledByGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="CalledByGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <!-- Generated by graphviz version 2.43.0 (0)
  -->
 <!-- Title: Graph Key Pages: 1 -->
-<svg width="597pt" height="32pt"
- viewBox="0.00 0.00 596.50 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<svg width="641pt" height="28pt"
+ viewBox="0.00 0.00 641.00 27.51" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1.16 1.16) rotate(0) translate(4 28)">
 <title>Graph Key</title>
-<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 592.5,-28 592.5,4 -4,4"/>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 741.5,-28 741.5,4 -4,4"/>
 <!-- Subroutine -->
 <g id="node1" class="node">
 <title>Subroutine</title>
@@ -622,65 +962,61 @@ solution may be no good).</p></td>
 <polygon fill="#a7506f" stroke="#a7506f" points="225.5,-24 164.5,-24 164.5,0 225.5,0 225.5,-24"/>
 <text text-anchor="middle" x="195" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Interface</text>
 </g>
-<!-- Unknown Procedure Type -->
+<!-- Type Bound Procedure -->
 <g id="node4" class="node">
+<title>Type Bound Procedure</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="374,-24 244,-24 244,0 374,0 374,-24"/>
+<text text-anchor="middle" x="309" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Type Bound Procedure</text>
+</g>
+<!-- Unknown Procedure Type -->
+<g id="node5" class="node">
 <title>Unknown Procedure Type</title>
-<polygon fill="#777777" stroke="#777777" points="388.5,-24 243.5,-24 243.5,0 388.5,0 388.5,-24"/>
-<text text-anchor="middle" x="316" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Unknown Procedure Type</text>
+<polygon fill="#777777" stroke="#777777" points="537.5,-24 392.5,-24 392.5,0 537.5,0 537.5,-24"/>
+<text text-anchor="middle" x="465" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Unknown Procedure Type</text>
 </g>
 <!-- Program -->
-<g id="node5" class="node">
+<g id="node6" class="node">
 <title>Program</title>
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="465,-24 407,-24 407,0 465,0 465,-24"/>
-<text text-anchor="middle" x="436" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="614,-24 556,-24 556,0 614,0 614,-24"/>
+<text text-anchor="middle" x="585" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
 </g>
 <!-- This Page&#39;s Entity -->
-<g id="node6" class="node">
+<g id="node7" class="node">
 <title>This Page&#39;s Entity</title>
-<polygon fill="none" stroke="black" points="588.5,-24 483.5,-24 483.5,0 588.5,0 588.5,-24"/>
-<text text-anchor="middle" x="536" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+<polygon fill="none" stroke="black" points="737.5,-24 632.5,-24 632.5,0 737.5,0 737.5,-24"/>
+<text text-anchor="middle" x="685" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
 </g>
 </g>
 </svg>
 
-    
-    <p>Solid arrows point from a procedure to one which it calls. Dashed 
-    arrows point from an interface to procedures which implement that interface.
-    This could include the module procedures in a generic interface or the
-    implementation in a submodule of an interface in a parent module.
-    </p>
-    </div></div></div></div>
+<p>Solid arrows point from a procedure to one which it calls. Dashed 
+arrows point from an interface to procedures which implement that interface.
+This could include the module procedures in a generic interface or the
+implementation in a submodule of an interface in a parent module.
+</p>
+ </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
     <br>
 
-    <section class="visible-xs visible-sm hidden-md">
-      <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/wolfe.html#src">wolfe</a>
-  </div>
-</div>
-
-    </section>
-    <br class="visible-xs visible-sm hidden-md">
-
 
     
     
 
     
     
+
 
 
     
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="highlight"><pre><span></span><span class="w">    </span><span class="k">subroutine </span><span class="n">wolfe</span><span class="p">(</span><span class="n">Ndm</span><span class="p">,</span><span class="w"> </span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="n">Pmat</span><span class="p">,</span><span class="w"> </span><span class="n">Istrt</span><span class="p">,</span><span class="w"> </span><span class="n">s</span><span class="p">,</span><span class="w"> </span><span class="n">Ncor</span><span class="p">,</span><span class="w"> </span><span class="n">Icor</span><span class="p">,</span><span class="w"> </span><span class="n">Iwork</span><span class="p">,</span><span class="w"> </span><span class="n">Liwrk</span><span class="p">,</span><span class="w"> </span><span class="n">Work</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                     </span><span class="n">Lwrk</span><span class="p">,</span><span class="w"> </span><span class="n">r</span><span class="p">,</span><span class="w"> </span><span class="n">Coef</span><span class="p">,</span><span class="w"> </span><span class="n">Ptnr</span><span class="p">,</span><span class="w"> </span><span class="n">Pmat1</span><span class="p">,</span><span class="w"> </span><span class="n">Nparm</span><span class="p">,</span><span class="w"> </span><span class="n">Numgr</span><span class="p">,</span><span class="w"> </span><span class="n">Wcoef</span><span class="p">,</span><span class="w"> </span><span class="n">Wpt</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                     </span><span class="n">Wdist</span><span class="p">,</span><span class="w"> </span><span class="n">Nmaj</span><span class="p">,</span><span class="w"> </span><span class="n">Nmin</span><span class="p">,</span><span class="w"> </span><span class="n">Jflag</span><span class="p">)</span><span class="w"></span>
+    <div class="hl codehilite"><pre><span></span><span class="w">    </span><span class="k">subroutine </span><span class="n">wolfe</span><span class="p">(</span><span class="n">Ndm</span><span class="p">,</span><span class="w"> </span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="n">Pmat</span><span class="p">,</span><span class="w"> </span><span class="n">Istrt</span><span class="p">,</span><span class="w"> </span><span class="n">s</span><span class="p">,</span><span class="w"> </span><span class="n">Ncor</span><span class="p">,</span><span class="w"> </span><span class="n">Icor</span><span class="p">,</span><span class="w"> </span><span class="n">Iwork</span><span class="p">,</span><span class="w"> </span><span class="n">Liwrk</span><span class="p">,</span><span class="w"> </span><span class="n">Work</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                     </span><span class="n">Lwrk</span><span class="p">,</span><span class="w"> </span><span class="n">r</span><span class="p">,</span><span class="w"> </span><span class="n">Coef</span><span class="p">,</span><span class="w"> </span><span class="n">Ptnr</span><span class="p">,</span><span class="w"> </span><span class="n">Pmat1</span><span class="p">,</span><span class="w"> </span><span class="n">Nparm</span><span class="p">,</span><span class="w"> </span><span class="n">Numgr</span><span class="p">,</span><span class="w"> </span><span class="n">Wcoef</span><span class="p">,</span><span class="w"> </span><span class="n">Wpt</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                     </span><span class="n">Wdist</span><span class="p">,</span><span class="w"> </span><span class="n">Nmaj</span><span class="p">,</span><span class="w"> </span><span class="n">Nmin</span><span class="p">,</span><span class="w"> </span><span class="n">Jflag</span><span class="p">)</span>
 
 <span class="w">        </span><span class="k">implicit none</span>
 
@@ -741,45 +1077,45 @@ solution may be no good).</p></td>
 <span class="w">                                        </span><span class="c">!! namely the nearest point in the polytope to the origin.  its dimension</span>
 <span class="w">                                        </span><span class="c">!! in the driver program must be at least nparm.</span>
 
-<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">ab</span><span class="p">,</span><span class="w"> </span><span class="n">bk</span><span class="p">,</span><span class="w"> </span><span class="n">dist</span><span class="p">,</span><span class="w"> </span><span class="n">fackp</span><span class="p">,</span><span class="w"> </span><span class="n">facsc</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                    </span><span class="n">fact</span><span class="p">,</span><span class="w"> </span><span class="n">quot</span><span class="p">,</span><span class="w"> </span><span class="n">s1</span><span class="p">,</span><span class="w"> </span><span class="n">s1hi</span><span class="p">,</span><span class="w"> </span><span class="n">s1low</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                    </span><span class="n">scl</span><span class="p">,</span><span class="w"> </span><span class="n">scl1</span><span class="p">,</span><span class="w"> </span><span class="n">scl1a</span><span class="p">,</span><span class="w"> </span><span class="n">tol</span><span class="p">,</span><span class="w"> </span><span class="n">tol1</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                    </span><span class="n">tols</span><span class="p">,</span><span class="w"> </span><span class="n">v1</span><span class="p">,</span><span class="w"> </span><span class="n">violm</span><span class="p">,</span><span class="w"> </span><span class="n">vmax</span><span class="w"></span>
-<span class="w">        </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">ilc18</span><span class="p">,</span><span class="w"> </span><span class="n">ilc28</span><span class="p">,</span><span class="w"> </span><span class="n">ilc32</span><span class="p">,</span><span class="w"> </span><span class="n">ilc34</span><span class="p">,</span><span class="w"> </span><span class="n">ilc39</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                   </span><span class="n">ind</span><span class="p">,</span><span class="w"> </span><span class="n">iref</span><span class="p">,</span><span class="w"> </span><span class="n">istrt1</span><span class="p">,</span><span class="w"> </span><span class="n">itcon</span><span class="p">,</span><span class="w"> </span><span class="n">iup</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                   </span><span class="n">jmax</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">,</span><span class="w"> </span><span class="n">l</span><span class="p">,</span><span class="w"> </span><span class="n">lmcon</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="w"></span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">ab</span><span class="p">,</span><span class="w"> </span><span class="n">bk</span><span class="p">,</span><span class="w"> </span><span class="n">dist</span><span class="p">,</span><span class="w"> </span><span class="n">fackp</span><span class="p">,</span><span class="w"> </span><span class="n">facsc</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                    </span><span class="n">fact</span><span class="p">,</span><span class="w"> </span><span class="n">quot</span><span class="p">,</span><span class="w"> </span><span class="n">s1</span><span class="p">,</span><span class="w"> </span><span class="n">s1hi</span><span class="p">,</span><span class="w"> </span><span class="n">s1low</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                    </span><span class="n">scl</span><span class="p">,</span><span class="w"> </span><span class="n">scl1</span><span class="p">,</span><span class="w"> </span><span class="n">scl1a</span><span class="p">,</span><span class="w"> </span><span class="n">tol</span><span class="p">,</span><span class="w"> </span><span class="n">tol1</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                    </span><span class="n">tols</span><span class="p">,</span><span class="w"> </span><span class="n">v1</span><span class="p">,</span><span class="w"> </span><span class="n">violm</span><span class="p">,</span><span class="w"> </span><span class="n">vmax</span>
+<span class="w">        </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">ilc18</span><span class="p">,</span><span class="w"> </span><span class="n">ilc28</span><span class="p">,</span><span class="w"> </span><span class="n">ilc32</span><span class="p">,</span><span class="w"> </span><span class="n">ilc34</span><span class="p">,</span><span class="w"> </span><span class="n">ilc39</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                   </span><span class="n">ind</span><span class="p">,</span><span class="w"> </span><span class="n">iref</span><span class="p">,</span><span class="w"> </span><span class="n">istrt1</span><span class="p">,</span><span class="w"> </span><span class="n">itcon</span><span class="p">,</span><span class="w"> </span><span class="n">iup</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                   </span><span class="n">jmax</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">,</span><span class="w"> </span><span class="n">l</span><span class="p">,</span><span class="w"> </span><span class="n">lmcon</span><span class="p">,</span><span class="w"> </span><span class="n">n</span>
 
 <span class="w">        </span><span class="c">! set machine and precision dependent constants for wolfe.</span>
-<span class="w">        </span><span class="n">tol</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ten</span><span class="o">*</span><span class="n">ten</span><span class="o">*</span><span class="n">spcmn</span><span class="w"></span>
-<span class="w">        </span><span class="n">tol1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">ten</span><span class="o">**</span><span class="mi">4</span><span class="p">)</span><span class="o">*</span><span class="n">spcmn</span><span class="w"></span>
-<span class="w">        </span><span class="n">tols</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">sqrt</span><span class="p">(</span><span class="n">spcmn</span><span class="p">)</span><span class="w"></span>
-<span class="w">        </span><span class="n">iref</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
-<span class="w">        </span><span class="n">violm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">one</span><span class="o">/</span><span class="n">two</span><span class="w"></span>
-<span class="w">        </span><span class="n">lmcon</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="w"></span>
-<span class="w">        </span><span class="n">itcon</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
-<span class="w">        </span><span class="n">iup</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
-<span class="w">        </span><span class="n">s1low</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ten</span><span class="o">*</span><span class="n">ten</span><span class="o">*</span><span class="n">ten</span><span class="o">*</span><span class="n">spcmn</span><span class="w"></span>
-<span class="w">        </span><span class="n">s1hi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">one</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">s1low</span><span class="w"></span>
+<span class="w">        </span><span class="n">tol</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ten</span><span class="o">*</span><span class="n">ten</span><span class="o">*</span><span class="n">spcmn</span>
+<span class="w">        </span><span class="n">tol1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">ten</span><span class="o">**</span><span class="mi">4</span><span class="p">)</span><span class="o">*</span><span class="n">spcmn</span>
+<span class="w">        </span><span class="n">tols</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">sqrt</span><span class="p">(</span><span class="n">spcmn</span><span class="p">)</span>
+<span class="w">        </span><span class="n">iref</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">        </span><span class="n">violm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">one</span><span class="o">/</span><span class="n">two</span>
+<span class="w">        </span><span class="n">lmcon</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span>
+<span class="w">        </span><span class="n">itcon</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">        </span><span class="n">iup</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">        </span><span class="n">s1low</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ten</span><span class="o">*</span><span class="n">ten</span><span class="o">*</span><span class="n">ten</span><span class="o">*</span><span class="n">spcmn</span>
+<span class="w">        </span><span class="n">s1hi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">one</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">s1low</span>
 
 <span class="w">        </span><span class="c">! make sure s1low &lt;= one third and s1hi &gt;= two thirds to avoid</span>
 <span class="w">        </span><span class="c">! squeezing the allowable region for s1 too tightly (or even making it</span>
 <span class="w">        </span><span class="c">! empty).</span>
-<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">s1low</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">one</span><span class="o">/</span><span class="n">three</span><span class="p">)</span><span class="w"> </span><span class="n">s1low</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">one</span><span class="o">/</span><span class="n">three</span><span class="w"></span>
-<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">s1hi</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">two</span><span class="o">/</span><span class="n">three</span><span class="p">)</span><span class="w"> </span><span class="n">s1hi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">two</span><span class="o">/</span><span class="n">three</span><span class="w"></span>
-<span class="w">        </span><span class="n">facsc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ten</span><span class="o">*</span><span class="n">ten</span><span class="o">*</span><span class="n">ten</span><span class="o">*</span><span class="n">ten</span><span class="w"></span>
-<span class="w">        </span><span class="n">fackp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">facsc</span><span class="w"></span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">s1low</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">one</span><span class="o">/</span><span class="n">three</span><span class="p">)</span><span class="w"> </span><span class="n">s1low</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">one</span><span class="o">/</span><span class="n">three</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">s1hi</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">two</span><span class="o">/</span><span class="n">three</span><span class="p">)</span><span class="w"> </span><span class="n">s1hi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">two</span><span class="o">/</span><span class="n">three</span>
+<span class="w">        </span><span class="n">facsc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ten</span><span class="o">*</span><span class="n">ten</span><span class="o">*</span><span class="n">ten</span><span class="o">*</span><span class="n">ten</span>
+<span class="w">        </span><span class="n">fackp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">facsc</span>
 
-<span class="w">        </span><span class="n">ilc18</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">iloc</span><span class="p">(</span><span class="mi">18</span><span class="p">,</span><span class="w"> </span><span class="n">nparm</span><span class="p">,</span><span class="w"> </span><span class="n">numgr</span><span class="p">)</span><span class="w"></span>
-<span class="w">        </span><span class="n">ilc28</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">iloc</span><span class="p">(</span><span class="mi">28</span><span class="p">,</span><span class="w"> </span><span class="n">nparm</span><span class="p">,</span><span class="w"> </span><span class="n">numgr</span><span class="p">)</span><span class="w"></span>
-<span class="w">        </span><span class="n">ilc32</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">iloc</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span><span class="w"> </span><span class="n">nparm</span><span class="p">,</span><span class="w"> </span><span class="n">numgr</span><span class="p">)</span><span class="w"></span>
-<span class="w">        </span><span class="n">ilc34</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">iloc</span><span class="p">(</span><span class="mi">34</span><span class="p">,</span><span class="w"> </span><span class="n">nparm</span><span class="p">,</span><span class="w"> </span><span class="n">numgr</span><span class="p">)</span><span class="w"></span>
-<span class="w">        </span><span class="n">ilc39</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">iloc</span><span class="p">(</span><span class="mi">39</span><span class="p">,</span><span class="w"> </span><span class="n">nparm</span><span class="p">,</span><span class="w"> </span><span class="n">numgr</span><span class="p">)</span><span class="w"></span>
-<span class="w">        </span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ndm</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
-<span class="w">        </span><span class="n">istrt1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">istrt</span><span class="w"></span>
-<span class="w">        </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">ndm</span><span class="w"></span>
-<span class="w">            </span><span class="n">r</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">zero</span><span class="w"></span>
+<span class="w">        </span><span class="n">ilc18</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">iloc</span><span class="p">(</span><span class="mi">18</span><span class="p">,</span><span class="w"> </span><span class="n">nparm</span><span class="p">,</span><span class="w"> </span><span class="n">numgr</span><span class="p">)</span>
+<span class="w">        </span><span class="n">ilc28</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">iloc</span><span class="p">(</span><span class="mi">28</span><span class="p">,</span><span class="w"> </span><span class="n">nparm</span><span class="p">,</span><span class="w"> </span><span class="n">numgr</span><span class="p">)</span>
+<span class="w">        </span><span class="n">ilc32</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">iloc</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span><span class="w"> </span><span class="n">nparm</span><span class="p">,</span><span class="w"> </span><span class="n">numgr</span><span class="p">)</span>
+<span class="w">        </span><span class="n">ilc34</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">iloc</span><span class="p">(</span><span class="mi">34</span><span class="p">,</span><span class="w"> </span><span class="n">nparm</span><span class="p">,</span><span class="w"> </span><span class="n">numgr</span><span class="p">)</span>
+<span class="w">        </span><span class="n">ilc39</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">iloc</span><span class="p">(</span><span class="mi">39</span><span class="p">,</span><span class="w"> </span><span class="n">nparm</span><span class="p">,</span><span class="w"> </span><span class="n">numgr</span><span class="p">)</span>
+<span class="w">        </span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ndm</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">        </span><span class="n">istrt1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">istrt</span>
+<span class="w">        </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">ndm</span>
+<span class="w">            </span><span class="n">r</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">zero</span>
 <span class="w">        </span><span class="k">end do</span>
-<span class="k">        </span><span class="n">r</span><span class="p">(</span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">one</span><span class="w"></span>
+<span class="k">        </span><span class="n">r</span><span class="p">(</span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">one</span>
 
 <span class="w">        </span><span class="c">! now compute the scale factor scl, whose main purpose is to avoid</span>
 <span class="w">        </span><span class="c">! having all vectors in pmat with positive last component form an angle</span>
@@ -788,190 +1124,190 @@ solution may be no good).</p></td>
 <span class="w">        </span><span class="c">! ndm)/b(k), b(k) &gt;= tols, 1 &lt;= k &lt;= m) unless no b(k) is &gt;=</span>
 <span class="w">        </span><span class="c">! tols, in which case we set scl=1.0, or some b(k) is &gt;= tols but</span>
 <span class="w">        </span><span class="c">! scl would be &lt; tol, in which case we set scl = tol.</span>
-<span class="mi">100</span><span class="w">     </span><span class="n">scl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">one</span><span class="w"></span>
-<span class="w">        </span><span class="n">ind</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
-<span class="w">        </span><span class="k">do </span><span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">m</span><span class="w"></span>
-<span class="w">            </span><span class="n">bk</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pmat</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">)</span><span class="w"></span>
+<span class="mi">100</span><span class="w">     </span><span class="n">scl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">one</span>
+<span class="w">        </span><span class="n">ind</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">        </span><span class="k">do </span><span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">m</span>
+<span class="w">            </span><span class="n">bk</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pmat</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">)</span>
 <span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">bk</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">tols</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<span class="k">                </span><span class="n">quot</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">zero</span><span class="w"></span>
-<span class="w">                </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">ndm</span><span class="w"></span>
-<span class="w">                    </span><span class="n">ab</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">abs</span><span class="p">(</span><span class="n">pmat</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">))</span><span class="w"></span>
-<span class="w">                    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">ab</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">quot</span><span class="p">)</span><span class="w"> </span><span class="n">quot</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ab</span><span class="w"></span>
+<span class="k">                </span><span class="n">quot</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">zero</span>
+<span class="w">                </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">ndm</span>
+<span class="w">                    </span><span class="n">ab</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">abs</span><span class="p">(</span><span class="n">pmat</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">))</span>
+<span class="w">                    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">ab</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">quot</span><span class="p">)</span><span class="w"> </span><span class="n">quot</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ab</span>
 <span class="w">                </span><span class="k">end do</span>
-<span class="k">                </span><span class="n">quot</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">quot</span><span class="o">/</span><span class="n">bk</span><span class="w"></span>
+<span class="k">                </span><span class="n">quot</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">quot</span><span class="o">/</span><span class="n">bk</span>
 <span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">ind</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
 <span class="k">                    if</span><span class="w"> </span><span class="p">(</span><span class="n">quot</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">scl</span><span class="p">)</span><span class="w"> </span><span class="k">cycle</span>
 <span class="k">                end if</span>
-<span class="k">                </span><span class="n">ind</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
-<span class="w">                </span><span class="n">scl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">quot</span><span class="w"></span>
+<span class="k">                </span><span class="n">ind</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">                </span><span class="n">scl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">quot</span>
 <span class="w">            </span><span class="k">end if</span>
 <span class="k">        end do</span>
-<span class="mi">300</span><span class="w">     </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">scl</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">tol</span><span class="p">)</span><span class="w"> </span><span class="n">scl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tol</span><span class="w"></span>
+<span class="mi">300</span><span class="w">     </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">scl</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">tol</span><span class="p">)</span><span class="w"> </span><span class="n">scl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tol</span>
 <span class="w">        </span><span class="c">! put scaled pmat into pmat1 for use in conenr.  pmat itself will remain</span>
 <span class="w">        </span><span class="c">! unchanged.</span>
-<span class="mi">400</span><span class="w">     </span><span class="k">do </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">m</span><span class="w"></span>
-<span class="w">            </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">ndm</span><span class="w"></span>
-<span class="w">                </span><span class="n">pmat1</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pmat</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">)</span><span class="o">/</span><span class="n">scl</span><span class="w"></span>
+<span class="mi">400</span><span class="w">     </span><span class="k">do </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">m</span>
+<span class="w">            </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">ndm</span>
+<span class="w">                </span><span class="n">pmat1</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pmat</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">)</span><span class="o">/</span><span class="n">scl</span>
 <span class="w">            </span><span class="k">end do</span>
-<span class="k">            </span><span class="n">pmat1</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pmat</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">)</span><span class="w"></span>
-<span class="w">        </span><span class="k">end do</span><span class="w"></span>
+<span class="k">            </span><span class="n">pmat1</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pmat</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">)</span>
+<span class="w">        </span><span class="k">end do</span>
 <span class="w">        </span><span class="c">! now do a normal scaling on each column of pmat1 which has an element</span>
 <span class="w">        </span><span class="c">! with absolute value &gt;= tol1.</span>
-<span class="w">        </span><span class="k">do </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">m</span><span class="w"></span>
-<span class="w">            </span><span class="n">scl1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">zero</span><span class="w"></span>
-<span class="w">            </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="w"></span>
-<span class="w">                </span><span class="n">ab</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">abs</span><span class="p">(</span><span class="n">pmat1</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">))</span><span class="w"></span>
-<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">ab</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">scl1</span><span class="p">)</span><span class="w"> </span><span class="n">scl1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ab</span><span class="w"></span>
+<span class="w">        </span><span class="k">do </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">m</span>
+<span class="w">            </span><span class="n">scl1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">zero</span>
+<span class="w">            </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">n</span>
+<span class="w">                </span><span class="n">ab</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">abs</span><span class="p">(</span><span class="n">pmat1</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">))</span>
+<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">ab</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">scl1</span><span class="p">)</span><span class="w"> </span><span class="n">scl1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ab</span>
 <span class="w">            </span><span class="k">end do</span>
 <span class="k">            if</span><span class="w"> </span><span class="p">(</span><span class="n">scl1</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">tol1</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<span class="k">                do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="w"></span>
-<span class="w">                    </span><span class="n">pmat1</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pmat1</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">)</span><span class="o">/</span><span class="n">scl1</span><span class="w"></span>
+<span class="k">                do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">n</span>
+<span class="w">                    </span><span class="n">pmat1</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pmat1</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">)</span><span class="o">/</span><span class="n">scl1</span>
 <span class="w">                </span><span class="k">end do</span>
-<span class="k">                if</span><span class="w"> </span><span class="p">(</span><span class="n">istrt1</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="n">coef</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">wcoef</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="o">*</span><span class="n">scl1</span><span class="w"></span>
+<span class="k">                if</span><span class="w"> </span><span class="p">(</span><span class="n">istrt1</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="n">coef</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">wcoef</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="o">*</span><span class="n">scl1</span>
 <span class="w">                </span><span class="c">! also put a scaled version of wcoef into coef if istrt1=1.</span>
 <span class="w">            </span><span class="k">else if</span><span class="w"> </span><span class="p">(</span><span class="n">istrt1</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<span class="k">                </span><span class="n">coef</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">wcoef</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"></span>
+<span class="k">                </span><span class="n">coef</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">wcoef</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
 <span class="w">            </span><span class="k">end if</span>
-<span class="k">        end do</span><span class="w"></span>
+<span class="k">        end do</span>
 
 <span class="w">        </span><span class="c">! if istrt1=1, for use in conenr set coef = (-s1*scl**2)*coef, where</span>
 <span class="w">        </span><span class="c">! s1 = s/(s + (1.0-s)*scl**2) is the s value in the scaled situation.</span>
 <span class="w">        </span><span class="c">! note that a partly scaled version of wcoef (see loop ending with the</span>
 <span class="w">        </span><span class="c">! statement numbered 190 above) is already in coef if istrt1=1.</span>
-<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">istrt1</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span><span class="w"></span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">istrt1</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
 <span class="w">            </span><span class="c">! if we had ncor &gt; n, reset ncor to n.</span>
-<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">ncor</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="n">ncor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n</span><span class="w"></span>
-<span class="w">            </span><span class="n">fact</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="p">(</span><span class="n">s</span><span class="o">/</span><span class="p">(</span><span class="n">s</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="n">one</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">s</span><span class="p">)</span><span class="o">*</span><span class="n">scl</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span><span class="o">*</span><span class="n">scl</span><span class="o">**</span><span class="mi">2</span><span class="w"></span>
-<span class="w">            </span><span class="k">do </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">m</span><span class="w"></span>
-<span class="w">                </span><span class="n">coef</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fact</span><span class="o">*</span><span class="n">coef</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">ncor</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="n">ncor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n</span>
+<span class="w">            </span><span class="n">fact</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="p">(</span><span class="n">s</span><span class="o">/</span><span class="p">(</span><span class="n">s</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="n">one</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">s</span><span class="p">)</span><span class="o">*</span><span class="n">scl</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span><span class="o">*</span><span class="n">scl</span><span class="o">**</span><span class="mi">2</span>
+<span class="w">            </span><span class="k">do </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">m</span>
+<span class="w">                </span><span class="n">coef</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fact</span><span class="o">*</span><span class="n">coef</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
 <span class="w">            </span><span class="k">end do</span>
-<span class="k">        end if</span><span class="w"></span>
+<span class="k">        end if</span>
 
 <span class="w">        </span><span class="c">! call conenr to compute the nearest point to r in the cone of</span>
 <span class="w">        </span><span class="c">! nonnegative linear combinations of columns of pmat1.</span>
-<span class="w">        </span><span class="k">call </span><span class="n">conenr</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="n">pmat1</span><span class="p">,</span><span class="w"> </span><span class="n">r</span><span class="p">,</span><span class="w"> </span><span class="n">istrt1</span><span class="p">,</span><span class="w"> </span><span class="n">ncor</span><span class="p">,</span><span class="w"> </span><span class="n">icor</span><span class="p">,</span><span class="w"> </span><span class="n">tol</span><span class="p">,</span><span class="w"> </span><span class="n">iwork</span><span class="p">,</span><span class="w"> </span><span class="n">liwrk</span><span class="p">,</span><span class="w"> </span><span class="n">work</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                    </span><span class="n">lwrk</span><span class="p">,</span><span class="w"> </span><span class="n">work</span><span class="p">(</span><span class="n">ilc39</span><span class="p">),</span><span class="w"> </span><span class="n">work</span><span class="p">(</span><span class="n">ilc32</span><span class="p">),</span><span class="w"> </span><span class="n">work</span><span class="p">(</span><span class="n">ilc28</span><span class="p">),</span><span class="w"> </span><span class="n">nparm</span><span class="p">,</span><span class="w"> </span><span class="n">numgr</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                    </span><span class="n">coef</span><span class="p">,</span><span class="w"> </span><span class="n">ptnr</span><span class="p">,</span><span class="w"> </span><span class="n">dist</span><span class="p">,</span><span class="w"> </span><span class="n">nmaj</span><span class="p">,</span><span class="w"> </span><span class="n">nmin</span><span class="p">,</span><span class="w"> </span><span class="n">jflag</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="k">call </span><span class="n">conenr</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="n">pmat1</span><span class="p">,</span><span class="w"> </span><span class="n">r</span><span class="p">,</span><span class="w"> </span><span class="n">istrt1</span><span class="p">,</span><span class="w"> </span><span class="n">ncor</span><span class="p">,</span><span class="w"> </span><span class="n">icor</span><span class="p">,</span><span class="w"> </span><span class="n">tol</span><span class="p">,</span><span class="w"> </span><span class="n">iwork</span><span class="p">,</span><span class="w"> </span><span class="n">liwrk</span><span class="p">,</span><span class="w"> </span><span class="n">work</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                    </span><span class="n">lwrk</span><span class="p">,</span><span class="w"> </span><span class="n">work</span><span class="p">(</span><span class="n">ilc39</span><span class="p">),</span><span class="w"> </span><span class="n">work</span><span class="p">(</span><span class="n">ilc32</span><span class="p">),</span><span class="w"> </span><span class="n">work</span><span class="p">(</span><span class="n">ilc28</span><span class="p">),</span><span class="w"> </span><span class="n">nparm</span><span class="p">,</span><span class="w"> </span><span class="n">numgr</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                    </span><span class="n">coef</span><span class="p">,</span><span class="w"> </span><span class="n">ptnr</span><span class="p">,</span><span class="w"> </span><span class="n">dist</span><span class="p">,</span><span class="w"> </span><span class="n">nmaj</span><span class="p">,</span><span class="w"> </span><span class="n">nmin</span><span class="p">,</span><span class="w"> </span><span class="n">jflag</span><span class="p">)</span>
 
 <span class="w">        </span><span class="c">! if jflag=3 then conenr has failed, possibly because scl was too large.</span>
-<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">jflag</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="k">then</span><span class="w"></span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">jflag</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
 <span class="w">            </span><span class="c">! here jflag /= 3 and we compute s1 = 1.0 - ptnr(n).</span>
-<span class="w">            </span><span class="n">s1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">one</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">ptnr</span><span class="p">(</span><span class="n">n</span><span class="p">)</span><span class="w"></span>
-<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">s1</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">s1low</span><span class="p">)</span><span class="w"> </span><span class="k">then</span><span class="w"></span>
+<span class="w">            </span><span class="n">s1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">one</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">ptnr</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">s1</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">s1low</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
 
 <span class="w">                </span><span class="c">! here jflag /= 3 and s1 &gt;= s1low, so if also s1 &lt;= s1hi we accept</span>
 <span class="w">                </span><span class="c">! the result from conenr and move on.</span>
-<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">s1</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">s1hi</span><span class="p">)</span><span class="w"> </span><span class="k">goto</span><span class="w"> </span><span class="mi">700</span><span class="w"></span>
+<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">s1</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">s1hi</span><span class="p">)</span><span class="w"> </span><span class="k">goto</span><span class="w"> </span><span class="mi">700</span>
 
 <span class="w">                </span><span class="c">! here jflag /= 3 and s1 &gt; s1hi, so if itcon &lt; lmcon we try</span>
 <span class="w">                </span><span class="c">! again with larger scl.</span>
 <span class="w">                </span><span class="c">! if here jflag=0 and ncor=0 the nearest point to the origin in the</span>
 <span class="w">                </span><span class="c">! polytope appears to be the origin so we forego adjusting scl.</span>
-<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">jflag</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">goto</span><span class="w"> </span><span class="mi">600</span><span class="w"></span>
-<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">ncor</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">goto</span><span class="w"> </span><span class="mi">600</span><span class="w"></span>
-<span class="w">                </span><span class="k">goto</span><span class="w"> </span><span class="mi">700</span><span class="w"></span>
+<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">jflag</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">goto</span><span class="w"> </span><span class="mi">600</span>
+<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">ncor</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">goto</span><span class="w"> </span><span class="mi">600</span>
+<span class="w">                </span><span class="k">goto</span><span class="w"> </span><span class="mi">700</span>
 <span class="w">            </span><span class="k">end if</span>
-<span class="k">        end if</span><span class="w"></span>
+<span class="k">        end if</span>
 <span class="w">        </span><span class="c">! here jflag=3 or s1 &lt; s1low, so if itcon &lt; lmcon we try again with</span>
 <span class="w">        </span><span class="c">! smaller scl.</span>
-<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">itcon</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">lmcon</span><span class="p">)</span><span class="w"> </span><span class="k">then</span><span class="w"></span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">itcon</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">lmcon</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
 
 <span class="w">            </span><span class="c">! here we increment itcon and if scl was not already very small we</span>
 <span class="w">            </span><span class="c">! decrease it and try conenr again.</span>
-<span class="w">            </span><span class="n">itcon</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">itcon</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">            </span><span class="n">itcon</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">itcon</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
 <span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">iup</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
 
-<span class="k">            else if</span><span class="w"> </span><span class="p">(</span><span class="n">iup</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span><span class="w"></span>
+<span class="k">            else if</span><span class="w"> </span><span class="p">(</span><span class="n">iup</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
 <span class="w">                </span><span class="c">! here iup=0 so either we are just starting (in which case we set iup=-1</span>
 <span class="w">                </span><span class="c">! to indicate we are in a phase of decreasing scl) or we are oscillating.</span>
 <span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">itcon</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<span class="k">                    </span><span class="n">iup</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="w"></span>
+<span class="k">                    </span><span class="n">iup</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span>
 <span class="w">                </span><span class="k">else</span>
-<span class="k">                    </span><span class="n">facsc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">sqrt</span><span class="p">(</span><span class="n">facsc</span><span class="p">)</span><span class="w"></span>
+<span class="k">                    </span><span class="n">facsc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">sqrt</span><span class="p">(</span><span class="n">facsc</span><span class="p">)</span>
 <span class="w">                </span><span class="k">end if</span>
-<span class="k">            else</span><span class="w"></span>
+<span class="k">            else</span>
 <span class="w">                </span><span class="c">! here iup=1 and we have oscillation in the search for a usable scl so</span>
 <span class="w">                </span><span class="c">! we replace the correction factor by its square root and reset iup to</span>
 <span class="w">                </span><span class="c">! 0 to indicate oscillation.</span>
-<span class="w">                </span><span class="n">iup</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
-<span class="w">                </span><span class="n">facsc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">sqrt</span><span class="p">(</span><span class="n">facsc</span><span class="p">)</span><span class="w"></span>
-<span class="w">            </span><span class="k">end if</span><span class="w"></span>
+<span class="w">                </span><span class="n">iup</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">                </span><span class="n">facsc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">sqrt</span><span class="p">(</span><span class="n">facsc</span><span class="p">)</span>
+<span class="w">            </span><span class="k">end if</span>
 <span class="w">            </span><span class="c">! here we decrease scl if it was not already very small.</span>
 <span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">scl</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="p">(</span><span class="n">one</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">one</span><span class="o">/</span><span class="n">ten</span><span class="p">)</span><span class="o">*</span><span class="n">tol</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<span class="k">                </span><span class="n">scl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">scl</span><span class="o">/</span><span class="n">facsc</span><span class="w"></span>
-<span class="w">                </span><span class="k">goto</span><span class="w"> </span><span class="mi">300</span><span class="w"></span>
+<span class="k">                </span><span class="n">scl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">scl</span><span class="o">/</span><span class="n">facsc</span>
+<span class="w">                </span><span class="k">goto</span><span class="w"> </span><span class="mi">300</span>
 <span class="w">            </span><span class="k">end if</span>
-<span class="k">        end if</span><span class="w"></span>
+<span class="k">        end if</span>
 
 <span class="w">        </span><span class="c">! here we were unable to get an acceptable s1 from conenr so we set</span>
 <span class="w">        </span><span class="c">! jflag=4 as a warning and return.  first try again from scratch if this</span>
 <span class="w">        </span><span class="c">! has not been done.</span>
 <span class="mi">500</span><span class="w">     </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">istrt1</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<span class="k">            </span><span class="n">jflag</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span><span class="w"></span>
+<span class="k">            </span><span class="n">jflag</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span>
 <span class="w">            </span><span class="k">return</span>
 <span class="k">        else</span>
-<span class="k">            </span><span class="n">istrt1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
-<span class="w">            </span><span class="n">itcon</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
-<span class="w">            </span><span class="n">iref</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
-<span class="w">            </span><span class="n">iup</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
-<span class="w">            </span><span class="n">facsc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fackp</span><span class="w"></span>
-<span class="w">            </span><span class="k">goto</span><span class="w"> </span><span class="mi">100</span><span class="w"></span>
+<span class="k">            </span><span class="n">istrt1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">            </span><span class="n">itcon</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">            </span><span class="n">iref</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">            </span><span class="n">iup</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">            </span><span class="n">facsc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fackp</span>
+<span class="w">            </span><span class="k">goto</span><span class="w"> </span><span class="mi">100</span>
 <span class="w">        </span><span class="k">end if</span>
-<span class="mi">600</span><span class="w">     </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">itcon</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">lmcon</span><span class="p">)</span><span class="w"> </span><span class="k">goto</span><span class="w"> </span><span class="mi">500</span><span class="w"></span>
-<span class="w">        </span><span class="n">itcon</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">itcon</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
-<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">iup</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span><span class="w"></span>
+<span class="mi">600</span><span class="w">     </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">itcon</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">lmcon</span><span class="p">)</span><span class="w"> </span><span class="k">goto</span><span class="w"> </span><span class="mi">500</span>
+<span class="w">        </span><span class="n">itcon</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">itcon</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">iup</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
 <span class="w">            </span><span class="c">! here iup=-1 and we have oscillation in the search for a usable scl so</span>
 <span class="w">            </span><span class="c">! we replace the correction factor by its square root and set iup=0</span>
 <span class="w">            </span><span class="c">! to indicate oscillation.</span>
-<span class="w">            </span><span class="n">iup</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
-<span class="w">            </span><span class="n">facsc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">sqrt</span><span class="p">(</span><span class="n">facsc</span><span class="p">)</span><span class="w"></span>
-<span class="w">            </span><span class="n">scl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">scl</span><span class="o">*</span><span class="n">facsc</span><span class="w"></span>
-<span class="w">        </span><span class="k">else if</span><span class="w"> </span><span class="p">(</span><span class="n">iup</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span><span class="w"></span>
+<span class="w">            </span><span class="n">iup</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">            </span><span class="n">facsc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">sqrt</span><span class="p">(</span><span class="n">facsc</span><span class="p">)</span>
+<span class="w">            </span><span class="n">scl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">scl</span><span class="o">*</span><span class="n">facsc</span>
+<span class="w">        </span><span class="k">else if</span><span class="w"> </span><span class="p">(</span><span class="n">iup</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
 <span class="w">            </span><span class="c">! here iup=0 so either we are just starting (in which case we set iup=1</span>
 <span class="w">            </span><span class="c">! to indicate we are in a phase of increasing scl) or we are oscillating.</span>
 <span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">itcon</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<span class="k">                </span><span class="n">iup</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
-<span class="w">                </span><span class="n">scl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">scl</span><span class="o">*</span><span class="n">facsc</span><span class="w"></span>
+<span class="k">                </span><span class="n">iup</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">                </span><span class="n">scl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">scl</span><span class="o">*</span><span class="n">facsc</span>
 <span class="w">            </span><span class="k">else</span>
-<span class="k">                </span><span class="n">facsc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">sqrt</span><span class="p">(</span><span class="n">facsc</span><span class="p">)</span><span class="w"></span>
-<span class="w">                </span><span class="n">scl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">scl</span><span class="o">*</span><span class="n">facsc</span><span class="w"></span>
+<span class="k">                </span><span class="n">facsc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">sqrt</span><span class="p">(</span><span class="n">facsc</span><span class="p">)</span>
+<span class="w">                </span><span class="n">scl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">scl</span><span class="o">*</span><span class="n">facsc</span>
 <span class="w">            </span><span class="k">end if</span>
 <span class="k">        else</span>
-<span class="k">            </span><span class="n">scl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">scl</span><span class="o">*</span><span class="n">facsc</span><span class="w"></span>
+<span class="k">            </span><span class="n">scl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">scl</span><span class="o">*</span><span class="n">facsc</span>
 <span class="w">        </span><span class="k">end if</span>
-<span class="k">        goto</span><span class="w"> </span><span class="mi">400</span><span class="w"></span>
+<span class="k">        goto</span><span class="w"> </span><span class="mi">400</span>
 
 <span class="w">        </span><span class="c">! here conenr may have succeeded and we compute the nearest point</span>
 <span class="w">        </span><span class="c">! (wpt,s1)=r-ptnr to r from the dual of the cone described earlier.</span>
 <span class="w">        </span><span class="c">! this new cone is the set of (x,t) such that (a(k)/scl,b(k)).(x,t) &lt;=</span>
 <span class="w">        </span><span class="c">! 0.0 for k=1,...,m.</span>
-<span class="mi">700</span><span class="w">     </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">ndm</span><span class="w"></span>
-<span class="w">            </span><span class="n">wpt</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">ptnr</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"></span>
-<span class="w">        </span><span class="k">end do</span><span class="w"></span>
+<span class="mi">700</span><span class="w">     </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">ndm</span>
+<span class="w">            </span><span class="n">wpt</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">ptnr</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+<span class="w">        </span><span class="k">end do</span>
 <span class="w">        </span><span class="c">! divide wpt by s1*scl.</span>
-<span class="w">        </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">ndm</span><span class="w"></span>
-<span class="w">            </span><span class="n">wpt</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">wpt</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">s1</span><span class="o">*</span><span class="n">scl</span><span class="p">)</span><span class="w"></span>
-<span class="w">        </span><span class="k">end do</span><span class="w"></span>
+<span class="w">        </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">ndm</span>
+<span class="w">            </span><span class="n">wpt</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">wpt</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">s1</span><span class="o">*</span><span class="n">scl</span><span class="p">)</span>
+<span class="w">        </span><span class="k">end do</span>
 <span class="w">        </span><span class="c">! compute the maximum wolfe constraint violation as a check.</span>
-<span class="mi">800</span><span class="w">     </span><span class="k">do </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">m</span><span class="w"></span>
-<span class="w">            </span><span class="n">v1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pmat</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">)</span><span class="w"></span>
-<span class="w">            </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">ndm</span><span class="w"></span>
-<span class="w">                </span><span class="n">v1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">v1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">pmat</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">)</span><span class="o">*</span><span class="n">wpt</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"></span>
+<span class="mi">800</span><span class="w">     </span><span class="k">do </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">m</span>
+<span class="w">            </span><span class="n">v1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pmat</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">)</span>
+<span class="w">            </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">ndm</span>
+<span class="w">                </span><span class="n">v1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">v1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">pmat</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">)</span><span class="o">*</span><span class="n">wpt</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
 <span class="w">            </span><span class="k">end do</span>
 <span class="k">            if</span><span class="w"> </span><span class="p">(</span><span class="n">j</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<span class="k">                if</span><span class="w"> </span><span class="p">(</span><span class="n">v1</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">vmax</span><span class="p">)</span><span class="w"> </span><span class="k">goto</span><span class="w"> </span><span class="mi">900</span><span class="w"></span>
+<span class="k">                if</span><span class="w"> </span><span class="p">(</span><span class="n">v1</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">vmax</span><span class="p">)</span><span class="w"> </span><span class="k">goto</span><span class="w"> </span><span class="mi">900</span>
 <span class="w">            </span><span class="k">end if</span>
-<span class="k">            </span><span class="n">jmax</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">j</span><span class="w"></span>
-<span class="w">            </span><span class="n">vmax</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">v1</span><span class="w"></span>
-<span class="mi">900</span><span class="w">     </span><span class="k">end do</span><span class="w"></span>
+<span class="k">            </span><span class="n">jmax</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">j</span>
+<span class="w">            </span><span class="n">vmax</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">v1</span>
+<span class="mi">900</span><span class="w">     </span><span class="k">end do</span>
 <span class="w">        </span><span class="c">! if vmax &lt;= violm we reset jflag to 0 and accept the result.</span>
 <span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">vmax</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">violm</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<span class="k">            </span><span class="n">jflag</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="k">            </span><span class="n">jflag</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
 
 <span class="w">            </span><span class="c">! divide the coefficients by -s1*scl**2.</span>
-<span class="w">            </span><span class="k">do </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">m</span><span class="w"></span>
-<span class="w">                </span><span class="n">wcoef</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">coef</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">s1</span><span class="o">*</span><span class="n">scl</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="w"></span>
-<span class="w">            </span><span class="k">end do</span><span class="w"></span>
+<span class="w">            </span><span class="k">do </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">m</span>
+<span class="w">                </span><span class="n">wcoef</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">coef</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">s1</span><span class="o">*</span><span class="n">scl</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+<span class="w">            </span><span class="k">end do</span>
 
 <span class="w">            </span><span class="c">! we now reconstruct the normal scaling factors computed in the loop</span>
 <span class="w">            </span><span class="c">! ending with the statement labelled 190 in this subroutine.  in a later</span>
@@ -984,67 +1320,67 @@ solution may be no good).</p></td>
 <span class="w">            </span><span class="c">! value unless it is less than tol1, in which we (in effect) take scl1=1.0.</span>
 <span class="w">            </span><span class="c">! finally, since wcoef(j) was computed with the jth column of pmat divided</span>
 <span class="w">            </span><span class="c">! by scl1 it contains a hidden factor of scl1, which we divide out.</span>
-<span class="w">            </span><span class="k">do </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">m</span><span class="w"></span>
-<span class="w">                </span><span class="n">scl1a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">zero</span><span class="w"></span>
-<span class="w">                </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">ndm</span><span class="w"></span>
-<span class="w">                    </span><span class="n">ab</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">abs</span><span class="p">(</span><span class="n">pmat</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">))</span><span class="w"></span>
-<span class="w">                    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">ab</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">scl1a</span><span class="p">)</span><span class="w"> </span><span class="n">scl1a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ab</span><span class="w"></span>
+<span class="w">            </span><span class="k">do </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">m</span>
+<span class="w">                </span><span class="n">scl1a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">zero</span>
+<span class="w">                </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">ndm</span>
+<span class="w">                    </span><span class="n">ab</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">abs</span><span class="p">(</span><span class="n">pmat</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">))</span>
+<span class="w">                    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">ab</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">scl1a</span><span class="p">)</span><span class="w"> </span><span class="n">scl1a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ab</span>
 <span class="w">                </span><span class="k">end do</span>
-<span class="k">                </span><span class="n">scl1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">scl1a</span><span class="o">/</span><span class="n">scl</span><span class="w"></span>
-<span class="w">                </span><span class="n">ab</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">abs</span><span class="p">(</span><span class="n">pmat</span><span class="p">(</span><span class="n">ndm</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">))</span><span class="w"></span>
-<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">ab</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">scl1</span><span class="p">)</span><span class="w"> </span><span class="n">scl1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ab</span><span class="w"></span>
-<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">scl1</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">tol1</span><span class="p">)</span><span class="w"> </span><span class="n">wcoef</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">wcoef</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="o">/</span><span class="n">scl1</span><span class="w"></span>
-<span class="w">            </span><span class="k">end do</span><span class="w"></span>
+<span class="k">                </span><span class="n">scl1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">scl1a</span><span class="o">/</span><span class="n">scl</span>
+<span class="w">                </span><span class="n">ab</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">abs</span><span class="p">(</span><span class="n">pmat</span><span class="p">(</span><span class="n">ndm</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">))</span>
+<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">ab</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">scl1</span><span class="p">)</span><span class="w"> </span><span class="n">scl1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ab</span>
+<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">scl1</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">tol1</span><span class="p">)</span><span class="w"> </span><span class="n">wcoef</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">wcoef</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="o">/</span><span class="n">scl1</span>
+<span class="w">            </span><span class="k">end do</span>
 
 <span class="w">            </span><span class="c">! compute the s value for the unscaled situation.</span>
-<span class="w">            </span><span class="n">s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">s1</span><span class="o">/</span><span class="p">(</span><span class="n">s1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="n">one</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">s1</span><span class="p">)</span><span class="o">/</span><span class="n">scl</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="n">s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">s1</span><span class="o">/</span><span class="p">(</span><span class="n">s1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="n">one</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">s1</span><span class="p">)</span><span class="o">/</span><span class="n">scl</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
 <span class="w">            </span><span class="c">! copy wpt into ptnr to get the right dimension for dotprd and compute</span>
 <span class="w">            </span><span class="c">! the distance.</span>
-<span class="w">            </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">ndm</span><span class="w"></span>
-<span class="w">                </span><span class="n">ptnr</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">wpt</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">ndm</span>
+<span class="w">                </span><span class="n">ptnr</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">wpt</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
 <span class="w">            </span><span class="k">end do</span>
-<span class="k">            </span><span class="n">ptnr</span><span class="p">(</span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">zero</span><span class="w"></span>
-<span class="w">            </span><span class="n">wdist</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">sqrt</span><span class="p">(</span><span class="n">dotprd</span><span class="p">(</span><span class="n">ndm</span><span class="p">,</span><span class="w"> </span><span class="n">ptnr</span><span class="p">,</span><span class="w"> </span><span class="n">ptnr</span><span class="p">,</span><span class="w"> </span><span class="n">nparm</span><span class="p">))</span><span class="w"></span>
+<span class="k">            </span><span class="n">ptnr</span><span class="p">(</span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">zero</span>
+<span class="w">            </span><span class="n">wdist</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">sqrt</span><span class="p">(</span><span class="n">dotprd</span><span class="p">(</span><span class="n">ndm</span><span class="p">,</span><span class="w"> </span><span class="n">ptnr</span><span class="p">,</span><span class="w"> </span><span class="n">ptnr</span><span class="p">,</span><span class="w"> </span><span class="n">nparm</span><span class="p">))</span>
 <span class="w">            </span><span class="k">return</span>
-<span class="k">        else</span><span class="w"></span>
+<span class="k">        else</span>
 
 <span class="w">            </span><span class="c">! here vmax is too large.</span>
-<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">iref</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span><span class="w"></span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">iref</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
 <span class="w">                </span><span class="c">! here we have unsuccessfully tried to refine wpt with refwl at least</span>
 <span class="w">                </span><span class="c">! once.  if ncor &lt; ndm and the worst violation occurred outside</span>
 <span class="w">                </span><span class="c">! icor we will put it in icor and try refwl again, otherwise we will</span>
 <span class="w">                </span><span class="c">! set jflag=7 and return (first trying from scratch if this has not</span>
 <span class="w">                </span><span class="c">! been done).</span>
-<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">ncor</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">ndm</span><span class="p">)</span><span class="w"> </span><span class="k">goto</span><span class="w"> </span><span class="mi">1000</span><span class="w"></span>
+<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">ncor</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">ndm</span><span class="p">)</span><span class="w"> </span><span class="k">goto</span><span class="w"> </span><span class="mi">1000</span>
 <span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">ncor</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<span class="k">                    do </span><span class="n">l</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">ncor</span><span class="w"></span>
-<span class="w">                        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">jmax</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">icor</span><span class="p">(</span><span class="n">l</span><span class="p">))</span><span class="w"> </span><span class="k">goto</span><span class="w"> </span><span class="mi">1000</span><span class="w"></span>
+<span class="k">                    do </span><span class="n">l</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">ncor</span>
+<span class="w">                        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">jmax</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">icor</span><span class="p">(</span><span class="n">l</span><span class="p">))</span><span class="w"> </span><span class="k">goto</span><span class="w"> </span><span class="mi">1000</span>
 <span class="w">                    </span><span class="k">end do</span>
 <span class="k">                end if</span>
-<span class="k">                </span><span class="n">ncor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ncor</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
-<span class="w">                </span><span class="n">icor</span><span class="p">(</span><span class="n">ncor</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">jmax</span><span class="w"></span>
-<span class="w">            </span><span class="k">end if</span><span class="w"></span>
+<span class="k">                </span><span class="n">ncor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ncor</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">                </span><span class="n">icor</span><span class="p">(</span><span class="n">ncor</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">jmax</span>
+<span class="w">            </span><span class="k">end if</span>
 
 <span class="w">            </span><span class="c">! increment iref and call refwl to attempt to refine wpt, then go back</span>
 <span class="w">            </span><span class="c">! and recheck the maximum constraint violation.</span>
-<span class="w">            </span><span class="n">iref</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">iref</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
-<span class="w">            </span><span class="k">call </span><span class="n">refwl</span><span class="p">(</span><span class="n">ndm</span><span class="p">,</span><span class="w"> </span><span class="n">ncor</span><span class="p">,</span><span class="w"> </span><span class="n">icor</span><span class="p">,</span><span class="w"> </span><span class="n">pmat</span><span class="p">,</span><span class="w"> </span><span class="n">pmat1</span><span class="p">,</span><span class="w"> </span><span class="n">nparm</span><span class="p">,</span><span class="w"> </span><span class="n">numgr</span><span class="p">,</span><span class="w"> </span><span class="n">iwork</span><span class="p">(</span><span class="n">ilc18</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                       </span><span class="n">work</span><span class="p">(</span><span class="n">ilc34</span><span class="p">),</span><span class="w"> </span><span class="n">wpt</span><span class="p">)</span><span class="w"></span>
-<span class="w">            </span><span class="k">goto</span><span class="w"> </span><span class="mi">800</span><span class="w"></span>
+<span class="w">            </span><span class="n">iref</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">iref</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">            </span><span class="k">call </span><span class="n">refwl</span><span class="p">(</span><span class="n">ndm</span><span class="p">,</span><span class="w"> </span><span class="n">ncor</span><span class="p">,</span><span class="w"> </span><span class="n">icor</span><span class="p">,</span><span class="w"> </span><span class="n">pmat</span><span class="p">,</span><span class="w"> </span><span class="n">pmat1</span><span class="p">,</span><span class="w"> </span><span class="n">nparm</span><span class="p">,</span><span class="w"> </span><span class="n">numgr</span><span class="p">,</span><span class="w"> </span><span class="n">iwork</span><span class="p">(</span><span class="n">ilc18</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                       </span><span class="n">work</span><span class="p">(</span><span class="n">ilc34</span><span class="p">),</span><span class="w"> </span><span class="n">wpt</span><span class="p">)</span>
+<span class="w">            </span><span class="k">goto</span><span class="w"> </span><span class="mi">800</span>
 <span class="w">        </span><span class="k">end if</span>
 
 <span class="mi">1000</span><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">istrt1</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<span class="k">            </span><span class="n">istrt1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
-<span class="w">            </span><span class="n">itcon</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
-<span class="w">            </span><span class="n">iref</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
-<span class="w">            </span><span class="n">iup</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
-<span class="w">            </span><span class="n">facsc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fackp</span><span class="w"></span>
-<span class="w">            </span><span class="k">goto</span><span class="w"> </span><span class="mi">100</span><span class="w"></span>
+<span class="k">            </span><span class="n">istrt1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">            </span><span class="n">itcon</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">            </span><span class="n">iref</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">            </span><span class="n">iup</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">            </span><span class="n">facsc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fackp</span>
+<span class="w">            </span><span class="k">goto</span><span class="w"> </span><span class="mi">100</span>
 <span class="w">        </span><span class="k">end if</span>
 
-<span class="k">        </span><span class="n">jflag</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">7</span><span class="w"></span>
+<span class="k">        </span><span class="n">jflag</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">7</span>
 
-<span class="w">    </span><span class="k">end subroutine </span><span class="n">wolfe</span><span class="w"></span>
+<span class="w">    </span><span class="k">end subroutine </span><span class="n">wolfe</span>
 </pre></div>
 
     </section>
@@ -1053,47 +1389,45 @@ solution may be no good).</p></td>
     </div>
   </div>
 
-    <hr>    
+      <hr>
     </div> <!-- /container -->
     <footer>
       <div class="container">
-      <div class="row">
-        <div class="col-xs-6 col-md-6"><p>conmax was developed by Jacob Williams<br>&copy; 2022 
+        <div class="row justify-content-between">
+          <div class="col"><p>conmax was developed by Jacob Williams<br>&copy; 2024 
 </p>
+          </div>
+          <div class="col">
+            <p class="text-end">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+            </p>
+          </div>
         </div>
-        <div class="col-xs-6 col-md-6">
-          <p class="text-right">
-            Documentation generated by 
-            <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
-          </p>
-        </div>
-      </div>
-      <br>
-      </div> <!-- /container -->    
+        <br>
+      </div> <!-- /container -->
     </footer>
 
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
+    <!-- Bootstrap core JavaScript -->
     <!-- Placed at the end of the document so the pages load faster -->
-<!--
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
--->
-    <script src="../js/bootstrap.min.js"></script>
-    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <script src="../js/ie10-viewport-bug-workaround.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>    
 
     <!-- MathJax JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Config({
-        TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
-        jax: ['input/TeX','input/MathML','output/HTML-CSS'],
-        extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
-      });
-    </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
-    
+             ================================================== -->
+             <!-- Placed at the end of the document so the pages load faster -->
+        <script type="text/x-mathjax-config">
+          MathJax.Hub.Config({
+          TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
+          jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+          extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
+          });
+        </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+          <script src="../tipuesearch/tipuesearch_content.js"></script>
+          <script src="../tipuesearch/tipuesearch_set.js"></script>
+          <script src="../tipuesearch/tipuesearch.js"></script>
+
   </body>
 </html>

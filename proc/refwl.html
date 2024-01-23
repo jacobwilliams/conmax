@@ -1,122 +1,149 @@
+<!-- -*- mode: jinja2 -*- -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-   <meta name="description" content="CONMAX -- General nonlinearly constrained function minimization">
+      <meta name="description" content="CONMAX -- General nonlinearly constrained function minimization">
     <meta name="author" content="Jacob Williams" >
     <link rel="icon" href="../favicon.png">
 
     <title>refwl &ndash; conmax</title>
 
-    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link href="../css/pygments.css" rel="stylesheet">
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
+      <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
 
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
-    
-    <script src="../js/jquery-2.1.3.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="../js/svg-pan-zoom.min.js"></script>
-
   </head>
 
   <body>
 
     <!-- Fixed navbar -->
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
           <a class="navbar-brand" href="../index.html">conmax </a>
-        </div>
-        <div id="navbar" class="navbar-collapse collapse">
-          <ul class="nav navbar-nav">
-            <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
-              <a href="#" class="dropdown-toggle"
-              data-toggle="dropdown" role="button"
-              aria-haspopup="true"
-     aria-expanded="false">Contents <span class="caret"></span></a>
-        <ul class="dropdown-menu">
-            <li><a href="../sourcefile/conmax.f90.html">Source File</a></li>
-            <li><a href="../lists/modules.html">Modules</a></li>
-            <li><a href="../lists/procedures.html">Procedures</a></li>
-            <li><a href="../lists/absint.html">Abstract Interfaces</a></li>
-                   <li><a href="../lists/types.html">Derived Types</a></li>
-       
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link" href="sourcefile/conmax.f90.html">Source File</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
             </ul>
-        
-            </li>
-<li class="visible-xs hidden-sm visible-lg"><a href="../sourcefile/conmax.f90.html">Source File</a></li>
-<li class="visible-xs hidden-sm visible-lg"><a href="../lists/modules.html">Modules</a></li>
-<li class="visible-xs hidden-sm visible-lg"><a href="../lists/procedures.html">Procedures</a></li>
-<li class="visible-xs hidden-sm visible-lg"><a href="../lists/absint.html">Abstract Interfaces</a></li>
-                             <li class="visible-xs hidden-sm visible-lg"><a href="../lists/types.html">Derived Types</a></li>
-          </ul>
-        </div><!--/.nav-collapse -->
-      </div>
-    </nav>
+              <div class="d-flex align-items-end flex-grow-1">
+                <form action="../search.html" role="search" class="ms-auto">
+                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                </form>
+              </div>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
 
     <div class="container">
   <div class="row">
     <h1>refwl
       <small>Subroutine</small>
+      
     </h1>
-    <div class="row">
-  <div class="col-lg-12">
-<div class="well well-sm">
-  <ul class="list-inline" style="margin-bottom:0px;display:inline">
-     <li><i class="fa fa-list-ol"></i>
-       <a data-toggle="tooltip"
-    data-placement="bottom" data-html="true"
-    title=" 4.1% of total for procedures.">141 statements</a>
-     </li> 
-    <li><i class="fa fa-code"></i><a href="../src/conmax.f90"> Source File</a></li>
-  </ul>
-  <ol class="breadcrumb in-well text-right">
-     <li><a href='../sourcefile/conmax.f90.html'>conmax.f90</a></li>
-     <li><a href='../module/conmax_module.html'>conmax_module</a></li>
-     <li class="active">refwl</li>
-  </ol>
-</div>
-</div>
-</div>
-<script>
-  $(function () {
-  $('[data-toggle="tooltip"]').tooltip()
-  })
-</script>
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip"
+                 data-bs-placement="bottom" data-html="true"
+                 title=" 4.1% of total for procedures.">141 statements</a>
+            </li>
+
+            <li class="list-inline-item" id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/conmax.f90"> Source File</a>
+            </li>
+        </ul>
+      </div>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+                <li class="breadcrumb-item"><a href='../sourcefile/conmax.f90.html'>conmax.f90</a></li>
+                <li class="breadcrumb-item"><a href='../module/conmax_module.html'>conmax_module</a></li>
+            <li class="breadcrumb-item active" aria-current="page">refwl</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <script>
+    $(function () {
+    $('[data-bs-toggle="tooltip"]').tooltip()
+    })
+  </script>
 
   </div>
   
   <div class="row">
     <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
-    <div id="sidebar">
-  <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/refwl.html#src">refwl</a>
-  </div>
-</div>
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="card card-primary">
+      <div class="card-header text-left"><h3 class="card-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/refwl.html#src">refwl</a>
+      </div>
+    </div>
 
-</div>
+
+  </div>
 
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>private subroutine refwl(Ndm, Ncor, Icor, Pmat, Pmat1, Nparm, Numgr, Ixrct, Save, Wpt)</h2>
+    <h2>private  subroutine refwl(Ndm, Ncor, Icor, Pmat, Pmat1, Nparm, Numgr, Ixrct, Save, Wpt)  
+</h2>
     
 
     <p>This subroutine attempts to refine the ndm dimensional vector wpt
@@ -127,186 +154,364 @@ nresl resolvents are chosen by total pivoting.  if nresl &lt; ndm then
 the remaining ndm-nresl elements of wpt are kept form the old wpt.
 itrlm steps of iterative refinement are attempted at the end.</p>
 
+
     <h3>Arguments</h3>
-      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-ndm~2"></span>integer,</td>
+        <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-ndm~2"></span>
+              integer,
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>Ndm</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-ncor~5"></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>Ndm</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-ncor~5"></span>
+              integer,
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>Ncor</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-icor~3"></span>integer</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>Ncor</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-icor~3"></span>
+              integer
+            </td>
 <td></td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>Icor</strong>(Nparm+1)</td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-pmat~6"></span>real(kind=wp)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>Icor</strong>(Nparm+1)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-pmat~6"></span>
+              real(kind=wp)
+            </td>
 <td></td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>Pmat</strong>(Nparm+1,Numgr)</td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-pmat1~3"></span>real(kind=wp)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>Pmat</strong>(Nparm+1,Numgr)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-pmat1~3"></span>
+              real(kind=wp)
+            </td>
 <td></td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>Pmat1</strong>(Nparm+1,Numgr)</td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-nparm~21"></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>Pmat1</strong>(Nparm+1,Numgr)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-nparm~21"></span>
+              integer,
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>Nparm</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-numgr~20"></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>Nparm</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-numgr~20"></span>
+              integer,
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>Numgr</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-ixrct~2"></span>integer</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>Numgr</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-ixrct~2"></span>
+              integer
+            </td>
 <td></td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>Ixrct</strong>(2*Nparm)</td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-save~2"></span>real(kind=wp)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>Ixrct</strong>(2*Nparm)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-save~2"></span>
+              real(kind=wp)
+            </td>
 <td></td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>Save</strong>(Nparm)</td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-wpt~2"></span>real(kind=wp)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>Save</strong>(Nparm)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-wpt~2"></span>
+              real(kind=wp)
+            </td>
 <td></td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>Wpt</strong>(Nparm+1)</td><td></td>
-</tr>
-</tbody>
-</table>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>Wpt</strong>(Nparm+1)</td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
 
     <br>
-    <div class="panel panel-default">
-      <div class="panel-heading">
-  <h3 class="panel-title">Called by</h3>
+    <div class="card">
+      <div class="card-header">
+  <h3 class="card-title">Called by</h3>
       </div>
-      <div class="panel-body">
+      <div class="card-body">
   <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <!-- Generated by graphviz version 2.43.0 (0)
  -->
 <!-- Title: proc~~refwl~~CalledByGraph Pages: 1 -->
-<svg id="procrefwlCalledByGraph" width="243pt" height="158pt"
- viewBox="0.00 0.00 243.00 158.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g id="proc~~refwl~~CalledByGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 154)">
+<svg id="procrefwlCalledByGraph" width="641pt" height="77pt"
+ viewBox="0.00 0.00 641.00 76.98" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="proc~~refwl~~CalledByGraph" class="graph" transform="scale(2.17 2.17) rotate(0) translate(4 163.17)">
 <title>proc~~refwl~~CalledByGraph</title>
-<polygon fill="white" stroke="transparent" points="-4,4 -4,-154 239,-154 239,4 -4,4"/>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-163.17 1388,-163.17 1388,4 -4,4"/>
 <!-- proc~refwl -->
 <g id="proc~~refwl~~CalledByGraph_node1" class="node">
 <title>proc~refwl</title>
-<polygon fill="none" stroke="black" points="235,-87 181,-87 181,-63 235,-63 235,-87"/>
-<text text-anchor="middle" x="208" y="-72.6" font-family="Helvetica,sans-Serif" font-size="10.50">refwl</text>
+<polygon fill="none" stroke="black" points="1384,-67.96 1250,-67.96 1250,-43.96 1384,-43.96 1384,-67.96"/>
+<text text-anchor="middle" x="1317" y="-53.56" font-family="Helvetica,sans-Serif" font-size="10.50">conmax_module::refwl</text>
 </g>
 <!-- proc~wolfe -->
 <g id="proc~~refwl~~CalledByGraph_node2" class="node">
 <title>proc~wolfe</title>
-<g id="a_proc~~refwl~~CalledByGraph_node2"><a xlink:href=".././proc/wolfe.html" xlink:title="wolfe">
-<polygon fill="#d9534f" stroke="#d9534f" points="145,-87 91,-87 91,-63 145,-63 145,-87"/>
-<text text-anchor="middle" x="118" y="-72.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">wolfe</text>
+<g id="a_proc~~refwl~~CalledByGraph_node2"><a xlink:href="../proc/wolfe.html" xlink:title="conmax_module::wolfe">
+<polygon fill="#d9534f" stroke="#d9534f" points="1214,-67.96 1077,-67.96 1077,-43.96 1214,-43.96 1214,-67.96"/>
+<text text-anchor="middle" x="1145.5" y="-53.56" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">conmax_module::wolfe</text>
 </a>
 </g>
 </g>
 <!-- proc~wolfe&#45;&gt;proc~refwl -->
 <g id="proc~~refwl~~CalledByGraph_edge1" class="edge">
 <title>proc~wolfe&#45;&gt;proc~refwl</title>
-<path fill="none" stroke="#000000" d="M145.4,-75C153.39,-75 162.31,-75 170.82,-75"/>
-<polygon fill="#000000" stroke="#000000" points="170.92,-78.5 180.92,-75 170.92,-71.5 170.92,-78.5"/>
+<path fill="none" stroke="#000000" d="M1214.47,-55.96C1222.78,-55.96 1231.32,-55.96 1239.75,-55.96"/>
+<polygon fill="#000000" stroke="#000000" points="1239.95,-59.46 1249.95,-55.96 1239.95,-52.46 1239.95,-59.46"/>
 </g>
 <!-- proc~conmax -->
 <g id="proc~~refwl~~CalledByGraph_node3" class="node">
 <title>proc~conmax</title>
-<g id="a_proc~~refwl~~CalledByGraph_node3"><a xlink:href=".././proc/conmax.html" xlink:title="conmax">
-<polygon fill="#d9534f" stroke="#d9534f" points="55,-150 0,-150 0,-126 55,-126 55,-150"/>
-<text text-anchor="middle" x="27.5" y="-135.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">conmax</text>
+<g id="a_proc~~refwl~~CalledByGraph_node3"><a xlink:href="../proc/conmax.html" xlink:title="conmax_module::conmax_solver%conmax">
+<polygon fill="#d9534f" stroke="#d9534f" points="241,-127.96 0,-127.96 0,-103.96 241,-103.96 241,-127.96"/>
+<text text-anchor="middle" x="120.5" y="-113.56" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">conmax_module::conmax_solver%conmax</text>
 </a>
 </g>
 </g>
 <!-- proc~conmax&#45;&gt;proc~wolfe -->
 <g id="proc~~refwl~~CalledByGraph_edge2" class="edge">
 <title>proc~conmax&#45;&gt;proc~wolfe</title>
-<path fill="none" stroke="#000000" d="M45.56,-125.85C58.66,-116.53 76.95,-103.51 91.75,-92.98"/>
-<polygon fill="#000000" stroke="#000000" points="93.87,-95.76 99.99,-87.11 89.81,-90.06 93.87,-95.76"/>
+<path fill="none" stroke="#000000" d="M195.25,-127.99C221.04,-131.64 250.23,-135.16 277,-136.96 616.26,-159.77 712.71,-185.52 1041,-96.96 1064.41,-90.65 1089.74,-80.67 1109.48,-72.15"/>
+<polygon fill="#000000" stroke="#000000" points="1110.94,-75.33 1118.68,-68.1 1108.12,-68.92 1110.94,-75.33"/>
 </g>
-<!-- proc~rkpar -->
-<g id="proc~~refwl~~CalledByGraph_node4" class="node">
-<title>proc~rkpar</title>
-<g id="a_proc~~refwl~~CalledByGraph_node4"><a xlink:href=".././proc/rkpar.html" xlink:title="rkpar">
-<polygon fill="#d9534f" stroke="#d9534f" points="54.5,-108 0.5,-108 0.5,-84 54.5,-84 54.5,-108"/>
-<text text-anchor="middle" x="27.5" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">rkpar</text>
+<!-- proc~rkcon -->
+<g id="proc~~refwl~~CalledByGraph_node5" class="node">
+<title>proc~rkcon</title>
+<g id="a_proc~~refwl~~CalledByGraph_node5"><a xlink:href="../proc/rkcon.html" xlink:title="conmax_module::conmax_solver%rkcon">
+<polygon fill="#d9534f" stroke="#d9534f" points="508,-85.96 279,-85.96 279,-61.96 508,-61.96 508,-85.96"/>
+<text text-anchor="middle" x="393.5" y="-71.56" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">conmax_module::conmax_solver%rkcon</text>
 </a>
 </g>
 </g>
-<!-- proc~rkpar&#45;&gt;proc~wolfe -->
-<g id="proc~~refwl~~CalledByGraph_edge3" class="edge">
-<title>proc~rkpar&#45;&gt;proc~wolfe</title>
-<path fill="none" stroke="#000000" d="M54.57,-89.81C62.87,-87.84 72.2,-85.63 81.07,-83.53"/>
-<polygon fill="#000000" stroke="#000000" points="81.88,-86.93 90.81,-81.22 80.27,-80.12 81.88,-86.93"/>
+<!-- proc~conmax&#45;&gt;proc~rkcon -->
+<g id="proc~~refwl~~CalledByGraph_edge9" class="edge">
+<title>proc~conmax&#45;&gt;proc~rkcon</title>
+<path fill="none" stroke="#000000" d="M199.16,-103.93C232.18,-98.81 270.85,-92.82 304.9,-87.54"/>
+<polygon fill="#000000" stroke="#000000" points="305.48,-90.99 314.83,-86 304.41,-84.07 305.48,-90.99"/>
+</g>
+<!-- proc~slpcon -->
+<g id="proc~~refwl~~CalledByGraph_node8" class="node">
+<title>proc~slpcon</title>
+<g id="a_proc~~refwl~~CalledByGraph_node8"><a xlink:href="../proc/slpcon.html" xlink:title="conmax_module::conmax_solver%slpcon">
+<polygon fill="#d9534f" stroke="#d9534f" points="510,-127.96 277,-127.96 277,-103.96 510,-103.96 510,-127.96"/>
+<text text-anchor="middle" x="393.5" y="-113.56" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">conmax_module::conmax_solver%slpcon</text>
+</a>
+</g>
+</g>
+<!-- proc~conmax&#45;&gt;proc~slpcon -->
+<g id="proc~~refwl~~CalledByGraph_edge13" class="edge">
+<title>proc~conmax&#45;&gt;proc~slpcon</title>
+<path fill="none" stroke="#000000" d="M241.15,-115.96C249.52,-115.96 257.97,-115.96 266.37,-115.96"/>
+<polygon fill="#000000" stroke="#000000" points="266.58,-119.46 276.58,-115.96 266.58,-112.46 266.58,-119.46"/>
 </g>
 <!-- proc~corrct -->
-<g id="proc~~refwl~~CalledByGraph_node5" class="node">
+<g id="proc~~refwl~~CalledByGraph_node4" class="node">
 <title>proc~corrct</title>
-<g id="a_proc~~refwl~~CalledByGraph_node5"><a xlink:href=".././proc/corrct.html" xlink:title="corrct">
-<polygon fill="#d9534f" stroke="#d9534f" points="54.5,-66 0.5,-66 0.5,-42 54.5,-42 54.5,-66"/>
-<text text-anchor="middle" x="27.5" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">corrct</text>
+<g id="a_proc~~refwl~~CalledByGraph_node4"><a xlink:href="../proc/corrct.html" xlink:title="conmax_module::conmax_solver%corrct">
+<polygon fill="#d9534f" stroke="#d9534f" points="1041,-87.96 812,-87.96 812,-63.96 1041,-63.96 1041,-87.96"/>
+<text text-anchor="middle" x="926.5" y="-73.56" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">conmax_module::conmax_solver%corrct</text>
 </a>
 </g>
 </g>
 <!-- proc~corrct&#45;&gt;proc~wolfe -->
-<g id="proc~~refwl~~CalledByGraph_edge4" class="edge">
+<g id="proc~~refwl~~CalledByGraph_edge3" class="edge">
 <title>proc~corrct&#45;&gt;proc~wolfe</title>
-<path fill="none" stroke="#000000" d="M54.57,-60.19C62.87,-62.16 72.2,-64.37 81.07,-66.47"/>
-<polygon fill="#000000" stroke="#000000" points="80.27,-69.88 90.81,-68.78 81.88,-63.07 80.27,-69.88"/>
+<path fill="none" stroke="#000000" d="M1041.08,-65.49C1049.76,-64.7 1058.39,-63.9 1066.76,-63.13"/>
+<polygon fill="#000000" stroke="#000000" points="1067.18,-66.6 1076.82,-62.2 1066.54,-59.63 1067.18,-66.6"/>
 </g>
-<!-- proc~rkcon -->
+<!-- proc~rkcon&#45;&gt;proc~wolfe -->
+<g id="proc~~refwl~~CalledByGraph_edge4" class="edge">
+<title>proc~rkcon&#45;&gt;proc~wolfe</title>
+<path fill="none" stroke="#000000" d="M417.57,-61.84C446.6,-47.34 498.42,-23.9 546,-14.96 740.05,21.49 974.92,-18.53 1083.73,-41.75"/>
+<polygon fill="#000000" stroke="#000000" points="1083.03,-45.18 1093.55,-43.88 1084.51,-38.34 1083.03,-45.18"/>
+</g>
+<!-- proc~rkcon&#45;&gt;proc~corrct -->
+<g id="proc~~refwl~~CalledByGraph_edge6" class="edge">
+<title>proc~rkcon&#45;&gt;proc~corrct</title>
+<path fill="none" stroke="#000000" d="M508.09,-74.39C594.33,-74.72 712.81,-75.16 801.52,-75.5"/>
+<polygon fill="#000000" stroke="#000000" points="801.62,-79 811.64,-75.53 801.65,-72 801.62,-79"/>
+</g>
+<!-- proc~rkpar -->
 <g id="proc~~refwl~~CalledByGraph_node6" class="node">
-<title>proc~rkcon</title>
-<g id="a_proc~~refwl~~CalledByGraph_node6"><a xlink:href=".././proc/rkcon.html" xlink:title="rkcon">
-<polygon fill="#d9534f" stroke="#d9534f" points="54.5,-24 0.5,-24 0.5,0 54.5,0 54.5,-24"/>
-<text text-anchor="middle" x="27.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">rkcon</text>
+<title>proc~rkpar</title>
+<g id="a_proc~~refwl~~CalledByGraph_node6"><a xlink:href="../proc/rkpar.html" xlink:title="conmax_module::conmax_solver%rkpar">
+<polygon fill="#d9534f" stroke="#d9534f" points="774.5,-47.96 547.5,-47.96 547.5,-23.96 774.5,-23.96 774.5,-47.96"/>
+<text text-anchor="middle" x="661" y="-33.56" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">conmax_module::conmax_solver%rkpar</text>
 </a>
 </g>
 </g>
-<!-- proc~rkcon&#45;&gt;proc~wolfe -->
+<!-- proc~rkcon&#45;&gt;proc~rkpar -->
+<g id="proc~~refwl~~CalledByGraph_edge10" class="edge">
+<title>proc~rkcon&#45;&gt;proc~rkpar</title>
+<path fill="none" stroke="#000000" d="M478.51,-61.94C506.36,-57.95 537.55,-53.49 566.1,-49.4"/>
+<polygon fill="#000000" stroke="#000000" points="566.68,-52.86 576.09,-47.97 565.69,-45.93 566.68,-52.86"/>
+</g>
+<!-- proc~searsl -->
+<g id="proc~~refwl~~CalledByGraph_node7" class="node">
+<title>proc~searsl</title>
+<g id="a_proc~~refwl~~CalledByGraph_node7"><a xlink:href="../proc/searsl.html" xlink:title="conmax_module::conmax_solver%searsl">
+<polygon fill="#d9534f" stroke="#d9534f" points="776,-127.96 546,-127.96 546,-103.96 776,-103.96 776,-127.96"/>
+<text text-anchor="middle" x="661" y="-113.56" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">conmax_module::conmax_solver%searsl</text>
+</a>
+</g>
+</g>
+<!-- proc~rkcon&#45;&gt;proc~searsl -->
+<g id="proc~~refwl~~CalledByGraph_edge11" class="edge">
+<title>proc~rkcon&#45;&gt;proc~searsl</title>
+<path fill="none" stroke="#000000" d="M470.58,-86C502.8,-91.1 540.5,-97.06 573.74,-102.32"/>
+<polygon fill="#000000" stroke="#000000" points="573.48,-105.82 583.91,-103.93 574.58,-98.91 573.48,-105.82"/>
+</g>
+<!-- proc~rkpar&#45;&gt;proc~wolfe -->
 <g id="proc~~refwl~~CalledByGraph_edge5" class="edge">
-<title>proc~rkcon&#45;&gt;proc~wolfe</title>
-<path fill="none" stroke="#000000" d="M45.56,-24.15C58.66,-33.47 76.95,-46.49 91.75,-57.02"/>
-<polygon fill="#000000" stroke="#000000" points="89.81,-59.94 99.99,-62.89 93.87,-54.24 89.81,-59.94"/>
+<title>proc~rkpar&#45;&gt;proc~wolfe</title>
+<path fill="none" stroke="#000000" d="M774.52,-40.63C864.19,-44.34 987.43,-49.45 1066.54,-52.73"/>
+<polygon fill="#000000" stroke="#000000" points="1066.78,-56.24 1076.92,-53.16 1067.07,-49.25 1066.78,-56.24"/>
+</g>
+<!-- proc~rkpar&#45;&gt;proc~corrct -->
+<g id="proc~~refwl~~CalledByGraph_edge7" class="edge">
+<title>proc~rkpar&#45;&gt;proc~corrct</title>
+<path fill="none" stroke="#000000" d="M741.06,-47.96C770.89,-52.49 805.03,-57.68 835.76,-62.34"/>
+<polygon fill="#000000" stroke="#000000" points="835.63,-65.86 846.04,-63.9 836.68,-58.94 835.63,-65.86"/>
+</g>
+<!-- proc~searsl&#45;&gt;proc~corrct -->
+<g id="proc~~refwl~~CalledByGraph_edge8" class="edge">
+<title>proc~searsl&#45;&gt;proc~corrct</title>
+<path fill="none" stroke="#000000" d="M741.06,-103.96C770.89,-99.43 805.03,-94.25 835.76,-89.59"/>
+<polygon fill="#000000" stroke="#000000" points="836.68,-92.99 846.04,-88.03 835.63,-86.07 836.68,-92.99"/>
+</g>
+<!-- proc~slpcon&#45;&gt;proc~searsl -->
+<g id="proc~~refwl~~CalledByGraph_edge12" class="edge">
+<title>proc~slpcon&#45;&gt;proc~searsl</title>
+<path fill="none" stroke="#000000" d="M510.18,-115.96C518.72,-115.96 527.35,-115.96 535.93,-115.96"/>
+<polygon fill="#000000" stroke="#000000" points="535.98,-119.46 545.98,-115.96 535.98,-112.46 535.98,-119.46"/>
 </g>
 </g>
 </svg>
-</div><div><a type="button" class="graph-help" data-toggle="modal" href="#graph-help-text">Help</a></div><div class="modal fade" id="graph-help-text" tabindex="-1" role="dialog"><div class="modal-dialog modal-lg" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="-graph-help-label">Graph Key</h4></div><div class="modal-body">
-    <p>Nodes of different colours represent the following: </p>
-    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+</div>                <script>
+                  var panprocrefwlCalledByGraph = svgPanZoom('#procrefwlCalledByGraph',
+                    {zoomEnabled: true, controlIconsEnabled: true, fit: true, center: true,}
+                  );
+                </script>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#CalledByGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="CalledByGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <!-- Generated by graphviz version 2.43.0 (0)
  -->
 <!-- Title: Graph Key Pages: 1 -->
-<svg width="597pt" height="32pt"
- viewBox="0.00 0.00 596.50 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<svg width="641pt" height="28pt"
+ viewBox="0.00 0.00 641.00 27.51" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1.16 1.16) rotate(0) translate(4 28)">
 <title>Graph Key</title>
-<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 592.5,-28 592.5,4 -4,4"/>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 741.5,-28 741.5,4 -4,4"/>
 <!-- Subroutine -->
 <g id="node1" class="node">
 <title>Subroutine</title>
@@ -325,170 +530,166 @@ itrlm steps of iterative refinement are attempted at the end.</p>
 <polygon fill="#a7506f" stroke="#a7506f" points="225.5,-24 164.5,-24 164.5,0 225.5,0 225.5,-24"/>
 <text text-anchor="middle" x="195" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Interface</text>
 </g>
-<!-- Unknown Procedure Type -->
+<!-- Type Bound Procedure -->
 <g id="node4" class="node">
+<title>Type Bound Procedure</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="374,-24 244,-24 244,0 374,0 374,-24"/>
+<text text-anchor="middle" x="309" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Type Bound Procedure</text>
+</g>
+<!-- Unknown Procedure Type -->
+<g id="node5" class="node">
 <title>Unknown Procedure Type</title>
-<polygon fill="#777777" stroke="#777777" points="388.5,-24 243.5,-24 243.5,0 388.5,0 388.5,-24"/>
-<text text-anchor="middle" x="316" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Unknown Procedure Type</text>
+<polygon fill="#777777" stroke="#777777" points="537.5,-24 392.5,-24 392.5,0 537.5,0 537.5,-24"/>
+<text text-anchor="middle" x="465" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Unknown Procedure Type</text>
 </g>
 <!-- Program -->
-<g id="node5" class="node">
+<g id="node6" class="node">
 <title>Program</title>
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="465,-24 407,-24 407,0 465,0 465,-24"/>
-<text text-anchor="middle" x="436" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="614,-24 556,-24 556,0 614,0 614,-24"/>
+<text text-anchor="middle" x="585" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
 </g>
 <!-- This Page&#39;s Entity -->
-<g id="node6" class="node">
+<g id="node7" class="node">
 <title>This Page&#39;s Entity</title>
-<polygon fill="none" stroke="black" points="588.5,-24 483.5,-24 483.5,0 588.5,0 588.5,-24"/>
-<text text-anchor="middle" x="536" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+<polygon fill="none" stroke="black" points="737.5,-24 632.5,-24 632.5,0 737.5,0 737.5,-24"/>
+<text text-anchor="middle" x="685" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
 </g>
 </g>
 </svg>
 
-    
-    <p>Solid arrows point from a procedure to one which it calls. Dashed 
-    arrows point from an interface to procedures which implement that interface.
-    This could include the module procedures in a generic interface or the
-    implementation in a submodule of an interface in a parent module.
-    </p>
-    </div></div></div></div>
+<p>Solid arrows point from a procedure to one which it calls. Dashed 
+arrows point from an interface to procedures which implement that interface.
+This could include the module procedures in a generic interface or the
+implementation in a submodule of an interface in a parent module.
+</p>
+ </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
     <br>
 
-    <section class="visible-xs visible-sm hidden-md">
-      <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/refwl.html#src">refwl</a>
-  </div>
-</div>
-
-    </section>
-    <br class="visible-xs visible-sm hidden-md">
-
 
     
     
 
     
     
+
 
 
     
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="highlight"><pre><span></span><span class="w">    </span><span class="k">subroutine </span><span class="n">refwl</span><span class="p">(</span><span class="n">Ndm</span><span class="p">,</span><span class="w"> </span><span class="n">Ncor</span><span class="p">,</span><span class="w"> </span><span class="n">Icor</span><span class="p">,</span><span class="w"> </span><span class="n">Pmat</span><span class="p">,</span><span class="w"> </span><span class="n">Pmat1</span><span class="p">,</span><span class="w"> </span><span class="n">Nparm</span><span class="p">,</span><span class="w"> </span><span class="n">Numgr</span><span class="p">,</span><span class="w"> </span><span class="n">Ixrct</span><span class="p">,</span><span class="w"> </span><span class="k">Save</span><span class="p">,</span><span class="w"> </span><span class="n">Wpt</span><span class="p">)</span><span class="w"></span>
+    <div class="hl codehilite"><pre><span></span><span class="w">    </span><span class="k">subroutine </span><span class="n">refwl</span><span class="p">(</span><span class="n">Ndm</span><span class="p">,</span><span class="w"> </span><span class="n">Ncor</span><span class="p">,</span><span class="w"> </span><span class="n">Icor</span><span class="p">,</span><span class="w"> </span><span class="n">Pmat</span><span class="p">,</span><span class="w"> </span><span class="n">Pmat1</span><span class="p">,</span><span class="w"> </span><span class="n">Nparm</span><span class="p">,</span><span class="w"> </span><span class="n">Numgr</span><span class="p">,</span><span class="w"> </span><span class="n">Ixrct</span><span class="p">,</span><span class="w"> </span><span class="k">Save</span><span class="p">,</span><span class="w"> </span><span class="n">Wpt</span><span class="p">)</span>
 
 <span class="w">        </span><span class="k">implicit none</span>
 
-<span class="k">        </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">Nparm</span><span class="w"></span>
-<span class="w">        </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">Numgr</span><span class="w"></span>
-<span class="w">        </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">Ncor</span><span class="w"></span>
-<span class="w">        </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">Ndm</span><span class="w"></span>
-<span class="w">        </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">Icor</span><span class="p">(</span><span class="n">Nparm</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
-<span class="w">        </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">Ixrct</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">Nparm</span><span class="p">)</span><span class="w"></span>
-<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">Pmat1</span><span class="p">(</span><span class="n">Nparm</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">Numgr</span><span class="p">)</span><span class="w"></span>
-<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">Pmat</span><span class="p">(</span><span class="n">Nparm</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">Numgr</span><span class="p">)</span><span class="w"></span>
-<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="k">Save</span><span class="p">(</span><span class="n">Nparm</span><span class="p">)</span><span class="w"></span>
-<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">Wpt</span><span class="p">(</span><span class="n">Nparm</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+<span class="k">        </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">Nparm</span>
+<span class="w">        </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">Numgr</span>
+<span class="w">        </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">Ncor</span>
+<span class="w">        </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">Ndm</span>
+<span class="w">        </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">Icor</span><span class="p">(</span><span class="n">Nparm</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+<span class="w">        </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">Ixrct</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">Nparm</span><span class="p">)</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">Pmat1</span><span class="p">(</span><span class="n">Nparm</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">Numgr</span><span class="p">)</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">Pmat</span><span class="p">(</span><span class="n">Nparm</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">Numgr</span><span class="p">)</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="k">Save</span><span class="p">(</span><span class="n">Nparm</span><span class="p">)</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">Wpt</span><span class="p">(</span><span class="n">Nparm</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
 
-<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">aa</span><span class="p">,</span><span class="w"> </span><span class="nb">amax</span><span class="p">,</span><span class="w"> </span><span class="n">fact</span><span class="p">,</span><span class="w"> </span><span class="n">wrst</span><span class="p">,</span><span class="w"> </span><span class="n">wrsto</span><span class="w"></span>
-<span class="w">        </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">imax</span><span class="p">,</span><span class="w"> </span><span class="n">itrct</span><span class="p">,</span><span class="w"> </span><span class="n">itrlm</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">,</span><span class="w"> </span><span class="n">jmax</span><span class="p">,</span><span class="w"> </span><span class="n">jstrt</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                   </span><span class="n">k</span><span class="p">,</span><span class="w"> </span><span class="n">kcol</span><span class="p">,</span><span class="w"> </span><span class="n">kk</span><span class="p">,</span><span class="w"> </span><span class="n">kp1</span><span class="p">,</span><span class="w"> </span><span class="n">l</span><span class="p">,</span><span class="w"> </span><span class="n">maxrs</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">nresl</span><span class="w"></span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">aa</span><span class="p">,</span><span class="w"> </span><span class="nb">amax</span><span class="p">,</span><span class="w"> </span><span class="n">fact</span><span class="p">,</span><span class="w"> </span><span class="n">wrst</span><span class="p">,</span><span class="w"> </span><span class="n">wrsto</span>
+<span class="w">        </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">imax</span><span class="p">,</span><span class="w"> </span><span class="n">itrct</span><span class="p">,</span><span class="w"> </span><span class="n">itrlm</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">,</span><span class="w"> </span><span class="n">jmax</span><span class="p">,</span><span class="w"> </span><span class="n">jstrt</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                   </span><span class="n">k</span><span class="p">,</span><span class="w"> </span><span class="n">kcol</span><span class="p">,</span><span class="w"> </span><span class="n">kk</span><span class="p">,</span><span class="w"> </span><span class="n">kp1</span><span class="p">,</span><span class="w"> </span><span class="n">l</span><span class="p">,</span><span class="w"> </span><span class="n">maxrs</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">nresl</span>
 
-<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">tole</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">spcmn</span><span class="w"></span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">tole</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">spcmn</span>
 
 <span class="w">        </span><span class="c">! COMPUTE MACHINE AND PRECISION DEPENDENT CONSTANTS.</span>
-<span class="w">        </span><span class="n">itrlm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="w"></span>
-<span class="w">        </span><span class="n">itrct</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
-<span class="w">        </span><span class="n">nresl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
-<span class="w">        </span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Ndm</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">        </span><span class="n">itrlm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span>
+<span class="w">        </span><span class="n">itrct</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">        </span><span class="n">nresl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">        </span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Ndm</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
 
 <span class="w">        </span><span class="c">! IF NCOR=0 WE HAVE NOTHING TO DO SO WE RETURN.</span>
-<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">Ncor</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span><span class="w"></span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">Ncor</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
 
 <span class="w">            </span><span class="c">! COPY COLUMN ICOR(L) OF PMAT WITH THE SIGN OF THE LAST ELEMENT REVERSED</span>
 <span class="w">            </span><span class="c">! INTO COLUMN L OF THE WORK MATRIX PMAT1 FOR L=1,...,NCOR.</span>
-<span class="w">            </span><span class="k">do </span><span class="n">l</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">Ncor</span><span class="w"></span>
-<span class="w">                </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Icor</span><span class="p">(</span><span class="n">l</span><span class="p">)</span><span class="w"></span>
-<span class="w">                </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">Ndm</span><span class="w"></span>
-<span class="w">                    </span><span class="n">Pmat1</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">l</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Pmat</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="k">do </span><span class="n">l</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">Ncor</span>
+<span class="w">                </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Icor</span><span class="p">(</span><span class="n">l</span><span class="p">)</span>
+<span class="w">                </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">Ndm</span>
+<span class="w">                    </span><span class="n">Pmat1</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">l</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Pmat</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">)</span>
 <span class="w">                </span><span class="k">end do</span>
-<span class="k">                </span><span class="n">Pmat1</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">l</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">Pmat</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">)</span><span class="w"></span>
-<span class="w">            </span><span class="k">end do</span><span class="w"></span>
+<span class="k">                </span><span class="n">Pmat1</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">l</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">Pmat</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">)</span>
+<span class="w">            </span><span class="k">end do</span>
 
 <span class="w">            </span><span class="c">! NOW COLUMN REDUCE PMAT1.  NOTE THAT PMAT1 IS THE TRANSPOSE OF THE USUAL</span>
 <span class="w">            </span><span class="c">! AUGMENTED MATRIX FOR SOLVING A LINEAR SYSTEM OF EQUATONS.</span>
 <span class="w">            </span><span class="c">! THERE WILL BE AT MOST MAXRS = MIN(NDM,NCOR) RESOLVENTS.</span>
-<span class="w">            </span><span class="n">maxrs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Ncor</span><span class="w"></span>
-<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">Ndm</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">maxrs</span><span class="p">)</span><span class="w"> </span><span class="n">maxrs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Ndm</span><span class="w"></span>
-<span class="w">            </span><span class="n">column_reduce</span><span class="p">:</span><span class="w"> </span><span class="k">do </span><span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">maxrs</span><span class="w"></span>
+<span class="w">            </span><span class="n">maxrs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Ncor</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">Ndm</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">maxrs</span><span class="p">)</span><span class="w"> </span><span class="n">maxrs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Ndm</span>
+<span class="w">            </span><span class="n">column_reduce</span><span class="p">:</span><span class="w"> </span><span class="k">do </span><span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">maxrs</span>
 <span class="w">                </span><span class="c">! SEARCH FOR THE INDICES IMAX AND JMAX WITH 1 &lt;= IMAX &lt;= NDM, 1 &lt;=</span>
 <span class="w">                </span><span class="c">! JMAX &lt;= NCOR, PMAT1(IMAX,JMAX) IS NOT IN THE ROW OR COLUMN OF ANY</span>
 <span class="w">                </span><span class="c">! OTHER RESOLVENT (I.E. PIVOT), AND ABS(PMAT1(IMAX,JMAX)) IS MAXIMIZED.</span>
 <span class="w">                </span><span class="c">! WE USE THE VECTOR IXRCT TO SAVE THE RESOLVENT POSITIONS TO SAVE SPACE.</span>
-<span class="w">                </span><span class="n">jstrt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
-<span class="w">                </span><span class="n">outer</span><span class="p">:</span><span class="w"> </span><span class="k">do </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">Ncor</span><span class="w"></span>
+<span class="w">                </span><span class="n">jstrt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">                </span><span class="n">outer</span><span class="p">:</span><span class="w"> </span><span class="k">do </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">Ncor</span>
 <span class="w">                    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">nresl</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<span class="k">                        do </span><span class="n">l</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">nresl</span><span class="w"></span>
-<span class="w">                            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">j</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">Ixrct</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">l</span><span class="p">))</span><span class="w"> </span><span class="k">cycle </span><span class="n">outer</span><span class="w"></span>
+<span class="k">                        do </span><span class="n">l</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">nresl</span>
+<span class="w">                            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">j</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">Ixrct</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">l</span><span class="p">))</span><span class="w"> </span><span class="k">cycle </span><span class="n">outer</span>
 <span class="w">                        </span><span class="k">end do</span>
-<span class="k">                    end if</span><span class="w"></span>
+<span class="k">                    end if</span>
 <span class="w">                    </span><span class="c">! HERE THERE IS NO EARLIER RESOLVENT IN COLUMN J.</span>
-<span class="w">                    </span><span class="n">inner</span><span class="p">:</span><span class="w"> </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">Ndm</span><span class="w"></span>
+<span class="w">                    </span><span class="n">inner</span><span class="p">:</span><span class="w"> </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">Ndm</span>
 <span class="w">                        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">nresl</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<span class="k">                            do </span><span class="n">l</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">nresl</span><span class="w"></span>
-<span class="w">                                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">Ixrct</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">l</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">))</span><span class="w"> </span><span class="k">cycle </span><span class="n">inner</span><span class="w"></span>
+<span class="k">                            do </span><span class="n">l</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">nresl</span>
+<span class="w">                                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">Ixrct</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">l</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">))</span><span class="w"> </span><span class="k">cycle </span><span class="n">inner</span>
 <span class="w">                            </span><span class="k">end do</span>
-<span class="k">                        end if</span><span class="w"></span>
+<span class="k">                        end if</span>
 <span class="w">                        </span><span class="c">! HERE THERE IS NO EARLIER RESOLVENT IN ROW I.</span>
-<span class="w">                        </span><span class="n">aa</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">abs</span><span class="p">(</span><span class="n">Pmat1</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">))</span><span class="w"></span>
+<span class="w">                        </span><span class="n">aa</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">abs</span><span class="p">(</span><span class="n">Pmat1</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">))</span>
 <span class="w">                        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">jstrt</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<span class="k">                            </span><span class="n">jstrt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="k">                            </span><span class="n">jstrt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span>
 <span class="w">                        </span><span class="k">else if</span><span class="w"> </span><span class="p">(</span><span class="n">aa</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="nb">amax</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<span class="k">                            cycle </span><span class="n">inner</span><span class="w"></span>
+<span class="k">                            cycle </span><span class="n">inner</span>
 <span class="w">                        </span><span class="k">end if</span>
-<span class="k">                        </span><span class="nb">amax</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">aa</span><span class="w"></span>
-<span class="w">                        </span><span class="n">imax</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="w"></span>
-<span class="w">                        </span><span class="n">jmax</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">j</span><span class="w"></span>
-<span class="w">                    </span><span class="k">end do </span><span class="n">inner</span><span class="w"></span>
-<span class="w">                </span><span class="k">end do </span><span class="n">outer</span><span class="w"></span>
+<span class="k">                        </span><span class="nb">amax</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">aa</span>
+<span class="w">                        </span><span class="n">imax</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span>
+<span class="w">                        </span><span class="n">jmax</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">j</span>
+<span class="w">                    </span><span class="k">end do </span><span class="n">inner</span>
+<span class="w">                </span><span class="k">end do </span><span class="n">outer</span>
 
 <span class="w">                </span><span class="c">! IF THE ABSOLUTE VALUE OF THIS RESOLVENT IS VERY SMALL WE DO NOT ATTEMPT</span>
 <span class="w">                </span><span class="c">! ANY FURTHER COLUMN OPERATIONS.</span>
-<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">amax</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">tole</span><span class="p">)</span><span class="w"> </span><span class="k">exit </span><span class="n">column_reduce</span><span class="w"></span>
+<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">amax</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">tole</span><span class="p">)</span><span class="w"> </span><span class="k">exit </span><span class="n">column_reduce</span>
 
 <span class="w">                </span><span class="c">! INCREMENT NRESL AND PUT THE LOCATION OF THE NRESLTH RESOLVENT IN</span>
 <span class="w">                </span><span class="c">! (IXRCT(2*L-1),IXRCT(2*L)).</span>
-<span class="w">                </span><span class="n">nresl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nresl</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
-<span class="w">                </span><span class="n">Ixrct</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">nresl</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">imax</span><span class="w"></span>
-<span class="w">                </span><span class="n">Ixrct</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">nresl</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">jmax</span><span class="w"></span>
+<span class="w">                </span><span class="n">nresl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nresl</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">                </span><span class="n">Ixrct</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">nresl</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">imax</span>
+<span class="w">                </span><span class="n">Ixrct</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">nresl</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">jmax</span>
 
 <span class="w">                </span><span class="c">! NOW ELIMINATE WPT(IMAX) FROM THOSE COLUMNS WHICH DO NOT CONTAIN ANY OF</span>
 <span class="w">                </span><span class="c">! THE RESOLVENTS FOUND SO FAR (INCLUDING THE PRESENT RESOLVENT).</span>
-<span class="w">                </span><span class="n">outer2</span><span class="p">:</span><span class="w"> </span><span class="k">do </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">Ncor</span><span class="w"></span>
-<span class="w">                    </span><span class="k">do </span><span class="n">l</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">nresl</span><span class="w"></span>
-<span class="w">                        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">j</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">Ixrct</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">l</span><span class="p">))</span><span class="w"> </span><span class="k">cycle </span><span class="n">outer2</span><span class="w"></span>
-<span class="w">                    </span><span class="k">end do</span><span class="w"></span>
+<span class="w">                </span><span class="n">outer2</span><span class="p">:</span><span class="w"> </span><span class="k">do </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">Ncor</span>
+<span class="w">                    </span><span class="k">do </span><span class="n">l</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">nresl</span>
+<span class="w">                        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">j</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">Ixrct</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">l</span><span class="p">))</span><span class="w"> </span><span class="k">cycle </span><span class="n">outer2</span>
+<span class="w">                    </span><span class="k">end do</span>
 <span class="w">                    </span><span class="c">! HERE COLUMN J DOES NOT CONTAIN ANY OF THE RESOLVENTS FOUND SO FAR, AND</span>
 <span class="w">                    </span><span class="c">! WE COMPUTE THE FACTOR FOR THE COLUMN OPERATION NEEDED TO ZERO OUT</span>
 <span class="w">                    </span><span class="c">! PMAT1(IMAX,J) (ALTHOUGH WE DO NOT ACTUALLY WRITE IN THE ZERO).</span>
-<span class="w">                    </span><span class="n">fact</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Pmat1</span><span class="p">(</span><span class="n">imax</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">)</span><span class="o">/</span><span class="n">Pmat1</span><span class="p">(</span><span class="n">imax</span><span class="p">,</span><span class="w"> </span><span class="n">jmax</span><span class="p">)</span><span class="w"></span>
+<span class="w">                    </span><span class="n">fact</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Pmat1</span><span class="p">(</span><span class="n">imax</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">)</span><span class="o">/</span><span class="n">Pmat1</span><span class="p">(</span><span class="n">imax</span><span class="p">,</span><span class="w"> </span><span class="n">jmax</span><span class="p">)</span>
 <span class="w">                    </span><span class="c">! NOW DO THE OPERATION IN COLUMN J FOR ALL ROWS NOT CONTAINING A</span>
 <span class="w">                    </span><span class="c">! RESOLVENT.  THE ELEMENTS IN THIS COLUMN IN THE ROWS WHICH CONTAIN AN</span>
 <span class="w">                    </span><span class="c">! EARLIER (OR PRESENT) RESOLVENT WILL NOT BE NEEDED LATER.</span>
-<span class="w">                    </span><span class="n">inner2</span><span class="p">:</span><span class="w"> </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="w"></span>
-<span class="w">                        </span><span class="k">do </span><span class="n">l</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">nresl</span><span class="w"></span>
-<span class="w">                            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">Ixrct</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">l</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">))</span><span class="w"> </span><span class="k">cycle </span><span class="n">inner2</span><span class="w"></span>
+<span class="w">                    </span><span class="n">inner2</span><span class="p">:</span><span class="w"> </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">n</span>
+<span class="w">                        </span><span class="k">do </span><span class="n">l</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">nresl</span>
+<span class="w">                            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">Ixrct</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">l</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">))</span><span class="w"> </span><span class="k">cycle </span><span class="n">inner2</span>
 <span class="w">                        </span><span class="k">end do</span>
-<span class="k">                        </span><span class="n">Pmat1</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Pmat1</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">fact</span><span class="o">*</span><span class="n">Pmat1</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">jmax</span><span class="p">)</span><span class="w"></span>
-<span class="w">                    </span><span class="k">end do </span><span class="n">inner2</span><span class="w"></span>
-<span class="w">                </span><span class="k">end do </span><span class="n">outer2</span><span class="w"></span>
-<span class="w">            </span><span class="k">end do </span><span class="n">column_reduce</span><span class="w"></span>
+<span class="k">                        </span><span class="n">Pmat1</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Pmat1</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">fact</span><span class="o">*</span><span class="n">Pmat1</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">jmax</span><span class="p">)</span>
+<span class="w">                    </span><span class="k">end do </span><span class="n">inner2</span>
+<span class="w">                </span><span class="k">end do </span><span class="n">outer2</span>
+<span class="w">            </span><span class="k">end do </span><span class="n">column_reduce</span>
 <span class="w">            </span><span class="c">! END OF COLUMN REDUCTION OF PMAT1.</span>
 
 <span class="w">            </span><span class="c">! IF NRESL=0 THEN ALL THE ELEMENTS IN PMAT1 FOR 1 &lt;= I &lt;= NDM AND</span>
@@ -500,7 +701,7 @@ itrlm steps of iterative refinement are attempted at the end.</p>
 <span class="k">            return</span>
 <span class="k">        end if</span>
 
-<span class="k">        do</span><span class="w"></span>
+<span class="k">        do</span>
 <span class="w">            </span><span class="c">! NOW DO BACK SUBSTITUTION TO COMPUTE, FOR K=NRESL,...,1,</span>
 <span class="w">            </span><span class="c">! WPT(IXRCT(2*K-1)) = (PMAT1(NDM+1,IXRCT(2*K)) - SUMMATION(</span>
 <span class="w">            </span><span class="c">! PMAT1(I,IXRCT(2*K))*WPT(I), FOR I = 1,...,NDM, I /= IXRCT(2*L-1)</span>
@@ -509,96 +710,96 @@ itrlm steps of iterative refinement are attempted at the end.</p>
 <span class="w">            </span><span class="c">! JUST A CORRECTION TO WPT(I)) = 0.0 IF I CORRESPONDS TO NO RESOLVENT</span>
 <span class="w">            </span><span class="c">! (SINCE THE VALUE OF SUCH WPT(I) IN SAVE SHOULD NOT CHANGE) SO WE OMIT</span>
 <span class="w">            </span><span class="c">! THE CORRESPONDING TERMS IN THE SUMMATION ABOVE.</span>
-<span class="w">            </span><span class="k">do </span><span class="n">kk</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">nresl</span><span class="w"></span>
-<span class="w">                </span><span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nresl</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">kk</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
-<span class="w">                </span><span class="n">imax</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Ixrct</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">k</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
-<span class="w">                </span><span class="n">jmax</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Ixrct</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">k</span><span class="p">)</span><span class="w"></span>
-<span class="w">                </span><span class="n">Wpt</span><span class="p">(</span><span class="n">imax</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Pmat1</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">jmax</span><span class="p">)</span><span class="w"></span>
-<span class="w">                </span><span class="n">iloop</span><span class="p">:</span><span class="w"> </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">Ndm</span><span class="w"></span>
-<span class="w">                    </span><span class="k">do </span><span class="n">l</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="w"></span>
-<span class="w">                        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">Ixrct</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">l</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">))</span><span class="w"> </span><span class="k">cycle </span><span class="n">iloop</span><span class="w"></span>
-<span class="w">                    </span><span class="k">end do</span><span class="w"></span>
+<span class="w">            </span><span class="k">do </span><span class="n">kk</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">nresl</span>
+<span class="w">                </span><span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nresl</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">kk</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">                </span><span class="n">imax</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Ixrct</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">k</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+<span class="w">                </span><span class="n">jmax</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Ixrct</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">k</span><span class="p">)</span>
+<span class="w">                </span><span class="n">Wpt</span><span class="p">(</span><span class="n">imax</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Pmat1</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">jmax</span><span class="p">)</span>
+<span class="w">                </span><span class="n">iloop</span><span class="p">:</span><span class="w"> </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">Ndm</span>
+<span class="w">                    </span><span class="k">do </span><span class="n">l</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">k</span>
+<span class="w">                        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">Ixrct</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">l</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">))</span><span class="w"> </span><span class="k">cycle </span><span class="n">iloop</span>
+<span class="w">                    </span><span class="k">end do</span>
 <span class="w">                    </span><span class="c">! HERE ROW I CONTAINS NO EARLIER (OR PRESENT) RESOLVENTS.</span>
 <span class="w">                    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">itrct</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<span class="k">                        if</span><span class="w"> </span><span class="p">(</span><span class="n">k</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">nresl</span><span class="p">)</span><span class="w"> </span><span class="k">then</span><span class="w"></span>
+<span class="k">                        if</span><span class="w"> </span><span class="p">(</span><span class="n">k</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">nresl</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
 <span class="w">                            </span><span class="c">! HERE WE ARE DOING ITERATIVE REFINEMENT, K &lt; NRESL, AND I /=</span>
 <span class="w">                            </span><span class="c">! IXRCT(2*L-1) FOR L=1,...,K.  WE WILL USE THE TERM CORRESPONDING TO</span>
 <span class="w">                            </span><span class="c">! WPT(I) IFF I = IXRCT(2*L-1) FOR SOME L = K+1,...,NRESL.</span>
-<span class="w">                            </span><span class="n">kp1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
-<span class="w">                            </span><span class="k">do </span><span class="n">l</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">kp1</span><span class="p">,</span><span class="w"> </span><span class="n">nresl</span><span class="w"></span>
+<span class="w">                            </span><span class="n">kp1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">                            </span><span class="k">do </span><span class="n">l</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">kp1</span><span class="p">,</span><span class="w"> </span><span class="n">nresl</span>
 <span class="w">                                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">Ixrct</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">l</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">))</span><span class="w"> </span><span class="k">then</span>
-<span class="k">                                    </span><span class="n">Wpt</span><span class="p">(</span><span class="n">imax</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Wpt</span><span class="p">(</span><span class="n">imax</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">Pmat1</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">jmax</span><span class="p">)</span><span class="o">*</span><span class="n">Wpt</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"></span>
-<span class="w">                                    </span><span class="k">cycle </span><span class="n">iloop</span><span class="w"></span>
+<span class="k">                                    </span><span class="n">Wpt</span><span class="p">(</span><span class="n">imax</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Wpt</span><span class="p">(</span><span class="n">imax</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">Pmat1</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">jmax</span><span class="p">)</span><span class="o">*</span><span class="n">Wpt</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+<span class="w">                                    </span><span class="k">cycle </span><span class="n">iloop</span>
 <span class="w">                                </span><span class="k">end if</span>
 <span class="k">                            end do</span>
 <span class="k">                        end if</span>
 <span class="k">                    else</span>
-<span class="k">                        </span><span class="n">Wpt</span><span class="p">(</span><span class="n">imax</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Wpt</span><span class="p">(</span><span class="n">imax</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">Pmat1</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">jmax</span><span class="p">)</span><span class="o">*</span><span class="n">Wpt</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"></span>
+<span class="k">                        </span><span class="n">Wpt</span><span class="p">(</span><span class="n">imax</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Wpt</span><span class="p">(</span><span class="n">imax</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">Pmat1</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">jmax</span><span class="p">)</span><span class="o">*</span><span class="n">Wpt</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
 <span class="w">                    </span><span class="k">end if</span>
-<span class="k">                end do </span><span class="n">iloop</span><span class="w"></span>
-<span class="w">                </span><span class="n">Wpt</span><span class="p">(</span><span class="n">imax</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Wpt</span><span class="p">(</span><span class="n">imax</span><span class="p">)</span><span class="o">/</span><span class="n">Pmat1</span><span class="p">(</span><span class="n">imax</span><span class="p">,</span><span class="w"> </span><span class="n">jmax</span><span class="p">)</span><span class="w"></span>
-<span class="w">            </span><span class="k">end do</span><span class="w"></span>
+<span class="k">                end do </span><span class="n">iloop</span>
+<span class="w">                </span><span class="n">Wpt</span><span class="p">(</span><span class="n">imax</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Wpt</span><span class="p">(</span><span class="n">imax</span><span class="p">)</span><span class="o">/</span><span class="n">Pmat1</span><span class="p">(</span><span class="n">imax</span><span class="p">,</span><span class="w"> </span><span class="n">jmax</span><span class="p">)</span>
+<span class="w">            </span><span class="k">end do</span>
 <span class="w">            </span><span class="c">! END OF BACK SUBSTITUTION.</span>
 
 <span class="w">            </span><span class="c">! IF ITRCT IS POSITIVE THEN WPT WILL CONTAIN ONLY AN ITERATIVE</span>
 <span class="w">            </span><span class="c">! REFINEMENT CORRECTION IN THOSE POSITIONS CORRESPONDING TO RESOLVENTS</span>
 <span class="w">            </span><span class="c">! AND WE ADD THIS TO SAVE TO GET THE TRUE WPT.</span>
 <span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">itrct</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<span class="k">                do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">Ndm</span><span class="w"></span>
-<span class="w">                    </span><span class="k">do </span><span class="n">l</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">nresl</span><span class="w"></span>
+<span class="k">                do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">Ndm</span>
+<span class="w">                    </span><span class="k">do </span><span class="n">l</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">nresl</span>
 <span class="w">                        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">Ixrct</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">l</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">))</span><span class="w"> </span><span class="k">then</span>
-<span class="k">                            </span><span class="n">Wpt</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Wpt</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="k">Save</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"></span>
+<span class="k">                            </span><span class="n">Wpt</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Wpt</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="k">Save</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
 <span class="w">                            </span><span class="k">exit</span>
 <span class="k">                        end if</span>
 <span class="k">                    end do</span>
 <span class="k">                end do</span>
-<span class="k">            end if</span><span class="w"></span>
+<span class="k">            end if</span>
 
 <span class="w">            </span><span class="c">! NOW COMPUTE THE RESIDUAL AND PUT IT INTO PMAT1(NDM+1,.).</span>
-<span class="w">            </span><span class="k">do </span><span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">Ncor</span><span class="w"></span>
+<span class="w">            </span><span class="k">do </span><span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">Ncor</span>
 <span class="w">                </span><span class="c">! COMPUTE THE COLUMN INDEX KCOL IN PMAT CORRESPONDING TO COLUMN K IN</span>
 <span class="w">                </span><span class="c">! PMAT1.</span>
-<span class="w">                </span><span class="n">kcol</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Icor</span><span class="p">(</span><span class="n">k</span><span class="p">)</span><span class="w"></span>
-<span class="w">                </span><span class="n">Pmat1</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">Pmat</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">kcol</span><span class="p">)</span><span class="w"></span>
-<span class="w">                </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">Ndm</span><span class="w"></span>
-<span class="w">                    </span><span class="n">Pmat1</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Pmat1</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">Pmat</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">kcol</span><span class="p">)</span><span class="o">*</span><span class="n">Wpt</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"></span>
+<span class="w">                </span><span class="n">kcol</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Icor</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+<span class="w">                </span><span class="n">Pmat1</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">Pmat</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">kcol</span><span class="p">)</span>
+<span class="w">                </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">Ndm</span>
+<span class="w">                    </span><span class="n">Pmat1</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Pmat1</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">Pmat</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">kcol</span><span class="p">)</span><span class="o">*</span><span class="n">Wpt</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
 <span class="w">                </span><span class="k">end do</span>
-<span class="k">            end do</span><span class="w"></span>
+<span class="k">            end do</span>
 
 <span class="w">            </span><span class="c">! COMPUTE THE WORST ABSOLUTE VALUE OF THE RESIDUAL ELEMENTS.</span>
-<span class="w">            </span><span class="k">do </span><span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">Ncor</span><span class="w"></span>
-<span class="w">                </span><span class="n">aa</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">abs</span><span class="p">(</span><span class="n">Pmat1</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">))</span><span class="w"></span>
+<span class="w">            </span><span class="k">do </span><span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">Ncor</span>
+<span class="w">                </span><span class="n">aa</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">abs</span><span class="p">(</span><span class="n">Pmat1</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">))</span>
 <span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">k</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
 <span class="k">                    if</span><span class="w"> </span><span class="p">(</span><span class="n">aa</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">wrst</span><span class="p">)</span><span class="w"> </span><span class="k">cycle</span>
 <span class="k">                end if</span>
-<span class="k">                </span><span class="n">wrst</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">aa</span><span class="w"></span>
+<span class="k">                </span><span class="n">wrst</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">aa</span>
 <span class="w">            </span><span class="k">end do</span>
 
 <span class="k">            if</span><span class="w"> </span><span class="p">(</span><span class="n">itrct</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<span class="k">                </span><span class="n">wrsto</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">wrst</span><span class="w"></span>
-<span class="w">            </span><span class="k">else if</span><span class="w"> </span><span class="p">(</span><span class="n">wrst</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">wrsto</span><span class="p">)</span><span class="w"> </span><span class="k">then</span><span class="w"></span>
+<span class="k">                </span><span class="n">wrsto</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">wrst</span>
+<span class="w">            </span><span class="k">else if</span><span class="w"> </span><span class="p">(</span><span class="n">wrst</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">wrsto</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
 <span class="w">                </span><span class="c">! HERE ITRCT &gt; 0 AND WRST &gt; WRSTO, SO WE GO BACK TO THE PREVIOUS</span>
 <span class="w">                </span><span class="c">! WPT AND RETURN.</span>
-<span class="w">                </span><span class="n">wrst</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">wrsto</span><span class="w"></span>
-<span class="w">                </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">Ndm</span><span class="w"></span>
-<span class="w">                    </span><span class="n">Wpt</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">Save</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"></span>
+<span class="w">                </span><span class="n">wrst</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">wrsto</span>
+<span class="w">                </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">Ndm</span>
+<span class="w">                    </span><span class="n">Wpt</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">Save</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
 <span class="w">                </span><span class="k">end do</span>
 <span class="k">                return</span>
 <span class="k">            end if</span>
 
-<span class="k">            if</span><span class="w"> </span><span class="p">(</span><span class="n">itrct</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">itrlm</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"></span>
+<span class="k">            if</span><span class="w"> </span><span class="p">(</span><span class="n">itrct</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">itrlm</span><span class="p">)</span><span class="w"> </span><span class="k">return</span>
 
 <span class="w">            </span><span class="c">! HERE ITRCT &lt; ITRLM AND WE INCREMENT ITRCT AND SET UP FOR THE ITRCTTH</span>
 <span class="w">            </span><span class="c">! ITERATIVE REFINEMENT STEP.</span>
-<span class="w">            </span><span class="n">itrct</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">itrct</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">            </span><span class="n">itrct</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">itrct</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
 <span class="w">            </span><span class="c">! COPY WPT INTO SAVE.</span>
-<span class="w">            </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">Ndm</span><span class="w"></span>
-<span class="w">                </span><span class="k">Save</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Wpt</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">Ndm</span>
+<span class="w">                </span><span class="k">Save</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Wpt</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
 <span class="w">            </span><span class="k">end do</span>
 
 <span class="k">        end do</span>
 
-<span class="k">    end subroutine </span><span class="n">refwl</span><span class="w"></span>
+<span class="k">    end subroutine </span><span class="n">refwl</span>
 </pre></div>
 
     </section>
@@ -607,47 +808,45 @@ itrlm steps of iterative refinement are attempted at the end.</p>
     </div>
   </div>
 
-    <hr>    
+      <hr>
     </div> <!-- /container -->
     <footer>
       <div class="container">
-      <div class="row">
-        <div class="col-xs-6 col-md-6"><p>conmax was developed by Jacob Williams<br>&copy; 2022 
+        <div class="row justify-content-between">
+          <div class="col"><p>conmax was developed by Jacob Williams<br>&copy; 2024 
 </p>
+          </div>
+          <div class="col">
+            <p class="text-end">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+            </p>
+          </div>
         </div>
-        <div class="col-xs-6 col-md-6">
-          <p class="text-right">
-            Documentation generated by 
-            <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
-          </p>
-        </div>
-      </div>
-      <br>
-      </div> <!-- /container -->    
+        <br>
+      </div> <!-- /container -->
     </footer>
 
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
+    <!-- Bootstrap core JavaScript -->
     <!-- Placed at the end of the document so the pages load faster -->
-<!--
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
--->
-    <script src="../js/bootstrap.min.js"></script>
-    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <script src="../js/ie10-viewport-bug-workaround.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>    
 
     <!-- MathJax JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Config({
-        TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
-        jax: ['input/TeX','input/MathML','output/HTML-CSS'],
-        extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
-      });
-    </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
-    
+             ================================================== -->
+             <!-- Placed at the end of the document so the pages load faster -->
+        <script type="text/x-mathjax-config">
+          MathJax.Hub.Config({
+          TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
+          jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+          extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
+          });
+        </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+          <script src="../tipuesearch/tipuesearch_content.js"></script>
+          <script src="../tipuesearch/tipuesearch_set.js"></script>
+          <script src="../tipuesearch/tipuesearch.js"></script>
+
   </body>
 </html>
