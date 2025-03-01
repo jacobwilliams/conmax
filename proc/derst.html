@@ -1,0 +1,972 @@
+<!-- -*- mode: jinja2 -*- -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="CONMAX -- General nonlinearly constrained function minimization">
+    <meta name="author" content="Jacob Williams" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>derst &ndash; conmax</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/local.css" rel="stylesheet">
+      <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+          <a class="navbar-brand" href="../index.html">conmax </a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link" href="../sourcefile/conmax.f90.html">Source File</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
+            </ul>
+              <div class="d-flex align-items-end flex-grow-1">
+                <form action="../search.html" role="search" class="ms-auto">
+                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                </form>
+              </div>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
+
+    <div class="container">
+  <div class="row">
+    <h1>derst
+      <small>Subroutine</small>
+      
+    </h1>
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
+                 title=" 2.6% of total for procedures.">89 statements</a>
+            </li>
+
+            <li class="list-inline-item" id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/conmax.f90"> Source File</a>
+            </li>
+        </ul>
+      </div>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+                <li class="breadcrumb-item"><a href='../sourcefile/conmax.f90.html'>conmax.f90</a></li>
+                <li class="breadcrumb-item"><a href='../module/conmax_module.html'>conmax_module</a></li>
+            <li class="breadcrumb-item active" aria-current="page">derst</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <script>
+    $(function () {
+    $('[data-bs-toggle="tooltip"]').tooltip()
+    })
+  </script>
+
+  </div>
+  
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="card card-primary">
+      <div class="card-header text-left"><h3 class="card-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/derst.html#src">derst</a>
+      </div>
+    </div>
+
+
+  </div>
+
+    </div>
+    
+    <div class="col-md-9" id='text'>
+    <h2>private  subroutine derst(me, Ioptn, Nparm, Numgr, Pttbl, Iptb, Indm, Param, Ipt, Param1, v, Kcntyp, Confun)  
+</h2>
+    
+
+    <p>This subroutine uses <code>fnset</code> to compute <code>confun(i,1)</code> and the partial
+derivatives of the function whose value is in <code>confun(i,1)</code> for
+certain value(s) of <code>i</code>.  note that we do not want the <code>icntyp</code> computed
+by <code>fnset</code> to override the <code>icntyp</code> (or <code>jcntyp</code>) carried into this
+subroutine in <code>icntyp</code>, so we use <code>kcntyp</code> when we call <code>fnset</code>.  (the
+<code>icntyp</code> computed by <code>fnset</code> was stored earlier through a call to <a href="../proc/ercmp1.html">ercmp1</a>
+from <a href="../proc/conmax.html">conmax</a>.)</p>
+
+    <h3>Type Bound</h3>
+    <p><a href='../type/conmax_solver.html'>conmax_solver</a></p>
+
+    <h3>Arguments</h3>
+        <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-me~3"></span>
+              class(<a href='../type/conmax_solver.html'>conmax_solver</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>me</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-ioptn"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>Ioptn</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-nparm~3"></span>
+              integer
+            </td>
+<td></td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>Nparm</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-numgr~3"></span>
+              integer
+            </td>
+<td></td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>Numgr</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-pttbl~2"></span>
+              real(kind=wp),
+            </td>
+<td></td>
+              <td></td>            <td>
+              dimension(Iptb, Indm)
+            </td>
+            <td>::</td>
+            <td><strong>Pttbl</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-iptb~2"></span>
+              integer
+            </td>
+<td></td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>Iptb</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-indm~3"></span>
+              integer
+            </td>
+<td></td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>Indm</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-param~2"></span>
+              real(kind=wp),
+            </td>
+<td></td>
+              <td></td>            <td>
+              dimension(Nparm)
+            </td>
+            <td>::</td>
+            <td><strong>Param</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-ipt~2"></span>
+              integer
+            </td>
+<td></td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>Ipt</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-param1"></span>
+              real(kind=wp),
+            </td>
+<td></td>
+              <td></td>            <td>
+              dimension(Nparm)
+            </td>
+            <td>::</td>
+            <td><strong>Param1</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-v"></span>
+              real(kind=wp),
+            </td>
+<td></td>
+              <td></td>            <td>
+              dimension(Numgr + 2*Nparm + 1, Nparm + 2)
+            </td>
+            <td>::</td>
+            <td><strong>v</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-kcntyp"></span>
+              integer,
+            </td>
+<td></td>
+              <td></td>            <td>
+              dimension(Numgr)
+            </td>
+            <td>::</td>
+            <td><strong>Kcntyp</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-confun~2"></span>
+              real(kind=wp),
+            </td>
+<td></td>
+              <td></td>            <td>
+              dimension(Numgr, Nparm + 1)
+            </td>
+            <td>::</td>
+            <td><strong>Confun</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <br>
+    <div class="card">
+      <div class="card-header">
+  <h3 class="card-title">Calls</h3>
+      </div>
+      <div class="card-body">
+  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: proc~~derst~~CallsGraph Pages: 1 -->
+<svg id="procderstCallsGraph" width="228pt" height="32pt"
+ viewBox="0.00 0.00 228.00 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="proc~~derst~~CallsGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>proc~~derst~~CallsGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 224,-28 224,4 -4,4"/>
+<!-- proc~derst -->
+<g id="proc~~derst~~CallsGraph_node1" class="node">
+<title>proc~derst</title>
+<polygon fill="none" stroke="black" points="130,-24 0,-24 0,0 130,0 130,-24"/>
+<text text-anchor="middle" x="65" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">conmax_solver%derst</text>
+</g>
+<!-- fnset -->
+<g id="proc~~derst~~CallsGraph_node2" class="node">
+<title>fnset</title>
+<polygon fill="#777777" stroke="#777777" points="220,-24 166,-24 166,0 220,0 220,-24"/>
+<text text-anchor="middle" x="193" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">fnset</text>
+</g>
+<!-- proc~derst&#45;&gt;fnset -->
+<g id="proc~~derst~~CallsGraph_edge1" class="edge">
+<title>proc~derst&#45;&gt;fnset</title>
+<path fill="none" stroke="#000000" d="M130.11,-12C138.9,-12 147.66,-12 155.71,-12"/>
+<polygon fill="#000000" stroke="#000000" points="155.83,-15.5 165.83,-12 155.83,-8.5 155.83,-15.5"/>
+</g>
+</g>
+</svg>
+</div>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#CallsGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="CallsGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="641pt" height="28pt"
+ viewBox="0.00 0.00 641.00 27.51" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(0.86 0.86) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 741.5,-28 741.5,4 -4,4"/>
+<!-- Subroutine -->
+<g id="node1" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="70,-24 0,-24 0,0 70,0 70,-24"/>
+<text text-anchor="middle" x="35" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node2" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="146,-24 88,-24 88,0 146,0 146,-24"/>
+<text text-anchor="middle" x="117" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Interface -->
+<g id="node3" class="node">
+<title>Interface</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="225.5,-24 164.5,-24 164.5,0 225.5,0 225.5,-24"/>
+<text text-anchor="middle" x="195" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Interface</text>
+</g>
+<!-- Type Bound Procedure -->
+<g id="node4" class="node">
+<title>Type Bound Procedure</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="374,-24 244,-24 244,0 374,0 374,-24"/>
+<text text-anchor="middle" x="309" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Type Bound Procedure</text>
+</g>
+<!-- Unknown Procedure Type -->
+<g id="node5" class="node">
+<title>Unknown Procedure Type</title>
+<polygon fill="#777777" stroke="#777777" points="537.5,-24 392.5,-24 392.5,0 537.5,0 537.5,-24"/>
+<text text-anchor="middle" x="465" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Unknown Procedure Type</text>
+</g>
+<!-- Program -->
+<g id="node6" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="614,-24 556,-24 556,0 614,0 614,-24"/>
+<text text-anchor="middle" x="585" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node7" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="737.5,-24 632.5,-24 632.5,0 737.5,0 737.5,-24"/>
+<text text-anchor="middle" x="685" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+<p>Solid arrows point from a procedure to one which it calls. Dashed 
+arrows point from an interface to procedures which implement that interface.
+This could include the module procedures in a generic interface or the
+implementation in a submodule of an interface in a parent module.
+</p>
+ </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+  <h3 class="card-title">Called by</h3>
+      </div>
+      <div class="card-body">
+  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: proc~~derst~~CalledByGraph Pages: 1 -->
+<svg id="procderstCalledByGraph" width="641pt" height="163pt"
+ viewBox="0.00 0.00 641.00 163.08" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="proc~~derst~~CalledByGraph" class="graph" transform="scale(0.77 0.77) rotate(0) translate(4 207.41)">
+<title>proc~~derst~~CalledByGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-207.41 827,-207.41 827,4 -4,4"/>
+<!-- proc~derst -->
+<g id="proc~~derst~~CalledByGraph_node1" class="node">
+<title>proc~derst</title>
+<polygon fill="none" stroke="black" points="823,-163 693,-163 693,-139 823,-139 823,-163"/>
+<text text-anchor="middle" x="758" y="-148.6" font-family="Helvetica,sans-Serif" font-size="10.50">conmax_solver%derst</text>
+</g>
+<!-- proc~conmax -->
+<g id="proc~~derst~~CalledByGraph_node2" class="node">
+<title>proc~conmax</title>
+<g id="a_proc~~derst~~CalledByGraph_node2"><a xlink:href="../proc/conmax.html" xlink:title="conmax_solver%conmax">
+<polygon fill="#d9534f" stroke="#d9534f" points="145,-134 0,-134 0,-110 145,-110 145,-134"/>
+<text text-anchor="middle" x="72.5" y="-119.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">conmax_solver%conmax</text>
+</a>
+</g>
+</g>
+<!-- proc~conmax&#45;&gt;proc~derst -->
+<g id="proc~~derst~~CalledByGraph_edge1" class="edge">
+<title>proc~conmax&#45;&gt;proc~derst</title>
+<path fill="none" stroke="#000000" d="M109.97,-134.04C202.24,-162.84 452.16,-230.45 657,-191 680.56,-186.46 705.63,-176.42 724.77,-167.54"/>
+<polygon fill="#000000" stroke="#000000" points="726.41,-170.63 733.93,-163.17 723.4,-164.32 726.41,-170.63"/>
+</g>
+<!-- proc~rkcon -->
+<g id="proc~~derst~~CalledByGraph_node5" class="node">
+<title>proc~rkcon</title>
+<g id="a_proc~~derst~~CalledByGraph_node5"><a xlink:href="../proc/rkcon.html" xlink:title="conmax_solver%rkcon">
+<polygon fill="#d9534f" stroke="#d9534f" points="316,-134 183,-134 183,-110 316,-110 316,-134"/>
+<text text-anchor="middle" x="249.5" y="-119.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">conmax_solver%rkcon</text>
+</a>
+</g>
+</g>
+<!-- proc~conmax&#45;&gt;proc~rkcon -->
+<g id="proc~~derst~~CalledByGraph_edge11" class="edge">
+<title>proc~conmax&#45;&gt;proc~rkcon</title>
+<path fill="none" stroke="#000000" d="M145.18,-122C154.24,-122 163.52,-122 172.64,-122"/>
+<polygon fill="#000000" stroke="#000000" points="172.83,-125.5 182.83,-122 172.83,-118.5 172.83,-125.5"/>
+</g>
+<!-- proc~slpcon -->
+<g id="proc~~derst~~CalledByGraph_node9" class="node">
+<title>proc~slpcon</title>
+<g id="a_proc~~derst~~CalledByGraph_node9"><a xlink:href="../proc/slpcon.html" xlink:title="conmax_solver%slpcon">
+<polygon fill="#d9534f" stroke="#d9534f" points="318,-54 181,-54 181,-30 318,-30 318,-54"/>
+<text text-anchor="middle" x="249.5" y="-39.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">conmax_solver%slpcon</text>
+</a>
+</g>
+</g>
+<!-- proc~conmax&#45;&gt;proc~slpcon -->
+<g id="proc~~derst~~CalledByGraph_edge16" class="edge">
+<title>proc~conmax&#45;&gt;proc~slpcon</title>
+<path fill="none" stroke="#000000" d="M100.08,-109.85C130.19,-96.08 179.41,-73.58 212.84,-58.3"/>
+<polygon fill="#000000" stroke="#000000" points="214.6,-61.34 222.24,-54 211.69,-54.98 214.6,-61.34"/>
+</g>
+<!-- proc~corrct -->
+<g id="proc~~derst~~CalledByGraph_node3" class="node">
+<title>proc~corrct</title>
+<g id="a_proc~~derst~~CalledByGraph_node3"><a xlink:href="../proc/corrct.html" xlink:title="conmax_solver%corrct">
+<polygon fill="#d9534f" stroke="#d9534f" points="657,-103 524,-103 524,-79 657,-79 657,-103"/>
+<text text-anchor="middle" x="590.5" y="-88.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">conmax_solver%corrct</text>
+</a>
+</g>
+</g>
+<!-- proc~corrct&#45;&gt;proc~derst -->
+<g id="proc~~derst~~CalledByGraph_edge2" class="edge">
+<title>proc~corrct&#45;&gt;proc~derst</title>
+<path fill="none" stroke="#000000" d="M624.99,-103.14C650.76,-112.48 686.55,-125.46 714.37,-135.54"/>
+<polygon fill="#000000" stroke="#000000" points="713.25,-138.86 723.84,-138.98 715.63,-132.28 713.25,-138.86"/>
+</g>
+<!-- proc~pmtst -->
+<g id="proc~~derst~~CalledByGraph_node4" class="node">
+<title>proc~pmtst</title>
+<g id="a_proc~~derst~~CalledByGraph_node4"><a xlink:href="../proc/pmtst.html" xlink:title="conmax_solver%pmtst">
+<polygon fill="#d9534f" stroke="#d9534f" points="657,-163 524,-163 524,-139 657,-139 657,-163"/>
+<text text-anchor="middle" x="590.5" y="-148.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">conmax_solver%pmtst</text>
+</a>
+</g>
+</g>
+<!-- proc~pmtst&#45;&gt;proc~derst -->
+<g id="proc~~derst~~CalledByGraph_edge3" class="edge">
+<title>proc~pmtst&#45;&gt;proc~derst</title>
+<path fill="none" stroke="#000000" d="M657.39,-151C665.72,-151 674.29,-151 682.74,-151"/>
+<polygon fill="#000000" stroke="#000000" points="682.96,-154.5 692.96,-151 682.96,-147.5 682.96,-154.5"/>
+</g>
+<!-- proc~rkcon&#45;&gt;proc~derst -->
+<g id="proc~~derst~~CalledByGraph_edge4" class="edge">
+<title>proc~rkcon&#45;&gt;proc~derst</title>
+<path fill="none" stroke="#000000" d="M276.23,-134.14C296.79,-143.23 326.6,-155.09 354,-161 485.72,-189.42 522.97,-185.92 657,-172 670.99,-170.55 685.9,-167.98 699.82,-165.13"/>
+<polygon fill="#000000" stroke="#000000" points="700.7,-168.52 709.76,-163.02 699.25,-161.67 700.7,-168.52"/>
+</g>
+<!-- proc~rkcon&#45;&gt;proc~corrct -->
+<g id="proc~~derst~~CalledByGraph_edge6" class="edge">
+<title>proc~rkcon&#45;&gt;proc~corrct</title>
+<path fill="none" stroke="#000000" d="M301.57,-109.98C318.2,-106.51 336.8,-103.1 354,-101 407.06,-94.53 467.28,-92.06 513.55,-91.19"/>
+<polygon fill="#000000" stroke="#000000" points="513.86,-94.69 523.8,-91.02 513.74,-87.69 513.86,-94.69"/>
+</g>
+<!-- proc~rkcon&#45;&gt;proc~pmtst -->
+<g id="proc~~derst~~CalledByGraph_edge9" class="edge">
+<title>proc~rkcon&#45;&gt;proc~pmtst</title>
+<path fill="none" stroke="#000000" d="M301.03,-134C317.79,-137.51 336.61,-140.95 354,-143 407.07,-149.24 467.29,-151.2 513.56,-151.61"/>
+<polygon fill="#000000" stroke="#000000" points="513.78,-155.12 523.8,-151.68 513.83,-148.12 513.78,-155.12"/>
+</g>
+<!-- proc~rkpar -->
+<g id="proc~~derst~~CalledByGraph_node7" class="node">
+<title>proc~rkpar</title>
+<g id="a_proc~~derst~~CalledByGraph_node7"><a xlink:href="../proc/rkpar.html" xlink:title="conmax_solver%rkpar">
+<polygon fill="#d9534f" stroke="#d9534f" points="486.5,-134 355.5,-134 355.5,-110 486.5,-110 486.5,-134"/>
+<text text-anchor="middle" x="421" y="-119.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">conmax_solver%rkpar</text>
+</a>
+</g>
+</g>
+<!-- proc~rkcon&#45;&gt;proc~rkpar -->
+<g id="proc~~derst~~CalledByGraph_edge13" class="edge">
+<title>proc~rkcon&#45;&gt;proc~rkpar</title>
+<path fill="none" stroke="#000000" d="M316.03,-122C325.64,-122 335.6,-122 345.38,-122"/>
+<polygon fill="#000000" stroke="#000000" points="345.48,-125.5 355.48,-122 345.48,-118.5 345.48,-125.5"/>
+</g>
+<!-- proc~searsl -->
+<g id="proc~~derst~~CalledByGraph_node8" class="node">
+<title>proc~searsl</title>
+<g id="a_proc~~derst~~CalledByGraph_node8"><a xlink:href="../proc/searsl.html" xlink:title="conmax_solver%searsl">
+<polygon fill="#d9534f" stroke="#d9534f" points="488,-54 354,-54 354,-30 488,-30 488,-54"/>
+<text text-anchor="middle" x="421" y="-39.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">conmax_solver%searsl</text>
+</a>
+</g>
+</g>
+<!-- proc~rkcon&#45;&gt;proc~searsl -->
+<g id="proc~~derst~~CalledByGraph_edge14" class="edge">
+<title>proc~rkcon&#45;&gt;proc~searsl</title>
+<path fill="none" stroke="#000000" d="M271.98,-109.95C292.68,-98.53 325.05,-81.21 354,-68 361.73,-64.47 370.09,-60.96 378.17,-57.7"/>
+<polygon fill="#000000" stroke="#000000" points="379.48,-60.95 387.49,-54.02 376.9,-54.44 379.48,-60.95"/>
+</g>
+<!-- proc~setu1 -->
+<g id="proc~~derst~~CalledByGraph_node6" class="node">
+<title>proc~setu1</title>
+<g id="a_proc~~derst~~CalledByGraph_node6"><a xlink:href="../proc/setu1.html" xlink:title="conmax_solver%setu1">
+<polygon fill="#d9534f" stroke="#d9534f" points="656.5,-24 524.5,-24 524.5,0 656.5,0 656.5,-24"/>
+<text text-anchor="middle" x="590.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">conmax_solver%setu1</text>
+</a>
+</g>
+</g>
+<!-- proc~setu1&#45;&gt;proc~derst -->
+<g id="proc~~derst~~CalledByGraph_edge5" class="edge">
+<title>proc~setu1&#45;&gt;proc~derst</title>
+<path fill="none" stroke="#000000" d="M605.9,-24.09C634.75,-48.33 699.85,-103 734.43,-132.04"/>
+<polygon fill="#000000" stroke="#000000" points="732.61,-135.09 742.52,-138.84 737.11,-129.73 732.61,-135.09"/>
+</g>
+<!-- proc~rkpar&#45;&gt;proc~corrct -->
+<g id="proc~~derst~~CalledByGraph_edge7" class="edge">
+<title>proc~rkpar&#45;&gt;proc~corrct</title>
+<path fill="none" stroke="#000000" d="M486.76,-110.01C495.89,-108.33 505.33,-106.58 514.63,-104.86"/>
+<polygon fill="#000000" stroke="#000000" points="515.44,-108.27 524.64,-103 514.17,-101.38 515.44,-108.27"/>
+</g>
+<!-- proc~rkpar&#45;&gt;proc~pmtst -->
+<g id="proc~~derst~~CalledByGraph_edge10" class="edge">
+<title>proc~rkpar&#45;&gt;proc~pmtst</title>
+<path fill="none" stroke="#000000" d="M486.76,-133.21C495.59,-134.74 504.72,-136.32 513.72,-137.88"/>
+<polygon fill="#000000" stroke="#000000" points="513.36,-141.37 523.81,-139.63 514.55,-134.47 513.36,-141.37"/>
+</g>
+<!-- proc~searsl&#45;&gt;proc~corrct -->
+<g id="proc~~derst~~CalledByGraph_edge8" class="edge">
+<title>proc~searsl&#45;&gt;proc~corrct</title>
+<path fill="none" stroke="#000000" d="M463.4,-54.11C486.14,-60.76 514.52,-69.07 538.6,-76.11"/>
+<polygon fill="#000000" stroke="#000000" points="537.7,-79.49 548.28,-78.94 539.67,-72.78 537.7,-79.49"/>
+</g>
+<!-- proc~slpcon&#45;&gt;proc~setu1 -->
+<g id="proc~~derst~~CalledByGraph_edge12" class="edge">
+<title>proc~slpcon&#45;&gt;proc~setu1</title>
+<path fill="none" stroke="#000000" d="M301.3,-29.99C317.99,-26.5 336.71,-23.07 354,-21 407.25,-14.62 467.72,-12.42 514.05,-11.78"/>
+<polygon fill="#000000" stroke="#000000" points="514.35,-15.28 524.3,-11.66 514.26,-8.28 514.35,-15.28"/>
+</g>
+<!-- proc~slpcon&#45;&gt;proc~searsl -->
+<g id="proc~~derst~~CalledByGraph_edge15" class="edge">
+<title>proc~slpcon&#45;&gt;proc~searsl</title>
+<path fill="none" stroke="#000000" d="M318.47,-42C326.78,-42 335.32,-42 343.75,-42"/>
+<polygon fill="#000000" stroke="#000000" points="343.95,-45.5 353.95,-42 343.95,-38.5 343.95,-45.5"/>
+</g>
+</g>
+</svg>
+</div>                <script>
+                  var panprocderstCalledByGraph = svgPanZoom('#procderstCalledByGraph',
+                    {zoomEnabled: true, controlIconsEnabled: true, fit: true, center: true,}
+                  );
+                </script>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#CalledByGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="CalledByGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="641pt" height="28pt"
+ viewBox="0.00 0.00 641.00 27.51" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(0.86 0.86) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 741.5,-28 741.5,4 -4,4"/>
+<!-- Subroutine -->
+<g id="node1" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="70,-24 0,-24 0,0 70,0 70,-24"/>
+<text text-anchor="middle" x="35" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node2" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="146,-24 88,-24 88,0 146,0 146,-24"/>
+<text text-anchor="middle" x="117" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Interface -->
+<g id="node3" class="node">
+<title>Interface</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="225.5,-24 164.5,-24 164.5,0 225.5,0 225.5,-24"/>
+<text text-anchor="middle" x="195" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Interface</text>
+</g>
+<!-- Type Bound Procedure -->
+<g id="node4" class="node">
+<title>Type Bound Procedure</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="374,-24 244,-24 244,0 374,0 374,-24"/>
+<text text-anchor="middle" x="309" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Type Bound Procedure</text>
+</g>
+<!-- Unknown Procedure Type -->
+<g id="node5" class="node">
+<title>Unknown Procedure Type</title>
+<polygon fill="#777777" stroke="#777777" points="537.5,-24 392.5,-24 392.5,0 537.5,0 537.5,-24"/>
+<text text-anchor="middle" x="465" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Unknown Procedure Type</text>
+</g>
+<!-- Program -->
+<g id="node6" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="614,-24 556,-24 556,0 614,0 614,-24"/>
+<text text-anchor="middle" x="585" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node7" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="737.5,-24 632.5,-24 632.5,0 737.5,0 737.5,-24"/>
+<text text-anchor="middle" x="685" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+<p>Solid arrows point from a procedure to one which it calls. Dashed 
+arrows point from an interface to procedures which implement that interface.
+This could include the module procedures in a generic interface or the
+implementation in a submodule of an interface in a parent module.
+</p>
+ </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br>
+
+
+    
+    
+
+    
+    
+
+
+
+    
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="hl codehilite"><pre><span></span><span class="w">    </span><span class="k">subroutine </span><span class="n">derst</span><span class="p">(</span><span class="n">me</span><span class="p">,</span><span class="w"> </span><span class="n">Ioptn</span><span class="p">,</span><span class="w"> </span><span class="n">Nparm</span><span class="p">,</span><span class="w"> </span><span class="n">Numgr</span><span class="p">,</span><span class="w"> </span><span class="n">Pttbl</span><span class="p">,</span><span class="w"> </span><span class="n">Iptb</span><span class="p">,</span><span class="w"> </span><span class="n">Indm</span><span class="p">,</span><span class="w"> </span><span class="n">Param</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                     </span><span class="n">Ipt</span><span class="p">,</span><span class="w"> </span><span class="n">Param1</span><span class="p">,</span><span class="w"> </span><span class="n">v</span><span class="p">,</span><span class="w"> </span><span class="n">Kcntyp</span><span class="p">,</span><span class="w"> </span><span class="n">Confun</span><span class="p">)</span>
+
+<span class="w">        </span><span class="k">implicit none</span>
+
+<span class="k">        class</span><span class="p">(</span><span class="n">conmax_solver</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">me</span>
+<span class="w">        </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">  </span><span class="kd">::</span><span class="w"> </span><span class="n">Ioptn</span>
+<span class="w">        </span><span class="kt">integer</span><span class="w">  </span><span class="kd">::</span><span class="w"> </span><span class="n">Nparm</span>
+<span class="w">        </span><span class="kt">integer</span><span class="w">  </span><span class="kd">::</span><span class="w"> </span><span class="n">Numgr</span>
+<span class="w">        </span><span class="kt">integer</span><span class="w">  </span><span class="kd">::</span><span class="w"> </span><span class="n">Iptb</span>
+<span class="w">        </span><span class="kt">integer</span><span class="w">  </span><span class="kd">::</span><span class="w"> </span><span class="n">Indm</span>
+<span class="w">        </span><span class="kt">integer</span><span class="w">  </span><span class="kd">::</span><span class="w"> </span><span class="n">Ipt</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="w"> </span><span class="k">dimension</span><span class="p">(</span><span class="n">Iptb</span><span class="p">,</span><span class="w"> </span><span class="n">Indm</span><span class="p">)</span><span class="w">               </span><span class="kd">::</span><span class="w"> </span><span class="n">Pttbl</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="w"> </span><span class="k">dimension</span><span class="p">(</span><span class="n">Nparm</span><span class="p">)</span><span class="w">                   </span><span class="kd">::</span><span class="w"> </span><span class="n">Param1</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="w"> </span><span class="k">dimension</span><span class="p">(</span><span class="n">Nparm</span><span class="p">)</span><span class="w">                   </span><span class="kd">::</span><span class="w"> </span><span class="n">Param</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="w"> </span><span class="k">dimension</span><span class="p">(</span><span class="n">Numgr</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">2</span><span class="o">*</span><span class="n">Nparm</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">Nparm</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">v</span>
+<span class="w">        </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">dimension</span><span class="p">(</span><span class="n">Numgr</span><span class="p">)</span><span class="w">                   </span><span class="kd">::</span><span class="w"> </span><span class="n">Kcntyp</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="w"> </span><span class="k">dimension</span><span class="p">(</span><span class="n">Numgr</span><span class="p">,</span><span class="w"> </span><span class="n">Nparm</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w">           </span><span class="kd">::</span><span class="w"> </span><span class="n">Confun</span>
+
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">delt</span><span class="p">,</span><span class="w"> </span><span class="n">delt2</span><span class="p">,</span><span class="w"> </span><span class="n">up</span>
+<span class="w">        </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">iopone</span><span class="p">,</span><span class="w"> </span><span class="n">ioptth</span><span class="p">,</span><span class="w"> </span><span class="n">iptkp</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">,</span><span class="w"> </span><span class="n">l</span><span class="p">,</span><span class="w"> </span><span class="n">npar1</span>
+
+<span class="w">        </span><span class="c">! IF THE ONES DIGIT OF IOPTN IS 0, WE CALL FNSET WITH INDFN=1 TO DO THE</span>
+<span class="w">        </span><span class="c">! COMPUTATIONS DIRECTLY USING FORMULAS SUPPLIED BY THE USER.</span>
+<span class="w">        </span><span class="n">iopone</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Ioptn</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="p">(</span><span class="n">Ioptn</span><span class="o">/</span><span class="mi">10</span><span class="p">)</span><span class="o">*</span><span class="mi">10</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">iopone</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">            call </span><span class="n">me</span><span class="p">%</span><span class="n">fnset</span><span class="p">(</span><span class="n">Nparm</span><span class="p">,</span><span class="w"> </span><span class="n">Numgr</span><span class="p">,</span><span class="w"> </span><span class="n">Pttbl</span><span class="p">,</span><span class="w"> </span><span class="n">Iptb</span><span class="p">,</span><span class="w"> </span><span class="n">Indm</span><span class="p">,</span><span class="w"> </span><span class="n">Param</span><span class="p">,</span><span class="w"> </span><span class="n">Ipt</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">Kcntyp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                          </span><span class="n">Confun</span><span class="p">)</span>
+<span class="w">            </span><span class="k">return</span>
+<span class="k">        else</span>
+<span class="w">            </span><span class="c">! HERE THE ONES DIGIT OF IOPTN IS 1, AND WE APPROXIMATE THE PARTIAL</span>
+<span class="w">            </span><span class="c">! DERIVATIVES USING CENTERED DIFFERENCE APPROXIMATIONS.</span>
+<span class="w">            </span><span class="n">ioptth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">Ioptn</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="p">(</span><span class="n">Ioptn</span><span class="o">/</span><span class="mi">100000</span><span class="p">)</span><span class="o">*</span><span class="mi">100000</span><span class="p">)</span><span class="o">/</span><span class="mi">10000</span>
+<span class="w">            </span><span class="c">! SET PRECISION DEPENDENT CONSTANTS.</span>
+<span class="w">            </span><span class="n">delt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">sqrt</span><span class="p">(</span><span class="n">spcmn</span><span class="p">)</span>
+<span class="w">            </span><span class="n">delt2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">delt</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">delt</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">ioptth</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="w">                </span><span class="c">! HERE IOPONE=1 AND IOPTTH=0, AND WE WORK ONLY WITH CONSTRAINT IPT,</span>
+<span class="w">                </span><span class="c">! WHERE IPT WILL BE AN INTEGER BETWEEN 1 AND NUMGR.</span>
+<span class="w">                </span><span class="c">! L WILL BE THE INDEX OF THE VARIABLE WITH RESPECT TO WHICH WE ARE</span>
+<span class="w">                </span><span class="c">! COMPUTING THE PARTIAL DERIVATIVE.</span>
+<span class="w">                </span><span class="k">do </span><span class="n">l</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">Nparm</span>
+<span class="w">                    </span><span class="c">! SET PARAM1 EQUAL TO PARAM, ECXEPT WITH ITS LTH COMPONENT INCREASED</span>
+<span class="w">                    </span><span class="c">! BY DELT.</span>
+<span class="w">                    </span><span class="k">do </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">Nparm</span>
+<span class="w">                        </span><span class="n">Param1</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Param</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+<span class="w">                    </span><span class="k">end do</span>
+<span class="k">                    </span><span class="n">Param1</span><span class="p">(</span><span class="n">l</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Param</span><span class="p">(</span><span class="n">l</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">delt</span>
+<span class="w">                    </span><span class="c">! NOW CALL FNSET WITH INDFN=0 TO PLACE THE FUNCTION IN CONSTRAINT</span>
+<span class="w">                    </span><span class="c">! IPT EVALUATED AT POINT PARAM1 IN CONFUN(IPT,1).</span>
+<span class="w">                    </span><span class="k">call </span><span class="n">me</span><span class="p">%</span><span class="n">fnset</span><span class="p">(</span><span class="n">Nparm</span><span class="p">,</span><span class="w"> </span><span class="n">Numgr</span><span class="p">,</span><span class="w"> </span><span class="n">Pttbl</span><span class="p">,</span><span class="w"> </span><span class="n">Iptb</span><span class="p">,</span><span class="w"> </span><span class="n">Indm</span><span class="p">,</span><span class="w"> </span><span class="n">Param1</span><span class="p">,</span><span class="w"> </span><span class="n">Ipt</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">Kcntyp</span><span class="p">,</span><span class="w"> </span><span class="n">Confun</span><span class="p">)</span>
+<span class="w">                    </span><span class="n">up</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Confun</span><span class="p">(</span><span class="n">Ipt</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+<span class="w">                    </span><span class="c">! SET PARAM1 EQUAL TO PARAM, ECXEPT WITH ITS LTH COMOPONENT DECREASED</span>
+<span class="w">                    </span><span class="c">! BY DELT, AND CALL FNSET AGAIN.</span>
+<span class="w">                    </span><span class="n">Param1</span><span class="p">(</span><span class="n">l</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Param</span><span class="p">(</span><span class="n">l</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">delt</span>
+<span class="w">                    </span><span class="k">call </span><span class="n">me</span><span class="p">%</span><span class="n">fnset</span><span class="p">(</span><span class="n">Nparm</span><span class="p">,</span><span class="w"> </span><span class="n">Numgr</span><span class="p">,</span><span class="w"> </span><span class="n">Pttbl</span><span class="p">,</span><span class="w"> </span><span class="n">Iptb</span><span class="p">,</span><span class="w"> </span><span class="n">Indm</span><span class="p">,</span><span class="w"> </span><span class="n">Param1</span><span class="p">,</span><span class="w"> </span><span class="n">Ipt</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">Kcntyp</span><span class="p">,</span><span class="w"> </span><span class="n">Confun</span><span class="p">)</span>
+<span class="w">                    </span><span class="c">! NOW WE CAN COMPUTE THE CENTERED-DIFFERENCE APPROXIMATION TO THE PARTIAL</span>
+<span class="w">                    </span><span class="c">! DERIVATIVE OF THE FUNCTION IN CONSTRAINT IPT WITH RESPECT TO THE LTH</span>
+<span class="w">                    </span><span class="c">! VARIABLE AT THE POINT PARAM.  THIS BELONGS IN CONFUN(IPT,L+1), AND</span>
+<span class="w">                    </span><span class="c">! WE COULD PUT IT THERE NOW IF THE USER FOLLOWED DIRECTIONS AND DID NOT</span>
+<span class="w">                    </span><span class="c">! CHANGE CONFUN(IPT,L+1) (SINCE INDFN=0) IN LATER FNSET CALLS, BUT TO</span>
+<span class="w">                    </span><span class="c">! BE SAFE WE TEMPORARILY STORE IT IN V(L,1).</span>
+<span class="w">                    </span><span class="c">! NOTE THAT V IS USED ELSEWHERE IN THE PROGRAM, BUT HERE IT IS JUST A</span>
+<span class="w">                    </span><span class="c">! WORK ARRAY, WHILE THE WORK ARRAY PARAM1 IS NOT USED ELSEWHERE IN</span>
+<span class="w">                    </span><span class="c">! THE PROGRAM.</span>
+<span class="w">                    </span><span class="n">v</span><span class="p">(</span><span class="n">l</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">up</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">Confun</span><span class="p">(</span><span class="n">Ipt</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">))</span><span class="o">/</span><span class="n">delt2</span>
+<span class="w">                </span><span class="k">end do</span>
+<span class="w">                </span><span class="c">! NOW COMPUTE THE VALUE OF THE FUNCTION AT PARAM, AND THEN PUT THE</span>
+<span class="w">                </span><span class="c">! EARLIER-COMPUTED PARTIAL DERIVATIVES INTO CONFUN.</span>
+<span class="w">                </span><span class="k">call </span><span class="n">me</span><span class="p">%</span><span class="n">fnset</span><span class="p">(</span><span class="n">Nparm</span><span class="p">,</span><span class="w"> </span><span class="n">Numgr</span><span class="p">,</span><span class="w"> </span><span class="n">Pttbl</span><span class="p">,</span><span class="w"> </span><span class="n">Iptb</span><span class="p">,</span><span class="w"> </span><span class="n">Indm</span><span class="p">,</span><span class="w"> </span><span class="n">Param</span><span class="p">,</span><span class="w"> </span><span class="n">Ipt</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">Kcntyp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                              </span><span class="n">Confun</span><span class="p">)</span>
+<span class="w">                </span><span class="k">do </span><span class="n">l</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">Nparm</span>
+<span class="w">                    </span><span class="n">Confun</span><span class="p">(</span><span class="n">Ipt</span><span class="p">,</span><span class="w"> </span><span class="n">l</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">v</span><span class="p">(</span><span class="n">l</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+<span class="w">                </span><span class="k">end do</span>
+<span class="k">                return</span>
+<span class="k">            else</span>
+<span class="w">                </span><span class="c">! HERE IOPONE=1 AND IOPTTH=1, AND EACH TIME FNSET IS CALLED IT WILL</span>
+<span class="w">                </span><span class="c">! COMPUTE VALUES FOR THE FUNCTIONS IN THE LEFT SIDES OF ALL CONSTRAINTS</span>
+<span class="w">                </span><span class="c">! (EXCEPT THOSE WHERE FNSET SETS ICNTYP(I)=0) IF IPT=0, AND WILL COMPUTE</span>
+<span class="w">                </span><span class="c">! VALUES FOR THE FUNCTIONS IN THE LEFT SIDES OF ALL STANDARD (I.E. TYPE</span>
+<span class="w">                </span><span class="c">! -1 OR -2) CONSTRAINTS IF IPT=-1.</span>
+<span class="w">                </span><span class="c">! WE FIRST SAVE IPT IN CASE THE USER CHANGES IT IN A FNSET CALL;  WE WILL</span>
+<span class="w">                </span><span class="c">! RESTORE IT AFTER EACH FNSET CALL.</span>
+<span class="w">                </span><span class="n">iptkp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Ipt</span>
+<span class="w">                </span><span class="n">npar1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Nparm</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">                </span><span class="c">! WE WILL COMPUTE APPROXIMATIONS TO PARTIAL DERIVATIVES FOR THOSE</span>
+<span class="w">                </span><span class="c">! CONSTRAINTS WHICH FNSET IS ASKED BY IPT TO COMPUTE.  TO DETERMINE WHICH</span>
+<span class="w">                </span><span class="c">! THESE ARE WE ZERO OUT KCNTYP;  AFTER A FNSET CALL, THE DESIRED</span>
+<span class="w">                </span><span class="c">! CONSTRAINTS WILL BE THE CONSTRAINTS K WITH KCNTYP(K) /= 0 IF IPT=0,</span>
+<span class="w">                </span><span class="c">! OR THE CONSTRAINTS K WITH KCNTYP(K) &lt; 0 IF IPT=-1.</span>
+<span class="w">                </span><span class="k">do </span><span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">Numgr</span>
+<span class="w">                    </span><span class="n">Kcntyp</span><span class="p">(</span><span class="n">k</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">                </span><span class="k">end do</span>
+<span class="w">                </span><span class="c">! NOW FOLLOW BASICALLY THE SAME PROCEDURES AS IN THE IOPTTH=0 CASE DONE</span>
+<span class="w">                </span><span class="c">! ABOVE.</span>
+<span class="w">                </span><span class="k">do </span><span class="n">l</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">Nparm</span>
+<span class="w">                    </span><span class="k">do </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">Nparm</span>
+<span class="w">                        </span><span class="n">Param1</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Param</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+<span class="w">                    </span><span class="k">end do</span>
+<span class="k">                    </span><span class="n">Param1</span><span class="p">(</span><span class="n">l</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Param</span><span class="p">(</span><span class="n">l</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">delt</span>
+<span class="w">                    </span><span class="k">call </span><span class="n">me</span><span class="p">%</span><span class="n">fnset</span><span class="p">(</span><span class="n">Nparm</span><span class="p">,</span><span class="w"> </span><span class="n">Numgr</span><span class="p">,</span><span class="w"> </span><span class="n">Pttbl</span><span class="p">,</span><span class="w"> </span><span class="n">Iptb</span><span class="p">,</span><span class="w"> </span><span class="n">Indm</span><span class="p">,</span><span class="w"> </span><span class="n">Param1</span><span class="p">,</span><span class="w"> </span><span class="n">Ipt</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                                  </span><span class="n">Kcntyp</span><span class="p">,</span><span class="w"> </span><span class="n">Confun</span><span class="p">)</span>
+<span class="w">                    </span><span class="n">Ipt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">iptkp</span>
+<span class="w">                    </span><span class="k">do </span><span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">Numgr</span>
+<span class="w">                        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">Ipt</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">                            if</span><span class="w"> </span><span class="p">(</span><span class="n">Kcntyp</span><span class="p">(</span><span class="n">k</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">cycle</span>
+<span class="k">                        else if</span><span class="w"> </span><span class="p">(</span><span class="n">Kcntyp</span><span class="p">(</span><span class="n">k</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">                            cycle</span>
+<span class="k">                        end if</span>
+<span class="w">                        </span><span class="c">! SAVE THE UPPER NUMBERS IN COLUMN NPARM+1 OF V.</span>
+<span class="w">                        </span><span class="n">v</span><span class="p">(</span><span class="n">k</span><span class="p">,</span><span class="w"> </span><span class="n">npar1</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Confun</span><span class="p">(</span><span class="n">k</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+<span class="w">                    </span><span class="k">end do</span>
+<span class="w">                    </span><span class="c">! REVISE PARAM1 AND CALL FNSET AGAIN.</span>
+<span class="w">                    </span><span class="n">Param1</span><span class="p">(</span><span class="n">l</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Param</span><span class="p">(</span><span class="n">l</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">delt</span>
+<span class="w">                    </span><span class="k">call </span><span class="n">me</span><span class="p">%</span><span class="n">fnset</span><span class="p">(</span><span class="n">Nparm</span><span class="p">,</span><span class="w"> </span><span class="n">Numgr</span><span class="p">,</span><span class="w"> </span><span class="n">Pttbl</span><span class="p">,</span><span class="w"> </span><span class="n">Iptb</span><span class="p">,</span><span class="w"> </span><span class="n">Indm</span><span class="p">,</span><span class="w"> </span><span class="n">Param1</span><span class="p">,</span><span class="w"> </span><span class="n">Ipt</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                                  </span><span class="n">Kcntyp</span><span class="p">,</span><span class="w"> </span><span class="n">Confun</span><span class="p">)</span>
+<span class="w">                    </span><span class="n">Ipt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">iptkp</span>
+<span class="w">                    </span><span class="k">do </span><span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">Numgr</span>
+<span class="w">                        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">Ipt</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">                            if</span><span class="w"> </span><span class="p">(</span><span class="n">Kcntyp</span><span class="p">(</span><span class="n">k</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">cycle</span>
+<span class="k">                        else if</span><span class="w"> </span><span class="p">(</span><span class="n">Kcntyp</span><span class="p">(</span><span class="n">k</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">                            cycle</span>
+<span class="k">                        end if</span>
+<span class="w">                        </span><span class="c">! STORE THE APPROXIMATE PARTIAL DERIVATIVES WITH RESPECT TO THE LTH</span>
+<span class="w">                        </span><span class="c">! VARIABLE IN THE LTH COLUMN OF V.</span>
+<span class="w">                        </span><span class="n">v</span><span class="p">(</span><span class="n">k</span><span class="p">,</span><span class="w"> </span><span class="n">l</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">v</span><span class="p">(</span><span class="n">k</span><span class="p">,</span><span class="w"> </span><span class="n">npar1</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">Confun</span><span class="p">(</span><span class="n">k</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">))</span><span class="o">/</span><span class="n">delt2</span>
+<span class="w">                    </span><span class="k">end do</span>
+<span class="k">                end do</span>
+<span class="w">                </span><span class="c">! CALL FNSET AGAIN TO COMPUTE THE VALUES OF THE FUNCTIONS AT POINT</span>
+<span class="w">                </span><span class="c">! PARAM, AND THEN PUT THE EARLIER-COMPUTED PARTIAL DERIVATIVES INTO</span>
+<span class="w">                </span><span class="c">! CONFUN.</span>
+<span class="w">                </span><span class="k">call </span><span class="n">me</span><span class="p">%</span><span class="n">fnset</span><span class="p">(</span><span class="n">Nparm</span><span class="p">,</span><span class="w"> </span><span class="n">Numgr</span><span class="p">,</span><span class="w"> </span><span class="n">Pttbl</span><span class="p">,</span><span class="w"> </span><span class="n">Iptb</span><span class="p">,</span><span class="w"> </span><span class="n">Indm</span><span class="p">,</span><span class="w"> </span><span class="n">Param</span><span class="p">,</span><span class="w"> </span><span class="n">Ipt</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">Kcntyp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                              </span><span class="n">Confun</span><span class="p">)</span>
+<span class="w">                </span><span class="k">do </span><span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">Numgr</span>
+<span class="w">                    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">Ipt</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">                        if</span><span class="w"> </span><span class="p">(</span><span class="n">Kcntyp</span><span class="p">(</span><span class="n">k</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">cycle</span>
+<span class="k">                    else if</span><span class="w"> </span><span class="p">(</span><span class="n">Kcntyp</span><span class="p">(</span><span class="n">k</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">                        cycle</span>
+<span class="k">                    end if</span>
+<span class="k">                    do </span><span class="n">l</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">Nparm</span>
+<span class="w">                        </span><span class="n">Confun</span><span class="p">(</span><span class="n">k</span><span class="p">,</span><span class="w"> </span><span class="n">l</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">v</span><span class="p">(</span><span class="n">k</span><span class="p">,</span><span class="w"> </span><span class="n">l</span><span class="p">)</span>
+<span class="w">                    </span><span class="k">end do</span>
+<span class="k">                end do</span>
+<span class="k">            end if</span>
+<span class="k">        end if</span>
+
+<span class="k">    end subroutine </span><span class="n">derst</span>
+</pre></div>
+
+    </section>
+    <br>
+    
+    </div>
+  </div>
+
+      <hr>
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+        <div class="row justify-content-between">
+          <div class="col">
+            <p>
+              conmax
+ was developed by Jacob Williams<br>              &copy; 2025 
+</p>
+          </div>
+          <div class="col">
+            <p class="text-end">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+            </p>
+          </div>
+        </div>
+        <br>
+      </div> <!-- /container -->
+    </footer>
+
+    <!-- Bootstrap core JavaScript -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>    
+
+    <!-- MathJax JavaScript
+             ================================================== -->
+             <!-- Placed at the end of the document so the pages load faster -->
+        <script type="text/x-mathjax-config">
+          MathJax.Hub.Config({
+          TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
+          jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+          extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
+          });
+        </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+          <script src="../tipuesearch/tipuesearch_content.js"></script>
+          <script src="../tipuesearch/tipuesearch_set.js"></script>
+          <script src="../tipuesearch/tipuesearch.js"></script>
+
+  </body>
+</html>
